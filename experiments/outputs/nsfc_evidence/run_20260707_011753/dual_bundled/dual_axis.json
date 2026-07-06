@@ -1,0 +1,47 @@
+{
+  "experiment": "dual_axis_evidence",
+  "source": "bundled",
+  "logits": "pseudo",
+  "model_name": null,
+  "n_tasks": 40,
+  "budget_steps": 150,
+  "same_compute_note": "vci-2: steps/2 per round × 2 rounds ≈ vci-1 total p-bit steps",
+  "summary": {
+    "greedy": {
+      "mode": "greedy",
+      "feasible_rate": 0.9,
+      "exact_match_rate": 0.875,
+      "mean_jaccard": 0.9258333333333333,
+      "mean_F": -5.801564023175798,
+      "mean_time_s": 1.7216597916558386e-05,
+      "mean_rounds": 1.0,
+      "steps_per_round": 0,
+      "mean_pbit_steps": 0.0,
+      "llm_calls": 1
+    },
+    "vci-1": {
+      "mode": "vci-1",
+      "feasible_rate": 0.9,
+      "exact_match_rate": 0.375,
+      "mean_jaccard": 0.6183333333333334,
+      "mean_F": -15.553815646187156,
+      "mean_time_s": 0.014420428179437294,
+      "mean_rounds": 1.0,
+      "steps_per_round": 150,
+      "mean_pbit_steps": 150.0,
+      "llm_calls": 1
+    },
+    "vci-2": {
+      "mode": "vci-2",
+      "feasible_rate": 1.0,
+      "exact_match_rate": 0.45,
+      "mean_jaccard": 0.6691666666666667,
+      "mean_F": -15.5308299470995,
+      "mean_time_s": 0.00842434271471575,
+      "mean_rounds": 1.15,
+      "steps_per_round": 75,
+      "mean_pbit_steps": 86.25,
+      "llm_calls": 1
+    }
+  }
+}

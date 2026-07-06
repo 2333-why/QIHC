@@ -1,0 +1,38 @@
+[2026-07-06T10:46:54Z] [INFO] Profile: smoke — Fast local smoke test (~2 min CPU)
+[2026-07-06T10:46:54Z] [INFO] Repo: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC
+[2026-07-06T10:46:54Z] [INFO] Python: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3
+[2026-07-06T10:46:54Z] [INFO] Saved artifact: profile.json
+[2026-07-06T10:46:54Z] [INFO] === BEGIN dual_bundled ===
+[2026-07-06T10:46:54Z] [INFO] Command: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_dual_evidence.py --source bundled --budget-steps 150 --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/dual_bundled
+[2026-07-06T10:46:54Z] [INFO] Subprocess log: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/dual_bundled.subprocess.log
+[2026-07-06T10:46:56Z] [INFO] === END dual_bundled (ok, 1.3s) ===
+[2026-07-06T10:46:56Z] [INFO] === BEGIN f_trajectories ===
+[2026-07-06T10:46:56Z] [INFO] Command: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_f_trajectories.py --budget-steps 150 --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/f_trajectories
+[2026-07-06T10:46:56Z] [INFO] Subprocess log: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/f_trajectories.subprocess.log
+[2026-07-06T10:46:57Z] [INFO] === END f_trajectories (ok, 0.9s) ===
+[2026-07-06T10:46:57Z] [INFO] === BEGIN sampler_ablation ===
+[2026-07-06T10:46:57Z] [INFO] Command: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_sampler_ablation.py --steps 150 --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/sampler_ablation
+[2026-07-06T10:46:57Z] [INFO] Subprocess log: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/sampler_ablation.subprocess.log
+[2026-07-06T10:46:58Z] [INFO] === END sampler_ablation (ok, 1.7s) ===
+[2026-07-06T10:46:58Z] [INFO] === BEGIN cr_mock ===
+[2026-07-06T10:46:58Z] [INFO] Command: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_cr_bbh.py --source bundled --limit 15 --n-samples 20 --budget-steps 150 --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/cr_mock
+[2026-07-06T10:46:58Z] [INFO] Subprocess log: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/cr_mock.subprocess.log
+[2026-07-06T10:46:59Z] [INFO] === END cr_mock (ok, 1.0s) ===
+[2026-07-06T10:46:59Z] [INFO] === BEGIN handoff ===
+[2026-07-06T10:46:59Z] [INFO] Command: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/run_vci_handoff.py --source bundled --limit 20 --budget-steps 150 --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/handoff
+[2026-07-06T10:46:59Z] [INFO] Subprocess log: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/handoff.subprocess.log
+[2026-07-06T10:47:02Z] [INFO] === END handoff (ok, 3.1s) ===
+[2026-07-06T10:47:02Z] [INFO] === BEGIN pareto ===
+[2026-07-06T10:47:02Z] [INFO] Command: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/run_vci_pareto.py --budgets 100 200 --limit 20 --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/pareto
+[2026-07-06T10:47:02Z] [INFO] Subprocess log: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/pareto.subprocess.log
+[2026-07-06T10:47:04Z] [INFO] === END pareto (ok, 1.3s) ===
+[2026-07-06T10:47:04Z] [INFO] === BEGIN scaling ===
+[2026-07-06T10:47:04Z] [INFO] Command: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/run_sampler_scaling.py --nodes 12 14 16 --trials 3 --steps 400 --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/scaling
+[2026-07-06T10:47:04Z] [INFO] Subprocess log: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/scaling.subprocess.log
+[2026-07-06T10:47:06Z] [INFO] === END scaling (ok, 2.8s) ===
+[2026-07-06T10:47:06Z] [INFO] === BEGIN plot_report ===
+[2026-07-06T10:47:06Z] [INFO] Command: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/plot_evidence_report.py --run-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2
+[2026-07-06T10:47:06Z] [INFO] Subprocess log: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/plot_report.subprocess.log
+[2026-07-06T10:47:07Z] [INFO] === END plot_report (ok, 0.2s) ===
+[2026-07-06T10:47:07Z] [INFO] Saved artifact: failed_steps.json
+[2026-07-06T10:47:07Z] [INFO] Run completed. Manifest: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/manifest.json

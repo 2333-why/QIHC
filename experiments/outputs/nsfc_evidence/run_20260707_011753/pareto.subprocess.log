@@ -1,0 +1,12 @@
+# 2026-07-06T17:18:01Z pareto
+# cmd: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/run_vci_pareto.py --budgets 100 200 --limit 20 --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/run_20260707_011753/pareto
+
+  budget=100 greedy  feas=90.00% exact=90.00%  F=-5.877  steps=0
+  budget=100 vci-1   feas=85.00% exact=40.00%  F=-15.633  steps=100
+  budget=100 vci-2   feas=100.00% exact=35.00%  F=-16.191  steps=100
+  budget=200 greedy  feas=90.00% exact=90.00%  F=-5.877  steps=0
+  budget=200 vci-1   feas=100.00% exact=35.00%  F=-16.490  steps=200
+  budget=200 vci-2   feas=100.00% exact=60.00%  F=-15.765  steps=200
+Saved: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/run_20260707_011753/pareto/pareto.json
+Saved: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/run_20260707_011753/pareto/pareto_curves.png
+Saved: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/run_20260707_011753/pareto/pareto_tradeoff.png

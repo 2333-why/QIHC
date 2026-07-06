@@ -99,7 +99,47 @@ python experiments/nsfc_evidence/run_cr_bbh.py \
 | `PROFILE` | server | smoke / server |
 | `HF_HOME` | `.cache/huggingface` | HF 缓存目录 |
 
-## 8. 预期强有力的证据叙事
+## 9. P0–P2 全量 Case（profile=p012）
+
+一键在 **2× Pro 6000** 后台跑齐 P0–P2 + 机制证据：
+
+```bash
+cd /hdd/why/QIHC
+chmod +x experiments/nsfc_evidence/run_on_server_p012.sh
+
+# 后台运行（推荐）
+nohup bash experiments/nsfc_evidence/run_on_server_p012.sh \
+  > experiments/outputs/nsfc_evidence/p012_launcher.log 2>&1 &
+echo $!   # 记录 PID
+
+# 查看进度
+tail -f experiments/outputs/nsfc_evidence/run_p012_*/console.log
+```
+
+| Case | 步骤名 | 脚本 | 说明 |
+|------|--------|------|------|
+| P0-A | case_a_cr_subset | run_case_a_cr_subset.py | CR 五模式 + 合成 200 子集 |
+| P0-B | case_b_dual_synthetic | run_case_b_dual_synthetic.py | 可行率主表（合成 200） |
+| P0-C | c_compute_budget | run_case_c_compute_budget.py | 同算力预算表（自动汇总） |
+| P1-D | case_d_cr_by_task | run_case_d_cr_by_task.py | 分任务类型 CR 图 |
+| P1-E | case_e_cr_bundled_full | run_case_e_cr_bundled_full.py | bundled 完整 CR 基线 |
+| P1-F | case_f_vci_ablation | run_case_f_vci_ablation.py | vci-0/1/2/full 链 |
+| P2-G | case_g_constrained_bbh | run_case_g_constrained_bbh.py | 约束版 HF BBH + 7B |
+| P2-H | case_h_model_compare | run_case_h_model_compare.py | 7B vs 14B 合成集 |
+| 机制 | handoff/pareto/F/sampler | 已有脚本 | handoff + Pareto 等 |
+
+环境变量（Pro 6000 默认 2 卡）：
+
+| 变量 | 默认 |
+|------|------|
+| `CUDA_VISIBLE_DEVICES` | 0,1 |
+| `MODEL_NAME` | Qwen/Qwen2.5-7B-Instruct |
+| `MODEL_NAME_14B` | Qwen/Qwen2.5-14B-Instruct |
+| `PROFILE` | p012 |
+| `SKIP_PYTEST` | 0（设为 1 跳过测试） |
+
+预期耗时：**约 4–10 小时**（Case H 需加载 7B+14B 各一次）。
+
 
 跑完后应能支撑：
 

@@ -1,0 +1,2050 @@
+{
+  "experiment": "case_a_cr_subset",
+  "case": "P0-A",
+  "description": "CR-aligned subset selection on synthetic constrained set",
+  "n_tasks": 30,
+  "modes": [
+    "zeroshot",
+    "random",
+    "linear",
+    "quadratic",
+    "vci-1",
+    "vci-2"
+  ],
+  "summary": {
+    "zeroshot": {
+      "accuracy": 0.8666666666666667,
+      "feasible_rate": 1.0,
+      "mean_pbit_steps": 0.0,
+      "n_tasks": 30
+    },
+    "random": {
+      "accuracy": 0.03333333333333333,
+      "feasible_rate": 0.8333333333333334,
+      "mean_pbit_steps": 0.0,
+      "n_tasks": 30
+    },
+    "linear": {
+      "accuracy": 0.6666666666666666,
+      "feasible_rate": 0.9333333333333333,
+      "mean_pbit_steps": 0.0,
+      "n_tasks": 30
+    },
+    "quadratic": {
+      "accuracy": 0.2,
+      "feasible_rate": 0.9666666666666667,
+      "mean_pbit_steps": 150.0,
+      "n_tasks": 30
+    },
+    "vci-1": {
+      "accuracy": 0.2,
+      "feasible_rate": 1.0,
+      "mean_pbit_steps": 150.0,
+      "n_tasks": 30
+    },
+    "vci-2": {
+      "accuracy": 0.2,
+      "feasible_rate": 1.0,
+      "mean_pbit_steps": 150.0,
+      "n_tasks": 30
+    }
+  },
+  "per_task": {
+    "zeroshot": [
+      {
+        "task_id": "synthetic_logical_deduction_0000",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -6.12012964520316
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0001",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.673825444518006
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0002",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.040397275025052
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0003",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.887102376055132
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0004",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.607312614109189
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0005",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -3.43996257743066
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0006",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.420161903412671
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0007",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.778229378802402
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0008",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -6.754324359022718
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0009",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.045480287400804
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0010",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.209013209897632
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0011",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.722363105039855
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0012",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.735154348822245
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0013",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.25607851393718
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0014",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -7.980593792773804
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0015",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.400755260090237
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0016",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.283312849964739
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0017",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -6.935704875691296
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0018",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -7.021217010961707
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0019",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -6.011977542304665
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0020",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.401109693144984
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0021",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.618187850773078
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0022",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.631903210266278
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0023",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.988700231413763
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0024",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.342832478959615
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0025",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.0854195950316035
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0026",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.766549389842627
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0027",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.6489146169147615
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0028",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -6.128717763225481
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0029",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.223106924456518
+        ]
+      }
+    ],
+    "random": [
+      {
+        "task_id": "synthetic_logical_deduction_0000",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.164104699269088
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0001",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -2.152196880079455
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0002",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.1358519079830005
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0003",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -3.7719106574172727
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0004",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -2.1027517858024125
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0005",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -1.130350882768525
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0006",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -2.1624697105727106
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0007",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -3.8686803826055005
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0008",
+        "correct": false,
+        "feasible": false,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -1.4866648605057868
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0009",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -2.3461922232284276
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0010",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -2.913739603703726
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0011",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.369706991482296
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0012",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -3.623224000714494
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0013",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.111287338155634
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0014",
+        "correct": false,
+        "feasible": false,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -2.6507301678793267
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0015",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -3.992504626775869
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0016",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -1.7524972917739658
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0017",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -2.841049995032051
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0018",
+        "correct": false,
+        "feasible": false,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -2.516828850725882
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0019",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -3.1716236039570065
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0020",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -3.53202927768772
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0021",
+        "correct": false,
+        "feasible": false,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -0.47912189335674515
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0022",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -3.209137818992694
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0023",
+        "correct": false,
+        "feasible": false,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          0.3356522744240089
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0024",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -1.5253887101095185
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0025",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -2.898305344224788
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0026",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -3.3929579310094513
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0027",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -2.9095946131527395
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0028",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.453961828647658
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0029",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.2639955225589965
+        ]
+      }
+    ],
+    "linear": [
+      {
+        "task_id": "synthetic_logical_deduction_0000",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -6.12012964520316
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0001",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.409052949639478
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0002",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.040397275025052
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0003",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.887102376055132
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0004",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.114790508205999
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0005",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -3.1921672055249024
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0006",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.420161903412671
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0007",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.655884884172434
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0008",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -6.754324359022718
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0009",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.045480287400804
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0010",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.209013209897632
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0011",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.722363105039855
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0012",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.735154348822245
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0013",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.111287338155634
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0014",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -7.980593792773804
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0015",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.400755260090237
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0016",
+        "correct": false,
+        "feasible": false,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -1.110647896692086
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0017",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -6.935704875691296
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0018",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -6.973558062630732
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0019",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -6.011977542304665
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0020",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.001837649100785
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0021",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.312932854522472
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0022",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.631903210266278
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0023",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.988700231413763
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0024",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.342832478959615
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0025",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.0854195950316035
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0026",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.766549389842627
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0027",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.6489146169147615
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0028",
+        "correct": false,
+        "feasible": false,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -2.5575936686377343
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0029",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.543123149746274
+        ]
+      }
+    ],
+    "quadratic": [
+      {
+        "task_id": "synthetic_logical_deduction_0000",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -5.082870089146053
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0001",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -4.409052949639478
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0002",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -3.225006538807479
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0003",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -3.451157257521521
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0004",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -4.374882598038661
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0005",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -3.1921672055249024
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0006",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -3.9782482469946716
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0007",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -3.8686803826055005
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0008",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -5.815280315433892
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0009",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -5.045480287400804
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0010",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -3.7754679782872578
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0011",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -2.6470778611760255
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0012",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -5.735154348822245
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0013",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -4.25607851393718
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0014",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -3.4307135161743365
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0015",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -3.1458882783957893
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0016",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -3.4754085107669765
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0017",
+        "correct": false,
+        "feasible": false,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -0.9374397731146291
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0018",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -4.37975784252626
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0019",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -4.703313398138638
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0020",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -4.001837649100785
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0021",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -4.520114689396669
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0022",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -4.036545154140812
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0023",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -3.2338625733660917
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0024",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -4.342832478959615
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0025",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -3.934086315934748
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0026",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -5.766549389842627
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0027",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -4.6489146169147615
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0028",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -4.065344207016666
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0029",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -4.543123149746274
+        ]
+      }
+    ],
+    "vci-1": [
+      {
+        "task_id": "synthetic_logical_deduction_0000",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -16.061274697835497
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0001",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -13.043248522115686
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0002",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -13.15218380462584
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0003",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -11.787076216415398
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0004",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -16.049884087881246
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0005",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -12.004946318757845
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0006",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -12.041755168006226
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0007",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -15.104598939828463
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0008",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -17.049319125026802
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0009",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -13.124537439888224
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0010",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -14.349085376751216
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0011",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -14.07076592448861
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0012",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -13.857469506225723
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0013",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -9.566760570545979
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0014",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -19.965992995168136
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0015",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -14.94755896215891
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0016",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -15.00506164059015
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0017",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -15.976798445273076
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0018",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -18.250235090422624
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0019",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -15.2219917301901
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0020",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -16.312164845119273
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0021",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -15.952393466506999
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0022",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -11.885996918446226
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0023",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -10.13592338743367
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0024",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -13.084178763738022
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0025",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -16.234337720566142
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0026",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -14.051806516219516
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0027",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -13.664436450762285
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0028",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -16.115237919133218
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0029",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -12.986327411348533
+        ]
+      }
+    ],
+    "vci-2": [
+      {
+        "task_id": "synthetic_logical_deduction_0000",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -16.061274697835497
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0001",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -13.043248522115686
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0002",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -13.15218380462584
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0003",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -11.787076216415398
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0004",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -16.049884087881246
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0005",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -12.004946318757845
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0006",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -12.041755168006226
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0007",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -15.104598939828463
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0008",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -17.049319125026802
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0009",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -13.124537439888224
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0010",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -14.349085376751216
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0011",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -14.07076592448861
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0012",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -13.857469506225723
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0013",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -9.566760570545979
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0014",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -19.965992995168136
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0015",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -14.94755896215891
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0016",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -15.00506164059015
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0017",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -15.976798445273076
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0018",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -18.250235090422624
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0019",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -15.2219917301901
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0020",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -16.312164845119273
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0021",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -15.952393466506999
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0022",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -11.885996918446226
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0023",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -10.13592338743367
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0024",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -13.084178763738022
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0025",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -16.234337720566142
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0026",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -14.051806516219516
+        ]
+      },
+      {
+        "task_id": "synthetic_logical_deduction_0027",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -13.664436450762285
+        ]
+      },
+      {
+        "task_id": "synthetic_reasoning_with_constraints_0028",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -16.115237919133218
+        ]
+      },
+      {
+        "task_id": "synthetic_multi_step_reasoning_0029",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 50,
+        "pbit_steps": 150,
+        "F_trace": [
+          -12.986327411348533
+        ]
+      }
+    ]
+  },
+  "llm_stats": null,
+  "n_samples": 50,
+  "budget_steps": 150,
+  "reference": "Combinatorial Reasoning arXiv:2407.00071"
+}

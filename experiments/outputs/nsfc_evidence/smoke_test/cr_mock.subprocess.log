@@ -1,0 +1,14 @@
+# 2026-07-06T10:46:17Z cr_mock
+# cmd: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_cr_bbh.py --source bundled --limit 15 --n-samples 20 --budget-steps 150 --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test/cr_mock
+
+Traceback (most recent call last):
+  File "/Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_cr_bbh.py", line 35, in <module>
+    from qihc.orchestrator.backend import PBitBackend  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/qihc/__init__.py", line 5, in <module>
+    from qihc.ising.model import IsingModel
+  File "/Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/qihc/ising/__init__.py", line 4, in <module>
+    from qihc.ising import maxcut
+  File "/Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/qihc/ising/maxcut.py", line 5, in <module>
+    import networkx as nx
+ModuleNotFoundError: No module named 'networkx'

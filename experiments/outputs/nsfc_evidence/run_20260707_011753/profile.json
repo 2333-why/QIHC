@@ -1,0 +1,15 @@
+{
+  "profile": "smoke",
+  "description": "Fast local smoke test (~2 min CPU)",
+  "steps": [
+    "dual_bundled",
+    "f_trajectories",
+    "sampler_ablation",
+    "cr_mock",
+    "handoff",
+    "pareto",
+    "scaling"
+  ],
+  "model_name": "Qwen/Qwen2.5-7B-Instruct",
+  "model_name_14b": "Qwen/Qwen2.5-14B-Instruct"
+}

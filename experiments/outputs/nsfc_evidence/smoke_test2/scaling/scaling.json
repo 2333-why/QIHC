@@ -1,0 +1,24 @@
+{
+  "sampler": "parallel_tempering",
+  "steps": 400,
+  "scaling": [
+    {
+      "n_nodes": 12,
+      "success_rate": 0.3333333333333333,
+      "mean_cut_ratio": 0.8901204159824849,
+      "trials": 3
+    },
+    {
+      "n_nodes": 14,
+      "success_rate": 0.0,
+      "mean_cut_ratio": 0.857286866359447,
+      "trials": 3
+    },
+    {
+      "n_nodes": 16,
+      "success_rate": 0.0,
+      "mean_cut_ratio": 0.8121476632114929,
+      "trials": 3
+    }
+  ]
+}

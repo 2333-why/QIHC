@@ -5,6 +5,7 @@ Master runner for NSFC evidence chain (all experiments + logging).
 Usage:
     python experiments/nsfc_evidence/run_evidence_suite.py --profile smoke
     python experiments/nsfc_evidence/run_evidence_suite.py --profile server
+    python experiments/nsfc_evidence/run_evidence_suite.py --profile p012
 """
 from __future__ import annotations
 
@@ -24,9 +25,92 @@ from experiments.nsfc_evidence.logging_utils import ExperimentLogger  # noqa: E4
 PYTHON = sys.executable
 
 
+def _model_name() -> str:
+    return os.environ.get("MODEL_NAME", "Qwen/Qwen2.5-7B-Instruct")
+
+
+def _model_14b() -> str:
+    return os.environ.get("MODEL_NAME_14B", "Qwen/Qwen2.5-14B-Instruct")
+
+
 def run_py(logger: ExperimentLogger, name: str, script: str, args: list[str]) -> int:
     argv = [PYTHON, str(REPO_ROOT / script)] + args
     return logger.run_subprocess(name, argv, REPO_ROOT)
+
+
+def _p012_steps() -> list[tuple[str, str, list[str]]]:
+    """P0–P2 cases + mechanism evidence (handoff/pareto/F/sampler)."""
+    m = _model_name()
+    m14 = _model_14b()
+    return [
+        # P0
+        (
+            "case_a_cr_subset",
+            "experiments/nsfc_evidence/run_case_a_cr_subset.py",
+            ["--n-tasks", "200", "--n-samples", "50", "--budget-steps", "400"],
+        ),
+        (
+            "case_b_dual_synthetic",
+            "experiments/nsfc_evidence/run_case_b_dual_synthetic.py",
+            ["--n-tasks", "200", "--budget-steps", "400"],
+        ),
+        # P1
+        (
+            "case_d_cr_by_task",
+            "experiments/nsfc_evidence/run_case_d_cr_by_task.py",
+            ["--n-tasks", "200", "--n-samples", "50", "--budget-steps", "400"],
+        ),
+        (
+            "case_e_cr_bundled_full",
+            "experiments/nsfc_evidence/run_case_e_cr_bundled_full.py",
+            ["--n-samples", "50", "--budget-steps", "400"],
+        ),
+        (
+            "case_f_vci_ablation",
+            "experiments/nsfc_evidence/run_case_f_vci_ablation.py",
+            ["--n-tasks", "200", "--budget-steps", "400"],
+        ),
+        # Mechanism (fast, supports narrative)
+        (
+            "dual_bundled",
+            "experiments/nsfc_evidence/run_dual_evidence.py",
+            ["--source", "bundled", "--budget-steps", "400"],
+        ),
+        (
+            "cr_bundled",
+            "experiments/nsfc_evidence/run_cr_bbh.py",
+            ["--source", "bundled", "--n-samples", "50", "--budget-steps", "400"],
+        ),
+        ("f_trajectories", "experiments/nsfc_evidence/run_f_trajectories.py", ["--budget-steps", "400"]),
+        ("sampler_ablation", "experiments/nsfc_evidence/run_sampler_ablation.py", ["--steps", "400"]),
+        (
+            "handoff",
+            "experiments/run_vci_handoff.py",
+            ["--source", "bundled", "--logits", "llm", "--model-name", m, "--limit", "40", "--budget-steps", "400"],
+        ),
+        ("pareto", "experiments/run_vci_pareto.py", ["--budgets", "100", "200", "300", "400", "600"]),
+        # P2 (GPU-heavy)
+        (
+            "case_g_constrained_bbh",
+            "experiments/nsfc_evidence/run_case_g_constrained_bbh.py",
+            [
+                "--limit-per-task", "50",
+                "--logits", "llm",
+                "--model-name", m,
+                "--budget-steps", "400",
+            ],
+        ),
+        (
+            "case_h_model_compare",
+            "experiments/nsfc_evidence/run_case_h_model_compare.py",
+            [
+                "--n-tasks", "200",
+                "--model-7b", m,
+                "--model-14b", m14,
+                "--budget-steps", "400",
+            ],
+        ),
+    ]
 
 
 PROFILES = {
@@ -56,7 +140,7 @@ PROFILES = {
                 [
                     "--source", "hf",
                     "--logits", "llm",
-                    "--model-name", "Qwen/Qwen2.5-7B-Instruct",
+                    "--model-name", _model_name(),
                     "--limit-per-task", "50",
                     "--budget-steps", "400",
                 ],
@@ -67,7 +151,7 @@ PROFILES = {
                 [
                     "--source", "hf",
                     "--use-llm",
-                    "--model-name", "Qwen/Qwen2.5-7B-Instruct",
+                    "--model-name", _model_name(),
                     "--n-samples", "50",
                     "--limit-per-task", "30",
                     "--budget-steps", "400",
@@ -83,7 +167,7 @@ PROFILES = {
             (
                 "handoff",
                 "experiments/run_vci_handoff.py",
-                ["--source", "bundled", "--logits", "llm", "--model-name", "Qwen/Qwen2.5-7B-Instruct", "--limit", "40", "--budget-steps", "400"],
+                ["--source", "bundled", "--logits", "llm", "--model-name", _model_name(), "--limit", "40", "--budget-steps", "400"],
             ),
             ("pareto", "experiments/run_vci_pareto.py", ["--budgets", "100", "200", "300", "400", "600"]),
             (
@@ -97,12 +181,17 @@ PROFILES = {
                 [
                     "--source", "hf",
                     "--logits", "llm",
-                    "--model-name", "Qwen/Qwen2.5-7B-Instruct",
+                    "--model-name", _model_name(),
                     "--limit-per-task", "50",
                     "--budget-steps", "400",
                 ],
             ),
         ],
+    },
+    "p012": {
+        "description": "P0–P2 NSFC cases on Pro 6000 (~4–10 hours with 7B+14B)",
+        "steps": _p012_steps(),
+        "post_steps": ["c_compute_budget"],
     },
 }
 
@@ -135,7 +224,18 @@ def main() -> int:
     logger.log(f"Profile: {args.profile} — {profile['description']}")
     logger.log(f"Repo: {REPO_ROOT}")
     logger.log(f"Python: {PYTHON}")
-    logger.save_json("profile.json", {"profile": args.profile, **profile, "steps": [s[0] for s in profile["steps"]]})
+    logger.log(f"MODEL_NAME: {_model_name()}")
+    logger.log(f"MODEL_NAME_14B: {_model_14b()}")
+    logger.save_json(
+        "profile.json",
+        {
+            "profile": args.profile,
+            **profile,
+            "steps": [s[0] for s in profile["steps"]],
+            "model_name": _model_name(),
+            "model_name_14b": _model_14b(),
+        },
+    )
 
     steps = _redirect_output_dirs(profile["steps"], run_dir)
     failed = []
@@ -143,6 +243,14 @@ def main() -> int:
         code = run_py(logger, name, script, step_args)
         if code != 0:
             failed.append(name)
+
+    # P0-C: aggregate compute budget from this run
+    if profile.get("post_steps"):
+        for post in profile["post_steps"]:
+            post_args = ["--run-dir", str(run_dir), "--output-dir", str(run_dir / post)]
+            code = run_py(logger, post, f"experiments/nsfc_evidence/run_case_{post}.py", post_args)
+            if code != 0:
+                failed.append(post)
 
     if not args.skip_plot:
         plot_argv = [

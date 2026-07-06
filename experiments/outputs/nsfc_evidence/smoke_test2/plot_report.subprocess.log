@@ -1,0 +1,6 @@
+# 2026-07-06T10:47:06Z plot_report
+# cmd: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/plot_evidence_report.py --run-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2
+
+Report: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/evidence_report.json
+Figure: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/evidence_table1.png
+Handoff best gain: σ=0.0 → +10.00%

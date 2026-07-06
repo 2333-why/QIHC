@@ -1,0 +1,75 @@
+{
+  "source": "bundled",
+  "logits": "pseudo",
+  "model_name": null,
+  "n_problems": 20,
+  "rows": [
+    {
+      "noise_scale": 0.0,
+      "mean_entropy_Hq": 1.571155313297807,
+      "T_lm_proxy": 0.6364739087615234,
+      "T_ising_mid": 5.005,
+      "vci1_feasible_rate": 0.9,
+      "vci2_feasible_rate": 1.0,
+      "feasible_gain": 0.09999999999999998,
+      "vci1_exact_match": 0.25,
+      "vci2_exact_match": 0.3
+    },
+    {
+      "noise_scale": 0.15,
+      "mean_entropy_Hq": 1.5605881721948245,
+      "T_lm_proxy": 0.6407836333976304,
+      "T_ising_mid": 5.005,
+      "vci1_feasible_rate": 0.95,
+      "vci2_feasible_rate": 0.95,
+      "feasible_gain": 0.0,
+      "vci1_exact_match": 0.4,
+      "vci2_exact_match": 0.25
+    },
+    {
+      "noise_scale": 0.3,
+      "mean_entropy_Hq": 1.5146430016192047,
+      "T_lm_proxy": 0.6602211469698271,
+      "T_ising_mid": 5.005,
+      "vci1_feasible_rate": 0.95,
+      "vci2_feasible_rate": 0.9,
+      "feasible_gain": -0.04999999999999993,
+      "vci1_exact_match": 0.45,
+      "vci2_exact_match": 0.25
+    },
+    {
+      "noise_scale": 0.5,
+      "mean_entropy_Hq": 1.5351415904334356,
+      "T_lm_proxy": 0.6514052871907213,
+      "T_ising_mid": 5.005,
+      "vci1_feasible_rate": 0.95,
+      "vci2_feasible_rate": 0.95,
+      "feasible_gain": 0.0,
+      "vci1_exact_match": 0.25,
+      "vci2_exact_match": 0.2
+    },
+    {
+      "noise_scale": 0.8,
+      "mean_entropy_Hq": 1.3857656285253093,
+      "T_lm_proxy": 0.7216222265823862,
+      "T_ising_mid": 5.005,
+      "vci1_feasible_rate": 0.9,
+      "vci2_feasible_rate": 1.0,
+      "feasible_gain": 0.09999999999999998,
+      "vci1_exact_match": 0.45,
+      "vci2_exact_match": 0.35
+    },
+    {
+      "noise_scale": 1.2,
+      "mean_entropy_Hq": 1.2614398432947846,
+      "T_lm_proxy": 0.7927442696306538,
+      "T_ising_mid": 5.005,
+      "vci1_feasible_rate": 0.95,
+      "vci2_feasible_rate": 1.0,
+      "feasible_gain": 0.050000000000000044,
+      "vci1_exact_match": 0.25,
+      "vci2_exact_match": 0.3
+    }
+  ],
+  "budget_steps": 150
+}

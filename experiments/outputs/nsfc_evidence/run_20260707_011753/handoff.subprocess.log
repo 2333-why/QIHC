@@ -1,0 +1,12 @@
+# 2026-07-06T17:17:58Z handoff
+# cmd: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/run_vci_handoff.py --source bundled --limit 20 --budget-steps 150 --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/run_20260707_011753/handoff
+
+Saved: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/run_20260707_011753/handoff/handoff.json
+  σ=0.00 H=1.57  vci1=90.00% vci2=100.00%  gain=+10.00%
+  σ=0.15 H=1.56  vci1=95.00% vci2=95.00%  gain=+0.00%
+  σ=0.30 H=1.51  vci1=95.00% vci2=90.00%  gain=-5.00%
+  σ=0.50 H=1.54  vci1=95.00% vci2=95.00%  gain=+0.00%
+  σ=0.80 H=1.39  vci1=90.00% vci2=100.00%  gain=+10.00%
+  σ=1.20 H=1.26  vci1=95.00% vci2=100.00%  gain=+5.00%
+Saved: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/run_20260707_011753/handoff/handoff_curve.png
+Saved: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/run_20260707_011753/handoff/temperature_map.png

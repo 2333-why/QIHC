@@ -1,0 +1,13 @@
+# 2026-07-06T17:17:57Z cr_mock
+# cmd: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_cr_bbh.py --source bundled --limit 15 --n-samples 20 --budget-steps 150 --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/run_20260707_011753/cr_mock
+
+CR benchmark: 15 tasks, n_samples=20, use_llm=False
+  [10/15] tasks done
+
+=== CR protocol summary (n=15) ===
+  zeroshot     acc=93.33% feas=93.33%
+  linear       acc=73.33% feas=100.00%
+  quadratic    acc=13.33% feas=93.33%
+  vci-1        acc=26.67% feas=100.00%
+  vci-2        acc=26.67% feas=100.00%
+Saved: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/run_20260707_011753/cr_mock/cr_protocol.json

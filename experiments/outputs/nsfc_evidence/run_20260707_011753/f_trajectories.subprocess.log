@@ -1,0 +1,4 @@
+# 2026-07-06T17:17:54Z f_trajectories
+# cmd: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_f_trajectories.py --budget-steps 150 --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/run_20260707_011753/f_trajectories
+
+Saved F trajectories: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/run_20260707_011753/f_trajectories

@@ -1,0 +1,453 @@
+{
+  "experiment": "f_trajectories",
+  "n_tasks": 40,
+  "mean_F_trace_vci2": [
+    -14.978455682459904,
+    -14.220455550297354
+  ],
+  "traces": [
+    {
+      "task_id": "logical_deduction_01",
+      "vci1_F": [
+        -18.587861084674376
+      ],
+      "vci2_F": [
+        -17.387861084674377
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_02",
+      "vci1_F": [
+        -13.501465028962839
+      ],
+      "vci2_F": [
+        -17.032889296185516
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_03",
+      "vci1_F": [
+        -17.209270256149633
+      ],
+      "vci2_F": [
+        -15.301544033514158
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "constraint_reasoning_01",
+      "vci1_F": [
+        -9.695812892870803
+      ],
+      "vci2_F": [
+        -10.088474432133351
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "constraint_reasoning_02",
+      "vci1_F": [
+        -19.996658643384794
+      ],
+      "vci2_F": [
+        -11.642788197495653,
+        -14.084226311528077
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "multi_step_01",
+      "vci1_F": [
+        -17.006463249401207
+      ],
+      "vci2_F": [
+        -15.886127742961506
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "multi_step_02",
+      "vci1_F": [
+        -18.34569385765979
+      ],
+      "vci2_F": [
+        -14.312951526306408
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_04",
+      "vci1_F": [
+        -17.499846528968472
+      ],
+      "vci2_F": [
+        -16.595940634096486
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_05",
+      "vci1_F": [
+        -11.94088218422601
+      ],
+      "vci2_F": [
+        -8.356226463841665,
+        -11.23871195622774
+      ],
+      "vci1_feasible": false,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "constraint_reasoning_03",
+      "vci1_F": [
+        -4.7849680050450525
+      ],
+      "vci2_F": [
+        -14.5356245233201
+      ],
+      "vci1_feasible": false,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_06",
+      "vci1_F": [
+        -16.15031492929808
+      ],
+      "vci2_F": [
+        -16.42309136218646
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "multi_step_03",
+      "vci1_F": [
+        -18.406737114816973
+      ],
+      "vci2_F": [
+        -14.154492026142528
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_07",
+      "vci1_F": [
+        -19.707831207692152
+      ],
+      "vci2_F": [
+        -14.837267027911821
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "constraint_reasoning_04",
+      "vci1_F": [
+        -11.079308355199966
+      ],
+      "vci2_F": [
+        -13.693348123769276
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_08",
+      "vci1_F": [
+        -17.7295251623326
+      ],
+      "vci2_F": [
+        -17.40855430310368
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "multi_step_04",
+      "vci1_F": [
+        -15.839083260523392
+      ],
+      "vci2_F": [
+        -14.71888207871666
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_09",
+      "vci1_F": [
+        -11.963957933688382
+      ],
+      "vci2_F": [
+        -12.580279573099888
+      ],
+      "vci1_feasible": false,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "constraint_reasoning_05",
+      "vci1_F": [
+        -13.734729387674403
+      ],
+      "vci2_F": [
+        -14.951123703521917
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_10",
+      "vci1_F": [
+        -19.31868197486022
+      ],
+      "vci2_F": [
+        -11.722871085625666,
+        -17.338428383136243
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "multi_step_05",
+      "vci1_F": [
+        -18.043849805069538
+      ],
+      "vci2_F": [
+        -17.721356534078634
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_11",
+      "vci1_F": [
+        -15.754398971531675
+      ],
+      "vci2_F": [
+        -16.723678429258424
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "constraint_reasoning_06",
+      "vci1_F": [
+        -15.129286894955506
+      ],
+      "vci2_F": [
+        -12.416668178014419
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_12",
+      "vci1_F": [
+        -12.719335282255122
+      ],
+      "vci2_F": [
+        -17.968622471849905
+      ],
+      "vci1_feasible": false,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "multi_step_06",
+      "vci1_F": [
+        -14.80722773865173
+      ],
+      "vci2_F": [
+        -14.80722773865173
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_13",
+      "vci1_F": [
+        -11.725725334559552
+      ],
+      "vci2_F": [
+        -18.450539728168472
+      ],
+      "vci1_feasible": false,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "constraint_reasoning_07",
+      "vci1_F": [
+        -12.044417776980326
+      ],
+      "vci2_F": [
+        -12.00132616658537
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_14",
+      "vci1_F": [
+        -14.997160234815084
+      ],
+      "vci2_F": [
+        -18.060654258064265
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "multi_step_07",
+      "vci1_F": [
+        -10.065135705944108
+      ],
+      "vci2_F": [
+        -19.43757506020889
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_15",
+      "vci1_F": [
+        -19.478538657008723
+      ],
+      "vci2_F": [
+        -17.59902104891515
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "constraint_reasoning_08",
+      "vci1_F": [
+        -13.890463537523852
+      ],
+      "vci2_F": [
+        -12.850012838868812
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_16",
+      "vci1_F": [
+        -18.82203862354591
+      ],
+      "vci2_F": [
+        -14.326022738028241
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "multi_step_08",
+      "vci1_F": [
+        -17.415708476792503
+      ],
+      "vci2_F": [
+        -15.931253622826208
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_17",
+      "vci1_F": [
+        -20.067570159083967
+      ],
+      "vci2_F": [
+        -14.891071689482082
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "constraint_reasoning_09",
+      "vci1_F": [
+        -6.426316287673163
+      ],
+      "vci2_F": [
+        -10.956327762527952
+      ],
+      "vci1_feasible": false,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_18",
+      "vci1_F": [
+        -13.437515419892264
+      ],
+      "vci2_F": [
+        -19.253131131141153
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "multi_step_09",
+      "vci1_F": [
+        -18.227379561611905
+      ],
+      "vci2_F": [
+        -15.297897547790116
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_19",
+      "vci1_F": [
+        -18.998714532642396
+      ],
+      "vci2_F": [
+        -18.998714532642396
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "constraint_reasoning_10",
+      "vci1_F": [
+        -15.685330569115767
+      ],
+      "vci2_F": [
+        -12.899409932421829
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "logical_deduction_20",
+      "vci1_F": [
+        -12.312335246297287
+      ],
+      "vci2_F": [
+        -14.95396656089984
+      ],
+      "vci1_feasible": true,
+      "vci2_feasible": true
+    },
+    {
+      "task_id": "multi_step_10",
+      "vci1_F": [
+        -12.131509237988013
+      ],
+      "vci2_F": [
+        -11.96341210936517
+      ],
+      "vci1_feasible": false,
+      "vci2_feasible": true
+    }
+  ]
+}

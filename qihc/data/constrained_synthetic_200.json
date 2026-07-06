@@ -1,0 +1,7295 @@
+{
+  "version": "1.0",
+  "description": "Synthetic constrained subset-selection set for NSFC P0/P1/P2 cases.",
+  "n_tasks": 200,
+  "tasks": [
+    {
+      "id": "synthetic_logical_deduction_0000",
+      "task_type": "logical_deduction",
+      "text": "Pick 3 facts supporting the conclusion: All mammals are warm-blooded.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Background assumption",
+        "(C) Primary supporting fact",
+        "(D) Derived intermediate step",
+        "(E) Conflicting alternative",
+        "(F) Contradictory claim"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        2,
+        3,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        0.16253997791405098,
+        -0.04005438718417337,
+        1.6741752185322598,
+        1.7158606007369248,
+        1.1997995339711574,
+        -0.28184972740181125
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0001",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 2 compatible reasons for: If it rains, the ground is wet (some options conflict).",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Primary supporting fact",
+        "(C) Irrelevant observation",
+        "(D) Tertiary supporting fact",
+        "(E) Conflicting alternative",
+        "(F) Contradictory claim",
+        "(G) Derived intermediate step"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          5,
+          6
+        ]
+      ],
+      "logits": [
+        2.0036242273351164,
+        0.7527314620275996,
+        -0.07792973347322438,
+        1.0175039569061282,
+        -0.014481523892477477,
+        0.5139811436951705,
+        0.1849130052016165
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0002",
+      "task_type": "multi_step_reasoning",
+      "text": "Choose 2 sub-goals that together justify: A is greater than C.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Tertiary supporting fact",
+        "(C) Auxiliary lemma",
+        "(D) Contradictory claim",
+        "(E) Secondary supporting fact",
+        "(F) Irrelevant observation",
+        "(G) Derived intermediate step"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        4,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          6
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "logits": [
+        1.055295856512998,
+        0.6112714488740987,
+        0.7598783722174306,
+        0.8242768381248624,
+        2.004565777518789,
+        0.34182787865569336,
+        1.2463732456977443
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0003",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: The hypothesis H is consistent.",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Conflicting alternative",
+        "(C) Primary supporting fact",
+        "(D) Auxiliary lemma",
+        "(E) External distraction",
+        "(F) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          4
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "logits": [
+        1.694813927783953,
+        0.57614766124677,
+        0.2588688092503408,
+        1.5404228578323427,
+        0.5796222091460927,
+        0.8953274736496925
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0004",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 2 compatible reasons for: Route A is optimal under current traffic (some options conflict).",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Background assumption",
+        "(C) Auxiliary lemma",
+        "(D) Irrelevant observation",
+        "(E) Derived intermediate step",
+        "(F) Conflicting alternative",
+        "(G) Contradictory claim",
+        "(H) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          4
+        ],
+        [
+          0,
+          4
+        ]
+      ],
+      "logits": [
+        0.13854278502239656,
+        0.750201702980714,
+        1.75062310756583,
+        0.5424364133903383,
+        0.9826317190512427,
+        -0.26141561483775627,
+        0.03618962630137686,
+        0.4901096131480523
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0005",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: The proof plan is valid.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Secondary supporting fact",
+        "(C) Derived intermediate step",
+        "(D) Contradictory claim",
+        "(E) Tertiary supporting fact",
+        "(F) Conflicting alternative"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        2
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        1.2813104209611228,
+        0.29340413801823867,
+        0.5411995099239965,
+        -0.25250941558161627,
+        -0.23459234819539992,
+        -0.04130825234422181
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0006",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: The causal chain holds.",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Background assumption",
+        "(C) Auxiliary lemma",
+        "(D) Conflicting alternative",
+        "(E) Primary supporting fact",
+        "(F) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        2
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          5
+        ]
+      ],
+      "logits": [
+        0.547397920880482,
+        1.9962969928793253,
+        1.913004190969606,
+        0.5543833364613258,
+        0.0972256545476449,
+        0.44694369747603063
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0007",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 2 compatible reasons for: No contradiction appears in the argument (some options conflict).",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Primary supporting fact",
+        "(C) Secondary supporting fact",
+        "(D) External distraction",
+        "(E) Conflicting alternative",
+        "(F) Contradictory claim",
+        "(G) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        4,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          6
+        ],
+        [
+          3,
+          6
+        ]
+      ],
+      "logits": [
+        0.8547963547530559,
+        0.9992818996992952,
+        0.06382291531003158,
+        0.16925386780261142,
+        1.9247190481552023,
+        0.2120773981323612,
+        1.1216263943292635
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0008",
+      "task_type": "multi_step_reasoning",
+      "text": "Choose 3 sub-goals that together justify: All mammals are warm-blooded.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Conflicting alternative",
+        "(C) Background assumption",
+        "(D) Contradictory claim",
+        "(E) External distraction",
+        "(F) Primary supporting fact",
+        "(G) Derived intermediate step"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        2,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          6
+        ]
+      ],
+      "logits": [
+        1.4261224914112773,
+        0.6270610075074576,
+        1.9971566168789663,
+        -0.05903809060712262,
+        1.2146577003804349,
+        0.4372138689792474,
+        1.5661050510962824
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0009",
+      "task_type": "logical_deduction",
+      "text": "Select 2 premises that logically entail: If it rains, the ground is wet.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Secondary supporting fact",
+        "(C) Background assumption",
+        "(D) Derived intermediate step",
+        "(E) Conflicting alternative",
+        "(F) Auxiliary lemma",
+        "(G) Contradictory claim"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          4
+        ]
+      ],
+      "logits": [
+        1.5479201093912958,
+        0.04156153918318298,
+        0.5909769283422375,
+        1.8250282723990707,
+        0.5692980324842185,
+        0.10436228513377144,
+        -0.23522218714262128
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0010",
+      "task_type": "reasoning_with_constraints",
+      "text": "Pick 2 steps for a valid plan toward: A is greater than C without contradiction.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Primary supporting fact",
+        "(C) External distraction",
+        "(D) Auxiliary lemma",
+        "(E) Tertiary supporting fact",
+        "(F) Conflicting alternative",
+        "(G) Background assumption",
+        "(H) Derived intermediate step"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          6
+        ]
+      ],
+      "logits": [
+        -0.015746679082018378,
+        1.8002460453918618,
+        0.13875237090073164,
+        0.012029652895464961,
+        1.572297602511106,
+        0.47198199162930077,
+        0.5566075120000287,
+        0.6052880500797613
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0011",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 2 reasoning hops that bridge the premises to: The hypothesis H is consistent.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Tertiary supporting fact",
+        "(C) Background assumption",
+        "(D) Contradictory claim",
+        "(E) Conflicting alternative",
+        "(F) Irrelevant observation",
+        "(G) Secondary supporting fact",
+        "(H) External distraction"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        6,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          4
+        ]
+      ],
+      "logits": [
+        0.09252758174631304,
+        0.2931737903140849,
+        0.8750783455849498,
+        0.10152223400842414,
+        0.2851781629615074,
+        0.31890340370952386,
+        1.671559517267083,
+        2.3803263061901205
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0012",
+      "task_type": "logical_deduction",
+      "text": "Choose 2 statements needed to conclude: Route A is optimal under current traffic.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) External distraction",
+        "(C) Conflicting alternative",
+        "(D) Background assumption",
+        "(E) Auxiliary lemma",
+        "(F) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          4
+        ]
+      ],
+      "logits": [
+        -0.06659506416760685,
+        0.5656096353348311,
+        2.0312611066990223,
+        2.2532286076767516,
+        -0.08066924140872966,
+        1.2567737001628247
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0013",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting The proof plan is valid under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Auxiliary lemma",
+        "(C) External distraction",
+        "(D) Secondary supporting fact",
+        "(E) Primary supporting fact",
+        "(F) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          3
+        ]
+      ],
+      "logits": [
+        0.9498582106317495,
+        -0.2716311600284229,
+        0.05434189179260129,
+        1.7024281228395788,
+        0.8050670348502029,
+        0.8220818592004837
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0014",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 3 intermediate steps required before concluding: The causal chain holds.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Conflicting alternative",
+        "(C) Tertiary supporting fact",
+        "(D) Background assumption",
+        "(E) External distraction",
+        "(F) Irrelevant observation",
+        "(G) Secondary supporting fact",
+        "(H) Derived intermediate step"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        2,
+        6,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          2
+        ],
+        [
+          5,
+          7
+        ]
+      ],
+      "logits": [
+        0.017084098927077462,
+        0.9068274968372922,
+        2.286479050923969,
+        0.7489094686696267,
+        0.7616542372168971,
+        0.6598859242184956,
+        1.4649247354059014,
+        2.4712975547035936
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0015",
+      "task_type": "logical_deduction",
+      "text": "Select 2 premises that logically entail: No contradiction appears in the argument.",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Tertiary supporting fact",
+        "(C) Derived intermediate step",
+        "(D) Auxiliary lemma",
+        "(E) Background assumption",
+        "(F) Secondary supporting fact",
+        "(G) Contradictory claim"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        5,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          5
+        ],
+        [
+          1,
+          6
+        ]
+      ],
+      "logits": [
+        0.7711431332625103,
+        0.7366434925103273,
+        0.5513397764422936,
+        0.5119166029346045,
+        0.4212333552686711,
+        1.7478659028162125,
+        0.8294839885830388
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0016",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting All mammals are warm-blooded under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Derived intermediate step",
+        "(C) Tertiary supporting fact",
+        "(D) External distraction",
+        "(E) Auxiliary lemma",
+        "(F) Conflicting alternative",
+        "(G) Background assumption"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        2
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          6
+        ],
+        [
+          0,
+          5
+        ]
+      ],
+      "logits": [
+        0.11328978057432196,
+        1.6058976077108063,
+        0.9211941197720841,
+        0.2120660800899412,
+        -0.16483003985006295,
+        0.16110620914218066,
+        0.7485291664994318
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0017",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 3 intermediate steps required before concluding: If it rains, the ground is wet.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Background assumption",
+        "(C) Contradictory claim",
+        "(D) Derived intermediate step",
+        "(E) Auxiliary lemma",
+        "(F) Secondary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        1,
+        2,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          1
+        ]
+      ],
+      "logits": [
+        0.19676040069165385,
+        2.0847550585582537,
+        1.963010660376644,
+        0.18098554979984027,
+        -0.2278747115241876,
+        1.413000392691517
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0018",
+      "task_type": "logical_deduction",
+      "text": "Select 3 premises that logically entail: A is greater than C.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Irrelevant observation",
+        "(C) Primary supporting fact",
+        "(D) External distraction",
+        "(E) Conflicting alternative",
+        "(F) Tertiary supporting fact",
+        "(G) Auxiliary lemma",
+        "(H) Derived intermediate step"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        5,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          7
+        ]
+      ],
+      "logits": [
+        1.1054073762666408,
+        -0.011008099637798988,
+        0.49558637188674093,
+        0.2631012648244478,
+        0.23609784878865508,
+        2.3792809521750424,
+        1.7404860090244803,
+        1.1530663245976152
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0019",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 3 compatible reasons for: The hypothesis H is consistent (some options conflict).",
+      "candidates": [
+        "(A) Derived intermediate step",
+        "(B) Contradictory claim",
+        "(C) Background assumption",
+        "(D) Auxiliary lemma",
+        "(E) External distraction",
+        "(F) Conflicting alternative",
+        "(G) Tertiary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        2,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          5
+        ]
+      ],
+      "logits": [
+        1.0442412806880221,
+        -0.2644228634780051,
+        2.134615724438109,
+        -0.3502163075616751,
+        1.2088048921665833,
+        0.4681324820243876,
+        0.6887193743401478
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0020",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: Route A is optimal under current traffic.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Primary supporting fact",
+        "(C) Irrelevant observation",
+        "(D) Background assumption",
+        "(E) Tertiary supporting fact",
+        "(F) External distraction",
+        "(G) Conflicting alternative",
+        "(H) Derived intermediate step"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          5
+        ]
+      ],
+      "logits": [
+        -0.08445410085073335,
+        -0.0008163674703339785,
+        -0.037264158812158193,
+        1.4919234013806795,
+        -0.06210121599427448,
+        0.6228429859234157,
+        0.12373179548666921,
+        1.0221150299676145
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0021",
+      "task_type": "logical_deduction",
+      "text": "Choose 2 statements needed to conclude: The proof plan is valid.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Irrelevant observation",
+        "(C) Primary supporting fact",
+        "(D) Conflicting alternative",
+        "(E) Derived intermediate step",
+        "(F) Secondary supporting fact",
+        "(G) External distraction",
+        "(H) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        2
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          3
+        ],
+        [
+          5,
+          7
+        ]
+      ],
+      "logits": [
+        1.7225393256059576,
+        0.9286690149472556,
+        0.8305958535708469,
+        0.03153332297074262,
+        0.623414018696651,
+        0.7938920824008782,
+        0.6539892487245713,
+        0.7182503007360024
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0022",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 2 compatible reasons for: The causal chain holds (some options conflict).",
+      "candidates": [
+        "(A) Derived intermediate step",
+        "(B) Conflicting alternative",
+        "(C) Primary supporting fact",
+        "(D) Irrelevant observation",
+        "(E) External distraction",
+        "(F) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        1
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "logits": [
+        1.0597251395358898,
+        1.9312763831251902,
+        -0.2912711865959362,
+        0.5085109918516064,
+        1.1038690479770712,
+        0.923285031983053
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0023",
+      "task_type": "multi_step_reasoning",
+      "text": "Choose 2 sub-goals that together justify: No contradiction appears in the argument.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Conflicting alternative",
+        "(C) Tertiary supporting fact",
+        "(D) Irrelevant observation",
+        "(E) Secondary supporting fact",
+        "(F) Contradictory claim"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "logits": [
+        -0.074815863249099,
+        2.0625596669169624,
+        0.8945527587336126,
+        -0.2617928389208097,
+        1.493044819126862,
+        -0.09035082318515605
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0024",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: All mammals are warm-blooded.",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Derived intermediate step",
+        "(C) External distraction",
+        "(D) Irrelevant observation",
+        "(E) Tertiary supporting fact",
+        "(F) Primary supporting fact",
+        "(G) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        2
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          6
+        ]
+      ],
+      "logits": [
+        0.9075055592484342,
+        1.3847041739064765,
+        1.1886499192921123,
+        -0.08398265185401799,
+        -0.20501564952200657,
+        -0.03907402612950128,
+        0.30306786635890665
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0025",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting If it rains, the ground is wet under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Tertiary supporting fact",
+        "(B) Auxiliary lemma",
+        "(C) External distraction",
+        "(D) Derived intermediate step",
+        "(E) Irrelevant observation",
+        "(F) Secondary supporting fact",
+        "(G) Background assumption",
+        "(H) Contradictory claim"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          5,
+          6
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "logits": [
+        0.12057490985243141,
+        0.7767315538223983,
+        1.3218146243430657,
+        0.05502423785174959,
+        1.2641595261124974,
+        0.7144521447959751,
+        1.8704097346886859,
+        0.29065796342896083
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0026",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 2 reasoning hops that bridge the premises to: A is greater than C.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Background assumption",
+        "(C) Auxiliary lemma",
+        "(D) Irrelevant observation",
+        "(E) Derived intermediate step",
+        "(F) Primary supporting fact",
+        "(G) Secondary supporting fact",
+        "(H) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        2
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          3
+        ]
+      ],
+      "logits": [
+        1.2028461427615602,
+        1.8257130774429775,
+        2.094182410825116,
+        0.291902461743633,
+        0.65444955796854,
+        0.7865022683291355,
+        0.02400007109066561,
+        0.7598017611057822
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0027",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: The hypothesis H is consistent.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Secondary supporting fact",
+        "(C) Conflicting alternative",
+        "(D) Derived intermediate step",
+        "(E) Irrelevant observation",
+        "(F) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          4
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "logits": [
+        0.5645717925316011,
+        1.577806910696411,
+        1.327105929750306,
+        -0.1615130930656106,
+        1.403531876384593,
+        0.8548030055629388
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0028",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 3 evidence items supporting Route A is optimal under current traffic under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Conflicting alternative",
+        "(B) Auxiliary lemma",
+        "(C) Primary supporting fact",
+        "(D) Irrelevant observation",
+        "(E) Background assumption",
+        "(F) Secondary supporting fact",
+        "(G) External distraction",
+        "(H) Derived intermediate step"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        1,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          6
+        ],
+        [
+          1,
+          7
+        ]
+      ],
+      "logits": [
+        1.4523591328883338,
+        1.6158880186342601,
+        0.5287383118392115,
+        0.13102736604601173,
+        0.8573640960727384,
+        1.1072512154597787,
+        0.3236430279584315,
+        0.536127120872032
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0029",
+      "task_type": "multi_step_reasoning",
+      "text": "Choose 2 sub-goals that together justify: The proof plan is valid.",
+      "candidates": [
+        "(A) Tertiary supporting fact",
+        "(B) Primary supporting fact",
+        "(C) Contradictory claim",
+        "(D) Background assumption",
+        "(E) Irrelevant observation",
+        "(F) Conflicting alternative",
+        "(G) External distraction"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          4
+        ]
+      ],
+      "logits": [
+        0.33833307326277895,
+        1.8967262789776074,
+        0.05187345965788439,
+        0.4099789330118935,
+        0.9376148770800857,
+        1.61759865179033,
+        0.28246408562366526
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0030",
+      "task_type": "logical_deduction",
+      "text": "Pick 3 facts supporting the conclusion: The causal chain holds.",
+      "candidates": [
+        "(A) Secondary supporting fact",
+        "(B) Contradictory claim",
+        "(C) Background assumption",
+        "(D) Irrelevant observation",
+        "(E) External distraction",
+        "(F) Derived intermediate step",
+        "(G) Auxiliary lemma",
+        "(H) Tertiary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        1,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          5
+        ]
+      ],
+      "logits": [
+        1.5926702045930965,
+        1.295473905297087,
+        0.7678804887899195,
+        -0.3036069368690076,
+        1.34258872314578,
+        0.4763827481272524,
+        0.4784033276465657,
+        1.0363006574319398
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0031",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 3 compatible reasons for: No contradiction appears in the argument (some options conflict).",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Conflicting alternative",
+        "(C) Tertiary supporting fact",
+        "(D) Contradictory claim",
+        "(E) Background assumption",
+        "(F) Primary supporting fact",
+        "(G) Secondary supporting fact",
+        "(H) Derived intermediate step"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        2,
+        6,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          5
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "logits": [
+        0.27240968306707897,
+        1.0664789412558688,
+        1.5267504430674648,
+        0.5300698837026802,
+        0.4836212828174684,
+        -0.1773354286087876,
+        1.385373254731687,
+        1.4046960353070286
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0032",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 2 reasoning hops that bridge the premises to: All mammals are warm-blooded.",
+      "candidates": [
+        "(A) Secondary supporting fact",
+        "(B) Auxiliary lemma",
+        "(C) Conflicting alternative",
+        "(D) Derived intermediate step",
+        "(E) External distraction",
+        "(F) Primary supporting fact",
+        "(G) Irrelevant observation",
+        "(H) Contradictory claim"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          6
+        ]
+      ],
+      "logits": [
+        0.8301053088546055,
+        0.8422866717710609,
+        0.6533833867944866,
+        1.3066298111107328,
+        0.32898929137502275,
+        1.5914723106541688,
+        0.4636916959444635,
+        0.1246327046296895
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0033",
+      "task_type": "logical_deduction",
+      "text": "Select 2 premises that logically entail: If it rains, the ground is wet.",
+      "candidates": [
+        "(A) Conflicting alternative",
+        "(B) Auxiliary lemma",
+        "(C) Contradictory claim",
+        "(D) Tertiary supporting fact",
+        "(E) Primary supporting fact",
+        "(F) Background assumption",
+        "(G) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          4
+        ]
+      ],
+      "logits": [
+        1.0935193798039322,
+        0.9087408228225043,
+        0.23257506670342054,
+        1.4881951169171908,
+        0.2189658332716891,
+        -0.0007734559694926486,
+        0.1657875612933114
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0034",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting A is greater than C under mutual-exclusion rules.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Secondary supporting fact",
+        "(C) Contradictory claim",
+        "(D) Irrelevant observation",
+        "(E) Derived intermediate step",
+        "(F) Conflicting alternative"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          5
+        ]
+      ],
+      "logits": [
+        0.3494684543628546,
+        0.8720866825095193,
+        0.4334614848951981,
+        1.6642895108698108,
+        0.5674646786794446,
+        0.8913947993413656
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0035",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: The hypothesis H is consistent.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) External distraction",
+        "(C) Irrelevant observation",
+        "(D) Derived intermediate step",
+        "(E) Conflicting alternative",
+        "(F) Background assumption",
+        "(G) Auxiliary lemma",
+        "(H) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          3
+        ]
+      ],
+      "logits": [
+        1.623055387471655,
+        0.4348714050897442,
+        1.056066791405534,
+        -0.3763277835024733,
+        0.9142623315824593,
+        1.140376719607351,
+        0.0033508140350005794,
+        0.5855390842419443
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0036",
+      "task_type": "logical_deduction",
+      "text": "Select 3 premises that logically entail: Route A is optimal under current traffic.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Conflicting alternative",
+        "(C) Background assumption",
+        "(D) Irrelevant observation",
+        "(E) Primary supporting fact",
+        "(F) Derived intermediate step",
+        "(G) Tertiary supporting fact",
+        "(H) Contradictory claim"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        4,
+        6,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          6
+        ]
+      ],
+      "logits": [
+        0.3124168918298107,
+        0.9325978847530717,
+        0.42931961173057265,
+        -0.09599455911257598,
+        1.4889460006622783,
+        0.6913630316015943,
+        1.6105256659661176,
+        1.516017302913457
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0037",
+      "task_type": "reasoning_with_constraints",
+      "text": "Pick 3 steps for a valid plan toward: The proof plan is valid without contradiction.",
+      "candidates": [
+        "(A) Tertiary supporting fact",
+        "(B) External distraction",
+        "(C) Background assumption",
+        "(D) Secondary supporting fact",
+        "(E) Primary supporting fact",
+        "(F) Auxiliary lemma"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        1,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          4
+        ],
+        [
+          0,
+          5
+        ]
+      ],
+      "logits": [
+        1.7384779597959517,
+        1.5779694449234298,
+        0.7063940656223241,
+        -0.19060150447534527,
+        1.6945403063579385,
+        0.49252030432870597
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0038",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 3 intermediate steps required before concluding: The causal chain holds.",
+      "candidates": [
+        "(A) Secondary supporting fact",
+        "(B) Irrelevant observation",
+        "(C) Contradictory claim",
+        "(D) Background assumption",
+        "(E) Primary supporting fact",
+        "(F) Conflicting alternative"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        1,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          2
+        ]
+      ],
+      "logits": [
+        2.2813320276427893,
+        1.1717523518251356,
+        -0.11270533353561915,
+        0.021333451893507993,
+        -0.371661980232919,
+        2.3324634033039318
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0039",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: No contradiction appears in the argument.",
+      "candidates": [
+        "(A) Conflicting alternative",
+        "(B) Derived intermediate step",
+        "(C) Background assumption",
+        "(D) Irrelevant observation",
+        "(E) Primary supporting fact",
+        "(F) Auxiliary lemma",
+        "(G) Contradictory claim",
+        "(H) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        0.4796490664593286,
+        1.844928684555808,
+        0.3112310640576553,
+        0.4623498966746561,
+        0.47114221321474103,
+        0.5056102183427214,
+        0.5134781290708529,
+        2.248901490406031
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0040",
+      "task_type": "reasoning_with_constraints",
+      "text": "Pick 3 steps for a valid plan toward: All mammals are warm-blooded without contradiction.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Derived intermediate step",
+        "(C) Primary supporting fact",
+        "(D) Background assumption",
+        "(E) Secondary supporting fact",
+        "(F) Irrelevant observation",
+        "(G) Auxiliary lemma"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        1,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "logits": [
+        2.078192903096492,
+        1.9331169463708409,
+        0.5994593613162564,
+        0.1012237084998232,
+        0.30471669884818053,
+        1.0734289922892322,
+        -0.46997478862907716
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0041",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 2 reasoning hops that bridge the premises to: If it rains, the ground is wet.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Conflicting alternative",
+        "(C) Tertiary supporting fact",
+        "(D) Irrelevant observation",
+        "(E) Derived intermediate step",
+        "(F) Secondary supporting fact",
+        "(G) External distraction",
+        "(H) Primary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          4
+        ]
+      ],
+      "logits": [
+        -0.24008951112063798,
+        0.6472748652381346,
+        0.44611498730947363,
+        1.6243513556944462,
+        -0.17023782873316298,
+        0.8353764585599037,
+        0.23780840900134043,
+        1.7960353513332528
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0042",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: A is greater than C.",
+      "candidates": [
+        "(A) Conflicting alternative",
+        "(B) Background assumption",
+        "(C) Secondary supporting fact",
+        "(D) Contradictory claim",
+        "(E) Auxiliary lemma",
+        "(F) Primary supporting fact",
+        "(G) Derived intermediate step"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          4
+        ]
+      ],
+      "logits": [
+        -0.26036778025925617,
+        0.19696386517200656,
+        0.3516761674806809,
+        1.991762342219734,
+        -0.3236091000590175,
+        0.4446175356796621,
+        0.4023033506566903
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0043",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 3 evidence items supporting The hypothesis H is consistent under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Contradictory claim",
+        "(C) Conflicting alternative",
+        "(D) Tertiary supporting fact",
+        "(E) Primary supporting fact",
+        "(F) Derived intermediate step",
+        "(G) External distraction"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        1,
+        4,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          3
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "logits": [
+        1.171640261420211,
+        0.9166921555070329,
+        0.07045565809888854,
+        -0.18719050944529192,
+        1.2058116438035018,
+        0.9464953050959766,
+        1.5132959579219805
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0044",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: Route A is optimal under current traffic.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Secondary supporting fact",
+        "(C) Primary supporting fact",
+        "(D) Tertiary supporting fact",
+        "(E) Auxiliary lemma",
+        "(F) Irrelevant observation"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          4
+        ]
+      ],
+      "logits": [
+        -0.02755935424805811,
+        1.3701792459019324,
+        0.44629863479524257,
+        0.3885544248868462,
+        1.0168972215784884,
+        0.3177704410122543
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0045",
+      "task_type": "logical_deduction",
+      "text": "Select 2 premises that logically entail: The proof plan is valid.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Derived intermediate step",
+        "(C) Primary supporting fact",
+        "(D) Auxiliary lemma",
+        "(E) External distraction",
+        "(F) Secondary supporting fact",
+        "(G) Irrelevant observation"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        4,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          4
+        ],
+        [
+          0,
+          4
+        ]
+      ],
+      "logits": [
+        0.44446935035361684,
+        0.32789940417214625,
+        0.3804658969335648,
+        0.5898220665784798,
+        1.5965177630399745,
+        1.4117475231044274,
+        0.7372284034679265
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0046",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting The causal chain holds under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) External distraction",
+        "(C) Tertiary supporting fact",
+        "(D) Auxiliary lemma",
+        "(E) Background assumption",
+        "(F) Secondary supporting fact",
+        "(G) Contradictory claim",
+        "(H) Conflicting alternative"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          5
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "logits": [
+        0.3990028778386736,
+        1.6455579781452292,
+        0.089830168419468,
+        0.19953244817989202,
+        0.22742769178100392,
+        0.7433221828320921,
+        1.578280836668846,
+        0.25911970895857045
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0047",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: No contradiction appears in the argument.",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Auxiliary lemma",
+        "(C) Conflicting alternative",
+        "(D) Tertiary supporting fact",
+        "(E) Background assumption",
+        "(F) Derived intermediate step",
+        "(G) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          2
+        ]
+      ],
+      "logits": [
+        1.6758957997230302,
+        0.6741408007757992,
+        0.7717874935250806,
+        0.2398364842417774,
+        0.6950983371702546,
+        2.129440711414106,
+        0.19052200679606027
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0048",
+      "task_type": "logical_deduction",
+      "text": "Choose 3 statements needed to conclude: All mammals are warm-blooded.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Contradictory claim",
+        "(C) Background assumption",
+        "(D) Irrelevant observation",
+        "(E) External distraction",
+        "(F) Conflicting alternative",
+        "(G) Tertiary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        3,
+        4,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          4
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        0.9496217501052197,
+        -0.061994292608981774,
+        0.5246359280626193,
+        1.6699508093134852,
+        1.7219456946394867,
+        0.2412790254321528,
+        2.209223446898946
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0049",
+      "task_type": "reasoning_with_constraints",
+      "text": "Pick 3 steps for a valid plan toward: If it rains, the ground is wet without contradiction.",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Primary supporting fact",
+        "(C) Tertiary supporting fact",
+        "(D) Conflicting alternative",
+        "(E) Contradictory claim",
+        "(F) Irrelevant observation",
+        "(G) Derived intermediate step"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        1,
+        4,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          4
+        ]
+      ],
+      "logits": [
+        0.761091536202356,
+        1.9689398502169628,
+        0.00107056795546695,
+        -0.11590543756257768,
+        1.6769750932335874,
+        0.06373435950058222,
+        1.2725835057388142
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0050",
+      "task_type": "multi_step_reasoning",
+      "text": "Choose 2 sub-goals that together justify: A is greater than C.",
+      "candidates": [
+        "(A) Conflicting alternative",
+        "(B) Contradictory claim",
+        "(C) External distraction",
+        "(D) Derived intermediate step",
+        "(E) Background assumption",
+        "(F) Secondary supporting fact",
+        "(G) Primary supporting fact",
+        "(H) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        2
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          7
+        ]
+      ],
+      "logits": [
+        -0.5736231879225266,
+        0.9513680020234232,
+        0.8888877435365561,
+        -0.2854281767940554,
+        0.22043638688664477,
+        0.8049832061955964,
+        0.1617937840469792,
+        0.06504341620511236
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0051",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: The hypothesis H is consistent.",
+      "candidates": [
+        "(A) Secondary supporting fact",
+        "(B) Conflicting alternative",
+        "(C) Derived intermediate step",
+        "(D) Irrelevant observation",
+        "(E) Contradictory claim",
+        "(F) Primary supporting fact",
+        "(G) Background assumption"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          6
+        ],
+        [
+          1,
+          6
+        ]
+      ],
+      "logits": [
+        1.1313736682042663,
+        0.5097981736045041,
+        0.41860906677891146,
+        1.707992134821745,
+        0.4697038685697512,
+        1.4480727751380007,
+        0.0823202663231512
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0052",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting Route A is optimal under current traffic under mutual-exclusion rules.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Primary supporting fact",
+        "(C) Secondary supporting fact",
+        "(D) Irrelevant observation",
+        "(E) Derived intermediate step",
+        "(F) Background assumption",
+        "(G) Tertiary supporting fact",
+        "(H) Conflicting alternative"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          2
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "logits": [
+        0.903532508139066,
+        0.6951862428154288,
+        0.9481197674676809,
+        0.3493520318275565,
+        0.2827468208212357,
+        -0.05444489198870724,
+        0.5762795228181465,
+        1.5762821491660626
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0053",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 2 reasoning hops that bridge the premises to: The proof plan is valid.",
+      "candidates": [
+        "(A) Derived intermediate step",
+        "(B) Contradictory claim",
+        "(C) Secondary supporting fact",
+        "(D) Auxiliary lemma",
+        "(E) Tertiary supporting fact",
+        "(F) Irrelevant observation",
+        "(G) Background assumption",
+        "(H) Primary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          5
+        ],
+        [
+          1,
+          4
+        ]
+      ],
+      "logits": [
+        -0.02899970495172005,
+        1.218034828505185,
+        0.719763282221266,
+        1.2872017307867232,
+        0.07792687607724097,
+        0.6305162932999888,
+        0.7923606379062641,
+        0.872103254090036
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0054",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: The causal chain holds.",
+      "candidates": [
+        "(A) Derived intermediate step",
+        "(B) Conflicting alternative",
+        "(C) Contradictory claim",
+        "(D) Background assumption",
+        "(E) Irrelevant observation",
+        "(F) Auxiliary lemma",
+        "(G) Secondary supporting fact",
+        "(H) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        5,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          6
+        ],
+        [
+          3,
+          6
+        ]
+      ],
+      "logits": [
+        -0.2749160691591925,
+        1.2958856468221747,
+        -0.19682128496173798,
+        -0.19250229212573639,
+        0.6166741536463657,
+        2.2685158333912256,
+        -0.2934810130175448,
+        2.2013928391007935
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0055",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 3 evidence items supporting No contradiction appears in the argument under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Conflicting alternative",
+        "(C) Tertiary supporting fact",
+        "(D) External distraction",
+        "(E) Contradictory claim",
+        "(F) Derived intermediate step"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        2,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "logits": [
+        1.7638960093295024,
+        1.2001531274561863,
+        1.5112472979968403,
+        1.5562802370677278,
+        -0.17798888715835826,
+        0.4898490408738794
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0056",
+      "task_type": "multi_step_reasoning",
+      "text": "Choose 2 sub-goals that together justify: All mammals are warm-blooded.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Auxiliary lemma",
+        "(C) External distraction",
+        "(D) Tertiary supporting fact",
+        "(E) Contradictory claim",
+        "(F) Secondary supporting fact",
+        "(G) Conflicting alternative"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        5,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          4
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "logits": [
+        -0.06609351499686034,
+        0.3343902709667928,
+        0.35728452688123574,
+        0.37662611176219596,
+        0.4171182675064175,
+        1.9930067749365405,
+        1.302510678296719
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0057",
+      "task_type": "logical_deduction",
+      "text": "Choose 3 statements needed to conclude: If it rains, the ground is wet.",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Primary supporting fact",
+        "(C) Secondary supporting fact",
+        "(D) External distraction",
+        "(E) Conflicting alternative",
+        "(F) Derived intermediate step",
+        "(G) Tertiary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        4,
+        5,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          3
+        ]
+      ],
+      "logits": [
+        0.6839397564992961,
+        0.3528226047660234,
+        -0.0020956279588770915,
+        0.9412128368884422,
+        1.2677851730473728,
+        2.601123110398828,
+        1.43403645625768
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0058",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting A is greater than C under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Background assumption",
+        "(C) Contradictory claim",
+        "(D) Tertiary supporting fact",
+        "(E) Irrelevant observation",
+        "(F) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        -0.09057902649204114,
+        0.425354580814713,
+        0.3637071742287844,
+        1.5259303256480028,
+        0.4252546755640973,
+        1.9946610829605533
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0059",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 3 intermediate steps required before concluding: The hypothesis H is consistent.",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Contradictory claim",
+        "(C) External distraction",
+        "(D) Secondary supporting fact",
+        "(E) Auxiliary lemma",
+        "(F) Derived intermediate step",
+        "(G) Conflicting alternative",
+        "(H) Primary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        1,
+        5,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          6
+        ]
+      ],
+      "logits": [
+        0.44159052501294493,
+        0.5932591813588446,
+        0.3722558614236676,
+        0.2554704354579691,
+        -0.00843427995319497,
+        2.140134530530939,
+        2.0086381520171757,
+        1.1537424440230348
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0060",
+      "task_type": "logical_deduction",
+      "text": "Select 2 premises that logically entail: Route A is optimal under current traffic.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Secondary supporting fact",
+        "(C) Primary supporting fact",
+        "(D) Tertiary supporting fact",
+        "(E) Irrelevant observation",
+        "(F) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          5
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "logits": [
+        0.4923411893900028,
+        2.216810175633433,
+        0.5459564955434977,
+        0.9574582019413733,
+        0.5539523054185308,
+        0.791364269484174
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0061",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 2 compatible reasons for: The proof plan is valid (some options conflict).",
+      "candidates": [
+        "(A) Derived intermediate step",
+        "(B) Background assumption",
+        "(C) Secondary supporting fact",
+        "(D) Primary supporting fact",
+        "(E) Contradictory claim",
+        "(F) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        4,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          1
+        ]
+      ],
+      "logits": [
+        0.4287804102084177,
+        -0.12398439339128958,
+        0.2070774561034277,
+        0.11845289505730006,
+        1.842402194340454,
+        1.1453125627811915
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0062",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: The causal chain holds.",
+      "candidates": [
+        "(A) Secondary supporting fact",
+        "(B) External distraction",
+        "(C) Contradictory claim",
+        "(D) Tertiary supporting fact",
+        "(E) Auxiliary lemma",
+        "(F) Conflicting alternative"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          5
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "logits": [
+        2.1405751791408414,
+        0.8307347318157237,
+        -0.12745160387929363,
+        1.332104284437975,
+        0.10014437612890548,
+        0.2589974023528151
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0063",
+      "task_type": "logical_deduction",
+      "text": "Select 2 premises that logically entail: No contradiction appears in the argument.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Primary supporting fact",
+        "(C) Secondary supporting fact",
+        "(D) External distraction",
+        "(E) Tertiary supporting fact",
+        "(F) Irrelevant observation",
+        "(G) Derived intermediate step",
+        "(H) Contradictory claim"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          3
+        ]
+      ],
+      "logits": [
+        1.2336800273099862,
+        0.9525936385643823,
+        0.6760280210107585,
+        0.6823508066076722,
+        0.175384213595351,
+        0.5109034779912962,
+        0.1995460537062208,
+        1.547830545465376
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0064",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 2 compatible reasons for: All mammals are warm-blooded (some options conflict).",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Auxiliary lemma",
+        "(C) Primary supporting fact",
+        "(D) Irrelevant observation",
+        "(E) Conflicting alternative",
+        "(F) Tertiary supporting fact",
+        "(G) Derived intermediate step"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          6
+        ]
+      ],
+      "logits": [
+        0.5822526539990043,
+        2.0834965750865253,
+        0.38376080776074983,
+        0.2278113301023009,
+        1.0177957898835155,
+        1.4697969623994962,
+        0.5745260462906925
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0065",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: If it rains, the ground is wet.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Derived intermediate step",
+        "(C) External distraction",
+        "(D) Irrelevant observation",
+        "(E) Background assumption",
+        "(F) Auxiliary lemma",
+        "(G) Conflicting alternative"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          5
+        ]
+      ],
+      "logits": [
+        1.647447491209997,
+        -0.2869844855095772,
+        0.14564495210758463,
+        0.9095663439585056,
+        -0.16033330959249498,
+        0.6996772849113256,
+        1.2028038421308447
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0066",
+      "task_type": "logical_deduction",
+      "text": "Choose 3 statements needed to conclude: A is greater than C.",
+      "candidates": [
+        "(A) Tertiary supporting fact",
+        "(B) Secondary supporting fact",
+        "(C) Primary supporting fact",
+        "(D) Background assumption",
+        "(E) External distraction",
+        "(F) Irrelevant observation"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        2,
+        3,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          5
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "logits": [
+        1.3449668369009804,
+        0.27727569854088785,
+        2.1161874203266877,
+        1.2256169210822012,
+        0.8692602564264571,
+        1.7212528041353983
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0067",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 2 compatible reasons for: The hypothesis H is consistent (some options conflict).",
+      "candidates": [
+        "(A) Tertiary supporting fact",
+        "(B) Contradictory claim",
+        "(C) Derived intermediate step",
+        "(D) Primary supporting fact",
+        "(E) External distraction",
+        "(F) Background assumption",
+        "(G) Secondary supporting fact",
+        "(H) Conflicting alternative"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          5
+        ]
+      ],
+      "logits": [
+        1.8128798713395127,
+        0.4966070123074018,
+        0.0063557729450329,
+        0.09565524876622927,
+        0.8942368129564033,
+        0.12692702157853394,
+        1.127637853449095,
+        0.4187113844749595
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0068",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 3 intermediate steps required before concluding: Route A is optimal under current traffic.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Irrelevant observation",
+        "(C) Conflicting alternative",
+        "(D) Background assumption",
+        "(E) External distraction",
+        "(F) Secondary supporting fact",
+        "(G) Primary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        1,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          5
+        ],
+        [
+          0,
+          6
+        ]
+      ],
+      "logits": [
+        1.3440419458915553,
+        1.3633169388860111,
+        0.8290136479817798,
+        0.430032064122356,
+        0.1702855376141923,
+        1.616568021114423,
+        0.6042115217345285
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0069",
+      "task_type": "logical_deduction",
+      "text": "Choose 3 statements needed to conclude: The proof plan is valid.",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Irrelevant observation",
+        "(C) Auxiliary lemma",
+        "(D) Contradictory claim",
+        "(E) Conflicting alternative",
+        "(F) External distraction"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        2,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "logits": [
+        1.8105406566297364,
+        -0.17784241489922253,
+        1.8894881559900416,
+        1.3952779486672269,
+        0.7380721556346299,
+        1.5784016377644123
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0070",
+      "task_type": "reasoning_with_constraints",
+      "text": "Pick 2 steps for a valid plan toward: The causal chain holds without contradiction.",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Derived intermediate step",
+        "(C) External distraction",
+        "(D) Background assumption",
+        "(E) Conflicting alternative",
+        "(F) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          5
+        ]
+      ],
+      "logits": [
+        0.18947305480219773,
+        1.9021022628831994,
+        -0.04079240791195171,
+        0.5162586186178162,
+        1.5518710465931005,
+        1.196818007854899
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0071",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: No contradiction appears in the argument.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Tertiary supporting fact",
+        "(C) Secondary supporting fact",
+        "(D) Conflicting alternative",
+        "(E) Background assumption",
+        "(F) Irrelevant observation",
+        "(G) External distraction",
+        "(H) Derived intermediate step"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          3
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "logits": [
+        1.813742354604568,
+        0.7601125667210575,
+        -0.040533509816679414,
+        -0.7206702532834757,
+        0.7117416933305227,
+        0.9979119633902838,
+        2.230570895370719,
+        0.7177933054804411
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0072",
+      "task_type": "logical_deduction",
+      "text": "Choose 3 statements needed to conclude: All mammals are warm-blooded.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Auxiliary lemma",
+        "(C) Derived intermediate step",
+        "(D) Primary supporting fact",
+        "(E) Conflicting alternative",
+        "(F) Background assumption",
+        "(G) Tertiary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        2,
+        5,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          3
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "logits": [
+        0.25102703027381656,
+        0.8444266735006029,
+        0.8936466828177353,
+        0.8471875711911463,
+        1.10146494499409,
+        1.260589338795857,
+        1.4611625607210224
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0073",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 3 evidence items supporting If it rains, the ground is wet under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Tertiary supporting fact",
+        "(C) Secondary supporting fact",
+        "(D) Auxiliary lemma",
+        "(E) Derived intermediate step",
+        "(F) Primary supporting fact",
+        "(G) External distraction"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        1,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        1.8327469125348739,
+        1.0883439555466583,
+        -0.2738143515941892,
+        0.36870123699469326,
+        0.19611072686969022,
+        1.3894653904004985,
+        0.16228813687006677
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0074",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 3 intermediate steps required before concluding: A is greater than C.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Irrelevant observation",
+        "(C) Derived intermediate step",
+        "(D) Background assumption",
+        "(E) Auxiliary lemma",
+        "(F) Conflicting alternative",
+        "(G) Primary supporting fact",
+        "(H) External distraction"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        1,
+        2
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          6
+        ]
+      ],
+      "logits": [
+        1.246544096380281,
+        1.3270082311568545,
+        1.5438560498839073,
+        -0.14528437242395958,
+        0.0630068991116623,
+        0.6997737168710092,
+        0.5961652982381486,
+        0.41999355390836196
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0075",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: The hypothesis H is consistent.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Conflicting alternative",
+        "(C) External distraction",
+        "(D) Tertiary supporting fact",
+        "(E) Derived intermediate step",
+        "(F) Background assumption"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          5
+        ]
+      ],
+      "logits": [
+        0.05587555247811713,
+        1.1117120772139228,
+        0.8877326130773766,
+        0.6757566418278529,
+        1.3104647090157175,
+        -0.19034072570349353
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0076",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 2 compatible reasons for: Route A is optimal under current traffic (some options conflict).",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) External distraction",
+        "(C) Background assumption",
+        "(D) Secondary supporting fact",
+        "(E) Auxiliary lemma",
+        "(F) Tertiary supporting fact",
+        "(G) Conflicting alternative"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        0.12788933928891374,
+        2.003192565282038,
+        0.603771260624963,
+        -0.7044416143816216,
+        0.22770276426616384,
+        0.7219822228756269,
+        1.2293333140184535
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0077",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 3 reasoning hops that bridge the premises to: The proof plan is valid.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Derived intermediate step",
+        "(C) Conflicting alternative",
+        "(D) Auxiliary lemma",
+        "(E) Tertiary supporting fact",
+        "(F) Background assumption",
+        "(G) Primary supporting fact",
+        "(H) Irrelevant observation"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        1,
+        2,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          5
+        ]
+      ],
+      "logits": [
+        0.2611464316316185,
+        2.2015095667719886,
+        1.3040318292829838,
+        -0.03612104698064844,
+        0.31039749825637697,
+        1.2747761961858015,
+        0.6983117072383338,
+        0.1926365717345852
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0078",
+      "task_type": "logical_deduction",
+      "text": "Choose 2 statements needed to conclude: The causal chain holds.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Tertiary supporting fact",
+        "(C) Contradictory claim",
+        "(D) External distraction",
+        "(E) Conflicting alternative",
+        "(F) Primary supporting fact",
+        "(G) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        -0.16501055151788893,
+        0.9006627753408286,
+        0.10224333066420899,
+        1.6504207536931625,
+        1.2970242982151734,
+        1.3719299483622092,
+        -0.13677974749223465
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0079",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 2 compatible reasons for: No contradiction appears in the argument (some options conflict).",
+      "candidates": [
+        "(A) Conflicting alternative",
+        "(B) Irrelevant observation",
+        "(C) External distraction",
+        "(D) Contradictory claim",
+        "(E) Auxiliary lemma",
+        "(F) Secondary supporting fact",
+        "(G) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        5,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          5
+        ]
+      ],
+      "logits": [
+        0.19591478765693515,
+        -0.08661635756624876,
+        0.2520728962619644,
+        0.049775837526140065,
+        0.6140762722007812,
+        1.8268580641042305,
+        1.9327861603848258
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0080",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: All mammals are warm-blooded.",
+      "candidates": [
+        "(A) Derived intermediate step",
+        "(B) Background assumption",
+        "(C) External distraction",
+        "(D) Auxiliary lemma",
+        "(E) Tertiary supporting fact",
+        "(F) Primary supporting fact",
+        "(G) Conflicting alternative"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          2
+        ]
+      ],
+      "logits": [
+        -0.5858386123586042,
+        0.15926596543790947,
+        0.16875857936140498,
+        1.6091140714842476,
+        -0.09717476346989179,
+        0.4686114366351921,
+        1.3385762559482575
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0081",
+      "task_type": "logical_deduction",
+      "text": "Choose 2 statements needed to conclude: If it rains, the ground is wet.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Derived intermediate step",
+        "(C) External distraction",
+        "(D) Secondary supporting fact",
+        "(E) Primary supporting fact",
+        "(F) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "logits": [
+        -0.07285657262174777,
+        0.24494997198624094,
+        1.811874091451237,
+        0.06285839669641462,
+        0.3625343648739499,
+        1.8919239269400379
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0082",
+      "task_type": "reasoning_with_constraints",
+      "text": "Pick 2 steps for a valid plan toward: A is greater than C without contradiction.",
+      "candidates": [
+        "(A) Tertiary supporting fact",
+        "(B) Auxiliary lemma",
+        "(C) External distraction",
+        "(D) Primary supporting fact",
+        "(E) Conflicting alternative",
+        "(F) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          5
+        ]
+      ],
+      "logits": [
+        1.4160623214651369,
+        0.5675452989618364,
+        -0.22759809371153977,
+        0.12338945934416401,
+        0.9666831082573837,
+        1.832693802953378
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0083",
+      "task_type": "multi_step_reasoning",
+      "text": "Choose 2 sub-goals that together justify: The hypothesis H is consistent.",
+      "candidates": [
+        "(A) Tertiary supporting fact",
+        "(B) Contradictory claim",
+        "(C) Derived intermediate step",
+        "(D) Secondary supporting fact",
+        "(E) Primary supporting fact",
+        "(F) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          4
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "logits": [
+        0.6427886135171562,
+        -0.8438203288140659,
+        -0.06289407369251772,
+        -0.15083961790391873,
+        0.9440914110124976,
+        0.29647898040105186
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0084",
+      "task_type": "logical_deduction",
+      "text": "Select 2 premises that logically entail: Route A is optimal under current traffic.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Secondary supporting fact",
+        "(C) External distraction",
+        "(D) Conflicting alternative",
+        "(E) Contradictory claim",
+        "(F) Background assumption",
+        "(G) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          5
+        ]
+      ],
+      "logits": [
+        0.3379823314782761,
+        0.2995298965150191,
+        0.9741619230094916,
+        1.572493257004581,
+        -0.20598655426248558,
+        1.3936202139700538,
+        0.7665625524544717
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0085",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 3 evidence items supporting The proof plan is valid under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Conflicting alternative",
+        "(B) Contradictory claim",
+        "(C) Primary supporting fact",
+        "(D) Auxiliary lemma",
+        "(E) Secondary supporting fact",
+        "(F) External distraction",
+        "(G) Irrelevant observation"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        3,
+        5,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        -0.2824999305202513,
+        -0.5358519023240217,
+        0.3719902142674427,
+        1.0757844813068838,
+        -0.08479506567721717,
+        2.4880568451505054,
+        2.0429722133739574
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0086",
+      "task_type": "multi_step_reasoning",
+      "text": "Choose 2 sub-goals that together justify: The causal chain holds.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Secondary supporting fact",
+        "(C) External distraction",
+        "(D) Derived intermediate step",
+        "(E) Conflicting alternative",
+        "(F) Contradictory claim",
+        "(G) Irrelevant observation"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          5,
+          6
+        ],
+        [
+          0,
+          4
+        ]
+      ],
+      "logits": [
+        0.175771141936634,
+        0.8954505381130573,
+        -0.12531167940775284,
+        1.5832597428515693,
+        1.2173115124459657,
+        0.07500433487422252,
+        0.7213524780823382
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0087",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: No contradiction appears in the argument.",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Primary supporting fact",
+        "(C) Irrelevant observation",
+        "(D) External distraction",
+        "(E) Auxiliary lemma",
+        "(F) Conflicting alternative",
+        "(G) Contradictory claim"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          6
+        ],
+        [
+          1,
+          5
+        ]
+      ],
+      "logits": [
+        0.7319670408618542,
+        -0.08573770708934458,
+        1.209989647667277,
+        0.6144338802210423,
+        1.5094513611684484,
+        0.10471398329014875,
+        -0.04076820348912311
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0088",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 3 compatible reasons for: All mammals are warm-blooded (some options conflict).",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Background assumption",
+        "(C) Contradictory claim",
+        "(D) Derived intermediate step",
+        "(E) Secondary supporting fact",
+        "(F) Irrelevant observation",
+        "(G) Auxiliary lemma"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        1,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          4
+        ],
+        [
+          0,
+          6
+        ]
+      ],
+      "logits": [
+        1.5967843604015557,
+        1.8549700443683304,
+        -0.1706777710280212,
+        0.26067273079449993,
+        1.7378449471661956,
+        0.6356170637102285,
+        0.17019979231023066
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0089",
+      "task_type": "multi_step_reasoning",
+      "text": "Choose 2 sub-goals that together justify: If it rains, the ground is wet.",
+      "candidates": [
+        "(A) Secondary supporting fact",
+        "(B) Background assumption",
+        "(C) Derived intermediate step",
+        "(D) Irrelevant observation",
+        "(E) Tertiary supporting fact",
+        "(F) Auxiliary lemma",
+        "(G) Primary supporting fact",
+        "(H) Contradictory claim"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        0.7192910268793197,
+        1.9606969049510998,
+        -0.20686049693116515,
+        0.1387548284175305,
+        0.9524886557600819,
+        2.019883471260086,
+        0.3164786514079019,
+        0.34404995759518175
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0090",
+      "task_type": "logical_deduction",
+      "text": "Choose 3 statements needed to conclude: A is greater than C.",
+      "candidates": [
+        "(A) Derived intermediate step",
+        "(B) Tertiary supporting fact",
+        "(C) Conflicting alternative",
+        "(D) Irrelevant observation",
+        "(E) Primary supporting fact",
+        "(F) Auxiliary lemma",
+        "(G) Background assumption",
+        "(H) Contradictory claim"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        4,
+        6,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          4
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "logits": [
+        0.13889761835177855,
+        0.6534392022217157,
+        -0.1872649976543797,
+        0.2292665762680678,
+        1.6351213565252352,
+        0.044433919326868854,
+        1.9119815807950302,
+        0.924036322085126
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0091",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 3 evidence items supporting The hypothesis H is consistent under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Conflicting alternative",
+        "(B) Primary supporting fact",
+        "(C) Background assumption",
+        "(D) External distraction",
+        "(E) Derived intermediate step",
+        "(F) Auxiliary lemma",
+        "(G) Secondary supporting fact",
+        "(H) Tertiary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        2,
+        4,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          7
+        ]
+      ],
+      "logits": [
+        -0.20827442006336144,
+        0.549378427755619,
+        1.3762234299097005,
+        0.2706339164048375,
+        1.9012685402913587,
+        0.7661012813020303,
+        0.8673206683347637,
+        -0.017432572832676962
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0092",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 2 reasoning hops that bridge the premises to: Route A is optimal under current traffic.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Conflicting alternative",
+        "(C) Background assumption",
+        "(D) Derived intermediate step",
+        "(E) Secondary supporting fact",
+        "(F) Tertiary supporting fact",
+        "(G) Contradictory claim",
+        "(H) Irrelevant observation"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "logits": [
+        0.6847603387088619,
+        0.7799427637842169,
+        0.7083800117000814,
+        1.2329694293339482,
+        0.3225640175438803,
+        1.6580292481788903,
+        0.049462774995852825,
+        0.18988284465636554
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0093",
+      "task_type": "logical_deduction",
+      "text": "Select 2 premises that logically entail: The proof plan is valid.",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Secondary supporting fact",
+        "(C) Contradictory claim",
+        "(D) Tertiary supporting fact",
+        "(E) Conflicting alternative",
+        "(F) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          3
+        ]
+      ],
+      "logits": [
+        2.0335027780804795,
+        0.386840176489631,
+        0.02951683477850394,
+        -0.3169031380030805,
+        1.6331256182937186,
+        1.3578404564088493
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0094",
+      "task_type": "reasoning_with_constraints",
+      "text": "Pick 2 steps for a valid plan toward: The causal chain holds without contradiction.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Irrelevant observation",
+        "(C) Conflicting alternative",
+        "(D) Tertiary supporting fact",
+        "(E) Primary supporting fact",
+        "(F) External distraction",
+        "(G) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          6
+        ],
+        [
+          1,
+          4
+        ]
+      ],
+      "logits": [
+        1.4870607274788032,
+        -0.4393704791588365,
+        0.8874368527082388,
+        0.6867011688236939,
+        0.33538543713699653,
+        1.877136149402088,
+        -0.44690390980600236
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0095",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 3 reasoning hops that bridge the premises to: No contradiction appears in the argument.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) External distraction",
+        "(C) Background assumption",
+        "(D) Tertiary supporting fact",
+        "(E) Secondary supporting fact",
+        "(F) Primary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        2,
+        3,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          5
+        ]
+      ],
+      "logits": [
+        -0.02062204693400116,
+        0.3784058080205554,
+        1.5434899207361863,
+        1.337727198816474,
+        0.3164457972948483,
+        1.3513677845024943
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0096",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: All mammals are warm-blooded.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Tertiary supporting fact",
+        "(C) External distraction",
+        "(D) Irrelevant observation",
+        "(E) Derived intermediate step",
+        "(F) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          5
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        -0.3116247303436975,
+        0.3513590188004122,
+        0.8830847126234118,
+        1.1115472020857602,
+        -0.2771582689428207,
+        0.8083286498461842
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0097",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 2 compatible reasons for: If it rains, the ground is wet (some options conflict).",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) External distraction",
+        "(C) Contradictory claim",
+        "(D) Auxiliary lemma",
+        "(E) Conflicting alternative",
+        "(F) Derived intermediate step"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          3
+        ]
+      ],
+      "logits": [
+        1.2092565136372335,
+        0.10419504265793644,
+        -0.0029787829391255127,
+        -0.2833967904129351,
+        2.0418957876065784,
+        1.1668814834767742
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0098",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: A is greater than C.",
+      "candidates": [
+        "(A) Secondary supporting fact",
+        "(B) Derived intermediate step",
+        "(C) Auxiliary lemma",
+        "(D) Conflicting alternative",
+        "(E) Tertiary supporting fact",
+        "(F) Irrelevant observation"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          5
+        ]
+      ],
+      "logits": [
+        0.3322107926861427,
+        1.0036412299447899,
+        0.2319773866704683,
+        2.1275094806321073,
+        0.8749560979512246,
+        0.290290400164227
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0099",
+      "task_type": "logical_deduction",
+      "text": "Select 2 premises that logically entail: The hypothesis H is consistent.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Secondary supporting fact",
+        "(C) External distraction",
+        "(D) Background assumption",
+        "(E) Primary supporting fact",
+        "(F) Derived intermediate step",
+        "(G) Conflicting alternative",
+        "(H) Contradictory claim"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          6
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "logits": [
+        -0.34723170684655585,
+        0.8810446593563672,
+        1.3532652505689584,
+        0.2540048315977632,
+        -0.15264986765115243,
+        0.5742717467645573,
+        1.471975666617024,
+        0.43225449708334124
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0100",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting Route A is optimal under current traffic under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Tertiary supporting fact",
+        "(C) Primary supporting fact",
+        "(D) Conflicting alternative",
+        "(E) Contradictory claim",
+        "(F) External distraction",
+        "(G) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          6
+        ]
+      ],
+      "logits": [
+        1.8091380077788524,
+        -0.2103546626708045,
+        0.1363399527055152,
+        0.3724904148440326,
+        0.3282904164466116,
+        1.8561788627576714,
+        -0.32690217869994764
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0101",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 3 reasoning hops that bridge the premises to: The proof plan is valid.",
+      "candidates": [
+        "(A) Conflicting alternative",
+        "(B) Auxiliary lemma",
+        "(C) Contradictory claim",
+        "(D) Irrelevant observation",
+        "(E) Tertiary supporting fact",
+        "(F) Background assumption"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        1,
+        3,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          4
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "logits": [
+        -0.11057877253854642,
+        2.461510114166445,
+        0.10857225283644502,
+        1.6602629140607514,
+        -0.29973589712493154,
+        1.164442552445842
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0102",
+      "task_type": "logical_deduction",
+      "text": "Choose 2 statements needed to conclude: The causal chain holds.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Tertiary supporting fact",
+        "(C) Conflicting alternative",
+        "(D) External distraction",
+        "(E) Secondary supporting fact",
+        "(F) Derived intermediate step",
+        "(G) Irrelevant observation",
+        "(H) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          4
+        ],
+        [
+          1,
+          3
+        ]
+      ],
+      "logits": [
+        0.07629949080053175,
+        1.559274457172671,
+        0.3191279723441945,
+        0.9491868320226262,
+        0.5753953697020227,
+        0.9102611560072877,
+        1.3279322174316255,
+        0.3726232993595787
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0103",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting No contradiction appears in the argument under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Background assumption",
+        "(C) Tertiary supporting fact",
+        "(D) Irrelevant observation",
+        "(E) Secondary supporting fact",
+        "(F) Derived intermediate step"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          4
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "logits": [
+        -0.18386087974204507,
+        0.39166634134267336,
+        0.9225873065201846,
+        0.026113783329642593,
+        0.48497310861299614,
+        1.8397464699082748
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0104",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 3 intermediate steps required before concluding: All mammals are warm-blooded.",
+      "candidates": [
+        "(A) Tertiary supporting fact",
+        "(B) Primary supporting fact",
+        "(C) Secondary supporting fact",
+        "(D) Conflicting alternative",
+        "(E) Derived intermediate step",
+        "(F) Background assumption",
+        "(G) External distraction"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        1,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          3
+        ]
+      ],
+      "logits": [
+        1.341237949604701,
+        1.698053789590754,
+        -0.15071730734007643,
+        0.8358660611837688,
+        0.43045258223019434,
+        -0.1639242413449443,
+        -0.3602783831021601
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0105",
+      "task_type": "logical_deduction",
+      "text": "Select 2 premises that logically entail: If it rains, the ground is wet.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Conflicting alternative",
+        "(C) Tertiary supporting fact",
+        "(D) Secondary supporting fact",
+        "(E) Irrelevant observation",
+        "(F) Primary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          2
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "logits": [
+        -0.2747909582877672,
+        2.230953322037478,
+        0.4852834721793001,
+        -0.15459633166032247,
+        0.6327837348951991,
+        1.8517678403711018
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0106",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 3 compatible reasons for: A is greater than C (some options conflict).",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Background assumption",
+        "(C) Conflicting alternative",
+        "(D) Auxiliary lemma",
+        "(E) Tertiary supporting fact",
+        "(F) External distraction",
+        "(G) Primary supporting fact",
+        "(H) Secondary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        5,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          7
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "logits": [
+        1.921107068646065,
+        0.04052646959076023,
+        1.2130245421157333,
+        0.24056282398907441,
+        0.30868026604415716,
+        1.4965465726760463,
+        0.97797626121708,
+        -0.7548062452925143
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0107",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: The hypothesis H is consistent.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) External distraction",
+        "(C) Conflicting alternative",
+        "(D) Irrelevant observation",
+        "(E) Tertiary supporting fact",
+        "(F) Contradictory claim",
+        "(G) Derived intermediate step"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          5
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "logits": [
+        0.6413737089025842,
+        0.6034585414363186,
+        1.33996210160061,
+        0.6397789453624081,
+        0.09440118220648044,
+        -0.17630092182076781,
+        1.7522796827573277
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0108",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: Route A is optimal under current traffic.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Conflicting alternative",
+        "(C) Derived intermediate step",
+        "(D) Secondary supporting fact",
+        "(E) Auxiliary lemma",
+        "(F) Primary supporting fact",
+        "(G) Irrelevant observation"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          5
+        ]
+      ],
+      "logits": [
+        0.5728905895525851,
+        1.106263784348739,
+        1.3540874048139475,
+        0.5606259848212409,
+        1.0212476146695573,
+        -0.19000111694460975,
+        0.7136112278850557
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0109",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 3 evidence items supporting The proof plan is valid under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Background assumption",
+        "(C) Tertiary supporting fact",
+        "(D) Contradictory claim",
+        "(E) Secondary supporting fact",
+        "(F) Conflicting alternative",
+        "(G) External distraction",
+        "(H) Irrelevant observation"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        2,
+        3,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          4
+        ]
+      ],
+      "logits": [
+        -0.6387149646221537,
+        -0.0729037796566393,
+        1.2646806630063314,
+        2.070721825040892,
+        1.1369252904938392,
+        0.591750440623336,
+        0.2077286950864654,
+        0.19077813411460487
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0110",
+      "task_type": "multi_step_reasoning",
+      "text": "Choose 2 sub-goals that together justify: The causal chain holds.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Primary supporting fact",
+        "(C) Irrelevant observation",
+        "(D) External distraction",
+        "(E) Auxiliary lemma",
+        "(F) Derived intermediate step",
+        "(G) Conflicting alternative",
+        "(H) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          7
+        ],
+        [
+          5,
+          7
+        ]
+      ],
+      "logits": [
+        -0.06544354318789275,
+        1.6985549860864886,
+        -0.14717838010135773,
+        0.7511406252117857,
+        1.0796656355287078,
+        0.9567201768399116,
+        0.11969533817252247,
+        -0.7431190388498173
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0111",
+      "task_type": "logical_deduction",
+      "text": "Choose 2 statements needed to conclude: No contradiction appears in the argument.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Irrelevant observation",
+        "(C) Secondary supporting fact",
+        "(D) Conflicting alternative",
+        "(E) Derived intermediate step",
+        "(F) Background assumption",
+        "(G) Primary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          5
+        ]
+      ],
+      "logits": [
+        1.7660813921217349,
+        0.2710309223197919,
+        0.20936538565657015,
+        1.5199066730440347,
+        0.2138548456509917,
+        -0.38518686208230263,
+        0.46611529558519077
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0112",
+      "task_type": "reasoning_with_constraints",
+      "text": "Pick 2 steps for a valid plan toward: All mammals are warm-blooded without contradiction.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) External distraction",
+        "(C) Secondary supporting fact",
+        "(D) Contradictory claim",
+        "(E) Tertiary supporting fact",
+        "(F) Derived intermediate step"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          4
+        ]
+      ],
+      "logits": [
+        0.3706742466816571,
+        0.4942744776295722,
+        0.04381890513550463,
+        1.0963316552915932,
+        1.6201896013309358,
+        0.5740483637442972
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0113",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: If it rains, the ground is wet.",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Contradictory claim",
+        "(C) Secondary supporting fact",
+        "(D) Primary supporting fact",
+        "(E) Derived intermediate step",
+        "(F) External distraction",
+        "(G) Conflicting alternative",
+        "(H) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          7
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "logits": [
+        0.8004324753533616,
+        0.8189314565124957,
+        -0.16503563266395804,
+        0.5746764695435854,
+        0.8291553451695161,
+        -0.2361390961655534,
+        0.48985493273652286,
+        2.151766923446834
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0114",
+      "task_type": "logical_deduction",
+      "text": "Select 3 premises that logically entail: A is greater than C.",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Contradictory claim",
+        "(C) Tertiary supporting fact",
+        "(D) Conflicting alternative",
+        "(E) Secondary supporting fact",
+        "(F) Background assumption",
+        "(G) External distraction"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        2,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          5,
+          6
+        ]
+      ],
+      "logits": [
+        1.7856494867317767,
+        0.12833954884635246,
+        1.2913872122615926,
+        -0.4572205502601398,
+        1.6884652364323087,
+        0.02783275732250852,
+        0.37835399285378274
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0115",
+      "task_type": "reasoning_with_constraints",
+      "text": "Pick 2 steps for a valid plan toward: The hypothesis H is consistent without contradiction.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Tertiary supporting fact",
+        "(C) External distraction",
+        "(D) Irrelevant observation",
+        "(E) Background assumption",
+        "(F) Primary supporting fact",
+        "(G) Conflicting alternative",
+        "(H) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          4
+        ],
+        [
+          3,
+          7
+        ]
+      ],
+      "logits": [
+        1.323559584637565,
+        0.21570169209230278,
+        0.07078313233672696,
+        0.9442397399610725,
+        1.3620647028269175,
+        0.4476557190589726,
+        0.3106313248047387,
+        0.40634002331925934
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0116",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 2 reasoning hops that bridge the premises to: Route A is optimal under current traffic.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) External distraction",
+        "(C) Derived intermediate step",
+        "(D) Secondary supporting fact",
+        "(E) Tertiary supporting fact",
+        "(F) Conflicting alternative",
+        "(G) Auxiliary lemma",
+        "(H) Background assumption"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          7
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "logits": [
+        1.099628183903967,
+        1.9624044006589352,
+        -0.4980302159847728,
+        0.8909815590269725,
+        0.5919465249029412,
+        -0.8925346114095236,
+        0.5705680287919387,
+        0.30832110716447386
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0117",
+      "task_type": "logical_deduction",
+      "text": "Select 3 premises that logically entail: The proof plan is valid.",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Contradictory claim",
+        "(C) Secondary supporting fact",
+        "(D) External distraction",
+        "(E) Tertiary supporting fact",
+        "(F) Primary supporting fact",
+        "(G) Conflicting alternative"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        2,
+        5,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "logits": [
+        0.4165489414867843,
+        -0.3107331797793341,
+        1.4515441240786207,
+        0.6049258498815143,
+        0.6102992974009049,
+        1.7466144969717812,
+        1.2303943573281444
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0118",
+      "task_type": "reasoning_with_constraints",
+      "text": "Pick 3 steps for a valid plan toward: The causal chain holds without contradiction.",
+      "candidates": [
+        "(A) Secondary supporting fact",
+        "(B) Auxiliary lemma",
+        "(C) Irrelevant observation",
+        "(D) Background assumption",
+        "(E) Tertiary supporting fact",
+        "(F) Conflicting alternative",
+        "(G) Derived intermediate step"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        5,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          3
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "logits": [
+        1.462585733779018,
+        0.9082903192881263,
+        -0.20557234764244406,
+        0.5042211972946262,
+        0.20761998443383645,
+        0.6378211237234404,
+        1.9408873354242557
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0119",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: No contradiction appears in the argument.",
+      "candidates": [
+        "(A) Secondary supporting fact",
+        "(B) Irrelevant observation",
+        "(C) Contradictory claim",
+        "(D) Conflicting alternative",
+        "(E) Primary supporting fact",
+        "(F) Auxiliary lemma",
+        "(G) Derived intermediate step",
+        "(H) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          5,
+          6
+        ]
+      ],
+      "logits": [
+        1.41719626132323,
+        1.7513074871325525,
+        0.5646259873342356,
+        -0.032418317895863615,
+        -0.36985445996261374,
+        0.2092601870320761,
+        0.24145461099469998,
+        2.360453155322727
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0120",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: All mammals are warm-blooded.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Derived intermediate step",
+        "(C) Secondary supporting fact",
+        "(D) External distraction",
+        "(E) Primary supporting fact",
+        "(F) Contradictory claim",
+        "(G) Tertiary supporting fact",
+        "(H) Conflicting alternative"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          7
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "logits": [
+        0.2386235549153475,
+        0.25985645821482095,
+        0.0806014006267624,
+        1.453399365895637,
+        0.07616801540525014,
+        0.48776844512148665,
+        0.5369942019883428,
+        2.2476964243041535
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0121",
+      "task_type": "reasoning_with_constraints",
+      "text": "Pick 2 steps for a valid plan toward: If it rains, the ground is wet without contradiction.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Irrelevant observation",
+        "(C) Contradictory claim",
+        "(D) Derived intermediate step",
+        "(E) Tertiary supporting fact",
+        "(F) External distraction",
+        "(G) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        4,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          5,
+          6
+        ]
+      ],
+      "logits": [
+        0.3486996636184868,
+        0.43963178240834155,
+        0.2158249452282486,
+        1.0214906200610196,
+        1.4277605659269428,
+        2.66443704789483,
+        0.4361531324378177
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0122",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: A is greater than C.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Secondary supporting fact",
+        "(C) Irrelevant observation",
+        "(D) Conflicting alternative",
+        "(E) Contradictory claim",
+        "(F) Derived intermediate step"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        4,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          3
+        ]
+      ],
+      "logits": [
+        0.7899140502810043,
+        0.4872665764848564,
+        -0.4831487256130236,
+        0.3469666886144945,
+        1.6680190855948582,
+        1.5988873286684555
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0123",
+      "task_type": "logical_deduction",
+      "text": "Choose 2 statements needed to conclude: The hypothesis H is consistent.",
+      "candidates": [
+        "(A) Secondary supporting fact",
+        "(B) Irrelevant observation",
+        "(C) Contradictory claim",
+        "(D) Conflicting alternative",
+        "(E) Auxiliary lemma",
+        "(F) Background assumption",
+        "(G) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          5
+        ]
+      ],
+      "logits": [
+        1.369690606065351,
+        0.3277829850820691,
+        0.11429377412207473,
+        0.991745079151405,
+        1.732363286330812,
+        -0.1849287780808496,
+        -0.23694492011160773
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0124",
+      "task_type": "reasoning_with_constraints",
+      "text": "Pick 2 steps for a valid plan toward: Route A is optimal under current traffic without contradiction.",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Primary supporting fact",
+        "(C) Contradictory claim",
+        "(D) External distraction",
+        "(E) Background assumption",
+        "(F) Tertiary supporting fact",
+        "(G) Derived intermediate step"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "logits": [
+        0.4496825154000552,
+        0.8347439457016987,
+        1.7354972126385388,
+        0.5631645407678122,
+        0.4657971781017186,
+        1.776348317119961,
+        0.0024979409139484765
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0125",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 2 reasoning hops that bridge the premises to: The proof plan is valid.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Conflicting alternative",
+        "(C) Background assumption",
+        "(D) Irrelevant observation",
+        "(E) Auxiliary lemma",
+        "(F) Primary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "logits": [
+        1.8878404754498275,
+        0.6753387523874187,
+        0.8284238082596533,
+        0.6019114652709122,
+        1.0719711223796407,
+        0.5167843062240747
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0126",
+      "task_type": "logical_deduction",
+      "text": "Select 2 premises that logically entail: The causal chain holds.",
+      "candidates": [
+        "(A) Secondary supporting fact",
+        "(B) Derived intermediate step",
+        "(C) Irrelevant observation",
+        "(D) Background assumption",
+        "(E) Conflicting alternative",
+        "(F) Tertiary supporting fact",
+        "(G) Contradictory claim",
+        "(H) External distraction"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          4
+        ],
+        [
+          4,
+          7
+        ]
+      ],
+      "logits": [
+        0.5485057881944179,
+        1.7760692963489313,
+        0.005324538019335495,
+        0.1979478389118853,
+        0.9622623854495987,
+        0.9636209222228441,
+        0.2638788722270509,
+        1.3479752567056082
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0127",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting No contradiction appears in the argument under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) External distraction",
+        "(C) Background assumption",
+        "(D) Primary supporting fact",
+        "(E) Tertiary supporting fact",
+        "(F) Irrelevant observation",
+        "(G) Conflicting alternative"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        4,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          4
+        ]
+      ],
+      "logits": [
+        0.5911566511996993,
+        0.5758229972256539,
+        1.1186711408447796,
+        0.9072583726621362,
+        1.5509772275141565,
+        0.3286226425843064,
+        1.2768182371672654
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0128",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: All mammals are warm-blooded.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Auxiliary lemma",
+        "(C) Contradictory claim",
+        "(D) Primary supporting fact",
+        "(E) Secondary supporting fact",
+        "(F) Tertiary supporting fact",
+        "(G) Irrelevant observation",
+        "(H) Conflicting alternative"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          4
+        ]
+      ],
+      "logits": [
+        1.622314136893642,
+        1.4085749723513987,
+        -0.17648262946839002,
+        2.718981342166947,
+        1.0443944174385855,
+        0.8627397375559763,
+        0.7843279245367156,
+        0.591440210432312
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0129",
+      "task_type": "logical_deduction",
+      "text": "Select 3 premises that logically entail: If it rains, the ground is wet.",
+      "candidates": [
+        "(A) Derived intermediate step",
+        "(B) Background assumption",
+        "(C) Primary supporting fact",
+        "(D) Contradictory claim",
+        "(E) Auxiliary lemma",
+        "(F) Secondary supporting fact",
+        "(G) Tertiary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        1,
+        3,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          5
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "logits": [
+        0.27630169511511493,
+        1.5514212178963815,
+        0.38340606966461377,
+        1.7149776896270705,
+        0.5986352183920582,
+        0.5288295112567012,
+        1.540694977616112
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0130",
+      "task_type": "reasoning_with_constraints",
+      "text": "Pick 3 steps for a valid plan toward: A is greater than C without contradiction.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Conflicting alternative",
+        "(C) Background assumption",
+        "(D) Derived intermediate step",
+        "(E) Primary supporting fact",
+        "(F) Secondary supporting fact",
+        "(G) Tertiary supporting fact",
+        "(H) Irrelevant observation"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        1,
+        2,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          5
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "logits": [
+        0.09928589194426651,
+        1.7379398774768267,
+        2.1400315531917546,
+        -0.06468914451154997,
+        0.6189750326780639,
+        0.05716128002087523,
+        0.5635230935341884,
+        1.7269486557057487
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0131",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 3 intermediate steps required before concluding: The hypothesis H is consistent.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Secondary supporting fact",
+        "(C) External distraction",
+        "(D) Conflicting alternative",
+        "(E) Tertiary supporting fact",
+        "(F) Auxiliary lemma"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        1,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          5
+        ]
+      ],
+      "logits": [
+        1.8586914021924308,
+        1.42916420002966,
+        0.24140709635894797,
+        -0.5625961085685842,
+        0.99815603035455,
+        0.44105629028172244
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0132",
+      "task_type": "logical_deduction",
+      "text": "Choose 2 statements needed to conclude: Route A is optimal under current traffic.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Conflicting alternative",
+        "(C) External distraction",
+        "(D) Contradictory claim",
+        "(E) Derived intermediate step",
+        "(F) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          3
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "logits": [
+        0.21371104585448142,
+        1.0366833108343345,
+        1.0857979456679712,
+        0.3453969242367948,
+        0.8421077988953367,
+        0.3111123659487059
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0133",
+      "task_type": "reasoning_with_constraints",
+      "text": "Pick 2 steps for a valid plan toward: The proof plan is valid without contradiction.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Irrelevant observation",
+        "(C) Background assumption",
+        "(D) Derived intermediate step",
+        "(E) Secondary supporting fact",
+        "(F) Conflicting alternative",
+        "(G) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          5
+        ]
+      ],
+      "logits": [
+        0.29465083292342253,
+        0.16003028108422868,
+        2.196805951155598,
+        1.2459846590816048,
+        1.3986588719358704,
+        0.3869504289363899,
+        0.08828361905674559
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0134",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 3 intermediate steps required before concluding: The causal chain holds.",
+      "candidates": [
+        "(A) Conflicting alternative",
+        "(B) Irrelevant observation",
+        "(C) Auxiliary lemma",
+        "(D) External distraction",
+        "(E) Secondary supporting fact",
+        "(F) Contradictory claim",
+        "(G) Tertiary supporting fact",
+        "(H) Derived intermediate step"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        5,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          5
+        ]
+      ],
+      "logits": [
+        1.4117196040829125,
+        0.2650343034444533,
+        0.4557164252534255,
+        1.2857648945107472,
+        0.30936771639557237,
+        0.42576372320214073,
+        0.1319607585259563,
+        1.568832199453702
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0135",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: No contradiction appears in the argument.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Conflicting alternative",
+        "(C) Tertiary supporting fact",
+        "(D) Secondary supporting fact",
+        "(E) Irrelevant observation",
+        "(F) Auxiliary lemma",
+        "(G) Primary supporting fact",
+        "(H) Derived intermediate step"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          5
+        ],
+        [
+          6,
+          7
+        ]
+      ],
+      "logits": [
+        1.0096176609507177,
+        1.550889688556691,
+        0.05760459245018973,
+        -0.0415537975027387,
+        1.0675461114477773,
+        0.4213600309330421,
+        0.5928261403859354,
+        2.05519889591616
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0136",
+      "task_type": "reasoning_with_constraints",
+      "text": "Pick 3 steps for a valid plan toward: All mammals are warm-blooded without contradiction.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Secondary supporting fact",
+        "(C) Contradictory claim",
+        "(D) Derived intermediate step",
+        "(E) Irrelevant observation",
+        "(F) External distraction"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        1,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          5
+        ]
+      ],
+      "logits": [
+        1.4780563909284572,
+        1.2426943945512783,
+        0.10293383752375697,
+        1.360173386280798,
+        0.9160383988841803,
+        0.36808705413063353
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0137",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 2 reasoning hops that bridge the premises to: If it rains, the ground is wet.",
+      "candidates": [
+        "(A) Secondary supporting fact",
+        "(B) Conflicting alternative",
+        "(C) Auxiliary lemma",
+        "(D) External distraction",
+        "(E) Contradictory claim",
+        "(F) Derived intermediate step",
+        "(G) Irrelevant observation",
+        "(H) Primary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        5,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          5
+        ]
+      ],
+      "logits": [
+        0.8813321647871664,
+        0.6258961452222149,
+        0.3793353010253264,
+        0.7176655473118121,
+        -0.2699343045147629,
+        2.0875823582374826,
+        1.1133584765656828,
+        0.7922817969674838
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0138",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: A is greater than C.",
+      "candidates": [
+        "(A) Secondary supporting fact",
+        "(B) Primary supporting fact",
+        "(C) Contradictory claim",
+        "(D) Derived intermediate step",
+        "(E) External distraction",
+        "(F) Background assumption",
+        "(G) Irrelevant observation"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          5
+        ]
+      ],
+      "logits": [
+        2.0957184583342086,
+        0.25900613392857497,
+        -0.2763942688101285,
+        0.4927929306585167,
+        0.3874347690468561,
+        -0.16940563498251363,
+        1.8156663924493492
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0139",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 2 compatible reasons for: The hypothesis H is consistent (some options conflict).",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Primary supporting fact",
+        "(C) Background assumption",
+        "(D) Irrelevant observation",
+        "(E) Contradictory claim",
+        "(F) Conflicting alternative"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        2
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          5
+        ]
+      ],
+      "logits": [
+        1.0425085077145286,
+        0.07033698583717996,
+        1.2956839529722928,
+        -0.442642608915313,
+        0.2100159670806197,
+        0.5402786263801169
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0140",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 3 intermediate steps required before concluding: Route A is optimal under current traffic.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Derived intermediate step",
+        "(C) Irrelevant observation",
+        "(D) External distraction",
+        "(E) Secondary supporting fact",
+        "(F) Contradictory claim"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        1,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          4
+        ],
+        [
+          1,
+          3
+        ]
+      ],
+      "logits": [
+        1.3045625013851812,
+        1.9674419264077896,
+        0.6844225061019181,
+        0.8930870751138996,
+        1.4755013370616121,
+        0.4239901449791569
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0141",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: The proof plan is valid.",
+      "candidates": [
+        "(A) Derived intermediate step",
+        "(B) Tertiary supporting fact",
+        "(C) Auxiliary lemma",
+        "(D) External distraction",
+        "(E) Background assumption",
+        "(F) Primary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          4
+        ]
+      ],
+      "logits": [
+        0.47030943693732247,
+        1.8755484683466486,
+        1.0019341096606054,
+        1.1573900025304575,
+        0.24404541019311565,
+        1.0147081495281145
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0142",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 3 evidence items supporting The causal chain holds under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Derived intermediate step",
+        "(C) Tertiary supporting fact",
+        "(D) Conflicting alternative",
+        "(E) Background assumption",
+        "(F) Secondary supporting fact",
+        "(G) Primary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        2,
+        3,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          5
+        ],
+        [
+          1,
+          5
+        ]
+      ],
+      "logits": [
+        -0.10465822631450072,
+        0.7493430185408358,
+        1.6862405407754417,
+        1.1560484841006042,
+        1.7164701243066829,
+        1.0688742416044783,
+        0.47720665169815174
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0143",
+      "task_type": "multi_step_reasoning",
+      "text": "Choose 3 sub-goals that together justify: No contradiction appears in the argument.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Derived intermediate step",
+        "(C) Auxiliary lemma",
+        "(D) Irrelevant observation",
+        "(E) Contradictory claim",
+        "(F) Tertiary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        1,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          5
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "logits": [
+        2.250923379139323,
+        1.6562746894203104,
+        0.9468702067606807,
+        0.24160192514971432,
+        1.0802256633320513,
+        0.6899544940638123
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0144",
+      "task_type": "logical_deduction",
+      "text": "Pick 3 facts supporting the conclusion: All mammals are warm-blooded.",
+      "candidates": [
+        "(A) Derived intermediate step",
+        "(B) Primary supporting fact",
+        "(C) Contradictory claim",
+        "(D) Secondary supporting fact",
+        "(E) Irrelevant observation",
+        "(F) Background assumption",
+        "(G) External distraction",
+        "(H) Tertiary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        5,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        1.1533639014163506,
+        0.41566331910055554,
+        0.6278067850288843,
+        0.38839412878988144,
+        1.0475982623146458,
+        0.8971803794447657,
+        1.3953081170325365,
+        0.6918570437640642
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0145",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 2 compatible reasons for: If it rains, the ground is wet (some options conflict).",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Conflicting alternative",
+        "(C) Contradictory claim",
+        "(D) Background assumption",
+        "(E) Derived intermediate step",
+        "(F) Auxiliary lemma",
+        "(G) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          6
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        0.6696568832511208,
+        1.4656378853100018,
+        1.3261782358490015,
+        1.433253508223861,
+        -0.08192203800832323,
+        0.5622501991562335,
+        0.5895214792464974
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0146",
+      "task_type": "multi_step_reasoning",
+      "text": "Choose 2 sub-goals that together justify: A is greater than C.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Irrelevant observation",
+        "(C) Conflicting alternative",
+        "(D) Tertiary supporting fact",
+        "(E) Background assumption",
+        "(F) Secondary supporting fact",
+        "(G) Contradictory claim",
+        "(H) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          3
+        ],
+        [
+          2,
+          6
+        ]
+      ],
+      "logits": [
+        0.7555298608817413,
+        -0.34485331957335713,
+        1.6777259562432296,
+        0.6756768878936292,
+        2.191601795731481,
+        0.4957709027119748,
+        0.1655121371072082,
+        0.225596748208986
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0147",
+      "task_type": "logical_deduction",
+      "text": "Choose 2 statements needed to conclude: The hypothesis H is consistent.",
+      "candidates": [
+        "(A) Derived intermediate step",
+        "(B) Contradictory claim",
+        "(C) External distraction",
+        "(D) Irrelevant observation",
+        "(E) Background assumption",
+        "(F) Auxiliary lemma",
+        "(G) Tertiary supporting fact",
+        "(H) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          6
+        ]
+      ],
+      "logits": [
+        0.2772260628575198,
+        1.3467575042275435,
+        0.5187573242412056,
+        0.0646447368940666,
+        0.3002979862209447,
+        1.5277324027891914,
+        0.04744906742318039,
+        -0.010325513935258657
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0148",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 3 compatible reasons for: Route A is optimal under current traffic (some options conflict).",
+      "candidates": [
+        "(A) Derived intermediate step",
+        "(B) Contradictory claim",
+        "(C) Secondary supporting fact",
+        "(D) Background assumption",
+        "(E) Tertiary supporting fact",
+        "(F) Conflicting alternative"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        2,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          5
+        ]
+      ],
+      "logits": [
+        1.091106357200295,
+        0.5206427198840351,
+        0.9809581887380732,
+        0.14623795245244192,
+        -0.17299785659931294,
+        1.4758464485911738
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0149",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 3 reasoning hops that bridge the premises to: The proof plan is valid.",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Derived intermediate step",
+        "(C) Tertiary supporting fact",
+        "(D) Primary supporting fact",
+        "(E) Conflicting alternative",
+        "(F) Irrelevant observation",
+        "(G) Contradictory claim"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        1,
+        2,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          1
+        ]
+      ],
+      "logits": [
+        0.9922892990438457,
+        1.4145646904303861,
+        2.0394662511102664,
+        0.3569148650291859,
+        2.1953769521800446,
+        -0.24299479528349865,
+        0.1704885042663298
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0150",
+      "task_type": "logical_deduction",
+      "text": "Choose 2 statements needed to conclude: The causal chain holds.",
+      "candidates": [
+        "(A) Conflicting alternative",
+        "(B) Contradictory claim",
+        "(C) Background assumption",
+        "(D) External distraction",
+        "(E) Derived intermediate step",
+        "(F) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "logits": [
+        1.3107155492536826,
+        0.6115555699367906,
+        0.6351284279033206,
+        1.3635407158197301,
+        0.785969759933873,
+        0.5747967735459797
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0151",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 2 compatible reasons for: No contradiction appears in the argument (some options conflict).",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Irrelevant observation",
+        "(C) Primary supporting fact",
+        "(D) Derived intermediate step",
+        "(E) Background assumption",
+        "(F) Tertiary supporting fact",
+        "(G) External distraction",
+        "(H) Conflicting alternative"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          6
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "logits": [
+        0.012991448964555424,
+        1.320944733876813,
+        0.4449664483109136,
+        1.4237328054931313,
+        0.19961292830637098,
+        1.132456709893674,
+        0.5912179480834215,
+        1.1778270023331308
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0152",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 3 reasoning hops that bridge the premises to: All mammals are warm-blooded.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Tertiary supporting fact",
+        "(C) Conflicting alternative",
+        "(D) Derived intermediate step",
+        "(E) Contradictory claim",
+        "(F) Background assumption",
+        "(G) Primary supporting fact",
+        "(H) Irrelevant observation"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        4,
+        6,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "logits": [
+        -0.22764640041915166,
+        0.8737349096416165,
+        0.3393051804166923,
+        0.4787062869808607,
+        1.8519641545291194,
+        0.5033389373132502,
+        1.2674977306740283,
+        1.6034813793574676
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0153",
+      "task_type": "logical_deduction",
+      "text": "Select 2 premises that logically entail: If it rains, the ground is wet.",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Tertiary supporting fact",
+        "(C) Auxiliary lemma",
+        "(D) Primary supporting fact",
+        "(E) Conflicting alternative",
+        "(F) Irrelevant observation",
+        "(G) Derived intermediate step"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        4,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          3
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "logits": [
+        0.8847095686675227,
+        0.9408173761449459,
+        0.6252056890077399,
+        0.09990554717123495,
+        2.14612658550217,
+        0.29054173150921137,
+        1.4805222299521732
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0154",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting A is greater than C under mutual-exclusion rules.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Auxiliary lemma",
+        "(C) Irrelevant observation",
+        "(D) Contradictory claim",
+        "(E) Background assumption",
+        "(F) Conflicting alternative",
+        "(G) Secondary supporting fact",
+        "(H) Primary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          4
+        ]
+      ],
+      "logits": [
+        0.5159203955582473,
+        0.9827682568628363,
+        0.6018325727197401,
+        1.3646207775082606,
+        -0.2163013726410981,
+        0.32015932894704846,
+        0.7425722441354418,
+        0.6008201429348423
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0155",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 3 intermediate steps required before concluding: The hypothesis H is consistent.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Background assumption",
+        "(C) Conflicting alternative",
+        "(D) Secondary supporting fact",
+        "(E) Tertiary supporting fact",
+        "(F) Contradictory claim",
+        "(G) Auxiliary lemma",
+        "(H) Primary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        3,
+        4,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          3
+        ]
+      ],
+      "logits": [
+        0.6797374931929361,
+        0.45293254076466044,
+        0.6209703180584142,
+        0.7733581412759905,
+        1.698561884719549,
+        0.14968744844796655,
+        -0.5075773273698342,
+        2.0850326714221192
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0156",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: Route A is optimal under current traffic.",
+      "candidates": [
+        "(A) Tertiary supporting fact",
+        "(B) Auxiliary lemma",
+        "(C) Contradictory claim",
+        "(D) Irrelevant observation",
+        "(E) Derived intermediate step",
+        "(F) Conflicting alternative"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          2
+        ]
+      ],
+      "logits": [
+        0.12339849655903215,
+        0.46097954826222143,
+        1.6543605280379527,
+        -0.2687022551820068,
+        0.31994086177148107,
+        1.4991292385803037
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0157",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting The proof plan is valid under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Irrelevant observation",
+        "(C) Derived intermediate step",
+        "(D) Auxiliary lemma",
+        "(E) Conflicting alternative",
+        "(F) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        2
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        2.1711057914628493,
+        0.3049589721742906,
+        0.8170358401724744,
+        0.03347408256757399,
+        0.5176064022382201,
+        0.5128209494501077
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0158",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: The causal chain holds.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Background assumption",
+        "(C) Tertiary supporting fact",
+        "(D) Derived intermediate step",
+        "(E) Primary supporting fact",
+        "(F) Irrelevant observation",
+        "(G) Contradictory claim",
+        "(H) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          6
+        ],
+        [
+          2,
+          7
+        ]
+      ],
+      "logits": [
+        0.659209430195214,
+        0.17416968481536682,
+        1.4833463820555426,
+        1.4844169522040527,
+        0.39533154823337696,
+        0.27209621463205724,
+        -0.05673223397814,
+        -0.44182685248911896
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0159",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: No contradiction appears in the argument.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Irrelevant observation",
+        "(C) Auxiliary lemma",
+        "(D) External distraction",
+        "(E) Primary supporting fact",
+        "(F) Tertiary supporting fact",
+        "(G) Conflicting alternative"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          2
+        ]
+      ],
+      "logits": [
+        0.9484709162662077,
+        -0.09700137916181771,
+        -0.07957983248593692,
+        1.6206786569465712,
+        0.6448708792424791,
+        2.102306043343747,
+        0.11142890067185149
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0160",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting All mammals are warm-blooded under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Tertiary supporting fact",
+        "(C) Conflicting alternative",
+        "(D) Auxiliary lemma",
+        "(E) Background assumption",
+        "(F) Derived intermediate step",
+        "(G) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          5
+        ]
+      ],
+      "logits": [
+        2.107438023835359,
+        0.3202959042415139,
+        0.015540379824105277,
+        1.1043880810958355,
+        -0.03754084708850325,
+        1.3394506592840112,
+        0.3178569313001642
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0161",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 2 reasoning hops that bridge the premises to: If it rains, the ground is wet.",
+      "candidates": [
+        "(A) Tertiary supporting fact",
+        "(B) Derived intermediate step",
+        "(C) Primary supporting fact",
+        "(D) Irrelevant observation",
+        "(E) Contradictory claim",
+        "(F) Secondary supporting fact",
+        "(G) External distraction"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          4
+        ],
+        [
+          0,
+          6
+        ]
+      ],
+      "logits": [
+        0.1363476312930645,
+        1.451246867069186,
+        0.5414555863068311,
+        0.858994236214526,
+        -0.061808172871338496,
+        1.2083203853361748,
+        1.6830011806720946
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0162",
+      "task_type": "logical_deduction",
+      "text": "Choose 2 statements needed to conclude: A is greater than C.",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Secondary supporting fact",
+        "(C) Derived intermediate step",
+        "(D) Contradictory claim",
+        "(E) Conflicting alternative",
+        "(F) Auxiliary lemma",
+        "(G) Tertiary supporting fact",
+        "(H) Irrelevant observation"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        4,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          7
+        ]
+      ],
+      "logits": [
+        1.047109434984287,
+        0.31755693320788286,
+        0.7918252993346804,
+        0.8101287942313481,
+        1.9025824061592251,
+        0.19623059698985912,
+        0.10652015302719153,
+        1.5775999479701306
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0163",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 2 compatible reasons for: The hypothesis H is consistent (some options conflict).",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Secondary supporting fact",
+        "(C) Primary supporting fact",
+        "(D) Auxiliary lemma",
+        "(E) Tertiary supporting fact",
+        "(F) External distraction",
+        "(G) Irrelevant observation"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "logits": [
+        0.149997180414899,
+        0.9149561179133732,
+        2.0713867723767936,
+        0.23599544082066615,
+        0.4024610886627894,
+        1.9040795616649042,
+        0.6721035285389743
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0164",
+      "task_type": "multi_step_reasoning",
+      "text": "Choose 2 sub-goals that together justify: Route A is optimal under current traffic.",
+      "candidates": [
+        "(A) Derived intermediate step",
+        "(B) Tertiary supporting fact",
+        "(C) Conflicting alternative",
+        "(D) Secondary supporting fact",
+        "(E) External distraction",
+        "(F) Background assumption"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          4
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "logits": [
+        0.2846197568452419,
+        0.5433266764039189,
+        2.079004091164397,
+        0.17439700216725096,
+        1.7600624633186404,
+        -0.16194060094434867
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0165",
+      "task_type": "logical_deduction",
+      "text": "Choose 2 statements needed to conclude: The proof plan is valid.",
+      "candidates": [
+        "(A) Derived intermediate step",
+        "(B) Contradictory claim",
+        "(C) Secondary supporting fact",
+        "(D) Auxiliary lemma",
+        "(E) Primary supporting fact",
+        "(F) External distraction"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          5
+        ]
+      ],
+      "logits": [
+        0.2134881953303904,
+        -0.4443844948825725,
+        0.030332975276535203,
+        0.9547599759614337,
+        0.905682163111609,
+        0.9831296156500055
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0166",
+      "task_type": "reasoning_with_constraints",
+      "text": "Pick 2 steps for a valid plan toward: The causal chain holds without contradiction.",
+      "candidates": [
+        "(A) Secondary supporting fact",
+        "(B) Contradictory claim",
+        "(C) Tertiary supporting fact",
+        "(D) Background assumption",
+        "(E) External distraction",
+        "(F) Irrelevant observation",
+        "(G) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          6
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "logits": [
+        1.8467831141200723,
+        -0.42391360287022395,
+        -0.023961663399690136,
+        0.7045934096469755,
+        0.42057843899521175,
+        1.1384759521345695,
+        0.3868936024843548
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0167",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 2 reasoning hops that bridge the premises to: No contradiction appears in the argument.",
+      "candidates": [
+        "(A) Conflicting alternative",
+        "(B) Derived intermediate step",
+        "(C) Irrelevant observation",
+        "(D) Background assumption",
+        "(E) Contradictory claim",
+        "(F) Tertiary supporting fact",
+        "(G) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          5
+        ]
+      ],
+      "logits": [
+        0.1710462220928724,
+        0.24928781328823668,
+        -0.39471539002937583,
+        1.5898906260323318,
+        0.2335759389875294,
+        0.005037666147400199,
+        1.1864966899343317
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0168",
+      "task_type": "logical_deduction",
+      "text": "Select 2 premises that logically entail: All mammals are warm-blooded.",
+      "candidates": [
+        "(A) Conflicting alternative",
+        "(B) Derived intermediate step",
+        "(C) Irrelevant observation",
+        "(D) Tertiary supporting fact",
+        "(E) External distraction",
+        "(F) Primary supporting fact",
+        "(G) Contradictory claim",
+        "(H) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          6
+        ],
+        [
+          3,
+          7
+        ]
+      ],
+      "logits": [
+        -0.07673729507542865,
+        0.18378051169375084,
+        0.32330612395884417,
+        1.802319039459132,
+        1.7303675347270624,
+        0.7386829955835611,
+        0.0964560556129844,
+        0.7135570947481018
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0169",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting If it rains, the ground is wet under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Primary supporting fact",
+        "(C) Derived intermediate step",
+        "(D) Auxiliary lemma",
+        "(E) Conflicting alternative",
+        "(F) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          4
+        ]
+      ],
+      "logits": [
+        0.28955937733777953,
+        1.7059797320069028,
+        -0.3710586908383945,
+        0.17270366562393785,
+        0.895299260295042,
+        1.0116177941742666
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0170",
+      "task_type": "multi_step_reasoning",
+      "text": "Choose 2 sub-goals that together justify: A is greater than C.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Background assumption",
+        "(C) External distraction",
+        "(D) Tertiary supporting fact",
+        "(E) Primary supporting fact",
+        "(F) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        -0.08383554618359143,
+        1.0312990042165526,
+        0.5860348027703728,
+        1.444238575783627,
+        0.43773000540655843,
+        0.35381844545026614
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0171",
+      "task_type": "logical_deduction",
+      "text": "Choose 2 statements needed to conclude: The hypothesis H is consistent.",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Contradictory claim",
+        "(C) Irrelevant observation",
+        "(D) Conflicting alternative",
+        "(E) Primary supporting fact",
+        "(F) Derived intermediate step",
+        "(G) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          4
+        ]
+      ],
+      "logits": [
+        0.8017470277067579,
+        0.9576383772169162,
+        0.04083695981130454,
+        0.23379753157730865,
+        0.07498412776959874,
+        0.18236438822756573,
+        1.5897114080861074
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0172",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting Route A is optimal under current traffic under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Auxiliary lemma",
+        "(C) Derived intermediate step",
+        "(D) Tertiary supporting fact",
+        "(E) Primary supporting fact",
+        "(F) Contradictory claim"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        2.4850696186211807,
+        0.8752590871130475,
+        0.3776393534347822,
+        0.04007482483702625,
+        -0.17541345979181458,
+        1.6168912626099703
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0173",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: The proof plan is valid.",
+      "candidates": [
+        "(A) Tertiary supporting fact",
+        "(B) Conflicting alternative",
+        "(C) Auxiliary lemma",
+        "(D) Secondary supporting fact",
+        "(E) Background assumption",
+        "(F) Primary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          3
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "logits": [
+        0.4389685575144979,
+        1.8703821482690675,
+        0.5786915154179243,
+        0.12572385483768142,
+        1.187215868474405,
+        -0.1714156318612935
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0174",
+      "task_type": "logical_deduction",
+      "text": "Select 2 premises that logically entail: The causal chain holds.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Irrelevant observation",
+        "(C) Primary supporting fact",
+        "(D) Contradictory claim",
+        "(E) Auxiliary lemma",
+        "(F) Secondary supporting fact",
+        "(G) Background assumption"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          5
+        ]
+      ],
+      "logits": [
+        1.8224404384435569,
+        0.829846456284839,
+        0.6477484375696367,
+        0.7735016037432528,
+        0.3106383383640914,
+        -0.10354581062342327,
+        1.8966775531509983
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0175",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting No contradiction appears in the argument under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Auxiliary lemma",
+        "(C) Irrelevant observation",
+        "(D) External distraction",
+        "(E) Conflicting alternative",
+        "(F) Background assumption"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        2
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          5
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "logits": [
+        1.090418342061655,
+        0.5447585088488807,
+        0.8569463280418741,
+        0.7439595186927996,
+        1.222803705521388,
+        0.1302093650947123
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0176",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 2 reasoning hops that bridge the premises to: All mammals are warm-blooded.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) External distraction",
+        "(C) Tertiary supporting fact",
+        "(D) Secondary supporting fact",
+        "(E) Derived intermediate step",
+        "(F) Conflicting alternative",
+        "(G) Primary supporting fact",
+        "(H) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          5
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "logits": [
+        0.6792936204813207,
+        0.32734154901291374,
+        0.6888445212593088,
+        1.2259347279983135,
+        0.269914928632197,
+        0.1873250475067208,
+        1.8945978928029605,
+        -0.471718308208999
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0177",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: If it rains, the ground is wet.",
+      "candidates": [
+        "(A) Derived intermediate step",
+        "(B) Contradictory claim",
+        "(C) Irrelevant observation",
+        "(D) Primary supporting fact",
+        "(E) Conflicting alternative",
+        "(F) Secondary supporting fact",
+        "(G) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          4
+        ]
+      ],
+      "logits": [
+        -0.43542401961116123,
+        -0.11931810021990534,
+        1.635932082665801,
+        1.6245403794014335,
+        0.25116763778160517,
+        0.28563714377950944,
+        1.0808540862903264
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0178",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 3 compatible reasons for: A is greater than C (some options conflict).",
+      "candidates": [
+        "(A) Tertiary supporting fact",
+        "(B) Irrelevant observation",
+        "(C) Auxiliary lemma",
+        "(D) External distraction",
+        "(E) Conflicting alternative",
+        "(F) Secondary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        2,
+        3,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          2
+        ]
+      ],
+      "logits": [
+        0.21357194437675886,
+        -0.04886119587641401,
+        1.959307655947795,
+        1.8361168978079832,
+        2.5255146803294175,
+        0.48797483655058405
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0179",
+      "task_type": "multi_step_reasoning",
+      "text": "Pick 3 reasoning hops that bridge the premises to: The hypothesis H is consistent.",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Irrelevant observation",
+        "(C) Derived intermediate step",
+        "(D) Conflicting alternative",
+        "(E) Contradictory claim",
+        "(F) Primary supporting fact",
+        "(G) External distraction",
+        "(H) Tertiary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        1,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          6
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "logits": [
+        2.165149774789339,
+        1.2278074688521874,
+        -0.2502427579243294,
+        1.1098693651038887,
+        0.614381412502913,
+        0.5140913264283298,
+        0.25907156564327527,
+        0.9799279707273145
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0180",
+      "task_type": "logical_deduction",
+      "text": "Pick 2 facts supporting the conclusion: Route A is optimal under current traffic.",
+      "candidates": [
+        "(A) External distraction",
+        "(B) Primary supporting fact",
+        "(C) Auxiliary lemma",
+        "(D) Conflicting alternative",
+        "(E) Derived intermediate step",
+        "(F) Secondary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        1.7383604089227696,
+        0.8386164881536304,
+        1.0250121222228898,
+        -0.48381484953929516,
+        0.25450641596165535,
+        1.4749063496229136
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0181",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 2 compatible reasons for: The proof plan is valid (some options conflict).",
+      "candidates": [
+        "(A) Derived intermediate step",
+        "(B) Tertiary supporting fact",
+        "(C) Conflicting alternative",
+        "(D) Secondary supporting fact",
+        "(E) Primary supporting fact",
+        "(F) Contradictory claim",
+        "(G) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          5
+        ],
+        [
+          0,
+          5
+        ]
+      ],
+      "logits": [
+        0.01518098850300284,
+        0.31652590921908846,
+        1.2749609481258426,
+        -0.15625632935248068,
+        0.31364923017087465,
+        0.3598769078781414,
+        1.387716803036833
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0182",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 3 intermediate steps required before concluding: The causal chain holds.",
+      "candidates": [
+        "(A) Secondary supporting fact",
+        "(B) Tertiary supporting fact",
+        "(C) Background assumption",
+        "(D) Auxiliary lemma",
+        "(E) External distraction",
+        "(F) Contradictory claim",
+        "(G) Primary supporting fact",
+        "(H) Conflicting alternative"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        3,
+        5,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        0.6337713849688603,
+        0.5525257722593351,
+        0.3232416754632361,
+        0.7554067496511188,
+        0.8173570441297164,
+        1.3300396810038204,
+        1.641295284274687,
+        0.23924800569018695
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0183",
+      "task_type": "logical_deduction",
+      "text": "Choose 3 statements needed to conclude: No contradiction appears in the argument.",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Background assumption",
+        "(C) Derived intermediate step",
+        "(D) Secondary supporting fact",
+        "(E) Conflicting alternative",
+        "(F) Contradictory claim"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        1,
+        3,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          5
+        ],
+        [
+          1,
+          4
+        ]
+      ],
+      "logits": [
+        1.1760319408507756,
+        1.0870905507700395,
+        -0.5606635727093996,
+        0.8705096177546641,
+        0.6204874921997189,
+        1.5294973736292679
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0184",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting All mammals are warm-blooded under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Tertiary supporting fact",
+        "(B) Secondary supporting fact",
+        "(C) Contradictory claim",
+        "(D) Derived intermediate step",
+        "(E) Primary supporting fact",
+        "(F) Irrelevant observation",
+        "(G) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          5
+        ]
+      ],
+      "logits": [
+        0.6291362865251408,
+        0.8638686895836206,
+        -0.48947957962234734,
+        1.0522146362023588,
+        -0.2803078780915075,
+        0.8693101026079371,
+        1.0412669040329354
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0185",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 3 intermediate steps required before concluding: If it rains, the ground is wet.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Secondary supporting fact",
+        "(C) Conflicting alternative",
+        "(D) Background assumption",
+        "(E) Irrelevant observation",
+        "(F) Contradictory claim"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        1,
+        2,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          3
+        ]
+      ],
+      "logits": [
+        1.085581188135249,
+        1.7284875766295822,
+        1.4010189502297177,
+        0.9685956879932671,
+        1.3619934228991628,
+        0.49320535987902214
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0186",
+      "task_type": "logical_deduction",
+      "text": "Select 3 premises that logically entail: A is greater than C.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Primary supporting fact",
+        "(C) Derived intermediate step",
+        "(D) External distraction",
+        "(E) Conflicting alternative",
+        "(F) Tertiary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        0,
+        1,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        1.6779664116450272,
+        1.930921210154628,
+        0.0030367847411664375,
+        0.6242547206032845,
+        2.406891431336602,
+        1.3236345639182712
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0187",
+      "task_type": "reasoning_with_constraints",
+      "text": "Choose 2 evidence items supporting The hypothesis H is consistent under mutual-exclusion rules.",
+      "candidates": [
+        "(A) Contradictory claim",
+        "(B) Tertiary supporting fact",
+        "(C) External distraction",
+        "(D) Background assumption",
+        "(E) Irrelevant observation",
+        "(F) Derived intermediate step",
+        "(G) Auxiliary lemma",
+        "(H) Primary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          6,
+          7
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "logits": [
+        0.30186931660073657,
+        1.9975373468427655,
+        0.19741905094085477,
+        0.5595771928407159,
+        0.925905077883114,
+        2.644862711878144,
+        -0.1443328128516194,
+        0.8742562193674026
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0188",
+      "task_type": "multi_step_reasoning",
+      "text": "Choose 2 sub-goals that together justify: Route A is optimal under current traffic.",
+      "candidates": [
+        "(A) Conflicting alternative",
+        "(B) Contradictory claim",
+        "(C) Derived intermediate step",
+        "(D) Primary supporting fact",
+        "(E) Secondary supporting fact",
+        "(F) Background assumption"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          4
+        ]
+      ],
+      "logits": [
+        0.31638264747720496,
+        1.227910522458399,
+        -0.17865128504557334,
+        0.9500445255347794,
+        0.3769277342775357,
+        0.9137081337543418
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0189",
+      "task_type": "logical_deduction",
+      "text": "Choose 2 statements needed to conclude: The proof plan is valid.",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Tertiary supporting fact",
+        "(C) External distraction",
+        "(D) Background assumption",
+        "(E) Secondary supporting fact",
+        "(F) Derived intermediate step",
+        "(G) Primary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          2
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "logits": [
+        1.129487079358078,
+        1.61587821290099,
+        0.21204679771301108,
+        1.8447712106267005,
+        0.38294028564606264,
+        0.5240619469130461,
+        0.39857997534105816
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0190",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 2 compatible reasons for: The causal chain holds (some options conflict).",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Conflicting alternative",
+        "(C) Primary supporting fact",
+        "(D) External distraction",
+        "(E) Contradictory claim",
+        "(F) Tertiary supporting fact",
+        "(G) Derived intermediate step",
+        "(H) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          4
+        ]
+      ],
+      "logits": [
+        1.1039101747137787,
+        0.9715900832612547,
+        1.1255488237122633,
+        0.6176444569547873,
+        -0.42619459573127366,
+        0.9032666833950967,
+        1.0025131910656369,
+        0.878110414432786
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0191",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: No contradiction appears in the argument.",
+      "candidates": [
+        "(A) Conflicting alternative",
+        "(B) Contradictory claim",
+        "(C) Primary supporting fact",
+        "(D) Background assumption",
+        "(E) Irrelevant observation",
+        "(F) External distraction",
+        "(G) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        5,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          4
+        ]
+      ],
+      "logits": [
+        0.7763928886308877,
+        0.5596693846412384,
+        0.7128365709069088,
+        0.9287138689027474,
+        0.6320995488845165,
+        2.2785884351276,
+        1.523418280197419
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0192",
+      "task_type": "logical_deduction",
+      "text": "Select 2 premises that logically entail: All mammals are warm-blooded.",
+      "candidates": [
+        "(A) Tertiary supporting fact",
+        "(B) Derived intermediate step",
+        "(C) Primary supporting fact",
+        "(D) Conflicting alternative",
+        "(E) Background assumption",
+        "(F) Secondary supporting fact",
+        "(G) External distraction",
+        "(H) Irrelevant observation"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        3,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          4
+        ]
+      ],
+      "logits": [
+        0.4971572534714846,
+        0.5934562259868085,
+        0.3843714834476246,
+        1.4658609924152608,
+        0.3596031461766417,
+        0.4649700073734796,
+        -0.33397246477125475,
+        1.1820398012614208
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0193",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 3 compatible reasons for: If it rains, the ground is wet (some options conflict).",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Tertiary supporting fact",
+        "(C) Secondary supporting fact",
+        "(D) Derived intermediate step",
+        "(E) Auxiliary lemma",
+        "(F) Conflicting alternative"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        2,
+        3,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          4
+        ]
+      ],
+      "logits": [
+        1.6976339333533104,
+        0.9608159907197958,
+        1.7612983686522021,
+        1.440347771316621,
+        -0.4743816113685583,
+        0.8337548489592004
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0194",
+      "task_type": "multi_step_reasoning",
+      "text": "Choose 3 sub-goals that together justify: A is greater than C.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Contradictory claim",
+        "(C) Secondary supporting fact",
+        "(D) Tertiary supporting fact",
+        "(E) Auxiliary lemma",
+        "(F) Background assumption"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        1,
+        2,
+        5
+      ],
+      "exclusion_pairs": [
+        [
+          4,
+          5
+        ]
+      ],
+      "logits": [
+        0.541248295329233,
+        1.8645386998111082,
+        1.2835813045587412,
+        0.8896725067888296,
+        -0.0023031775407165445,
+        0.7027008525501579
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0195",
+      "task_type": "logical_deduction",
+      "text": "Select 2 premises that logically entail: The hypothesis H is consistent.",
+      "candidates": [
+        "(A) Conflicting alternative",
+        "(B) Contradictory claim",
+        "(C) Secondary supporting fact",
+        "(D) Auxiliary lemma",
+        "(E) Tertiary supporting fact",
+        "(F) Primary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        1,
+        3
+      ],
+      "exclusion_pairs": [
+        [
+          3,
+          4
+        ],
+        [
+          0,
+          5
+        ]
+      ],
+      "logits": [
+        -0.11353003080449986,
+        1.4758397131498426,
+        0.3939353314206208,
+        1.1276757601476042,
+        0.7416836666965774,
+        0.2018036376219814
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0196",
+      "task_type": "reasoning_with_constraints",
+      "text": "Pick 3 steps for a valid plan toward: Route A is optimal under current traffic without contradiction.",
+      "candidates": [
+        "(A) Background assumption",
+        "(B) Irrelevant observation",
+        "(C) Primary supporting fact",
+        "(D) Derived intermediate step",
+        "(E) Auxiliary lemma",
+        "(F) Secondary supporting fact",
+        "(G) Conflicting alternative",
+        "(H) Tertiary supporting fact"
+      ],
+      "top_k": 3,
+      "gold_indices": [
+        3,
+        4,
+        7
+      ],
+      "exclusion_pairs": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          6
+        ]
+      ],
+      "logits": [
+        0.9757251299936289,
+        -0.67088021080952,
+        0.5727261949416067,
+        1.7983082381461486,
+        0.7404340198583753,
+        0.25429673520559715,
+        0.3520793917533757,
+        2.4154141012519714
+      ]
+    },
+    {
+      "id": "synthetic_multi_step_reasoning_0197",
+      "task_type": "multi_step_reasoning",
+      "text": "Select 2 intermediate steps required before concluding: The proof plan is valid.",
+      "candidates": [
+        "(A) Irrelevant observation",
+        "(B) Auxiliary lemma",
+        "(C) Secondary supporting fact",
+        "(D) External distraction",
+        "(E) Conflicting alternative",
+        "(F) Background assumption"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          2,
+          5
+        ]
+      ],
+      "logits": [
+        1.7742614816887843,
+        -0.03747851766542276,
+        0.6351572554562104,
+        0.7891077617083667,
+        1.8334919678898438,
+        -0.011101124061996166
+      ]
+    },
+    {
+      "id": "synthetic_logical_deduction_0198",
+      "task_type": "logical_deduction",
+      "text": "Choose 2 statements needed to conclude: The causal chain holds.",
+      "candidates": [
+        "(A) Primary supporting fact",
+        "(B) Tertiary supporting fact",
+        "(C) Contradictory claim",
+        "(D) Secondary supporting fact",
+        "(E) Conflicting alternative",
+        "(F) Auxiliary lemma"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        0,
+        4
+      ],
+      "exclusion_pairs": [
+        [
+          1,
+          4
+        ]
+      ],
+      "logits": [
+        1.6490340009931481,
+        0.5269690592509615,
+        0.4668984191024378,
+        -0.2093200769742861,
+        1.820031259117254,
+        0.24885917488468856
+      ]
+    },
+    {
+      "id": "synthetic_reasoning_with_constraints_0199",
+      "task_type": "reasoning_with_constraints",
+      "text": "Select 2 compatible reasons for: No contradiction appears in the argument (some options conflict).",
+      "candidates": [
+        "(A) Auxiliary lemma",
+        "(B) Primary supporting fact",
+        "(C) Derived intermediate step",
+        "(D) Background assumption",
+        "(E) External distraction",
+        "(F) Secondary supporting fact",
+        "(G) Conflicting alternative",
+        "(H) Tertiary supporting fact"
+      ],
+      "top_k": 2,
+      "gold_indices": [
+        2,
+        6
+      ],
+      "exclusion_pairs": [
+        [
+          6,
+          7
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "logits": [
+        -0.45991555790695254,
+        1.0229340194062275,
+        1.6055241162887266,
+        0.6292827891205184,
+        0.5041410172022933,
+        0.3326123517528886,
+        1.7812972136537226,
+        -0.027494052025495375
+      ]
+    }
+  ]
+}

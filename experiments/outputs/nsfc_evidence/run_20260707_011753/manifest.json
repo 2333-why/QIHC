@@ -1,0 +1,64 @@
+{
+  "run_name": "nsfc_smoke",
+  "started_at": "2026-07-06T17:17:53Z",
+  "hostname": "unknown",
+  "cuda_visible_devices": null,
+  "steps": [
+    {
+      "name": "dual_bundled",
+      "status": "ok",
+      "elapsed_s": 1.305,
+      "finished_at": "2026-07-06T17:17:54Z",
+      "exit_code": 0
+    },
+    {
+      "name": "f_trajectories",
+      "status": "ok",
+      "elapsed_s": 0.955,
+      "finished_at": "2026-07-06T17:17:55Z",
+      "exit_code": 0
+    },
+    {
+      "name": "sampler_ablation",
+      "status": "ok",
+      "elapsed_s": 1.726,
+      "finished_at": "2026-07-06T17:17:57Z",
+      "exit_code": 0
+    },
+    {
+      "name": "cr_mock",
+      "status": "ok",
+      "elapsed_s": 1.04,
+      "finished_at": "2026-07-06T17:17:58Z",
+      "exit_code": 0
+    },
+    {
+      "name": "handoff",
+      "status": "ok",
+      "elapsed_s": 3.146,
+      "finished_at": "2026-07-06T17:18:01Z",
+      "exit_code": 0
+    },
+    {
+      "name": "pareto",
+      "status": "ok",
+      "elapsed_s": 1.444,
+      "finished_at": "2026-07-06T17:18:02Z",
+      "exit_code": 0
+    },
+    {
+      "name": "scaling",
+      "status": "ok",
+      "elapsed_s": 2.886,
+      "finished_at": "2026-07-06T17:18:05Z",
+      "exit_code": 0
+    }
+  ],
+  "artifacts": [
+    "profile.json",
+    "failed_steps.json"
+  ],
+  "updated_at": "2026-07-06T17:18:05Z",
+  "status": "completed",
+  "finished_at": "2026-07-06T17:18:05Z"
+}

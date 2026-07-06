@@ -1,0 +1,45 @@
+{
+  "experiment": "case_b_dual_synthetic",
+  "case": "P0-B",
+  "description": "CR+IF extended constraint set (synthetic 200)",
+  "n_tasks": 30,
+  "budget_steps": 150,
+  "summary": {
+    "greedy": {
+      "mode": "greedy",
+      "feasible_rate": 1.0,
+      "exact_match_rate": 0.8666666666666667,
+      "mean_jaccard": 0.9166666666666666,
+      "mean_F": -5.271951270816396,
+      "mean_time_s": 2.0199990831315518e-05,
+      "mean_rounds": 1.0,
+      "steps_per_round": 0,
+      "mean_pbit_steps": 0.0,
+      "llm_calls": 1
+    },
+    "vci-1": {
+      "mode": "vci-1",
+      "feasible_rate": 1.0,
+      "exact_match_rate": 0.3,
+      "mean_jaccard": 0.4922222222222223,
+      "mean_F": -15.10013314955026,
+      "mean_time_s": 0.016765086088950436,
+      "mean_rounds": 1.0,
+      "steps_per_round": 150,
+      "mean_pbit_steps": 150.0,
+      "llm_calls": 1
+    },
+    "vci-2": {
+      "mode": "vci-2",
+      "feasible_rate": 1.0,
+      "exact_match_rate": 0.4,
+      "mean_jaccard": 0.5811111111111111,
+      "mean_F": -15.236025120069648,
+      "mean_time_s": 0.008877488978517553,
+      "mean_rounds": 1.0666666666666667,
+      "steps_per_round": 75,
+      "mean_pbit_steps": 80.0,
+      "llm_calls": 1
+    }
+  }
+}

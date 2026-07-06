@@ -1,0 +1,7 @@
+# 2026-07-06T17:17:55Z sampler_ablation
+# cmd: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_sampler_ablation.py --steps 150 --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/run_20260707_011753/sampler_ablation
+
+Saved: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/run_20260707_011753/sampler_ablation
+  gibbs                  feas=62.50% time=0.002s
+  parallel_tempering     feas=92.50% time=0.015s
+  sa_sync                feas=75.00% time=0.001s

@@ -1,0 +1,9 @@
+# 2026-07-06T10:46:54Z dual_bundled
+# cmd: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_dual_evidence.py --source bundled --budget-steps 150 --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/dual_bundled
+
+
+=== Dual-axis evidence (bundled, n=40) ===
+  greedy   feas=90.00% exact=87.50% F=-5.80 pbit≈0
+  vci-1    feas=90.00% exact=37.50% F=-15.55 pbit≈150
+  vci-2    feas=100.00% exact=45.00% F=-15.53 pbit≈86
+Saved: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test2/dual_bundled

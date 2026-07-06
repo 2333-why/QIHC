@@ -1,0 +1,64 @@
+{
+  "source": "bundled",
+  "n_problems": 20,
+  "budgets": [
+    100,
+    200
+  ],
+  "rows": [
+    {
+      "mode": "greedy",
+      "budget_steps": 100,
+      "feasible_rate": 0.9,
+      "exact_match_rate": 0.9,
+      "mean_time_s": 2.1679140627384185e-05,
+      "mean_free_energy": -5.877302837841261,
+      "mean_pbit_steps": 0.0
+    },
+    {
+      "mode": "vci-1",
+      "budget_steps": 100,
+      "feasible_rate": 0.85,
+      "exact_match_rate": 0.4,
+      "mean_time_s": 0.012027454166673123,
+      "mean_free_energy": -15.63281830574913,
+      "mean_pbit_steps": 100.0
+    },
+    {
+      "mode": "vci-2",
+      "budget_steps": 100,
+      "feasible_rate": 1.0,
+      "exact_match_rate": 0.35,
+      "mean_time_s": 0.0054754917975515125,
+      "mean_free_energy": -16.191378476202885,
+      "mean_pbit_steps": 100.0
+    },
+    {
+      "mode": "greedy",
+      "budget_steps": 200,
+      "feasible_rate": 0.9,
+      "exact_match_rate": 0.9,
+      "mean_time_s": 1.5704368706792593e-05,
+      "mean_free_energy": -5.877302837841261,
+      "mean_pbit_steps": 0.0
+    },
+    {
+      "mode": "vci-1",
+      "budget_steps": 200,
+      "feasible_rate": 1.0,
+      "exact_match_rate": 0.35,
+      "mean_time_s": 0.019529041647911072,
+      "mean_free_energy": -16.489516878598106,
+      "mean_pbit_steps": 200.0
+    },
+    {
+      "mode": "vci-2",
+      "budget_steps": 200,
+      "feasible_rate": 1.0,
+      "exact_match_rate": 0.6,
+      "mean_time_s": 0.010310206224676221,
+      "mean_free_energy": -15.764795735888535,
+      "mean_pbit_steps": 200.0
+    }
+  ]
+}

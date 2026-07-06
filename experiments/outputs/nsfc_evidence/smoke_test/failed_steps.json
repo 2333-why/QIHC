@@ -1,0 +1,11 @@
+{
+  "failed": [
+    "dual_bundled",
+    "f_trajectories",
+    "sampler_ablation",
+    "cr_mock",
+    "handoff",
+    "pareto",
+    "scaling"
+  ]
+}

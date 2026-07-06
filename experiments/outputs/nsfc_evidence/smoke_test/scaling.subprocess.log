@@ -1,0 +1,7 @@
+# 2026-07-06T10:46:18Z scaling
+# cmd: /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/run_sampler_scaling.py --nodes 12 14 16 --trials 3 --steps 400 --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/smoke_test/scaling
+
+Traceback (most recent call last):
+  File "/Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/run_sampler_scaling.py", line 22, in <module>
+    import networkx as nx
+ModuleNotFoundError: No module named 'networkx'

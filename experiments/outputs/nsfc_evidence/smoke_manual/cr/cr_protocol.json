@@ -1,0 +1,886 @@
+{
+  "experiment": "cr_protocol_bbh",
+  "source": "bundled",
+  "use_llm": false,
+  "model_name": null,
+  "modes": [
+    "zeroshot",
+    "linear",
+    "quadratic",
+    "vci-1",
+    "vci-2"
+  ],
+  "summary": {
+    "zeroshot": {
+      "accuracy": 0.9333333333333333,
+      "feasible_rate": 0.9333333333333333,
+      "mean_pbit_steps": 0.0,
+      "n_tasks": 15
+    },
+    "linear": {
+      "accuracy": 0.7333333333333333,
+      "feasible_rate": 1.0,
+      "mean_pbit_steps": 0.0,
+      "n_tasks": 15
+    },
+    "quadratic": {
+      "accuracy": 0.13333333333333333,
+      "feasible_rate": 0.9333333333333333,
+      "mean_pbit_steps": 150.0,
+      "n_tasks": 15
+    },
+    "vci-1": {
+      "accuracy": 0.26666666666666666,
+      "feasible_rate": 1.0,
+      "mean_pbit_steps": 150.0,
+      "n_tasks": 15
+    },
+    "vci-2": {
+      "accuracy": 0.26666666666666666,
+      "feasible_rate": 1.0,
+      "mean_pbit_steps": 150.0,
+      "n_tasks": 15
+    }
+  },
+  "per_task": {
+    "zeroshot": [
+      {
+        "task_id": "logical_deduction_01",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -8.58786108467438
+        ]
+      },
+      {
+        "task_id": "logical_deduction_02",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -7.307345927550793
+        ]
+      },
+      {
+        "task_id": "logical_deduction_03",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -6.570519841430665
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_01",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.504753278159233
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_02",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -6.524834239912617
+        ]
+      },
+      {
+        "task_id": "multi_step_01",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.4699048700785795
+        ]
+      },
+      {
+        "task_id": "multi_step_02",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -7.610149470064539
+        ]
+      },
+      {
+        "task_id": "logical_deduction_04",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.899906787434714
+        ]
+      },
+      {
+        "task_id": "logical_deduction_05",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.065988384527348
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_03",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.3330008075338124
+        ]
+      },
+      {
+        "task_id": "logical_deduction_06",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.084870654971489
+        ]
+      },
+      {
+        "task_id": "multi_step_03",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -7.373251440602168
+        ]
+      },
+      {
+        "task_id": "logical_deduction_07",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -7.150959054929847
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_04",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.230459133478853
+        ]
+      },
+      {
+        "task_id": "logical_deduction_08",
+        "correct": false,
+        "feasible": false,
+        "exact_match": false,
+        "n_samples": 0,
+        "pbit_steps": 0,
+        "F_trace": [
+          -3.167599282057836
+        ]
+      }
+    ],
+    "linear": [
+      {
+        "task_id": "logical_deduction_01",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 0,
+        "F_trace": [
+          -8.58786108467438
+        ]
+      },
+      {
+        "task_id": "logical_deduction_02",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 0,
+        "F_trace": [
+          -7.307345927550793
+        ]
+      },
+      {
+        "task_id": "logical_deduction_03",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 0,
+        "F_trace": [
+          -6.570519841430665
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_01",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.504753278159233
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_02",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.400789449766463
+        ]
+      },
+      {
+        "task_id": "multi_step_01",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.4699048700785795
+        ]
+      },
+      {
+        "task_id": "multi_step_02",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 0,
+        "F_trace": [
+          -7.610149470064539
+        ]
+      },
+      {
+        "task_id": "logical_deduction_04",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.962704793246445
+        ]
+      },
+      {
+        "task_id": "logical_deduction_05",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 0,
+        "F_trace": [
+          -5.065988384527348
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_03",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.3330008075338124
+        ]
+      },
+      {
+        "task_id": "logical_deduction_06",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 0,
+        "F_trace": [
+          -4.314398739729196
+        ]
+      },
+      {
+        "task_id": "multi_step_03",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 0,
+        "F_trace": [
+          -7.373251440602168
+        ]
+      },
+      {
+        "task_id": "logical_deduction_07",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 0,
+        "F_trace": [
+          -7.150959054929847
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_04",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 0,
+        "F_trace": [
+          -3.98867120058413
+        ]
+      },
+      {
+        "task_id": "logical_deduction_08",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 0,
+        "F_trace": [
+          -6.072498435112246
+        ]
+      }
+    ],
+    "quadratic": [
+      {
+        "task_id": "logical_deduction_01",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -7.387861084674379
+        ]
+      },
+      {
+        "task_id": "logical_deduction_02",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -5.768198600879387
+        ]
+      },
+      {
+        "task_id": "logical_deduction_03",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -4.540096697693878
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_01",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -3.862990723529645
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_02",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -5.523592905767997
+        ]
+      },
+      {
+        "task_id": "multi_step_01",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -4.110458031846096
+        ]
+      },
+      {
+        "task_id": "multi_step_02",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -5.084761483435937
+        ]
+      },
+      {
+        "task_id": "logical_deduction_04",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -4.818717105741705
+        ]
+      },
+      {
+        "task_id": "logical_deduction_05",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -5.065988384527348
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_03",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -2.54547998486564
+        ]
+      },
+      {
+        "task_id": "logical_deduction_06",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -5.084870654971489
+        ]
+      },
+      {
+        "task_id": "multi_step_03",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -6.097143643176297
+        ]
+      },
+      {
+        "task_id": "logical_deduction_07",
+        "correct": false,
+        "feasible": false,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -1.911233748176235
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_04",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -1.5063759360297198
+        ]
+      },
+      {
+        "task_id": "logical_deduction_08",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -3.8276382976843943
+        ]
+      }
+    ],
+    "vci-1": [
+      {
+        "task_id": "logical_deduction_01",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -16.102848264823777
+        ]
+      },
+      {
+        "task_id": "logical_deduction_02",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -16.045757473664377
+        ]
+      },
+      {
+        "task_id": "logical_deduction_03",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -13.997410211920574
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_01",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -14.133987246806285
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_02",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -18.051313615177918
+        ]
+      },
+      {
+        "task_id": "multi_step_01",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -15.700168746656995
+        ]
+      },
+      {
+        "task_id": "multi_step_02",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -18.00183499552014
+        ]
+      },
+      {
+        "task_id": "logical_deduction_04",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -15.805565907535012
+        ]
+      },
+      {
+        "task_id": "logical_deduction_05",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -18.000917533454647
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_03",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -13.989517827586354
+        ]
+      },
+      {
+        "task_id": "logical_deduction_06",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -15.956453749282574
+        ]
+      },
+      {
+        "task_id": "multi_step_03",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -18.199196530182274
+        ]
+      },
+      {
+        "task_id": "logical_deduction_07",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -17.798825149836226
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_04",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -14.200502279974447
+        ]
+      },
+      {
+        "task_id": "logical_deduction_08",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -17.74906306736569
+        ]
+      }
+    ],
+    "vci-2": [
+      {
+        "task_id": "logical_deduction_01",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -16.102848264823777
+        ]
+      },
+      {
+        "task_id": "logical_deduction_02",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -16.045757473664377
+        ]
+      },
+      {
+        "task_id": "logical_deduction_03",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -13.997410211920574
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_01",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -14.133987246806285
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_02",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -18.051313615177918
+        ]
+      },
+      {
+        "task_id": "multi_step_01",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -15.700168746656995
+        ]
+      },
+      {
+        "task_id": "multi_step_02",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -18.00183499552014
+        ]
+      },
+      {
+        "task_id": "logical_deduction_04",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -15.805565907535012
+        ]
+      },
+      {
+        "task_id": "logical_deduction_05",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -18.000917533454647
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_03",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -13.989517827586354
+        ]
+      },
+      {
+        "task_id": "logical_deduction_06",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -15.956453749282574
+        ]
+      },
+      {
+        "task_id": "multi_step_03",
+        "correct": true,
+        "feasible": true,
+        "exact_match": true,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -18.199196530182274
+        ]
+      },
+      {
+        "task_id": "logical_deduction_07",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -17.798825149836226
+        ]
+      },
+      {
+        "task_id": "constraint_reasoning_04",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -14.200502279974447
+        ]
+      },
+      {
+        "task_id": "logical_deduction_08",
+        "correct": false,
+        "feasible": true,
+        "exact_match": false,
+        "n_samples": 20,
+        "pbit_steps": 150,
+        "F_trace": [
+          -17.74906306736569
+        ]
+      }
+    ]
+  },
+  "llm_stats": null,
+  "n_samples": 20,
+  "budget_steps": 150,
+  "reference": "Combinatorial Reasoning arXiv:2407.00071"
+}
