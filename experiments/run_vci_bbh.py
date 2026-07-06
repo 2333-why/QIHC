@@ -1,10 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-Case A BBH mini-set: Greedy / VCI-1 / VCI-2 with equal p-bit step budget.
+Case A BBH: Greedy / VCI-1 / VCI-2 with equal p-bit step budget.
 
 Usage:
+    # bundled synthetic mini-set (default)
     python experiments/run_vci_bbh.py
-    python experiments/run_vci_bbh.py --budget-steps 300 --seed 0
+
+    # Hugging Face BIG-Bench Hard (real BBH)
+    pip install -e ".[hf]"
+    python experiments/run_vci_bbh.py --source hf --limit-per-task 30
+
+    # Hugging Face + real LLM logits (DistilGPT-2)
+    pip install -e ".[hf,llm]"
+    python experiments/run_vci_bbh.py --source hf --logits llm --limit 50
 """
 from __future__ import annotations
 
@@ -24,15 +32,13 @@ if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
 from qihc.orchestrator.bbh import evaluate_prediction, load_bbh_problems  # noqa: E402
+from qihc.orchestrator.bbh_hf import DEFAULT_HF_REPO  # noqa: E402
+from qihc.orchestrator.bbh_llm import enrich_problems_with_llm_logits  # noqa: E402
+from qihc.orchestrator.bbh_parser import DEFAULT_BBH_HF_TASKS  # noqa: E402
 from qihc.orchestrator.vci_scheduler import VCIConfig, VCIOrchestrator  # noqa: E402
 
 
-def run_mode(
-    problems,
-    mode: str,
-    budget_steps: int,
-    seed: int,
-) -> dict:
+def run_mode(problems, mode: str, budget_steps: int, seed: int) -> dict:
     if mode == "greedy":
         steps = 0
         max_rounds = 1
@@ -71,7 +77,7 @@ def run_mode(
     }
 
 
-def plot_bbh_results(summary: dict, out_path: str) -> None:
+def plot_bbh_results(summary: dict, out_path: str, title: str) -> None:
     modes = list(summary.keys())
     x = np.arange(len(modes))
     width = 0.25
@@ -83,7 +89,7 @@ def plot_bbh_results(summary: dict, out_path: str) -> None:
     ax.set_xticklabels(modes)
     ax.set_ylim(0, 1.05)
     ax.set_ylabel("Rate / score")
-    ax.set_title("BBH mini-set: same p-bit budget comparison")
+    ax.set_title(title)
     ax.legend()
     ax.grid(axis="y", alpha=0.3)
     plt.tight_layout()
@@ -94,27 +100,72 @@ def plot_bbh_results(summary: dict, out_path: str) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="VCI on BBH-style mini-set")
-    parser.add_argument("--budget-steps", type=int, default=250, help="Total p-bit steps budget")
+    parser = argparse.ArgumentParser(description="VCI on BBH (bundled or HuggingFace)")
+    parser.add_argument("--source", choices=["bundled", "hf"], default="bundled")
+    parser.add_argument("--budget-steps", type=int, default=250)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--limit", type=int, default=None)
+    parser.add_argument("--limit-per-task", type=int, default=None, help="HF only: cap per subtask")
+    parser.add_argument("--hf-repo", default=DEFAULT_HF_REPO)
+    parser.add_argument(
+        "--hf-tasks",
+        nargs="*",
+        default=None,
+        help=f"HF subtasks (default: {len(DEFAULT_BBH_HF_TASKS)} reasoning tasks)",
+    )
+    parser.add_argument("--refresh-cache", action="store_true")
+    parser.add_argument("--no-cache", action="store_true")
+    parser.add_argument(
+        "--logits",
+        choices=["pseudo", "llm"],
+        default="pseudo",
+        help="pseudo = hash+gold bias; llm = causal LM answer scoring",
+    )
+    parser.add_argument("--model-name", default="distilgpt2", help="LM for --logits llm")
     parser.add_argument(
         "--output-dir",
-        default=os.path.join("experiments", "outputs", "vci_bbh"),
+        default=None,
+        help="Default: experiments/outputs/vci_bbh[_hf][_llm]",
     )
     args = parser.parse_args()
 
     out_dir = args.output_dir
+    if out_dir is None:
+        sub = "vci_bbh"
+        if args.source == "hf":
+            sub = "vci_bbh_hf"
+        if args.logits == "llm":
+            sub += "_llm"
+        out_dir = os.path.join("experiments", "outputs", sub)
     if not os.path.isabs(out_dir):
         out_dir = os.path.join(REPO_ROOT, out_dir)
 
-    problems = load_bbh_problems(seed=args.seed, limit=args.limit)
+    problems = load_bbh_problems(
+        source=args.source,
+        seed=args.seed,
+        limit=args.limit,
+        hf_repo=args.hf_repo,
+        hf_tasks=args.hf_tasks,
+        limit_per_task=args.limit_per_task,
+        use_cache=not args.no_cache,
+        refresh_cache=args.refresh_cache,
+    )
+
+    if args.logits == "llm":
+        print(f"Scoring {len(problems)} problems with {args.model_name} ...")
+        problems = enrich_problems_with_llm_logits(
+            problems, model_name=args.model_name
+        )
+
     modes = ["greedy", "vci-1", "vci-2"]
-    summary = {
-        m: run_mode(problems, m, args.budget_steps, args.seed) for m in modes
-    }
+    summary = {m: run_mode(problems, m, args.budget_steps, args.seed) for m in modes}
 
     payload = {
+        "source": args.source,
+        "logits": args.logits,
+        "model_name": args.model_name if args.logits == "llm" else None,
+        "hf_repo": args.hf_repo if args.source == "hf" else None,
+        "hf_tasks": args.hf_tasks or (DEFAULT_BBH_HF_TASKS if args.source == "hf" else None),
         "n_tasks": len(problems),
         "budget_steps": args.budget_steps,
         "summary": summary,
@@ -127,14 +178,18 @@ def main() -> int:
         json.dump(payload, f, indent=2, ensure_ascii=False)
     print(f"Saved: {json_path}")
 
-    print(f"\n=== BBH mini-set (n={len(problems)}, budget={args.budget_steps}) ===")
+    label = "HF BBH" if args.source == "hf" else "bundled BBH"
+    if args.logits == "llm":
+        label += f" + {args.model_name}"
+    print(f"\n=== {label} (n={len(problems)}, budget={args.budget_steps}) ===")
     for mode, s in summary.items():
         print(
             f"  {mode:8s} feas={s['feasible_rate']:.2%}  exact={s['exact_match_rate']:.2%}  "
             f"jacc={s['mean_jaccard']:.3f}  pbit_steps≈{s['mean_pbit_steps']:.0f}"
         )
 
-    plot_bbh_results(summary, os.path.join(out_dir, "bbh_comparison.png"))
+    title = f"{label}: same p-bit budget comparison"
+    plot_bbh_results(summary, os.path.join(out_dir, "bbh_comparison.png"), title)
     return 0
 
 

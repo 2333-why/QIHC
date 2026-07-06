@@ -22,6 +22,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=7.0"]
 llm = ["torch>=2.0", "transformers>=4.36", "accelerate>=0.25"]
+hf = ["datasets>=2.14", "huggingface_hub>=0.20"]
 
 [tool.setuptools.packages.find]
 where = ["."]

@@ -150,23 +150,54 @@ python experiments/run_sampler_scaling.py --nodes 12 14 16 18 20 --trials 8 --st
 python experiments/plot_qihc_vci_architecture.py
 ```
 
-### 7. BBH mini-set 实验（Case A）
+### 7. BBH 实验（Case A）
+
+**Bundled 合成集（40 题，离线）：**
 
 ```bash
-python experiments/run_vci_bbh.py --budget-steps 250
+python experiments/run_vci_bbh.py --source bundled
 ```
 
-40 题 BBH 风格子集选择（`qihc/data/bbh_subset.json`），同 p-bit 算力对比。
+**Hugging Face 真实 BBH（推荐）：**
+
+```bash
+pip install -e ".[hf]"
+python experiments/download_bbh_hf.py          # 预下载缓存
+python experiments/run_vci_bbh.py --source hf --limit-per-task 50
+```
+
+- 数据集：`Joschka/big_bench_hard`（失败时回退 `lukaemon/bbh`）
+- 默认 10 个推理子任务（logical_deduction、disambiguation_qa 等）
+- 缓存：`qihc/data/bbh_hf_cache.json`
+- 输出：`experiments/outputs/vci_bbh_hf/`
+
+**真实 LLM logits（DistilGPT-2 选项似然）：**
+
+```bash
+pip install -e ".[hf,llm]"
+python experiments/run_vci_bbh.py --source hf --logits llm --limit 50
+```
+
+详见 [`docs/BBH_HF.md`](docs/BBH_HF.md)。
 
 ### 8. Handoff / 温度映射探针
 
 ```bash
 python experiments/run_vci_handoff.py --budget-steps 200
+python experiments/run_vci_handoff.py --source hf --limit 50   # HF 单选，可行率恒 100%
 ```
 
 输出：`experiments/outputs/vci_handoff/handoff_curve.png`
 
-### 9. 运行测试
+### 9. Pareto 前沿（bundled 约束集）
+
+```bash
+python experiments/run_vci_pareto.py --limit 40
+```
+
+输出：`experiments/outputs/vci_pareto/pareto_curves.png`
+
+### 10. 运行测试
 
 ```bash
 pytest
@@ -285,8 +316,8 @@ print("Max-Cut value:", cut)
 - [x] VCI 协推理最小闭环（free_energy + refine + VCIOrchestrator）
 - [x] Case A 玩具实验（Greedy / VCI-1 / VCI-2 对比）
 - [x] TTS 标度 benchmark 脚本与成图
-- [x] Case A BBH mini-set（40 题 bundled JSON）
-- [x] Handoff / 温度映射探针（`run_vci_handoff.py`）
-- [ ] Case A 真实 HuggingFace BBH 子集（可选扩展）
+- [x] Case A BBH mini-set（bundled 40 题）
+- [x] Case A HuggingFace BBH（500 题，`--source hf`）
+- [x] BBH 真实 LLM logits（`--logits llm`，DistilGPT-2）
 - [ ] 训练路由头 / 接入真实 MoE 层 hidden states
 - [ ] FPGA/ASIC 协处理器接口占位

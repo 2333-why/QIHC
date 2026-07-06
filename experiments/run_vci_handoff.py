@@ -26,6 +26,7 @@ if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
 from qihc.orchestrator.bbh import load_bbh_problems  # noqa: E402
+from qihc.orchestrator.bbh_llm import enrich_problems_with_llm_logits  # noqa: E402
 from qihc.orchestrator.free_energy import softmax_entropy  # noqa: E402
 from qihc.orchestrator.reasoning import SubsetProblem  # noqa: E402
 from qihc.orchestrator.vci_scheduler import VCIConfig, VCIOrchestrator  # noqa: E402
@@ -143,26 +144,49 @@ def plot_temperature_map(rows: list[dict], out_path: str) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="VCI handoff / temperature mapping")
+    parser.add_argument("--source", choices=["bundled", "hf"], default="bundled")
+    parser.add_argument("--logits", choices=["pseudo", "llm"], default="pseudo")
+    parser.add_argument("--model-name", default="distilgpt2")
+    parser.add_argument("--limit", type=int, default=40, help="Number of problems for sweep")
     parser.add_argument("--budget-steps", type=int, default=200)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument(
         "--output-dir",
-        default=os.path.join("experiments", "outputs", "vci_handoff"),
+        default=None,
     )
     args = parser.parse_args()
 
     out_dir = args.output_dir
+    if out_dir is None:
+        sub = "vci_handoff_hf" if args.source == "hf" else "vci_handoff"
+        if args.logits == "llm":
+            sub += "_llm"
+        out_dir = os.path.join("experiments", "outputs", sub)
     if not os.path.isabs(out_dir):
         out_dir = os.path.join(REPO_ROOT, out_dir)
 
     noise_scales = [0.0, 0.15, 0.3, 0.5, 0.8, 1.2]
-    base = load_bbh_problems(seed=args.seed)
+    base = load_bbh_problems(source=args.source, seed=args.seed, limit=args.limit)
+    if args.logits == "llm":
+        print(f"Scoring {len(base)} problems with {args.model_name} ...")
+        base = enrich_problems_with_llm_logits(base, model_name=args.model_name)
     rows = run_sweep(base, noise_scales, args.budget_steps, args.seed)
 
     os.makedirs(out_dir, exist_ok=True)
     json_path = os.path.join(out_dir, "handoff.json")
     with open(json_path, "w", encoding="utf-8") as f:
-        json.dump({"rows": rows, "budget_steps": args.budget_steps}, f, indent=2)
+        json.dump(
+            {
+                "source": args.source,
+                "logits": args.logits,
+                "model_name": args.model_name if args.logits == "llm" else None,
+                "n_problems": len(base),
+                "rows": rows,
+                "budget_steps": args.budget_steps,
+            },
+            f,
+            indent=2,
+        )
     print(f"Saved: {json_path}")
 
     for r in rows:

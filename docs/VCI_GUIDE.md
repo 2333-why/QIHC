@@ -49,16 +49,20 @@ python experiments/run_vci_reasoning.py --problems 32 --steps 250
 ## 5. BBH mini-set（40 题）
 
 ```bash
-python experiments/run_vci_bbh.py --budget-steps 250
+python experiments/run_vci_bbh.py --source bundled
 ```
 
-| 方法 | 可行率 | 精确匹配 |
-|------|--------|----------|
-| greedy | 90% | 87.5% |
-| vci-1 | 100% | 45% |
-| vci-2 | 100% | 52.5% |
+## 6. Hugging Face 真实 BBH
 
-## 6. Handoff 探针
+```bash
+pip install -e ".[hf]"
+python experiments/download_bbh_hf.py
+python experiments/run_vci_bbh.py --source hf --limit-per-task 50
+```
+
+默认仓库 `Joschka/big_bench_hard`，10 个推理子任务，缓存于 `qihc/data/bbh_hf_cache.json`。
+
+## 7. Handoff 探针
 
 ```bash
 python experiments/run_vci_handoff.py --budget-steps 200

@@ -30,5 +30,8 @@ Thumbs.db
 experiments/outputs/*
 !experiments/outputs/.gitkeep
 
+# HF BBH cache (regenerate: python experiments/download_bbh_hf.py)
+qihc/data/bbh_hf_cache.json
+
 # Legacy folder (removed)
 Pbit_simulator/

@@ -6,7 +6,7 @@ import hashlib
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import numpy as np
 
@@ -14,6 +14,8 @@ from qihc.orchestrator.reasoning import SubsetProblem, is_feasible
 
 DATA_DIR = Path(__file__).resolve().parents[1] / "data"
 DEFAULT_BBH_PATH = DATA_DIR / "bbh_subset.json"
+
+SourceName = Literal["bundled", "hf"]
 
 
 @dataclass
@@ -69,7 +71,37 @@ def _logits_from_candidates(
     return logits
 
 
-def load_bbh_tasks(path: Path | str | None = None) -> list[BBHTask]:
+def load_bbh_tasks(
+    source: SourceName = "bundled",
+    path: Path | str | None = None,
+    hf_repo: str | None = None,
+    hf_tasks: list[str] | None = None,
+    limit_per_task: int | None = None,
+    use_cache: bool = True,
+    refresh_cache: bool = False,
+) -> list[BBHTask]:
+    """
+    Load BBH tasks.
+
+    - ``bundled``: local ``bbh_subset.json`` (synthetic, 40 tasks)
+    - ``hf``: Hugging Face BIG-Bench Hard (default ``Joschka/big_bench_hard``)
+    """
+    if source == "bundled":
+        return load_bbh_tasks_bundled(path)
+    if source == "hf":
+        from qihc.orchestrator.bbh_hf import DEFAULT_HF_REPO, load_bbh_tasks_hf
+
+        return load_bbh_tasks_hf(
+            repo=hf_repo or DEFAULT_HF_REPO,
+            task_names=hf_tasks,
+            limit_per_task=limit_per_task,
+            use_cache=use_cache,
+            refresh_cache=refresh_cache,
+        )
+    raise ValueError(f"Unknown BBH source: {source}")
+
+
+def load_bbh_tasks_bundled(path: Path | str | None = None) -> list[BBHTask]:
     path = Path(path) if path else DEFAULT_BBH_PATH
     with open(path, encoding="utf-8") as f:
         raw = json.load(f)
@@ -92,11 +124,25 @@ def load_bbh_tasks(path: Path | str | None = None) -> list[BBHTask]:
 
 
 def load_bbh_problems(
+    source: SourceName = "bundled",
     path: Path | str | None = None,
     seed: int = 0,
     limit: int | None = None,
+    hf_repo: str | None = None,
+    hf_tasks: list[str] | None = None,
+    limit_per_task: int | None = None,
+    use_cache: bool = True,
+    refresh_cache: bool = False,
 ) -> list[SubsetProblem]:
-    tasks = load_bbh_tasks(path)
+    tasks = load_bbh_tasks(
+        source=source,
+        path=path,
+        hf_repo=hf_repo,
+        hf_tasks=hf_tasks,
+        limit_per_task=limit_per_task,
+        use_cache=use_cache,
+        refresh_cache=refresh_cache,
+    )
     if limit is not None:
         tasks = tasks[:limit]
     return [t.to_subset_problem(seed=seed + i) for i, t in enumerate(tasks)]
