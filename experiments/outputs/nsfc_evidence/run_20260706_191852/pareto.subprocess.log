@@ -1,0 +1,21 @@
+# 2026-07-06T14:10:14Z pareto
+# cmd: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/run_vci_pareto.py --budgets 100 200 300 400 600 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/pareto
+
+  budget=100 greedy  feas=90.00% exact=87.50%  F=-5.802  steps=0
+  budget=100 vci-1   feas=87.50% exact=50.00%  F=-15.368  steps=100
+  budget=100 vci-2   feas=100.00% exact=35.00%  F=-15.768  steps=100
+  budget=200 greedy  feas=90.00% exact=87.50%  F=-5.802  steps=0
+  budget=200 vci-1   feas=97.50% exact=37.50%  F=-16.484  steps=200
+  budget=200 vci-2   feas=100.00% exact=50.00%  F=-16.054  steps=200
+  budget=300 greedy  feas=90.00% exact=87.50%  F=-5.802  steps=0
+  budget=300 vci-1   feas=92.50% exact=37.50%  F=-16.514  steps=300
+  budget=300 vci-2   feas=97.50% exact=45.00%  F=-16.425  steps=300
+  budget=400 greedy  feas=90.00% exact=87.50%  F=-5.802  steps=0
+  budget=400 vci-1   feas=97.50% exact=35.00%  F=-16.668  steps=400
+  budget=400 vci-2   feas=100.00% exact=40.00%  F=-16.587  steps=400
+  budget=600 greedy  feas=90.00% exact=87.50%  F=-5.802  steps=0
+  budget=600 vci-1   feas=90.00% exact=40.00%  F=-16.631  steps=600
+  budget=600 vci-2   feas=100.00% exact=37.50%  F=-16.763  steps=600
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/pareto/pareto.json
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/pareto/pareto_curves.png
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/pareto/pareto_tradeoff.png

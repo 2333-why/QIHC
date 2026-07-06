@@ -1,0 +1,92 @@
+{
+  "run_name": "nsfc_server",
+  "started_at": "2026-07-06T11:33:23Z",
+  "hostname": "unknown",
+  "cuda_visible_devices": "0,1",
+  "steps": [
+    {
+      "name": "dual_bundled",
+      "status": "ok",
+      "elapsed_s": 11.287,
+      "finished_at": "2026-07-06T11:33:35Z",
+      "exit_code": 0
+    },
+    {
+      "name": "dual_hf_llm",
+      "status": "ok",
+      "elapsed_s": 2580.309,
+      "finished_at": "2026-07-06T12:16:35Z",
+      "exit_code": 0
+    },
+    {
+      "name": "cr_protocol_llm",
+      "status": "ok",
+      "elapsed_s": 6696.43,
+      "finished_at": "2026-07-06T14:08:11Z",
+      "exit_code": 0
+    },
+    {
+      "name": "cr_bundled",
+      "status": "ok",
+      "elapsed_s": 19.819,
+      "finished_at": "2026-07-06T14:08:31Z",
+      "exit_code": 0
+    },
+    {
+      "name": "f_trajectories",
+      "status": "ok",
+      "elapsed_s": 9.805,
+      "finished_at": "2026-07-06T14:08:41Z",
+      "exit_code": 0
+    },
+    {
+      "name": "sampler_ablation",
+      "status": "ok",
+      "elapsed_s": 15.231,
+      "finished_at": "2026-07-06T14:08:56Z",
+      "exit_code": 0
+    },
+    {
+      "name": "handoff",
+      "status": "ok",
+      "elapsed_s": 77.92,
+      "finished_at": "2026-07-06T14:10:14Z",
+      "exit_code": 0
+    },
+    {
+      "name": "pareto",
+      "status": "ok",
+      "elapsed_s": 34.525,
+      "finished_at": "2026-07-06T14:10:49Z",
+      "exit_code": 0
+    },
+    {
+      "name": "scaling",
+      "status": "ok",
+      "elapsed_s": 1644.268,
+      "finished_at": "2026-07-06T14:38:13Z",
+      "exit_code": 0
+    },
+    {
+      "name": "bbh_hf_full",
+      "status": "ok",
+      "elapsed_s": 199.383,
+      "finished_at": "2026-07-06T14:41:32Z",
+      "exit_code": 0
+    },
+    {
+      "name": "plot_report",
+      "status": "ok",
+      "elapsed_s": 1.707,
+      "finished_at": "2026-07-06T14:41:34Z",
+      "exit_code": 0
+    }
+  ],
+  "artifacts": [
+    "profile.json",
+    "failed_steps.json"
+  ],
+  "updated_at": "2026-07-06T14:41:34Z",
+  "status": "completed",
+  "finished_at": "2026-07-06T14:41:34Z"
+}

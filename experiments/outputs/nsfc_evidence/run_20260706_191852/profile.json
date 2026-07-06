@@ -1,0 +1,16 @@
+{
+  "profile": "server",
+  "description": "Full H200 server run for NSFC evidence (~2-6 hours)",
+  "steps": [
+    "dual_bundled",
+    "dual_hf_llm",
+    "cr_protocol_llm",
+    "cr_bundled",
+    "f_trajectories",
+    "sampler_ablation",
+    "handoff",
+    "pareto",
+    "scaling",
+    "bbh_hf_full"
+  ]
+}

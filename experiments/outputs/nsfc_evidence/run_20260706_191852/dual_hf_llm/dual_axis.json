@@ -1,0 +1,47 @@
+{
+  "experiment": "dual_axis_evidence",
+  "source": "hf",
+  "logits": "llm",
+  "model_name": "Qwen/Qwen2.5-7B-Instruct",
+  "n_tasks": 500,
+  "budget_steps": 400,
+  "same_compute_note": "vci-2: steps/2 per round × 2 rounds ≈ vci-1 total p-bit steps",
+  "summary": {
+    "greedy": {
+      "mode": "greedy",
+      "feasible_rate": 1.0,
+      "exact_match_rate": 0.58,
+      "mean_jaccard": 0.58,
+      "mean_F": 6.304455259480503,
+      "mean_time_s": 5.004177615046501e-05,
+      "mean_rounds": 1.0,
+      "steps_per_round": 0,
+      "mean_pbit_steps": 0.0,
+      "llm_calls": 1
+    },
+    "vci-1": {
+      "mode": "vci-1",
+      "feasible_rate": 1.0,
+      "exact_match_rate": 0.564,
+      "mean_jaccard": 0.564,
+      "mean_F": -13.932315528473827,
+      "mean_time_s": 0.08507697635516524,
+      "mean_rounds": 1.0,
+      "steps_per_round": 400,
+      "mean_pbit_steps": 400.0,
+      "llm_calls": 1
+    },
+    "vci-2": {
+      "mode": "vci-2",
+      "feasible_rate": 1.0,
+      "exact_match_rate": 0.554,
+      "mean_jaccard": 0.554,
+      "mean_F": -13.60231510194299,
+      "mean_time_s": 0.04278689081221819,
+      "mean_rounds": 1.0,
+      "steps_per_round": 200,
+      "mean_pbit_steps": 200.0,
+      "llm_calls": 1
+    }
+  }
+}

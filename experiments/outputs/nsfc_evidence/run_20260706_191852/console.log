@@ -1,0 +1,220 @@
+[2026-07-06T19:18:52+08:00] Creating venv if missing...
+[2026-07-06T19:18:58+08:00] Installing package...
+[2026-07-06T19:31:55+08:00] Prefetch HF BBH cache (optional)...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Generating logical_deduction_three_objects split:   0%|          | 0/250 [00:00<?, ? examples/s]Generating logical_deduction_three_objects split: 100%|██████████| 250/250 [00:00<00:00, 45817.36 examples/s]
+Generating logical_deduction_five_objects split:   0%|          | 0/250 [00:00<?, ? examples/s]Generating logical_deduction_five_objects split: 100%|██████████| 250/250 [00:00<00:00, 38400.94 examples/s]
+Generating logical_deduction_seven_objects split:   0%|          | 0/250 [00:00<?, ? examples/s]Generating logical_deduction_seven_objects split: 100%|██████████| 250/250 [00:00<00:00, 62433.82 examples/s]
+Generating disambiguation_qa split:   0%|          | 0/250 [00:00<?, ? examples/s]Generating disambiguation_qa split: 100%|██████████| 250/250 [00:00<00:00, 67276.79 examples/s]
+Generating causal_judgement split:   0%|          | 0/187 [00:00<?, ? examples/s]Generating causal_judgement split: 100%|██████████| 187/187 [00:00<00:00, 31412.35 examples/s]
+Generating formal_fallacies split:   0%|          | 0/250 [00:00<?, ? examples/s]Generating formal_fallacies split: 100%|██████████| 250/250 [00:00<00:00, 59574.80 examples/s]
+Generating web_of_lies split:   0%|          | 0/250 [00:00<?, ? examples/s]Generating web_of_lies split: 100%|██████████| 250/250 [00:00<00:00, 79215.53 examples/s]
+Generating date_understanding split:   0%|          | 0/250 [00:00<?, ? examples/s]Generating date_understanding split: 100%|██████████| 250/250 [00:00<00:00, 45294.86 examples/s]
+Generating hyperbaton split:   0%|          | 0/250 [00:00<?, ? examples/s]Generating hyperbaton split: 100%|██████████| 250/250 [00:00<00:00, 40640.91 examples/s]
+Generating movie_recommendation split:   0%|          | 0/250 [00:00<?, ? examples/s]Generating movie_recommendation split: 100%|██████████| 250/250 [00:00<00:00, 64603.29 examples/s]
+Cached 500 BBH tasks from Joschka/big_bench_hard
+[2026-07-06T19:33:19+08:00] Running pytest smoke...
+.............                                                            [100%]
+13 passed in 2.72s
+[2026-07-06T19:33:23+08:00] Starting evidence suite profile=server...
+[2026-07-06T11:33:23Z] [INFO] Profile: server — Full H200 server run for NSFC evidence (~2-6 hours)
+[2026-07-06T11:33:23Z] [INFO] Repo: /hdd/why/QIHC
+[2026-07-06T11:33:23Z] [INFO] Python: /hdd/why/QIHC/.venv/bin/python
+[2026-07-06T11:33:23Z] [INFO] Saved artifact: profile.json
+[2026-07-06T11:33:23Z] [INFO] === BEGIN dual_bundled ===
+[2026-07-06T11:33:23Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_dual_evidence.py --source bundled --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/dual_bundled
+[2026-07-06T11:33:23Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/dual_bundled.subprocess.log
+
+=== Dual-axis evidence (bundled, n=40) ===
+  greedy   feas=90.00% exact=87.50% F=-5.80 pbit≈0
+  vci-1    feas=97.50% exact=35.00% F=-16.67 pbit≈400
+  vci-2    feas=100.00% exact=40.00% F=-16.59 pbit≈205
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/dual_bundled
+[2026-07-06T11:33:35Z] [INFO] === END dual_bundled (ok, 11.3s) ===
+[2026-07-06T11:33:35Z] [INFO] === BEGIN dual_hf_llm ===
+[2026-07-06T11:33:35Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_dual_evidence.py --source hf --logits llm --model-name Qwen/Qwen2.5-7B-Instruct --limit-per-task 50 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/dual_hf_llm
+[2026-07-06T11:33:35Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/dual_hf_llm.subprocess.log
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]
+Fetching 4 files:  25%|██▌       | 1/4 [36:59<1:50:59, 2219.92s/it]
+Fetching 4 files:  75%|███████▌  | 3/4 [39:58<10:41, 641.76s/it]   
+Fetching 4 files: 100%|██████████| 4/4 [39:58<00:00, 599.68s/it]
+
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]
+Loading weights:  47%|████▋     | 158/339 [00:00<00:00, 1578.87it/s]
+Loading weights:  93%|█████████▎| 316/339 [00:00<00:00, 1486.30it/s]
+Loading weights: 100%|██████████| 339/339 [00:00<00:00, 1561.37it/s]
+
+=== Dual-axis evidence (hf, n=500) ===
+  greedy   feas=100.00% exact=58.00% F=6.30 pbit≈0
+  vci-1    feas=100.00% exact=56.40% F=-13.93 pbit≈400
+  vci-2    feas=100.00% exact=55.40% F=-13.60 pbit≈200
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/dual_hf_llm
+[2026-07-06T12:16:35Z] [INFO] === END dual_hf_llm (ok, 2580.3s) ===
+[2026-07-06T12:16:35Z] [INFO] === BEGIN cr_protocol_llm ===
+[2026-07-06T12:16:35Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_cr_bbh.py --source hf --use-llm --model-name Qwen/Qwen2.5-7B-Instruct --n-samples 50 --limit-per-task 30 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/cr_protocol_llm
+[2026-07-06T12:16:35Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/cr_protocol_llm.subprocess.log
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+CR benchmark: 150 tasks, n_samples=50, use_llm=True
+
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]
+Loading weights:   0%|          | 1/339 [00:00<00:54,  6.25it/s]
+Loading weights:   1%|          | 2/339 [00:00<01:09,  4.83it/s]
+Loading weights:   4%|▍         | 15/339 [00:00<00:08, 38.40it/s]
+Loading weights:   8%|▊         | 28/339 [00:00<00:05, 60.08it/s]
+Loading weights:  12%|█▏        | 41/339 [00:00<00:04, 74.04it/s]
+Loading weights:  17%|█▋        | 58/339 [00:00<00:02, 99.18it/s]
+Loading weights:  22%|██▏       | 76/339 [00:00<00:02, 115.22it/s]
+Loading weights:  26%|██▋       | 89/339 [00:01<00:02, 117.28it/s]
+Loading weights:  30%|███       | 102/339 [00:01<00:02, 112.42it/s]
+Loading weights:  36%|███▌      | 122/339 [00:01<00:01, 135.83it/s]
+Loading weights:  40%|████      | 137/339 [00:01<00:01, 108.46it/s]
+Loading weights:  45%|████▌     | 154/339 [00:01<00:01, 122.38it/s]
+Loading weights:  51%|█████     | 172/339 [00:01<00:01, 128.96it/s]
+Loading weights:  55%|█████▍    | 186/339 [00:01<00:01, 110.47it/s]
+Loading weights:  59%|█████▊    | 199/339 [00:02<00:01, 94.15it/s] 
+Loading weights:  62%|██████▏   | 210/339 [00:02<00:01, 83.24it/s]
+Loading weights:  67%|██████▋   | 226/339 [00:02<00:01, 98.33it/s]
+Loading weights:  72%|███████▏  | 244/339 [00:02<00:00, 107.86it/s]
+Loading weights:  76%|███████▌  | 257/339 [00:02<00:00, 91.21it/s] 
+Loading weights:  81%|████████  | 275/339 [00:02<00:00, 109.21it/s]
+Loading weights:  86%|████████▌ | 290/339 [00:02<00:00, 115.41it/s]
+Loading weights:  90%|████████▉ | 304/339 [00:03<00:00, 118.02it/s]
+Loading weights:  94%|█████████▍| 318/339 [00:03<00:00, 120.40it/s]
+Loading weights: 100%|██████████| 339/339 [00:03<00:00, 103.20it/s]
+  [10/150] tasks done
+  [20/150] tasks done
+  [30/150] tasks done
+  [40/150] tasks done
+  [50/150] tasks done
+  [60/150] tasks done
+  [70/150] tasks done
+  [80/150] tasks done
+  [90/150] tasks done
+  [100/150] tasks done
+  [110/150] tasks done
+  [120/150] tasks done
+  [130/150] tasks done
+  [140/150] tasks done
+  [150/150] tasks done
+
+=== CR protocol summary (n=150) ===
+  zeroshot     acc=40.00% feas=100.00%
+  linear       acc=40.00% feas=100.00%
+  quadratic    acc=40.00% feas=100.00%
+  vci-1        acc=39.33% feas=100.00%
+  vci-2        acc=39.33% feas=100.00%
+  LLM stats: {'n_completions': 7500, 'n_prompt_tokens': 1442550, 'n_completion_tokens': 960000, 'wall_time_s': 6606.81}
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/cr_protocol_llm/cr_protocol.json
+[2026-07-06T14:08:11Z] [INFO] === END cr_protocol_llm (ok, 6696.4s) ===
+[2026-07-06T14:08:11Z] [INFO] === BEGIN cr_bundled ===
+[2026-07-06T14:08:11Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_cr_bbh.py --source bundled --n-samples 50 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/cr_bundled
+[2026-07-06T14:08:11Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/cr_bundled.subprocess.log
+CR benchmark: 40 tasks, n_samples=50, use_llm=False
+  [10/40] tasks done
+  [20/40] tasks done
+  [30/40] tasks done
+  [40/40] tasks done
+
+=== CR protocol summary (n=40) ===
+  zeroshot     acc=87.50% feas=90.00%
+  linear       acc=67.50% feas=85.00%
+  quadratic    acc=30.00% feas=95.00%
+  vci-1        acc=37.50% feas=90.00%
+  vci-2        acc=42.50% feas=100.00%
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/cr_bundled/cr_protocol.json
+[2026-07-06T14:08:31Z] [INFO] === END cr_bundled (ok, 19.8s) ===
+[2026-07-06T14:08:31Z] [INFO] === BEGIN f_trajectories ===
+[2026-07-06T14:08:31Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_f_trajectories.py --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/f_trajectories
+[2026-07-06T14:08:31Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/f_trajectories.subprocess.log
+Saved F trajectories: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/f_trajectories
+[2026-07-06T14:08:41Z] [INFO] === END f_trajectories (ok, 9.8s) ===
+[2026-07-06T14:08:41Z] [INFO] === BEGIN sampler_ablation ===
+[2026-07-06T14:08:41Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_sampler_ablation.py --steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/sampler_ablation
+[2026-07-06T14:08:41Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/sampler_ablation.subprocess.log
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/sampler_ablation
+  gibbs                  feas=75.00% time=0.029s
+  parallel_tempering     feas=97.50% time=0.160s
+  sa_sync                feas=80.00% time=0.010s
+[2026-07-06T14:08:56Z] [INFO] === END sampler_ablation (ok, 15.2s) ===
+[2026-07-06T14:08:56Z] [INFO] === BEGIN handoff ===
+[2026-07-06T14:08:56Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/run_vci_handoff.py --source bundled --logits llm --model-name Qwen/Qwen2.5-7B-Instruct --limit 40 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/handoff
+[2026-07-06T14:08:56Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/handoff.subprocess.log
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Scoring 40 problems with Qwen/Qwen2.5-7B-Instruct ...
+
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 339/339 [00:00<00:00, 3798.73it/s]
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/handoff/handoff.json
+  σ=0.00 H=0.58  vci1=90.00% vci2=95.00%  gain=+5.00%
+  σ=0.15 H=0.58  vci1=92.50% vci2=97.50%  gain=+5.00%
+  σ=0.30 H=0.56  vci1=87.50% vci2=92.50%  gain=+5.00%
+  σ=0.50 H=0.57  vci1=90.00% vci2=92.50%  gain=+2.50%
+  σ=0.80 H=0.52  vci1=77.50% vci2=97.50%  gain=+20.00%
+  σ=1.20 H=0.47  vci1=92.50% vci2=95.00%  gain=+2.50%
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/handoff/handoff_curve.png
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/handoff/temperature_map.png
+[2026-07-06T14:10:14Z] [INFO] === END handoff (ok, 77.9s) ===
+[2026-07-06T14:10:14Z] [INFO] === BEGIN pareto ===
+[2026-07-06T14:10:14Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/run_vci_pareto.py --budgets 100 200 300 400 600 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/pareto
+[2026-07-06T14:10:14Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/pareto.subprocess.log
+  budget=100 greedy  feas=90.00% exact=87.50%  F=-5.802  steps=0
+  budget=100 vci-1   feas=87.50% exact=50.00%  F=-15.368  steps=100
+  budget=100 vci-2   feas=100.00% exact=35.00%  F=-15.768  steps=100
+  budget=200 greedy  feas=90.00% exact=87.50%  F=-5.802  steps=0
+  budget=200 vci-1   feas=97.50% exact=37.50%  F=-16.484  steps=200
+  budget=200 vci-2   feas=100.00% exact=50.00%  F=-16.054  steps=200
+  budget=300 greedy  feas=90.00% exact=87.50%  F=-5.802  steps=0
+  budget=300 vci-1   feas=92.50% exact=37.50%  F=-16.514  steps=300
+  budget=300 vci-2   feas=97.50% exact=45.00%  F=-16.425  steps=300
+  budget=400 greedy  feas=90.00% exact=87.50%  F=-5.802  steps=0
+  budget=400 vci-1   feas=97.50% exact=35.00%  F=-16.668  steps=400
+  budget=400 vci-2   feas=100.00% exact=40.00%  F=-16.587  steps=400
+  budget=600 greedy  feas=90.00% exact=87.50%  F=-5.802  steps=0
+  budget=600 vci-1   feas=90.00% exact=40.00%  F=-16.631  steps=600
+  budget=600 vci-2   feas=100.00% exact=37.50%  F=-16.763  steps=600
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/pareto/pareto.json
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/pareto/pareto_curves.png
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/pareto/pareto_tradeoff.png
+[2026-07-06T14:10:49Z] [INFO] === END pareto (ok, 34.5s) ===
+[2026-07-06T14:10:49Z] [INFO] === BEGIN scaling ===
+[2026-07-06T14:10:49Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/run_sampler_scaling.py --nodes 12 14 16 18 20 22 --trials 10 --steps 800 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/scaling
+[2026-07-06T14:10:49Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/scaling.subprocess.log
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/scaling/scaling.json
+  N=12  success=50.00%  ratio=0.885  trials=10
+  N=14  success=50.00%  ratio=0.885  trials=10
+  N=16  success=40.00%  ratio=0.860  trials=10
+  N=18  success=30.00%  ratio=0.887  trials=10
+  N=20  success=70.00%  ratio=0.903  trials=10
+  N=22  success=30.00%  ratio=0.874  trials=10
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/scaling/tts_scaling.png
+[2026-07-06T14:38:13Z] [INFO] === END scaling (ok, 1644.3s) ===
+[2026-07-06T14:38:13Z] [INFO] === BEGIN bbh_hf_full ===
+[2026-07-06T14:38:13Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/run_vci_bbh.py --source hf --logits llm --model-name Qwen/Qwen2.5-7B-Instruct --limit-per-task 50 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/bbh_hf_full
+[2026-07-06T14:38:13Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/bbh_hf_full.subprocess.log
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Scoring 500 problems with Qwen/Qwen2.5-7B-Instruct ...
+
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]
+Loading weights:  91%|█████████▏| 310/339 [00:00<00:00, 3079.66it/s]
+Loading weights: 100%|██████████| 339/339 [00:00<00:00, 3137.36it/s]
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/bbh_hf_full/metrics.json
+
+=== HF BBH + Qwen/Qwen2.5-7B-Instruct (n=500, budget=400) ===
+  greedy   feas=100.00%  exact=58.00%  jacc=0.580  pbit_steps≈0
+  vci-1    feas=100.00%  exact=56.40%  jacc=0.564  pbit_steps≈400
+  vci-2    feas=100.00%  exact=55.40%  jacc=0.554  pbit_steps≈200
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/bbh_hf_full/bbh_comparison.png
+[2026-07-06T14:41:32Z] [INFO] === END bbh_hf_full (ok, 199.4s) ===
+[2026-07-06T14:41:32Z] [INFO] === BEGIN plot_report ===
+[2026-07-06T14:41:32Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/plot_evidence_report.py --run-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852
+[2026-07-06T14:41:32Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/plot_report.subprocess.log
+Report: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/evidence_report.json
+Figure: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/evidence_table1.png
+Handoff best gain: σ=0.8 → +20.00%
+[2026-07-06T14:41:34Z] [INFO] === END plot_report (ok, 1.7s) ===
+[2026-07-06T14:41:34Z] [INFO] Saved artifact: failed_steps.json
+[2026-07-06T14:41:34Z] [INFO] Run completed. Manifest: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/manifest.json
+[2026-07-06T22:41:34+08:00] Packaging results...
+tar: .: file changed as we read it

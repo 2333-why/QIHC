@@ -1,0 +1,4 @@
+# 2026-07-06T14:08:31Z f_trajectories
+# cmd: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_f_trajectories.py --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/f_trajectories
+
+Saved F trajectories: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/f_trajectories

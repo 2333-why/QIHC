@@ -1,0 +1,42 @@
+{
+  "sampler": "parallel_tempering",
+  "steps": 800,
+  "scaling": [
+    {
+      "n_nodes": 12,
+      "success_rate": 0.5,
+      "mean_cut_ratio": 0.8854314906039044,
+      "trials": 10
+    },
+    {
+      "n_nodes": 14,
+      "success_rate": 0.5,
+      "mean_cut_ratio": 0.884889717887009,
+      "trials": 10
+    },
+    {
+      "n_nodes": 16,
+      "success_rate": 0.4,
+      "mean_cut_ratio": 0.8596696220682324,
+      "trials": 10
+    },
+    {
+      "n_nodes": 18,
+      "success_rate": 0.3,
+      "mean_cut_ratio": 0.8866799946480904,
+      "trials": 10
+    },
+    {
+      "n_nodes": 20,
+      "success_rate": 0.7,
+      "mean_cut_ratio": 0.9033795732177594,
+      "trials": 10
+    },
+    {
+      "n_nodes": 22,
+      "success_rate": 0.3,
+      "mean_cut_ratio": 0.8744979658532335,
+      "trials": 10
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "source": "bundled",
+  "logits": "llm",
+  "model_name": "Qwen/Qwen2.5-7B-Instruct",
+  "n_problems": 40,
+  "rows": [
+    {
+      "noise_scale": 0.0,
+      "mean_entropy_Hq": 0.5807350630205995,
+      "T_lm_proxy": 1.7219526454043006,
+      "T_ising_mid": 5.005,
+      "vci1_feasible_rate": 0.9,
+      "vci2_feasible_rate": 0.95,
+      "feasible_gain": 0.04999999999999993,
+      "vci1_exact_match": 0.325,
+      "vci2_exact_match": 0.25
+    },
+    {
+      "noise_scale": 0.15,
+      "mean_entropy_Hq": 0.5779187221403541,
+      "T_lm_proxy": 1.7303441320473556,
+      "T_ising_mid": 5.005,
+      "vci1_feasible_rate": 0.925,
+      "vci2_feasible_rate": 0.975,
+      "feasible_gain": 0.04999999999999993,
+      "vci1_exact_match": 0.225,
+      "vci2_exact_match": 0.275
+    },
+    {
+      "noise_scale": 0.3,
+      "mean_entropy_Hq": 0.5631345621057551,
+      "T_lm_proxy": 1.775771354699498,
+      "T_ising_mid": 5.005,
+      "vci1_feasible_rate": 0.875,
+      "vci2_feasible_rate": 0.925,
+      "feasible_gain": 0.050000000000000044,
+      "vci1_exact_match": 0.25,
+      "vci2_exact_match": 0.175
+    },
+    {
+      "noise_scale": 0.5,
+      "mean_entropy_Hq": 0.5743445189338318,
+      "T_lm_proxy": 1.7411122173571032,
+      "T_ising_mid": 5.005,
+      "vci1_feasible_rate": 0.9,
+      "vci2_feasible_rate": 0.925,
+      "feasible_gain": 0.025000000000000022,
+      "vci1_exact_match": 0.175,
+      "vci2_exact_match": 0.175
+    },
+    {
+      "noise_scale": 0.8,
+      "mean_entropy_Hq": 0.5194633820870396,
+      "T_lm_proxy": 1.9250598009864006,
+      "T_ising_mid": 5.005,
+      "vci1_feasible_rate": 0.775,
+      "vci2_feasible_rate": 0.975,
+      "feasible_gain": 0.19999999999999996,
+      "vci1_exact_match": 0.2,
+      "vci2_exact_match": 0.225
+    },
+    {
+      "noise_scale": 1.2,
+      "mean_entropy_Hq": 0.472151587322675,
+      "T_lm_proxy": 2.1179593776462515,
+      "T_ising_mid": 5.005,
+      "vci1_feasible_rate": 0.925,
+      "vci2_feasible_rate": 0.95,
+      "feasible_gain": 0.02499999999999991,
+      "vci1_exact_match": 0.2,
+      "vci2_exact_match": 0.175
+    }
+  ],
+  "budget_steps": 400
+}

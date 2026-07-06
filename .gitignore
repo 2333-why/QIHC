@@ -29,6 +29,8 @@ Thumbs.db
 # Experiment outputs (regenerate via scripts)
 experiments/outputs/*
 !experiments/outputs/.gitkeep
+!experiments/outputs/nsfc_evidence/
+!experiments/outputs/nsfc_evidence/**
 
 # HF BBH cache (regenerate: python experiments/download_bbh_hf.py)
 qihc/data/bbh_hf_cache.json

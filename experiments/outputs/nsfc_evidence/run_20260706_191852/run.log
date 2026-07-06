@@ -1,0 +1,50 @@
+[2026-07-06T11:33:23Z] [INFO] Profile: server — Full H200 server run for NSFC evidence (~2-6 hours)
+[2026-07-06T11:33:23Z] [INFO] Repo: /hdd/why/QIHC
+[2026-07-06T11:33:23Z] [INFO] Python: /hdd/why/QIHC/.venv/bin/python
+[2026-07-06T11:33:23Z] [INFO] Saved artifact: profile.json
+[2026-07-06T11:33:23Z] [INFO] === BEGIN dual_bundled ===
+[2026-07-06T11:33:23Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_dual_evidence.py --source bundled --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/dual_bundled
+[2026-07-06T11:33:23Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/dual_bundled.subprocess.log
+[2026-07-06T11:33:35Z] [INFO] === END dual_bundled (ok, 11.3s) ===
+[2026-07-06T11:33:35Z] [INFO] === BEGIN dual_hf_llm ===
+[2026-07-06T11:33:35Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_dual_evidence.py --source hf --logits llm --model-name Qwen/Qwen2.5-7B-Instruct --limit-per-task 50 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/dual_hf_llm
+[2026-07-06T11:33:35Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/dual_hf_llm.subprocess.log
+[2026-07-06T12:16:35Z] [INFO] === END dual_hf_llm (ok, 2580.3s) ===
+[2026-07-06T12:16:35Z] [INFO] === BEGIN cr_protocol_llm ===
+[2026-07-06T12:16:35Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_cr_bbh.py --source hf --use-llm --model-name Qwen/Qwen2.5-7B-Instruct --n-samples 50 --limit-per-task 30 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/cr_protocol_llm
+[2026-07-06T12:16:35Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/cr_protocol_llm.subprocess.log
+[2026-07-06T14:08:11Z] [INFO] === END cr_protocol_llm (ok, 6696.4s) ===
+[2026-07-06T14:08:11Z] [INFO] === BEGIN cr_bundled ===
+[2026-07-06T14:08:11Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_cr_bbh.py --source bundled --n-samples 50 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/cr_bundled
+[2026-07-06T14:08:11Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/cr_bundled.subprocess.log
+[2026-07-06T14:08:31Z] [INFO] === END cr_bundled (ok, 19.8s) ===
+[2026-07-06T14:08:31Z] [INFO] === BEGIN f_trajectories ===
+[2026-07-06T14:08:31Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_f_trajectories.py --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/f_trajectories
+[2026-07-06T14:08:31Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/f_trajectories.subprocess.log
+[2026-07-06T14:08:41Z] [INFO] === END f_trajectories (ok, 9.8s) ===
+[2026-07-06T14:08:41Z] [INFO] === BEGIN sampler_ablation ===
+[2026-07-06T14:08:41Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_sampler_ablation.py --steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/sampler_ablation
+[2026-07-06T14:08:41Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/sampler_ablation.subprocess.log
+[2026-07-06T14:08:56Z] [INFO] === END sampler_ablation (ok, 15.2s) ===
+[2026-07-06T14:08:56Z] [INFO] === BEGIN handoff ===
+[2026-07-06T14:08:56Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/run_vci_handoff.py --source bundled --logits llm --model-name Qwen/Qwen2.5-7B-Instruct --limit 40 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/handoff
+[2026-07-06T14:08:56Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/handoff.subprocess.log
+[2026-07-06T14:10:14Z] [INFO] === END handoff (ok, 77.9s) ===
+[2026-07-06T14:10:14Z] [INFO] === BEGIN pareto ===
+[2026-07-06T14:10:14Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/run_vci_pareto.py --budgets 100 200 300 400 600 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/pareto
+[2026-07-06T14:10:14Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/pareto.subprocess.log
+[2026-07-06T14:10:49Z] [INFO] === END pareto (ok, 34.5s) ===
+[2026-07-06T14:10:49Z] [INFO] === BEGIN scaling ===
+[2026-07-06T14:10:49Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/run_sampler_scaling.py --nodes 12 14 16 18 20 22 --trials 10 --steps 800 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/scaling
+[2026-07-06T14:10:49Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/scaling.subprocess.log
+[2026-07-06T14:38:13Z] [INFO] === END scaling (ok, 1644.3s) ===
+[2026-07-06T14:38:13Z] [INFO] === BEGIN bbh_hf_full ===
+[2026-07-06T14:38:13Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/run_vci_bbh.py --source hf --logits llm --model-name Qwen/Qwen2.5-7B-Instruct --limit-per-task 50 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/bbh_hf_full
+[2026-07-06T14:38:13Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/bbh_hf_full.subprocess.log
+[2026-07-06T14:41:32Z] [INFO] === END bbh_hf_full (ok, 199.4s) ===
+[2026-07-06T14:41:32Z] [INFO] === BEGIN plot_report ===
+[2026-07-06T14:41:32Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/plot_evidence_report.py --run-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852
+[2026-07-06T14:41:32Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/plot_report.subprocess.log
+[2026-07-06T14:41:34Z] [INFO] === END plot_report (ok, 1.7s) ===
+[2026-07-06T14:41:34Z] [INFO] Saved artifact: failed_steps.json
+[2026-07-06T14:41:34Z] [INFO] Run completed. Manifest: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/manifest.json

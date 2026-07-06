@@ -1,0 +1,53 @@
+{
+  "source": "hf",
+  "logits": "llm",
+  "model_name": "Qwen/Qwen2.5-7B-Instruct",
+  "hf_repo": "Joschka/big_bench_hard",
+  "hf_tasks": [
+    "logical_deduction_three_objects",
+    "logical_deduction_five_objects",
+    "logical_deduction_seven_objects",
+    "disambiguation_qa",
+    "causal_judgement",
+    "formal_fallacies",
+    "web_of_lies",
+    "date_understanding",
+    "hyperbaton",
+    "movie_recommendation"
+  ],
+  "n_tasks": 500,
+  "budget_steps": 400,
+  "summary": {
+    "greedy": {
+      "mode": "greedy",
+      "feasible_rate": 1.0,
+      "exact_match_rate": 0.58,
+      "mean_jaccard": 0.58,
+      "mean_time_s": 4.72201369702816e-05,
+      "mean_rounds": 1.0,
+      "steps_per_round": 0,
+      "mean_pbit_steps": 0.0
+    },
+    "vci-1": {
+      "mode": "vci-1",
+      "feasible_rate": 1.0,
+      "exact_match_rate": 0.564,
+      "mean_jaccard": 0.564,
+      "mean_time_s": 0.08656043120101094,
+      "mean_rounds": 1.0,
+      "steps_per_round": 400,
+      "mean_pbit_steps": 400.0
+    },
+    "vci-2": {
+      "mode": "vci-2",
+      "feasible_rate": 1.0,
+      "exact_match_rate": 0.554,
+      "mean_jaccard": 0.554,
+      "mean_time_s": 0.042239339638501405,
+      "mean_rounds": 1.0,
+      "steps_per_round": 200,
+      "mean_pbit_steps": 200.0
+    }
+  },
+  "note": "vci-2 uses budget_steps/2 per round × up to 2 rounds ≈ equal budget"
+}

@@ -1,0 +1,11 @@
+# 2026-07-06T14:10:49Z scaling
+# cmd: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/run_sampler_scaling.py --nodes 12 14 16 18 20 22 --trials 10 --steps 800 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/scaling
+
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/scaling/scaling.json
+  N=12  success=50.00%  ratio=0.885  trials=10
+  N=14  success=50.00%  ratio=0.885  trials=10
+  N=16  success=40.00%  ratio=0.860  trials=10
+  N=18  success=30.00%  ratio=0.887  trials=10
+  N=20  success=70.00%  ratio=0.903  trials=10
+  N=22  success=30.00%  ratio=0.874  trials=10
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/scaling/tts_scaling.png

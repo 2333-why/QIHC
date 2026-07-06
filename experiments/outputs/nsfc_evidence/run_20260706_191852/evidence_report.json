@@ -1,0 +1,161 @@
+{
+  "run_dir": "/hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852",
+  "table1_rows": [
+    {
+      "arm": "bundled_constraint",
+      "mode": "greedy",
+      "feasible_rate": 0.9,
+      "exact_match_rate": 0.875,
+      "mean_jaccard": 0.9258333333333333,
+      "mean_F": -5.801564023175798,
+      "mean_time_s": 0.00010120980441570282,
+      "mean_rounds": 1.0,
+      "steps_per_round": 0,
+      "mean_pbit_steps": 0.0,
+      "llm_calls": 1
+    },
+    {
+      "arm": "bundled_constraint",
+      "mode": "vci-1",
+      "feasible_rate": 0.975,
+      "exact_match_rate": 0.35,
+      "mean_jaccard": 0.5775,
+      "mean_F": -16.6683882162302,
+      "mean_time_s": 0.16697819652035834,
+      "mean_rounds": 1.0,
+      "steps_per_round": 400,
+      "mean_pbit_steps": 400.0,
+      "llm_calls": 1
+    },
+    {
+      "arm": "bundled_constraint",
+      "mode": "vci-2",
+      "feasible_rate": 1.0,
+      "exact_match_rate": 0.4,
+      "mean_jaccard": 0.6283333333333333,
+      "mean_F": -16.5867078054864,
+      "mean_time_s": 0.07210547146387399,
+      "mean_rounds": 1.025,
+      "steps_per_round": 200,
+      "mean_pbit_steps": 204.99999999999997,
+      "llm_calls": 1
+    }
+  ],
+  "cr_protocol": [
+    {
+      "mode": "zeroshot",
+      "accuracy": 0.4,
+      "feasible_rate": 1.0,
+      "mean_pbit_steps": 0.0,
+      "n_tasks": 150
+    },
+    {
+      "mode": "linear",
+      "accuracy": 0.4,
+      "feasible_rate": 1.0,
+      "mean_pbit_steps": 0.0,
+      "n_tasks": 150
+    },
+    {
+      "mode": "quadratic",
+      "accuracy": 0.4,
+      "feasible_rate": 1.0,
+      "mean_pbit_steps": 400.0,
+      "n_tasks": 150
+    },
+    {
+      "mode": "vci-1",
+      "accuracy": 0.3933333333333333,
+      "feasible_rate": 1.0,
+      "mean_pbit_steps": 400.0,
+      "n_tasks": 150
+    },
+    {
+      "mode": "vci-2",
+      "accuracy": 0.3933333333333333,
+      "feasible_rate": 1.0,
+      "mean_pbit_steps": 400.0,
+      "n_tasks": 150
+    }
+  ],
+  "handoff_highlights": {
+    "noise_scale": 0.8,
+    "mean_entropy_Hq": 0.5194633820870396,
+    "T_lm_proxy": 1.9250598009864006,
+    "T_ising_mid": 5.005,
+    "vci1_feasible_rate": 0.775,
+    "vci2_feasible_rate": 0.975,
+    "feasible_gain": 0.19999999999999996,
+    "vci1_exact_match": 0.2,
+    "vci2_exact_match": 0.225
+  },
+  "pareto": null,
+  "scaling": [
+    {
+      "n_nodes": 12,
+      "success_rate": 0.5,
+      "mean_cut_ratio": 0.8854314906039044,
+      "trials": 10
+    },
+    {
+      "n_nodes": 14,
+      "success_rate": 0.5,
+      "mean_cut_ratio": 0.884889717887009,
+      "trials": 10
+    },
+    {
+      "n_nodes": 16,
+      "success_rate": 0.4,
+      "mean_cut_ratio": 0.8596696220682324,
+      "trials": 10
+    },
+    {
+      "n_nodes": 18,
+      "success_rate": 0.3,
+      "mean_cut_ratio": 0.8866799946480904,
+      "trials": 10
+    },
+    {
+      "n_nodes": 20,
+      "success_rate": 0.7,
+      "mean_cut_ratio": 0.9033795732177594,
+      "trials": 10
+    },
+    {
+      "n_nodes": 22,
+      "success_rate": 0.3,
+      "mean_cut_ratio": 0.8744979658532335,
+      "trials": 10
+    }
+  ],
+  "f_descent_mean": [
+    -16.205021109175014,
+    -18.417707996279454
+  ],
+  "sampler_ablation": {
+    "gibbs": {
+      "feasible_rate": 0.75,
+      "mean_energy": -3.907630982059755,
+      "mean_time_s": 0.02930683302693069,
+      "win_rate_vs_gibbs": null
+    },
+    "parallel_tempering": {
+      "feasible_rate": 0.975,
+      "mean_energy": -15.507256918220591,
+      "mean_time_s": 0.15980369122698904,
+      "win_rate_vs_gibbs": 0.975
+    },
+    "sa_sync": {
+      "feasible_rate": 0.8,
+      "mean_energy": -0.023382245353629295,
+      "mean_time_s": 0.010163941187784076,
+      "win_rate_vs_gibbs": null
+    }
+  },
+  "llm_stats": {
+    "n_completions": 7500,
+    "n_prompt_tokens": 1442550,
+    "n_completion_tokens": 960000,
+    "wall_time_s": 6606.81
+  }
+}

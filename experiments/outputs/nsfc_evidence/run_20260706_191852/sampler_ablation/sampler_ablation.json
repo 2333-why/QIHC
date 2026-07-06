@@ -1,0 +1,24 @@
+{
+  "experiment": "sampler_ablation",
+  "steps": 400,
+  "summary": {
+    "gibbs": {
+      "feasible_rate": 0.75,
+      "mean_energy": -3.907630982059755,
+      "mean_time_s": 0.02930683302693069,
+      "win_rate_vs_gibbs": null
+    },
+    "parallel_tempering": {
+      "feasible_rate": 0.975,
+      "mean_energy": -15.507256918220591,
+      "mean_time_s": 0.15980369122698904,
+      "win_rate_vs_gibbs": 0.975
+    },
+    "sa_sync": {
+      "feasible_rate": 0.8,
+      "mean_energy": -0.023382245353629295,
+      "mean_time_s": 0.010163941187784076,
+      "win_rate_vs_gibbs": null
+    }
+  }
+}

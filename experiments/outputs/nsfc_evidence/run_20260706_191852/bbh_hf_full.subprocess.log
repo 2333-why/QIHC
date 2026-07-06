@@ -1,0 +1,16 @@
+# 2026-07-06T14:38:13Z bbh_hf_full
+# cmd: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/run_vci_bbh.py --source hf --logits llm --model-name Qwen/Qwen2.5-7B-Instruct --limit-per-task 50 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/bbh_hf_full
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Scoring 500 problems with Qwen/Qwen2.5-7B-Instruct ...
+
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]
+Loading weights:  91%|█████████▏| 310/339 [00:00<00:00, 3079.66it/s]
+Loading weights: 100%|██████████| 339/339 [00:00<00:00, 3137.36it/s]
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/bbh_hf_full/metrics.json
+
+=== HF BBH + Qwen/Qwen2.5-7B-Instruct (n=500, budget=400) ===
+  greedy   feas=100.00%  exact=58.00%  jacc=0.580  pbit_steps≈0
+  vci-1    feas=100.00%  exact=56.40%  jacc=0.564  pbit_steps≈400
+  vci-2    feas=100.00%  exact=55.40%  jacc=0.554  pbit_steps≈200
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/bbh_hf_full/bbh_comparison.png

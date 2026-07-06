@@ -1,0 +1,9 @@
+# 2026-07-06T11:33:23Z dual_bundled
+# cmd: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_dual_evidence.py --source bundled --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/dual_bundled
+
+
+=== Dual-axis evidence (bundled, n=40) ===
+  greedy   feas=90.00% exact=87.50% F=-5.80 pbit≈0
+  vci-1    feas=97.50% exact=35.00% F=-16.67 pbit≈400
+  vci-2    feas=100.00% exact=40.00% F=-16.59 pbit≈205
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260706_191852/dual_bundled
