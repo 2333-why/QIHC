@@ -1,0 +1,11 @@
+{
+  "run_name": "nsfc_pre_submission",
+  "started_at": "2026-07-07T19:50:42Z",
+  "hostname": "unknown",
+  "cuda_visible_devices": "0,1",
+  "steps": [],
+  "artifacts": [
+    "profile.json"
+  ],
+  "updated_at": "2026-07-07T19:50:42Z"
+}

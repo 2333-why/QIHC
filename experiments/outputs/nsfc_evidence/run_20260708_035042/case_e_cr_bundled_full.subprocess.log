@@ -1,0 +1,3 @@
+# 2026-07-07T19:50:42Z case_e_cr_bundled_full
+# cmd: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_case_e_cr_bundled_full.py --n-samples 50 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260708_035042/case_e_cr_bundled_full
+

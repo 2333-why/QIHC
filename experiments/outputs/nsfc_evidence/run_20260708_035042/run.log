@@ -1,0 +1,9 @@
+[2026-07-07T19:50:42Z] [INFO] Profile: pre_submission — 立项前补全七项证据（unified ablation + handoff dense + pareto + scaling TTS）
+[2026-07-07T19:50:42Z] [INFO] Repo: /hdd/why/QIHC
+[2026-07-07T19:50:42Z] [INFO] Python: /hdd/why/QIHC/.venv/bin/python
+[2026-07-07T19:50:42Z] [INFO] MODEL_NAME: Qwen/Qwen2.5-7B-Instruct
+[2026-07-07T19:50:42Z] [INFO] MODEL_NAME_14B: Qwen/Qwen2.5-14B-Instruct
+[2026-07-07T19:50:42Z] [INFO] Saved artifact: profile.json
+[2026-07-07T19:50:42Z] [INFO] === BEGIN case_e_cr_bundled_full ===
+[2026-07-07T19:50:42Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_case_e_cr_bundled_full.py --n-samples 50 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260708_035042/case_e_cr_bundled_full
+[2026-07-07T19:50:42Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_20260708_035042/case_e_cr_bundled_full.subprocess.log

@@ -1,0 +1,594 @@
+{
+  "experiment": "unified_ablation",
+  "dataset": "bundled",
+  "logits": "pseudo",
+  "model_name": null,
+  "n_tasks": 40,
+  "budget_steps": 400,
+  "n_samples": 50,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "modes_vci": [
+    "vci-0",
+    "vci-1",
+    "vci-2"
+  ],
+  "modes_cr": [
+    "zeroshot",
+    "random",
+    "linear",
+    "quadratic",
+    "vci-1",
+    "vci-2"
+  ],
+  "summary": {
+    "vci-0": {
+      "mode": "vci-0",
+      "feasible_rate": 0.975,
+      "exact_match_rate": 0.825,
+      "mean_jaccard": 0.8966666666666667,
+      "mean_F": -5.894140206487727,
+      "mean_time_s": 5.1005976274609566e-05,
+      "mean_rounds": 1.0,
+      "steps_per_round": 0,
+      "mean_pbit_steps": 0.0,
+      "llm_calls": 1,
+      "family": "vci"
+    },
+    "vci-1": {
+      "mode": "vci-1",
+      "feasible_rate": 1.0,
+      "exact_match_rate": 0.475,
+      "mean_jaccard": 0.6866666666666668,
+      "mean_F": -16.954297159464687,
+      "mean_time_s": 0.14932931778021158,
+      "mean_rounds": 1.0,
+      "steps_per_round": 400,
+      "mean_pbit_steps": 400.0,
+      "llm_calls": 1,
+      "family": "vci"
+    },
+    "vci-2": {
+      "mode": "vci-2",
+      "feasible_rate": 1.0,
+      "exact_match_rate": 0.475,
+      "mean_jaccard": 0.6925,
+      "mean_F": -17.04418923776299,
+      "mean_time_s": 0.06567006357945501,
+      "mean_rounds": 1.075,
+      "steps_per_round": 200,
+      "mean_pbit_steps": 215.0,
+      "llm_calls": 1,
+      "family": "vci"
+    },
+    "zeroshot": {
+      "feasible_rate": 0.975,
+      "exact_match_rate": 0.825,
+      "mean_pbit_steps": 0.0,
+      "llm_calls": 1,
+      "family": "cr"
+    },
+    "random": {
+      "feasible_rate": 0.925,
+      "exact_match_rate": 0.0,
+      "mean_pbit_steps": 0.0,
+      "llm_calls": 1,
+      "family": "cr"
+    },
+    "linear": {
+      "feasible_rate": 0.9,
+      "exact_match_rate": 0.65,
+      "mean_pbit_steps": 0.0,
+      "llm_calls": 50,
+      "family": "cr"
+    },
+    "quadratic": {
+      "feasible_rate": 0.95,
+      "exact_match_rate": 0.375,
+      "mean_pbit_steps": 400.0,
+      "llm_calls": 50,
+      "family": "cr"
+    },
+    "cr:vci-1": {
+      "feasible_rate": 0.975,
+      "exact_match_rate": 0.2,
+      "mean_pbit_steps": 400.0,
+      "llm_calls": 50,
+      "family": "cr"
+    },
+    "cr:vci-2": {
+      "feasible_rate": 1.0,
+      "exact_match_rate": 0.225,
+      "mean_pbit_steps": 410.0,
+      "llm_calls": 50,
+      "family": "cr"
+    }
+  },
+  "per_seed": [
+    {
+      "vci-0": {
+        "mode": "vci-0",
+        "feasible_rate": 0.9,
+        "exact_match_rate": 0.875,
+        "mean_jaccard": 0.9258333333333333,
+        "mean_F": -5.801564023175798,
+        "mean_time_s": 0.00018182112835347654,
+        "mean_rounds": 1.0,
+        "steps_per_round": 0,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 1,
+        "family": "vci"
+      },
+      "vci-1": {
+        "mode": "vci-1",
+        "feasible_rate": 0.975,
+        "exact_match_rate": 0.35,
+        "mean_jaccard": 0.5775,
+        "mean_F": -16.6683882162302,
+        "mean_time_s": 0.21729651489295065,
+        "mean_rounds": 1.0,
+        "steps_per_round": 400,
+        "mean_pbit_steps": 400.0,
+        "llm_calls": 1,
+        "family": "vci"
+      },
+      "vci-2": {
+        "mode": "vci-2",
+        "feasible_rate": 1.0,
+        "exact_match_rate": 0.4,
+        "mean_jaccard": 0.6283333333333333,
+        "mean_F": -16.5867078054864,
+        "mean_time_s": 0.11628113188780845,
+        "mean_rounds": 1.025,
+        "steps_per_round": 200,
+        "mean_pbit_steps": 204.99999999999997,
+        "llm_calls": 1,
+        "family": "vci"
+      },
+      "zeroshot": {
+        "feasible_rate": 0.9,
+        "exact_match_rate": 0.875,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 1,
+        "family": "cr"
+      },
+      "random": {
+        "feasible_rate": 0.925,
+        "exact_match_rate": 0.0,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 1,
+        "family": "cr"
+      },
+      "linear": {
+        "feasible_rate": 0.85,
+        "exact_match_rate": 0.675,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 50,
+        "family": "cr"
+      },
+      "quadratic": {
+        "feasible_rate": 0.95,
+        "exact_match_rate": 0.325,
+        "mean_pbit_steps": 400.0,
+        "llm_calls": 50,
+        "family": "cr"
+      },
+      "cr:vci-1": {
+        "feasible_rate": 0.9,
+        "exact_match_rate": 0.375,
+        "mean_pbit_steps": 400.0,
+        "llm_calls": 50,
+        "family": "cr"
+      },
+      "cr:vci-2": {
+        "feasible_rate": 1.0,
+        "exact_match_rate": 0.425,
+        "mean_pbit_steps": 440.0,
+        "llm_calls": 50,
+        "family": "cr"
+      }
+    },
+    {
+      "vci-0": {
+        "mode": "vci-0",
+        "feasible_rate": 1.0,
+        "exact_match_rate": 0.825,
+        "mean_jaccard": 0.8875,
+        "mean_F": -5.972249725102571,
+        "mean_time_s": 6.573190912604333e-05,
+        "mean_rounds": 1.0,
+        "steps_per_round": 0,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 1,
+        "family": "vci"
+      },
+      "vci-1": {
+        "mode": "vci-1",
+        "feasible_rate": 0.95,
+        "exact_match_rate": 0.45,
+        "mean_jaccard": 0.6433333333333333,
+        "mean_F": -16.72746232612433,
+        "mean_time_s": 0.1296134540811181,
+        "mean_rounds": 1.0,
+        "steps_per_round": 400,
+        "mean_pbit_steps": 400.0,
+        "llm_calls": 1,
+        "family": "vci"
+      },
+      "vci-2": {
+        "mode": "vci-2",
+        "feasible_rate": 1.0,
+        "exact_match_rate": 0.425,
+        "mean_jaccard": 0.6308333333333334,
+        "mean_F": -16.507888361784445,
+        "mean_time_s": 0.0950136455707252,
+        "mean_rounds": 1.125,
+        "steps_per_round": 200,
+        "mean_pbit_steps": 225.0,
+        "llm_calls": 1,
+        "family": "vci"
+      },
+      "zeroshot": {
+        "feasible_rate": 1.0,
+        "exact_match_rate": 0.825,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 1,
+        "family": "cr"
+      },
+      "random": {
+        "feasible_rate": 0.925,
+        "exact_match_rate": 0.0,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 1,
+        "family": "cr"
+      },
+      "linear": {
+        "feasible_rate": 0.95,
+        "exact_match_rate": 0.7,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 50,
+        "family": "cr"
+      },
+      "quadratic": {
+        "feasible_rate": 0.975,
+        "exact_match_rate": 0.225,
+        "mean_pbit_steps": 400.0,
+        "llm_calls": 50,
+        "family": "cr"
+      },
+      "cr:vci-1": {
+        "feasible_rate": 1.0,
+        "exact_match_rate": 0.45,
+        "mean_pbit_steps": 400.0,
+        "llm_calls": 50,
+        "family": "cr"
+      },
+      "cr:vci-2": {
+        "feasible_rate": 1.0,
+        "exact_match_rate": 0.45,
+        "mean_pbit_steps": 400.0,
+        "llm_calls": 50,
+        "family": "cr"
+      }
+    },
+    {
+      "vci-0": {
+        "mode": "vci-0",
+        "feasible_rate": 0.975,
+        "exact_match_rate": 0.85,
+        "mean_jaccard": 0.9208333333333332,
+        "mean_F": -5.832401148956962,
+        "mean_time_s": 5.02909068018198e-05,
+        "mean_rounds": 1.0,
+        "steps_per_round": 0,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 1,
+        "family": "vci"
+      },
+      "vci-1": {
+        "mode": "vci-1",
+        "feasible_rate": 0.925,
+        "exact_match_rate": 0.375,
+        "mean_jaccard": 0.645,
+        "mean_F": -16.448670590095936,
+        "mean_time_s": 0.12319457302801311,
+        "mean_rounds": 1.0,
+        "steps_per_round": 400,
+        "mean_pbit_steps": 400.0,
+        "llm_calls": 1,
+        "family": "vci"
+      },
+      "vci-2": {
+        "mode": "vci-2",
+        "feasible_rate": 1.0,
+        "exact_match_rate": 0.4,
+        "mean_jaccard": 0.6575,
+        "mean_F": -16.378762532371436,
+        "mean_time_s": 0.06532092089764774,
+        "mean_rounds": 1.05,
+        "steps_per_round": 200,
+        "mean_pbit_steps": 210.0,
+        "llm_calls": 1,
+        "family": "vci"
+      },
+      "zeroshot": {
+        "feasible_rate": 0.975,
+        "exact_match_rate": 0.85,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 1,
+        "family": "cr"
+      },
+      "random": {
+        "feasible_rate": 0.925,
+        "exact_match_rate": 0.0,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 1,
+        "family": "cr"
+      },
+      "linear": {
+        "feasible_rate": 0.875,
+        "exact_match_rate": 0.575,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 50,
+        "family": "cr"
+      },
+      "quadratic": {
+        "feasible_rate": 0.95,
+        "exact_match_rate": 0.275,
+        "mean_pbit_steps": 400.0,
+        "llm_calls": 50,
+        "family": "cr"
+      },
+      "cr:vci-1": {
+        "feasible_rate": 0.925,
+        "exact_match_rate": 0.3,
+        "mean_pbit_steps": 400.0,
+        "llm_calls": 50,
+        "family": "cr"
+      },
+      "cr:vci-2": {
+        "feasible_rate": 1.0,
+        "exact_match_rate": 0.325,
+        "mean_pbit_steps": 430.0,
+        "llm_calls": 50,
+        "family": "cr"
+      }
+    },
+    {
+      "vci-0": {
+        "mode": "vci-0",
+        "feasible_rate": 0.975,
+        "exact_match_rate": 0.8,
+        "mean_jaccard": 0.8883333333333333,
+        "mean_F": -5.871320062155955,
+        "mean_time_s": 4.912577569484711e-05,
+        "mean_rounds": 1.0,
+        "steps_per_round": 0,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 1,
+        "family": "vci"
+      },
+      "vci-1": {
+        "mode": "vci-1",
+        "feasible_rate": 0.925,
+        "exact_match_rate": 0.25,
+        "mean_jaccard": 0.5741666666666666,
+        "mean_F": -16.53086880787928,
+        "mean_time_s": 0.12377745090052486,
+        "mean_rounds": 1.0,
+        "steps_per_round": 400,
+        "mean_pbit_steps": 400.0,
+        "llm_calls": 1,
+        "family": "vci"
+      },
+      "vci-2": {
+        "mode": "vci-2",
+        "feasible_rate": 1.0,
+        "exact_match_rate": 0.275,
+        "mean_jaccard": 0.5599999999999999,
+        "mean_F": -16.4618637657057,
+        "mean_time_s": 0.06962856464087963,
+        "mean_rounds": 1.125,
+        "steps_per_round": 200,
+        "mean_pbit_steps": 225.0,
+        "llm_calls": 1,
+        "family": "vci"
+      },
+      "zeroshot": {
+        "feasible_rate": 0.975,
+        "exact_match_rate": 0.8,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 1,
+        "family": "cr"
+      },
+      "random": {
+        "feasible_rate": 0.925,
+        "exact_match_rate": 0.0,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 1,
+        "family": "cr"
+      },
+      "linear": {
+        "feasible_rate": 0.95,
+        "exact_match_rate": 0.65,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 50,
+        "family": "cr"
+      },
+      "quadratic": {
+        "feasible_rate": 0.925,
+        "exact_match_rate": 0.4,
+        "mean_pbit_steps": 400.0,
+        "llm_calls": 50,
+        "family": "cr"
+      },
+      "cr:vci-1": {
+        "feasible_rate": 0.9,
+        "exact_match_rate": 0.225,
+        "mean_pbit_steps": 400.0,
+        "llm_calls": 50,
+        "family": "cr"
+      },
+      "cr:vci-2": {
+        "feasible_rate": 1.0,
+        "exact_match_rate": 0.25,
+        "mean_pbit_steps": 440.0,
+        "llm_calls": 50,
+        "family": "cr"
+      }
+    },
+    {
+      "vci-0": {
+        "mode": "vci-0",
+        "feasible_rate": 0.975,
+        "exact_match_rate": 0.825,
+        "mean_jaccard": 0.8966666666666667,
+        "mean_F": -5.894140206487727,
+        "mean_time_s": 5.1005976274609566e-05,
+        "mean_rounds": 1.0,
+        "steps_per_round": 0,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 1,
+        "family": "vci"
+      },
+      "vci-1": {
+        "mode": "vci-1",
+        "feasible_rate": 1.0,
+        "exact_match_rate": 0.475,
+        "mean_jaccard": 0.6866666666666668,
+        "mean_F": -16.954297159464687,
+        "mean_time_s": 0.14932931778021158,
+        "mean_rounds": 1.0,
+        "steps_per_round": 400,
+        "mean_pbit_steps": 400.0,
+        "llm_calls": 1,
+        "family": "vci"
+      },
+      "vci-2": {
+        "mode": "vci-2",
+        "feasible_rate": 1.0,
+        "exact_match_rate": 0.475,
+        "mean_jaccard": 0.6925,
+        "mean_F": -17.04418923776299,
+        "mean_time_s": 0.06567006357945501,
+        "mean_rounds": 1.075,
+        "steps_per_round": 200,
+        "mean_pbit_steps": 215.0,
+        "llm_calls": 1,
+        "family": "vci"
+      },
+      "zeroshot": {
+        "feasible_rate": 0.975,
+        "exact_match_rate": 0.825,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 1,
+        "family": "cr"
+      },
+      "random": {
+        "feasible_rate": 0.925,
+        "exact_match_rate": 0.0,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 1,
+        "family": "cr"
+      },
+      "linear": {
+        "feasible_rate": 0.9,
+        "exact_match_rate": 0.65,
+        "mean_pbit_steps": 0.0,
+        "llm_calls": 50,
+        "family": "cr"
+      },
+      "quadratic": {
+        "feasible_rate": 0.95,
+        "exact_match_rate": 0.375,
+        "mean_pbit_steps": 400.0,
+        "llm_calls": 50,
+        "family": "cr"
+      },
+      "cr:vci-1": {
+        "feasible_rate": 0.975,
+        "exact_match_rate": 0.2,
+        "mean_pbit_steps": 400.0,
+        "llm_calls": 50,
+        "family": "cr"
+      },
+      "cr:vci-2": {
+        "feasible_rate": 1.0,
+        "exact_match_rate": 0.225,
+        "mean_pbit_steps": 410.0,
+        "llm_calls": 50,
+        "family": "cr"
+      }
+    }
+  ],
+  "aggregate": {
+    "vci-0": {
+      "feasible_rate_mean": 0.9650000000000001,
+      "feasible_rate_std": 0.03391164991562633,
+      "exact_match_rate_mean": 0.835,
+      "exact_match_rate_std": 0.025495097567963917,
+      "n_seeds": 5
+    },
+    "vci-1": {
+      "feasible_rate_mean": 0.9549999999999998,
+      "feasible_rate_std": 0.029154759474226483,
+      "exact_match_rate_mean": 0.38,
+      "exact_match_rate_std": 0.07968688725254613,
+      "n_seeds": 5
+    },
+    "vci-2": {
+      "feasible_rate_mean": 1.0,
+      "feasible_rate_std": 0.0,
+      "exact_match_rate_mean": 0.395,
+      "exact_match_rate_std": 0.06595452979136458,
+      "n_seeds": 5
+    },
+    "zeroshot": {
+      "feasible_rate_mean": 0.9650000000000001,
+      "feasible_rate_std": 0.03391164991562633,
+      "exact_match_rate_mean": 0.835,
+      "exact_match_rate_std": 0.025495097567963917,
+      "n_seeds": 5
+    },
+    "random": {
+      "feasible_rate_mean": 0.925,
+      "feasible_rate_std": 0.0,
+      "exact_match_rate_mean": 0.0,
+      "exact_match_rate_std": 0.0,
+      "n_seeds": 5
+    },
+    "linear": {
+      "feasible_rate_mean": 0.905,
+      "feasible_rate_std": 0.03999999999999999,
+      "exact_match_rate_mean": 0.65,
+      "exact_match_rate_std": 0.04183300132670379,
+      "n_seeds": 5
+    },
+    "quadratic": {
+      "feasible_rate_mean": 0.95,
+      "feasible_rate_std": 0.015811388300841875,
+      "exact_match_rate_mean": 0.32,
+      "exact_match_rate_std": 0.0640312423743285,
+      "n_seeds": 5
+    },
+    "cr:vci-1": {
+      "feasible_rate_mean": 0.9400000000000001,
+      "feasible_rate_std": 0.040620192023179784,
+      "exact_match_rate_mean": 0.31,
+      "exact_match_rate_std": 0.09300537618869137,
+      "n_seeds": 5
+    },
+    "cr:vci-2": {
+      "feasible_rate_mean": 1.0,
+      "feasible_rate_std": 0.0,
+      "exact_match_rate_mean": 0.335,
+      "exact_match_rate_std": 0.09027735042633894,
+      "n_seeds": 5
+    }
+  }
+}

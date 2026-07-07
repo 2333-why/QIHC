@@ -1,0 +1,18 @@
+{
+  "profile": "pre_submission",
+  "description": "立项前补全七项证据（unified ablation + handoff dense + pareto + scaling TTS）",
+  "steps": [
+    "case_e_cr_bundled_full",
+    "handoff",
+    "pareto",
+    "unified_ablation_bundled",
+    "unified_ablation_synthetic",
+    "scaling",
+    "case_g_constrained_bbh"
+  ],
+  "post_steps": [
+    "c_compute_budget"
+  ],
+  "model_name": "Qwen/Qwen2.5-7B-Instruct",
+  "model_name_14b": "Qwen/Qwen2.5-14B-Instruct"
+}
