@@ -1,0 +1,7 @@
+# 2026-07-06T17:25:11Z sampler_ablation
+# cmd: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_sampler_ablation.py --steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/sampler_ablation
+
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/sampler_ablation
+  gibbs                  feas=75.00% time=0.028s
+  parallel_tempering     feas=97.50% time=0.123s
+  sa_sync                feas=80.00% time=0.009s

@@ -1,0 +1,16 @@
+# 2026-07-06T17:24:45Z cr_bundled
+# cmd: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_cr_bbh.py --source bundled --n-samples 50 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/cr_bundled
+
+CR benchmark: 40 tasks, n_samples=50, use_llm=False
+  [10/40] tasks done
+  [20/40] tasks done
+  [30/40] tasks done
+  [40/40] tasks done
+
+=== CR protocol summary (n=40) ===
+  zeroshot     acc=87.50% feas=90.00%
+  linear       acc=67.50% feas=85.00%
+  quadratic    acc=30.00% feas=95.00%
+  vci-1        acc=37.50% feas=90.00%
+  vci-2        acc=42.50% feas=100.00%
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/cr_bundled/cr_protocol.json

@@ -1,0 +1,45 @@
+[2026-07-06T17:19:59Z] [INFO] Profile: p012 — P0–P2 NSFC cases on Pro 6000 (~4–10 hours with 7B+14B)
+[2026-07-06T17:19:59Z] [INFO] Repo: /hdd/why/QIHC
+[2026-07-06T17:19:59Z] [INFO] Python: /hdd/why/QIHC/.venv/bin/python
+[2026-07-06T17:19:59Z] [INFO] MODEL_NAME: Qwen/Qwen2.5-7B-Instruct
+[2026-07-06T17:19:59Z] [INFO] MODEL_NAME_14B: Qwen/Qwen2.5-14B-Instruct
+[2026-07-06T17:19:59Z] [INFO] Saved artifact: profile.json
+[2026-07-06T17:19:59Z] [INFO] === BEGIN case_a_cr_subset ===
+[2026-07-06T17:19:59Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_case_a_cr_subset.py --n-tasks 200 --n-samples 50 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_a_cr_subset
+[2026-07-06T17:19:59Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_a_cr_subset.subprocess.log
+[2026-07-06T17:21:31Z] [INFO] === END case_a_cr_subset (ok, 91.9s) ===
+[2026-07-06T17:21:31Z] [INFO] === BEGIN case_b_dual_synthetic ===
+[2026-07-06T17:21:31Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_case_b_dual_synthetic.py --n-tasks 200 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_b_dual_synthetic
+[2026-07-06T17:21:31Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_b_dual_synthetic.subprocess.log
+[2026-07-06T17:22:11Z] [INFO] === END case_b_dual_synthetic (ok, 40.5s) ===
+[2026-07-06T17:22:11Z] [INFO] === BEGIN case_d_cr_by_task ===
+[2026-07-06T17:22:11Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_case_d_cr_by_task.py --n-tasks 200 --n-samples 50 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_d_cr_by_task
+[2026-07-06T17:22:11Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_d_cr_by_task.subprocess.log
+[2026-07-06T17:23:18Z] [INFO] === END case_d_cr_by_task (ok, 66.6s) ===
+[2026-07-06T17:23:18Z] [INFO] === BEGIN case_e_cr_bundled_full ===
+[2026-07-06T17:23:18Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_case_e_cr_bundled_full.py --n-samples 50 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_e_cr_bundled_full
+[2026-07-06T17:23:18Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_e_cr_bundled_full.subprocess.log
+[2026-07-06T17:23:42Z] [INFO] === END case_e_cr_bundled_full (ok, 24.3s) ===
+[2026-07-06T17:23:42Z] [INFO] === BEGIN case_f_vci_ablation ===
+[2026-07-06T17:23:42Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_case_f_vci_ablation.py --n-tasks 200 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_f_vci_ablation
+[2026-07-06T17:23:42Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_f_vci_ablation.subprocess.log
+[2026-07-06T17:24:35Z] [INFO] === END case_f_vci_ablation (ok, 52.5s) ===
+[2026-07-06T17:24:35Z] [INFO] === BEGIN dual_bundled ===
+[2026-07-06T17:24:35Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_dual_evidence.py --source bundled --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/dual_bundled
+[2026-07-06T17:24:35Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/dual_bundled.subprocess.log
+[2026-07-06T17:24:45Z] [INFO] === END dual_bundled (ok, 10.6s) ===
+[2026-07-06T17:24:45Z] [INFO] === BEGIN cr_bundled ===
+[2026-07-06T17:24:45Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_cr_bbh.py --source bundled --n-samples 50 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/cr_bundled
+[2026-07-06T17:24:45Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/cr_bundled.subprocess.log
+[2026-07-06T17:25:01Z] [INFO] === END cr_bundled (ok, 15.9s) ===
+[2026-07-06T17:25:01Z] [INFO] === BEGIN f_trajectories ===
+[2026-07-06T17:25:01Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_f_trajectories.py --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/f_trajectories
+[2026-07-06T17:25:01Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/f_trajectories.subprocess.log
+[2026-07-06T17:25:11Z] [INFO] === END f_trajectories (ok, 10.2s) ===
+[2026-07-06T17:25:11Z] [INFO] === BEGIN sampler_ablation ===
+[2026-07-06T17:25:11Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_sampler_ablation.py --steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/sampler_ablation
+[2026-07-06T17:25:11Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/sampler_ablation.subprocess.log
+[2026-07-06T17:25:25Z] [INFO] === END sampler_ablation (ok, 13.7s) ===
+[2026-07-06T17:25:25Z] [INFO] === BEGIN handoff ===
+[2026-07-06T17:25:25Z] [INFO] Command: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/run_vci_handoff.py --source bundled --logits llm --model-name Qwen/Qwen2.5-7B-Instruct --limit 40 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/handoff
+[2026-07-06T17:25:25Z] [INFO] Subprocess log: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/handoff.subprocess.log

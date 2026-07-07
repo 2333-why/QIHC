@@ -1,0 +1,29 @@
+# 2026-07-06T17:22:11Z case_d_cr_by_task
+# cmd: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_case_d_cr_by_task.py --n-tasks 200 --n-samples 50 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_d_cr_by_task
+
+  [10/200] tasks done
+  [20/200] tasks done
+  [30/200] tasks done
+  [40/200] tasks done
+  [50/200] tasks done
+  [60/200] tasks done
+  [70/200] tasks done
+  [80/200] tasks done
+  [90/200] tasks done
+  [100/200] tasks done
+  [110/200] tasks done
+  [120/200] tasks done
+  [130/200] tasks done
+  [140/200] tasks done
+  [150/200] tasks done
+  [160/200] tasks done
+  [170/200] tasks done
+  [180/200] tasks done
+  [190/200] tasks done
+  [200/200] tasks done
+
+=== Case D CR by task type ===
+  logical_deduction            quad acc=14.93% vci-2 acc=14.93% gain=+0.00%
+  multi_step_reasoning         quad acc=12.12% vci-2 acc=16.67% gain=+4.55%
+  reasoning_with_constraints   quad acc=20.90% vci-2 acc=14.93% gain=-5.97%
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_d_cr_by_task

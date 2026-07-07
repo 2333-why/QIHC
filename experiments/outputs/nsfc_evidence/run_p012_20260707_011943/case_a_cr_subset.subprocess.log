@@ -1,0 +1,32 @@
+# 2026-07-06T17:19:59Z case_a_cr_subset
+# cmd: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_case_a_cr_subset.py --n-tasks 200 --n-samples 50 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_a_cr_subset
+
+  [10/200] tasks done
+  [20/200] tasks done
+  [30/200] tasks done
+  [40/200] tasks done
+  [50/200] tasks done
+  [60/200] tasks done
+  [70/200] tasks done
+  [80/200] tasks done
+  [90/200] tasks done
+  [100/200] tasks done
+  [110/200] tasks done
+  [120/200] tasks done
+  [130/200] tasks done
+  [140/200] tasks done
+  [150/200] tasks done
+  [160/200] tasks done
+  [170/200] tasks done
+  [180/200] tasks done
+  [190/200] tasks done
+  [200/200] tasks done
+
+=== Case A' CR subset (n=200) ===
+  zeroshot     acc=80.50% feas=97.00%
+  random       acc=4.00% feas=88.50%
+  linear       acc=65.50% feas=94.50%
+  quadratic    acc=16.00% feas=99.50%
+  vci-1        acc=15.50% feas=98.50%
+  vci-2        acc=15.50% feas=100.00%
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_a_cr_subset

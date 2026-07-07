@@ -1,0 +1,24 @@
+{
+  "profile": "p012",
+  "description": "P0–P2 NSFC cases on Pro 6000 (~4–10 hours with 7B+14B)",
+  "steps": [
+    "case_a_cr_subset",
+    "case_b_dual_synthetic",
+    "case_d_cr_by_task",
+    "case_e_cr_bundled_full",
+    "case_f_vci_ablation",
+    "dual_bundled",
+    "cr_bundled",
+    "f_trajectories",
+    "sampler_ablation",
+    "handoff",
+    "pareto",
+    "case_g_constrained_bbh",
+    "case_h_model_compare"
+  ],
+  "post_steps": [
+    "c_compute_budget"
+  ],
+  "model_name": "Qwen/Qwen2.5-7B-Instruct",
+  "model_name_14b": "Qwen/Qwen2.5-14B-Instruct"
+}

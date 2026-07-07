@@ -1,0 +1,50 @@
+{
+  "experiment": "case_d_cr_by_task",
+  "case": "P1-D",
+  "description": "CR subtask breakdown: quadratic vs vci-2",
+  "n_tasks": 200,
+  "breakdown": {
+    "logical_deduction": {
+      "quadratic": {
+        "accuracy": 0.14925373134328357,
+        "feasible_rate": 0.9850746268656716,
+        "n": 67
+      },
+      "vci-2": {
+        "accuracy": 0.14925373134328357,
+        "feasible_rate": 1.0,
+        "n": 67
+      },
+      "gain_acc": 0.0,
+      "gain_feas": 0.014925373134328401
+    },
+    "reasoning_with_constraints": {
+      "quadratic": {
+        "accuracy": 0.208955223880597,
+        "feasible_rate": 1.0,
+        "n": 67
+      },
+      "vci-2": {
+        "accuracy": 0.14925373134328357,
+        "feasible_rate": 1.0,
+        "n": 67
+      },
+      "gain_acc": -0.05970149253731344,
+      "gain_feas": 0.0
+    },
+    "multi_step_reasoning": {
+      "quadratic": {
+        "accuracy": 0.12121212121212122,
+        "feasible_rate": 1.0,
+        "n": 66
+      },
+      "vci-2": {
+        "accuracy": 0.16666666666666666,
+        "feasible_rate": 1.0,
+        "n": 66
+      },
+      "gain_acc": 0.04545454545454544,
+      "gain_feas": 0.0
+    }
+  }
+}

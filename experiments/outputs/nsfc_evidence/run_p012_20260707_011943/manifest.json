@@ -1,0 +1,75 @@
+{
+  "run_name": "nsfc_p012",
+  "started_at": "2026-07-06T17:19:59Z",
+  "hostname": "unknown",
+  "cuda_visible_devices": "0,1",
+  "steps": [
+    {
+      "name": "case_a_cr_subset",
+      "status": "ok",
+      "elapsed_s": 91.871,
+      "finished_at": "2026-07-06T17:21:31Z",
+      "exit_code": 0
+    },
+    {
+      "name": "case_b_dual_synthetic",
+      "status": "ok",
+      "elapsed_s": 40.497,
+      "finished_at": "2026-07-06T17:22:11Z",
+      "exit_code": 0
+    },
+    {
+      "name": "case_d_cr_by_task",
+      "status": "ok",
+      "elapsed_s": 66.637,
+      "finished_at": "2026-07-06T17:23:18Z",
+      "exit_code": 0
+    },
+    {
+      "name": "case_e_cr_bundled_full",
+      "status": "ok",
+      "elapsed_s": 24.347,
+      "finished_at": "2026-07-06T17:23:42Z",
+      "exit_code": 0
+    },
+    {
+      "name": "case_f_vci_ablation",
+      "status": "ok",
+      "elapsed_s": 52.533,
+      "finished_at": "2026-07-06T17:24:35Z",
+      "exit_code": 0
+    },
+    {
+      "name": "dual_bundled",
+      "status": "ok",
+      "elapsed_s": 10.633,
+      "finished_at": "2026-07-06T17:24:45Z",
+      "exit_code": 0
+    },
+    {
+      "name": "cr_bundled",
+      "status": "ok",
+      "elapsed_s": 15.915,
+      "finished_at": "2026-07-06T17:25:01Z",
+      "exit_code": 0
+    },
+    {
+      "name": "f_trajectories",
+      "status": "ok",
+      "elapsed_s": 10.231,
+      "finished_at": "2026-07-06T17:25:11Z",
+      "exit_code": 0
+    },
+    {
+      "name": "sampler_ablation",
+      "status": "ok",
+      "elapsed_s": 13.75,
+      "finished_at": "2026-07-06T17:25:25Z",
+      "exit_code": 0
+    }
+  ],
+  "artifacts": [
+    "profile.json"
+  ],
+  "updated_at": "2026-07-06T17:25:25Z"
+}

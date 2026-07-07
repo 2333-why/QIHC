@@ -1,0 +1,16 @@
+# 2026-07-06T17:23:18Z case_e_cr_bundled_full
+# cmd: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_case_e_cr_bundled_full.py --n-samples 50 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_e_cr_bundled_full
+
+  [10/40] tasks done
+  [20/40] tasks done
+  [30/40] tasks done
+  [40/40] tasks done
+
+=== Case E CR bundled full (n=40) ===
+  zeroshot     acc=87.50% feas=90.00%
+  random       acc=0.00% feas=92.50%
+  linear       acc=67.50% feas=85.00%
+  quadratic    acc=30.00% feas=95.00%
+  vci-1        acc=37.50% feas=90.00%
+  vci-2        acc=42.50% feas=100.00%
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_e_cr_bundled_full

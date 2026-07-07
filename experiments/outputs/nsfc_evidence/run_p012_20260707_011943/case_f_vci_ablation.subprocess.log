@@ -1,0 +1,10 @@
+# 2026-07-06T17:23:42Z case_f_vci_ablation
+# cmd: /hdd/why/QIHC/.venv/bin/python /hdd/why/QIHC/experiments/nsfc_evidence/run_case_f_vci_ablation.py --n-tasks 200 --budget-steps 400 --output-dir /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_f_vci_ablation
+
+
+=== Case F VCI ablation (n=200) ===
+  vci-0      feas=97.00% exact=80.50%
+  vci-1      feas=99.50% exact=19.50%
+  vci-2      feas=100.00% exact=17.00%
+  vci-full   feas=100.00% exact=17.00%
+Saved: /hdd/why/QIHC/experiments/outputs/nsfc_evidence/run_p012_20260707_011943/case_f_vci_ablation
