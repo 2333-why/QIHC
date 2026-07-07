@@ -13,7 +13,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from experiments.nsfc_evidence.common import resolve_out_dir, run_vci_modes, save_json, strip_per_task  # noqa: E402
+from experiments.nsfc_evidence.common import resolve_out_dir, run_cr_paper_modes, save_json  # noqa: E402
 
 
 def _load_json(path: Path) -> dict | None:
@@ -47,10 +47,11 @@ def _rows_from_cr(data: dict, arm: str) -> list[dict]:
             {
                 "arm": arm,
                 "mode": mode,
-                "llm_calls": data.get("n_samples", 1) if mode not in ("zeroshot", "random") else 1,
+                "llm_calls": int(round(s.get("mean_llm_calls", data.get("n_samples", 1)))),
                 "mean_pbit_steps": s.get("mean_pbit_steps", 0),
                 "feasible_rate": s.get("feasible_rate"),
                 "accuracy": s.get("accuracy"),
+                "gain_over_zeroshot": s.get("gain_over_zeroshot"),
             }
         )
     return rows
@@ -79,11 +80,12 @@ def aggregate_from_run_dir(run_dir: Path) -> list[dict]:
                     {
                         "arm": arm,
                         "mode": mode,
-                        "llm_calls": s.get("llm_calls", 1),
+                        "llm_calls": s.get("mean_llm_calls", s.get("llm_calls", 1)),
                         "mean_pbit_steps": s.get("mean_pbit_steps", 0),
                         "feasible_rate": s.get("feasible_rate"),
-                        "exact_match_rate": s.get("exact_match_rate"),
-                        "accuracy": s.get("exact_match_rate"),
+                        "exact_match_rate": s.get("exact_match_rate", s.get("accuracy")),
+                        "accuracy": s.get("accuracy", s.get("exact_match_rate")),
+                        "gain_over_zeroshot": s.get("gain_over_zeroshot"),
                     }
                 )
         elif "dual_axis" in rel or "dual_axis.json" in str(data.get("experiment", "")):
@@ -114,8 +116,14 @@ def main() -> int:
         from qihc.orchestrator.bbh import load_bbh_problems
 
         problems = load_bbh_problems(source="bundled", seed=0)
-        summary = strip_per_task(run_vci_modes(problems, ["greedy", "vci-1", "vci-2"], args.budget_steps, 0))
-        rows = _rows_from_dual({"summary": summary}, "bundled_inline")
+        summary = run_cr_paper_modes(
+            problems,
+            ["zeroshot", "linear", "quadratic", "vci-1", "vci-2"],
+            args.budget_steps,
+            n_samples=50,
+            seed=0,
+        )
+        rows = _rows_from_cr({"summary": summary, "n_samples": 50}, "bundled_inline")
 
     payload = {
         "experiment": "case_c_compute_budget",

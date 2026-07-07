@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Case H (P2): 7B vs 14B on synthetic constrained set (feasibility gain under real LLM logits).
+Case H (P2): 7B vs 14B — CR paper baselines + VCI-2 on synthetic constrained set.
 """
 from __future__ import annotations
 
@@ -14,23 +14,26 @@ if str(REPO_ROOT) not in sys.path:
 
 from experiments.nsfc_evidence.common import (  # noqa: E402
     load_synthetic_problems,
-    plot_dual_bars,
     resolve_out_dir,
-    run_vci_modes,
+    run_cr_paper_modes,
     save_json,
-    strip_per_task,
 )
 from qihc.orchestrator.bbh_llm import enrich_problems_with_llm_logits  # noqa: E402
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Case H: 7B vs 14B model compare")
+    parser = argparse.ArgumentParser(description="Case H: 7B vs 14B CR+VCI compare")
     parser.add_argument("--n-tasks", type=int, default=200)
+    parser.add_argument("--n-samples", type=int, default=50)
     parser.add_argument("--model-7b", default=None)
     parser.add_argument("--model-14b", default=None)
     parser.add_argument("--budget-steps", type=int, default=400)
     parser.add_argument("--seed", type=int, default=0)
-    parser.add_argument("--modes", nargs="*", default=["greedy", "vci-2"])
+    parser.add_argument(
+        "--modes",
+        nargs="*",
+        default=["zeroshot", "quadratic", "vci-2"],
+    )
     parser.add_argument("--output-dir", default=None)
     args = parser.parse_args()
 
@@ -42,25 +45,30 @@ def main() -> int:
 
     results: dict[str, dict] = {}
     for label, model in [("7B", model_7b), ("14B", model_14b)]:
-        print(f"\n--- Enriching with {label}: {model} ---")
+        print(f"\n--- CR+VCI with {label}: {model} ---")
         problems = enrich_problems_with_llm_logits(base, model_name=model)
-        summary = run_vci_modes(problems, list(args.modes), args.budget_steps, args.seed)
-        results[label] = {
-            "model_name": model,
-            "summary": strip_per_task(summary),
-        }
+        summary = run_cr_paper_modes(
+            problems,
+            list(args.modes),
+            args.budget_steps,
+            args.n_samples,
+            args.seed,
+            use_llm=False,
+            model_name=model,
+        )
+        results[label] = {"model_name": model, "summary": summary}
 
     payload = {
         "experiment": "case_h_model_compare",
         "case": "P2-H",
-        "description": "7B vs 14B on synthetic constrained set with LLM logits",
+        "description": "7B vs 14B CR paper + VCI on synthetic constrained (LLM logits)",
         "n_tasks": len(base),
         "modes": list(args.modes),
+        "baseline": "zeroshot (CR paper mock on LLM logits)",
         "models": results,
     }
     save_json(f"{out_dir}/model_compare.json", payload)
 
-    # Combined bar chart: vci-2 feasible by model
     import matplotlib
 
     matplotlib.use("Agg")
@@ -90,7 +98,10 @@ def main() -> int:
     for label in labels:
         print(f"  Model {label} ({results[label]['model_name']}):")
         for mode, s in results[label]["summary"].items():
-            print(f"    {mode:8s} feas={s['feasible_rate']:.2%} exact={s['exact_match_rate']:.2%}")
+            print(
+                f"    {mode:12s} acc={s['accuracy']:.2%} feas={s['feasible_rate']:.2%} "
+                f"gain={s['gain_over_zeroshot']:+.2%}"
+            )
     print(f"Saved: {out_dir}")
     return 0
 

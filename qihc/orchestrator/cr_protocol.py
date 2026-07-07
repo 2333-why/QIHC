@@ -225,6 +225,7 @@ def select_mask_cr(
     diag: dict = {"mode": mode, "pbit_steps": 0, "llm_calls": 0}
 
     if mode == "zeroshot" or mode == "linear":
+        # LEGACY: logits-greedy path — NOT used in CR paper benchmark (see cr_pipeline.py).
         if mode == "linear" and samples is not None:
             logits = cr_logits_from_samples(samples, n, params, mode="linear")
         mask = greedy_top_k(logits, top_k)

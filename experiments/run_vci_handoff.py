@@ -49,8 +49,15 @@ def run_sweep(
     noise_scales: list[float],
     budget_steps: int,
     seed: int,
+    include_cr_baselines: bool = False,
+    n_samples: int = 50,
 ) -> list[dict]:
+    from qihc.orchestrator.cr_pipeline import MockCRFrontend, evaluate_cr_task
+    from qihc.orchestrator.backend import PBitBackend
+    from qihc.orchestrator.cr_protocol import CRParams
+
     rows: list[dict] = []
+    params = CRParams()
     for ni, sigma in enumerate(noise_scales):
         problems = [
             perturb_logits(p, sigma, seed=seed + ni * 100 + i)
@@ -58,13 +65,15 @@ def run_sweep(
         ]
         mean_h = float(np.mean([softmax_entropy(p.logits) for p in problems]))
         t_lm = 1.0 / (mean_h + 1e-6)
-        t_ising = 0.5 * (10.0 + 0.01)  # default T_start/T_end mid
+        t_ising = 0.5 * (10.0 + 0.01)
 
         cfg1 = VCIConfig.tier_a(sampling_steps=budget_steps, seed=seed)
         cfg2 = VCIConfig.tier_a(sampling_steps=max(budget_steps // 2, 50), max_rounds=2, seed=seed)
+        backend = PBitBackend(cfg1)
         o1, o2 = VCIOrchestrator(cfg1), VCIOrchestrator(cfg2)
 
         feas1, feas2, em1, em2 = [], [], [], []
+        cr_zs_feas, cr_lin_feas, cr_quad_feas = [], [], []
         for p in problems:
             r1 = o1.solve_subset(p, mode="vci-1")
             r2 = o2.solve_subset(p, mode="vci-2")
@@ -76,19 +85,47 @@ def run_sweep(
                 em1.append(bool(np.array_equal(r1.final_mask, gold)))
                 em2.append(bool(np.array_equal(r2.final_mask, gold)))
 
-        rows.append(
-            {
-                "noise_scale": sigma,
-                "mean_entropy_Hq": mean_h,
-                "T_lm_proxy": t_lm,
-                "T_ising_mid": t_ising,
-                "vci1_feasible_rate": float(np.mean(feas1)),
-                "vci2_feasible_rate": float(np.mean(feas2)),
-                "feasible_gain": float(np.mean(feas2) - np.mean(feas1)),
-                "vci1_exact_match": float(np.mean(em1)) if em1 else None,
-                "vci2_exact_match": float(np.mean(em2)) if em2 else None,
-            }
-        )
+            if include_cr_baselines:
+                from experiments.nsfc_evidence.common import problem_to_bbh_task
+
+                task = problem_to_bbh_task(p)
+                frontend = MockCRFrontend(logits=p.logits, seed=seed)
+                for mode, bucket in [
+                    ("zeroshot", cr_zs_feas),
+                    ("linear", cr_lin_feas),
+                    ("quadratic", cr_quad_feas),
+                ]:
+                    r = evaluate_cr_task(
+                        task,
+                        mode,  # type: ignore[arg-type]
+                        frontend,
+                        backend,
+                        params,
+                        cfg1,
+                        n_samples=n_samples,
+                        seed=seed,
+                    )
+                    bucket.append(r.feasible)
+
+        row = {
+            "noise_scale": sigma,
+            "mean_entropy_Hq": mean_h,
+            "T_lm_proxy": t_lm,
+            "T_ising_mid": t_ising,
+            "vci1_feasible_rate": float(np.mean(feas1)),
+            "vci2_feasible_rate": float(np.mean(feas2)),
+            "feasible_gain": float(np.mean(feas2) - np.mean(feas1)),
+            "vci1_exact_match": float(np.mean(em1)) if em1 else None,
+            "vci2_exact_match": float(np.mean(em2)) if em2 else None,
+        }
+        if include_cr_baselines:
+            row["cr_zeroshot_feasible_rate"] = float(np.mean(cr_zs_feas))
+            row["cr_linear_feasible_rate"] = float(np.mean(cr_lin_feas))
+            row["cr_quadratic_feasible_rate"] = float(np.mean(cr_quad_feas))
+            row["vci2_vs_cr_zeroshot_gain"] = float(
+                row["vci2_feasible_rate"] - row["cr_zeroshot_feasible_rate"]
+            )
+        rows.append(row)
     return rows
 
 
@@ -170,6 +207,12 @@ def main() -> int:
         help="Use dense grid 0.2,0.3,...,1.0 for handoff phase scan",
     )
     parser.add_argument(
+        "--include-cr-baselines",
+        action="store_true",
+        help="Also track CR paper zeroshot/linear/quadratic feasible rates",
+    )
+    parser.add_argument("--n-samples", type=int, default=50)
+    parser.add_argument(
         "--output-dir",
         default=None,
     )
@@ -200,7 +243,14 @@ def main() -> int:
     all_runs: list[dict] = []
     for seed in seeds:
         print(f"\n--- handoff seed={seed} ---")
-        rows = run_sweep(base, noise_scales, args.budget_steps, seed)
+        rows = run_sweep(
+            base,
+            noise_scales,
+            args.budget_steps,
+            seed,
+            include_cr_baselines=args.include_cr_baselines,
+            n_samples=args.n_samples,
+        )
         all_runs.append({"seed": seed, "rows": rows})
         for r in rows:
             print(

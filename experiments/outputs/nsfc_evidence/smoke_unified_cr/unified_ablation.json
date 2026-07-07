@@ -1,0 +1,108 @@
+{
+  "experiment": "unified_ablation_cr_paper",
+  "dataset": "bundled",
+  "use_llm": false,
+  "model_name": null,
+  "n_tasks": 40,
+  "budget_steps": 150,
+  "n_samples": 20,
+  "seeds": [
+    0
+  ],
+  "modes": [
+    "zeroshot",
+    "linear",
+    "quadratic",
+    "vci-1",
+    "vci-2"
+  ],
+  "baseline": "zeroshot (CR paper LLM T=0, NOT logits-greedy)",
+  "summary": {
+    "zeroshot": {
+      "accuracy": 0.0,
+      "feasible_rate": 0.0,
+      "gain_over_zeroshot": 0.0,
+      "mean_pbit_steps": 0.0,
+      "mean_llm_calls": 1.0,
+      "family": "cr"
+    },
+    "linear": {
+      "accuracy": 0.0,
+      "feasible_rate": 0.0,
+      "gain_over_zeroshot": 0.0,
+      "mean_pbit_steps": 0.0,
+      "mean_llm_calls": 20.0,
+      "family": "cr"
+    },
+    "quadratic": {
+      "accuracy": 0.0,
+      "feasible_rate": 0.0,
+      "gain_over_zeroshot": 0.0,
+      "mean_pbit_steps": 150.0,
+      "mean_llm_calls": 21.0,
+      "family": "cr"
+    },
+    "vci-1": {
+      "accuracy": 0.325,
+      "feasible_rate": 0.9,
+      "gain_over_zeroshot": 0.325,
+      "mean_pbit_steps": 150.0,
+      "mean_llm_calls": 20.0,
+      "family": "vci"
+    },
+    "vci-2": {
+      "accuracy": 0.35,
+      "feasible_rate": 1.0,
+      "gain_over_zeroshot": 0.35,
+      "mean_pbit_steps": 165.0,
+      "mean_llm_calls": 20.0,
+      "family": "vci"
+    }
+  },
+  "per_seed": [
+    {
+      "zeroshot": {
+        "accuracy": 0.0,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": 0.0,
+        "mean_pbit_steps": 0.0,
+        "mean_llm_calls": 1.0,
+        "family": "cr"
+      },
+      "linear": {
+        "accuracy": 0.0,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": 0.0,
+        "mean_pbit_steps": 0.0,
+        "mean_llm_calls": 20.0,
+        "family": "cr"
+      },
+      "quadratic": {
+        "accuracy": 0.0,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": 0.0,
+        "mean_pbit_steps": 150.0,
+        "mean_llm_calls": 21.0,
+        "family": "cr"
+      },
+      "vci-1": {
+        "accuracy": 0.325,
+        "feasible_rate": 0.9,
+        "gain_over_zeroshot": 0.325,
+        "mean_pbit_steps": 150.0,
+        "mean_llm_calls": 20.0,
+        "family": "vci"
+      },
+      "vci-2": {
+        "accuracy": 0.35,
+        "feasible_rate": 1.0,
+        "gain_over_zeroshot": 0.35,
+        "mean_pbit_steps": 165.0,
+        "mean_llm_calls": 20.0,
+        "family": "vci"
+      }
+    }
+  ],
+  "aggregate": null,
+  "reference": "Combinatorial Reasoning arXiv:2407.00071"
+}

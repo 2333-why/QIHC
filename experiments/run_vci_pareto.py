@@ -31,8 +31,8 @@ from qihc.orchestrator.bbh_llm import enrich_problems_with_llm_logits  # noqa: E
 from qihc.orchestrator.vci_scheduler import VCIConfig, VCIOrchestrator  # noqa: E402
 from experiments.nsfc_evidence.run_cr_bbh import run_cr_benchmark  # noqa: E402
 
-VCI_MODES = ("greedy", "vci-1", "vci-2")
-CR_MODES = ("linear", "quadratic")
+VCI_MODES = ("vci-1", "vci-2")
+CR_MODES = ("zeroshot", "linear", "quadratic")
 
 
 def run_vci_point(problems, mode: str, budget_steps: int, seed: int) -> dict:
@@ -72,36 +72,46 @@ def run_vci_point(problems, mode: str, budget_steps: int, seed: int) -> dict:
     }
 
 
-def run_cr_point(tasks, mode: str, budget_steps: int, n_samples: int, seed: int) -> dict:
+def run_cr_point(
+    tasks,
+    mode: str,
+    budget_steps: int,
+    n_samples: int,
+    seed: int,
+    use_llm: bool = False,
+    model_name: str = "",
+) -> dict:
     data = run_cr_benchmark(
         tasks,
-        modes=[mode],
+        modes=[mode],  # type: ignore[list-item]
         budget_steps=budget_steps,
         n_samples=n_samples,
         seed=seed,
-        use_llm=False,
-        model_name="",
+        use_llm=use_llm,
+        model_name=model_name,
     )
     s = data["summary"][mode]
+    pbit = 0.0 if mode == "zeroshot" else s.get("mean_pbit_steps", float(budget_steps))
     return {
-        "mode": f"cr-{mode}",
+        "mode": mode if mode.startswith("cr") else mode,
         "family": "cr",
         "budget_steps": budget_steps,
         "feasible_rate": s["feasible_rate"],
         "exact_match_rate": s["accuracy"],
+        "gain_over_zeroshot": s.get("gain_over_zeroshot", 0.0),
         "mean_time_s": float("nan"),
         "mean_free_energy": float("nan"),
-        "mean_pbit_steps": s.get("mean_pbit_steps", float(budget_steps)),
+        "mean_pbit_steps": pbit,
     }
 
 
 def plot_pareto(rows: list[dict], out_path: str) -> None:
     colors = {
-        "greedy": "#e45756",
+        "zeroshot": "#e45756",
         "vci-1": "#f58518",
         "vci-2": "#4c78a8",
-        "cr-linear": "#54a24b",
-        "cr-quadratic": "#b279a2",
+        "linear": "#54a24b",
+        "quadratic": "#b279a2",
     }
     fig, axes = plt.subplots(1, 3, figsize=(13, 4), dpi=120)
     modes = sorted({r["mode"] for r in rows})
@@ -141,18 +151,18 @@ def plot_pareto(rows: list[dict], out_path: str) -> None:
 
 def plot_tradeoff_scatter(rows: list[dict], out_path: str) -> None:
     colors = {
-        "greedy": "#e45756",
+        "zeroshot": "#e45756",
         "vci-1": "#f58518",
         "vci-2": "#4c78a8",
-        "cr-linear": "#54a24b",
-        "cr-quadratic": "#b279a2",
+        "linear": "#54a24b",
+        "quadratic": "#b279a2",
     }
     markers = {
-        "greedy": "x",
+        "zeroshot": "x",
         "vci-1": "s",
         "vci-2": "o",
-        "cr-linear": "^",
-        "cr-quadratic": "D",
+        "linear": "^",
+        "quadratic": "D",
     }
 
     plt.figure(figsize=(6.5, 5), dpi=120)
@@ -190,19 +200,21 @@ def main() -> int:
     parser.add_argument("--n-samples", type=int, default=50, help="CR mock samples per question")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--include-cr", action="store_true", default=True)
-    parser.add_argument("--no-cr", action="store_true", help="Skip CR linear/quadratic")
+    parser.add_argument("--no-cr", action="store_true", help="Skip CR baselines")
+    parser.add_argument("--use-llm", action="store_true", help="Real LLM for CR paper modes")
     parser.add_argument("--logits", choices=["pseudo", "llm"], default="pseudo")
     parser.add_argument("--model-name", default="Qwen/Qwen2.5-7B-Instruct")
     parser.add_argument("--output-dir", default=None)
     args = parser.parse_args()
     include_cr = args.include_cr and not args.no_cr
+    use_llm = args.use_llm or args.logits == "llm"
 
     out_dir = args.output_dir or os.path.join("experiments", "outputs", "vci_pareto")
     if not os.path.isabs(out_dir):
         out_dir = os.path.join(REPO_ROOT, out_dir)
 
     problems = load_bbh_problems(source=args.source, seed=args.seed, limit=args.limit)
-    if args.logits == "llm":
+    if use_llm:
         problems = enrich_problems_with_llm_logits(problems, model_name=args.model_name)
     tasks = load_bbh_tasks(source="bundled")[: len(problems)]
     tasks = [
@@ -231,7 +243,18 @@ def main() -> int:
             )
         if include_cr:
             for mode in CR_MODES:
-                rows.append(run_cr_point(tasks, mode, budget, args.n_samples, args.seed))
+                budget = 0 if mode == "zeroshot" else budget
+                rows.append(
+                    run_cr_point(
+                        tasks,
+                        mode,
+                        budget,
+                        args.n_samples,
+                        args.seed,
+                        use_llm=use_llm,
+                        model_name=args.model_name,
+                    )
+                )
                 r = rows[-1]
                 print(
                     f"  budget={budget:3d} {r['mode']:12s}  "
@@ -245,7 +268,9 @@ def main() -> int:
             {
                 "source": args.source,
                 "logits": args.logits,
-                "model_name": args.model_name if args.logits == "llm" else None,
+                "use_llm": use_llm,
+                "model_name": args.model_name if use_llm else None,
+                "baseline": "zeroshot (CR paper)",
                 "n_problems": len(problems),
                 "budgets": args.budgets,
                 "include_cr": include_cr,

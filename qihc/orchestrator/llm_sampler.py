@@ -31,8 +31,8 @@ class LLMSamplerConfig:
     top_p: float = 0.95
     batch_size: int = 8
     system_prompt: str = (
-        "You are a careful reasoning assistant. "
-        "Think step by step, then give the final answer."
+        "You are a careful reasoning assistant. Answer multiple-choice questions "
+        "by thinking step by step when helpful, then state the final option as (A), (B), etc."
     )
 
 
@@ -73,20 +73,85 @@ class LLMSampler:
         self._model.eval()
         self._device = device
 
+    def _format_options_block(self, candidates: list[str]) -> str:
+        return "\n".join(f"({chr(65 + i)}) {c}" for i, c in enumerate(candidates))
+
     def _format_prompt(self, question: str, candidates: list[str]) -> str:
-        opts = "\n".join(f"({chr(65+i)}) {c}" for i, c in enumerate(candidates))
+        opts = self._format_options_block(candidates)
         user = (
             f"{question.strip()}\n\nOptions:\n{opts}\n\n"
             "Let's think step by step, then state the final answer as (A), (B), etc."
         )
+        return self._chat_prompt(user)
+
+    def _format_cr_enhanced_prompt(
+        self,
+        question: str,
+        candidates: list[str],
+        reasons: list[tuple[str, float]],
+    ) -> str:
+        """CR paper final prompt: weighted reasons prepended, then question (Appendix B style)."""
+        sorted_reasons = sorted(reasons, key=lambda x: (-x[1], x[0]))
+        reason_block = "\n".join(f"[w={w:.4f}] {text}" for text, w in sorted_reasons)
+        opts = self._format_options_block(candidates)
+        user = (
+            "Consider the following reasoning steps. Each [w=...] value indicates relative importance.\n"
+            f"{reason_block}\n\n"
+            f"Question:\n{question.strip()}\n\n"
+            f"Options:\n{opts}\n\n"
+            "Using the reasoning above, state the final answer as (A), (B), etc."
+        )
+        return self._chat_prompt(user)
+
+    def _chat_prompt(self, user_content: str) -> str:
         messages = [
             {"role": "system", "content": self.config.system_prompt},
-            {"role": "user", "content": user},
+            {"role": "user", "content": user_content},
         ]
         tok = self._tokenizer
         if hasattr(tok, "apply_chat_template"):
             return tok.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        return f"{self.config.system_prompt}\n\nUser: {user}\nAssistant:"
+        return f"{self.config.system_prompt}\n\nUser: {user_content}\nAssistant:"
+
+    def _generate_from_prompt(self, prompt: str, seed: int, do_sample: bool) -> str:
+        import time
+
+        import torch
+
+        self._ensure_loaded()
+        t0 = time.perf_counter()
+        tok = self._tokenizer
+        model = self._model
+        torch.manual_seed(seed)
+        enc = tok(prompt, return_tensors="pt")
+        if hasattr(model, "device"):
+            enc = {k: v.to(model.device) for k, v in enc.items()}
+        elif self._device != "cpu":
+            enc = {k: v.to(self._device) for k, v in enc.items()}
+
+        prompt_len = enc["input_ids"].shape[1]
+        self.stats.n_prompt_tokens += prompt_len
+        gen_kwargs: dict = {
+            "max_new_tokens": self.config.max_new_tokens,
+            "pad_token_id": tok.pad_token_id,
+        }
+        if do_sample:
+            gen_kwargs.update(
+                do_sample=True,
+                temperature=self.config.temperature,
+                top_p=self.config.top_p,
+            )
+        else:
+            gen_kwargs["do_sample"] = False
+
+        with torch.no_grad():
+            out = model.generate(enc["input_ids"], attention_mask=enc.get("attention_mask"), **gen_kwargs)
+        new_tokens = out[0][prompt_len:]
+        text = tok.decode(new_tokens, skip_special_tokens=True).strip()
+        self.stats.n_completions += 1
+        self.stats.n_completion_tokens += int(new_tokens.numel())
+        self.stats.wall_time_s += time.perf_counter() - t0
+        return text
 
     def sample_completions(
         self,
@@ -142,6 +207,29 @@ class LLMSampler:
         self.stats.wall_time_s += time.perf_counter() - t0
         return completions
 
+    def generate_answer_direct(
+        self,
+        question: str,
+        candidates: list[str],
+        seed: int = 0,
+    ) -> tuple[int | None, str]:
+        """CR paper zero-shot: single LLM call, temperature=0 (greedy decode)."""
+        prompt = self._format_prompt(question, candidates)
+        text = self._generate_from_prompt(prompt, seed=seed, do_sample=False)
+        return extract_answer_index(text, candidates), text
+
+    def generate_answer_with_reasons(
+        self,
+        question: str,
+        candidates: list[str],
+        reasons: list[tuple[str, float]],
+        seed: int = 0,
+    ) -> tuple[int | None, str]:
+        """CR paper quadratic final step: enhanced prompt → LLM T=0."""
+        prompt = self._format_cr_enhanced_prompt(question, candidates, reasons)
+        text = self._generate_from_prompt(prompt, seed=seed, do_sample=False)
+        return extract_answer_index(text, candidates), text
+
     def sample_reasons(
         self,
         question: str,
@@ -172,5 +260,6 @@ class LLMSampler:
         question: str,
         candidates: list[str],
     ) -> int:
+        """Deprecated: logits argmax. Use generate_answer_direct for CR paper zeroshot."""
         logits = self.score_candidates(question, candidates)
         return int(np.argmax(logits))

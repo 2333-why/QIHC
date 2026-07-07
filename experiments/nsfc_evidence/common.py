@@ -36,6 +36,62 @@ def save_json(path: str, payload: dict) -> None:
         json.dump(payload, f, indent=2, ensure_ascii=False)
 
 
+def problem_to_bbh_task(problem) -> "BBHTask":
+    """Convert SubsetProblem to BBHTask for CR paper pipeline."""
+    from qihc.orchestrator.bbh import BBHTask
+
+    gold = list(problem.metadata.get("gold_indices", []))
+    if not gold and problem.metadata.get("gold_mask") is not None:
+        gold = list(np.flatnonzero(np.asarray(problem.metadata["gold_mask"], dtype=bool)))
+    return BBHTask(
+        task_id=str(problem.metadata.get("task_id", "unknown")),
+        task_type=str(problem.metadata.get("task_type", "subset")),
+        text=problem.text,
+        candidates=list(problem.metadata.get("candidates", [])),
+        top_k=problem.top_k,
+        gold_indices=gold,
+        exclusion_pairs=list(problem.exclusion_pairs),
+        logits=np.asarray(problem.logits, dtype=float).copy(),
+    )
+
+
+def run_cr_paper_modes(
+    problems,
+    modes: list[str],
+    budget_steps: int,
+    n_samples: int,
+    seed: int,
+    use_llm: bool = False,
+    model_name: str = "Qwen/Qwen2.5-7B-Instruct",
+) -> dict[str, dict[str, Any]]:
+    """Run CR paper-aligned modes on SubsetProblem list."""
+    from experiments.nsfc_evidence.run_cr_bbh import run_cr_benchmark
+
+    tasks = [problem_to_bbh_task(p) for p in problems]
+    data = run_cr_benchmark(
+        tasks,
+        modes=modes,  # type: ignore[arg-type]
+        budget_steps=budget_steps,
+        n_samples=n_samples,
+        seed=seed,
+        use_llm=use_llm,
+        model_name=model_name,
+    )
+    summary: dict[str, dict] = {}
+    for m, s in data["summary"].items():
+        summary[m] = {
+            "mode": m,
+            "accuracy": s["accuracy"],
+            "feasible_rate": s["feasible_rate"],
+            "exact_match_rate": s["accuracy"],
+            "gain_over_zeroshot": s.get("gain_over_zeroshot", 0.0),
+            "mean_pbit_steps": s.get("mean_pbit_steps", 0),
+            "mean_llm_calls": s.get("mean_llm_calls", 0),
+            "llm_calls": int(round(s.get("mean_llm_calls", 0))),
+        }
+    return summary
+
+
 def run_vci_modes(
     problems,
     modes: list[str],
