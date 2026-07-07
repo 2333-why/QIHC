@@ -84,6 +84,46 @@ def brute_force_max_cut(G):
 
     return max_cut_value, best_cut
 
+
+def _cut_value_from_assignment(G, assign: dict) -> int:
+    return sum(
+        1
+        for u, v in G.edges()
+        if assign[u] != assign[v]
+    )
+
+
+def greedy_max_cut(G, seed: int = 0, n_restarts: int = 16) -> int:
+    """Greedy + single-node flip local search; reference for n > 22."""
+    rng = np.random.default_rng(seed)
+    nodes = list(G.nodes())
+    best_cut = 0
+    for _ in range(n_restarts):
+        assign = {n: int(rng.integers(0, 2)) for n in nodes}
+        improved = True
+        while improved:
+            improved = False
+            for n in nodes:
+                old_cut = _cut_value_from_assignment(G, assign)
+                assign[n] = 1 - assign[n]
+                new_cut = _cut_value_from_assignment(G, assign)
+                if new_cut > old_cut:
+                    improved = True
+                else:
+                    assign[n] = 1 - assign[n]
+        best_cut = max(best_cut, _cut_value_from_assignment(G, assign))
+    return int(best_cut)
+
+
+def reference_max_cut(G, seed: int = 0) -> tuple[int, str]:
+    """Exact brute force for n<=22; greedy heuristic otherwise."""
+    n = G.number_of_nodes()
+    if n <= 22:
+        val, _ = brute_force_max_cut(G)
+        return int(val), "exact"
+    return greedy_max_cut(G, seed=seed), "heuristic"
+
+
 def brute_force_max_cut_balanced(G):
     """
     Brute-force algorithm to solve the max-cut problem with a balanced partition constraint.

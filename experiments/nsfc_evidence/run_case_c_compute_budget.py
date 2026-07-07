@@ -63,12 +63,30 @@ def aggregate_from_run_dir(run_dir: Path) -> list[dict]:
         ("case_b_dual_synthetic/dual_axis.json", "synthetic_200"),
         ("cr_bundled/cr_protocol.json", "cr_bundled_40"),
         ("case_a_cr_subset/cr_protocol.json", "cr_synthetic_200"),
+        ("case_e_cr_bundled_full/cr_protocol.json", "cr_bundled_40"),
+        ("unified_ablation_bundled/unified_ablation.json", "unified_bundled"),
+        ("unified_ablation_synthetic/unified_ablation.json", "unified_synthetic"),
+        ("unified_bundled/unified_ablation.json", "unified_bundled"),
+        ("unified_synthetic/unified_ablation.json", "unified_synthetic"),
     ]
     for rel, arm in mapping:
         data = _load_json(run_dir / rel)
         if not data:
             continue
-        if "dual_axis" in rel or "dual_axis.json" in str(data.get("experiment", "")):
+        if "unified_ablation" in rel:
+            for mode, s in data.get("summary", {}).items():
+                rows.append(
+                    {
+                        "arm": arm,
+                        "mode": mode,
+                        "llm_calls": s.get("llm_calls", 1),
+                        "mean_pbit_steps": s.get("mean_pbit_steps", 0),
+                        "feasible_rate": s.get("feasible_rate"),
+                        "exact_match_rate": s.get("exact_match_rate"),
+                        "accuracy": s.get("exact_match_rate"),
+                    }
+                )
+        elif "dual_axis" in rel or "dual_axis.json" in str(data.get("experiment", "")):
             rows.extend(_rows_from_dual(data, arm))
         else:
             rows.extend(_rows_from_cr(data, arm))

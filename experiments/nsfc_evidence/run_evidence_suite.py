@@ -86,9 +86,35 @@ def _p012_steps() -> list[tuple[str, str, list[str]]]:
         (
             "handoff",
             "experiments/run_vci_handoff.py",
-            ["--source", "bundled", "--logits", "llm", "--model-name", m, "--limit", "40", "--budget-steps", "400"],
+            [
+                "--source", "bundled", "--logits", "llm", "--model-name", m,
+                "--limit", "40", "--budget-steps", "400", "--noise-scales-dense",
+                "--seeds", "0", "1", "2",
+            ],
         ),
-        ("pareto", "experiments/run_vci_pareto.py", ["--budgets", "100", "200", "300", "400", "600"]),
+        (
+            "pareto",
+            "experiments/run_vci_pareto.py",
+            ["--budgets", "100", "200", "300", "400", "600", "--include-cr"],
+        ),
+        (
+            "unified_ablation_bundled",
+            "experiments/nsfc_evidence/run_unified_ablation.py",
+            ["--dataset", "bundled", "--budget-steps", "400", "--n-samples", "50", "--seeds", "0", "1", "2"],
+        ),
+        (
+            "unified_ablation_synthetic",
+            "experiments/nsfc_evidence/run_unified_ablation.py",
+            [
+                "--dataset", "synthetic", "--n-tasks", "200",
+                "--budget-steps", "400", "--n-samples", "50", "--seeds", "0", "1", "2",
+            ],
+        ),
+        (
+            "scaling",
+            "experiments/run_sampler_scaling.py",
+            ["--nodes", "50", "100", "200", "500", "--trials", "5", "--measure-tts"],
+        ),
         # P2 (GPU-heavy)
         (
             "case_g_constrained_bbh",
@@ -191,6 +217,23 @@ PROFILES = {
     "p012": {
         "description": "P0–P2 NSFC cases on Pro 6000 (~4–10 hours with 7B+14B)",
         "steps": _p012_steps(),
+        "post_steps": ["c_compute_budget"],
+    },
+    "pre_submission": {
+        "description": "立项前补全七项证据（unified ablation + handoff dense + pareto + scaling TTS）",
+        "steps": [
+            s for s in _p012_steps()
+            if s[0]
+            in (
+                "case_e_cr_bundled_full",
+                "unified_ablation_bundled",
+                "unified_ablation_synthetic",
+                "handoff",
+                "pareto",
+                "scaling",
+                "case_g_constrained_bbh",
+            )
+        ],
         "post_steps": ["c_compute_budget"],
     },
 }

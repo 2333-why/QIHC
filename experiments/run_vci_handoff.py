@@ -151,6 +151,25 @@ def main() -> int:
     parser.add_argument("--budget-steps", type=int, default=200)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument(
+        "--seeds",
+        type=int,
+        nargs="*",
+        default=None,
+        help="Multiple seeds; aggregates mean/std in output",
+    )
+    parser.add_argument(
+        "--noise-scales",
+        type=float,
+        nargs="+",
+        default=None,
+        help="Semantic noise σ sweep (default: 0.0 0.15 0.3 0.5 0.8 1.2)",
+    )
+    parser.add_argument(
+        "--noise-scales-dense",
+        action="store_true",
+        help="Use dense grid 0.2,0.3,...,1.0 for handoff phase scan",
+    )
+    parser.add_argument(
         "--output-dir",
         default=None,
     )
@@ -165,12 +184,48 @@ def main() -> int:
     if not os.path.isabs(out_dir):
         out_dir = os.path.join(REPO_ROOT, out_dir)
 
-    noise_scales = [0.0, 0.15, 0.3, 0.5, 0.8, 1.2]
-    base = load_bbh_problems(source=args.source, seed=args.seed, limit=args.limit)
+    if args.noise_scales:
+        noise_scales = list(args.noise_scales)
+    elif args.noise_scales_dense:
+        noise_scales = [round(0.2 + 0.1 * i, 1) for i in range(9)]  # 0.2 .. 1.0
+    else:
+        noise_scales = [0.0, 0.15, 0.3, 0.5, 0.8, 1.2]
+
+    seeds = args.seeds if args.seeds else [args.seed]
+    base = load_bbh_problems(source=args.source, seed=seeds[0], limit=args.limit)
     if args.logits == "llm":
         print(f"Scoring {len(base)} problems with {args.model_name} ...")
         base = enrich_problems_with_llm_logits(base, model_name=args.model_name)
-    rows = run_sweep(base, noise_scales, args.budget_steps, args.seed)
+
+    all_runs: list[dict] = []
+    for seed in seeds:
+        print(f"\n--- handoff seed={seed} ---")
+        rows = run_sweep(base, noise_scales, args.budget_steps, seed)
+        all_runs.append({"seed": seed, "rows": rows})
+        for r in rows:
+            print(
+                f"  σ={r['noise_scale']:.2f} H={r['mean_entropy_Hq']:.2f}  "
+                f"vci1={r['vci1_feasible_rate']:.2%} vci2={r['vci2_feasible_rate']:.2%}  "
+                f"gain={r['feasible_gain']:+.2%}"
+            )
+
+    rows = all_runs[0]["rows"]
+    if len(seeds) > 1:
+        agg_rows = []
+        for i, sigma in enumerate(noise_scales):
+            gains = [run["rows"][i]["feasible_gain"] for run in all_runs]
+            v1 = [run["rows"][i]["vci1_feasible_rate"] for run in all_runs]
+            v2 = [run["rows"][i]["vci2_feasible_rate"] for run in all_runs]
+            agg_rows.append(
+                {
+                    **all_runs[0]["rows"][i],
+                    "feasible_gain_mean": float(np.mean(gains)),
+                    "feasible_gain_std": float(np.std(gains)),
+                    "vci1_feasible_rate_mean": float(np.mean(v1)),
+                    "vci2_feasible_rate_mean": float(np.mean(v2)),
+                }
+            )
+        rows = agg_rows
 
     os.makedirs(out_dir, exist_ok=True)
     json_path = os.path.join(out_dir, "handoff.json")
@@ -181,7 +236,10 @@ def main() -> int:
                 "logits": args.logits,
                 "model_name": args.model_name if args.logits == "llm" else None,
                 "n_problems": len(base),
+                "noise_scales": noise_scales,
+                "seeds": seeds,
                 "rows": rows,
+                "per_seed": all_runs if len(seeds) > 1 else None,
                 "budget_steps": args.budget_steps,
             },
             f,
@@ -189,15 +247,17 @@ def main() -> int:
         )
     print(f"Saved: {json_path}")
 
-    for r in rows:
-        print(
-            f"  σ={r['noise_scale']:.2f} H={r['mean_entropy_Hq']:.2f}  "
-            f"vci1={r['vci1_feasible_rate']:.2%} vci2={r['vci2_feasible_rate']:.2%}  "
-            f"gain={r['feasible_gain']:+.2%}"
-        )
-
-    plot_handoff(rows, os.path.join(out_dir, "handoff_curve.png"))
-    plot_temperature_map(rows, os.path.join(out_dir, "temperature_map.png"))
+    plot_rows = all_runs[0]["rows"] if len(seeds) == 1 else [
+        {
+            **all_runs[0]["rows"][i],
+            "feasible_gain": rows[i].get("feasible_gain_mean", rows[i]["feasible_gain"]),
+            "vci1_feasible_rate": rows[i].get("vci1_feasible_rate_mean", rows[i]["vci1_feasible_rate"]),
+            "vci2_feasible_rate": rows[i].get("vci2_feasible_rate_mean", rows[i]["vci2_feasible_rate"]),
+        }
+        for i in range(len(noise_scales))
+    ]
+    plot_handoff(plot_rows, os.path.join(out_dir, "handoff_curve.png"))
+    plot_temperature_map(plot_rows, os.path.join(out_dir, "temperature_map.png"))
     return 0
 
 

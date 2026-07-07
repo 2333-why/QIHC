@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Pareto frontier: feasible rate / exact match / F(q,s) vs p-bit budget.
+Pareto frontier: feasible rate / exact match / latency vs p-bit budget.
 
-Uses bundled BBH (mutual-exclusion constraints) where VCI gains are visible.
+Includes VCI modes and CR linear/quadratic baselines at matched budget.
 
 Usage:
     python experiments/run_vci_pareto.py
-    python experiments/run_vci_pareto.py --budgets 50 100 150 200 300
+    python experiments/run_vci_pareto.py --budgets 100 200 400 600 --include-cr
+    python experiments/run_vci_pareto.py --logits llm --model-name Qwen/Qwen2.5-7B-Instruct
 """
 from __future__ import annotations
 
@@ -25,11 +26,16 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
-from qihc.orchestrator.bbh import evaluate_prediction, load_bbh_problems  # noqa: E402
+from qihc.orchestrator.bbh import BBHTask, evaluate_prediction, load_bbh_problems, load_bbh_tasks  # noqa: E402
+from qihc.orchestrator.bbh_llm import enrich_problems_with_llm_logits  # noqa: E402
 from qihc.orchestrator.vci_scheduler import VCIConfig, VCIOrchestrator  # noqa: E402
+from experiments.nsfc_evidence.run_cr_bbh import run_cr_benchmark  # noqa: E402
+
+VCI_MODES = ("greedy", "vci-1", "vci-2")
+CR_MODES = ("linear", "quadratic")
 
 
-def run_point(problems, mode: str, budget_steps: int, seed: int) -> dict:
+def run_vci_point(problems, mode: str, budget_steps: int, seed: int) -> dict:
     if mode == "greedy":
         steps, max_rounds = 0, 1
     elif mode == "vci-1":
@@ -56,6 +62,7 @@ def run_point(problems, mode: str, budget_steps: int, seed: int) -> dict:
 
     return {
         "mode": mode,
+        "family": "vci",
         "budget_steps": budget_steps,
         "feasible_rate": float(np.mean(feasible)),
         "exact_match_rate": float(np.mean(exact)),
@@ -65,25 +72,61 @@ def run_point(problems, mode: str, budget_steps: int, seed: int) -> dict:
     }
 
 
-def plot_pareto(rows: list[dict], out_path: str) -> None:
-    colors = {"greedy": "#e45756", "vci-1": "#f58518", "vci-2": "#4c78a8"}
-    fig, axes = plt.subplots(1, 3, figsize=(13, 4), dpi=120)
+def run_cr_point(tasks, mode: str, budget_steps: int, n_samples: int, seed: int) -> dict:
+    data = run_cr_benchmark(
+        tasks,
+        modes=[mode],
+        budget_steps=budget_steps,
+        n_samples=n_samples,
+        seed=seed,
+        use_llm=False,
+        model_name="",
+    )
+    s = data["summary"][mode]
+    return {
+        "mode": f"cr-{mode}",
+        "family": "cr",
+        "budget_steps": budget_steps,
+        "feasible_rate": s["feasible_rate"],
+        "exact_match_rate": s["accuracy"],
+        "mean_time_s": float("nan"),
+        "mean_free_energy": float("nan"),
+        "mean_pbit_steps": s.get("mean_pbit_steps", float(budget_steps)),
+    }
 
-    for mode in ("greedy", "vci-1", "vci-2"):
+
+def plot_pareto(rows: list[dict], out_path: str) -> None:
+    colors = {
+        "greedy": "#e45756",
+        "vci-1": "#f58518",
+        "vci-2": "#4c78a8",
+        "cr-linear": "#54a24b",
+        "cr-quadratic": "#b279a2",
+    }
+    fig, axes = plt.subplots(1, 3, figsize=(13, 4), dpi=120)
+    modes = sorted({r["mode"] for r in rows})
+
+    for mode in modes:
         pts = [r for r in rows if r["mode"] == mode]
         pts.sort(key=lambda r: r["mean_pbit_steps"])
         x = [r["mean_pbit_steps"] for r in pts]
-        axes[0].plot(x, [r["feasible_rate"] for r in pts], "o-", label=mode, color=colors[mode])
-        axes[1].plot(x, [r["exact_match_rate"] for r in pts], "o-", label=mode, color=colors[mode])
-        axes[2].plot(x, [r["mean_free_energy"] for r in pts], "o-", label=mode, color=colors[mode])
+        c = colors.get(mode, "#888888")
+        axes[0].plot(x, [r["feasible_rate"] for r in pts], "o-", label=mode, color=c)
+        axes[1].plot(x, [r["exact_match_rate"] for r in pts], "o-", label=mode, color=c)
+        valid_f = [r for r in pts if not np.isnan(r["mean_free_energy"])]
+        if valid_f:
+            axes[2].plot(
+                [r["mean_pbit_steps"] for r in valid_f],
+                [r["mean_free_energy"] for r in valid_f],
+                "o-",
+                label=mode,
+                color=c,
+            )
 
-    for ax, ylab in zip(
-        axes,
-        ["Feasible rate", "Exact match rate", "Mean F(q,s)"],
-    ):
+    for ax, ylab in zip(axes, ["Feasible rate", "Exact match rate", "Mean F(q,s)"]):
         ax.set_xlabel("Mean p-bit steps")
         ax.set_ylabel(ylab)
-        ax.legend(fontsize=8)
+        ax.legend(fontsize=7)
         ax.grid(alpha=0.3)
 
     axes[0].set_title("Feasible vs budget")
@@ -97,28 +140,40 @@ def plot_pareto(rows: list[dict], out_path: str) -> None:
 
 
 def plot_tradeoff_scatter(rows: list[dict], out_path: str) -> None:
-    """Quality–cost scatter (Pareto-style)."""
-    colors = {"greedy": "#e45756", "vci-1": "#f58518", "vci-2": "#4c78a8"}
-    markers = {"greedy": "x", "vci-1": "s", "vci-2": "o"}
+    colors = {
+        "greedy": "#e45756",
+        "vci-1": "#f58518",
+        "vci-2": "#4c78a8",
+        "cr-linear": "#54a24b",
+        "cr-quadratic": "#b279a2",
+    }
+    markers = {
+        "greedy": "x",
+        "vci-1": "s",
+        "vci-2": "o",
+        "cr-linear": "^",
+        "cr-quadratic": "D",
+    }
 
     plt.figure(figsize=(6.5, 5), dpi=120)
     for r in rows:
         mode = r["mode"]
         score = 0.5 * r["feasible_rate"] + 0.5 * r["exact_match_rate"]
+        lat_ms = r["mean_time_s"] * 1000 if not np.isnan(r["mean_time_s"]) else r["mean_pbit_steps"]
         plt.scatter(
-            r["mean_time_s"] * 1000,
+            lat_ms,
             score,
-            c=colors[mode],
-            marker=markers[mode],
+            c=colors.get(mode, "#888"),
+            marker=markers.get(mode, "o"),
             s=60,
             alpha=0.85,
         )
-    for mode, c in colors.items():
-        plt.scatter([], [], c=c, marker=markers[mode], label=mode, s=60)
-    plt.xlabel("Mean latency (ms)")
+    for mode in sorted({r["mode"] for r in rows}):
+        plt.scatter([], [], c=colors.get(mode, "#888"), marker=markers.get(mode, "o"), label=mode, s=60)
+    plt.xlabel("Latency proxy (ms or p-bit steps)")
     plt.ylabel("Combined score (0.5·feas + 0.5·exact)")
-    plt.title("Pareto probe: quality vs latency (bundled BBH)")
-    plt.legend()
+    plt.title("Pareto: quality vs cost (bundled BBH)")
+    plt.legend(fontsize=8)
     plt.grid(alpha=0.3)
     plt.tight_layout()
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
@@ -128,34 +183,60 @@ def plot_tradeoff_scatter(rows: list[dict], out_path: str) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="VCI Pareto frontier (bundled BBH)")
+    parser = argparse.ArgumentParser(description="VCI + CR Pareto frontier")
     parser.add_argument("--source", choices=["bundled"], default="bundled")
     parser.add_argument("--limit", type=int, default=40)
-    parser.add_argument(
-        "--budgets",
-        type=int,
-        nargs="+",
-        default=[50, 100, 150, 200, 300],
-    )
+    parser.add_argument("--budgets", type=int, nargs="+", default=[50, 100, 150, 200, 300, 400, 600])
+    parser.add_argument("--n-samples", type=int, default=50, help="CR mock samples per question")
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--include-cr", action="store_true", default=True)
+    parser.add_argument("--no-cr", action="store_true", help="Skip CR linear/quadratic")
+    parser.add_argument("--logits", choices=["pseudo", "llm"], default="pseudo")
+    parser.add_argument("--model-name", default="Qwen/Qwen2.5-7B-Instruct")
     parser.add_argument("--output-dir", default=None)
     args = parser.parse_args()
+    include_cr = args.include_cr and not args.no_cr
 
     out_dir = args.output_dir or os.path.join("experiments", "outputs", "vci_pareto")
     if not os.path.isabs(out_dir):
         out_dir = os.path.join(REPO_ROOT, out_dir)
 
     problems = load_bbh_problems(source=args.source, seed=args.seed, limit=args.limit)
+    if args.logits == "llm":
+        problems = enrich_problems_with_llm_logits(problems, model_name=args.model_name)
+    tasks = load_bbh_tasks(source="bundled")[: len(problems)]
+    tasks = [
+        BBHTask(
+            task_id=str(p.metadata["task_id"]),
+            task_type=str(p.metadata.get("task_type", "bundled")),
+            text=p.text,
+            candidates=list(p.metadata.get("candidates", [])),
+            top_k=p.top_k,
+            gold_indices=list(p.metadata.get("gold_indices", [])),
+            exclusion_pairs=list(p.exclusion_pairs),
+            logits=p.logits.copy(),
+        )
+        for p in problems
+    ]
+
     rows: list[dict] = []
     for budget in args.budgets:
-        for mode in ("greedy", "vci-1", "vci-2"):
-            rows.append(run_point(problems, mode, budget, args.seed))
+        for mode in VCI_MODES:
+            rows.append(run_vci_point(problems, mode, budget, args.seed))
             r = rows[-1]
             print(
-                f"  budget={budget:3d} {mode:6s}  "
+                f"  budget={budget:3d} {mode:8s}  "
                 f"feas={r['feasible_rate']:.2%} exact={r['exact_match_rate']:.2%}  "
-                f"F={r['mean_free_energy']:.3f}  steps={r['mean_pbit_steps']:.0f}"
+                f"steps={r['mean_pbit_steps']:.0f}"
             )
+        if include_cr:
+            for mode in CR_MODES:
+                rows.append(run_cr_point(tasks, mode, budget, args.n_samples, args.seed))
+                r = rows[-1]
+                print(
+                    f"  budget={budget:3d} {r['mode']:12s}  "
+                    f"feas={r['feasible_rate']:.2%} exact={r['exact_match_rate']:.2%}"
+                )
 
     os.makedirs(out_dir, exist_ok=True)
     json_path = os.path.join(out_dir, "pareto.json")
@@ -163,8 +244,11 @@ def main() -> int:
         json.dump(
             {
                 "source": args.source,
+                "logits": args.logits,
+                "model_name": args.model_name if args.logits == "llm" else None,
                 "n_problems": len(problems),
                 "budgets": args.budgets,
+                "include_cr": include_cr,
                 "rows": rows,
             },
             f,
