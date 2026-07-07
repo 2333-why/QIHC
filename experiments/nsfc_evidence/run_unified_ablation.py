@@ -136,6 +136,13 @@ def main() -> int:
     seeds = args.seeds if args.seeds else [args.seed]
     out_dir = resolve_out_dir("unified_ablation", args.output_dir)
 
+    if not args.use_llm:
+        print(
+            "\n[NOTE] Mock LLM (no --use-llm). bundled/synthetic top_k≥2: "
+            "CR feas≈0; use feasible_gain_over_zeroshot. "
+            "Paper gain needs: --use-llm on HF BBH.\n"
+        )
+
     per_seed: list[dict] = []
     tasks: list[BBHTask] = []
     for si, seed in enumerate(seeds):
@@ -153,8 +160,10 @@ def main() -> int:
         per_seed.append(summary)
         for mode, s in sorted(summary.items()):
             print(
-                f"  {mode:12s} acc={s['accuracy']:.2%} feas={s['feasible_rate']:.2%} "
-                f"gain={s['gain_over_zeroshot']:+.2%}"
+                f"  {mode:12s} exact={s.get('exact_match_rate', s['accuracy']):.2%} "
+                f"feas={s['feasible_rate']:.2%} "
+                f"feas_gain={s.get('feasible_gain_over_zeroshot', 0):+.2%} "
+                f"(gold_hit={s.get('gold_hit_rate', s['accuracy']):.2%})"
             )
 
     last = per_seed[-1]
@@ -179,7 +188,7 @@ def main() -> int:
     plot_rows = {
         k: {
             "feasible_rate": v["feasible_rate"],
-            "exact_match_rate": v["accuracy"],
+            "exact_match_rate": v.get("exact_match_rate", v["accuracy"]),
         }
         for k, v in last.items()
     }

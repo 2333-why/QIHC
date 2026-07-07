@@ -82,9 +82,12 @@ def run_cr_paper_modes(
         summary[m] = {
             "mode": m,
             "accuracy": s["accuracy"],
+            "exact_match_rate": s.get("exact_match_rate", s["accuracy"]),
+            "gold_hit_rate": s.get("gold_hit_rate", s["accuracy"]),
             "feasible_rate": s["feasible_rate"],
-            "exact_match_rate": s["accuracy"],
             "gain_over_zeroshot": s.get("gain_over_zeroshot", 0.0),
+            "gain_over_zeroshot_exact": s.get("gain_over_zeroshot_exact", 0.0),
+            "feasible_gain_over_zeroshot": s.get("feasible_gain_over_zeroshot", 0.0),
             "mean_pbit_steps": s.get("mean_pbit_steps", 0),
             "mean_llm_calls": s.get("mean_llm_calls", 0),
             "llm_calls": int(round(s.get("mean_llm_calls", 0))),

@@ -122,6 +122,7 @@ class CRPipelineResult:
     correct: bool
     feasible: bool
     exact_match: bool
+    gold_hit: bool
     pred_indices: list[int]
     gold_indices: list[int]
     n_samples: int
@@ -298,8 +299,10 @@ def evaluate_cr_task(
     exact = pred_set == gold_set
     if mode in ("zeroshot", "random", "linear", "quadratic") and task.top_k > 1 and len(pred_set) == 1:
         correct = bool(pred_set & gold_set)
+        gold_hit = correct
     else:
         correct = exact
+        gold_hit = exact
 
     if not f_trace and mode not in ("vci-1", "vci-2"):
         fe = compute_free_energy(
@@ -316,6 +319,7 @@ def evaluate_cr_task(
         correct=correct,
         feasible=feasible,
         exact_match=exact,
+        gold_hit=bool(pred_set & gold_set) if pred_set else False,
         pred_indices=pred_indices or list(np.flatnonzero(mask)),
         gold_indices=gold,
         n_samples=n_samples if mode != "zeroshot" else 0,
@@ -380,8 +384,10 @@ def run_cr_paper_benchmark(
                 {
                     "task_id": r.task_id,
                     "correct": bool(r.correct),
+                    "gold_hit": bool(r.gold_hit),
                     "feasible": bool(r.feasible),
                     "exact_match": bool(r.exact_match),
+                    "top_k": int(task.top_k),
                     "pred_indices": [int(x) for x in r.pred_indices],
                     "gold_indices": [int(x) for x in r.gold_indices],
                     "n_samples": int(r.n_samples),
@@ -404,21 +410,40 @@ def run_cr_paper_benchmark(
             "wall_time_s": round(shared_sampler.stats.wall_time_s, 2),
         }
 
+    mean_top_k = float(np.mean([t.top_k for t in tasks])) if tasks else 1.0
+    is_constrained_multiselect = mean_top_k > 1.5
+
     summary: dict[str, dict] = {}
     for mode, rows in all_results.items():
         acc = float(np.mean([r["correct"] for r in rows]))
+        exact = float(np.mean([r["exact_match"] for r in rows]))
+        gold_hit = float(np.mean([r["gold_hit"] for r in rows]))
+        feas = float(np.mean([r["feasible"] for r in rows]))
         summary[mode] = {
             "accuracy": acc,
-            "exact_match_rate": float(np.mean([r["exact_match"] for r in rows])),
-            "feasible_rate": float(np.mean([r["feasible"] for r in rows])),
+            "exact_match_rate": exact,
+            "gold_hit_rate": gold_hit,
+            "feasible_rate": feas,
             "mean_pbit_steps": float(np.mean([r["pbit_steps"] for r in rows])),
             "mean_llm_calls": float(np.mean([r["llm_calls"] for r in rows])),
             "n_tasks": len(rows),
         }
 
-    zs_acc = summary.get("zeroshot", {}).get("accuracy", 0.0)
+    zs = summary.get("zeroshot", {})
+    zs_acc = zs.get("accuracy", 0.0)
+    zs_exact = zs.get("exact_match_rate", 0.0)
+    zs_feas = zs.get("feasible_rate", 0.0)
     for mode in summary:
         summary[mode]["gain_over_zeroshot"] = float(summary[mode]["accuracy"] - zs_acc)
+        summary[mode]["gain_over_zeroshot_exact"] = float(
+            summary[mode]["exact_match_rate"] - zs_exact
+        )
+        summary[mode]["feasible_gain_over_zeroshot"] = float(
+            summary[mode]["feasible_rate"] - zs_feas
+        )
+
+    track = "constrained_multiselect" if is_constrained_multiselect else "paper_single_answer"
+    primary_metric = "feasible_rate" if is_constrained_multiselect else "accuracy"
 
     return {
         "summary": summary,
@@ -427,9 +452,20 @@ def run_cr_paper_benchmark(
         "n_samples": n_samples,
         "budget_steps": budget_steps,
         "protocol": "cr_paper_arxiv_2407_00071",
+        "track": track,
+        "mean_top_k": mean_top_k,
+        "primary_metric": primary_metric,
+        "use_llm": use_llm,
+        "metric_warning": (
+            "constrained_multiselect + mock LLM: CR modes output 1 answer → feas≈0; "
+            "compare feasible_gain_over_zeroshot, NOT gain_over_zeroshot (gold-hit vs exact)."
+            if is_constrained_multiselect and not use_llm
+            else None
+        ),
         "note": (
             "zeroshot=LLM T=0 direct answer; linear=majority vote; "
             "quadratic=QUBO reason select + enhanced prompt + LLM T=0; "
-            "vci-1/2=CR-encoded constrained cooperative inference"
+            "vci-1/2=CR-encoded constrained cooperative inference. "
+            f"Track={track}, primary={primary_metric}."
         ),
     }
