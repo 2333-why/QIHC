@@ -1,0 +1,321 @@
+{
+  "experiment": "unified_ablation_cr_paper",
+  "dataset": "bundled",
+  "use_llm": false,
+  "model_name": null,
+  "n_tasks": 40,
+  "budget_steps": 400,
+  "n_samples": 50,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "modes": [
+    "zeroshot",
+    "linear",
+    "quadratic",
+    "vci-1",
+    "vci-2"
+  ],
+  "baseline": "zeroshot (CR paper LLM T=0, NOT logits-greedy)",
+  "summary": {
+    "zeroshot": {
+      "accuracy": 1.0,
+      "feasible_rate": 0.0,
+      "gain_over_zeroshot": 0.0,
+      "mean_pbit_steps": 0.0,
+      "mean_llm_calls": 1.0,
+      "family": "cr"
+    },
+    "linear": {
+      "accuracy": 1.0,
+      "feasible_rate": 0.0,
+      "gain_over_zeroshot": 0.0,
+      "mean_pbit_steps": 0.0,
+      "mean_llm_calls": 50.0,
+      "family": "cr"
+    },
+    "quadratic": {
+      "accuracy": 1.0,
+      "feasible_rate": 0.0,
+      "gain_over_zeroshot": 0.0,
+      "mean_pbit_steps": 400.0,
+      "mean_llm_calls": 51.0,
+      "family": "cr"
+    },
+    "vci-1": {
+      "accuracy": 0.25,
+      "feasible_rate": 1.0,
+      "gain_over_zeroshot": -0.75,
+      "mean_pbit_steps": 400.0,
+      "mean_llm_calls": 50.0,
+      "family": "vci"
+    },
+    "vci-2": {
+      "accuracy": 0.25,
+      "feasible_rate": 1.0,
+      "gain_over_zeroshot": -0.75,
+      "mean_pbit_steps": 400.0,
+      "mean_llm_calls": 50.0,
+      "family": "vci"
+    }
+  },
+  "per_seed": [
+    {
+      "zeroshot": {
+        "accuracy": 1.0,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": 0.0,
+        "mean_pbit_steps": 0.0,
+        "mean_llm_calls": 1.0,
+        "family": "cr"
+      },
+      "linear": {
+        "accuracy": 1.0,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": 0.0,
+        "mean_pbit_steps": 0.0,
+        "mean_llm_calls": 50.0,
+        "family": "cr"
+      },
+      "quadratic": {
+        "accuracy": 0.975,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": -0.025000000000000022,
+        "mean_pbit_steps": 400.0,
+        "mean_llm_calls": 51.0,
+        "family": "cr"
+      },
+      "vci-1": {
+        "accuracy": 0.35,
+        "feasible_rate": 0.925,
+        "gain_over_zeroshot": -0.65,
+        "mean_pbit_steps": 400.0,
+        "mean_llm_calls": 50.0,
+        "family": "vci"
+      },
+      "vci-2": {
+        "accuracy": 0.375,
+        "feasible_rate": 1.0,
+        "gain_over_zeroshot": -0.625,
+        "mean_pbit_steps": 430.0,
+        "mean_llm_calls": 50.0,
+        "family": "vci"
+      }
+    },
+    {
+      "zeroshot": {
+        "accuracy": 0.95,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": 0.0,
+        "mean_pbit_steps": 0.0,
+        "mean_llm_calls": 1.0,
+        "family": "cr"
+      },
+      "linear": {
+        "accuracy": 0.95,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": 0.0,
+        "mean_pbit_steps": 0.0,
+        "mean_llm_calls": 50.0,
+        "family": "cr"
+      },
+      "quadratic": {
+        "accuracy": 0.95,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": 0.0,
+        "mean_pbit_steps": 400.0,
+        "mean_llm_calls": 51.0,
+        "family": "cr"
+      },
+      "vci-1": {
+        "accuracy": 0.5,
+        "feasible_rate": 1.0,
+        "gain_over_zeroshot": -0.44999999999999996,
+        "mean_pbit_steps": 400.0,
+        "mean_llm_calls": 50.0,
+        "family": "vci"
+      },
+      "vci-2": {
+        "accuracy": 0.5,
+        "feasible_rate": 1.0,
+        "gain_over_zeroshot": -0.44999999999999996,
+        "mean_pbit_steps": 400.0,
+        "mean_llm_calls": 50.0,
+        "family": "vci"
+      }
+    },
+    {
+      "zeroshot": {
+        "accuracy": 1.0,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": 0.0,
+        "mean_pbit_steps": 0.0,
+        "mean_llm_calls": 1.0,
+        "family": "cr"
+      },
+      "linear": {
+        "accuracy": 0.975,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": -0.025000000000000022,
+        "mean_pbit_steps": 0.0,
+        "mean_llm_calls": 50.0,
+        "family": "cr"
+      },
+      "quadratic": {
+        "accuracy": 0.975,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": -0.025000000000000022,
+        "mean_pbit_steps": 400.0,
+        "mean_llm_calls": 51.0,
+        "family": "cr"
+      },
+      "vci-1": {
+        "accuracy": 0.625,
+        "feasible_rate": 0.975,
+        "gain_over_zeroshot": -0.375,
+        "mean_pbit_steps": 400.0,
+        "mean_llm_calls": 50.0,
+        "family": "vci"
+      },
+      "vci-2": {
+        "accuracy": 0.625,
+        "feasible_rate": 0.975,
+        "gain_over_zeroshot": -0.375,
+        "mean_pbit_steps": 410.0,
+        "mean_llm_calls": 50.0,
+        "family": "vci"
+      }
+    },
+    {
+      "zeroshot": {
+        "accuracy": 1.0,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": 0.0,
+        "mean_pbit_steps": 0.0,
+        "mean_llm_calls": 1.0,
+        "family": "cr"
+      },
+      "linear": {
+        "accuracy": 1.0,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": 0.0,
+        "mean_pbit_steps": 0.0,
+        "mean_llm_calls": 50.0,
+        "family": "cr"
+      },
+      "quadratic": {
+        "accuracy": 1.0,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": 0.0,
+        "mean_pbit_steps": 400.0,
+        "mean_llm_calls": 51.0,
+        "family": "cr"
+      },
+      "vci-1": {
+        "accuracy": 0.175,
+        "feasible_rate": 0.9,
+        "gain_over_zeroshot": -0.825,
+        "mean_pbit_steps": 400.0,
+        "mean_llm_calls": 50.0,
+        "family": "vci"
+      },
+      "vci-2": {
+        "accuracy": 0.2,
+        "feasible_rate": 0.975,
+        "gain_over_zeroshot": -0.8,
+        "mean_pbit_steps": 440.0,
+        "mean_llm_calls": 50.0,
+        "family": "vci"
+      }
+    },
+    {
+      "zeroshot": {
+        "accuracy": 1.0,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": 0.0,
+        "mean_pbit_steps": 0.0,
+        "mean_llm_calls": 1.0,
+        "family": "cr"
+      },
+      "linear": {
+        "accuracy": 1.0,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": 0.0,
+        "mean_pbit_steps": 0.0,
+        "mean_llm_calls": 50.0,
+        "family": "cr"
+      },
+      "quadratic": {
+        "accuracy": 1.0,
+        "feasible_rate": 0.0,
+        "gain_over_zeroshot": 0.0,
+        "mean_pbit_steps": 400.0,
+        "mean_llm_calls": 51.0,
+        "family": "cr"
+      },
+      "vci-1": {
+        "accuracy": 0.25,
+        "feasible_rate": 1.0,
+        "gain_over_zeroshot": -0.75,
+        "mean_pbit_steps": 400.0,
+        "mean_llm_calls": 50.0,
+        "family": "vci"
+      },
+      "vci-2": {
+        "accuracy": 0.25,
+        "feasible_rate": 1.0,
+        "gain_over_zeroshot": -0.75,
+        "mean_pbit_steps": 400.0,
+        "mean_llm_calls": 50.0,
+        "family": "vci"
+      }
+    }
+  ],
+  "aggregate": {
+    "zeroshot": {
+      "accuracy_mean": 0.99,
+      "accuracy_std": 0.020000000000000018,
+      "feasible_rate_mean": 0.0,
+      "feasible_rate_std": 0.0,
+      "gain_over_zeroshot_mean": 0.0,
+      "n_seeds": 5
+    },
+    "linear": {
+      "accuracy_mean": 0.985,
+      "accuracy_std": 0.020000000000000018,
+      "feasible_rate_mean": 0.0,
+      "feasible_rate_std": 0.0,
+      "gain_over_zeroshot_mean": -0.0050000000000000044,
+      "n_seeds": 5
+    },
+    "quadratic": {
+      "accuracy_mean": 0.9800000000000001,
+      "accuracy_std": 0.018708286933869722,
+      "feasible_rate_mean": 0.0,
+      "feasible_rate_std": 0.0,
+      "gain_over_zeroshot_mean": -0.010000000000000009,
+      "n_seeds": 5
+    },
+    "vci-1": {
+      "accuracy_mean": 0.38,
+      "accuracy_std": 0.1638596960817394,
+      "feasible_rate_mean": 0.96,
+      "feasible_rate_std": 0.040620192023179784,
+      "gain_over_zeroshot_mean": -0.61,
+      "n_seeds": 5
+    },
+    "vci-2": {
+      "accuracy_mean": 0.39,
+      "accuracy_std": 0.15700318468107582,
+      "feasible_rate_mean": 0.99,
+      "feasible_rate_std": 0.012247448713915901,
+      "gain_over_zeroshot_mean": -0.6,
+      "n_seeds": 5
+    }
+  },
+  "reference": "Combinatorial Reasoning arXiv:2407.00071"
+}
