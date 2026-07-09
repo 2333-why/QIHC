@@ -23,6 +23,8 @@
 #   SEEDS="0 1 2 3 4"
 #   HF_LIMIT_PER_TASK=50          # HF 每子任务题数；赶时间可设 25
 #   SKIP_SETUP=0                  # 1=跳过 pip/下载（环境已就绪时）
+#   SKIP_MODEL_DOWNLOAD=0         # 1=跳过模型下载（已有 local_dir 时）
+#   MODEL_DOWNLOAD_BACKEND=auto   # auto | modelscope | huggingface
 #   SKIP_CASE_H=1                 # 默认 1；双 4090 仍建议跳过 14B
 #   USE_CN_MIRROR=1               # 默认 1；清华 PyPI + HF 镜像
 # =============================================================================
@@ -42,13 +44,17 @@ export SEEDS="${SEEDS:-0 1 2 3 4}"
 export HF_LIMIT_PER_TASK="${HF_LIMIT_PER_TASK:-50}"
 export SKIP_CASE_H="${SKIP_CASE_H:-1}"
 export SKIP_SETUP="${SKIP_SETUP:-0}"
+export SKIP_MODEL_DOWNLOAD="${SKIP_MODEL_DOWNLOAD:-0}"
 export TOKENIZERS_PARALLELISM=false
 export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
 
-# 若已有 offline_bundle 本地模型，优先使用（省带宽）
+# BUNDLE_ROOT used below for model path / modelscope cache
 BUNDLE_ROOT="${BUNDLE_ROOT:-${REPO_ROOT}/offline_bundle}"
-if [[ -f "${BUNDLE_ROOT}/models/Qwen2.5-7B-Instruct/config.json" ]]; then
-  MODEL="${BUNDLE_ROOT}/models/Qwen2.5-7B-Instruct"
+export MODELSCOPE_CACHE="${MODELSCOPE_CACHE:-${BUNDLE_ROOT}/.modelscope}"
+MODEL_LOCAL_DIR="${BUNDLE_ROOT}/models/Qwen2.5-7B-Instruct"
+
+if [[ -f "${MODEL_LOCAL_DIR}/config.json" ]]; then
+  MODEL="${MODEL_LOCAL_DIR}"
 else
   MODEL="${MODEL_NAME}"
 fi
@@ -72,6 +78,8 @@ echo " SEEDS:    ${SEEDS}"
 echo " HF limit: ${HF_LIMIT_PER_TASK} per task"
 echo " PyPI:     ${PIP_INDEX_URL}"
 echo " HF:       ${HF_ENDPOINT}"
+echo " Model dir:${MODEL_LOCAL_DIR}"
+echo " DL backend: ${MODEL_DOWNLOAD_BACKEND:-auto}"
 echo "=============================================="
 
 nvidia-smi -L || nvidia-smi || true
@@ -85,12 +93,19 @@ if [[ "${SKIP_SETUP}" != "1" ]]; then
   source "${REPO_ROOT}/.venv/bin/activate"
   pip install -q -U pip "${PIP_INSTALL_ARGS[@]}"
   pip install -q "${PIP_INSTALL_ARGS[@]}" -e ".[dev,hf,llm]"
+  pip install -q "${PIP_INSTALL_ARGS[@]}" modelscope || echo "WARN: modelscope install failed"
 
-  if [[ "${MODEL}" == "${MODEL_NAME}" ]]; then
-    echo "[$(date -Iseconds)] 预下载 7B 模型（清华 HF 镜像，禁用 Xet）..."
+  if [[ "${SKIP_MODEL_DOWNLOAD}" != "1" ]] && [[ ! -f "${MODEL_LOCAL_DIR}/config.json" ]]; then
+    echo "[$(date -Iseconds)] 预下载 7B → ${MODEL_LOCAL_DIR} (ModelScope 优先)..."
+    mkdir -p "${MODEL_LOCAL_DIR}"
     "${PYTHON}" experiments/nsfc_evidence/download_model_hf.py \
       --repo "${MODEL_NAME}" \
-      --cache-dir "${HF_HOME}"
+      --local-dir "${MODEL_LOCAL_DIR}" \
+      --backend "${MODEL_DOWNLOAD_BACKEND:-auto}"
+    MODEL="${MODEL_LOCAL_DIR}"
+  elif [[ -f "${MODEL_LOCAL_DIR}/config.json" ]]; then
+    echo "[skip] 模型已存在: ${MODEL_LOCAL_DIR}"
+    MODEL="${MODEL_LOCAL_DIR}"
   fi
 
   echo "[$(date -Iseconds)] 预取 BBH..."
