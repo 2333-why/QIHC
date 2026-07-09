@@ -1,0 +1,217 @@
+{
+  "profile": "smoke",
+  "n_instances": 6,
+  "n": 8,
+  "degree": 3,
+  "n_ho_terms": 3,
+  "steps": 80,
+  "summary": {
+    "soft": {
+      "feasible_rate": 0.8333333333333334,
+      "mean_n_vars": 8.0,
+      "mean_energy": -3.127582799455126,
+      "mean_jaccard_gold": 0.5333333333333333,
+      "mean_jaccard_vs_quad": 0.6666666666666666
+    },
+    "quad": {
+      "feasible_rate": 1.0,
+      "mean_n_vars": 11.0,
+      "mean_energy": -2.684606670163777,
+      "mean_jaccard_gold": 0.39999999999999997
+    },
+    "hubo": {
+      "feasible_rate": 0.8333333333333334,
+      "mean_n_vars": 8.0,
+      "mean_energy": -3.127582799455126,
+      "mean_jaccard_gold": 0.5333333333333333
+    }
+  },
+  "per_instance": [
+    {
+      "instance": 0,
+      "n_aux_quad": 3,
+      "soft": {
+        "feasible": true,
+        "n_vars": 8,
+        "n_aux": 0,
+        "energy": -3.3862278318393235,
+        "time_s": 0.0023764579091221094,
+        "jaccard_gold": 1.0,
+        "jaccard_vs_quad": 0.5
+      },
+      "quad": {
+        "feasible": true,
+        "n_vars": 11,
+        "n_aux": 3,
+        "energy": -1.110089762902859,
+        "time_s": 0.010628666030243039,
+        "jaccard_gold": 0.5,
+        "steps_used": 58
+      },
+      "hubo": {
+        "feasible": true,
+        "n_vars": 8,
+        "n_aux": 0,
+        "energy": -3.3862278318393235,
+        "time_s": 0.0023764579091221094,
+        "jaccard_gold": 1.0,
+        "note": "native HUBO via soft MF (no aux explosion)"
+      }
+    },
+    {
+      "instance": 1,
+      "n_aux_quad": 3,
+      "soft": {
+        "feasible": true,
+        "n_vars": 8,
+        "n_aux": 0,
+        "energy": -1.1096536277929214,
+        "time_s": 0.0026519999373704195,
+        "jaccard_gold": 0.5,
+        "jaccard_vs_quad": 0.5
+      },
+      "quad": {
+        "feasible": true,
+        "n_vars": 11,
+        "n_aux": 3,
+        "energy": -0.7870006977150115,
+        "time_s": 0.010132875060662627,
+        "jaccard_gold": 0.2,
+        "steps_used": 58
+      },
+      "hubo": {
+        "feasible": true,
+        "n_vars": 8,
+        "n_aux": 0,
+        "energy": -1.1096536277929214,
+        "time_s": 0.0026519999373704195,
+        "jaccard_gold": 0.5,
+        "note": "native HUBO via soft MF (no aux explosion)"
+      }
+    },
+    {
+      "instance": 2,
+      "n_aux_quad": 3,
+      "soft": {
+        "feasible": true,
+        "n_vars": 8,
+        "n_aux": 0,
+        "energy": -3.877710312564035,
+        "time_s": 0.003098333952948451,
+        "jaccard_gold": 0.5,
+        "jaccard_vs_quad": 1.0
+      },
+      "quad": {
+        "feasible": true,
+        "n_vars": 11,
+        "n_aux": 3,
+        "energy": -3.877710312564035,
+        "time_s": 0.011281542014330626,
+        "jaccard_gold": 0.5,
+        "steps_used": 58
+      },
+      "hubo": {
+        "feasible": true,
+        "n_vars": 8,
+        "n_aux": 0,
+        "energy": -3.877710312564035,
+        "time_s": 0.003098333952948451,
+        "jaccard_gold": 0.5,
+        "note": "native HUBO via soft MF (no aux explosion)"
+      }
+    },
+    {
+      "instance": 3,
+      "n_aux_quad": 3,
+      "soft": {
+        "feasible": false,
+        "n_vars": 8,
+        "n_aux": 0,
+        "energy": -5.642532962295757,
+        "time_s": 0.0022730000782757998,
+        "jaccard_gold": 0.2,
+        "jaccard_vs_quad": 0.5
+      },
+      "quad": {
+        "feasible": true,
+        "n_vars": 11,
+        "n_aux": 3,
+        "energy": -9.243147272693456,
+        "time_s": 0.010660041822120547,
+        "jaccard_gold": 0.5,
+        "steps_used": 58
+      },
+      "hubo": {
+        "feasible": false,
+        "n_vars": 8,
+        "n_aux": 0,
+        "energy": -5.642532962295757,
+        "time_s": 0.0022730000782757998,
+        "jaccard_gold": 0.2,
+        "note": "native HUBO via soft MF (no aux explosion)"
+      }
+    },
+    {
+      "instance": 4,
+      "n_aux_quad": 3,
+      "soft": {
+        "feasible": true,
+        "n_vars": 8,
+        "n_aux": 0,
+        "energy": -1.4112511168492152,
+        "time_s": 0.0029937501531094313,
+        "jaccard_gold": 0.5,
+        "jaccard_vs_quad": 0.5
+      },
+      "quad": {
+        "feasible": true,
+        "n_vars": 11,
+        "n_aux": 3,
+        "energy": 2.2484289702822045,
+        "time_s": 0.010768915992230177,
+        "jaccard_gold": 0.2,
+        "steps_used": 58
+      },
+      "hubo": {
+        "feasible": true,
+        "n_vars": 8,
+        "n_aux": 0,
+        "energy": -1.4112511168492152,
+        "time_s": 0.0029937501531094313,
+        "jaccard_gold": 0.5,
+        "note": "native HUBO via soft MF (no aux explosion)"
+      }
+    },
+    {
+      "instance": 5,
+      "n_aux_quad": 3,
+      "soft": {
+        "feasible": true,
+        "n_vars": 8,
+        "n_aux": 0,
+        "energy": -3.338120945389504,
+        "time_s": 0.002321207895874977,
+        "jaccard_gold": 0.5,
+        "jaccard_vs_quad": 1.0
+      },
+      "quad": {
+        "feasible": true,
+        "n_vars": 11,
+        "n_aux": 3,
+        "energy": -3.338120945389504,
+        "time_s": 0.010914708953350782,
+        "jaccard_gold": 0.5,
+        "steps_used": 58
+      },
+      "hubo": {
+        "feasible": true,
+        "n_vars": 8,
+        "n_aux": 0,
+        "energy": -3.338120945389504,
+        "time_s": 0.002321207895874977,
+        "jaccard_gold": 0.5,
+        "note": "native HUBO via soft MF (no aux explosion)"
+      }
+    }
+  ]
+}

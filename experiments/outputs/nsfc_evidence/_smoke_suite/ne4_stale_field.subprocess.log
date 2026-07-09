@@ -1,0 +1,4 @@
+# 2026-07-09T05:34:45Z ne4_stale_field
+# cmd: /opt/anaconda3/bin/python /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_ne4_stale_field.py --profile smoke --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne4_stale_field
+
+NE4 done. fraction_below_bound=0.667 -> /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne4_stale_field

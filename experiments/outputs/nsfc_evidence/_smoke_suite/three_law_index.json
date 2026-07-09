@@ -1,0 +1,42 @@
+{
+  "profile": "smoke",
+  "steps": {
+    "ne2_contraction": {
+      "ok": true,
+      "summary": "/Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne2_contraction/summary.json"
+    },
+    "ne4_stale_field": {
+      "ok": true,
+      "summary": "/Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne4_stale_field/summary.json"
+    },
+    "ne9_free_energy": {
+      "ok": true,
+      "summary": "/Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne9_free_energy/summary.json"
+    },
+    "ne3_refresh": {
+      "ok": true,
+      "summary": "/Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne3_refresh/summary.json"
+    },
+    "ne6_trust_gate": {
+      "ok": true,
+      "summary": "/Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne6_trust_gate/summary.json"
+    },
+    "ne1_division": {
+      "ok": true,
+      "summary": "/Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne1_division/summary.json"
+    },
+    "ne5_snr_lambda": {
+      "ok": true,
+      "summary": "/Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne5_snr_lambda/summary.json"
+    },
+    "ne7_trust_proxy": {
+      "ok": true,
+      "summary": "/Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne7_trust_proxy/summary.json"
+    },
+    "ne8_pareto": {
+      "ok": true,
+      "summary": "/Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne8_pareto/summary.json"
+    }
+  },
+  "failed": []
+}

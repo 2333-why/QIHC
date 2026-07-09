@@ -1,0 +1,43 @@
+[2026-07-09T05:34:44Z] [INFO] Profile: smoke — Fast local smoke for all NE1–NE9 (~5–15 min CPU)
+[2026-07-09T05:34:44Z] [INFO] Repo: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC
+[2026-07-09T05:34:44Z] [INFO] Saved artifact: profile.json
+[2026-07-09T05:34:44Z] [INFO] === BEGIN ne2_contraction ===
+[2026-07-09T05:34:44Z] [INFO] Command: /opt/anaconda3/bin/python /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_ne2_contraction.py --profile smoke --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne2_contraction
+[2026-07-09T05:34:44Z] [INFO] Subprocess log: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne2_contraction.subprocess.log
+[2026-07-09T05:34:45Z] [INFO] === END ne2_contraction (ok, 0.9s) ===
+[2026-07-09T05:34:45Z] [INFO] === BEGIN ne4_stale_field ===
+[2026-07-09T05:34:45Z] [INFO] Command: /opt/anaconda3/bin/python /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_ne4_stale_field.py --profile smoke --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne4_stale_field
+[2026-07-09T05:34:45Z] [INFO] Subprocess log: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne4_stale_field.subprocess.log
+[2026-07-09T05:34:46Z] [INFO] === END ne4_stale_field (ok, 1.0s) ===
+[2026-07-09T05:34:46Z] [INFO] === BEGIN ne9_free_energy ===
+[2026-07-09T05:34:46Z] [INFO] Command: /opt/anaconda3/bin/python /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_ne9_free_energy.py --profile smoke --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne9_free_energy
+[2026-07-09T05:34:46Z] [INFO] Subprocess log: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne9_free_energy.subprocess.log
+[2026-07-09T05:34:47Z] [INFO] === END ne9_free_energy (ok, 0.8s) ===
+[2026-07-09T05:34:47Z] [INFO] === BEGIN ne3_refresh ===
+[2026-07-09T05:34:47Z] [INFO] Command: /opt/anaconda3/bin/python /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_ne3_refresh.py --profile smoke --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne3_refresh
+[2026-07-09T05:34:47Z] [INFO] Subprocess log: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne3_refresh.subprocess.log
+[2026-07-09T05:34:49Z] [INFO] === END ne3_refresh (ok, 2.2s) ===
+[2026-07-09T05:34:49Z] [INFO] === BEGIN ne6_trust_gate ===
+[2026-07-09T05:34:49Z] [INFO] Command: /opt/anaconda3/bin/python /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_ne6_trust_gate.py --profile smoke --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne6_trust_gate
+[2026-07-09T05:34:49Z] [INFO] Subprocess log: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne6_trust_gate.subprocess.log
+[2026-07-09T05:34:51Z] [INFO] === END ne6_trust_gate (ok, 1.8s) ===
+[2026-07-09T05:34:51Z] [INFO] === BEGIN ne1_division ===
+[2026-07-09T05:34:51Z] [INFO] Command: /opt/anaconda3/bin/python /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_ne1_division.py --profile smoke --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne1_division
+[2026-07-09T05:34:51Z] [INFO] Subprocess log: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne1_division.subprocess.log
+[2026-07-09T05:34:51Z] [INFO] === END ne1_division (ok, 0.6s) ===
+[2026-07-09T05:34:51Z] [INFO] === BEGIN ne5_snr_lambda ===
+[2026-07-09T05:34:51Z] [INFO] Command: /opt/anaconda3/bin/python /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_ne5_snr_lambda.py --profile smoke --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne5_snr_lambda
+[2026-07-09T05:34:51Z] [INFO] Subprocess log: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne5_snr_lambda.subprocess.log
+[2026-07-09T05:34:53Z] [INFO] === END ne5_snr_lambda (ok, 1.6s) ===
+[2026-07-09T05:34:53Z] [INFO] === BEGIN ne7_trust_proxy ===
+[2026-07-09T05:34:53Z] [INFO] Command: /opt/anaconda3/bin/python /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_ne7_trust_proxy.py --profile smoke --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne7_trust_proxy
+[2026-07-09T05:34:53Z] [INFO] Subprocess log: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne7_trust_proxy.subprocess.log
+[2026-07-09T05:34:54Z] [INFO] === END ne7_trust_proxy (ok, 1.1s) ===
+[2026-07-09T05:34:54Z] [INFO] === BEGIN ne8_pareto ===
+[2026-07-09T05:34:54Z] [INFO] Command: /opt/anaconda3/bin/python /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_ne8_pareto.py --profile smoke --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne8_pareto
+[2026-07-09T05:34:54Z] [INFO] Subprocess log: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne8_pareto.subprocess.log
+[2026-07-09T05:34:56Z] [INFO] === END ne8_pareto (ok, 1.7s) ===
+[2026-07-09T05:34:56Z] [INFO] Saved artifact: three_law_index.json
+[2026-07-09T05:34:56Z] [INFO] Saved artifact: failed_steps.json
+[2026-07-09T05:34:56Z] [INFO] Run completed. Manifest: /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/manifest.json
+[2026-07-09T05:34:56Z] [INFO] All three-law steps completed successfully.

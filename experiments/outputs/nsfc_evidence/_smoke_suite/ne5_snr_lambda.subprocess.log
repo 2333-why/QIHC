@@ -1,0 +1,7 @@
+# 2026-07-09T05:34:51Z ne5_snr_lambda
+# cmd: /opt/anaconda3/bin/python /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_ne5_snr_lambda.py --profile smoke --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne5_snr_lambda
+
+  σ=0.2 SNR=47.32 λ*_emp=1.00 λ*_th=0.98 G*=0.000
+  σ=0.5 SNR=7.57 λ*_emp=0.00 λ*_th=0.88 G*=-0.125
+  σ=1.0 SNR=1.89 λ*_emp=0.00 λ*_th=0.65 G*=-0.125
+NE5 done. mean|λ*_emp-λ*_th|=0.519 -> /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne5_snr_lambda

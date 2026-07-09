@@ -1,0 +1,16 @@
+{
+  "profile": "smoke",
+  "description": "Fast local smoke for all NE1–NE9 (~5–15 min CPU)",
+  "steps": [
+    "ne2_contraction",
+    "ne4_stale_field",
+    "ne9_free_energy",
+    "ne3_refresh",
+    "ne6_trust_gate",
+    "ne1_division",
+    "ne5_snr_lambda",
+    "ne7_trust_proxy",
+    "ne8_pareto"
+  ],
+  "ne_profile_flag": "smoke"
+}

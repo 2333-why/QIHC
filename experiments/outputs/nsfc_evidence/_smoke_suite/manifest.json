@@ -1,0 +1,79 @@
+{
+  "run_name": "three_law_smoke",
+  "started_at": "2026-07-09T05:34:44Z",
+  "hostname": "unknown",
+  "cuda_visible_devices": null,
+  "steps": [
+    {
+      "name": "ne2_contraction",
+      "status": "ok",
+      "elapsed_s": 0.929,
+      "finished_at": "2026-07-09T05:34:45Z",
+      "exit_code": 0
+    },
+    {
+      "name": "ne4_stale_field",
+      "status": "ok",
+      "elapsed_s": 0.984,
+      "finished_at": "2026-07-09T05:34:46Z",
+      "exit_code": 0
+    },
+    {
+      "name": "ne9_free_energy",
+      "status": "ok",
+      "elapsed_s": 0.831,
+      "finished_at": "2026-07-09T05:34:47Z",
+      "exit_code": 0
+    },
+    {
+      "name": "ne3_refresh",
+      "status": "ok",
+      "elapsed_s": 2.158,
+      "finished_at": "2026-07-09T05:34:49Z",
+      "exit_code": 0
+    },
+    {
+      "name": "ne6_trust_gate",
+      "status": "ok",
+      "elapsed_s": 1.8,
+      "finished_at": "2026-07-09T05:34:51Z",
+      "exit_code": 0
+    },
+    {
+      "name": "ne1_division",
+      "status": "ok",
+      "elapsed_s": 0.631,
+      "finished_at": "2026-07-09T05:34:51Z",
+      "exit_code": 0
+    },
+    {
+      "name": "ne5_snr_lambda",
+      "status": "ok",
+      "elapsed_s": 1.608,
+      "finished_at": "2026-07-09T05:34:53Z",
+      "exit_code": 0
+    },
+    {
+      "name": "ne7_trust_proxy",
+      "status": "ok",
+      "elapsed_s": 1.071,
+      "finished_at": "2026-07-09T05:34:54Z",
+      "exit_code": 0
+    },
+    {
+      "name": "ne8_pareto",
+      "status": "ok",
+      "elapsed_s": 1.738,
+      "finished_at": "2026-07-09T05:34:56Z",
+      "exit_code": 0
+    }
+  ],
+  "artifacts": [
+    "profile.json",
+    "three_law_index.json",
+    "failed_steps.json"
+  ],
+  "updated_at": "2026-07-09T05:34:56Z",
+  "status": "completed",
+  "finished_at": "2026-07-09T05:34:56Z"
+}

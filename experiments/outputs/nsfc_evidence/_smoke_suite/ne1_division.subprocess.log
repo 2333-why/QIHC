@@ -1,0 +1,10 @@
+# 2026-07-09T05:34:51Z ne1_division
+# cmd: /opt/anaconda3/bin/python /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_ne1_division.py --profile smoke --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne1_division
+
+  inst=0 soft_feas=True quad_vars=11 aux=3 jacc_soft_quad=0.50
+  inst=1 soft_feas=True quad_vars=11 aux=3 jacc_soft_quad=0.50
+  inst=2 soft_feas=True quad_vars=11 aux=3 jacc_soft_quad=1.00
+  inst=3 soft_feas=False quad_vars=11 aux=3 jacc_soft_quad=0.50
+  inst=4 soft_feas=True quad_vars=11 aux=3 jacc_soft_quad=0.50
+  inst=5 soft_feas=True quad_vars=11 aux=3 jacc_soft_quad=1.00
+NE1 done. soft_feas=0.833 quad_vars=11.0 -> /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne1_division

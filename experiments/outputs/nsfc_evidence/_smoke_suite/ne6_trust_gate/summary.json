@@ -1,0 +1,130 @@
+{
+  "profile": "smoke",
+  "n_tasks": 10,
+  "budget_steps": 100,
+  "noninferior_all_sigma": true,
+  "noninferior_per_sigma": {
+    "0.0": true,
+    "0.4": true,
+    "0.8": true
+  },
+  "rows": [
+    {
+      "mode": "always",
+      "sigma": 0.0,
+      "feasible_rate": 0.9,
+      "feasible_ci": [
+        0.7,
+        1.0
+      ],
+      "exact_match_rate": 0.3,
+      "mean_jaccard": 0.6333333333333333,
+      "mean_lambda": 1.0,
+      "n": 10
+    },
+    {
+      "mode": "never",
+      "sigma": 0.0,
+      "feasible_rate": 1.0,
+      "feasible_ci": [
+        1.0,
+        1.0
+      ],
+      "exact_match_rate": 0.1,
+      "mean_jaccard": 0.42666666666666664,
+      "mean_lambda": 0.0,
+      "n": 10
+    },
+    {
+      "mode": "gated",
+      "sigma": 0.0,
+      "feasible_rate": 1.0,
+      "feasible_ci": [
+        1.0,
+        1.0
+      ],
+      "exact_match_rate": 0.3,
+      "mean_jaccard": 0.6166666666666666,
+      "mean_lambda": 0.6971368086205978,
+      "n": 10
+    },
+    {
+      "mode": "always",
+      "sigma": 0.4,
+      "feasible_rate": 1.0,
+      "feasible_ci": [
+        1.0,
+        1.0
+      ],
+      "exact_match_rate": 0.4,
+      "mean_jaccard": 0.6833333333333333,
+      "mean_lambda": 1.0,
+      "n": 10
+    },
+    {
+      "mode": "never",
+      "sigma": 0.4,
+      "feasible_rate": 1.0,
+      "feasible_ci": [
+        1.0,
+        1.0
+      ],
+      "exact_match_rate": 0.1,
+      "mean_jaccard": 0.42666666666666664,
+      "mean_lambda": 0.0,
+      "n": 10
+    },
+    {
+      "mode": "gated",
+      "sigma": 0.4,
+      "feasible_rate": 1.0,
+      "feasible_ci": [
+        1.0,
+        1.0
+      ],
+      "exact_match_rate": 0.4,
+      "mean_jaccard": 0.6666666666666666,
+      "mean_lambda": 0.7258182397748203,
+      "n": 10
+    },
+    {
+      "mode": "always",
+      "sigma": 0.8,
+      "feasible_rate": 0.9,
+      "feasible_ci": [
+        0.7,
+        1.0
+      ],
+      "exact_match_rate": 0.1,
+      "mean_jaccard": 0.45666666666666667,
+      "mean_lambda": 1.0,
+      "n": 10
+    },
+    {
+      "mode": "never",
+      "sigma": 0.8,
+      "feasible_rate": 1.0,
+      "feasible_ci": [
+        1.0,
+        1.0
+      ],
+      "exact_match_rate": 0.1,
+      "mean_jaccard": 0.42666666666666664,
+      "mean_lambda": 0.0,
+      "n": 10
+    },
+    {
+      "mode": "gated",
+      "sigma": 0.8,
+      "feasible_rate": 1.0,
+      "feasible_ci": [
+        1.0,
+        1.0
+      ],
+      "exact_match_rate": 0.4,
+      "mean_jaccard": 0.6666666666666666,
+      "mean_lambda": 0.7774744815113199,
+      "n": 10
+    }
+  ]
+}

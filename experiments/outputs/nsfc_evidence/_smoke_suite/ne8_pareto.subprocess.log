@@ -1,0 +1,13 @@
+# 2026-07-09T05:34:54Z ne8_pareto
+# cmd: /opt/anaconda3/bin/python /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_ne8_pareto.py --profile smoke --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne8_pareto
+
+  always η=1.000 feas=1.000 llm=100.0 E=101.200
+  always η=0.250 feas=0.875 llm=25.0 E=26.200
+  always η=0.062 feas=0.875 llm=7.0 E=8.200
+  never  η=1.000 feas=1.000 llm=100.0 E=101.200
+  never  η=0.250 feas=0.875 llm=25.0 E=26.200
+  never  η=0.062 feas=0.875 llm=7.0 E=8.200
+  gated  η=1.000 feas=1.000 llm=100.0 E=101.200
+  gated  η=0.250 feas=0.750 llm=25.0 E=26.200
+  gated  η=0.062 feas=0.750 llm=7.0 E=8.200
+NE8 done. 9 points -> /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne8_pareto

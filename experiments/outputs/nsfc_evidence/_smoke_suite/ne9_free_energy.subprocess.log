@@ -1,0 +1,4 @@
+# 2026-07-09T05:34:46Z ne9_free_energy
+# cmd: /opt/anaconda3/bin/python /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_ne9_free_energy.py --profile smoke --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne9_free_energy
+
+NE9 done. monotone_fraction=1.000 -> /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne9_free_energy

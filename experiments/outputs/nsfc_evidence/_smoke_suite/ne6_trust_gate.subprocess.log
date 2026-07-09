@@ -1,0 +1,13 @@
+# 2026-07-09T05:34:49Z ne6_trust_gate
+# cmd: /opt/anaconda3/bin/python /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_ne6_trust_gate.py --profile smoke --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne6_trust_gate
+
+  σ=0.0 always feas=0.900 λ̄=1.000
+  σ=0.0 never  feas=1.000 λ̄=0.000
+  σ=0.0 gated  feas=1.000 λ̄=0.697
+  σ=0.4 always feas=1.000 λ̄=1.000
+  σ=0.4 never  feas=1.000 λ̄=0.000
+  σ=0.4 gated  feas=1.000 λ̄=0.726
+  σ=0.8 always feas=0.900 λ̄=1.000
+  σ=0.8 never  feas=1.000 λ̄=0.000
+  σ=0.8 gated  feas=1.000 λ̄=0.777
+NE6 done. noninferior_all=True -> /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne6_trust_gate

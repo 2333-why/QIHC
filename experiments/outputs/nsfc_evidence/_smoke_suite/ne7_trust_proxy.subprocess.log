@@ -1,0 +1,4 @@
+# 2026-07-09T05:34:53Z ne7_trust_proxy
+# cmd: /opt/anaconda3/bin/python /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_ne7_trust_proxy.py --profile smoke --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne7_trust_proxy
+
+NE7 done. Spearman(SNR)=-0.323 meanΔfeas=0.067 -> /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne7_trust_proxy

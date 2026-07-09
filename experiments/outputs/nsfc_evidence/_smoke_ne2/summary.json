@@ -1,0 +1,27 @@
+{
+  "profile": "smoke",
+  "n_tasks": 8,
+  "rows": [
+    {
+      "beta": 0.5,
+      "mean_beta_L": 6.0,
+      "mean_rate": 1.0,
+      "mean_n_fixed_points": 1.0,
+      "fraction_unique_fp": 1.0
+    },
+    {
+      "beta": 1.0,
+      "mean_beta_L": 12.0,
+      "mean_rate": 1.0,
+      "mean_n_fixed_points": 1.0,
+      "fraction_unique_fp": 1.0
+    },
+    {
+      "beta": 2.0,
+      "mean_beta_L": 24.0,
+      "mean_rate": 1.0,
+      "mean_n_fixed_points": 1.0,
+      "fraction_unique_fp": 1.0
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+# 2026-07-09T05:34:47Z ne3_refresh
+# cmd: /opt/anaconda3/bin/python /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/nsfc_evidence/run_ne3_refresh.py --profile smoke --output-dir /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne3_refresh
+
+  σ=0.0 refresh_every=1 η_sc=1.000 feas=0.875 γ=0.000
+  σ=0.0 refresh_every=2 η_sc=0.500 feas=1.000 γ=-0.500
+  σ=0.0 refresh_every=4 η_sc=0.250 feas=0.750 γ=-0.380
+  σ=0.0 refresh_every=8 η_sc=0.125 feas=0.750 γ=-0.520
+  σ=0.8 refresh_every=1 η_sc=1.000 feas=0.875 γ=0.000
+  σ=0.8 refresh_every=2 η_sc=0.500 feas=1.000 γ=0.792
+  σ=0.8 refresh_every=4 η_sc=0.250 feas=0.750 γ=-0.448
+  σ=0.8 refresh_every=8 η_sc=0.125 feas=0.750 γ=-0.139
+NE3 done. η*≈{'0.0': 0.5, '0.8': 0.5} -> /Users/weihanyu/Documents/p-bit/国自然/新建文件夹/QIHC/experiments/outputs/nsfc_evidence/_smoke_suite/ne3_refresh
