@@ -1,0 +1,13 @@
+==============================================
+ QIHC · 联网 2×4090 全量实验
+ Repo:     /inspire/hdd/project/wuliqifa/yanjunchi-24040/why/QIHC
+ GPUs:     0,1
+ Model:    Qwen/Qwen2.5-7B-Instruct
+ HF_HOME:  /inspire/hdd/project/wuliqifa/yanjunchi-24040/why/QIHC/.cache/huggingface
+ Run dir:  /inspire/hdd/project/wuliqifa/yanjunchi-24040/why/QIHC/experiments/outputs/nsfc_evidence/dual_4090_20260709_155350
+ SEEDS:    0 1 2 3 4
+ HF limit: 50 per task
+==============================================
+GPU 0: NVIDIA GeForce RTX 4090 (UUID: GPU-45eb81da-ffa6-5395-d176-d7e9d074a057)
+GPU 1: NVIDIA GeForce RTX 4090 (UUID: GPU-29910b8f-93b9-bcbd-6412-e9ecd1b19949)
+[2026-07-09T15:53:50+00:00] 安装依赖...

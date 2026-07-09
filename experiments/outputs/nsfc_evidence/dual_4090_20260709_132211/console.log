@@ -1,0 +1,24 @@
+==============================================
+ QIHC · 联网 2×4090 全量实验
+ Repo:     /inspire/hdd/project/wuliqifa/yanjunchi-24040/why/QIHC
+ GPUs:     0,1
+ Model:    Qwen/Qwen2.5-7B-Instruct
+ HF_HOME:  /inspire/hdd/project/wuliqifa/yanjunchi-24040/why/QIHC/.cache/huggingface
+ Run dir:  /inspire/hdd/project/wuliqifa/yanjunchi-24040/why/QIHC/experiments/outputs/nsfc_evidence/dual_4090_20260709_132211
+ SEEDS:    0 1 2 3 4
+ HF limit: 50 per task
+==============================================
+GPU 0: NVIDIA GeForce RTX 4090 (UUID: GPU-45eb81da-ffa6-5395-d176-d7e9d074a057)
+GPU 1: NVIDIA GeForce RTX 4090 (UUID: GPU-29910b8f-93b9-bcbd-6412-e9ecd1b19949)
+[2026-07-09T13:22:11+00:00] 安装依赖...
+The virtual environment was not created successfully because ensurepip is not
+available.  On Debian/Ubuntu systems, you need to install the python3-venv
+package using the following command.
+
+    apt install python3.10-venv
+
+You may need to use sudo with that command.  After installing the python3-venv
+package, recreate your virtual environment.
+
+Failing command: /inspire/hdd/project/wuliqifa/yanjunchi-24040/why/QIHC/.venv/bin/python3
+

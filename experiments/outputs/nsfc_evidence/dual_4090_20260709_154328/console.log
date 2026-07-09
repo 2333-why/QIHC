@@ -1,0 +1,17 @@
+==============================================
+ QIHC · 联网 2×4090 全量实验
+ Repo:     /inspire/hdd/project/wuliqifa/yanjunchi-24040/why/QIHC
+ GPUs:     0,1
+ Model:    Qwen/Qwen2.5-7B-Instruct
+ HF_HOME:  /inspire/hdd/project/wuliqifa/yanjunchi-24040/why/QIHC/.cache/huggingface
+ Run dir:  /inspire/hdd/project/wuliqifa/yanjunchi-24040/why/QIHC/experiments/outputs/nsfc_evidence/dual_4090_20260709_154328
+ SEEDS:    0 1 2 3 4
+ HF limit: 50 per task
+==============================================
+GPU 0: NVIDIA GeForce RTX 4090 (UUID: GPU-45eb81da-ffa6-5395-d176-d7e9d074a057)
+GPU 1: NVIDIA GeForce RTX 4090 (UUID: GPU-29910b8f-93b9-bcbd-6412-e9ecd1b19949)
+[2026-07-09T15:43:28+00:00] 安装依赖...
+WARNING: Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='files.pythonhosted.org', port=443): Read timed out. (read timeout=15)")': /packages/1e/77/dc8c558f7593132cf8fefec57c4f60c83b16941c574ac5f619abb3ae7933/dill-0.4.1-py3-none-any.whl
+WARNING: Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='files.pythonhosted.org', port=443) at 0x7f2af5ed7610>, 'Connection to files.pythonhosted.org timed out. (connect timeout=15)')': /packages/1e/77/dc8c558f7593132cf8fefec57c4f60c83b16941c574ac5f619abb3ae7933/dill-0.4.1-py3-none-any.whl
+WARNING: Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='files.pythonhosted.org', port=443) at 0x7f2af5ed7700>, 'Connection to files.pythonhosted.org timed out. (connect timeout=15)')': /packages/1e/77/dc8c558f7593132cf8fefec57c4f60c83b16941c574ac5f619abb3ae7933/dill-0.4.1-py3-none-any.whl
+WARNING: Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='files.pythonhosted.org', port=443) at 0x7f2af60ae950>, 'Connection to files.pythonhosted.org timed out. (connect timeout=15)')': /packages/1e/77/dc8c558f7593132cf8fefec57c4f60c83b16941c574ac5f619abb3ae7933/dill-0.4.1-py3-none-any.whl
