@@ -20,5 +20,10 @@ export PIP_TRUSTED_HOST="${PIP_TRUSTED_HOST:-pypi.tuna.tsinghua.edu.cn}"
 # HuggingFace 镜像（模型/数据集下载，与 pip 无关但常一起用）
 export HF_ENDPOINT="${HF_ENDPOINT:-https://hf-mirror.com}"
 
+# 禁用 Xet/CAS 后端（国内/镜像环境常 401 Unauthorized）
+export HF_HUB_DISABLE_XET="${HF_HUB_DISABLE_XET:-1}"
+export HF_HUB_DOWNLOAD_TIMEOUT="${HF_HUB_DOWNLOAD_TIMEOUT:-300}"
+export HF_HUB_ETAG_TIMEOUT="${HF_HUB_ETAG_TIMEOUT:-60}"
+
 # pip 统一参数（可被脚本展开）
 PIP_INSTALL_ARGS=(-i "${PIP_INDEX_URL}" --trusted-host "${PIP_TRUSTED_HOST}")

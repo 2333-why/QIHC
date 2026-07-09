@@ -82,15 +82,10 @@ download_model() {
     echo "[skip] 已存在: ${local_dir}"
     return 0
   fi
-  echo "[download] ${hub_id} -> ${local_dir}"
-  if command -v huggingface-cli >/dev/null 2>&1; then
-    huggingface-cli download "${hub_id}" --local-dir "${local_dir}"
-  else
-    "${PYTHON}" - <<PY
-from huggingface_hub import snapshot_download
-snapshot_download(repo_id="${hub_id}", local_dir="${local_dir}")
-PY
-  fi
+  echo "[download] ${hub_id} -> ${local_dir} (HF mirror, Xet off)"
+  "${PYTHON}" experiments/nsfc_evidence/download_model_hf.py \
+    --repo "${hub_id}" \
+    --local-dir "${local_dir}"
 }
 
 echo "[$(date -Iseconds)] 下载 7B 模型..."

@@ -87,15 +87,10 @@ if [[ "${SKIP_SETUP}" != "1" ]]; then
   pip install -q "${PIP_INSTALL_ARGS[@]}" -e ".[dev,hf,llm]"
 
   if [[ "${MODEL}" == "${MODEL_NAME}" ]]; then
-    echo "[$(date -Iseconds)] 预下载 7B 模型到 HF 缓存..."
-  "${PYTHON}" - <<PY
-from huggingface_hub import snapshot_download
-import os
-cache = os.environ.get("HF_HOME", "")
-mid = os.environ.get("MODEL_NAME", "Qwen/Qwen2.5-7B-Instruct")
-path = snapshot_download(repo_id=mid, cache_dir=cache or None)
-print("model cache:", path)
-PY
+    echo "[$(date -Iseconds)] 预下载 7B 模型（清华 HF 镜像，禁用 Xet）..."
+    "${PYTHON}" experiments/nsfc_evidence/download_model_hf.py \
+      --repo "${MODEL_NAME}" \
+      --cache-dir "${HF_HOME}"
   fi
 
   echo "[$(date -Iseconds)] 预取 BBH..."
