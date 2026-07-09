@@ -29,6 +29,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 cd "${REPO_ROOT}"
 
+# shellcheck disable=SC1091
+source "${SCRIPT_DIR}/cn_mirror_env.sh"
+
 export BUNDLE_ROOT="${BUNDLE_ROOT:-${REPO_ROOT}/offline_bundle}"
 MANIFEST="${BUNDLE_ROOT}/manifest.env"
 
@@ -91,14 +94,14 @@ source "${REPO_ROOT}/.venv/bin/activate"
 
 if [[ -d "${WHEELS_DIR}" ]] && ls "${WHEELS_DIR}"/*.whl >/dev/null 2>&1; then
   echo "[$(date -Iseconds)] 离线安装依赖（wheels）..."
-  pip install -q -U pip
+  pip install -q -U pip "${PIP_INSTALL_ARGS[@]}"
   pip install -q --no-index --find-links="${WHEELS_DIR}" -e ".[dev,hf,llm]" || {
-    echo "WARN: 离线 pip 失败，尝试已安装环境..."
-    pip install -q -e ".[dev,hf,llm]" 2>/dev/null || true
+    echo "WARN: 离线 pip 失败，尝试清华源在线安装..."
+    pip install -q "${PIP_INSTALL_ARGS[@]}" -e ".[dev,hf,llm]" 2>/dev/null || true
   }
 else
-  echo "[$(date -Iseconds)] 未找到 wheels，假定依赖已安装..."
-  pip install -q -e ".[dev,hf,llm]" 2>/dev/null || true
+  echo "[$(date -Iseconds)] 未找到 wheels，使用清华源在线安装..."
+  pip install -q "${PIP_INSTALL_ARGS[@]}" -e ".[dev,hf,llm]" 2>/dev/null || true
 fi
 
 echo "[$(date -Iseconds)] 检查 BBH 缓存..."

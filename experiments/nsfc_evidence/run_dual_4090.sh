@@ -24,12 +24,16 @@
 #   HF_LIMIT_PER_TASK=50          # HF 每子任务题数；赶时间可设 25
 #   SKIP_SETUP=0                  # 1=跳过 pip/下载（环境已就绪时）
 #   SKIP_CASE_H=1                 # 默认 1；双 4090 仍建议跳过 14B
+#   USE_CN_MIRROR=1               # 默认 1；清华 PyPI + HF 镜像
 # =============================================================================
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 cd "${REPO_ROOT}"
+
+# shellcheck disable=SC1091
+source "${SCRIPT_DIR}/cn_mirror_env.sh"
 
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1}"
 export MODEL_NAME="${MODEL_NAME:-Qwen/Qwen2.5-7B-Instruct}"
@@ -66,6 +70,8 @@ echo " HF_HOME:  ${HF_HOME}"
 echo " Run dir:  ${RUN_DIR}"
 echo " SEEDS:    ${SEEDS}"
 echo " HF limit: ${HF_LIMIT_PER_TASK} per task"
+echo " PyPI:     ${PIP_INDEX_URL}"
+echo " HF:       ${HF_ENDPOINT}"
 echo "=============================================="
 
 nvidia-smi -L || nvidia-smi || true
@@ -77,8 +83,8 @@ if [[ "${SKIP_SETUP}" != "1" ]]; then
   fi
   # shellcheck disable=SC1091
   source "${REPO_ROOT}/.venv/bin/activate"
-  pip install -q -U pip
-  pip install -q -e ".[dev,hf,llm]"
+  pip install -q -U pip "${PIP_INSTALL_ARGS[@]}"
+  pip install -q "${PIP_INSTALL_ARGS[@]}" -e ".[dev,hf,llm]"
 
   if [[ "${MODEL}" == "${MODEL_NAME}" ]]; then
     echo "[$(date -Iseconds)] 预下载 7B 模型到 HF 缓存..."

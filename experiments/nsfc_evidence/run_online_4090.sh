@@ -28,6 +28,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 cd "${REPO_ROOT}"
 
+# shellcheck disable=SC1091
+source "${SCRIPT_DIR}/cn_mirror_env.sh"
+
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 export HF_HOME="${HF_HOME:-${REPO_ROOT}/offline_bundle/hf_home}"
 export BUNDLE_ROOT="${BUNDLE_ROOT:-${REPO_ROOT}/offline_bundle}"
@@ -67,10 +70,10 @@ fi
 # shellcheck disable=SC1091
 source "${REPO_ROOT}/.venv/bin/activate"
 
-echo "[$(date -Iseconds)] 安装依赖（需联网）..."
-pip install -q -U pip
-pip install -q -e ".[dev,hf,llm]"
-pip install -q huggingface_hub
+echo "[$(date -Iseconds)] 安装依赖（PyPI: ${PIP_INDEX_URL}）..."
+pip install -q -U pip "${PIP_INSTALL_ARGS[@]}"
+pip install -q "${PIP_INSTALL_ARGS[@]}" -e ".[dev,hf,llm]"
+pip install -q "${PIP_INSTALL_ARGS[@]}" huggingface_hub
 
 download_model() {
   local hub_id="$1"
@@ -105,7 +108,7 @@ echo "[$(date -Iseconds)] 预取 BBH 数据集到 HF_HOME..."
 
 if [[ "${SKIP_WHEELS:-0}" != "1" ]]; then
   echo "[$(date -Iseconds)] 打包 pip wheels（供 H200 完全离线安装）..."
-  pip download -q -d "${WHEELS_DIR}" -e ".[dev,hf,llm]" || echo "WARN: pip download 部分失败，H200 可改用已有 venv"
+  pip download -q "${PIP_INSTALL_ARGS[@]}" -d "${WHEELS_DIR}" -e ".[dev,hf,llm]" || echo "WARN: pip download 部分失败，H200 可改用已有 venv"
 fi
 
 echo "[$(date -Iseconds)] 生成合成 200 题缓存..."

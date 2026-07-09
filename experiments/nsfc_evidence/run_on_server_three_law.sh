@@ -21,6 +21,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 cd "${REPO_ROOT}"
 
+# shellcheck disable=SC1091
+source "${SCRIPT_DIR}/cn_mirror_env.sh"
+
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1}"
 export PROFILE="${PROFILE:-tier012}"
 export TOKENIZERS_PARALLELISM=false
@@ -50,9 +53,9 @@ fi
 # shellcheck disable=SC1091
 source "${REPO_ROOT}/.venv/bin/activate"
 
-echo "[$(date -Iseconds)] Installing package..."
-pip install -q -U pip
-pip install -q -e ".[dev]"
+echo "[$(date -Iseconds)] Installing package (PyPI: ${PIP_INDEX_URL})..."
+pip install -q -U pip "${PIP_INSTALL_ARGS[@]}"
+pip install -q "${PIP_INSTALL_ARGS[@]}" -e ".[dev]"
 
 echo "[$(date -Iseconds)] Quick import check..."
 python - <<'PY'
