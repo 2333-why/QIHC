@@ -12,3 +12,5 @@
 - `experiments/nsfc_evidence/run_offline_h200.sh` — 4×H200 离线批量
 - `experiments/nsfc_evidence/cn_mirror_env.sh` — 清华 PyPI + HF 镜像
 - `experiments/nsfc_evidence/download_model_hf.py` — 模型下载（ModelScope / HF）
+
+**环境问题**：`CUDA: False` / `driver too old` → [双4090手册 §4.1](./双4090逐步运行手册.md#41-pytorch-与驱动不匹配cuda-false--driver-too-old)
