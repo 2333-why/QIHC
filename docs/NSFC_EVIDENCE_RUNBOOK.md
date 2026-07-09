@@ -1,5 +1,37 @@
 # NSFC 证据链实验 — 服务器运行手册
 
+## 0. 双机分工（联网 4090 + 离线 4×H200）★推荐
+
+| 机器 | 脚本 | 作用 |
+|------|------|------|
+| **联网 4090** | `experiments/nsfc_evidence/run_online_4090.sh` | 下载模型/BBH、打包 `offline_bundle/`、跑 7B 轻量 P0 实验 |
+| **离线 H200** | `experiments/nsfc_evidence/run_offline_h200.sh` | 读 `manifest.env`，4 卡并行跑全量批量实验 |
+
+### 4090（联网）一步启动
+
+```bash
+cd /path/to/QIHC
+bash experiments/nsfc_evidence/run_online_4090.sh
+```
+
+仅下载不跑实验：`SKIP_EXPERIMENTS=1 bash experiments/nsfc_evidence/run_online_4090.sh`
+
+产出：`offline_bundle/`（含 `models/`、`hf_home/`、`manifest.env`、`wheels/`）+ `online_4090_*` 实验结果。
+
+### 拷到 H200 后（离线）
+
+```bash
+# 需要同时拷贝：整个 QIHC/ 目录 + offline_bundle/
+cd /path/to/QIHC
+bash experiments/nsfc_evidence/run_offline_h200.sh
+```
+
+未下载 14B 时：`SKIP_CASE_H=1 bash experiments/nsfc_evidence/run_offline_h200.sh`
+
+结果打包在 `experiments/outputs/nsfc_evidence/offline_h200_*/offline_h200_results.tar.gz`。
+
+---
+
 ## 1. 上传代码
 
 将本地 `QIHC/` 整个目录上传到服务器，例如：
