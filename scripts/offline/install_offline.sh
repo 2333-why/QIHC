@@ -17,7 +17,9 @@ nvidia-smi
 "${PYTHON_BIN}" -m venv "${VENV_DIR}"
 "${VENV_DIR}/bin/python" -m pip install --no-index --find-links "${BUNDLE_ROOT}/wheelhouse" \
   --requirement "${BUNDLE_ROOT}/requirements-locked.txt"
-"${VENV_DIR}/bin/python" -m pip install --no-deps --editable "${REPO_ROOT}"
+"${VENV_DIR}/bin/python" -m pip install \
+  --no-index --find-links "${BUNDLE_ROOT}/wheelhouse" \
+  --no-build-isolation --no-deps --editable "${REPO_ROOT}"
 
 cmake -S "${BUNDLE_ROOT}/src/HGS-CVRP" -B "${BUNDLE_ROOT}/src/HGS-CVRP/build" -DCMAKE_BUILD_TYPE=Release
 cmake --build "${BUNDLE_ROOT}/src/HGS-CVRP/build" --parallel "$(nproc)"

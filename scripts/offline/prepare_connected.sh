@@ -44,8 +44,11 @@ git -C "${REPO_ROOT}" rev-parse HEAD > "${BUNDLE_ROOT}/QIHC_COMMIT.txt"
     | sort -z \
     | xargs -0 sha256sum > SHA256SUMS)
 
-tar --exclude='.download-venv' -czf "${BUNDLE_ROOT}.tar.gz" -C "$(dirname "${BUNDLE_ROOT}")" "$(basename "${BUNDLE_ROOT}")"
-sha256sum "${BUNDLE_ROOT}.tar.gz" > "${BUNDLE_ROOT}.tar.gz.sha256"
+ARCHIVE_PATH="${BUNDLE_ROOT}.tar.gz"
+ARCHIVE_DIR="$(dirname "${ARCHIVE_PATH}")"
+ARCHIVE_NAME="$(basename "${ARCHIVE_PATH}")"
+tar --exclude='.download-venv' -czf "${ARCHIVE_PATH}" -C "$(dirname "${BUNDLE_ROOT}")" "$(basename "${BUNDLE_ROOT}")"
+(cd "${ARCHIVE_DIR}" && sha256sum "${ARCHIVE_NAME}" > "${ARCHIVE_NAME}.sha256")
 
-echo "Offline bundle: ${BUNDLE_ROOT}.tar.gz"
+echo "Offline bundle: ${ARCHIVE_PATH}"
 echo "Model directory: ${BUNDLE_ROOT}/models/${MODEL_SLUG}"
