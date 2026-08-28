@@ -97,6 +97,9 @@ free -h | tee "${RUN_ROOT}/memory.txt"
 "${PYTHON}" "${REPO_ROOT}/experiments/analyze_cvrp_results.py" \
   "${RUN_ROOT}/track_b_combined" --reference knn
 
-tar -czf "${RUN_ROOT}.tar.gz" -C "${OUTPUT_ROOT}" "$(basename "${RUN_ROOT}")"
-sha256sum "${RUN_ROOT}.tar.gz" > "${RUN_ROOT}.tar.gz.sha256"
+RESULT_ARCHIVE="${RUN_ROOT}.tar.gz"
+RESULT_ARCHIVE_DIR="$(dirname "${RESULT_ARCHIVE}")"
+RESULT_ARCHIVE_NAME="$(basename "${RESULT_ARCHIVE}")"
+tar -czf "${RESULT_ARCHIVE}" -C "${OUTPUT_ROOT}" "$(basename "${RUN_ROOT}")"
+(cd "${RESULT_ARCHIVE_DIR}" && sha256sum "${RESULT_ARCHIVE_NAME}" > "${RESULT_ARCHIVE_NAME}.sha256")
 echo "Formal experiment completed: ${RUN_ROOT}"
