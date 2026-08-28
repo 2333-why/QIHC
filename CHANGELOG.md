@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Added NL-CVRP data models, normalized semantic constraints and deterministic verification.
+- Added restricted customer-to-route QUBO encoding with capacity slack bits.
+- Added NumPy and CUDA/PyTorch batched p-bit samplers.
+- Added do-no-harm QIHC-LNS scheduling, LLM neighborhood selection and candidate-recall metrics.
+- Added CVRPLIB, OR-Tools and HGS comparison paths plus multi-GPU formal experiment aggregation.
+- Added networked packaging and fully offline 4×H100 deployment scripts.
+
 ## [0.2.0] — 2026-07-05
 
 ### Added

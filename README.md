@@ -246,6 +246,42 @@ print([r.free_energy.total for r in result.rounds])
 
 ---
 
+## QIHC-LNS：LLM + p-bit 离散优化正式实验
+
+主实验现已扩展为自然语言约束的容量车辆路径问题（NL-CVRP）：LLM 负责约束理解与候选邻域选择，p-bit 负责受限 QUBO 采样，确定性验证器负责最终可行性。
+
+CPU smoke：
+
+```bash
+python experiments/run_cvrp_lns.py \
+  --dataset synthetic \
+  --output experiments/outputs/cvrp_smoke \
+  --sizes 25 --instance-seeds 0 --search-seeds 0 \
+  --methods greedy random knn \
+  --sampler numpy \
+  --iterations 5 --sampling-steps 50 --num-chains 32
+```
+
+离线四卡 H100：
+
+```bash
+torchrun --standalone --nproc_per_node=4 experiments/run_cvrp_lns.py \
+  --dataset cvrplib --data /data/CVRP \
+  --output /data/results/qihc_lns \
+  --methods greedy ortools hgs random knn llm \
+  --hgs-binary /data/HGS-CVRP/build/bin/hgs \
+  --sampler torch --model-path /data/models/Qwen--Qwen2.5-7B-Instruct
+```
+
+- 研究与实验方案：[`docs/LLM_PBIT_NL_CVRP_EXPERIMENT_PLAN.md`](docs/LLM_PBIT_NL_CVRP_EXPERIMENT_PLAN.md)
+- 离线部署与正式实验：[`docs/OFFLINE_H100_FORMAL_EXPERIMENT.md`](docs/OFFLINE_H100_FORMAL_EXPERIMENT.md)
+- 正式 runner：[`experiments/run_cvrp_lns.py`](experiments/run_cvrp_lns.py)
+- 统计分析：[`experiments/analyze_cvrp_results.py`](experiments/analyze_cvrp_results.py)
+- 结果合并：[`experiments/merge_cvrp_results.py`](experiments/merge_cvrp_results.py)
+- 约束理解评测：[`experiments/evaluate_constraint_ir.py`](experiments/evaluate_constraint_ir.py)
+
+---
+
 ## QIHC 异构架构（可升级）
 
 ```

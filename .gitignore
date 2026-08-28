@@ -14,6 +14,7 @@ build/
 .venv/
 venv/
 env/
+.venv-formal/
 
 # Jupyter
 .ipynb_checkpoints/
@@ -37,3 +38,10 @@ qihc/data/bbh_hf_cache.json
 
 # Legacy folder (removed)
 Pbit_simulator/
+
+# Local formal-experiment bundles and scratch outputs
+offline_bundle/
+offline_bundle.tar.gz
+offline_bundle.tar.gz.sha256
+.tmp_cvrp_smoke/
+formal_outputs/

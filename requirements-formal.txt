@@ -1,0 +1,8 @@
+-r requirements.txt
+pytest>=7.0
+transformers>=4.44
+accelerate>=0.33
+huggingface_hub>=0.24
+ortools>=9.10
+scipy>=1.11
+psutil>=5.9
