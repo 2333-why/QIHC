@@ -8,7 +8,15 @@ MODEL_DIR="${3:-${BUNDLE_ROOT}/models/Qwen--Qwen2.5-7B-Instruct}"
 VENV_DIR="${VENV_DIR:-${REPO_ROOT}/.venv-formal}"
 PYTHON="${VENV_DIR}/bin/python"
 TORCHRUN="${VENV_DIR}/bin/torchrun"
-HGS_BINARY="${BUNDLE_ROOT}/src/HGS-CVRP/build/bin/hgs"
+HGS_BUILD_DIR="${BUNDLE_ROOT}/src/HGS-CVRP/build"
+if [[ -x "${HGS_BUILD_DIR}/hgs" ]]; then
+  HGS_BINARY="${HGS_BUILD_DIR}/hgs"
+elif [[ -x "${HGS_BUILD_DIR}/bin/hgs" ]]; then
+  HGS_BINARY="${HGS_BUILD_DIR}/bin/hgs"
+else
+  echo "HGS executable not found under ${HGS_BUILD_DIR}" >&2
+  exit 1
+fi
 CVRP_DIR="${BUNDLE_ROOT}/src/HGS-CVRP/Instances/CVRP"
 CPU_WORKERS="${CPU_WORKERS:-40}"
 STAMP="$(date +%Y%m%d_%H%M%S)"
