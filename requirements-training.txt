@@ -1,0 +1,5 @@
+-r requirements-formal.txt
+datasets>=3.2,<5
+peft>=0.14,<1
+trl>=0.26,<2
+tensorboard>=2.16

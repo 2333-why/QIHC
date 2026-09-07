@@ -1,5 +1,8 @@
 # QIHC
 
+> QIHC-S²E 的联网 CPU / 离线 4×H100 正式实验入口见
+> [`docs/QIHC_S2E_CPU_GPU_RUNBOOK.md`](docs/QIHC_S2E_CPU_GPU_RUNBOOK.md)。
+
 **Quantum-Inspired Intelligence Heterogeneous Computing**  
 量子启发智能异构计算 —— p-bit 概率 Ising 求解后端仿真平台
 
