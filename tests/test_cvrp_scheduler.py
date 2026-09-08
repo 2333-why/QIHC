@@ -25,6 +25,9 @@ def test_qihc_lns_smoke_is_feasible_and_no_harm():
     assert result.verification.objective <= result.initial_verification.objective + 1e-9
     assert result.records
     assert all(record.qubo_variables > 0 for record in result.records)
+    assert all(record.selector_source.endswith("+safe") for record in result.records)
+    assert all(0.0 <= record.candidate_compression <= 1.0 for record in result.records)
+    assert any(record.pbit_logit_updates for record in result.records)
 
 
 def test_torch_pbit_backend_on_cpu():

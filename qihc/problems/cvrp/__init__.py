@@ -12,10 +12,12 @@ from qihc.problems.cvrp.neighborhood import (
     NeighborhoodProposal,
     KNNNeighborhoodSelector,
     RandomNeighborhoodSelector,
+    safely_expand_proposal,
 )
 from qihc.problems.cvrp.qubo import AssignmentQUBO, build_assignment_qubo
 from qihc.problems.cvrp.scheduler import LNSConfig, LNSResult, QIHCLNSSolver
 from qihc.problems.cvrp.verifier import VerificationResult, greedy_initial_solution, verify_solution
+from qihc.problems.cvrp.logit_feedback import PBitLogitFeedback
 
 __all__ = [
     "AssignmentQUBO",
@@ -27,6 +29,7 @@ __all__ = [
     "LNSResult",
     "NeighborhoodProposal",
     "RandomNeighborhoodSelector",
+    "safely_expand_proposal",
     "RouteSolution",
     "QIHCLNSSolver",
     "VerificationResult",
@@ -35,4 +38,5 @@ __all__ = [
     "greedy_initial_solution",
     "load_cvrplib",
     "verify_solution",
+    "PBitLogitFeedback",
 ]

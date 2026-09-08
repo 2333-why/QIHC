@@ -22,7 +22,7 @@ python -m pip install --upgrade pip wheel setuptools
 python -m pip install --index-url "${TORCH_INDEX_URL}" torch
 python -m pip install -r "${REPO_DIR}/requirements-training.txt"
 python -m pip install -e "${REPO_DIR}"
-python -m pip freeze --all > "${BUNDLE_ROOT}/requirements-locked.txt"
+python -m pip freeze --all | grep -Ev '^(-e |qihc==|qihc @)' > "${BUNDLE_ROOT}/requirements-locked.txt"
 python -m pip download --dest "${BUNDLE_ROOT}/wheelhouse" --extra-index-url "${TORCH_INDEX_URL}" -r "${BUNDLE_ROOT}/requirements-locked.txt"
 if [[ ! -f "${MODEL_DIR}/config.json" ]]; then
   for attempt in 1 2 3 4 5; do

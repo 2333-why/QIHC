@@ -63,6 +63,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--model-path", type=str)
     parser.add_argument("--llm-refresh-interval", type=int, default=5)
     parser.add_argument("--llm-temperature", type=float, default=0.2)
+    parser.add_argument("--proposal-bias", type=float, default=1.0)
+    parser.add_argument("--logit-feedback-rate", type=float, default=0.8)
+    parser.add_argument("--disable-logit-feedback", action="store_true")
+    parser.add_argument("--feedback-elite-fraction", type=float, default=0.25)
+    parser.add_argument("--feedback-negative-weight", type=float, default=0.5)
+    parser.add_argument("--disable-safe-expansion", action="store_true")
+    parser.add_argument("--safe-heuristic-routes", type=int, default=1)
+    parser.add_argument("--safe-random-routes", type=int, default=1)
     parser.add_argument("--baseline-time-limit", type=int, default=30)
     parser.add_argument("--hgs-binary", type=Path)
     return parser.parse_args()
@@ -256,6 +264,14 @@ def run_job(
         device=f"cuda:{local_rank}" if args.sampler == "torch" else "cpu",
         seed=search_seed,
         patience=args.patience,
+        proposal_bias=args.proposal_bias,
+        logit_feedback_rate=args.logit_feedback_rate,
+        enable_logit_feedback=not args.disable_logit_feedback,
+        feedback_elite_fraction=args.feedback_elite_fraction,
+        feedback_negative_weight=args.feedback_negative_weight,
+        safe_candidate_expansion=not args.disable_safe_expansion,
+        safe_heuristic_routes=args.safe_heuristic_routes,
+        safe_random_routes=args.safe_random_routes,
     )
     result = QIHCLNSSolver(config, selector=selector).solve(instance, initial=initial)
     summary = result.to_summary()
@@ -272,6 +288,11 @@ def run_job(
             ),
             "records": [asdict(record) for record in result.records],
             "solution": result.solution.to_dict(),
+            "problem_prompt": instance.description,
+            "constraints": [
+                {"type": c.type, "hard": c.hard, "weight": c.weight, "params": c.params}
+                for c in instance.constraints
+            ],
         }
     )
     return summary
@@ -315,6 +336,9 @@ def aggregate(output: Path, world_size: int) -> None:
             "mean_pbit_elapsed_s": float(np.mean([value["pbit_elapsed_s"] for value in values])),
             "mean_candidate_route_recall": float(
                 np.mean([value.get("mean_candidate_route_recall", 0.0) for value in values])
+            ),
+            "mean_candidate_compression": float(
+                np.mean([value.get("mean_candidate_compression", 0.0) for value in values])
             ),
             "mean_llm_fallback_rate": float(
                 np.mean([value.get("llm_fallback_rate", 0.0) for value in values])

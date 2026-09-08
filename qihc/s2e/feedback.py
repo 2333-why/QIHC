@@ -17,6 +17,10 @@ class FeedbackRecord:
     solve_time_s: float = 0.0
     compile_cost: float = 0.0
     counterexamples: list[dict[str, Any]] = field(default_factory=list)
+    candidate_recall: float = 0.0
+    candidate_compression: float = 0.0
+    pbit_improvement: float = 0.0
+    pbit_logit_gain: float = 0.0
 
     @property
     def reward(self) -> float:
@@ -24,6 +28,8 @@ class FeedbackRecord:
         if not self.semantic_valid: return -1.0 - 0.1 * len(self.counterexamples)
         reward = 1.0 + (1.0 if self.feasible else -1.0)
         if self.gap is not None: reward -= max(0.0, self.gap)
+        reward += 0.5 * self.candidate_recall + 0.5 * self.candidate_compression
+        reward += self.pbit_improvement + 0.25 * self.pbit_logit_gain
         reward -= 0.01 * self.solve_time_s + 0.001 * self.compile_cost
         return float(reward)
 

@@ -1,10 +1,12 @@
 import json
 
 import pytest
+import numpy as np
 
 from qihc.problems.cvrp.instance import ConstraintSpec, generate_synthetic_instance
 from qihc.s2e import CPPValidator, ConstraintProgramPackage, FeedbackRecord, PDitMFCSampler, Representation, build_dpo_pairs, compile_cpp, repair_cpp
 from qihc.problems.cvrp import KNNNeighborhoodSelector, greedy_initial_solution
+from qihc.problems.cvrp import PBitLogitFeedback
 from qihc.s2e.synthesizer import ConstraintSynthesizer, HeuristicConstraintBackend
 
 
@@ -62,3 +64,28 @@ def test_pdit_mfc_sampler_executes_assignment_subproblem():
     assert batch.assignments
     assert set(batch.assignments[0]) == set(proposal.destroy_customers)
     assert batch.metadata["backend"] == "pdit-mfc-numpy"
+
+
+def test_pbit_feedback_updates_structural_llm_logits():
+    instance = generate_synthetic_instance(8, 3, 30, seed=7, semantic_constraints=False)
+    incumbent = greedy_initial_solution(instance)
+    proposal = KNNNeighborhoodSelector(2, 2).propose(instance, incumbent, 0, 7)
+    variables = [
+        ("assign", customer, route)
+        for customer in proposal.destroy_customers
+        for route in proposal.candidate_routes[customer]
+    ]
+    bits = np.zeros((8, len(variables)), dtype=np.int8)
+    first_customer = proposal.destroy_customers[0]
+    preferred = proposal.candidate_routes[first_customer][0]
+    alternate = proposal.candidate_routes[first_customer][1]
+    bits[:2, variables.index(("assign", first_customer, preferred))] = 1
+    bits[2:, variables.index(("assign", first_customer, alternate))] = 1
+    controller = PBitLogitFeedback(learning_rate=1.0)
+    updates = controller.observe(
+        proposal, variables, bits, accepted=True, improvement=5.0,
+        feasible_mask=np.ones(8, dtype=bool),
+        objectives=np.asarray([1.0, 1.1, 5.0, 5.1, 5.2, 5.3, 5.4, 5.5]),
+    )
+    assert updates[first_customer][preferred] > 0.0
+    assert controller.prompt_context([first_customer])[first_customer][preferred] > 0.0

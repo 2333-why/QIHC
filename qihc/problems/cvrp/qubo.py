@@ -109,6 +109,7 @@ def build_assignment_qubo(
     assignment_penalty: float = 40.0,
     capacity_penalty: float = 12.0,
     semantic_penalty: float = 20.0,
+    proposal_bias: float = 1.0,
 ) -> AssignmentQUBO:
     proposal.validate(instance)
     destroyed = set(proposal.destroy_customers)
@@ -126,6 +127,10 @@ def build_assignment_qubo(
             _, delta = best_insertion(instance, fixed_routes[route_idx], customer)
             insertion_costs[(customer, route_idx)] = delta
             model.add_linear(variable, delta)
+            # The LLM/p-bit prior guides search but never replaces the objective
+            # or hard constraint penalties.
+            logit = proposal.candidate_route_logits.get(customer, {}).get(route_idx, 0.0)
+            model.add_linear(variable, -proposal_bias * float(logit))
         model.add_squared(terms, rhs=1.0, penalty=assignment_penalty)
 
     for route_idx in range(instance.vehicle_count):

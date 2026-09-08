@@ -71,6 +71,14 @@ class LocalLLMNeighborhoodSelector:
         self.model.eval()
         self._cache: NeighborhoodProposal | None = None
         self._cache_instance: str | None = None
+        self._pbit_logit_feedback: dict[int, dict[int, float]] = {}
+
+    def set_pbit_logit_feedback(self, feedback: dict[int, dict[int, float]]) -> None:
+        """Inject the previous p-bit posterior residuals into the next LLM turn."""
+        self._pbit_logit_feedback = {
+            int(customer): {int(route): float(value) for route, value in routes.items()}
+            for customer, routes in feedback.items()
+        }
 
     def _prompt(self, instance: CVRPInstance, solution: RouteSolution, iteration: int) -> str:
         verification = verify_solution(instance, solution)
@@ -87,17 +95,23 @@ class LocalLLMNeighborhoodSelector:
             for c in instance.constraints
         ]
         return (
-            "You select a small large-neighborhood-search subproblem for CVRP. "
-            "Do not solve the full route. Return JSON only. Select customers whose reassignment may reduce "
+            "You understand the complete constrained CVRP and propose a candidate solution/search region. "
+            "Do not create an energy function. Return JSON only. Select customers whose reassignment may reduce "
             "distance while respecting hard constraints. Every selected customer needs candidate vehicle route IDs.\n"
             f"Iteration: {iteration}\n"
             f"Vehicle capacity: {instance.vehicle_capacity}\n"
             f"Constraints: {json.dumps(constraints, ensure_ascii=False)}\n"
             f"Routes: {json.dumps(route_summary, ensure_ascii=False)}\n"
+            f"P-bit logit feedback from earlier iterations: "
+            f"{json.dumps(self._pbit_logit_feedback, ensure_ascii=False)}\n"
+            "Positive feedback means p-bit repeatedly selected that assignment in improving samples; "
+            "negative feedback means it was unsupported or harmful. Use it as evidence, not a hard rule.\n"
             f"Required destroy count: {self.destroy_size}\n"
             f"Maximum candidate routes per customer: {self.routes_per_customer}\n"
-            "Schema: {\"destroy_customers\":[int],\"candidate_routes\":{\"customer_id\":[route_id]},"
-            "\"confidence\":number,\"reason\":string}"
+            "Schema: {\"candidate_solution\":[[customer_id]],\"destroy_customers\":[int],"
+            "\"candidate_routes\":{\"customer_id\":[route_id]},"
+            "\"candidate_route_logits\":{\"customer_id\":{\"route_id\":number}},"
+            "\"candidate_edges\":[[customer_id,customer_id]],\"confidence\":number,\"reason\":string}"
         )
 
     def _generate(self, prompt: str) -> str:
@@ -199,6 +213,8 @@ class LocalLLMNeighborhoodSelector:
             customer: route_idx for route_idx, route in enumerate(solution.routes) for customer in route
         }
         candidate_routes: dict[int, list[int]] = {}
+        candidate_route_logits: dict[int, dict[int, float]] = {}
+        raw_logits = value.get("candidate_route_logits", {})
         for customer in destroyed:
             routes = raw_routes.get(str(customer), raw_routes.get(customer, []))
             normalized = []
@@ -211,12 +227,25 @@ class LocalLLMNeighborhoodSelector:
             if current[customer] not in normalized:
                 normalized.append(current[customer])
             candidate_routes[customer] = normalized[: self.routes_per_customer]
+            supplied = raw_logits.get(str(customer), raw_logits.get(customer, {}))
+            candidate_route_logits[customer] = {
+                route: float(supplied.get(str(route), supplied.get(route, 0.0)))
+                for route in candidate_routes[customer]
+            }
+        candidate_edges = []
+        for edge in value.get("candidate_edges", []):
+            if isinstance(edge, (list, tuple)) and len(edge) == 2:
+                left, right = int(edge[0]), int(edge[1])
+                if left in valid_ids and right in valid_ids and left != right:
+                    candidate_edges.append((left, right))
         proposal = NeighborhoodProposal(
             destroy_customers=destroyed,
             candidate_routes=candidate_routes,
             confidence=float(value.get("confidence", 0.5)),
             source="llm",
             raw=value,
+            candidate_route_logits=candidate_route_logits,
+            candidate_edges=candidate_edges,
         )
         proposal.validate(instance)
         return proposal
@@ -232,6 +261,7 @@ class LocalLLMNeighborhoodSelector:
             self._cache is not None
             and self._cache_instance == instance.name
             and iteration % self.refresh_interval != 0
+            and not self._pbit_logit_feedback
         ):
             return NeighborhoodProposal(
                 destroy_customers=list(self._cache.destroy_customers),
@@ -239,6 +269,11 @@ class LocalLLMNeighborhoodSelector:
                 confidence=self._cache.confidence,
                 source="llm_cached",
                 raw=dict(self._cache.raw),
+                candidate_route_logits={
+                    customer: dict(logits)
+                    for customer, logits in self._cache.candidate_route_logits.items()
+                },
+                candidate_edges=list(self._cache.candidate_edges),
             )
         prompt = self._prompt(instance, solution, iteration)
         raw_output = ""

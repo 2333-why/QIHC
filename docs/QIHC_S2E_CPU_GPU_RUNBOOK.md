@@ -117,7 +117,7 @@ du -sh "$WORK_ROOT/results"/*
 
 1. 生成 CPP 并运行 A0–A4 验证。
 2. 编译 QUBO、p-dit 或 MFC 表示选择计划。
-3. 运行 random、KNN、LLM 选邻域的 p-bit-LNS 对照。
-4. 由 gold CPP、错误输出和验证结果构造 SFT/DPO/GRPO 数据。
+3. 运行 random、KNN、LLM 选邻域的 p-bit-LNS，并执行关闭精英 logits 反馈的消融。
+4. 由 gold CPP、约束反例、LLM 候选和 p-bit 精英/负样本结果构造联合 SFT/DPO/GRPO 数据。
 5. 三种后训练从相同基座模型独立开始，保证消融比较公平。
 6. 归档全部配置、分片记录、summary、日志与 checksum。
