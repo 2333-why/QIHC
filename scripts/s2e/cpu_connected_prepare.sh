@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-export WORK_ROOT="${WORK_ROOT:-/inspire/hdd/project/wuliqifa/yanjunchi-24040/why}"
+export WORK_ROOT="${WORK_ROOT:-/inspire/hdd/project/project-public/public/why}"
 export GLOBAL_ROOT="${GLOBAL_ROOT:-/inspire/hdd/global_user/yanjunchi-24040/qihc}"
 export CONDA_ROOT="${CONDA_ROOT:-${WORK_ROOT}/miniforge3}"
 export CONDA_ENVS_PATH="${WORK_ROOT}/conda-envs"

@@ -3,7 +3,7 @@
 ## 固定目录
 
 ```bash
-export WORK_ROOT=/inspire/hdd/project/wuliqifa/yanjunchi-24040/why
+export WORK_ROOT=/inspire/hdd/project/project-public/public/why
 export GLOBAL_ROOT=/inspire/hdd/global_user/yanjunchi-24040/qihc
 export CONDA_ROOT=$WORK_ROOT/miniforge3
 export REPO_DIR=$WORK_ROOT/QIHC
@@ -18,7 +18,7 @@ export MODEL_DIR=$GLOBAL_ROOT/models/Qwen--Qwen2.5-32B-Instruct
 首次执行或代码更新：
 
 ```bash
-export WORK_ROOT=/inspire/hdd/project/wuliqifa/yanjunchi-24040/why
+export WORK_ROOT=/inspire/hdd/project/project-public/public/why
 export REPO_DIR=$WORK_ROOT/QIHC
 mkdir -p "$WORK_ROOT"
 
@@ -39,7 +39,7 @@ bash scripts/s2e/cpu_connected_prepare.sh
 每次重新登录联网 CPU 端：
 
 ```bash
-export WORK_ROOT=/inspire/hdd/project/wuliqifa/yanjunchi-24040/why
+export WORK_ROOT=/inspire/hdd/project/project-public/public/why
 export GLOBAL_ROOT=/inspire/hdd/global_user/yanjunchi-24040/qihc
 source "$WORK_ROOT/QIHC/scripts/s2e/activate_qihc.sh"
 ```
@@ -47,7 +47,7 @@ source "$WORK_ROOT/QIHC/scripts/s2e/activate_qihc.sh"
 提交并上传代码：
 
 ```bash
-cd /inspire/hdd/project/wuliqifa/yanjunchi-24040/why/QIHC
+cd /inspire/hdd/project/project-public/public/why/QIHC
 git status --short
 git add qihc/s2e experiments scripts/s2e requirements-training.txt docs/QIHC_S2E_CPU_GPU_RUNBOOK.md
 git commit -m "feat: implement verified QIHC-S2E pipeline"
@@ -61,7 +61,7 @@ git push origin feature/nl-cvrp-formal
 首次安装与验证：
 
 ```bash
-export WORK_ROOT=/inspire/hdd/project/wuliqifa/yanjunchi-24040/why
+export WORK_ROOT=/inspire/hdd/project/project-public/public/why
 export GLOBAL_ROOT=/inspire/hdd/global_user/yanjunchi-24040/qihc
 cd "$WORK_ROOT/QIHC"
 bash scripts/s2e/gpu_offline_install.sh
@@ -70,7 +70,7 @@ bash scripts/s2e/gpu_offline_install.sh
 每次重新登录离线 GPU 端：
 
 ```bash
-export WORK_ROOT=/inspire/hdd/project/wuliqifa/yanjunchi-24040/why
+export WORK_ROOT=/inspire/hdd/project/project-public/public/why
 export GLOBAL_ROOT=/inspire/hdd/global_user/yanjunchi-24040/qihc
 source "$WORK_ROOT/QIHC/scripts/s2e/activate_qihc.sh"
 export CUDA_VISIBLE_DEVICES=0,1,2,3
