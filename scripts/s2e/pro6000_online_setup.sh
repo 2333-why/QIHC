@@ -53,6 +53,9 @@ fi
 
 # shellcheck disable=SC1091
 source "${CONDA_ROOT}/etc/profile.d/conda.sh"
+if [[ -d "${CONDA_ENVS_PATH}/qihc" && ! -x "${CONDA_ENVS_PATH}/qihc/bin/python" ]]; then
+  mv "${CONDA_ENVS_PATH}/qihc" "${CONDA_ENVS_PATH}/qihc.incomplete.$(date +%Y%m%d_%H%M%S)"
+fi
 if [[ ! -d "${CONDA_ENVS_PATH}/qihc" ]]; then
   conda create -y --override-channels -c conda-forge \
     -p "${CONDA_ENVS_PATH}/qihc" python=3.11 pip
