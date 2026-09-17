@@ -16,6 +16,13 @@ export PIP_CACHE_DIR="${PIP_CACHE_DIR:-${GLOBAL_ROOT}/cache/pip}"
 export HF_HOME="${HF_HOME:-${GLOBAL_ROOT}/cache/huggingface}"
 export HF_DATASETS_CACHE="${HF_DATASETS_CACHE:-${GLOBAL_ROOT}/cache/datasets}"
 export TORCH_HOME="${TORCH_HOME:-${GLOBAL_ROOT}/cache/torch}"
+export MODELSCOPE_CACHE="${MODELSCOPE_CACHE:-${GLOBAL_ROOT}/cache/modelscope}"
+export HF_ENDPOINT="${HF_ENDPOINT:-https://hf-mirror.com}"
+export HF_HUB_DISABLE_XET="${HF_HUB_DISABLE_XET:-1}"
+export HF_HUB_ENABLE_HF_TRANSFER="${HF_HUB_ENABLE_HF_TRANSFER:-0}"
+export HF_HUB_DOWNLOAD_TIMEOUT="${HF_HUB_DOWNLOAD_TIMEOUT:-600}"
+export HF_HUB_ETAG_TIMEOUT="${HF_HUB_ETAG_TIMEOUT:-120}"
+export MODEL_DOWNLOAD_BACKEND="${MODEL_DOWNLOAD_BACKEND:-auto}"
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1}"
 export CONDARC="${CONDARC:-${REPO_DIR}/configs/condarc-pro6000.yaml}"
 
@@ -28,7 +35,7 @@ INSTALLER="${WORK_ROOT}/downloads/Miniforge3-${MINIFORGE_VERSION}-Linux-x86_64.s
 mkdir -p \
   "${WORK_ROOT}/downloads" "${CONDA_ENVS_PATH}" "${RUNTIME_ROOT}/src" \
   "${GLOBAL_ROOT}/models" "${PIP_CACHE_DIR}" "${HF_HOME}" \
-  "${HF_DATASETS_CACHE}" "${TORCH_HOME}"
+  "${HF_DATASETS_CACHE}" "${TORCH_HOME}" "${MODELSCOPE_CACHE}"
 
 if [[ ! -d "${REPO_DIR}/.git" ]]; then
   echo "QIHC repository not found at ${REPO_DIR}. Clone it there before running setup." >&2
@@ -67,15 +74,20 @@ python -m pip install --upgrade pip wheel setuptools
 python -m pip install --index-url "${TORCH_INDEX_URL}" "torch==${TORCH_VERSION}"
 python -m pip install -r "${REPO_DIR}/requirements-training.txt"
 python -m pip install -e "${REPO_DIR}"
+python -m pip install modelscope
 
 if [[ ! -f "${MODEL_DIR}/config.json" ]]; then
-  for attempt in 1 2 3 4 5; do
-    hf download "${MODEL_ID}" --local-dir "${MODEL_DIR}" --max-workers "${HF_WORKERS:-8}" && break
-    if [[ "${attempt}" == 5 ]]; then
-      echo "Model download failed after five resumable attempts." >&2
+  for attempt in 1 2 3; do
+    python "${REPO_DIR}/experiments/nsfc_evidence/download_model_hf.py" \
+      --repo "${MODEL_ID}" \
+      --local-dir "${MODEL_DIR}" \
+      --cache-dir "${HF_HOME}/hub" \
+      --backend "${MODEL_DOWNLOAD_BACKEND}" && break
+    if [[ "${attempt}" == 3 ]]; then
+      echo "Model download failed after three resumable ModelScope/HF-mirror attempts." >&2
       exit 1
     fi
-    echo "Model download attempt ${attempt}/5 failed; retrying with existing partial files."
+    echo "Model download attempt ${attempt}/3 failed; retrying with existing partial files."
   done
 fi
 
