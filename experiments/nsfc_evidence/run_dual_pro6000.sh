@@ -4,10 +4,10 @@
 #
 # 说明：
 #   - 与 run_dual_4090.sh 相同分波逻辑；Pro 6000 显存更大，默认尝试 Case H（14B）
-#   - 典型路径：/hdd/why/QIHC（wl@pro6000）
+#   - 默认工作区：/hdd/wl2/QIHC
 #
 # 用法：
-#   cd /hdd/why/QIHC
+#   cd /hdd/wl2/QIHC
 #   bash experiments/nsfc_evidence/run_dual_pro6000.sh
 #
 # 后台：
@@ -29,7 +29,8 @@ source "${SCRIPT_DIR}/cn_mirror_env.sh"
 
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1}"
 export MODEL_NAME="${MODEL_NAME:-Qwen/Qwen2.5-7B-Instruct}"
-export HF_HOME="${HF_HOME:-${REPO_ROOT}/.cache/huggingface}"
+export WORK_ROOT="${WORK_ROOT:-/hdd/wl2}"
+export HF_HOME="${HF_HOME:-${WORK_ROOT}/cache/huggingface}"
 export SEEDS="${SEEDS:-0 1 2 3 4}"
 export HF_LIMIT_PER_TASK="${HF_LIMIT_PER_TASK:-50}"
 export SKIP_CASE_H="${SKIP_CASE_H:-0}"
@@ -39,11 +40,10 @@ export SKIP_MODEL_DOWNLOAD="${SKIP_MODEL_DOWNLOAD:-0}"
 export TOKENIZERS_PARALLELISM=false
 export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
 
-# BUNDLE_ROOT used below for model path / modelscope cache
-BUNDLE_ROOT="${BUNDLE_ROOT:-${REPO_ROOT}/offline_bundle}"
-export MODELSCOPE_CACHE="${MODELSCOPE_CACHE:-${BUNDLE_ROOT}/.modelscope}"
-MODEL_LOCAL_DIR="${BUNDLE_ROOT}/models/Qwen2.5-7B-Instruct"
-MODEL_LOCAL_14B="${BUNDLE_ROOT}/models/Qwen2.5-14B-Instruct"
+MODEL_ROOT="${MODEL_ROOT:-${WORK_ROOT}/models}"
+export MODELSCOPE_CACHE="${MODELSCOPE_CACHE:-${WORK_ROOT}/cache/modelscope}"
+MODEL_LOCAL_DIR="${MODEL_ROOT}/Qwen--Qwen2.5-7B-Instruct"
+MODEL_LOCAL_14B="${MODEL_ROOT}/Qwen--Qwen2.5-14B-Instruct"
 
 if [[ -f "${MODEL_LOCAL_DIR}/config.json" ]]; then
   MODEL="${MODEL_LOCAL_DIR}"

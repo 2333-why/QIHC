@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline four-GPU LoRA post-training for SFT, DPO or GRPO using TRL."""
+"""Distributed LoRA post-training for SFT, DPO or GRPO using TRL."""
 
 from __future__ import annotations
 

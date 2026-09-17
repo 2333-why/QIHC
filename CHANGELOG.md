@@ -7,7 +7,7 @@
 - Added NumPy and CUDA/PyTorch batched p-bit samplers.
 - Added do-no-harm QIHC-LNS scheduling, LLM neighborhood selection and candidate-recall metrics.
 - Added CVRPLIB, OR-Tools and HGS comparison paths plus multi-GPU formal experiment aggregation.
-- Added networked packaging and fully offline 4×H100 deployment scripts.
+- Replaced the split online/offline deployment with a unified online 2×RTX PRO 6000 workflow rooted at `/hdd/wl2`.
 
 ## [0.2.0] — 2026-07-05
 

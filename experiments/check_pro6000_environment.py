@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+"""Validate the two-GPU Blackwell runtime, BF16 kernels, and NCCL collectives."""
+
+from __future__ import annotations
+
+import argparse
+import os
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--expected-gpus", type=int, default=2)
+    parser.add_argument("--matrix-size", type=int, default=1024)
+    args = parser.parse_args()
+
+    import torch
+    import torch.distributed as dist
+
+    if not torch.cuda.is_available():
+        raise RuntimeError("CUDA is unavailable")
+    visible = torch.cuda.device_count()
+    if visible != args.expected_gpus:
+        raise RuntimeError(f"expected {args.expected_gpus} visible GPUs, found {visible}")
+
+    rank = int(os.environ.get("RANK", "0"))
+    world = int(os.environ.get("WORLD_SIZE", "1"))
+    local_rank = int(os.environ.get("LOCAL_RANK", str(rank)))
+    torch.cuda.set_device(local_rank)
+    device = torch.device("cuda", local_rank)
+
+    properties = torch.cuda.get_device_properties(device)
+    if properties.major < 12:
+        raise RuntimeError(
+            f"GPU {local_rank} is {properties.name} with compute capability "
+            f"{properties.major}.{properties.minor}; RTX PRO 6000 Blackwell should be 12.x"
+        )
+
+    if world > 1:
+        dist.init_process_group("nccl")
+
+    x = torch.randn(args.matrix_size, args.matrix_size, device=device, dtype=torch.bfloat16)
+    checksum = (x @ x).float().mean()
+    if world > 1:
+        dist.all_reduce(checksum)
+        checksum /= world
+        dist.barrier()
+
+    print(
+        f"rank={rank}/{world} gpu={local_rank} name={properties.name!r} "
+        f"cc={properties.major}.{properties.minor} memory_gib={properties.total_memory / 2**30:.1f} "
+        f"torch={torch.__version__} cuda={torch.version.cuda} bf16_checksum={checksum.item():.6f}",
+        flush=True,
+    )
+    if world > 1:
+        dist.destroy_process_group()
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

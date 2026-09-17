@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Four-GPU executable p-dit + MFC LNS subproblem ablation."""
+"""Distributed executable p-dit + MFC LNS subproblem ablation."""
 from __future__ import annotations
 import argparse, json, os, sys
 from pathlib import Path

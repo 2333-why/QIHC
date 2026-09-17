@@ -1,6 +1,6 @@
 # QIHC
 
-> QIHC-S²E 的联网 CPU / 离线 4×H100 正式实验入口见
+> QIHC-S²E 的联网双 RTX PRO 6000 正式实验入口见
 > [`docs/QIHC_S2E_CPU_GPU_RUNBOOK.md`](docs/QIHC_S2E_CPU_GPU_RUNBOOK.md)。
 
 **Quantum-Inspired Intelligence Heterogeneous Computing**  
@@ -265,19 +265,19 @@ python experiments/run_cvrp_lns.py \
   --iterations 5 --sampling-steps 50 --num-chains 32
 ```
 
-离线四卡 H100：
+联网双 RTX PRO 6000：
 
 ```bash
-torchrun --standalone --nproc_per_node=4 experiments/run_cvrp_lns.py \
-  --dataset cvrplib --data /data/CVRP \
-  --output /data/results/qihc_lns \
+CUDA_VISIBLE_DEVICES=0,1 torchrun --standalone --nproc_per_node=2 experiments/run_cvrp_lns.py \
+  --dataset cvrplib --data /hdd/wl2/runtime/src/HGS-CVRP/Instances/CVRP \
+  --output /hdd/wl2/results/qihc_lns \
   --methods greedy ortools hgs random knn llm \
-  --hgs-binary /data/HGS-CVRP/build/bin/hgs \
-  --sampler torch --model-path /data/models/Qwen--Qwen2.5-7B-Instruct
+  --hgs-binary /hdd/wl2/runtime/src/HGS-CVRP/build/hgs \
+  --sampler torch --model-path /hdd/wl2/models/Qwen--Qwen2.5-32B-Instruct
 ```
 
 - 研究与实验方案：[`docs/LLM_PBIT_NL_CVRP_EXPERIMENT_PLAN.md`](docs/LLM_PBIT_NL_CVRP_EXPERIMENT_PLAN.md)
-- 离线部署与正式实验：[`docs/OFFLINE_H100_FORMAL_EXPERIMENT.md`](docs/OFFLINE_H100_FORMAL_EXPERIMENT.md)
+- 双 PRO 6000 部署与正式实验：[`docs/QIHC_S2E_CPU_GPU_RUNBOOK.md`](docs/QIHC_S2E_CPU_GPU_RUNBOOK.md)
 - 正式 runner：[`experiments/run_cvrp_lns.py`](experiments/run_cvrp_lns.py)
 - 统计分析：[`experiments/analyze_cvrp_results.py`](experiments/analyze_cvrp_results.py)
 - 结果合并：[`experiments/merge_cvrp_results.py`](experiments/merge_cvrp_results.py)
