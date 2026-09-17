@@ -34,6 +34,8 @@ cd "$WORK_ROOT/QIHC"
 
 安装脚本会完成 Miniforge、Python 3.11 环境、CUDA 12.8 PyTorch、训练依赖、32B 模型、HGS-CVRP 编译、双卡 NCCL/BF16 自检和 pytest：
 
+脚本通过仓库内的 `configs/condarc-pro6000.yaml` 强制只使用 `conda-forge`，不会继承服务器用户目录中可能指向 `repo.anaconda.com` 的 Conda channel。
+
 ```bash
 cd /hdd/wl2/QIHC
 export CUDA_VISIBLE_DEVICES=0,1

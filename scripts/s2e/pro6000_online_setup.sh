@@ -17,6 +17,7 @@ export HF_HOME="${HF_HOME:-${GLOBAL_ROOT}/cache/huggingface}"
 export HF_DATASETS_CACHE="${HF_DATASETS_CACHE:-${GLOBAL_ROOT}/cache/datasets}"
 export TORCH_HOME="${TORCH_HOME:-${GLOBAL_ROOT}/cache/torch}"
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1}"
+export CONDARC="${CONDARC:-${REPO_DIR}/configs/condarc-pro6000.yaml}"
 
 MINIFORGE_VERSION="${MINIFORGE_VERSION:-24.11.3-2}"
 MINIFORGE_SHA256="${MINIFORGE_SHA256:-65af53dad30b3fcbd1cb1d4ad62fd3a86221464754844544558aae3a28795189}"
@@ -53,11 +54,12 @@ fi
 # shellcheck disable=SC1091
 source "${CONDA_ROOT}/etc/profile.d/conda.sh"
 if [[ ! -d "${CONDA_ENVS_PATH}/qihc" ]]; then
-  conda create -y -p "${CONDA_ENVS_PATH}/qihc" python=3.11 pip
+  conda create -y --override-channels -c conda-forge \
+    -p "${CONDA_ENVS_PATH}/qihc" python=3.11 pip
 fi
 conda activate "${CONDA_ENVS_PATH}/qihc"
 
-conda install -y -c conda-forge cmake ninja cxx-compiler binutils
+conda install -y --override-channels -c conda-forge cmake ninja cxx-compiler binutils
 python -m pip install --upgrade pip wheel setuptools
 python -m pip install --index-url "${TORCH_INDEX_URL}" "torch==${TORCH_VERSION}"
 python -m pip install -r "${REPO_DIR}/requirements-training.txt"

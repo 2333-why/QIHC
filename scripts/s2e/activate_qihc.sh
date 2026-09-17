@@ -14,6 +14,7 @@ export REPO_DIR="${REPO_DIR:-${WORK_ROOT}/QIHC}"
 export RUNTIME_ROOT="${RUNTIME_ROOT:-${WORK_ROOT}/runtime}"
 export HGS_DIR="${HGS_DIR:-${RUNTIME_ROOT}/src/HGS-CVRP}"
 export MODEL_DIR="${MODEL_DIR:-${GLOBAL_ROOT}/models/Qwen--Qwen2.5-32B-Instruct}"
+export CONDARC="${CONDARC:-${REPO_DIR}/configs/condarc-pro6000.yaml}"
 mkdir -p "${CONDA_ENVS_PATH}" "${PIP_CACHE_DIR}" "${HF_HOME}" "${HF_DATASETS_CACHE}" "${TORCH_HOME}"
 if [[ ! -f "${CONDA_ROOT}/etc/profile.d/conda.sh" ]]; then
   echo "Conda is missing at ${CONDA_ROOT}; run scripts/s2e/pro6000_online_setup.sh first." >&2
