@@ -8,7 +8,10 @@ from qihc.s2e import CPPValidator, ConstraintProgramPackage, FeedbackRecord, PDi
 from qihc.s2e.cpp import ConstraintProgram
 from qihc.problems.cvrp import KNNNeighborhoodSelector, greedy_initial_solution
 from qihc.problems.cvrp import PBitLogitFeedback
-from qihc.problems.cvrp.llm_selector import LocalLLMNeighborhoodSelector
+from qihc.problems.cvrp.llm_selector import (
+    LocalLLMNeighborhoodSelector,
+    _extract_partial_neighborhood_json,
+)
 from qihc.s2e.synthesizer import ConstraintSynthesizer, HeuristicConstraintBackend
 
 
@@ -141,6 +144,20 @@ def test_llm_selector_uses_refresh_cache_with_pending_pbit_feedback():
     proposal = selector.propose(instance, incumbent, iteration=1, seed=9)
     assert proposal.source == "llm_cached"
     assert proposal.destroy_customers == cached.destroy_customers
+
+
+def test_truncated_logits_recover_complete_llm_candidate_domain():
+    text = """```json
+    {
+      "destroy_customers": [1, 2],
+      "candidate_routes": {"1": [0, 1], "2": [1, 2]},
+      "candidate_route_logits": {"1": {"0": -0.123456789
+    """
+    value = _extract_partial_neighborhood_json(text)
+    assert value["destroy_customers"] == [1, 2]
+    assert value["candidate_routes"] == {"1": [0, 1], "2": [1, 2]}
+    assert value["candidate_route_logits"] == {}
+    assert value["recovered_truncated_logits"] is True
 
 
 def test_pdit_mfc_sampler_executes_assignment_subproblem():

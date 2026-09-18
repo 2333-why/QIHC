@@ -30,6 +30,35 @@ def _extract_json(text: str) -> dict:
     raise ValueError("LLM output contains no valid JSON object")
 
 
+def _extract_json_member(text: str, key: str):
+    """Decode one complete top-level member from an otherwise truncated object."""
+
+    match = re.search(rf'"{re.escape(key)}"\s*:', text)
+    if not match:
+        raise ValueError(f"LLM output is missing {key}")
+    start = match.end()
+    while start < len(text) and text[start].isspace():
+        start += 1
+    value, _ = json.JSONDecoder().raw_decode(text, start)
+    return value
+
+
+def _extract_partial_neighborhood_json(text: str) -> dict:
+    """Recover the complete candidate domain when only trailing logits were cut off."""
+
+    destroyed = _extract_json_member(text, "destroy_customers")
+    routes = _extract_json_member(text, "candidate_routes")
+    if not isinstance(destroyed, list) or not isinstance(routes, dict):
+        raise ValueError("Truncated LLM output has no recoverable candidate domain")
+    return {
+        "destroy_customers": destroyed,
+        "candidate_routes": routes,
+        "candidate_route_logits": {},
+        "confidence": 0.5,
+        "recovered_truncated_logits": True,
+    }
+
+
 class LocalLLMNeighborhoodSelector:
     """Generate a structured destroy/candidate-route proposal from an offline model."""
 
@@ -94,6 +123,13 @@ class LocalLLMNeighborhoodSelector:
             {"type": c.type, "hard": c.hard, "weight": c.weight, **c.params}
             for c in instance.constraints
         ]
+        compact_feedback = {
+            str(customer): {
+                str(route): round(float(value), 3)
+                for route, value in routes.items()
+            }
+            for customer, routes in self._pbit_logit_feedback.items()
+        }
         return (
             "You understand the complete constrained CVRP and propose a candidate solution/search region. "
             "Do not create an energy function. Return JSON only. Select customers whose reassignment may reduce "
@@ -103,7 +139,7 @@ class LocalLLMNeighborhoodSelector:
             f"Constraints: {json.dumps(constraints, ensure_ascii=False)}\n"
             f"Routes: {json.dumps(route_summary, ensure_ascii=False)}\n"
             f"P-bit logit feedback from earlier iterations: "
-            f"{json.dumps(self._pbit_logit_feedback, ensure_ascii=False)}\n"
+            f"{json.dumps(compact_feedback, ensure_ascii=False, separators=(',', ':'))}\n"
             "Positive feedback means p-bit repeatedly selected that assignment in improving samples; "
             "negative feedback means it was unsupported or harmful. Use it as evidence, not a hard rule.\n"
             f"Required destroy count: {self.destroy_size}\n"
@@ -111,6 +147,8 @@ class LocalLLMNeighborhoodSelector:
             "Return one compact JSON object with exactly these four fields; omit explanations, "
             "candidate_solution, candidate_edges, and reason. candidate_routes is the proposed "
             "candidate assignment/search region that p-bit will optimize.\n"
+            "Write compact one-line JSON. Every candidate_route_logits value must be a short "
+            "integer preference score from -2 to 2; never copy long decimal feedback values.\n"
             "Schema: {\"destroy_customers\":[int],"
             "\"candidate_routes\":{\"customer_id\":[route_id]},"
             "\"candidate_route_logits\":{\"customer_id\":{\"route_id\":number}},"
@@ -331,7 +369,10 @@ class LocalLLMNeighborhoodSelector:
         raw_output = ""
         try:
             raw_output = self._generate(prompt)
-            parsed = _extract_json(raw_output)
+            try:
+                parsed = _extract_json(raw_output)
+            except ValueError:
+                parsed = _extract_partial_neighborhood_json(raw_output)
             proposal = self._normalize(instance, solution, parsed)
             self._cache, self._cache_instance = proposal, instance.name
             self._audit(
