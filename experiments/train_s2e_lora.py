@@ -15,6 +15,7 @@ def main() -> int:
     p.add_argument("--data", type=Path, required=True); p.add_argument("--output", required=True); p.add_argument("--max-steps", type=int, default=500)
     p.add_argument("--adapter-path", type=Path, help="Merge a previous LoRA stage before training this stage")
     p.add_argument("--learning-rate", type=float, default=2e-5); p.add_argument("--max-length", type=int, default=4096)
+    p.add_argument("--lora-rank", type=int, default=16)
     args = p.parse_args()
     from datasets import Dataset
     from peft import LoraConfig
@@ -38,7 +39,7 @@ def main() -> int:
     if args.adapter_path:
         from peft import PeftModel
         model = PeftModel.from_pretrained(model, str(args.adapter_path), is_trainable=True)
-    dataset = Dataset.from_list(rows); peft = LoraConfig(r=32, lora_alpha=64, lora_dropout=0.05, target_modules="all-linear", task_type="CAUSAL_LM")
+    dataset = Dataset.from_list(rows); peft = LoraConfig(r=args.lora_rank, lora_alpha=2 * args.lora_rank, lora_dropout=0.05, target_modules="all-linear", task_type="CAUSAL_LM")
     trainer_peft = None if args.adapter_path else peft
     common = dict(output_dir=args.output, max_steps=args.max_steps, learning_rate=args.learning_rate, per_device_train_batch_size=1, gradient_accumulation_steps=8, bf16=True, gradient_checkpointing=True, gradient_checkpointing_kwargs={"use_reentrant": False}, logging_steps=5, save_steps=100, optim="adamw_torch_fused", report_to="none")
 
