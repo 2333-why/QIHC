@@ -160,6 +160,25 @@ def test_truncated_logits_recover_complete_llm_candidate_domain():
     assert value["recovered_truncated_logits"] is True
 
 
+def test_llm_move_features_expose_objective_deltas_and_capacity():
+    instance = generate_synthetic_instance(12, 4, 30, seed=10)
+    incumbent = greedy_initial_solution(instance)
+    selector = object.__new__(LocalLLMNeighborhoodSelector)
+    selector.destroy_size = 4
+    selector.routes_per_customer = 3
+    features = selector._move_features(instance, incumbent)
+    assert features
+    assert len(features) <= max(24, selector.destroy_size * 4)
+    for row in features:
+        assert row["moves"]
+        assert len(row["moves"]) <= selector.routes_per_customer - 1
+        assert all(move["route"] != row["current_route"] for move in row["moves"])
+        assert all(isinstance(move["net_delta"], float) for move in row["moves"])
+        assert all(move["remaining"] >= 0 for move in row["moves"])
+    constrained = {1, 2, 3, 4, 5, 6}
+    assert constrained.issubset({row["customer"] for row in features})
+
+
 def test_pdit_mfc_sampler_executes_assignment_subproblem():
     instance = generate_synthetic_instance(8, 3, 30, seed=5, semantic_constraints=False)
     incumbent = greedy_initial_solution(instance)

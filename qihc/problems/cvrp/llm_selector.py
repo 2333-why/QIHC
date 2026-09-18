@@ -109,16 +109,110 @@ class LocalLLMNeighborhoodSelector:
             for customer, routes in feedback.items()
         }
 
+    def _move_features(
+        self, instance: CVRPInstance, solution: RouteSolution
+    ) -> list[dict]:
+        """Build a compact objective-aware shortlist without choosing the final move."""
+
+        route_loads = [
+            sum(instance.customers[customer].demand for customer in route)
+            for route in solution.routes
+        ]
+        constrained: set[int] = set()
+        for spec in instance.constraints:
+            if spec.type in {"same_resource", "same_vehicle", "mutual_exclusion"}:
+                constrained.update(int(x) for x in spec.params.get("entities", []))
+            elif spec.type == "precedence":
+                constrained.update(
+                    int(spec.params[key]) for key in ("before", "after") if key in spec.params
+                )
+            elif spec.type in {"time_window", "preferred_time"}:
+                entity = spec.params.get("entity", spec.params.get("customer"))
+                if entity is not None:
+                    constrained.add(int(entity))
+
+        rows = []
+        for current_route, route in enumerate(solution.routes):
+            extended = [instance.depot.id, *route, instance.depot.id]
+            for position, customer in enumerate(route):
+                node = instance.customers[customer]
+                previous = extended[position]
+                following = extended[position + 2]
+                removal_saving = (
+                    instance.distance(previous, customer)
+                    + instance.distance(customer, following)
+                    - instance.distance(previous, following)
+                )
+                moves = []
+                for target_route, target in enumerate(solution.routes):
+                    if target_route == current_route:
+                        continue
+                    remaining = instance.vehicle_capacity - route_loads[target_route]
+                    if remaining < node.demand:
+                        continue
+                    target_extended = [instance.depot.id, *target, instance.depot.id]
+                    insertion = min(
+                        instance.distance(target_extended[index], customer)
+                        + instance.distance(customer, target_extended[index + 1])
+                        - instance.distance(target_extended[index], target_extended[index + 1])
+                        for index in range(len(target_extended) - 1)
+                    )
+                    moves.append(
+                        {
+                            "route": target_route,
+                            "net_delta": round(insertion - removal_saving, 2),
+                            "remaining": int(remaining - node.demand),
+                        }
+                    )
+                moves.sort(key=lambda item: (item["net_delta"], item["route"]))
+                moves = moves[: max(1, self.routes_per_customer - 1)]
+                if not moves:
+                    continue
+                rows.append(
+                    {
+                        "customer": customer,
+                        "current_route": current_route,
+                        "position": position,
+                        "demand": node.demand,
+                        "removal_saving": round(removal_saving, 2),
+                        "moves": moves,
+                        "best_net_delta": moves[0]["net_delta"],
+                        "constraint_related": customer in constrained,
+                    }
+                )
+
+        rows.sort(
+            key=lambda row: (
+                not row["constraint_related"],
+                row["best_net_delta"],
+                row["customer"],
+            )
+        )
+        shortlist_size = max(24, self.destroy_size * 4)
+        required = [row for row in rows if row["constraint_related"]]
+        selected_ids = {row["customer"] for row in required}
+        selected = list(required)
+        for row in sorted(rows, key=lambda item: (item["best_net_delta"], item["customer"])):
+            if row["customer"] not in selected_ids:
+                selected.append(row)
+                selected_ids.add(row["customer"])
+            if len(selected) >= shortlist_size:
+                break
+        return selected
+
     def _prompt(self, instance: CVRPInstance, solution: RouteSolution, iteration: int) -> str:
         verification = verify_solution(instance, solution)
         route_summary = [
             {
                 "route": idx,
-                "customers": route,
                 "load": verification.route_loads[idx] if idx < len(verification.route_loads) else 0,
+                "remaining": instance.vehicle_capacity
+                - (verification.route_loads[idx] if idx < len(verification.route_loads) else 0),
             }
-            for idx, route in enumerate(solution.routes)
+            for idx, _route in enumerate(solution.routes)
         ]
+        move_features = self._move_features(instance, solution)
+        feature_ids = {row["customer"] for row in move_features}
         constraints = [
             {"type": c.type, "hard": c.hard, "weight": c.weight, **c.params}
             for c in instance.constraints
@@ -129,15 +223,20 @@ class LocalLLMNeighborhoodSelector:
                 for route, value in routes.items()
             }
             for customer, routes in self._pbit_logit_feedback.items()
+            if customer in feature_ids
         }
         return (
             "You understand the complete constrained CVRP and propose a candidate solution/search region. "
             "Do not create an energy function. Return JSON only. Select customers whose reassignment may reduce "
             "distance while respecting hard constraints. Every selected customer needs candidate vehicle route IDs.\n"
+            "The move feature net_delta is the exact geometric objective change before secondary interactions; "
+            "negative is promising. Choose destroy_customers from the supplied feature shortlist and choose route "
+            "IDs only from that customer's moves plus its current_route. p-bit will perform the final joint search.\n"
             f"Iteration: {iteration}\n"
             f"Vehicle capacity: {instance.vehicle_capacity}\n"
             f"Constraints: {json.dumps(constraints, ensure_ascii=False)}\n"
-            f"Routes: {json.dumps(route_summary, ensure_ascii=False)}\n"
+            f"Route capacities: {json.dumps(route_summary, ensure_ascii=False, separators=(',', ':'))}\n"
+            f"Objective-aware move features: {json.dumps(move_features, ensure_ascii=False, separators=(',', ':'))}\n"
             f"P-bit logit feedback from earlier iterations: "
             f"{json.dumps(compact_feedback, ensure_ascii=False, separators=(',', ':'))}\n"
             "Positive feedback means p-bit repeatedly selected that assignment in improving samples; "
@@ -148,7 +247,8 @@ class LocalLLMNeighborhoodSelector:
             "candidate_solution, candidate_edges, and reason. candidate_routes is the proposed "
             "candidate assignment/search region that p-bit will optimize.\n"
             "Write compact one-line JSON. Every candidate_route_logits value must be a short "
-            "integer preference score from -2 to 2; never copy long decimal feedback values.\n"
+            "integer preference score from -2 to 2, where higher means more preferred; never "
+            "copy long decimal feedback values.\n"
             "Schema: {\"destroy_customers\":[int],"
             "\"candidate_routes\":{\"customer_id\":[route_id]},"
             "\"candidate_route_logits\":{\"customer_id\":{\"route_id\":number}},"
@@ -285,10 +385,19 @@ class LocalLLMNeighborhoodSelector:
         value: dict,
     ) -> NeighborhoodProposal:
         valid_ids = set(instance.customer_ids)
+        feature_rows = self._move_features(instance, solution)
+        allowed_routes = {
+            row["customer"]: {
+                row["current_route"],
+                *(move["route"] for move in row["moves"]),
+            }
+            for row in feature_rows
+        }
+        shortlist_ids = set(allowed_routes)
         destroyed = []
         for raw in value.get("destroy_customers", []):
             customer = int(raw)
-            if customer in valid_ids and customer not in destroyed:
+            if customer in valid_ids and customer in shortlist_ids and customer not in destroyed:
                 destroyed.append(customer)
             if len(destroyed) >= self.destroy_size:
                 break
@@ -311,7 +420,11 @@ class LocalLLMNeighborhoodSelector:
             normalized = []
             for raw in routes:
                 route = int(raw)
-                if 0 <= route < instance.vehicle_count and route not in normalized:
+                if (
+                    0 <= route < instance.vehicle_count
+                    and route in allowed_routes.get(customer, {current[customer]})
+                    and route not in normalized
+                ):
                     normalized.append(route)
                 if len(normalized) >= self.routes_per_customer:
                     break
