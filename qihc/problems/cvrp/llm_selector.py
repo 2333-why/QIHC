@@ -65,6 +65,7 @@ class LocalLLMNeighborhoodSelector:
     def __init__(
         self,
         model_path: str,
+        adapter_path: str | None = None,
         destroy_size: int = 8,
         routes_per_customer: int = 3,
         device: str = "cuda:0",
@@ -91,12 +92,19 @@ class LocalLLMNeighborhoodSelector:
         self.fallback = KNNNeighborhoodSelector(destroy_size, routes_per_customer)
         self.tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
         dtype = torch.bfloat16 if device.startswith("cuda") else torch.float32
-        self.model = AutoModelForCausalLM.from_pretrained(
+        model = AutoModelForCausalLM.from_pretrained(
             model_path,
             local_files_only=True,
             torch_dtype=dtype,
             low_cpu_mem_usage=True,
-        ).to(device)
+        )
+        if adapter_path:
+            try:
+                from peft import PeftModel
+            except ImportError as exc:  # pragma: no cover - formal dependency
+                raise RuntimeError("Loading a trained adapter requires peft") from exc
+            model = PeftModel.from_pretrained(model, adapter_path, is_trainable=False)
+        self.model = model.to(device)
         self.model.eval()
         self._cache: NeighborhoodProposal | None = None
         self._cache_instance: str | None = None

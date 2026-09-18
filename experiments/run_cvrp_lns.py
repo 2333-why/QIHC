@@ -61,6 +61,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--top-samples", type=int, default=32)
     parser.add_argument("--update-fraction", type=float, default=0.25)
     parser.add_argument("--model-path", type=str)
+    parser.add_argument("--adapter-path", type=str)
     parser.add_argument("--llm-refresh-interval", type=int, default=5)
     parser.add_argument("--llm-temperature", type=float, default=0.2)
     parser.add_argument("--llm-max-new-tokens", type=int, default=768)
@@ -132,6 +133,7 @@ def make_selector(args: argparse.Namespace, method: str, local_rank: int, output
 
         return LocalLLMNeighborhoodSelector(
             model_path=args.model_path,
+            adapter_path=args.adapter_path,
             destroy_size=args.destroy_size,
             routes_per_customer=args.routes_per_customer,
             device=f"cuda:{local_rank}" if args.sampler == "torch" else "cpu",

@@ -31,7 +31,7 @@ def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--data", type=Path, required=True); p.add_argument("--output", type=Path, required=True)
     p.add_argument("--backend", choices=["heuristic", "local-llm"], default="local-llm")
-    p.add_argument("--model-path"); p.add_argument("--limit", type=int, default=0); p.add_argument("--temperature", type=float, default=0.0)
+    p.add_argument("--model-path"); p.add_argument("--adapter-path"); p.add_argument("--limit", type=int, default=0); p.add_argument("--temperature", type=float, default=0.0)
     p.add_argument("--max-new-tokens", type=int, default=768)
     args = p.parse_args(); rank = int(os.environ.get("RANK", 0)); world = int(os.environ.get("WORLD_SIZE", 1)); local_rank = int(os.environ.get("LOCAL_RANK", rank))
     dist = None
@@ -40,7 +40,7 @@ def main() -> int:
         td.init_process_group("gloo"); dist = td
     args.output.mkdir(parents=True, exist_ok=True)
     instances = load_jsonl(args.data)[: args.limit or None]
-    backend = HeuristicConstraintBackend() if args.backend == "heuristic" else LocalLLMConstraintBackend(args.model_path, f"cuda:{local_rank}", args.temperature, args.max_new_tokens)
+    backend = HeuristicConstraintBackend() if args.backend == "heuristic" else LocalLLMConstraintBackend(args.model_path, f"cuda:{local_rank}", args.temperature, args.max_new_tokens, args.adapter_path)
     synth = ConstraintSynthesizer(backend); validator = CPPValidator()
     records, feedback = [], []
     for idx, instance in enumerate(instances):

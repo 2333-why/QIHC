@@ -41,7 +41,7 @@ def main() -> int:
         model = PeftModel.from_pretrained(model, str(args.adapter_path), is_trainable=True)
     dataset = Dataset.from_list(rows); peft = LoraConfig(r=args.lora_rank, lora_alpha=2 * args.lora_rank, lora_dropout=0.05, target_modules="all-linear", task_type="CAUSAL_LM")
     trainer_peft = None if args.adapter_path else peft
-    common = dict(output_dir=args.output, max_steps=args.max_steps, learning_rate=args.learning_rate, per_device_train_batch_size=1, gradient_accumulation_steps=8, bf16=True, gradient_checkpointing=True, gradient_checkpointing_kwargs={"use_reentrant": False}, logging_steps=5, save_steps=100, optim="adamw_torch_fused", report_to="none")
+    common = dict(output_dir=args.output, max_steps=args.max_steps, learning_rate=args.learning_rate, per_device_train_batch_size=1, gradient_accumulation_steps=8, bf16=True, gradient_checkpointing=True, gradient_checkpointing_kwargs={"use_reentrant": False}, ddp_find_unused_parameters=False, logging_steps=5, save_steps=100, optim="adamw_torch_fused", report_to="none")
 
     def processing_kwargs(trainer_class):
         parameters = inspect.signature(trainer_class.__init__).parameters
@@ -101,6 +101,9 @@ def main() -> int:
             **processing_kwargs(GRPOTrainer),
         )
     trainer.train(); trainer.save_model(args.output)
+    if torch.distributed.is_available() and torch.distributed.is_initialized():
+        torch.distributed.barrier()
+        torch.distributed.destroy_process_group()
     return 0
 
 

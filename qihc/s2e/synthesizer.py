@@ -60,10 +60,10 @@ class ConstraintSynthesizer:
 class LocalLLMConstraintBackend:
     """Adapter around the existing local-only Transformers frontend."""
 
-    def __init__(self, model_path: str, device: str = "cuda:0", temperature: float = 0.0, max_new_tokens: int = 768):
+    def __init__(self, model_path: str, device: str = "cuda:0", temperature: float = 0.0, max_new_tokens: int = 768, adapter_path: str | None = None):
         from qihc.problems.cvrp.llm_selector import LocalLLMNeighborhoodSelector
         self.frontend = LocalLLMNeighborhoodSelector(
-            model_path, destroy_size=1, routes_per_customer=1, device=device,
+            model_path, adapter_path=adapter_path, destroy_size=1, routes_per_customer=1, device=device,
             temperature=temperature, max_new_tokens=max_new_tokens,
         )
         self.fallback = HeuristicConstraintBackend()
