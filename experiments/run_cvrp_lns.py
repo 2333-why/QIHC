@@ -112,6 +112,22 @@ def job_key(record: dict) -> tuple[str, str, int] | None:
         return None
 
 
+def deduplicate_job_records(records: list[dict]) -> list[dict]:
+    """Keep one record per experiment job, preferring a successful record."""
+
+    selected: dict[tuple[str, str, int], dict] = {}
+    for record in records:
+        key = job_key(record)
+        if key is None:
+            continue
+        previous = selected.get(key)
+        if previous is None or (
+            previous.get("status") != "ok" and record.get("status") == "ok"
+        ):
+            selected[key] = record
+    return list(selected.values())
+
+
 def distributed_context() -> tuple[int, int, int, object | None]:
     rank = int(os.environ.get("RANK", "0"))
     world_size = int(os.environ.get("WORLD_SIZE", "1"))
@@ -337,11 +353,12 @@ def run_job(
 
 
 def aggregate(output: Path, world_size: int) -> None:
-    rows = []
-    failures = []
+    records = []
     for path in sorted(output.glob("results_rank*.jsonl")):
-        for record in read_valid_jsonl(path):
-            (failures if record.get("status") == "error" else rows).append(record)
+        records.extend(read_valid_jsonl(path))
+    records = deduplicate_job_records(records)
+    rows = [record for record in records if record.get("status") != "error"]
+    failures = [record for record in records if record.get("status") == "error"]
     compact = [{k: v for k, v in row.items() if k not in {"records", "solution", "traceback"}} for row in rows]
     (output / "results.json").write_text(json.dumps(rows, indent=2, ensure_ascii=False), encoding="utf-8")
     (output / "failures.json").write_text(json.dumps(failures, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -416,10 +433,12 @@ def main() -> int:
     if args.resume:
         # Failed rows are intentionally removed so their jobs can be retried
         # without leaving stale failures in the final aggregate.
-        existing_rows = [
-            record for record in read_valid_jsonl(result_path)
-            if record.get("status") == "ok"
-        ]
+        existing_rows = deduplicate_job_records(
+            [
+                record for record in read_valid_jsonl(result_path)
+                if record.get("status") == "ok"
+            ]
+        )
         with result_path.open("w", encoding="utf-8") as cleanup:
             for record in existing_rows:
                 cleanup.write(json.dumps(record, ensure_ascii=False) + "\n")
