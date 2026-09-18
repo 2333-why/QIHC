@@ -63,6 +63,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--model-path", type=str)
     parser.add_argument("--llm-refresh-interval", type=int, default=5)
     parser.add_argument("--llm-temperature", type=float, default=0.2)
+    parser.add_argument("--llm-max-new-tokens", type=int, default=768)
     parser.add_argument("--proposal-bias", type=float, default=1.0)
     parser.add_argument("--logit-feedback-rate", type=float, default=0.8)
     parser.add_argument("--disable-logit-feedback", action="store_true")
@@ -135,6 +136,7 @@ def make_selector(args: argparse.Namespace, method: str, local_rank: int, output
             routes_per_customer=args.routes_per_customer,
             device=f"cuda:{local_rank}" if args.sampler == "torch" else "cpu",
             temperature=args.llm_temperature,
+            max_new_tokens=args.llm_max_new_tokens,
             refresh_interval=args.llm_refresh_interval,
             audit_path=output / f"llm_audit_rank{local_rank}.jsonl",
         )

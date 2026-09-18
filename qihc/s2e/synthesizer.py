@@ -60,9 +60,32 @@ class ConstraintSynthesizer:
 class LocalLLMConstraintBackend:
     """Adapter around the existing local-only Transformers frontend."""
 
-    def __init__(self, model_path: str, device: str = "cuda:0", temperature: float = 0.0):
+    def __init__(self, model_path: str, device: str = "cuda:0", temperature: float = 0.0, max_new_tokens: int = 768):
         from qihc.problems.cvrp.llm_selector import LocalLLMNeighborhoodSelector
-        self.frontend = LocalLLMNeighborhoodSelector(model_path, destroy_size=1, routes_per_customer=1, device=device, temperature=temperature)
+        self.frontend = LocalLLMNeighborhoodSelector(
+            model_path, destroy_size=1, routes_per_customer=1, device=device,
+            temperature=temperature, max_new_tokens=max_new_tokens,
+        )
+        self.fallback = HeuristicConstraintBackend()
 
     def generate(self, description: str, customer_ids: list[int]) -> tuple[list[ConstraintSpec], dict]:
-        return self.frontend.parse_constraint_ir(description, customer_ids)
+        try:
+            specs, audit = self.frontend.parse_constraint_ir(description, customer_ids)
+        except Exception as exc:
+            specs, fallback_audit = self.fallback.generate(description, customer_ids)
+            return specs, {
+                "backend": "local_llm_fallback_heuristic",
+                "error": repr(exc),
+                "fallback": fallback_audit,
+            }
+        if audit.get("dropped"):
+            fallback_specs, fallback_audit = self.fallback.generate(description, customer_ids)
+            signatures = {(spec.type, json.dumps(spec.params, sort_keys=True)) for spec in specs}
+            for spec in fallback_specs:
+                signature = (spec.type, json.dumps(spec.params, sort_keys=True))
+                if signature not in signatures:
+                    specs.append(spec)
+                    signatures.add(signature)
+            audit["backend"] = "local_llm_repaired_with_heuristic"
+            audit["fallback"] = fallback_audit
+        return specs, audit

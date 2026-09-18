@@ -32,7 +32,10 @@ def repair_cpp(cpp: ConstraintProgramPackage, report: CPPValidationReport) -> Co
         if not tests and program.type in {"same_resource", "mutual_exclusion"}:
             a, b = params["entities"]
             expected = program.type == "same_resource"
-            tests = ({"assignment": {str(a): 0, str(b): 0}, "expected": expected}, {"assignment": {str(a): 0, str(b): 1}, "expected": not expected})
+            tests = (
+                {"routes": [[a, b]], "expected": expected},
+                {"routes": [[a], [b]], "expected": not expected},
+            )
             actions.append({"program": original.id, "action": "add_metamorphic_tests"})
         program = replace(program, id=f"c{index:03d}-{original.id.split('-')[-1]}", params=params, candidate_encodings=encodings, tests=tests)
         repaired.append(program)

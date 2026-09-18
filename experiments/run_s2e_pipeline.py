@@ -32,6 +32,7 @@ def main() -> int:
     p.add_argument("--data", type=Path, required=True); p.add_argument("--output", type=Path, required=True)
     p.add_argument("--backend", choices=["heuristic", "local-llm"], default="local-llm")
     p.add_argument("--model-path"); p.add_argument("--limit", type=int, default=0); p.add_argument("--temperature", type=float, default=0.0)
+    p.add_argument("--max-new-tokens", type=int, default=768)
     args = p.parse_args(); rank = int(os.environ.get("RANK", 0)); world = int(os.environ.get("WORLD_SIZE", 1)); local_rank = int(os.environ.get("LOCAL_RANK", rank))
     dist = None
     if world > 1:
@@ -39,7 +40,7 @@ def main() -> int:
         td.init_process_group("gloo"); dist = td
     args.output.mkdir(parents=True, exist_ok=True)
     instances = load_jsonl(args.data)[: args.limit or None]
-    backend = HeuristicConstraintBackend() if args.backend == "heuristic" else LocalLLMConstraintBackend(args.model_path, f"cuda:{local_rank}", args.temperature)
+    backend = HeuristicConstraintBackend() if args.backend == "heuristic" else LocalLLMConstraintBackend(args.model_path, f"cuda:{local_rank}", args.temperature, args.max_new_tokens)
     synth = ConstraintSynthesizer(backend); validator = CPPValidator()
     records, feedback = [], []
     for idx, instance in enumerate(instances):
@@ -66,7 +67,8 @@ def main() -> int:
         write_jsonl(args.output / "records.jsonl", all_records)
         write_jsonl(args.output / "sft.jsonl", build_sft_records(all_feedback)); write_jsonl(args.output / "dpo.jsonl", build_dpo_pairs(all_feedback)); write_jsonl(args.output / "grpo.jsonl", build_grpo_records(all_feedback))
         ok = [x for x in all_records if x["status"] == "ok"]
-        summary = {"n": len(all_records), "success_rate": len(ok) / max(len(all_records), 1), "a4_pass_rate": sum(x["validation"]["passed"] for x in ok) / max(len(all_records), 1), "exact_match_rate": sum(x["exact_match"] for x in ok) / max(len(all_records), 1)}
+        fallback_count = sum("fallback" in x.get("cpp", {}).get("generator", {}).get("backend", "") or "repaired" in x.get("cpp", {}).get("generator", {}).get("backend", "") for x in ok)
+        summary = {"n": len(all_records), "success_rate": len(ok) / max(len(all_records), 1), "a4_pass_rate": sum(x["validation"]["passed"] for x in ok) / max(len(all_records), 1), "exact_match_rate": sum(x["exact_match"] for x in ok) / max(len(all_records), 1), "constraint_fallback_rate": fallback_count / max(len(all_records), 1)}
         (args.output / "summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
     if dist: dist.barrier(); dist.destroy_process_group()
     return 0

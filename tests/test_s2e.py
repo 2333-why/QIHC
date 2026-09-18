@@ -5,8 +5,10 @@ import numpy as np
 
 from qihc.problems.cvrp.instance import ConstraintSpec, generate_synthetic_instance
 from qihc.s2e import CPPValidator, ConstraintProgramPackage, FeedbackRecord, PDitMFCSampler, Representation, TorchPDitMFCSampler, build_dpo_pairs, compile_cpp, repair_cpp
+from qihc.s2e.cpp import ConstraintProgram
 from qihc.problems.cvrp import KNNNeighborhoodSelector, greedy_initial_solution
 from qihc.problems.cvrp import PBitLogitFeedback
+from qihc.problems.cvrp.llm_selector import LocalLLMNeighborhoodSelector
 from qihc.s2e.synthesizer import ConstraintSynthesizer, HeuristicConstraintBackend
 
 
@@ -54,6 +56,43 @@ def test_auto_repair_drops_unknown_entities_and_records_actions():
     assert fixed.repair_history
     assert not fixed.programs
     assert validator.validate(fixed, instance).passed
+
+
+def test_auto_repair_emits_route_based_metamorphic_tests():
+    instance = generate_synthetic_instance(6, 3, 30, seed=8, semantic_constraints=False)
+    program = ConstraintProgram(
+        id="c000-test", type="same_vehicle", hard=True, weight=1.0,
+        params={"entities": [1, 2]}, source_text="same vehicle",
+        candidate_encodings=(), tests=(),
+    )
+    cpp = ConstraintProgramPackage(instance.name, "repair", instance.customer_ids, [program])
+    report = CPPValidator(exact_customer_limit=6).validate(cpp, instance)
+    fixed = repair_cpp(cpp, report)
+    assert fixed.programs[0].tests == (
+        {"routes": [[1, 2]], "expected": True},
+        {"routes": [[1], [2]], "expected": False},
+    )
+    assert CPPValidator(exact_customer_limit=6).validate(fixed, instance).passed
+
+
+def test_constraint_ir_drops_incomplete_precedence_without_crashing():
+    selector = object.__new__(LocalLLMNeighborhoodSelector)
+    selector._generate = lambda _prompt: json.dumps(
+        {
+            "constraints": [
+                {
+                    "type": "precedence",
+                    "hard": True,
+                    "params": {"after": 2},
+                    "source_text": "客户1先于客户2",
+                }
+            ]
+        },
+        ensure_ascii=False,
+    )
+    specs, audit = selector.parse_constraint_ir("客户1先于客户2", [1, 2])
+    assert specs == []
+    assert audit["dropped"][0]["reason"] == "requires before and after"
 
 
 def test_pdit_mfc_sampler_executes_assignment_subproblem():

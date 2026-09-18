@@ -39,7 +39,7 @@ class LocalLLMNeighborhoodSelector:
         destroy_size: int = 8,
         routes_per_customer: int = 3,
         device: str = "cuda:0",
-        max_new_tokens: int = 384,
+        max_new_tokens: int = 768,
         temperature: float = 0.2,
         refresh_interval: int = 5,
         audit_path: str | Path | None = None,
@@ -108,10 +108,13 @@ class LocalLLMNeighborhoodSelector:
             "negative feedback means it was unsupported or harmful. Use it as evidence, not a hard rule.\n"
             f"Required destroy count: {self.destroy_size}\n"
             f"Maximum candidate routes per customer: {self.routes_per_customer}\n"
-            "Schema: {\"candidate_solution\":[[customer_id]],\"destroy_customers\":[int],"
+            "Return one compact JSON object with exactly these four fields; omit explanations, "
+            "candidate_solution, candidate_edges, and reason. candidate_routes is the proposed "
+            "candidate assignment/search region that p-bit will optimize.\n"
+            "Schema: {\"destroy_customers\":[int],"
             "\"candidate_routes\":{\"customer_id\":[route_id]},"
             "\"candidate_route_logits\":{\"customer_id\":{\"route_id\":number}},"
-            "\"candidate_edges\":[[customer_id,customer_id]],\"confidence\":number,\"reason\":string}"
+            "\"confidence\":number}"
         )
 
     def _generate(self, prompt: str) -> str:
@@ -170,22 +173,59 @@ class LocalLLMNeighborhoodSelector:
             "preferred_time",
         }
         normalized = []
-        for raw in raw_constraints:
+        dropped = []
+        valid_ids = set(customer_ids)
+        for index, raw in enumerate(raw_constraints):
             if not isinstance(raw, dict) or raw.get("type") not in allowed:
+                dropped.append({"index": index, "reason": "unsupported_or_malformed", "value": raw})
                 continue
-            spec = ConstraintSpec.from_dict(raw)
-            mentioned: list[int] = []
-            if spec.type in {"same_resource", "same_vehicle", "mutual_exclusion"}:
-                mentioned = [int(x) for x in spec.params.get("entities", [])]
-            elif spec.type == "precedence":
-                mentioned = [int(spec.params["before"]), int(spec.params["after"])]
-            elif spec.type in {"time_window", "preferred_time"}:
-                entity = spec.params.get("entity", spec.params.get("customer"))
-                mentioned = [int(entity)] if entity is not None else []
-            if mentioned and any(x not in customer_ids for x in mentioned):
-                raise ValueError(f"Constraint contains unknown customer ID: {spec.params}")
+            params = raw.get("params", {})
+            if not isinstance(params, dict):
+                dropped.append({"index": index, "reason": "params_not_object", "value": raw})
+                continue
+            params = dict(params)
+            for key, item in raw.items():
+                if key not in {"type", "hard", "weight", "params", "source_text", "confidence"}:
+                    params.setdefault(key, item)
+            kind = str(raw["type"])
+            try:
+                mentioned: list[int] = []
+                if kind in {"same_resource", "same_vehicle", "mutual_exclusion"}:
+                    entities = list(dict.fromkeys(int(x) for x in params.get("entities", [])))
+                    if len(entities) < 2:
+                        raise ValueError("requires at least two entities")
+                    params["entities"] = entities[:2]
+                    mentioned = params["entities"]
+                elif kind == "precedence":
+                    if "before" not in params or "after" not in params:
+                        raise ValueError("requires before and after")
+                    before, after = int(params["before"]), int(params["after"])
+                    if before == after:
+                        raise ValueError("before and after must differ")
+                    params.update({"before": before, "after": after})
+                    mentioned = [before, after]
+                elif kind in {"time_window", "preferred_time"}:
+                    entity = params.get("entity", params.get("customer"))
+                    if entity is None:
+                        raise ValueError("requires entity/customer")
+                    params["entity"] = int(entity)
+                    mentioned = [params["entity"]]
+                if mentioned and any(x not in valid_ids for x in mentioned):
+                    raise ValueError(f"unknown customer IDs: {mentioned}")
+                candidate = dict(raw)
+                candidate["params"] = params
+                spec = ConstraintSpec.from_dict(candidate)
+            except (TypeError, ValueError, KeyError) as exc:
+                dropped.append({"index": index, "reason": str(exc), "value": raw})
+                continue
             normalized.append(spec)
-        return normalized, {"prompt": prompt, "output": raw_output, "parsed": value}
+        return normalized, {
+            "backend": "local_llm",
+            "prompt": prompt,
+            "output": raw_output,
+            "parsed": value,
+            "dropped": dropped,
+        }
 
     def _normalize(
         self,
