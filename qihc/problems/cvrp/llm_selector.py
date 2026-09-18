@@ -314,7 +314,6 @@ class LocalLLMNeighborhoodSelector:
             self._cache is not None
             and self._cache_instance == instance.name
             and iteration % self.refresh_interval != 0
-            and not self._pbit_logit_feedback
         ):
             return NeighborhoodProposal(
                 destroy_customers=list(self._cache.destroy_customers),

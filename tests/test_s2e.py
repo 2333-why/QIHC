@@ -129,6 +129,20 @@ def test_constraint_ir_normalizes_common_customer_id_aliases():
     assert audit["dropped"] == []
 
 
+def test_llm_selector_uses_refresh_cache_with_pending_pbit_feedback():
+    instance = generate_synthetic_instance(8, 3, 30, seed=9, semantic_constraints=False)
+    incumbent = greedy_initial_solution(instance)
+    cached = KNNNeighborhoodSelector(2, 2).propose(instance, incumbent, 0, 9)
+    selector = object.__new__(LocalLLMNeighborhoodSelector)
+    selector._cache = cached
+    selector._cache_instance = instance.name
+    selector.refresh_interval = 5
+    selector._pbit_logit_feedback = {cached.destroy_customers[0]: {0: 0.5}}
+    proposal = selector.propose(instance, incumbent, iteration=1, seed=9)
+    assert proposal.source == "llm_cached"
+    assert proposal.destroy_customers == cached.destroy_customers
+
+
 def test_pdit_mfc_sampler_executes_assignment_subproblem():
     instance = generate_synthetic_instance(8, 3, 30, seed=5, semantic_constraints=False)
     incumbent = greedy_initial_solution(instance)
