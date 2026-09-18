@@ -4,7 +4,7 @@ import pytest
 import numpy as np
 
 from qihc.problems.cvrp.instance import ConstraintSpec, generate_synthetic_instance
-from qihc.s2e import CPPValidator, ConstraintProgramPackage, FeedbackRecord, PDitMFCSampler, Representation, build_dpo_pairs, compile_cpp, repair_cpp
+from qihc.s2e import CPPValidator, ConstraintProgramPackage, FeedbackRecord, PDitMFCSampler, Representation, TorchPDitMFCSampler, build_dpo_pairs, compile_cpp, repair_cpp
 from qihc.problems.cvrp import KNNNeighborhoodSelector, greedy_initial_solution
 from qihc.problems.cvrp import PBitLogitFeedback
 from qihc.s2e.synthesizer import ConstraintSynthesizer, HeuristicConstraintBackend
@@ -64,6 +64,18 @@ def test_pdit_mfc_sampler_executes_assignment_subproblem():
     assert batch.assignments
     assert set(batch.assignments[0]) == set(proposal.destroy_customers)
     assert batch.metadata["backend"] == "pdit-mfc-numpy"
+
+
+def test_torch_pdit_mfc_sampler_uses_one_compute_dtype():
+    pytest.importorskip("torch")
+    instance = generate_synthetic_instance(8, 3, 30, seed=6, semantic_constraints=False)
+    incumbent = greedy_initial_solution(instance)
+    proposal = KNNNeighborhoodSelector(4, 3).propose(instance, incumbent, 0, 6)
+    batch = TorchPDitMFCSampler(
+        num_chains=12, steps=3, top_k=4, seed=6, device="cpu"
+    ).solve(instance, incumbent, proposal)
+    assert batch.assignments
+    assert batch.metadata["backend"] == "pdit-mfc-torch"
 
 
 def test_pbit_feedback_updates_structural_llm_logits():

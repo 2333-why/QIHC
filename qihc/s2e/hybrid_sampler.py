@@ -98,7 +98,10 @@ class TorchPDitMFCSampler(PDitMFCSampler):
             cand[i, :len(values)] = torch.tensor(values, device=device); ins[i, :len(values)] = torch.tensor(insertion[i], device=device); valid[i, :len(values)] = True
         gen = torch.Generator(device=device); gen.manual_seed(self.seed)
         states = torch.stack([torch.randint(0, len(candidates[i]), (bsz,), device=device, generator=gen) for i in range(n)], dim=1)
-        demands = torch.tensor(demands_np, device=device); base = torch.tensor(base_np, device=device); multipliers = torch.zeros(instance.vehicle_count, device=device)
+        compute_dtype = ins.dtype
+        demands = torch.as_tensor(demands_np, device=device, dtype=compute_dtype)
+        base = torch.as_tensor(base_np, device=device, dtype=compute_dtype)
+        multipliers = torch.zeros(instance.vehicle_count, device=device, dtype=compute_dtype)
         current = {c: r for r, route in enumerate(solution.routes) for c in route}; index = {c: i for i, c in enumerate(destroyed)}; rows = torch.arange(n, device=device)
         def energy(s):
             routes = cand[rows[None, :], s]; e = ins[rows[None, :], s].sum(1); loads = base[None, :].expand(len(s), -1).clone(); loads.scatter_add_(1, routes, demands[None, :].expand(len(s), -1))
