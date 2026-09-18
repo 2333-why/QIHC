@@ -76,20 +76,18 @@ python -m pip install -r "${REPO_DIR}/requirements-training.txt"
 python -m pip install -e "${REPO_DIR}"
 python -m pip install modelscope
 
-if [[ ! -f "${MODEL_DIR}/config.json" ]]; then
-  for attempt in 1 2 3; do
-    python "${REPO_DIR}/experiments/nsfc_evidence/download_model_hf.py" \
-      --repo "${MODEL_ID}" \
-      --local-dir "${MODEL_DIR}" \
-      --cache-dir "${HF_HOME}/hub" \
-      --backend "${MODEL_DOWNLOAD_BACKEND}" && break
-    if [[ "${attempt}" == 3 ]]; then
-      echo "Model download failed after three resumable ModelScope/HF-mirror attempts." >&2
-      exit 1
-    fi
-    echo "Model download attempt ${attempt}/3 failed; retrying with existing partial files."
-  done
-fi
+for attempt in 1 2 3; do
+  python "${REPO_DIR}/experiments/nsfc_evidence/download_model_hf.py" \
+    --repo "${MODEL_ID}" \
+    --local-dir "${MODEL_DIR}" \
+    --cache-dir "${HF_HOME}/hub" \
+    --backend "${MODEL_DOWNLOAD_BACKEND}" && break
+  if [[ "${attempt}" == 3 ]]; then
+    echo "Model download failed after three resumable ModelScope/HF-mirror attempts." >&2
+    exit 1
+  fi
+  echo "Model download attempt ${attempt}/3 failed; retrying with existing partial files."
+done
 
 if [[ ! -d "${HGS_DIR}/.git" ]]; then
   git clone --depth 1 https://github.com/vidalt/HGS-CVRP.git "${HGS_DIR}"

@@ -9,15 +9,37 @@ Backends (in --backend auto order):
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import sys
 from pathlib import Path
 
 
 def _ready(local_dir: Path) -> bool:
-    return (local_dir / "config.json").is_file() and (
+    metadata_ready = (local_dir / "config.json").is_file() and (
         (local_dir / "tokenizer_config.json").is_file()
         or (local_dir / "tokenizer.json").is_file()
+    )
+    if not metadata_ready:
+        return False
+
+    for index_name in ("model.safetensors.index.json", "pytorch_model.bin.index.json"):
+        index_path = local_dir / index_name
+        if not index_path.is_file():
+            continue
+        try:
+            payload = json.loads(index_path.read_text(encoding="utf-8"))
+            shards = set(payload["weight_map"].values())
+        except (KeyError, TypeError, ValueError, OSError):
+            return False
+        return bool(shards) and all(
+            (local_dir / shard).is_file() and (local_dir / shard).stat().st_size > 0
+            for shard in shards
+        )
+
+    return any(
+        path.is_file() and path.stat().st_size > 0
+        for path in (local_dir / "model.safetensors", local_dir / "pytorch_model.bin")
     )
 
 
