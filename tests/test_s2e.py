@@ -71,6 +71,11 @@ def test_torch_pdit_mfc_sampler_uses_one_compute_dtype():
     instance = generate_synthetic_instance(8, 3, 30, seed=6, semantic_constraints=False)
     incumbent = greedy_initial_solution(instance)
     proposal = KNNNeighborhoodSelector(4, 3).propose(instance, incumbent, 0, 6)
+    fixed = [customer for customer in instance.customer_ids if customer not in proposal.destroy_customers]
+    assert len(fixed) >= 2
+    instance.constraints.append(
+        ConstraintSpec("same_resource", params={"entities": fixed[:2]})
+    )
     batch = TorchPDitMFCSampler(
         num_chains=12, steps=3, top_k=4, seed=6, device="cpu"
     ).solve(instance, incumbent, proposal)

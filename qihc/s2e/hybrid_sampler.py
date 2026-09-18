@@ -110,7 +110,21 @@ class TorchPDitMFCSampler(PDitMFCSampler):
                 if spec.type not in {"same_resource", "same_vehicle", "mutual_exclusion"}: continue
                 entities = [int(x) for x in spec.params.get("entities", [])]
                 if len(entities) < 2: continue
-                a, b = entities[:2]; ra = routes[:, index[a]] if a in index else current.get(a, -1); rb = routes[:, index[b]] if b in index else current.get(b, -1)
+                a, b = entities[:2]
+                ra = (
+                    routes[:, index[a]]
+                    if a in index
+                    else torch.full(
+                        (len(s),), current.get(a, -1), device=device, dtype=routes.dtype
+                    )
+                )
+                rb = (
+                    routes[:, index[b]]
+                    if b in index
+                    else torch.full(
+                        (len(s),), current.get(b, -1), device=device, dtype=routes.dtype
+                    )
+                )
                 bad = (ra != rb) if spec.type in {"same_resource", "same_vehicle"} else (ra == rb); e = e + self.semantic_penalty * spec.weight * bad.float()
             return e, violation
         if device.type == "cuda": torch.cuda.synchronize(device)
