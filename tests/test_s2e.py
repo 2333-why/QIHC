@@ -95,6 +95,40 @@ def test_constraint_ir_drops_incomplete_precedence_without_crashing():
     assert audit["dropped"][0]["reason"] == "requires before and after"
 
 
+def test_constraint_ir_normalizes_common_customer_id_aliases():
+    selector = object.__new__(LocalLLMNeighborhoodSelector)
+    selector._generate = lambda _prompt: json.dumps(
+        {
+            "constraints": [
+                {
+                    "type": "same_resource",
+                    "params": {"customer_ids": [47, 37]},
+                },
+                {
+                    "type": "precedence",
+                    "params": {
+                        "before_customer_id": 47,
+                        "after_customer_id": 2,
+                    },
+                },
+                {
+                    "type": "mutual_exclusion",
+                    "params": {"customer_ids": [21, 9]},
+                },
+            ]
+        }
+    )
+    specs, audit = selector.parse_constraint_ir(
+        "routing constraints", [2, 9, 21, 37, 47]
+    )
+    assert [spec.params for spec in specs] == [
+        {"entities": [47, 37]},
+        {"before": 47, "after": 2},
+        {"entities": [21, 9]},
+    ]
+    assert audit["dropped"] == []
+
+
 def test_pdit_mfc_sampler_executes_assignment_subproblem():
     instance = generate_synthetic_instance(8, 3, 30, seed=5, semantic_constraints=False)
     incumbent = greedy_initial_solution(instance)

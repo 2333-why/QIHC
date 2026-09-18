@@ -152,6 +152,9 @@ class LocalLLMNeighborhoodSelector:
             "Return JSON only. Supported types are capacity, same_resource, mutual_exclusion, "
             "precedence, time_window, max_route_distance, and preferred_time. "
             "Use hard=true for words equivalent to must/cannot, otherwise hard=false.\n"
+            "Use these exact params schemas: same_resource/mutual_exclusion => "
+            "{\"entities\":[customer_a,customer_b]}; precedence => "
+            "{\"before\":customer_a,\"after\":customer_b}. Do not rename these keys.\n"
             f"Valid customer IDs: {customer_ids}\n"
             f"Requirements: {description}\n"
             "Schema: {\"constraints\":[{\"type\":string,\"hard\":boolean,\"weight\":number,"
@@ -191,18 +194,28 @@ class LocalLLMNeighborhoodSelector:
             try:
                 mentioned: list[int] = []
                 if kind in {"same_resource", "same_vehicle", "mutual_exclusion"}:
-                    entities = list(dict.fromkeys(int(x) for x in params.get("entities", [])))
+                    raw_entities = params.get(
+                        "entities",
+                        params.get("customer_ids", params.get("customers", [])),
+                    )
+                    entities = list(dict.fromkeys(int(x) for x in raw_entities))
                     if len(entities) < 2:
                         raise ValueError("requires at least two entities")
                     params["entities"] = entities[:2]
+                    params.pop("customer_ids", None)
+                    params.pop("customers", None)
                     mentioned = params["entities"]
                 elif kind == "precedence":
-                    if "before" not in params or "after" not in params:
+                    before_value = params.get("before", params.get("before_customer_id"))
+                    after_value = params.get("after", params.get("after_customer_id"))
+                    if before_value is None or after_value is None:
                         raise ValueError("requires before and after")
-                    before, after = int(params["before"]), int(params["after"])
+                    before, after = int(before_value), int(after_value)
                     if before == after:
                         raise ValueError("before and after must differ")
                     params.update({"before": before, "after": after})
+                    params.pop("before_customer_id", None)
+                    params.pop("after_customer_id", None)
                     mentioned = [before, after]
                 elif kind in {"time_window", "preferred_time"}:
                     entity = params.get("entity", params.get("customer"))
