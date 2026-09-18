@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -22,11 +23,20 @@ def main() -> int:
     parser.add_argument("--limit", type=int, default=0)
     args = parser.parse_args()
     instances = []
-    for path in sorted(args.input_dir.rglob("*.vrp"))[: args.limit or None]:
-        instance = load_cvrplib(path)
-        incumbent = greedy_initial_solution(instance)
+    skipped = []
+    for path in sorted(args.input_dir.rglob("*.vrp")):
+        if args.limit and len(instances) >= args.limit:
+            break
+        try:
+            instance = load_cvrplib(path)
+            incumbent = greedy_initial_solution(instance)
+        except (OSError, ValueError) as exc:
+            skipped.append({"path": str(path), "reason": repr(exc)})
+            print(f"skipping {path.name}: {exc}", file=sys.stderr, flush=True)
+            continue
         nonempty = [route for route in incumbent.routes if len(route) >= 2]
         if not nonempty:
+            skipped.append({"path": str(path), "reason": "no route contains two customers"})
             continue
         same_route = max(nonempty, key=len)
         before, after = same_route[0], same_route[-1]
@@ -68,8 +78,27 @@ def main() -> int:
         checked = verify_solution(instance, incumbent)
         if checked.feasible:
             instances.append(instance)
+        else:
+            skipped.append({
+                "path": str(path),
+                "reason": "generated semantic constraints invalidate the known incumbent",
+                "violations": checked.violations,
+            })
     save_jsonl(instances, args.output_jsonl)
-    print(f"wrote {len(instances)} instances to {args.output_jsonl}")
+    manifest = {
+        "input_dir": str(args.input_dir),
+        "requested_limit": args.limit,
+        "written": len(instances),
+        "skipped": skipped,
+    }
+    manifest_path = args.output_jsonl.with_suffix(".manifest.json")
+    manifest_path.write_text(
+        json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
+    print(
+        f"wrote {len(instances)} instances to {args.output_jsonl}; "
+        f"skipped {len(skipped)} (manifest: {manifest_path})"
+    )
     return 0
 
 
