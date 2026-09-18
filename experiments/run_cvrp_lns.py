@@ -75,7 +75,41 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--safe-random-routes", type=int, default=1)
     parser.add_argument("--baseline-time-limit", type=int, default=30)
     parser.add_argument("--hgs-binary", type=Path)
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="Keep valid existing rank JSONL rows and skip completed jobs.",
+    )
     return parser.parse_args()
+
+
+def read_valid_jsonl(path: Path) -> list[dict]:
+    """Read complete JSON objects, ignoring a partially written final line."""
+
+    if not path.exists():
+        return []
+    rows = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            value = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(value, dict):
+            rows.append(value)
+    return rows
+
+
+def job_key(record: dict) -> tuple[str, str, int] | None:
+    try:
+        return (
+            str(record["instance"]),
+            str(record["method"]),
+            int(record["search_seed"]),
+        )
+    except (KeyError, TypeError, ValueError):
+        return None
 
 
 def distributed_context() -> tuple[int, int, int, object | None]:
@@ -305,14 +339,8 @@ def run_job(
 def aggregate(output: Path, world_size: int) -> None:
     rows = []
     failures = []
-    for rank in range(world_size):
-        path = output / f"results_rank{rank}.jsonl"
-        if not path.exists():
-            continue
-        for line in path.read_text(encoding="utf-8").splitlines():
-            if not line.strip():
-                continue
-            record = json.loads(line)
+    for path in sorted(output.glob("results_rank*.jsonl")):
+        for record in read_valid_jsonl(path):
             (failures if record.get("status") == "error" else rows).append(record)
     compact = [{k: v for k, v in row.items() if k not in {"records", "solution", "traceback"}} for row in rows]
     (output / "results.json").write_text(json.dumps(rows, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -371,9 +399,44 @@ def main() -> int:
         for seed in args.search_seeds
         for method in args.methods
     ]
+    completed: set[tuple[str, str, int]] = set()
+    if args.resume:
+        for existing_path in args.output.glob("results_rank*.jsonl"):
+            for record in read_valid_jsonl(existing_path):
+                key = job_key(record)
+                if key is not None and record.get("status") == "ok":
+                    completed.add(key)
     shard = [job for index, job in enumerate(jobs) if index % world_size == rank]
+    if completed:
+        shard = [
+            job for job in shard
+            if (job[0].name, job[1], int(job[2])) not in completed
+        ]
     result_path = args.output / f"results_rank{rank}.jsonl"
-    with result_path.open("w", encoding="utf-8") as handle:
+    if args.resume:
+        # Failed rows are intentionally removed so their jobs can be retried
+        # without leaving stale failures in the final aggregate.
+        existing_rows = [
+            record for record in read_valid_jsonl(result_path)
+            if record.get("status") == "ok"
+        ]
+        with result_path.open("w", encoding="utf-8") as cleanup:
+            for record in existing_rows:
+                cleanup.write(json.dumps(record, ensure_ascii=False) + "\n")
+    mode = "a" if args.resume else "w"
+    print(
+        json.dumps(
+            {
+                "rank": rank,
+                "resume": args.resume,
+                "completed_jobs_found": len(completed),
+                "remaining_jobs_on_rank": len(shard),
+            },
+            ensure_ascii=False,
+        ),
+        flush=True,
+    )
+    with result_path.open(mode, encoding="utf-8") as handle:
         for instance, method, seed in shard:
             identity = {"instance": instance.name, "method": method, "search_seed": seed}
             try:
