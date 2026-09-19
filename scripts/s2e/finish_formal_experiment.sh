@@ -36,6 +36,18 @@ done
 }
 
 log() { printf '[%s] %s\n' "$(date '+%F %T')" "$*"; }
+wait_for_gpus() {
+  local used
+  while true; do
+    # A Qwen-32B rank needs most of its 96-GB GPU; do not compete with another job.
+    used="$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits)"
+    if awk 'BEGIN {ok=1} {if ($1 >= 8192) ok=0; n++} END {exit !(ok && n >= 2)}' <<<"${used}"; then
+      return
+    fi
+    log "Waiting for both GPUs to be free (current memory used: $(tr '\n' ' ' <<<"${used}") MiB)."
+    sleep 60
+  done
+}
 check_train() {
   python experiments/check_cvrp_collection.py \
     --data "${TRAIN_DATASET}" --output "${SOLVER_DIR}" \
@@ -55,6 +67,7 @@ while [[ -n "$(solver_pids)" ]]; do
 done
 if ! check_train --require-complete; then
   log "Resuming only the missing train jobs."
+  wait_for_gpus
   bash "${SCRIPT_DIR}/resume_train_collection.sh" >"${LOG_DIR}/resume_solver.log" 2>&1
 fi
 check_train --require-complete >"${SOLVER_DIR}/coverage.json"
@@ -69,9 +82,10 @@ PY
 
 if [[ ! -s "${CPP_DIR}/records.jsonl" ]]; then
   log "Running constraint compilation on train instances."
+  wait_for_gpus
   torchrun --standalone --nproc_per_node=2 experiments/run_s2e_pipeline.py \
     --data "${TRAIN_DATASET}" --model-path "${MODEL_DIR}" \
-    --output "${CPP_DIR}" --max-new-tokens 768 \
+    --output "${CPP_DIR}" --max-new-tokens 768 --resume \
     >"${LOG_DIR}/cpp_train.log" 2>&1
 fi
 
@@ -88,6 +102,7 @@ python experiments/prepare_joint_training_data.py \
 LAST_ADAPTER="${CHECKPOINT_DIR}/sft"
 if [[ ! -s "${LAST_ADAPTER}/adapter_config.json" ]]; then
   log "Starting two-GPU SFT."
+  wait_for_gpus
   torchrun --standalone --nproc_per_node=2 experiments/train_s2e_lora.py \
     --stage sft --model-path "${MODEL_DIR}" --data "${TRAINING_DIR}/sft.jsonl" \
     --output "${LAST_ADAPTER}" --max-steps "${SFT_STEPS:-500}" \
@@ -99,6 +114,7 @@ if [[ -s "${TRAINING_DIR}/dpo.jsonl" ]]; then
   DPO_ADAPTER="${CHECKPOINT_DIR}/dpo"
   if [[ ! -s "${DPO_ADAPTER}/adapter_config.json" ]]; then
     log "Starting two-GPU DPO."
+    wait_for_gpus
     torchrun --standalone --nproc_per_node=2 experiments/train_s2e_lora.py \
       --stage dpo --model-path "${MODEL_DIR}" --adapter-path "${LAST_ADAPTER}" \
       --data "${TRAINING_DIR}/dpo.jsonl" --output "${DPO_ADAPTER}" \
@@ -114,6 +130,7 @@ if [[ "${RUN_GRPO:-1}" == "1" && -s "${TRAINING_DIR}/grpo.jsonl" ]]; then
   GRPO_ADAPTER="${CHECKPOINT_DIR}/grpo"
   if [[ ! -s "${GRPO_ADAPTER}/adapter_config.json" ]]; then
     log "Starting two-GPU GRPO."
+    wait_for_gpus
     torchrun --standalone --nproc_per_node=2 experiments/train_s2e_lora.py \
       --stage grpo --model-path "${MODEL_DIR}" --adapter-path "${LAST_ADAPTER}" \
       --data "${TRAINING_DIR}/grpo.jsonl" --output "${GRPO_ADAPTER}" \
@@ -134,15 +151,17 @@ if [[ "${RUN_EVAL:-1}" == "1" ]]; then
       if [[ "${variant}" == tuned ]]; then ADAPTER_ARGS=(--adapter-path "${LAST_ADAPTER}"); fi
       if [[ ! -s "${CPP_OUTPUT}/summary.json" ]]; then
         log "Evaluating constraint compilation for ${split}/${variant}."
+        wait_for_gpus
         torchrun --standalone --nproc_per_node=2 experiments/run_s2e_pipeline.py \
           --data "${DATASET}" --model-path "${MODEL_DIR}" \
-          --output "${CPP_OUTPUT}" --max-new-tokens 768 \
+          --output "${CPP_OUTPUT}" --max-new-tokens 768 --resume \
           "${ADAPTER_ARGS[@]}" >"${LOG_DIR}/${split}_${variant}_cpp.log" 2>&1
       fi
       if ! python experiments/check_cvrp_collection.py --data "${DATASET}" \
         --output "${OUTPUT}" --search-seeds 0 1 --methods llm \
         --require-complete >"${LOG_DIR}/${split}_${variant}_coverage.log"; then
         log "Evaluating ${split}/${variant} with the same solver settings."
+        wait_for_gpus
         torchrun --standalone --nproc_per_node=2 experiments/run_cvrp_lns.py \
           --dataset jsonl --data "${DATASET}" --output "${OUTPUT}" \
           --search-seeds 0 1 --methods llm --sampler torch \

@@ -27,12 +27,31 @@ def write_jsonl(path: Path, rows) -> None:
         for row in rows: handle.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
+def read_checkpoint(path: Path) -> dict[str, dict]:
+    """Recover complete per-instance records, ignoring a torn final write."""
+    selected: dict[str, dict] = {}
+    if not path.exists():
+        return selected
+    for line in path.read_text(encoding="utf-8").splitlines():
+        try:
+            item = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(item, dict):
+            continue
+        record, feedback = item.get("record"), item.get("feedback")
+        if isinstance(record, dict) and isinstance(feedback, dict) and isinstance(record.get("instance"), str):
+            selected[record["instance"]] = item
+    return selected
+
+
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--data", type=Path, required=True); p.add_argument("--output", type=Path, required=True)
     p.add_argument("--backend", choices=["heuristic", "local-llm"], default="local-llm")
     p.add_argument("--model-path"); p.add_argument("--adapter-path"); p.add_argument("--limit", type=int, default=0); p.add_argument("--temperature", type=float, default=0.0)
     p.add_argument("--max-new-tokens", type=int, default=768)
+    p.add_argument("--resume", action="store_true", help="Skip successful per-instance checkpoints")
     args = p.parse_args(); rank = int(os.environ.get("RANK", 0)); world = int(os.environ.get("WORLD_SIZE", 1)); local_rank = int(os.environ.get("LOCAL_RANK", rank))
     dist = None
     if world > 1:
@@ -42,22 +61,38 @@ def main() -> int:
     instances = load_jsonl(args.data)[: args.limit or None]
     backend = HeuristicConstraintBackend() if args.backend == "heuristic" else LocalLLMConstraintBackend(args.model_path, f"cuda:{local_rank}", args.temperature, args.max_new_tokens, args.adapter_path)
     synth = ConstraintSynthesizer(backend); validator = CPPValidator()
-    records, feedback = [], []
-    for idx, instance in enumerate(instances):
-        if idx % world != rank: continue
-        try:
-            cpp, repair_reports = synth.synthesize_verified(instance, validator); report = repair_reports[-1]; plan = compile_cpp(cpp, instance, report) if report.passed and report.highest_stage == "A4_ENCODING" else None
-            gold = {json.dumps({"type": "same_resource" if s.type == "same_vehicle" else s.type, "hard": s.hard, "params": s.params}, sort_keys=True, ensure_ascii=False) for s in instance.constraints}
-            pred = {canonical(x) for x in cpp.programs}; semantic = gold == pred
-            response = cpp.canonical_json()
-            record = {"instance": instance.name, "status": "ok", "cpp": cpp.to_dict(), "cpp_checksum": cpp.checksum, "validation": report.to_dict(), "validation_attempts": [x.to_dict() for x in repair_reports], "compilation": plan.to_dict() if plan else None, "exact_match": semantic, "gold": sorted(gold), "predicted": sorted(pred)}
-            feedback.append(FeedbackRecord(instance.description, response, True, semantic, report.passed, compile_cost=float(plan.estimated_binary_variables if plan else 0), counterexamples=report.counterexamples))
-        except Exception as exc:
-            record = {"instance": instance.name, "status": "error", "error": repr(exc)}
-            feedback.append(FeedbackRecord(instance.description, json.dumps(record, ensure_ascii=False), False, False, False))
-        records.append(record); print(json.dumps({"rank": rank, "instance": instance.name, "status": record["status"]}), flush=True)
+    shard = [instance for idx, instance in enumerate(instances) if idx % world == rank]
+    checkpoint_path = args.output / f"checkpoint_rank{rank}.jsonl"
+    selected = read_checkpoint(checkpoint_path) if args.resume else {}
+    print(json.dumps({"rank": rank, "resume": args.resume, "successful_checkpoints": sum(item["record"].get("status") == "ok" for item in selected.values()), "remaining_instances": sum(selected.get(instance.name, {}).get("record", {}).get("status") != "ok" for instance in shard)}), flush=True)
+    if args.resume and checkpoint_path.exists() and checkpoint_path.stat().st_size:
+        with checkpoint_path.open("rb+") as existing:
+            existing.seek(-1, os.SEEK_END)
+            if existing.read(1) != b"\n":
+                existing.write(b"\n")
+    with checkpoint_path.open("a" if args.resume else "w", encoding="utf-8") as journal:
+        for instance in shard:
+            if selected.get(instance.name, {}).get("record", {}).get("status") == "ok":
+                continue
+            try:
+                cpp, repair_reports = synth.synthesize_verified(instance, validator); report = repair_reports[-1]; plan = compile_cpp(cpp, instance, report) if report.passed and report.highest_stage == "A4_ENCODING" else None
+                gold = {json.dumps({"type": "same_resource" if s.type == "same_vehicle" else s.type, "hard": s.hard, "params": s.params}, sort_keys=True, ensure_ascii=False) for s in instance.constraints}
+                pred = {canonical(x) for x in cpp.programs}; semantic = gold == pred
+                response = cpp.canonical_json()
+                record = {"instance": instance.name, "status": "ok", "cpp": cpp.to_dict(), "cpp_checksum": cpp.checksum, "validation": report.to_dict(), "validation_attempts": [x.to_dict() for x in repair_reports], "compilation": plan.to_dict() if plan else None, "exact_match": semantic, "gold": sorted(gold), "predicted": sorted(pred)}
+                feedback = FeedbackRecord(instance.description, response, True, semantic, report.passed, compile_cost=float(plan.estimated_binary_variables if plan else 0), counterexamples=report.counterexamples)
+            except Exception as exc:
+                record = {"instance": instance.name, "status": "error", "error": repr(exc)}
+                feedback = FeedbackRecord(instance.description, json.dumps(record, ensure_ascii=False), False, False, False)
+            item = {"record": record, "feedback": vars(feedback)}
+            journal.write(json.dumps(item, ensure_ascii=False) + "\n")
+            journal.flush()
+            selected[instance.name] = item
+            print(json.dumps({"rank": rank, "instance": instance.name, "status": record["status"]}), flush=True)
+    records = [selected[instance.name]["record"] for instance in shard]
+    feedback = [selected[instance.name]["feedback"] for instance in shard]
     write_jsonl(args.output / f"records_rank{rank}.jsonl", records)
-    write_jsonl(args.output / f"feedback_rank{rank}.jsonl", [vars(x) for x in feedback])
+    write_jsonl(args.output / f"feedback_rank{rank}.jsonl", feedback)
     if dist: dist.barrier()
     if rank == 0:
         all_records, all_feedback = [], []
