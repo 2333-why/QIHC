@@ -48,6 +48,40 @@ wait_for_gpus() {
     sleep 60
   done
 }
+run_cpp_stage() {
+  local data="$1" output="$2" log_file="$3" attempt=1 rc attempt_log
+  local max_attempts="${MAX_CPP_RETRIES:-5}"
+  shift 3
+  [[ "${max_attempts}" =~ ^[1-9][0-9]*$ ]] || {
+    echo "MAX_CPP_RETRIES must be a positive integer" >&2
+    return 2
+  }
+  while (( attempt <= max_attempts )); do
+    wait_for_gpus
+    log "Constraint compilation attempt ${attempt}/${max_attempts}: ${output}"
+    attempt_log="${log_file}.attempt${attempt}.log"
+    printf '\n===== attempt %s/%s at %s =====\n' "${attempt}" "${max_attempts}" "$(date '+%F %T')" >>"${log_file}"
+    if torchrun --standalone --nproc_per_node=2 experiments/run_s2e_pipeline.py \
+      --data "${data}" --model-path "${MODEL_DIR}" \
+      --output "${output}" --max-new-tokens 768 --resume "$@" \
+      >"${attempt_log}" 2>&1; then
+      sed -n '1,$p' "${attempt_log}" >>"${log_file}"
+      return 0
+    else
+      rc=$?
+    fi
+    sed -n '1,$p' "${attempt_log}" >>"${log_file}"
+    if ! grep -Eq 'torch.OutOfMemoryError|CUDA out of memory' "${attempt_log}"; then
+      log "Constraint compilation failed for a reason other than CUDA OOM; inspect ${log_file}."
+      return "${rc}"
+    fi
+    log "CUDA OOM while compiling constraints; saved checkpoints will be reused after the GPUs are free."
+    attempt=$((attempt + 1))
+    sleep 30
+  done
+  log "Constraint compilation exceeded ${max_attempts} attempts; inspect ${log_file}."
+  return 1
+}
 check_train() {
   python experiments/check_cvrp_collection.py \
     --data "${TRAIN_DATASET}" --output "${SOLVER_DIR}" \
@@ -82,11 +116,7 @@ PY
 
 if [[ ! -s "${CPP_DIR}/records.jsonl" ]]; then
   log "Running constraint compilation on train instances."
-  wait_for_gpus
-  torchrun --standalone --nproc_per_node=2 experiments/run_s2e_pipeline.py \
-    --data "${TRAIN_DATASET}" --model-path "${MODEL_DIR}" \
-    --output "${CPP_DIR}" --max-new-tokens 768 --resume \
-    >"${LOG_DIR}/cpp_train.log" 2>&1
+  run_cpp_stage "${TRAIN_DATASET}" "${CPP_DIR}" "${LOG_DIR}/cpp_train.log"
 fi
 
 log "Building joint train-only SFT/DPO/GRPO data."
@@ -151,11 +181,8 @@ if [[ "${RUN_EVAL:-1}" == "1" ]]; then
       if [[ "${variant}" == tuned ]]; then ADAPTER_ARGS=(--adapter-path "${LAST_ADAPTER}"); fi
       if [[ ! -s "${CPP_OUTPUT}/summary.json" ]]; then
         log "Evaluating constraint compilation for ${split}/${variant}."
-        wait_for_gpus
-        torchrun --standalone --nproc_per_node=2 experiments/run_s2e_pipeline.py \
-          --data "${DATASET}" --model-path "${MODEL_DIR}" \
-          --output "${CPP_OUTPUT}" --max-new-tokens 768 --resume \
-          "${ADAPTER_ARGS[@]}" >"${LOG_DIR}/${split}_${variant}_cpp.log" 2>&1
+        run_cpp_stage "${DATASET}" "${CPP_OUTPUT}" \
+          "${LOG_DIR}/${split}_${variant}_cpp.log" "${ADAPTER_ARGS[@]}"
       fi
       if ! python experiments/check_cvrp_collection.py --data "${DATASET}" \
         --output "${OUTPUT}" --search-seeds 0 1 --methods llm \
