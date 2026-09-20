@@ -41,6 +41,7 @@ def main() -> int:
     parser.add_argument("--min-customers", type=int, default=200)
     parser.add_argument("--max-customers", type=int, default=400)
     parser.add_argument("--limit", type=int, default=3)
+    parser.add_argument("--selection", choices=["smallest", "spread"], default="smallest")
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
     html = fetch(BASE + "/en/instances").decode("utf-8", errors="replace")
@@ -48,8 +49,16 @@ def main() -> int:
              if args.min_customers <= int(name.split("-")[1][1:]) - 1 <= args.max_customers]
     if not cases:
         raise RuntimeError("No matching X instances found on the official index")
+    if args.limit and args.selection == "spread" and len(cases) > args.limit:
+        if args.limit == 1:
+            cases = cases[:1]
+        else:
+            indices = [round(i * (len(cases) - 1) / (args.limit - 1)) for i in range(args.limit)]
+            cases = [cases[index] for index in indices]
+    else:
+        cases = cases[:args.limit or None]
     manifest = []
-    for name, code in cases[:args.limit or None]:
+    for name, code in cases:
         entry = {"name": name, "official_id": code, "files": {}}
         for suffix, kind, marker in (("vrp", "instance", b"NODE_COORD_SECTION"),
                                      ("sol", "bks", b"Route #")):

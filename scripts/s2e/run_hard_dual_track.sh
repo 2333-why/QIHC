@@ -10,6 +10,7 @@ RUN_ROOT="${RUN_ROOT:-/hdd/wl2/results/qihc_hard_dual_track}"
 CASE_LIMIT="${CASE_LIMIT:-3}"
 MIN_CUSTOMERS="${MIN_CUSTOMERS:-200}"
 MAX_CUSTOMERS="${MAX_CUSTOMERS:-400}"
+SELECTION="${SELECTION:-smallest}"
 SEARCH_SEEDS="${SEARCH_SEEDS:-0}"
 ITERATIONS="${ITERATIONS:-10}"
 SAMPLING_STEPS="${SAMPLING_STEPS:-40}"
@@ -25,7 +26,7 @@ CPP="${RUN_ROOT}/cpp"
 
 python experiments/prepare_hard_nlcvrp.py "${BENCHMARK_DIR}" "${DATA}" \
   --min-customers "${MIN_CUSTOMERS}" --max-customers "${MAX_CUSTOMERS}" \
-  --limit "${CASE_LIMIT}" --clauses-per-type 2 \
+  --limit "${CASE_LIMIT}" --selection "${SELECTION}" --clauses-per-type 2 \
   >"${RUN_ROOT}/logs/prepare.log" 2>&1
 
 torchrun --standalone --nproc_per_node=2 experiments/run_s2e_pipeline.py \

@@ -59,9 +59,13 @@ written, confirm `.vrp` and `.sol` files have matching stems. Review
 `${RUN_ROOT}/cpp/summary.json`, `${RUN_ROOT}/hard_comparison.json`, each
 arm's `summary.json` and `failures.json`,
 then expand with a **new** `RUN_ROOT`, e.g.
-`CASE_LIMIT=20 MAX_CUSTOMERS=800 SEARCH_SEEDS='0 1 2' ITERATIONS=30
+`CASE_LIMIT=20 MAX_CUSTOMERS=800 SELECTION=spread SEARCH_SEEDS='0 1 2' ITERATIONS=30
 SAMPLING_STEPS=120 NUM_CHAINS=256`. Reusing a pilot output directory
 with `--resume` would silently retain the pilot jobs under changed settings.
+Before the formal run, download 20 cases across the full size range with
+`python experiments/download_hard_cvrplib.py "$BENCHMARK_DIR" --min-customers 200
+--max-customers 800 --limit 20 --selection spread`. The default `smallest`
+selection is only for the quick pilot.
 
 Arms: `full` (CPP + cold p-bit + LLM + token feedback), `no_feedback`,
 `pbit_only` (CPP + cold p-bit + KNN neighborhood), and `oracle` (reference

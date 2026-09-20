@@ -108,9 +108,21 @@ def main() -> int:
     parser.add_argument("--limit", type=int, default=20)
     parser.add_argument("--clauses-per-type", type=int, default=2)
     parser.add_argument("--seed", type=int, default=2026)
+    parser.add_argument("--selection", choices=["smallest", "spread"], default="smallest")
     args = parser.parse_args()
     selected, skipped = [], []
-    for path in sorted(args.input_dir.rglob("*.vrp")):
+    paths = sorted(args.input_dir.rglob("*.vrp"))
+    if args.selection == "spread" and args.limit:
+        eligible = []
+        for path in paths:
+            match = re.search(r"-n(\d+)-k\d+", path.stem)
+            if match and args.min_customers <= int(match.group(1)) - 1 <= args.max_customers:
+                eligible.append(path)
+        if len(eligible) > args.limit:
+            indices = ([0] if args.limit == 1 else
+                       [round(i * (len(eligible) - 1) / (args.limit - 1)) for i in range(args.limit)])
+            paths = [eligible[index] for index in indices]
+    for path in paths:
         if args.limit and len(selected) >= args.limit:
             break
         solution_path = path.with_suffix(".sol")
@@ -132,7 +144,8 @@ def main() -> int:
     save_jsonl(selected, args.output_jsonl)
     manifest = {"selected": [x.name for x in selected], "skipped": skipped,
                 "min_customers": args.min_customers, "max_customers": args.max_customers,
-                "seed": args.seed, "witness_routes_exported": False}
+        "seed": args.seed, "witness_routes_exported": False}
+    manifest["selection"] = args.selection
     args.output_jsonl.with_suffix(".manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps({"written": len(selected), "skipped": len(skipped)}, ensure_ascii=False))
