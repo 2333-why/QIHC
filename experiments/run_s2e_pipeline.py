@@ -63,7 +63,15 @@ def main() -> int:
     synth = ConstraintSynthesizer(backend); validator = CPPValidator()
     shard = [instance for idx, instance in enumerate(instances) if idx % world == rank]
     checkpoint_path = args.output / f"checkpoint_rank{rank}.jsonl"
-    selected = read_checkpoint(checkpoint_path) if args.resume else {}
+    selected: dict[str, dict] = {}
+    if args.resume:
+        # A resumed run may change from two GPUs to one (or the reverse).
+        # Checkpoints are keyed by instance, not by the rank that produced them.
+        for previous_path in sorted(args.output.glob("checkpoint_rank*.jsonl")):
+            for name, item in read_checkpoint(previous_path).items():
+                previous = selected.get(name)
+                if previous is None or previous["record"].get("status") != "ok":
+                    selected[name] = item
     print(json.dumps({"rank": rank, "resume": args.resume, "successful_checkpoints": sum(item["record"].get("status") == "ok" for item in selected.values()), "remaining_instances": sum(selected.get(instance.name, {}).get("record", {}).get("status") != "ok" for instance in shard)}), flush=True)
     if args.resume and checkpoint_path.exists() and checkpoint_path.stat().st_size:
         with checkpoint_path.open("rb+") as existing:

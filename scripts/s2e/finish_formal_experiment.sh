@@ -48,20 +48,40 @@ wait_for_gpus() {
     sleep 60
   done
 }
+wait_for_cpp_gpu() {
+  if [[ "${CPP_SINGLE_GPU:-0}" != "1" ]]; then
+    wait_for_gpus
+    return
+  fi
+  local used
+  while true; do
+    used="$(nvidia-smi -i 0 --query-gpu=memory.used --format=csv,noheader,nounits)"
+    if [[ "${used}" =~ ^[0-9]+$ ]] && (( used < 8192 )); then
+      return
+    fi
+    log "Waiting for GPU 0 to be free for single-GPU constraint compilation (${used} MiB used)."
+    sleep 60
+  done
+}
 run_cpp_stage() {
   local data="$1" output="$2" log_file="$3" attempt=1 rc attempt_log
+  local cpp_devices="${CUDA_VISIBLE_DEVICES}" cpp_nproc=2
   local max_attempts="${MAX_CPP_RETRIES:-5}"
   shift 3
+  if [[ "${CPP_SINGLE_GPU:-0}" == "1" ]]; then
+    cpp_devices=0
+    cpp_nproc=1
+  fi
   [[ "${max_attempts}" =~ ^[1-9][0-9]*$ ]] || {
     echo "MAX_CPP_RETRIES must be a positive integer" >&2
     return 2
   }
   while (( attempt <= max_attempts )); do
-    wait_for_gpus
-    log "Constraint compilation attempt ${attempt}/${max_attempts}: ${output}"
+    wait_for_cpp_gpu
+    log "Constraint compilation attempt ${attempt}/${max_attempts} on GPU(s) ${cpp_devices}: ${output}"
     attempt_log="${log_file}.attempt${attempt}.log"
     printf '\n===== attempt %s/%s at %s =====\n' "${attempt}" "${max_attempts}" "$(date '+%F %T')" >>"${log_file}"
-    if torchrun --standalone --nproc_per_node=2 experiments/run_s2e_pipeline.py \
+    if CUDA_VISIBLE_DEVICES="${cpp_devices}" torchrun --standalone --nproc_per_node="${cpp_nproc}" experiments/run_s2e_pipeline.py \
       --data "${data}" --model-path "${MODEL_DIR}" \
       --output "${output}" --max-new-tokens 768 --resume "$@" \
       >"${attempt_log}" 2>&1; then
