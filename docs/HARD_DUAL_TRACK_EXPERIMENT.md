@@ -14,9 +14,10 @@ token-logit feedback. It does not use `known_feasible_routes` as an incumbent.
 2. The compilation plan selects the p-bit backend. Pairwise same/different
    route constraints run as QUBO or categorical p-dit penalties. Capacity runs
    with the existing QUBO penalty or multiplier-feedback hybrid sampler.
-   Precedence, time-window and distance clauses are currently **verifier-only**;
-   the plan records this explicitly. They are never silently reported as
-   lowered energy terms. Infeasible samples cannot replace the incumbent.
+   Precedence receives a same-route energy penalty; its ordering is checked
+   exactly after decoding. Time-window and distance clauses are currently
+   **verifier-only**; the plan records this explicitly. They are never silently
+   reported as lowered energy terms. Infeasible samples cannot replace the incumbent.
 3. `--initialization pbit-cold` starts from empty routes. The LLM may rank
    candidate route domains for each batch, and p-bit constructs a feasible
    solution. It never loads the published witness routes. The subsequent LNS

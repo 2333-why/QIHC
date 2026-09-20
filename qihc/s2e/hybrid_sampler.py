@@ -55,13 +55,14 @@ class PDitMFCSampler:
             e += violation @ multipliers + 0.5 * self.quadratic_penalty * np.square(violation).sum(axis=1)
             index = {c: i for i, c in enumerate(destroyed)}
             for spec in instance.constraints:
-                if spec.type not in {"same_resource", "same_vehicle", "mutual_exclusion"}: continue
-                entities = [int(x) for x in spec.params.get("entities", [])]
+                if spec.type not in {"same_resource", "same_vehicle", "mutual_exclusion", "precedence"}: continue
+                entities = ([int(spec.params["before"]), int(spec.params["after"])] if spec.type == "precedence"
+                            else [int(x) for x in spec.params.get("entities", [])])
                 if len(entities) < 2: continue
                 a, b = entities[:2]
                 ra = routes[:, index[a]] if a in index else current_route.get(a, -1)
                 rb = routes[:, index[b]] if b in index else current_route.get(b, -1)
-                bad = (ra != rb) if spec.type in {"same_resource", "same_vehicle"} else (ra == rb)
+                bad = (ra != rb) if spec.type in {"same_resource", "same_vehicle", "precedence"} else (ra == rb)
                 e += self.semantic_penalty * spec.weight * bad
             return e, violation
 
@@ -108,8 +109,9 @@ class TorchPDitMFCSampler(PDitMFCSampler):
             routes = cand[rows[None, :], s]; e = ins[rows[None, :], s].sum(1); loads = base[None, :].expand(len(s), -1).clone(); loads.scatter_add_(1, routes, demands[None, :].expand(len(s), -1))
             violation = torch.relu(loads - instance.vehicle_capacity); e = e + violation @ multipliers + 0.5 * self.quadratic_penalty * violation.square().sum(1)
             for spec in instance.constraints:
-                if spec.type not in {"same_resource", "same_vehicle", "mutual_exclusion"}: continue
-                entities = [int(x) for x in spec.params.get("entities", [])]
+                if spec.type not in {"same_resource", "same_vehicle", "mutual_exclusion", "precedence"}: continue
+                entities = ([int(spec.params["before"]), int(spec.params["after"])] if spec.type == "precedence"
+                            else [int(x) for x in spec.params.get("entities", [])])
                 if len(entities) < 2: continue
                 a, b = entities[:2]
                 ra = (
@@ -126,7 +128,7 @@ class TorchPDitMFCSampler(PDitMFCSampler):
                         (len(s),), current.get(b, -1), device=device, dtype=routes.dtype
                     )
                 )
-                bad = (ra != rb) if spec.type in {"same_resource", "same_vehicle"} else (ra == rb); e = e + self.semantic_penalty * spec.weight * bad.float()
+                bad = (ra != rb) if spec.type in {"same_resource", "same_vehicle", "precedence"} else (ra == rb); e = e + self.semantic_penalty * spec.weight * bad.float()
             return e, violation
         if device.type == "cuda": torch.cuda.synchronize(device)
         t0 = time.perf_counter(); best = states.clone(); best_e, _ = energy(states)

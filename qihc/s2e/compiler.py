@@ -84,6 +84,8 @@ def compile_cpp(cpp: ConstraintProgramPackage, instance: CVRPInstance, validatio
         chosen, scores = selector.choose(p.type, p.candidate_encodings, instance)
         if p.type in {"same_resource", "same_vehicle", "mutual_exclusion"}:
             execution = "qubo_pair_penalty" if chosen == Representation.QUBO else "categorical_pair_penalty"
+        elif p.type == "precedence":
+            execution = "route_colocation_penalty_plus_order_verifier"
         elif p.type == "capacity":
             execution = "qubo_capacity_penalty" if chosen == Representation.QUBO else "multiplier_capacity_penalty"
         else:

@@ -153,7 +153,9 @@ def build_assignment_qubo(
     }
     for spec in instance.constraints:
         entities = [int(x) for x in spec.params.get("entities", spec.params.get("customers", []))]
-        if len(entities) < 2 or spec.type not in {"same_resource", "same_vehicle", "mutual_exclusion"}:
+        if spec.type == "precedence":
+            entities = [int(spec.params["before"]), int(spec.params["after"])]
+        if len(entities) < 2 or spec.type not in {"same_resource", "same_vehicle", "mutual_exclusion", "precedence"}:
             continue
         left, right = entities[:2]
         for route_idx in range(instance.vehicle_count):
@@ -162,7 +164,7 @@ def build_assignment_qubo(
             left_active = left in destroyed and left_var in model.index
             right_active = right in destroyed and right_var in model.index
             coefficient = semantic_penalty * spec.weight
-            if spec.type in {"same_resource", "same_vehicle"}:
+            if spec.type in {"same_resource", "same_vehicle", "precedence"}:
                 if left_active and right_active:
                     model.add_linear(left_var, coefficient)
                     model.add_linear(right_var, coefficient)
