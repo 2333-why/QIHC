@@ -14,6 +14,45 @@ from qihc.problems.cvrp.neighborhood import (
 from qihc.problems.cvrp.verifier import verify_solution
 
 
+class PBitRouteTokenLogitsProcessor:
+    """Bias *generation* token logits only while writing a candidate route ID.
+
+    Route IDs with multi-token encodings are left unchanged. The residual is
+    customer-specific, so applying it to every occurrence of a digit would be
+    incorrect (and would corrupt unrelated JSON numbers).
+    """
+
+    def __init__(self, tokenizer, prompt_length: int, feedback: dict[int, dict[int, float]], strength: float = 1.0):
+        self.tokenizer = tokenizer
+        self.prompt_length = prompt_length
+        self.strength = float(strength)
+        self.feedback = feedback
+        self.applied_steps = 0
+        self.token_ids: dict[int, dict[int, float]] = {}
+        for customer, routes in feedback.items():
+            mapped = {}
+            for route, value in routes.items():
+                encoded = tokenizer.encode(str(route), add_special_tokens=False)
+                if len(encoded) == 1:
+                    mapped[encoded[0]] = float(value)
+            self.token_ids[customer] = mapped
+
+    def __call__(self, input_ids, scores):
+        for row in range(input_ids.shape[0]):
+            generated = self.tokenizer.decode(input_ids[row, self.prompt_length:], skip_special_tokens=True)
+            marker = generated.rfind('"candidate_routes"')
+            if marker < 0:
+                continue
+            tail = generated[marker:]
+            match = re.search(r'"(\d+)"\s*:\s*\[\s*(?:\d+\s*,\s*)*$', tail)
+            if not match:
+                continue
+            for token_id, value in self.token_ids.get(int(match.group(1)), {}).items():
+                scores[row, token_id] += self.strength * value
+                self.applied_steps += 1
+        return scores
+
+
 def _extract_json(text: str) -> dict:
     fenced = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL | re.IGNORECASE)
     candidates = [fenced.group(1)] if fenced else []
@@ -73,6 +112,7 @@ class LocalLLMNeighborhoodSelector:
         temperature: float = 0.2,
         refresh_interval: int = 5,
         audit_path: str | Path | None = None,
+        token_feedback_strength: float = 1.0,
     ):
         try:
             import torch
@@ -87,6 +127,7 @@ class LocalLLMNeighborhoodSelector:
         self.temperature = float(temperature)
         self.refresh_interval = max(1, int(refresh_interval))
         self.audit_path = Path(audit_path) if audit_path else None
+        self.token_feedback_strength = float(token_feedback_strength)
         if self.audit_path:
             self.audit_path.parent.mkdir(parents=True, exist_ok=True)
         self.fallback = KNNNeighborhoodSelector(destroy_size, routes_per_customer)
@@ -109,6 +150,7 @@ class LocalLLMNeighborhoodSelector:
         self._cache: NeighborhoodProposal | None = None
         self._cache_instance: str | None = None
         self._pbit_logit_feedback: dict[int, dict[int, float]] = {}
+        self._last_token_feedback_steps = 0
 
     def set_pbit_logit_feedback(self, feedback: dict[int, dict[int, float]]) -> None:
         """Inject the previous p-bit posterior residuals into the next LLM turn."""
@@ -281,10 +323,62 @@ class LocalLLMNeighborhoodSelector:
         }
         if do_sample:
             generation_kwargs.update({"temperature": self.temperature, "top_p": 0.9})
+        processor = None
+        if self._pbit_logit_feedback and self.token_feedback_strength:
+            processor = PBitRouteTokenLogitsProcessor(
+                self.tokenizer, inputs["input_ids"].shape[1],
+                self._pbit_logit_feedback, self.token_feedback_strength,
+            )
+            generation_kwargs["logits_processor"] = [processor]
         with self.torch.inference_mode():
             output = self.model.generate(**inputs, **generation_kwargs)
         generated = output[0, inputs["input_ids"].shape[1] :]
+        self._last_token_feedback_steps = processor.applied_steps if processor else 0
         return self.tokenizer.decode(generated, skip_special_tokens=True)
+
+    def propose_cold_batch(
+        self, instance: CVRPInstance, partial: RouteSolution,
+        domain: NeighborhoodProposal, iteration: int, seed: int,
+    ) -> NeighborhoodProposal:
+        """LLM narrows a cold-start batch; p-bit still chooses the assignment."""
+        loads = [sum(instance.customers[c].demand for c in route) for route in partial.routes]
+        prompt = (
+            "Construct a CVRP solution from empty routes, one batch at a time. "
+            "Choose candidate vehicle IDs for each unassigned customer; p-bit will decide the joint assignment. "
+            "Return compact JSON {\"candidate_routes\":{\"customer_id\":[route_id]}}. "
+            "Only use route IDs from the supplied domains and include at least one per customer.\n"
+            f"Capacity: {instance.vehicle_capacity}; route_loads: {json.dumps(loads)}\n"
+            f"Customers: {json.dumps({c: instance.customers[c].demand for c in domain.destroy_customers})}\n"
+            f"Allowed domains: {json.dumps(domain.candidate_routes)}\n"
+            f"Constraints: {json.dumps([{'type': c.type, 'params': c.params} for c in instance.constraints], ensure_ascii=False)}"
+        )
+        try:
+            value = _extract_json(self._generate(prompt))
+            raw = value.get("candidate_routes", {})
+            candidates = {}
+            for customer in domain.destroy_customers:
+                selected = [int(route) for route in raw.get(str(customer), raw.get(customer, []))]
+                preferred = [
+                    route for route in selected
+                    if route in domain.candidate_routes[customer]
+                ][:self.routes_per_customer]
+                candidates[customer] = list(dict.fromkeys(
+                    preferred + domain.candidate_routes[customer]
+                ))
+            proposal = NeighborhoodProposal(
+                list(domain.destroy_customers), candidates,
+                source="llm_cold_domain", raw=value,
+                candidate_route_logits={
+                    customer: {route: float(len(candidates[customer]) - index)
+                               for index, route in enumerate(candidates[customer])}
+                    for customer in candidates
+                },
+            )
+            proposal.validate(instance)
+            return proposal
+        except Exception as exc:
+            domain.raw = {"cold_llm_error": repr(exc)}
+            return domain
 
     def parse_constraint_ir(
         self,
@@ -504,6 +598,7 @@ class LocalLLMNeighborhoodSelector:
                     "prompt": prompt,
                     "output": raw_output,
                     "proposal": parsed,
+                    "token_feedback_applied_steps": self._last_token_feedback_steps,
                 }
             )
             return proposal

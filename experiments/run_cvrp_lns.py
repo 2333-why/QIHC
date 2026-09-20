@@ -16,6 +16,7 @@ import socket
 import sys
 import time
 import traceback
+import copy
 from dataclasses import asdict
 from pathlib import Path
 
@@ -61,6 +62,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--top-samples", type=int, default=32)
     parser.add_argument("--update-fraction", type=float, default=0.25)
     parser.add_argument("--model-path", type=str)
+    parser.add_argument("--constraint-source", choices=["dataset", "cpp", "llm"], default="dataset",
+                        help="Compile natural-language constraints before search; dataset is the legacy oracle mode.")
+    parser.add_argument("--cpp-records", type=Path, help="records.jsonl produced by run_s2e_pipeline.py")
+    parser.add_argument("--initialization", choices=["incumbent", "pbit-cold"], default="incumbent")
+    parser.add_argument("--cold-batch-size", type=int, default=6)
+    parser.add_argument("--cold-routes-per-customer", type=int, default=4)
+    parser.add_argument("--token-feedback-strength", type=float, default=1.0)
     parser.add_argument("--adapter-path", type=str)
     parser.add_argument("--llm-refresh-interval", type=int, default=5)
     parser.add_argument("--llm-temperature", type=float, default=0.2)
@@ -191,6 +199,7 @@ def make_selector(args: argparse.Namespace, method: str, local_rank: int, output
             max_new_tokens=args.llm_max_new_tokens,
             refresh_interval=args.llm_refresh_interval,
             audit_path=output / f"llm_audit_rank{local_rank}.jsonl",
+            token_feedback_strength=args.token_feedback_strength,
         )
     raise ValueError(f"Unknown method: {method}")
 
@@ -224,6 +233,37 @@ def environment_manifest(args: argparse.Namespace, rank: int, world_size: int, l
     return manifest
 
 
+def prepare_compiled_instance(instance: CVRPInstance, args: argparse.Namespace, selector, cpp_records: dict) -> CVRPInstance:
+    """Keep the reference constraints separate from the generated solver input."""
+    if args.constraint_source == "dataset":
+        return instance
+    from qihc.s2e import CPPValidator, ConstraintSynthesizer, compile_cpp
+    from qihc.s2e.cpp import ConstraintProgramPackage
+
+    if args.constraint_source == "cpp":
+        record = cpp_records.get(instance.name)
+        if not record or record.get("status") != "ok":
+            raise ValueError(f"No successful CPP record for {instance.name}")
+        cpp = ConstraintProgramPackage.from_dict(record["cpp"])
+    else:
+        if selector is None or not hasattr(selector, "parse_constraint_ir"):
+            raise ValueError("--constraint-source llm requires method=llm and --model-path")
+        class SelectorBackend:
+            def generate(self, description, customer_ids):
+                return selector.parse_constraint_ir(description, customer_ids)
+        cpp, _ = ConstraintSynthesizer(SelectorBackend()).synthesize_verified(instance, CPPValidator())
+    if cpp.instance_name != instance.name or set(cpp.customer_ids) != set(instance.customer_ids):
+        raise ValueError(f"CPP identity/customer mismatch for {instance.name}")
+    validation = CPPValidator().validate(cpp, instance)
+    plan = compile_cpp(cpp, instance, validation)
+    compiled = copy.deepcopy(instance)
+    compiled.constraints = cpp.specs()
+    compiled.metadata["constraint_compilation"] = plan.to_dict()
+    compiled.metadata["constraint_source"] = args.constraint_source
+    compiled.metadata["cpp_checksum"] = cpp.checksum
+    return compiled
+
+
 def run_job(
     instance: CVRPInstance,
     method: str,
@@ -231,16 +271,21 @@ def run_job(
     args: argparse.Namespace,
     selector,
     local_rank: int,
+    reference_instance: CVRPInstance | None = None,
 ) -> dict:
-    if instance.metadata.get("known_feasible_routes"):
+    reference_instance = reference_instance or instance
+    cold_start = args.initialization == "pbit-cold" and method not in {"greedy", "ortools", "hgs"}
+    if cold_start:
+        initial = None
+    elif instance.metadata.get("known_feasible_routes"):
         initial = RouteSolution(
             [list(route) for route in instance.metadata["known_feasible_routes"]],
             source="dataset_known_feasible",
         )
     else:
         initial = greedy_initial_solution(instance)
-    initial_result = verify_solution(instance, initial)
-    if not initial_result.feasible:
+    initial_result = verify_solution(instance, initial) if initial is not None else None
+    if initial_result is not None and not initial_result.feasible:
         raise ValueError(f"No feasible incumbent: {initial_result.violations}")
     if method == "greedy":
         summary = {
@@ -326,9 +371,16 @@ def run_job(
         safe_candidate_expansion=not args.disable_safe_expansion,
         safe_heuristic_routes=args.safe_heuristic_routes,
         safe_random_routes=args.safe_random_routes,
+        initialization=args.initialization,
+        cold_batch_size=args.cold_batch_size,
+        cold_routes_per_customer=args.cold_routes_per_customer,
     )
     result = QIHCLNSSolver(config, selector=selector).solve(instance, initial=initial)
     summary = result.to_summary()
+    compiled_feasible = summary["feasible"]
+    reference_check = verify_solution(reference_instance, result.solution)
+    summary["compiled_feasible"] = compiled_feasible
+    summary["feasible"] = reference_check.feasible
     summary.update(
         {
             "method": method,
@@ -337,7 +389,7 @@ def run_job(
             "best_known_cost": instance.best_known_cost,
             "optimality_gap": (
                 (result.verification.cost - instance.best_known_cost) / instance.best_known_cost
-                if instance.best_known_cost
+                if instance.best_known_cost and reference_check.feasible
                 else None
             ),
             "records": [asdict(record) for record in result.records],
@@ -347,6 +399,15 @@ def run_job(
                 {"type": c.type, "hard": c.hard, "weight": c.weight, "params": c.params}
                 for c in instance.constraints
             ],
+            "constraint_source": instance.metadata.get("constraint_source", "dataset"),
+            "constraint_compilation": instance.metadata.get("constraint_compilation"),
+            "reference_feasible": reference_check.feasible,
+            "reference_violations": reference_check.violations,
+            "constraint_exact_match": {
+                (c.type, c.hard, json.dumps(c.params, sort_keys=True)) for c in instance.constraints
+            } == {
+                (c.type, c.hard, json.dumps(c.params, sort_keys=True)) for c in reference_instance.constraints
+            } if reference_instance.constraints else None,
         }
     )
     return summary
@@ -376,12 +437,16 @@ def aggregate(output: Path, world_size: int) -> None:
     for key, values in groups.items():
         improvements = np.asarray([value["improvement_fraction"] for value in values], dtype=float)
         times = np.asarray([value["total_elapsed_s"] for value in values], dtype=float)
+        gaps = [float(value["optimality_gap"]) for value in values if value.get("optimality_gap") is not None]
         summary[key] = {
             "n": len(values),
             "feasible_rate": float(np.mean([value["feasible"] for value in values])),
             "mean_improvement_fraction": float(improvements.mean()),
             "std_improvement_fraction": float(improvements.std(ddof=1)) if len(values) > 1 else 0.0,
             "mean_total_elapsed_s": float(times.mean()),
+            "mean_optimality_gap": float(np.mean(gaps)) if gaps else None,
+            "reference_feasible_rate": float(np.mean([value.get("reference_feasible", value["feasible"]) for value in values])),
+            "mean_construction_pbit_s": float(np.mean([value.get("construction_pbit_s", 0.0) for value in values])),
             "mean_pbit_elapsed_s": float(np.mean([value["pbit_elapsed_s"] for value in values])),
             "mean_candidate_route_recall": float(
                 np.mean([value.get("mean_candidate_route_recall", 0.0) for value in values])
@@ -405,11 +470,17 @@ def main() -> int:
         json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8"
     )
     instances = load_instances(args)
+    if args.constraint_source == "cpp" and not args.cpp_records:
+        raise ValueError("--cpp-records is required for --constraint-source cpp")
+    cpp_records = {}
+    if args.cpp_records:
+        cpp_records = {row["instance"]: row for row in read_valid_jsonl(args.cpp_records)}
     selectors = {
         method: make_selector(args, method, local_rank, args.output)
         for method in args.methods
         if method not in {"greedy", "ortools", "hgs"}
     }
+    prepared_instances: dict[tuple[str, str], CVRPInstance] = {}
     jobs = [
         (instance, method, seed)
         for instance in instances
@@ -459,13 +530,19 @@ def main() -> int:
         for instance, method, seed in shard:
             identity = {"instance": instance.name, "method": method, "search_seed": seed}
             try:
+                preparation_key = (instance.name, method)
+                if preparation_key not in prepared_instances:
+                    prepared_instances[preparation_key] = prepare_compiled_instance(
+                        instance, args, selectors.get(method), cpp_records
+                    )
                 record = run_job(
-                    instance,
+                    prepared_instances[preparation_key],
                     method,
                     seed,
                     args,
                     selectors.get(method),
                     local_rank,
+                    reference_instance=instance,
                 )
                 record["status"] = "ok"
             except Exception as exc:

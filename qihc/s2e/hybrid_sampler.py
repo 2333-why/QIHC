@@ -23,9 +23,10 @@ class HybridSampleBatch:
 class PDitMFCSampler:
     """Categorical Gibbs updates; capacity multipliers adapt from population violation."""
 
-    def __init__(self, num_chains=256, steps=200, temperature_start=3.0, temperature_end=0.05, multiplier_lr=0.1, quadratic_penalty=2.0, semantic_penalty=20.0, top_k=16, seed=0):
+    def __init__(self, num_chains=256, steps=200, temperature_start=3.0, temperature_end=0.05, multiplier_lr=0.1, quadratic_penalty=2.0, semantic_penalty=20.0, top_k=16, seed=0, proposal_bias=1.0):
         self.num_chains, self.steps, self.temperature_start, self.temperature_end = int(num_chains), int(steps), float(temperature_start), float(temperature_end)
         self.multiplier_lr, self.quadratic_penalty, self.semantic_penalty, self.top_k, self.seed = float(multiplier_lr), float(quadratic_penalty), float(semantic_penalty), int(top_k), int(seed)
+        self.proposal_bias = float(proposal_bias)
 
     def _context(self, instance: CVRPInstance, solution: RouteSolution, proposal: NeighborhoodProposal):
         destroyed = list(proposal.destroy_customers); removed = set(destroyed)
@@ -33,7 +34,7 @@ class PDitMFCSampler:
         fixed += [[] for _ in range(instance.vehicle_count - len(fixed))]
         base_load = np.asarray([sum(instance.customers[c].demand for c in r) for r in fixed], dtype=float)
         candidates = [list(proposal.candidate_routes[c]) for c in destroyed]
-        insertion = [[best_insertion(instance, fixed[k], c)[1] for k in ks] for c, ks in zip(destroyed, candidates)]
+        insertion = [[best_insertion(instance, fixed[k], c)[1] - self.proposal_bias * proposal.candidate_route_logits.get(c, {}).get(k, 0.0) for k in ks] for c, ks in zip(destroyed, candidates)]
         return destroyed, candidates, np.asarray([instance.customers[c].demand for c in destroyed], dtype=float), base_load, insertion
 
     def solve(self, instance: CVRPInstance, solution: RouteSolution, proposal: NeighborhoodProposal) -> HybridSampleBatch:
@@ -42,7 +43,7 @@ class PDitMFCSampler:
         states = np.asarray([[rng.integers(len(candidates[i])) for i in range(n)] for _ in range(self.num_chains)], dtype=np.int32)
         current_route = {c: r for r, route in enumerate(solution.routes) for c in route}
         for i, c in enumerate(destroyed):
-            if current_route[c] in candidates[i]: states[0, i] = candidates[i].index(current_route[c])
+            if c in current_route and current_route[c] in candidates[i]: states[0, i] = candidates[i].index(current_route[c])
         multipliers = np.zeros(instance.vehicle_count, dtype=float)
 
         def energy(s):

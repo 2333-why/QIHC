@@ -38,6 +38,7 @@ class ConstraintCompilation:
     representation: Representation
     scores: list[RepresentationCost]
     rationale: str
+    execution: str = "verifier_only"
 
 
 @dataclass
@@ -81,6 +82,17 @@ def compile_cpp(cpp: ConstraintProgramPackage, instance: CVRPInstance, validatio
     compiled = []
     for p in cpp.programs:
         chosen, scores = selector.choose(p.type, p.candidate_encodings, instance)
-        compiled.append(ConstraintCompilation(p.id, p.type, chosen, scores, f"minimum transparent cost={min(x.total for x in scores):.4f}"))
+        if p.type in {"same_resource", "same_vehicle", "mutual_exclusion"}:
+            execution = "qubo_pair_penalty" if chosen == Representation.QUBO else "categorical_pair_penalty"
+        elif p.type == "capacity":
+            execution = "qubo_capacity_penalty" if chosen == Representation.QUBO else "multiplier_capacity_penalty"
+        else:
+            # These constraints are enforced by the exact solution verifier,
+            # but are not yet lowered into a local assignment energy.
+            execution = "verifier_only"
+        compiled.append(ConstraintCompilation(p.id, p.type, chosen, scores, f"minimum transparent cost={min(x.total for x in scores):.4f}", execution))
     counts = {r.value: sum(c.representation == r for c in compiled) for r in Representation}
-    return CompilationPlan(cpp.checksum, compiled, len(instance.customer_ids) * instance.vehicle_count, {"representation_counts": counts, "selector": "transparent-v1"})
+    return CompilationPlan(cpp.checksum, compiled, len(instance.customer_ids) * instance.vehicle_count, {
+        "representation_counts": counts, "selector": "transparent-v1",
+        "verifier_only_types": [c.constraint_type for c in compiled if c.execution == "verifier_only"],
+    })

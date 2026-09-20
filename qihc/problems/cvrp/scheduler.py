@@ -43,6 +43,9 @@ class LNSConfig:
     safe_random_routes: int = 1
     feedback_elite_fraction: float = 0.25
     feedback_negative_weight: float = 0.5
+    initialization: str = "incumbent"
+    cold_batch_size: int = 6
+    cold_routes_per_customer: int = 4
 
 
 @dataclass
@@ -65,6 +68,7 @@ class LNSIterationRecord:
     objective_improvement: float = 0.0
     pbit_logit_updates: dict[int, dict[int, float]] = field(default_factory=dict)
     proposal_payload: dict[str, Any] = field(default_factory=dict)
+    sampler_backend: str = "ising-qubo"
 
 
 @dataclass
@@ -76,6 +80,8 @@ class LNSResult:
     records: list[LNSIterationRecord]
     total_elapsed_s: float
     config: dict[str, Any]
+    construction_pbit_s: float = 0.0
+    construction_batches: int = 0
 
     def to_summary(self) -> dict[str, Any]:
         initial = self.initial_verification.objective
@@ -90,6 +96,8 @@ class LNSResult:
             "iterations": len(self.records),
             "total_elapsed_s": self.total_elapsed_s,
             "pbit_elapsed_s": sum(record.pbit_elapsed_s for record in self.records),
+            "construction_pbit_s": self.construction_pbit_s,
+            "construction_batches": self.construction_batches,
             "mean_qubo_variables": float(np.mean([r.qubo_variables for r in self.records])) if self.records else 0.0,
             "mean_candidate_route_recall": float(
                 np.mean([r.candidate_route_recall for r in self.records])
@@ -164,7 +172,22 @@ class QIHCLNSSolver:
 
     def solve(self, instance: CVRPInstance, initial: RouteSolution | None = None) -> LNSResult:
         t0 = time.perf_counter()
-        incumbent = initial.copy() if initial else greedy_initial_solution(instance)
+        construction_pbit_s = 0.0
+        construction_batches = 0
+        if initial is not None:
+            incumbent = initial.copy()
+        elif self.config.initialization == "pbit-cold":
+            from qihc.problems.cvrp.cold_start import construct_with_pbit
+            if hasattr(self.selector, "set_pbit_logit_feedback"):
+                self.selector.set_pbit_logit_feedback({})
+            cold = construct_with_pbit(
+                instance, self._sampler, batch_size=self.config.cold_batch_size,
+                routes_per_customer=self.config.cold_routes_per_customer,
+                seed=self.config.seed, selector=self.selector,
+            )
+            incumbent, construction_pbit_s, construction_batches = cold.solution, cold.pbit_elapsed_s, cold.batches
+        else:
+            incumbent = greedy_initial_solution(instance)
         incumbent_result = verify_solution(instance, incumbent)
         if not incumbent_result.feasible:
             raise ValueError(f"Initial solution is infeasible: {incumbent_result.violations}")
@@ -207,10 +230,38 @@ class QIHCLNSSolver:
                 semantic_penalty=self.config.semantic_penalty,
                 proposal_bias=self.config.proposal_bias,
             )
-            weight, field, _ = problem.model.to_ising()
-            sampled: PBitSampleBatch = self._sampler(self.config.seed + 7919 * iteration).solve(
-                weight, field, problem.initial_bits
-            )
+            compilation = instance.metadata.get("constraint_compilation") or {}
+            representations = {
+                item.get("representation") for item in compilation.get("constraints", [])
+                if item.get("execution") != "verifier_only"
+            }
+            if representations & {"pdit", "mfc"}:
+                from qihc.s2e.hybrid_sampler import PDitMFCSampler, TorchPDitMFCSampler
+                sampler_class = TorchPDitMFCSampler if self.config.sampler == "torch" else PDitMFCSampler
+                kwargs = dict(
+                    num_chains=self.config.num_chains, steps=self.config.sampling_steps,
+                    top_k=self.config.top_samples, seed=self.config.seed + 7919 * iteration,
+                    semantic_penalty=self.config.semantic_penalty,
+                    proposal_bias=self.config.proposal_bias,
+                )
+                if sampler_class is TorchPDitMFCSampler:
+                    kwargs["device"] = self.config.device
+                categorical = sampler_class(**kwargs).solve(instance, incumbent, proposal)
+                sampled_bits = np.zeros((len(categorical.assignments), problem.num_variables), dtype=np.int8)
+                for sample_idx, assignment in enumerate(categorical.assignments):
+                    for customer, route in assignment.items():
+                        variable_idx = problem.model.index.get(("assign", customer, route))
+                        if variable_idx is not None:
+                            sampled_bits[sample_idx, variable_idx] = 1
+                sampled = PBitSampleBatch(sampled_bits, categorical.energies, categorical.elapsed_s,
+                                          categorical.metadata)
+                sampler_backend = categorical.metadata["backend"]
+            else:
+                weight, field, _ = problem.model.to_ising()
+                sampled = self._sampler(self.config.seed + 7919 * iteration).solve(
+                    weight, field, problem.initial_bits
+                )
+                sampler_backend = "ising-qubo"
             candidate_solution: RouteSolution | None = None
             candidate_result: VerificationResult | None = None
             feasible_samples = 0
@@ -272,6 +323,7 @@ class QIHCLNSSolver:
                     objective_improvement=improvement,
                     pbit_logit_updates=logit_updates,
                     proposal_payload=dict(proposal.raw),
+                    sampler_backend=sampler_backend,
                 )
             )
             if stale >= self.config.patience:
@@ -284,6 +336,8 @@ class QIHCLNSSolver:
             records=records,
             total_elapsed_s=time.perf_counter() - t0,
             config=asdict(self.config),
+            construction_pbit_s=construction_pbit_s,
+            construction_batches=construction_batches,
         )
         summary = result.to_summary()
         if instance.best_known_cost:

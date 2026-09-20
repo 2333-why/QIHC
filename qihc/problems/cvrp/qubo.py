@@ -133,7 +133,8 @@ def build_assignment_qubo(
             model.add_linear(variable, -proposal_bias * float(logit))
         model.add_squared(terms, rhs=1.0, penalty=assignment_penalty)
 
-    for route_idx in range(instance.vehicle_count):
+    touched_routes = {route for routes in proposal.candidate_routes.values() for route in routes}
+    for route_idx in sorted(touched_routes):
         fixed_load = sum(instance.customers[c].demand for c in fixed_routes[route_idx])
         residual = instance.vehicle_capacity - fixed_load
         if residual < 0:
@@ -224,10 +225,12 @@ def decode_assignment(instance: CVRPInstance, problem: AssignmentQUBO, bits: np.
     for customer in order:
         demand = instance.customers[customer].demand
         preferred = desired[customer]
-        candidates = preferred + [
-            route for route in problem.proposal.candidate_routes[customer] if route not in preferred
-        ]
-        feasible = [route for route in candidates if loads[route] + demand <= instance.vehicle_capacity]
+        feasible = [route for route in preferred if loads[route] + demand <= instance.vehicle_capacity]
+        if not feasible:
+            feasible = [
+                route for route in problem.proposal.candidate_routes[customer]
+                if loads[route] + demand <= instance.vehicle_capacity
+            ]
         if not feasible:
             feasible = [route for route in range(instance.vehicle_count) if loads[route] + demand <= instance.vehicle_capacity]
         if not feasible:
@@ -235,8 +238,7 @@ def decode_assignment(instance: CVRPInstance, problem: AssignmentQUBO, bits: np.
         scored: list[tuple[float, int, int]] = []
         for route_idx in feasible:
             position, delta = best_insertion(instance, routes[route_idx], customer)
-            preference_penalty = 0.0 if route_idx in preferred else 1e-6
-            scored.append((delta + preference_penalty, route_idx, position))
+            scored.append((delta, route_idx, position))
         _, route_idx, position = min(scored)
         routes[route_idx].insert(position, customer)
         loads[route_idx] += demand
