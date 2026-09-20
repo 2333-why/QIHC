@@ -3,7 +3,8 @@ from argparse import Namespace
 import numpy as np
 
 from experiments.run_cvrp_lns import prepare_compiled_instance
-from experiments.prepare_hard_nlcvrp import add_constraints
+from experiments.prepare_hard_nlcvrp import add_constraints, align_solution_ids
+from experiments.download_hard_cvrplib import discover
 from qihc.problems.cvrp import generate_synthetic_instance
 from qihc.problems.cvrp.instance import RouteSolution
 from qihc.problems.cvrp.verifier import verify_solution
@@ -87,3 +88,19 @@ def test_hard_nl_cases_do_not_export_witness_routes():
     assert verify_solution(hard, witness).feasible
     assert len(hard.constraints) == 3
     assert "known_feasible_routes" not in hard.to_dict()["metadata"]
+
+
+def test_cvrplib_solution_numbering_is_aligned_to_node_ids():
+    instance = generate_synthetic_instance(6, 2, 100, seed=3, semantic_constraints=False)
+    instance.depot = type(instance.depot)(1, 0.0, 0.0, 0)
+    instance.customers = {customer + 1: type(node)(customer + 1, node.x, node.y, node.demand)
+                          for customer, node in instance.customers.items()}
+    witness = RouteSolution([[1, 2, 3], [4, 5, 6]])
+    aligned = align_solution_ids(instance, witness)
+    assert aligned.metadata["solution_id_offset"] == 1
+    assert verify_solution(instance, aligned).feasible
+
+
+def test_official_index_discovery():
+    html = '<a href="/cvrplib/en/download/instance/180" title="Instance File"> X-n204-k19 </a>'
+    assert discover(html) == [("X-n204-k19", "180")]

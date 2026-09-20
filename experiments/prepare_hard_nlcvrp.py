@@ -37,6 +37,20 @@ def read_solution(path: Path) -> RouteSolution:
     return RouteSolution(routes, source="witness_not_exported", metadata={"reported_cost": reported_cost})
 
 
+def align_solution_ids(instance, witness: RouteSolution) -> RouteSolution:
+    """CVRPLIB .sol routes commonly number customers 1..n-1, not VRP node IDs."""
+    raw = {c for route in witness.routes for c in route}
+    expected = set(instance.customer_ids)
+    for offset in (0, 1, -1):
+        if {c + offset for c in raw} == expected:
+            return RouteSolution(
+                [[c + offset for c in route] for route in witness.routes],
+                source=witness.source,
+                metadata={**witness.metadata, "solution_id_offset": offset},
+            )
+    raise ValueError("published solution customer IDs do not match the instance")
+
+
 def add_constraints(instance, witness: RouteSolution, seed: int, count: int):
     rng = random.Random(seed)
     routes = [route for route in witness.routes if len(route) >= 3]
@@ -107,7 +121,7 @@ def main() -> int:
             instance = load_cvrplib(path)
             if not args.min_customers <= len(instance.customers) <= args.max_customers:
                 continue
-            witness = read_solution(solution_path)
+            witness = align_solution_ids(instance, read_solution(solution_path))
             if not verify_solution(instance, witness).feasible:
                 raise ValueError("published solution failed the local verifier")
             if instance.best_known_cost is None:

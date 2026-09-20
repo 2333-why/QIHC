@@ -45,6 +45,8 @@ For the two-RTX-PRO-6000 server, from a fresh terminal:
 ```bash
 source /hdd/wl2/QIHC/scripts/s2e/activate_qihc.sh
 export BENCHMARK_DIR=/hdd/wl2/data/CVRPLIB/X
+python /hdd/wl2/QIHC/experiments/download_hard_cvrplib.py "$BENCHMARK_DIR" \
+  --min-customers 200 --max-customers 400 --limit 3
 export MODEL_DIR=/hdd/wl2/models/Qwen--Qwen2.5-32B-Instruct
 export RUN_ROOT=/hdd/wl2/results/qihc_hard_pilot
 export CASE_LIMIT=3 MIN_CUSTOMERS=200 MAX_CUSTOMERS=400 SEARCH_SEEDS=0
