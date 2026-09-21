@@ -283,6 +283,92 @@ CUDA_VISIBLE_DEVICES=0,1 torchrun --standalone --nproc_per_node=2 experiments/ru
 - 结果合并：[`experiments/merge_cvrp_results.py`](experiments/merge_cvrp_results.py)
 - 约束理解评测：[`experiments/evaluate_constraint_ir.py`](experiments/evaluate_constraint_ir.py)
 
+### 8 卡服务器：冷启动修复后的安全重启
+
+以下命令用于出现
+`p-bit cold construction found no feasible extension` 后的重新运行。修复从提交
+`c0718a8` 开始生效。必须先确认旧任务已经停止，并使用新的 `RUN_ROOT`，不要把
+新结果写入失败运行的目录。
+
+```bash
+export USER_ROOT=/mnt/shared-storage-gpfs2/ai4scifm-gpfs02/wanglihao
+export REPO_DIR="$USER_ROOT/code/qihc/QIHC-llm-cvrp"
+export CONDA_ROOT="$USER_ROOT/miniconda3"
+export CONDA_ENVS_PATH="$CONDA_ROOT/envs"
+
+cd "$REPO_DIR"
+
+# 若这里列出旧的求解进程，先在作业平台停止旧任务，不要同时启动第二份实验。
+if pgrep -af '[r]un_hard_cvrp_comparison.sh|[r]un_cvrp_lns.py'; then
+  echo "检测到旧实验仍在运行；请先停止旧任务，再重新执行本节命令。" >&2
+  exit 1
+fi
+
+git fetch origin
+git switch llm-cvrp
+git pull --ff-only origin llm-cvrp
+
+# 该检查比固定比较 HEAD 更稳健：后续文档提交不会让检查失效。
+git merge-base --is-ancestor c0718a8 HEAD || {
+  echo "当前代码不包含 p-bit 冷启动修复 c0718a8" >&2
+  exit 1
+}
+
+source "$CONDA_ROOT/etc/profile.d/conda.sh"
+conda activate "$CONDA_ENVS_PATH/qihc"
+python -m pytest -q tests/test_dual_track_execution.py
+```
+
+回归测试通过后启动正式任务。下面的 `_04` 是新目录，不能改回已经失败的
+`formal_20260921_8gpu_03`：
+
+```bash
+export WORK_ROOT="$REPO_DIR/deployment"
+export GLOBAL_ROOT="$WORK_ROOT"
+export MODEL_DIR="$WORK_ROOT/models/Qwen--Qwen3.5-35B-A3B"
+export BENCHMARK_DIR="$WORK_ROOT/data/CVRPLIB/X"
+export RUN_ROOT="$WORK_ROOT/results/formal_20260921_8gpu_04"
+export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+export NPROC_PER_NODE=8
+export NUM_CHAINS=2048
+export TOP_SAMPLES=128
+
+test -s "$MODEL_DIR/config.json"
+test ! -e "$RUN_ROOT/launcher.pid"
+mkdir -p "$BENCHMARK_DIR" "$RUN_ROOT"
+
+nohup setsid bash "$REPO_DIR/scripts/s2e/run_hard_cvrp_comparison.sh" \
+  > "$RUN_ROOT/launcher.log" 2>&1 < /dev/null &
+
+echo $! | tee "$RUN_ROOT/launcher.pid"
+```
+
+重新登录后检查状态：
+
+```bash
+export USER_ROOT=/mnt/shared-storage-gpfs2/ai4scifm-gpfs02/wanglihao
+export REPO_DIR="$USER_ROOT/code/qihc/QIHC-llm-cvrp"
+export RUN_ROOT="$REPO_DIR/deployment/results/formal_20260921_8gpu_04"
+
+ps -fp "$(cat "$RUN_ROOT/launcher.pid")" || true
+tail -n 50 "$RUN_ROOT/launcher.log"
+find "$RUN_ROOT" -path '*/failures.json' -size +2c -print
+nvidia-smi --query-gpu=index,memory.used,utilization.gpu,power.draw \
+  --format=csv,noheader
+```
+
+正常完成后应生成：
+
+```bash
+test -s "$RUN_ROOT/method_comparison.json"
+python -m json.tool "$RUN_ROOT/method_comparison.json" | head -n 80
+```
+
+各方法的 `results.json` 中会保存 `construction_guarded_batches`、
+`construction_attempts` 和 `cold_route_limit`，用于审计冷启动是否触发批级保护或
+扩大候选域。保护机制只在所有 p-bit 样本均不可行时处理当前小批次，不会读取
+公开 witness 路线，也不会用完整问题的传统求解器替代 p-bit 冷启动。
+
 ---
 
 ## QIHC 异构架构（可升级）

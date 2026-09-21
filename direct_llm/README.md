@@ -31,7 +31,7 @@ default Qwen3.5 model):
 
 ```bash
 cd /hdd/wl2
-git clone --branch codex/llm-direct-cvrp \
+git clone --branch llm-cvrp \
   https://github.com/2333-why/QIHC.git QIHC
 cd /hdd/wl2/QIHC
 bash scripts/s2e/pro6000_online_setup.sh
@@ -43,8 +43,8 @@ and run the direct-solve setup below:
 ```bash
 cd /hdd/wl2/QIHC
 git fetch origin
-git switch codex/llm-direct-cvrp
-git pull --ff-only origin codex/llm-direct-cvrp
+git switch llm-cvrp
+git pull --ff-only origin llm-cvrp
 
 MODEL_ID=Qwen/Qwen3.5-35B-A3B \
 bash scripts/direct_llm/setup.sh
