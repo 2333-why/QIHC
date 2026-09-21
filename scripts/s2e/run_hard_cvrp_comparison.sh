@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Hard, restartable multi-GPU CVRPLIB-X comparison for QIHC, classical solvers and LLM-only.
+# Hard, restartable two-GPU CVRPLIB-X comparison for QIHC, classical solvers and LLM-only.
 set -euo pipefail
 
 REPO_DIR="${REPO_DIR:-/hdd/wl2/QIHC}"
@@ -25,8 +25,7 @@ TOP_SAMPLES="${TOP_SAMPLES:-128}"
 BASELINE_TIME_LIMIT="${BASELINE_TIME_LIMIT:-300}"
 LLM_DIRECT_MAX_NEW_TOKENS="${LLM_DIRECT_MAX_NEW_TOKENS:-8192}"
 
-NPROC_PER_NODE="${NPROC_PER_NODE:-8}"
-export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1,2,3,4,5,6,7}"
+export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-8}"
 mkdir -p "${BENCHMARK_DIR}" "${RUN_ROOT}/data" "${RUN_ROOT}/logs"
 test -s "${MODEL_DIR}/config.json"
@@ -48,7 +47,7 @@ python experiments/prepare_hard_nlcvrp.py "${BENCHMARK_DIR}" "${DATA}" \
   --clauses-per-type "${CLAUSES_PER_TYPE}" \
   >"${RUN_ROOT}/logs/prepare.log" 2>&1
 
-torchrun --standalone --nproc_per_node="${NPROC_PER_NODE}" experiments/run_s2e_pipeline.py \
+torchrun --standalone --nproc_per_node=2 experiments/run_s2e_pipeline.py \
   --data "${DATA}" --model-path "${MODEL_DIR}" --output "${CPP}" \
   --temperature 0 --max-new-tokens 1536 --resume \
   >"${RUN_ROOT}/logs/cpp.log" 2>&1
@@ -67,7 +66,7 @@ for ARM in full no_feedback pbit_only random_pbit oracle; do
     EXTRA=(--constraint-source dataset)
   fi
   # shellcheck disable=SC2086
-  torchrun --standalone --nproc_per_node="${NPROC_PER_NODE}" experiments/run_cvrp_lns.py \
+  torchrun --standalone --nproc_per_node=2 experiments/run_cvrp_lns.py \
     --dataset jsonl --data "${DATA}" --output "${OUTPUT}" \
     --methods "${METHOD}" --search-seeds ${SEARCH_SEEDS} --sampler torch \
     --initialization pbit-cold --cold-batch-size 8 \
@@ -92,7 +91,7 @@ fi
 # The direct LLM receives raw numerical data and natural-language requirements,
 # then emits a complete solution. No repair is performed before verification.
 # shellcheck disable=SC2086
-torchrun --standalone --nproc_per_node="${NPROC_PER_NODE}" experiments/run_cvrp_lns.py \
+torchrun --standalone --nproc_per_node=2 experiments/run_cvrp_lns.py \
   --dataset jsonl --data "${DATA}" --output "${RUN_ROOT}/baselines" \
   --methods greedy ortools hgs llm_direct --search-seeds ${SEARCH_SEEDS} \
   --constraint-source dataset --model-path "${MODEL_DIR}" \

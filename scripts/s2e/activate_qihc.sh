@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Source this file after every login on the online 8x A100 server.
+# Source this file after every login on the online 2x RTX PRO 6000 server.
 # This file is sourced into an interactive shell.  Do not enable `errexit`,
 # `nounset`, or `pipefail` here: shell options would leak into the caller and
 # make an ordinary non-zero diagnostic command terminate the user's terminal.

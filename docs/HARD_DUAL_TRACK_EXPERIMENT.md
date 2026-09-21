@@ -41,7 +41,7 @@ are controlled additions to public CVRP instances, not native CVRPLIB data.
 Report that fact clearly. Split by instance family/name before training;
 never train on held-out instances or use their witness solutions as prompts.
 
-For the eight-A100 server, from a fresh terminal:
+For the two-RTX-PRO-6000 server, from a fresh terminal:
 
 ```bash
 source /hdd/wl2/QIHC/scripts/s2e/activate_qihc.sh
@@ -107,8 +107,8 @@ to the same strict verifier. It receives no normalized constraint IR, p-bit,
 completion, repair, OR-Tools, or HGS assistance.
 
 `NUM_CHAINS=2048` means 2048 independent parallel stochastic p-bit states for
-each compiled neighborhood; it does not duplicate decision variables. On eight
-80 GB A100 GPUs it may be increased to 4096 after a short resource check. Keep
+each compiled neighborhood; it does not duplicate decision variables. On the
+two 96 GB GPUs it may be increased to 4096 after a short resource check. Keep
 `TOP_SAMPLES <= NUM_CHAINS`, and use a new `RUN_ROOT` whenever the chain count
 or another experimental setting changes. The final failure-aware report is
 `method_comparison.json`.

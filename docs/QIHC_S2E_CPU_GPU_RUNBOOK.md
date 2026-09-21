@@ -1,4 +1,4 @@
-# QIHC-S²E：联网八卡 A100 正式实验手册
+# QIHC-S²E：联网双 RTX PRO 6000 正式实验手册
 
 当前部署为单台可联网服务器，不再区分 CPU 联网端和 GPU 离线端。默认资源：
 
@@ -9,7 +9,7 @@
 - 模型：`/hdd/wl2/models/Qwen--Qwen3.5-35B-A3B`
 - HGS-CVRP：`/hdd/wl2/runtime/src/HGS-CVRP`
 - 结果：`/hdd/wl2/results/<RUN_ID>`
-- GPU：`CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7`，`torchrun --nproc_per_node=8`
+- GPU：`CUDA_VISIBLE_DEVICES=0,1`，`torchrun --nproc_per_node=2`
 
 ## 1. 首次克隆
 
@@ -32,14 +32,13 @@ cd "$WORK_ROOT/QIHC"
 
 ## 2. 一次性联网安装
 
-安装脚本会完成 Miniforge、Python 3.11 环境、CUDA 12.8 PyTorch、训练依赖、Qwen3.5-35B-A3B 模型、HGS-CVRP 编译、八卡 NCCL/BF16 自检和 pytest。模型下载默认先尝试 ModelScope，再回退到 `hf-mirror.com`，不要求服务器能够直连 Hugging Face：
+安装脚本会完成 Miniforge、Python 3.11 环境、CUDA 12.8 PyTorch、训练依赖、Qwen3.5-35B-A3B 模型、HGS-CVRP 编译、双卡 NCCL/BF16 自检和 pytest。模型下载默认先尝试 ModelScope，再回退到 `hf-mirror.com`，不要求服务器能够直连 Hugging Face：
 
 脚本通过仓库内的 `configs/condarc-pro6000.yaml` 强制只使用 `conda-forge`，不会继承服务器用户目录中可能指向 `repo.anaconda.com` 的 Conda channel。
 
 ```bash
 cd /hdd/wl2/QIHC
-export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
-export NPROC_PER_NODE=8
+export CUDA_VISIBLE_DEVICES=0,1
 bash scripts/s2e/pro6000_online_setup.sh
 ```
 
@@ -57,7 +56,7 @@ bash scripts/s2e/pro6000_online_setup.sh
 ```bash
 export WORK_ROOT=/hdd/wl2
 source "$WORK_ROOT/QIHC/scripts/s2e/activate_qihc.sh"
-export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+export CUDA_VISIBLE_DEVICES=0,1
 ```
 
 ## 4. 小规模端到端验证
@@ -84,8 +83,8 @@ bash scripts/s2e/gpu_run_formal.sh
 ```bash
 cd /hdd/wl2/QIHC
 
-export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
-export NPROC_PER_NODE=8
+export CUDA_VISIBLE_DEVICES=0,1
+export NPROC_PER_NODE=2
 export INSTANCE_LIMIT=100
 export LNS_ITERATIONS=100
 export SAMPLING_STEPS=1000
@@ -114,11 +113,11 @@ du -sh /hdd/wl2/results/*
 |---|---:|---|
 | `MODEL_ID` | `Qwen/Qwen3.5-35B-A3B` | 首次安装时下载的模型 |
 | `MODEL_DIR` | `/hdd/wl2/models/Qwen--Qwen3.5-35B-A3B` | 推理和训练使用的本地权重 |
-| `CUDA_VISIBLE_DEVICES` | `0,1,2,3,4,5,6,7` | 八张 A100 |
-| `NPROC_PER_NODE` | `8` | 每卡一个分布式进程 |
+| `CUDA_VISIBLE_DEVICES` | `0,1` | 两张 PRO 6000 |
+| `NPROC_PER_NODE` | `2` | 每卡一个分布式进程 |
 | `INSTANCE_LIMIT` | `100` | 正式实例数量上限 |
 | `RUN_FEEDBACK_ABLATION` | `1` | 是否运行无 p-bit→LLM logits 反馈消融 |
 | `RUN_TRAINING` | `1` | 是否执行 SFT、DPO、GRPO |
 | `HF_WORKERS` | `8` | 联网模型下载并发数 |
 
-A100 是 compute capability 8.0；安装脚本使用 CUDA 12.8 PyTorch wheel，并验证八张 GPU、BF16 矩阵核和 NCCL all-reduce，而不是只检查 `nvidia-smi`。
+RTX PRO 6000 Blackwell 是 compute capability 12.0，因此安装脚本固定使用支持 Blackwell 的 PyTorch 2.8.0 CUDA 12.8 wheel。环境自检会验证两张 GPU、BF16 矩阵核和 NCCL all-reduce，而不是只检查 `nvidia-smi`。

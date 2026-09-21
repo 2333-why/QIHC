@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Formal single-node/multi-GPU experiment runner for QIHC-LNS.
 
-Launch with ``torchrun --standalone --nproc_per_node=8`` on the eight-A100 node.
+Launch with ``torchrun --standalone --nproc_per_node=2`` on the dual-GPU node.
 Each rank owns one GPU and a disjoint subset of (instance, seed, method) jobs.
 """
 

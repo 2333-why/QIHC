@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate a configurable CUDA runtime, BF16 kernels, and NCCL collectives."""
+"""Validate the two-GPU Blackwell runtime, BF16 kernels, and NCCL collectives."""
 
 from __future__ import annotations
 
@@ -9,8 +9,7 @@ import os
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--expected-gpus", type=int, default=8)
-    parser.add_argument("--min-compute-capability", type=int, default=8)
+    parser.add_argument("--expected-gpus", type=int, default=2)
     parser.add_argument("--matrix-size", type=int, default=1024)
     args = parser.parse_args()
 
@@ -30,11 +29,10 @@ def main() -> int:
     device = torch.device("cuda", local_rank)
 
     properties = torch.cuda.get_device_properties(device)
-    if properties.major < args.min_compute_capability:
+    if properties.major < 12:
         raise RuntimeError(
             f"GPU {local_rank} is {properties.name} with compute capability "
-            f"{properties.major}.{properties.minor}; expected at least "
-            f"{args.min_compute_capability}.0"
+            f"{properties.major}.{properties.minor}; RTX PRO 6000 Blackwell should be 12.x"
         )
 
     if world > 1:
