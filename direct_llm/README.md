@@ -18,9 +18,9 @@ It is a recent Apache-2.0 open-weight MoE model with 35B total / 3B active
 parameters and native 262K context. It is text-capable but uses a multimodal
 Transformers API, which this branch supports in text-only mode. Its BF16 files
 are about 72 GB, so the default launcher uses two 96 GB GPUs with one independent
-model replica per GPU. Keep the direct-solve benchmark at 100--400 customers;
-larger full-route prompts and outputs should first be piloted for memory and
-strict feasibility.
+model replica per GPU. The formal launcher covers 100--800 customers; use a
+short 100--400-customer pilot first when moving to a new model revision or
+runtime, then report strict feasibility at the full range.
 
 
 ## 1. Checkout and setup
