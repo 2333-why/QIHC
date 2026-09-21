@@ -27,7 +27,7 @@ nvidia-smi --query-gpu=index,name,memory.total,memory.used,utilization.gpu \
 
 echo "=== model files ==="
 python "${REPO_DIR}/experiments/nsfc_evidence/download_model_hf.py" \
-  --repo "${MODEL_ID:-Qwen/Qwen3-Coder-30B-A3B-Instruct}" \
+  --repo "${MODEL_ID:-Qwen/Qwen3.5-35B-A3B}" \
   --revision "${MODEL_REVISION:-main}" --local-dir "${MODEL_DIR}" --verify-only
 test -s "${MODEL_DIR}/qihc_model_manifest.json"
 if [[ "${RUN_MODEL_SMOKE:-0}" == "1" ]]; then

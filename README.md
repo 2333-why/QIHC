@@ -273,7 +273,7 @@ CUDA_VISIBLE_DEVICES=0,1 torchrun --standalone --nproc_per_node=2 experiments/ru
   --output /hdd/wl2/results/qihc_lns \
   --methods greedy ortools hgs random knn llm \
   --hgs-binary /hdd/wl2/runtime/src/HGS-CVRP/build/hgs \
-  --sampler torch --model-path /hdd/wl2/models/Qwen--Qwen3-Coder-30B-A3B-Instruct
+  --sampler torch --model-path /hdd/wl2/models/Qwen--Qwen3.5-35B-A3B
 ```
 
 - 研究与实验方案：[`docs/LLM_PBIT_NL_CVRP_EXPERIMENT_PLAN.md`](docs/LLM_PBIT_NL_CVRP_EXPERIMENT_PLAN.md)

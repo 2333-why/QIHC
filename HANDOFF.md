@@ -27,7 +27,7 @@ cd /hdd/wl2/QIHC
 bash scripts/s2e/pro6000_online_setup.sh
 ```
 
-脚本创建 `/hdd/wl2/conda-envs/qihc`，安装正式依赖、编译 HGS、运行测试，并默认准备 `Qwen/Qwen3-Coder-30B-A3B-Instruct`。该模型是 30.5B 总参数、3.3B 激活参数的开放权重 MoE Causal LM；项目使用原始 BF16 权重，每张 96 GB GPU 各加载一份模型并行处理不同实例。
+脚本创建 `/hdd/wl2/conda-envs/qihc`，安装正式依赖、编译 HGS、运行测试，并默认准备 `Qwen/Qwen3.5-35B-A3B`。该模型是 35B 总参数、3B 激活参数的开放权重 MoE；项目以文本方式使用它的通用语言模型能力，每张 96 GB GPU 各加载一份模型并行处理不同实例。
 
 ## 3. 单独下载、续传或更新模型
 
@@ -37,7 +37,7 @@ bash scripts/s2e/pro6000_online_setup.sh
 
 ```bash
 cd /hdd/wl2/QIHC
-MODEL_ID=Qwen/Qwen3-Coder-30B-A3B-Instruct \
+MODEL_ID=Qwen/Qwen3.5-35B-A3B \
 bash scripts/s2e/prepare_model.sh
 ```
 
@@ -45,17 +45,17 @@ bash scripts/s2e/prepare_model.sh
 
 ```bash
 UPDATE_MODEL=1 \
-MODEL_ID=Qwen/Qwen3-Coder-30B-A3B-Instruct \
+MODEL_ID=Qwen/Qwen3.5-35B-A3B \
 bash /hdd/wl2/QIHC/scripts/s2e/prepare_model.sh
 ```
 
 正式论文实验应固定不可变提交。先查看
-`/hdd/wl2/models/Qwen--Qwen3-Coder-30B-A3B-Instruct/qihc_model_manifest.json`
+`/hdd/wl2/models/Qwen--Qwen3.5-35B-A3B/qihc_model_manifest.json`
 中的 `resolved_revision`，之后用该 SHA 重新准备一个固定目录：
 
 ```bash
 export MODEL_REVISION=<resolved_revision_SHA>
-export MODEL_DIR=/hdd/wl2/models/Qwen--Qwen3-Coder-30B-A3B-Instruct-pinned
+export MODEL_DIR=/hdd/wl2/models/Qwen--Qwen3.5-35B-A3B-pinned
 bash /hdd/wl2/QIHC/scripts/s2e/prepare_model.sh
 ```
 
@@ -88,7 +88,7 @@ bash /hdd/wl2/QIHC/scripts/s2e/verify_handoff.sh
 
 ```bash
 source /hdd/wl2/QIHC/scripts/s2e/activate_qihc.sh
-export MODEL_DIR=/hdd/wl2/models/Qwen--Qwen3-Coder-30B-A3B-Instruct-pinned
+export MODEL_DIR=/hdd/wl2/models/Qwen--Qwen3.5-35B-A3B-pinned
 export RUN_ROOT=/hdd/wl2/results/qihc_x400_1000_qwen3coder_v1
 export NUM_CHAINS=2048
 export TOP_SAMPLES=128
