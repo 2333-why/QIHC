@@ -7,10 +7,12 @@ from experiments.prepare_hard_nlcvrp import add_constraints, align_solution_ids
 from experiments.download_hard_cvrplib import discover
 from qihc.problems.cvrp import generate_synthetic_instance
 from qihc.problems.cvrp.baselines import direct_llm_prompt, parse_direct_llm_solution
+from qihc.problems.cvrp.cold_start import _co_route_groups, construct_with_pbit
 from qihc.problems.cvrp.instance import RouteSolution
 from qihc.problems.cvrp.verifier import verify_solution
 from qihc.problems.cvrp.llm_selector import PBitRouteTokenLogitsProcessor
 from qihc.problems.cvrp.scheduler import LNSConfig, QIHCLNSSolver
+from qihc.ising.batched import PBitSampleBatch
 from qihc.s2e.cpp import ConstraintProgramPackage
 
 
@@ -79,6 +81,40 @@ def test_compiled_cold_start_uses_hybrid_sampler():
     assert result.verification.feasible
     assert result.construction_batches > 0
     assert result.records[0].sampler_backend == "pdit-mfc-numpy"
+
+
+def test_cold_start_keeps_hard_co_route_constraints_atomic():
+    instance = generate_synthetic_instance(20, 5, 30, seed=11, semantic_constraints=True)
+    groups = _co_route_groups(instance)
+    assert any({1, 2}.issubset(group) for group in map(set, groups))
+    assert any({5, 6}.issubset(group) for group in map(set, groups))
+
+
+def test_cold_start_has_batch_guard_when_sampler_returns_no_candidates():
+    instance = generate_synthetic_instance(20, 5, 30, seed=11, semantic_constraints=True)
+
+    class EmptySampler:
+        num_chains = 1
+        steps = 1
+        top_k = 1
+
+        def solve(self, weight, field, initial_bits=None):
+            return PBitSampleBatch(
+                bits=np.empty((0, len(field)), dtype=np.int8),
+                energies=np.empty(0),
+                elapsed_s=0.001,
+            )
+
+    result = construct_with_pbit(
+        instance,
+        lambda seed: EmptySampler(),
+        batch_size=4,
+        routes_per_customer=4,
+        seed=7,
+    )
+    assert verify_solution(instance, result.solution).feasible
+    assert result.solution.metadata["guarded_batches"] > 0
+    assert result.solution.metadata["construction_attempts"] >= 1
 
 
 def test_hard_nl_cases_do_not_export_witness_routes():

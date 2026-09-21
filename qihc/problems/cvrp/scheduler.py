@@ -98,6 +98,13 @@ class LNSResult:
             "pbit_elapsed_s": sum(record.pbit_elapsed_s for record in self.records),
             "construction_pbit_s": self.construction_pbit_s,
             "construction_batches": self.construction_batches,
+            "construction_guarded_batches": int(
+                self.solution.metadata.get("guarded_batches", 0)
+            ),
+            "construction_attempts": int(
+                self.solution.metadata.get("construction_attempts", 1)
+            ),
+            "cold_route_limit": self.solution.metadata.get("cold_route_limit"),
             "mean_qubo_variables": float(np.mean([r.qubo_variables for r in self.records])) if self.records else 0.0,
             "mean_candidate_route_recall": float(
                 np.mean([r.candidate_route_recall for r in self.records])
