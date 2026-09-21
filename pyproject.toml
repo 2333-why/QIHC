@@ -21,11 +21,11 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=7.0"]
-llm = ["torch>=2.0", "transformers>=4.36", "accelerate>=0.25"]
+llm = ["torch>=2.0", "transformers>=4.51,<5", "accelerate>=0.33"]
 hf = ["datasets>=2.14", "huggingface_hub>=0.20"]
 formal = [
     "torch>=2.2",
-    "transformers>=4.44",
+    "transformers>=4.51,<5",
     "accelerate>=0.33",
     "huggingface_hub>=0.24",
     "ortools>=9.10",

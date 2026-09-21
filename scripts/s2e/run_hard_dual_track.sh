@@ -4,7 +4,7 @@ set -euo pipefail
 
 REPO_DIR="${REPO_DIR:-/hdd/wl2/QIHC}"
 source "${REPO_DIR}/scripts/s2e/activate_qihc.sh"
-MODEL_DIR="${MODEL_DIR:-/hdd/wl2/models/Qwen--Qwen2.5-32B-Instruct}"
+MODEL_DIR="${MODEL_DIR:-/hdd/wl2/models/Qwen--Qwen3-Coder-30B-A3B-Instruct}"
 BENCHMARK_DIR="${BENCHMARK_DIR:?Set BENCHMARK_DIR to the local CVRPLIB .vrp/.sol directory}"
 RUN_ROOT="${RUN_ROOT:-/hdd/wl2/results/qihc_hard_dual_track}"
 CASE_LIMIT="${CASE_LIMIT:-3}"

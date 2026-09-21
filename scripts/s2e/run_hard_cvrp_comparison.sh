@@ -6,7 +6,7 @@ REPO_DIR="${REPO_DIR:-/hdd/wl2/QIHC}"
 source "${REPO_DIR}/scripts/s2e/activate_qihc.sh"
 cd "${REPO_DIR}"
 
-MODEL_DIR="${MODEL_DIR:-/hdd/wl2/models/Qwen--Qwen2.5-32B-Instruct}"
+MODEL_DIR="${MODEL_DIR:-/hdd/wl2/models/Qwen--Qwen3-Coder-30B-A3B-Instruct}"
 BENCHMARK_DIR="${BENCHMARK_DIR:-/hdd/wl2/data/CVRPLIB/X}"
 RUN_ROOT="${RUN_ROOT:-/hdd/wl2/results/qihc_cvrplib_x400_1000_v1}"
 MIN_CUSTOMERS="${MIN_CUSTOMERS:-400}"

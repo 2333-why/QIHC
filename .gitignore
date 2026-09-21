@@ -44,4 +44,10 @@ offline_bundle/
 offline_bundle.tar.gz
 offline_bundle.tar.gz.sha256
 .tmp_cvrp_smoke/
+.tmp-dual-track-smoke/
 formal_outputs/
+
+# Local presentation/build workspaces (not required to run QIHC)
+/artifacts/
+/projects/
+/tmp/

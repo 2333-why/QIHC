@@ -135,19 +135,25 @@ class LocalLLMNeighborhoodSelector:
         self.fallback = KNNNeighborhoodSelector(destroy_size, routes_per_customer)
         self.tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
         dtype = torch.bfloat16 if device.startswith("cuda") else torch.float32
-        model = AutoModelForCausalLM.from_pretrained(
-            model_path,
-            local_files_only=True,
-            torch_dtype=dtype,
-            low_cpu_mem_usage=True,
-        )
+        load_kwargs = {
+            "local_files_only": True,
+            # torch_dtype remains compatible with the full supported
+            # Transformers >=4.51 range (newer releases alias it to dtype).
+            "torch_dtype": dtype,
+            "low_cpu_mem_usage": True,
+        }
+        if device.startswith("cuda"):
+            # Load directly onto this torchrun rank's GPU.  This avoids first
+            # materializing a 30B model in host memory and then copying it.
+            load_kwargs["device_map"] = {"": device}
+        model = AutoModelForCausalLM.from_pretrained(model_path, **load_kwargs)
         if adapter_path:
             try:
                 from peft import PeftModel
             except ImportError as exc:  # pragma: no cover - formal dependency
                 raise RuntimeError("Loading a trained adapter requires peft") from exc
             model = PeftModel.from_pretrained(model, adapter_path, is_trainable=False)
-        self.model = model.to(device)
+        self.model = model if device.startswith("cuda") else model.to(device)
         self.model.eval()
         self._cache: NeighborhoodProposal | None = None
         self._cache_instance: str | None = None

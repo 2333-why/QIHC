@@ -6,7 +6,7 @@
 - 仓库：`/hdd/wl2/QIHC`
 - Miniforge：`/hdd/wl2/miniforge3`
 - Conda 环境：`/hdd/wl2/conda-envs/qihc`
-- 模型：`/hdd/wl2/models/Qwen--Qwen2.5-32B-Instruct`
+- 模型：`/hdd/wl2/models/Qwen--Qwen3-Coder-30B-A3B-Instruct`
 - HGS-CVRP：`/hdd/wl2/runtime/src/HGS-CVRP`
 - 结果：`/hdd/wl2/results/<RUN_ID>`
 - GPU：`CUDA_VISIBLE_DEVICES=0,1`，`torchrun --nproc_per_node=2`
@@ -32,7 +32,7 @@ cd "$WORK_ROOT/QIHC"
 
 ## 2. 一次性联网安装
 
-安装脚本会完成 Miniforge、Python 3.11 环境、CUDA 12.8 PyTorch、训练依赖、32B 模型、HGS-CVRP 编译、双卡 NCCL/BF16 自检和 pytest。模型下载默认先尝试 ModelScope，再回退到 `hf-mirror.com`，不要求服务器能够直连 Hugging Face：
+安装脚本会完成 Miniforge、Python 3.11 环境、CUDA 12.8 PyTorch、训练依赖、Qwen3-Coder-30B-A3B 模型、HGS-CVRP 编译、双卡 NCCL/BF16 自检和 pytest。模型下载默认先尝试 ModelScope，再回退到 `hf-mirror.com`，不要求服务器能够直连 Hugging Face：
 
 脚本通过仓库内的 `configs/condarc-pro6000.yaml` 强制只使用 `conda-forge`，不会继承服务器用户目录中可能指向 `repo.anaconda.com` 的 Conda channel。
 
@@ -111,8 +111,8 @@ du -sh /hdd/wl2/results/*
 
 | 变量 | 默认值 | 说明 |
 |---|---:|---|
-| `MODEL_ID` | `Qwen/Qwen2.5-32B-Instruct` | 首次安装时下载的模型 |
-| `MODEL_DIR` | `/hdd/wl2/models/Qwen--Qwen2.5-32B-Instruct` | 推理和训练使用的本地权重 |
+| `MODEL_ID` | `Qwen/Qwen3-Coder-30B-A3B-Instruct` | 首次安装时下载的模型 |
+| `MODEL_DIR` | `/hdd/wl2/models/Qwen--Qwen3-Coder-30B-A3B-Instruct` | 推理和训练使用的本地权重 |
 | `CUDA_VISIBLE_DEVICES` | `0,1` | 两张 PRO 6000 |
 | `NPROC_PER_NODE` | `2` | 每卡一个分布式进程 |
 | `INSTANCE_LIMIT` | `100` | 正式实例数量上限 |

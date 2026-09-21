@@ -9,7 +9,7 @@ export CONDA_ENVS_PATH="${CONDA_ENVS_PATH:-${WORK_ROOT}/conda-envs}"
 export REPO_DIR="${REPO_DIR:-${WORK_ROOT}/QIHC}"
 export RUNTIME_ROOT="${RUNTIME_ROOT:-${WORK_ROOT}/runtime}"
 export HGS_DIR="${HGS_DIR:-${RUNTIME_ROOT}/src/HGS-CVRP}"
-export MODEL_ID="${MODEL_ID:-Qwen/Qwen2.5-32B-Instruct}"
+export MODEL_ID="${MODEL_ID:-Qwen/Qwen3-Coder-30B-A3B-Instruct}"
 export MODEL_SLUG="${MODEL_ID//\//--}"
 export MODEL_DIR="${MODEL_DIR:-${GLOBAL_ROOT}/models/${MODEL_SLUG}}"
 export PIP_CACHE_DIR="${PIP_CACHE_DIR:-${GLOBAL_ROOT}/cache/pip}"
@@ -81,7 +81,8 @@ for attempt in 1 2 3; do
     --repo "${MODEL_ID}" \
     --local-dir "${MODEL_DIR}" \
     --cache-dir "${HF_HOME}/hub" \
-    --backend "${MODEL_DOWNLOAD_BACKEND}" && break
+    --backend "${MODEL_DOWNLOAD_BACKEND}" --revision "${MODEL_REVISION:-main}" \
+    --write-manifest && break
   if [[ "${attempt}" == 3 ]]; then
     echo "Model download failed after three resumable ModelScope/HF-mirror attempts." >&2
     exit 1

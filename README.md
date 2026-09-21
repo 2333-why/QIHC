@@ -1,6 +1,6 @@
 # QIHC
 
-> QIHC-S²E 的联网双 RTX PRO 6000 正式实验入口见
+> 新执行人员请从 [`HANDOFF.md`](HANDOFF.md) 开始；完整部署细节见
 > [`docs/QIHC_S2E_CPU_GPU_RUNBOOK.md`](docs/QIHC_S2E_CPU_GPU_RUNBOOK.md)。
 
 **Quantum-Inspired Intelligence Heterogeneous Computing**  
@@ -273,7 +273,7 @@ CUDA_VISIBLE_DEVICES=0,1 torchrun --standalone --nproc_per_node=2 experiments/ru
   --output /hdd/wl2/results/qihc_lns \
   --methods greedy ortools hgs random knn llm \
   --hgs-binary /hdd/wl2/runtime/src/HGS-CVRP/build/hgs \
-  --sampler torch --model-path /hdd/wl2/models/Qwen--Qwen2.5-32B-Instruct
+  --sampler torch --model-path /hdd/wl2/models/Qwen--Qwen3-Coder-30B-A3B-Instruct
 ```
 
 - 研究与实验方案：[`docs/LLM_PBIT_NL_CVRP_EXPERIMENT_PLAN.md`](docs/LLM_PBIT_NL_CVRP_EXPERIMENT_PLAN.md)
