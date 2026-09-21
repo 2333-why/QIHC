@@ -1,6 +1,6 @@
 -r requirements.txt
 pytest>=7.0
-transformers>=4.51,<5
+transformers>=4.57,<5
 accelerate>=0.33
 huggingface_hub>=0.24
 ortools>=9.10

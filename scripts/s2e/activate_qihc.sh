@@ -19,7 +19,7 @@ export HF_HUB_DISABLE_XET="${HF_HUB_DISABLE_XET:-1}"
 export REPO_DIR="${REPO_DIR:-${WORK_ROOT}/QIHC}"
 export RUNTIME_ROOT="${RUNTIME_ROOT:-${WORK_ROOT}/runtime}"
 export HGS_DIR="${HGS_DIR:-${RUNTIME_ROOT}/src/HGS-CVRP}"
-export MODEL_DIR="${MODEL_DIR:-${GLOBAL_ROOT}/models/Qwen--Qwen3-Coder-30B-A3B-Instruct}"
+export MODEL_DIR="${MODEL_DIR:-${GLOBAL_ROOT}/models/Qwen--Qwen3.5-35B-A3B}"
 export CONDARC="${CONDARC:-${REPO_DIR}/configs/condarc-pro6000.yaml}"
 mkdir -p "${CONDA_ENVS_PATH}" "${PIP_CACHE_DIR}" "${HF_HOME}" "${HF_DATASETS_CACHE}" "${TORCH_HOME}" "${MODELSCOPE_CACHE}"
 if [[ ! -f "${CONDA_ROOT}/etc/profile.d/conda.sh" ]]; then

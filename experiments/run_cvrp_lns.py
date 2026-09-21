@@ -186,7 +186,19 @@ def make_selector(args: argparse.Namespace, method: str, local_rank: int, output
         return RandomNeighborhoodSelector(args.destroy_size, args.routes_per_customer)
     if method == "knn":
         return KNNNeighborhoodSelector(args.destroy_size, args.routes_per_customer)
-    if method in {"llm", "llm_direct"}:
+    if method == "llm_direct":
+        if not args.model_path:
+            raise ValueError("--model-path is required for method=llm_direct")
+        from qihc.problems.cvrp.direct_llm import LocalDirectLLMGenerator
+
+        return LocalDirectLLMGenerator(
+            model_path=args.model_path,
+            device=f"cuda:{local_rank}" if args.sampler == "torch" else "cpu",
+            temperature=args.llm_temperature,
+            max_new_tokens=args.llm_direct_max_new_tokens,
+            max_input_tokens=args.llm_max_input_tokens,
+        )
+    if method == "llm":
         if not args.model_path:
             raise ValueError("--model-path is required for method=llm")
         from qihc.problems.cvrp.llm_selector import LocalLLMNeighborhoodSelector
@@ -198,7 +210,7 @@ def make_selector(args: argparse.Namespace, method: str, local_rank: int, output
             routes_per_customer=args.routes_per_customer,
             device=f"cuda:{local_rank}" if args.sampler == "torch" else "cpu",
             temperature=args.llm_temperature,
-            max_new_tokens=(args.llm_direct_max_new_tokens if method == "llm_direct" else args.llm_max_new_tokens),
+            max_new_tokens=args.llm_max_new_tokens,
             refresh_interval=args.llm_refresh_interval,
             audit_path=output / f"llm_audit_rank{local_rank}.jsonl",
             token_feedback_strength=args.token_feedback_strength,

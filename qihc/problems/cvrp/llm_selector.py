@@ -117,7 +117,7 @@ class LocalLLMNeighborhoodSelector:
     ):
         try:
             import torch
-            from transformers import AutoModelForCausalLM, AutoTokenizer
+            from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer
         except ImportError as exc:  # pragma: no cover - optional formal dependency
             raise RuntimeError("Local LLM selection requires torch and transformers") from exc
         self.torch = torch
@@ -133,12 +133,12 @@ class LocalLLMNeighborhoodSelector:
         if self.audit_path:
             self.audit_path.parent.mkdir(parents=True, exist_ok=True)
         self.fallback = KNNNeighborhoodSelector(destroy_size, routes_per_customer)
-        self.tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
+        config = AutoConfig.from_pretrained(model_path, local_files_only=True)
         dtype = torch.bfloat16 if device.startswith("cuda") else torch.float32
         load_kwargs = {
             "local_files_only": True,
             # torch_dtype remains compatible with the full supported
-            # Transformers >=4.51 range (newer releases alias it to dtype).
+            # Transformers >=4.57 range (newer releases alias it to dtype).
             "torch_dtype": dtype,
             "low_cpu_mem_usage": True,
         }
@@ -146,7 +146,23 @@ class LocalLLMNeighborhoodSelector:
             # Load directly onto this torchrun rank's GPU.  This avoids first
             # materializing a 30B model in host memory and then copying it.
             load_kwargs["device_map"] = {"": device}
-        model = AutoModelForCausalLM.from_pretrained(model_path, **load_kwargs)
+        self.processor = None
+        if str(getattr(config, "model_type", "")).startswith("qwen3_5"):
+            try:
+                from transformers import AutoModelForMultimodalLM, AutoProcessor
+            except ImportError as exc:  # pragma: no cover - depends on installed Transformers
+                raise RuntimeError(
+                    "Qwen3.5 requires Transformers with AutoModelForMultimodalLM; "
+                    "install transformers>=4.57"
+                ) from exc
+            self.processor = AutoProcessor.from_pretrained(model_path, local_files_only=True)
+            # The token-logit feedback processor works on the underlying text
+            # tokenizer, while the processor formats Qwen3.5 text-only prompts.
+            self.tokenizer = self.processor.tokenizer
+            model = AutoModelForMultimodalLM.from_pretrained(model_path, **load_kwargs)
+        else:
+            self.tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
+            model = AutoModelForCausalLM.from_pretrained(model_path, **load_kwargs)
         if adapter_path:
             try:
                 from peft import PeftModel
@@ -315,13 +331,19 @@ class LocalLLMNeighborhoodSelector:
 
     def _generate(self, prompt: str) -> str:
         messages = [{"role": "user", "content": prompt}]
-        if hasattr(self.tokenizer, "apply_chat_template") and self.tokenizer.chat_template:
+        if self.processor is not None:
+            inputs = self.processor.apply_chat_template(
+                [{"role": "user", "content": [{"type": "text", "text": prompt}]}],
+                add_generation_prompt=True, tokenize=True, return_dict=True, return_tensors="pt",
+            )
+        elif hasattr(self.tokenizer, "apply_chat_template") and self.tokenizer.chat_template:
             rendered = self.tokenizer.apply_chat_template(
                 messages, tokenize=False, add_generation_prompt=True
             )
+            inputs = self.tokenizer(rendered, return_tensors="pt", truncation=False)
         else:
             rendered = prompt
-        inputs = self.tokenizer(rendered, return_tensors="pt", truncation=False)
+            inputs = self.tokenizer(rendered, return_tensors="pt", truncation=False)
         input_length = int(inputs["input_ids"].shape[1])
         if input_length > self.max_input_tokens:
             raise ValueError(
@@ -348,7 +370,8 @@ class LocalLLMNeighborhoodSelector:
             output = self.model.generate(**inputs, **generation_kwargs)
         generated = output[0, inputs["input_ids"].shape[1] :]
         self._last_token_feedback_steps = processor.applied_steps if processor else 0
-        return self.tokenizer.decode(generated, skip_special_tokens=True)
+        return (self.processor.decode(generated, skip_special_tokens=True)
+                if self.processor is not None else self.tokenizer.decode(generated, skip_special_tokens=True))
 
     def propose_cold_batch(
         self, instance: CVRPInstance, partial: RouteSolution,
