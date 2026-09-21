@@ -17,10 +17,10 @@ Default: `Qwen/Qwen3.5-35B-A3B`.
 It is a recent Apache-2.0 open-weight MoE model with 35B total / 3B active
 parameters and native 262K context. It is text-capable but uses a multimodal
 Transformers API, which this branch supports in text-only mode. Its BF16 files
-are about 72 GB, so the default launcher uses two 96 GB GPUs with one independent
-model replica per GPU. The formal launcher covers 100--800 customers; use a
-short 100--400-customer pilot first when moving to a new model revision or
-runtime, then report strict feasibility at the full range.
+are about 72 GB, so the default launcher uses eight 80 GB A100 GPUs with one
+independent model replica per GPU. The formal launcher covers 30 cases spread
+over 100--400 customers; use a short pilot first when moving to a new model
+revision or runtime, then report strict feasibility over the complete set.
 
 
 ## 1. Checkout and setup
@@ -80,7 +80,8 @@ source scripts/s2e/activate_qihc.sh
 export MODEL_ID=Qwen/Qwen3.5-35B-A3B
 export MODEL_DIR=/hdd/wl2/models/Qwen--Qwen3.5-35B-A3B
 export RUN_ROOT=/hdd/wl2/results/direct_llm_qwen35_cvrp_v1
-export CUDA_VISIBLE_DEVICES=0,1
+export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+export NPROC_PER_NODE=8
 
 mkdir -p "$RUN_ROOT"
 nohup setsid bash scripts/direct_llm/run_direct_cvrp.sh \
@@ -88,7 +89,7 @@ nohup setsid bash scripts/direct_llm/run_direct_cvrp.sh \
 echo $! | tee "$RUN_ROOT/launcher.pid"
 ```
 
-Defaults: 30 official CVRPLIB X instances spread over 100--800 customers, twelve
+Defaults: 30 official CVRPLIB X instances spread over 100--400 customers, twelve
 controlled natural-language clauses per instance, and seeds `0 1 2`. The public
 CVRPLIB solution is used only offline to create satisfiable clauses and is never
 exported to the model or used as an incumbent.

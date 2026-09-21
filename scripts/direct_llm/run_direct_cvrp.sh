@@ -11,11 +11,11 @@ MODEL_DIR="${MODEL_DIR:-${GLOBAL_ROOT}/models/${MODEL_SLUG}}"
 RUN_ROOT="${RUN_ROOT:-${WORK_ROOT}/results/direct_llm_qwen35_cvrp_v1}"
 BENCHMARK_DIR="${BENCHMARK_DIR:-${WORK_ROOT}/data/CVRPLIB/X}"
 MIN_CUSTOMERS="${MIN_CUSTOMERS:-100}"
-MAX_CUSTOMERS="${MAX_CUSTOMERS:-800}"
+MAX_CUSTOMERS="${MAX_CUSTOMERS:-400}"
 CASE_LIMIT="${CASE_LIMIT:-30}"
 CLAUSES_PER_TYPE="${CLAUSES_PER_TYPE:-4}"
 SEARCH_SEEDS="${SEARCH_SEEDS:-0 1 2}"
-LLM_DIRECT_MAX_NEW_TOKENS="${LLM_DIRECT_MAX_NEW_TOKENS:-12288}"
+LLM_DIRECT_MAX_NEW_TOKENS="${LLM_DIRECT_MAX_NEW_TOKENS:-8192}"
 LLM_MAX_INPUT_TOKENS="${LLM_MAX_INPUT_TOKENS:-32768}"
 LLM_TEMPERATURE="${LLM_TEMPERATURE:-0.2}"
 export MODEL_DIR
@@ -42,8 +42,9 @@ python experiments/prepare_hard_nlcvrp.py "${BENCHMARK_DIR}" "${DATA}" \
 # requirements only. It emits routes once; no p-bit, OR-Tools, HGS, completion,
 # greedy incumbent, or repair is reachable on this path.
 # shellcheck disable=SC2086
-CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1}" \
-torchrun --standalone --nproc_per_node=2 experiments/run_cvrp_lns.py \
+NPROC_PER_NODE="${NPROC_PER_NODE:-8}"
+CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1,2,3,4,5,6,7}" \
+torchrun --standalone --nproc_per_node="${NPROC_PER_NODE}" experiments/run_cvrp_lns.py \
   --dataset jsonl --data "${DATA}" --output "${RUN_ROOT}/direct_llm" \
   --methods llm_direct --search-seeds ${SEARCH_SEEDS} --sampler torch \
   --constraint-source dataset --model-path "${MODEL_DIR}" \
