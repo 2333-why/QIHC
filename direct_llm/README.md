@@ -25,10 +25,14 @@ revision or runtime, then report strict feasibility over the complete set.
 
 ## 1. Checkout and setup
 
-On a completely new server, first create the shared QIHC environment (this
-also installs Miniforge, PyTorch, HGS and the default Qwen3.5 model):
+On a completely new online server, clone this branch first, then create the
+shared QIHC environment (this also installs Miniforge, PyTorch, HGS and the
+default Qwen3.5 model):
 
 ```bash
+cd /hdd/wl2
+git clone --branch codex/llm-direct-cvrp \
+  https://github.com/2333-why/QIHC.git QIHC
 cd /hdd/wl2/QIHC
 bash scripts/s2e/pro6000_online_setup.sh
 ```
