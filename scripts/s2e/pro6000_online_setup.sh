@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# One-machine, online setup for 2x NVIDIA RTX PRO 6000 Blackwell.
+# One-machine, online setup for the configurable multi-GPU node (8x A100 by default).
 export WORK_ROOT="${WORK_ROOT:-/hdd/wl2}"
 export GLOBAL_ROOT="${GLOBAL_ROOT:-${WORK_ROOT}}"
 export CONDA_ROOT="${CONDA_ROOT:-${WORK_ROOT}/miniforge3}"
@@ -23,7 +23,9 @@ export HF_HUB_ENABLE_HF_TRANSFER="${HF_HUB_ENABLE_HF_TRANSFER:-0}"
 export HF_HUB_DOWNLOAD_TIMEOUT="${HF_HUB_DOWNLOAD_TIMEOUT:-600}"
 export HF_HUB_ETAG_TIMEOUT="${HF_HUB_ETAG_TIMEOUT:-120}"
 export MODEL_DOWNLOAD_BACKEND="${MODEL_DOWNLOAD_BACKEND:-auto}"
-export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1}"
+export GPU_COUNT="${GPU_COUNT:-8}"
+export NPROC_PER_NODE="${NPROC_PER_NODE:-${GPU_COUNT}}"
+export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1,2,3,4,5,6,7}"
 export CONDARC="${CONDARC:-${REPO_DIR}/configs/condarc-pro6000.yaml}"
 
 MINIFORGE_VERSION="${MINIFORGE_VERSION:-24.11.3-2}"
@@ -102,11 +104,12 @@ cmake -S "${HGS_DIR}" -B "${HGS_DIR}/build" -G Ninja \
   -DCMAKE_BUILD_TYPE=Release -DCMAKE_AR="${AR_BIN}" -DCMAKE_RANLIB="${RANLIB_BIN}"
 cmake --build "${HGS_DIR}/build" --parallel "${BUILD_JOBS:-32}"
 
-CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}" torchrun --standalone --nproc_per_node=2 \
-  "${REPO_DIR}/experiments/check_pro6000_environment.py" --expected-gpus 2
+CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}" torchrun --standalone --nproc_per_node="${NPROC_PER_NODE}" \
+  "${REPO_DIR}/experiments/check_pro6000_environment.py" --expected-gpus "${GPU_COUNT}" \
+  --min-compute-capability 8
 python -m pytest -q "${REPO_DIR}/tests"
 
-echo "ONLINE 2xPRO6000 SETUP PASSED"
+echo "ONLINE ${GPU_COUNT}-GPU SETUP PASSED"
 echo "environment=${CONDA_ENVS_PATH}/qihc"
 echo "model=${MODEL_DIR}"
 echo "hgs=${HGS_DIR}/build/hgs"

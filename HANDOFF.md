@@ -1,4 +1,4 @@
-# QIHC 双 RTX PRO 6000 实验交接
+# QIHC 八卡 A100 实验交接
 
 这份文件是新执行人员的唯一入口。默认工作区为 `/hdd/wl2`，模型权重、缓存、环境和结果都放在该工作区，不写入系统盘。
 
@@ -27,7 +27,7 @@ cd /hdd/wl2/QIHC
 bash scripts/s2e/pro6000_online_setup.sh
 ```
 
-脚本创建 `/hdd/wl2/conda-envs/qihc`，安装正式依赖、编译 HGS、运行测试，并默认准备 `Qwen/Qwen3.5-35B-A3B`。该模型是 35B 总参数、3B 激活参数的开放权重 MoE；项目以文本方式使用它的通用语言模型能力，每张 96 GB GPU 各加载一份模型并行处理不同实例。
+脚本创建 `/hdd/wl2/conda-envs/qihc`，安装正式依赖、编译 HGS、运行测试，并默认准备 `Qwen/Qwen3.5-35B-A3B`。该模型是 35B 总参数、3B 激活参数的开放权重 MoE；项目以文本方式使用它的通用语言模型能力，每张 80 GB A100 各加载一份模型并行处理不同实例。
 
 ## 3. 单独下载、续传或更新模型
 
@@ -92,7 +92,8 @@ export MODEL_DIR=/hdd/wl2/models/Qwen--Qwen3.5-35B-A3B-pinned
 export RUN_ROOT=/hdd/wl2/results/qihc_x400_1000_qwen3coder_v1
 export NUM_CHAINS=2048
 export TOP_SAMPLES=128
-export CUDA_VISIBLE_DEVICES=0,1
+export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+export NPROC_PER_NODE=8
 
 mkdir -p "$RUN_ROOT"
 nohup setsid bash /hdd/wl2/QIHC/scripts/s2e/run_hard_cvrp_comparison.sh \
