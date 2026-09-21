@@ -6,6 +6,7 @@ from experiments.run_cvrp_lns import prepare_compiled_instance
 from experiments.prepare_hard_nlcvrp import add_constraints, align_solution_ids
 from experiments.download_hard_cvrplib import discover
 from qihc.problems.cvrp import generate_synthetic_instance
+from qihc.problems.cvrp.baselines import direct_llm_prompt, parse_direct_llm_solution
 from qihc.problems.cvrp.instance import RouteSolution
 from qihc.problems.cvrp.verifier import verify_solution
 from qihc.problems.cvrp.llm_selector import PBitRouteTokenLogitsProcessor
@@ -104,3 +105,24 @@ def test_cvrplib_solution_numbering_is_aligned_to_node_ids():
 def test_official_index_discovery():
     html = '<a href="/cvrplib/en/download/instance/180" title="Instance File"> X-n204-k19 </a>'
     assert discover(html) == [("X-n204-k19", "180")]
+
+
+def test_direct_llm_baseline_uses_language_and_strict_route_json():
+    instance = generate_synthetic_instance(6, 2, 100, seed=3, semantic_constraints=True)
+    instance.description = "客户 1 与客户 2 必须由同一辆车配送。"
+    prompt = direct_llm_prompt(instance)
+    assert instance.description in prompt
+    assert "same_resource" not in prompt
+    assert "customers_as_id_x_y_demand" in prompt
+
+    solution = parse_direct_llm_solution('```json\n{"routes":[[1,2,3],[4,5,6]]}\n```')
+    assert solution.routes == [[1, 2, 3], [4, 5, 6]]
+    assert solution.source == "llm_direct_unrepaired"
+
+
+def test_direct_llm_baseline_does_not_complete_missing_customers():
+    instance = generate_synthetic_instance(6, 2, 100, seed=3, semantic_constraints=False)
+    solution = parse_direct_llm_solution('{"routes":[[1,2],[3,4]]}')
+    verification = verify_solution(instance, solution)
+    assert not verification.feasible
+    assert any(item["type"] == "missing_customer" for item in verification.violations)

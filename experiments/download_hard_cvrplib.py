@@ -47,8 +47,11 @@ def main() -> int:
     html = fetch(BASE + "/en/instances").decode("utf-8", errors="replace")
     cases = [(name, code) for name, code in discover(html)
              if args.min_customers <= int(name.split("-")[1][1:]) - 1 <= args.max_customers]
+    cases.sort(key=lambda item: (int(item[0].split("-")[1][1:]) - 1, item[0]))
     if not cases:
         raise RuntimeError("No matching X instances found on the official index")
+    if args.limit and len(cases) < args.limit:
+        raise ValueError(f"Requested {args.limit} X instances, but only {len(cases)} are available in the selected size range")
     if args.limit and args.selection == "spread" and len(cases) > args.limit:
         if args.limit == 1:
             cases = cases[:1]

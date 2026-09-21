@@ -60,7 +60,7 @@ written, confirm `.vrp` and `.sol` files have matching stems. Review
 arm's `summary.json` and `failures.json`,
 then expand with a **new** `RUN_ROOT`, e.g.
 `CASE_LIMIT=20 MAX_CUSTOMERS=800 SELECTION=spread SEARCH_SEEDS='0 1 2' ITERATIONS=30
-SAMPLING_STEPS=120 NUM_CHAINS=256`. Reusing a pilot output directory
+SAMPLING_STEPS=160 NUM_CHAINS=2048 TOP_SAMPLES=128`. Reusing a pilot output directory
 with `--resume` would silently retain the pilot jobs under changed settings.
 Before the formal run, download 20 cases across the full size range with
 `python experiments/download_hard_cvrplib.py "$BENCHMARK_DIR" --min-customers 200
@@ -82,3 +82,33 @@ confused with improvement from a published initial solution.
 Cold construction may fail on very tight fleets; this is counted as a failed
 run, not replaced by a greedy or published initial solution. Publish success
 rate and failure reasons, not only the successful-case objective gap.
+
+## Hard solver and direct-LLM comparison
+
+The restartable formal comparison is:
+
+```bash
+source /hdd/wl2/QIHC/scripts/s2e/activate_qihc.sh
+cd /hdd/wl2/QIHC
+export RUN_ROOT=/hdd/wl2/results/qihc_cvrplib_x400_1000_v1
+export MODEL_DIR=/hdd/wl2/models/Qwen--Qwen2.5-32B-Instruct
+export NUM_CHAINS=2048
+bash scripts/s2e/run_hard_cvrp_comparison.sh
+```
+
+Its defaults select 12 official X-family cases spread across 400--1000
+customers, add 12 held-out natural-language clauses per instance, use three
+search seeds, and start QIHC from empty routes. It compares the full system
+against no feedback, KNN+p-bit, random-neighborhood+p-bit, oracle constraints,
+greedy construction, OR-Tools GLS, HGS-CVRP, and an unrepaired direct-LLM
+baseline. The direct LLM receives the full numerical instance and the original
+natural-language clauses, must emit all routes as JSON, and is passed directly
+to the same strict verifier. It receives no normalized constraint IR, p-bit,
+completion, repair, OR-Tools, or HGS assistance.
+
+`NUM_CHAINS=2048` means 2048 independent parallel stochastic p-bit states for
+each compiled neighborhood; it does not duplicate decision variables. On the
+two 96 GB GPUs it may be increased to 4096 after a short resource check. Keep
+`TOP_SAMPLES <= NUM_CHAINS`, and use a new `RUN_ROOT` whenever the chain count
+or another experimental setting changes. The final failure-aware report is
+`method_comparison.json`.

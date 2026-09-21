@@ -113,6 +113,7 @@ class LocalLLMNeighborhoodSelector:
         refresh_interval: int = 5,
         audit_path: str | Path | None = None,
         token_feedback_strength: float = 1.0,
+        max_input_tokens: int = 32768,
     ):
         try:
             import torch
@@ -128,6 +129,7 @@ class LocalLLMNeighborhoodSelector:
         self.refresh_interval = max(1, int(refresh_interval))
         self.audit_path = Path(audit_path) if audit_path else None
         self.token_feedback_strength = float(token_feedback_strength)
+        self.max_input_tokens = int(max_input_tokens)
         if self.audit_path:
             self.audit_path.parent.mkdir(parents=True, exist_ok=True)
         self.fallback = KNNNeighborhoodSelector(destroy_size, routes_per_customer)
@@ -313,7 +315,13 @@ class LocalLLMNeighborhoodSelector:
             )
         else:
             rendered = prompt
-        inputs = self.tokenizer(rendered, return_tensors="pt", truncation=True, max_length=8192)
+        inputs = self.tokenizer(rendered, return_tensors="pt", truncation=False)
+        input_length = int(inputs["input_ids"].shape[1])
+        if input_length > self.max_input_tokens:
+            raise ValueError(
+                f"LLM prompt has {input_length} tokens, exceeding the explicit "
+                f"limit of {self.max_input_tokens}; refusing silent truncation"
+            )
         inputs = {key: value.to(self.device) for key, value in inputs.items()}
         do_sample = self.temperature > 0
         generation_kwargs = {

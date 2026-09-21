@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import re
 import subprocess
 import tempfile
@@ -20,6 +21,82 @@ class BaselineResult:
     verification: VerificationResult
     elapsed_s: float
     metadata: dict
+
+
+def direct_llm_prompt(instance: CVRPInstance) -> str:
+    """Serialize the complete instance for a solver-free, LLM-only baseline."""
+
+    nodes = [
+        [customer.id, round(customer.x, 6), round(customer.y, 6), customer.demand]
+        for customer in (instance.customers[customer_id] for customer_id in instance.customer_ids)
+    ]
+    requirements = instance.description or " ".join(
+        spec.source_text for spec in instance.constraints if spec.source_text
+    )
+    return (
+        "Solve this constrained capacitated vehicle-routing problem directly. "
+        "Do not write code and do not call a solver. Return JSON only as "
+        "{\"routes\":[[customer_id,...],...]}. Every customer must occur exactly once; "
+        "use at most vehicle_count routes; each route load must not exceed capacity; "
+        "and obey every hard constraint. Minimize rounded Euclidean route distance.\n"
+        f"depot=[{instance.depot.id},{instance.depot.x},{instance.depot.y}]\n"
+        f"vehicle_count={instance.vehicle_count}; capacity={instance.vehicle_capacity}\n"
+        "customers_as_id_x_y_demand="
+        + json.dumps(nodes, ensure_ascii=False, separators=(",", ":"))
+        + "\nnatural_language_requirements="
+        + requirements
+    )
+
+
+def parse_direct_llm_solution(text: str) -> RouteSolution:
+    """Strictly parse an LLM solution without heuristic completion or repair."""
+
+    fenced = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL | re.IGNORECASE)
+    candidates = [fenced.group(1)] if fenced else []
+    start, end = text.find("{"), text.rfind("}")
+    if start >= 0 and end > start:
+        candidates.append(text[start : end + 1])
+    value = None
+    for candidate in candidates:
+        try:
+            decoded = json.loads(candidate)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(decoded, dict):
+            value = decoded
+            break
+    if value is None or not isinstance(value.get("routes"), list):
+        raise ValueError("LLM direct output has no valid routes JSON")
+    routes = value["routes"]
+    if not all(isinstance(route, list) for route in routes):
+        raise ValueError("Every direct-LLM route must be a list")
+    try:
+        normalized = [[int(customer) for customer in route] for route in routes]
+    except (TypeError, ValueError) as exc:
+        raise ValueError("Direct-LLM routes contain a non-integer customer ID") from exc
+    return RouteSolution(normalized, source="llm_direct_unrepaired")
+
+
+def solve_direct_llm(instance: CVRPInstance, generate) -> BaselineResult:
+    """Ask a local LLM for the complete solution and verify it without repair."""
+
+    prompt = direct_llm_prompt(instance)
+    t0 = time.perf_counter()
+    output = generate(prompt)
+    elapsed = time.perf_counter() - t0
+    solution = parse_direct_llm_solution(output)
+    return BaselineResult(
+        method="llm_direct",
+        solution=solution,
+        verification=verify_solution(instance, solution),
+        elapsed_s=elapsed,
+        metadata={
+            "strict_unrepaired": True,
+            "prompt_characters": len(prompt),
+            "output_characters": len(output),
+            "raw_output": output,
+        },
+    )
 
 
 def solve_ortools(instance: CVRPInstance, time_limit_s: int = 30, seed: int = 0) -> BaselineResult:

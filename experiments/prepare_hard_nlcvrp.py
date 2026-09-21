@@ -111,7 +111,11 @@ def main() -> int:
     parser.add_argument("--selection", choices=["smallest", "spread"], default="smallest")
     args = parser.parse_args()
     selected, skipped = [], []
-    paths = sorted(args.input_dir.rglob("*.vrp"))
+    def size_key(path: Path) -> tuple[int, str]:
+        match = re.search(r"-n(\d+)-k\d+", path.stem, re.IGNORECASE)
+        return (int(match.group(1)) - 1 if match else -1, path.stem)
+
+    paths = sorted(args.input_dir.rglob("*.vrp"), key=size_key)
     if args.selection == "spread" and args.limit:
         eligible = []
         for path in paths:
@@ -122,6 +126,8 @@ def main() -> int:
             indices = ([0] if args.limit == 1 else
                        [round(i * (len(eligible) - 1) / (args.limit - 1)) for i in range(args.limit)])
             paths = [eligible[index] for index in indices]
+        else:
+            paths = eligible
     for path in paths:
         if args.limit and len(selected) >= args.limit:
             break
@@ -149,6 +155,8 @@ def main() -> int:
     args.output_jsonl.with_suffix(".manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps({"written": len(selected), "skipped": len(skipped)}, ensure_ascii=False))
+    if args.limit and len(selected) != args.limit:
+        raise RuntimeError(f"Requested {args.limit} benchmark cases but prepared only {len(selected)}; inspect {args.output_jsonl.with_suffix('.manifest.json')}")
     return 0 if selected else 1
 
 

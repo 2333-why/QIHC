@@ -73,6 +73,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--llm-refresh-interval", type=int, default=5)
     parser.add_argument("--llm-temperature", type=float, default=0.2)
     parser.add_argument("--llm-max-new-tokens", type=int, default=768)
+    parser.add_argument("--llm-direct-max-new-tokens", type=int, default=8192)
+    parser.add_argument("--llm-max-input-tokens", type=int, default=32768)
     parser.add_argument("--proposal-bias", type=float, default=1.0)
     parser.add_argument("--logit-feedback-rate", type=float, default=0.8)
     parser.add_argument("--disable-logit-feedback", action="store_true")
@@ -184,7 +186,7 @@ def make_selector(args: argparse.Namespace, method: str, local_rank: int, output
         return RandomNeighborhoodSelector(args.destroy_size, args.routes_per_customer)
     if method == "knn":
         return KNNNeighborhoodSelector(args.destroy_size, args.routes_per_customer)
-    if method == "llm":
+    if method in {"llm", "llm_direct"}:
         if not args.model_path:
             raise ValueError("--model-path is required for method=llm")
         from qihc.problems.cvrp.llm_selector import LocalLLMNeighborhoodSelector
@@ -196,10 +198,11 @@ def make_selector(args: argparse.Namespace, method: str, local_rank: int, output
             routes_per_customer=args.routes_per_customer,
             device=f"cuda:{local_rank}" if args.sampler == "torch" else "cpu",
             temperature=args.llm_temperature,
-            max_new_tokens=args.llm_max_new_tokens,
+            max_new_tokens=(args.llm_direct_max_new_tokens if method == "llm_direct" else args.llm_max_new_tokens),
             refresh_interval=args.llm_refresh_interval,
             audit_path=output / f"llm_audit_rank{local_rank}.jsonl",
             token_feedback_strength=args.token_feedback_strength,
+            max_input_tokens=args.llm_max_input_tokens,
         )
     raise ValueError(f"Unknown method: {method}")
 
@@ -274,8 +277,41 @@ def run_job(
     reference_instance: CVRPInstance | None = None,
 ) -> dict:
     reference_instance = reference_instance or instance
+    # Make stochastic LLM decoding and p-bit sampling reproducible per job.
+    np.random.seed(search_seed)
+    try:
+        import torch
+
+        torch.manual_seed(search_seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(search_seed)
+    except ImportError:
+        pass
+    if method == "llm_direct":
+        from qihc.problems.cvrp.baselines import solve_direct_llm
+
+        baseline = solve_direct_llm(instance, selector._generate)
+        final = baseline.verification
+        return {
+            "instance": instance.name, "method": method, "search_seed": search_seed,
+            "n_customers": len(instance.customers), "initial_objective": None,
+            "final_objective": final.objective, "improvement_fraction": 0.0,
+            "feasible": final.feasible, "reference_feasible": final.feasible,
+            "reference_violations": final.violations, "accepted_moves": 0, "iterations": 0,
+            "total_elapsed_s": baseline.elapsed_s, "pbit_elapsed_s": 0.0,
+            "mean_qubo_variables": 0.0, "mean_candidate_route_recall": 0.0,
+            "llm_fallback_rate": 0.0, "best_known_cost": instance.best_known_cost,
+            "optimality_gap": ((final.cost - instance.best_known_cost) / instance.best_known_cost
+                               if instance.best_known_cost and final.feasible else None),
+            "records": [], "solution": baseline.solution.to_dict(),
+            "baseline_metadata": baseline.metadata,
+        }
+
     cold_start = args.initialization == "pbit-cold" and method not in {"greedy", "ortools", "hgs"}
-    if cold_start:
+    initial_started = time.perf_counter()
+    if method in {"ortools", "hgs"}:
+        initial = None
+    elif cold_start:
         initial = None
     elif instance.metadata.get("known_feasible_routes"):
         initial = RouteSolution(
@@ -285,6 +321,7 @@ def run_job(
     else:
         initial = greedy_initial_solution(instance)
     initial_result = verify_solution(instance, initial) if initial is not None else None
+    initial_elapsed_s = time.perf_counter() - initial_started
     if initial_result is not None and not initial_result.feasible:
         raise ValueError(f"No feasible incumbent: {initial_result.violations}")
     if method == "greedy":
@@ -297,9 +334,11 @@ def run_job(
             "final_objective": initial_result.objective,
             "improvement_fraction": 0.0,
             "feasible": initial_result.feasible,
+            "reference_feasible": initial_result.feasible,
+            "reference_violations": initial_result.violations,
             "accepted_moves": 0,
             "iterations": 0,
-            "total_elapsed_s": 0.0,
+            "total_elapsed_s": initial_elapsed_s,
             "pbit_elapsed_s": 0.0,
             "mean_qubo_variables": 0.0,
             "mean_candidate_route_recall": 0.0,
@@ -311,6 +350,7 @@ def run_job(
                 else None
             ),
             "records": [],
+            "solution": initial.to_dict(),
         }
         return summary
     if method in {"ortools", "hgs"}:
@@ -328,12 +368,14 @@ def run_job(
             "method": method,
             "search_seed": search_seed,
             "n_customers": len(instance.customers),
-            "initial_objective": initial_result.objective,
+            "initial_objective": initial_result.objective if initial_result is not None else None,
             "final_objective": final.objective,
             "improvement_fraction": (
                 initial_result.objective - final.objective
-            ) / max(abs(initial_result.objective), 1e-12),
+            ) / max(abs(initial_result.objective), 1e-12) if initial_result is not None else 0.0,
             "feasible": final.feasible,
+            "reference_feasible": final.feasible,
+            "reference_violations": final.violations,
             "accepted_moves": 0,
             "iterations": 0,
             "total_elapsed_s": baseline.elapsed_s,
