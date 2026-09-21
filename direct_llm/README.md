@@ -25,6 +25,17 @@ runtime, then report strict feasibility at the full range.
 
 ## 1. Checkout and setup
 
+On a completely new server, first create the shared QIHC environment (this
+also installs Miniforge, PyTorch, HGS and the default Qwen3.5 model):
+
+```bash
+cd /hdd/wl2/QIHC
+bash scripts/s2e/pro6000_online_setup.sh
+```
+
+On a server where `/hdd/wl2/conda-envs/qihc` already exists, skip that step
+and run the direct-solve setup below:
+
 ```bash
 cd /hdd/wl2/QIHC
 git fetch origin
