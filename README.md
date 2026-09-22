@@ -429,6 +429,17 @@ tar -C "$(dirname "$PIPELINE_ROOT")" -czf "${PIPELINE_ROOT}.tar.gz" \
 ls -lh "${PIPELINE_ROOT}.tar.gz"
 ```
 
+如果 400–1000 客户的困难组已经用上一节的单阶段命令启动，不要再启动第二份
+困难组。将它的结果目录传给流水线，脚本会等待现有 launcher 结束，校验后只继续
+中等组：
+
+```bash
+export HARD_RUN_ROOT="$WORK_ROOT/results/formal_20260922_8gpu_07"
+nohup setsid bash "$REPO_DIR/scripts/s2e/run_two_stage_cvrp_pipeline.sh" \
+  > "$PIPELINE_ROOT/pipeline.log" 2>&1 < /dev/null &
+echo $! | tee "$PIPELINE_ROOT/pipeline.pid"
+```
+
 ---
 
 ## QIHC 异构架构（可升级）

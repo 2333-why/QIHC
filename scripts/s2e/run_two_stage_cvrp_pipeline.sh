@@ -77,6 +77,26 @@ run_stage() {
     return
   fi
 
+  # The hard stage may already have been launched with the documented
+  # standalone command.  Attach to it instead of starting a duplicate 8-GPU
+  # job, then reuse or resume its output after that process exits.
+  if [[ -s "${run_root}/launcher.pid" ]]; then
+    local external_pid
+    external_pid="$(tr -dc '0-9' < "${run_root}/launcher.pid")"
+    if [[ -n "${external_pid}" ]] && kill -0 "${external_pid}" 2>/dev/null; then
+      log "${name}: an existing launcher (${external_pid}) is active; waiting for it."
+      while kill -0 "${external_pid}" 2>/dev/null; do
+        sleep 60
+      done
+      if [[ -s "${run_root}/method_comparison.json" ]]; then
+        validate_stage "${run_root}"
+        log "${name}: attached run completed and validated."
+        return
+      fi
+      log "${name}: attached run ended without a final comparison; resuming it."
+    fi
+  fi
+
   log "${name}: starting ${min_customers}-${max_customers} customer benchmark."
   env \
     RUN_ROOT="${run_root}" \
