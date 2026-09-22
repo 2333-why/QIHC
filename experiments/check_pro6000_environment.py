@@ -11,6 +11,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--expected-gpus", type=int, default=8)
     parser.add_argument("--min-compute-capability", type=int, default=8)
+    parser.add_argument("--min-memory-gib", type=float, default=0.0)
     parser.add_argument("--matrix-size", type=int, default=1024)
     args = parser.parse_args()
 
@@ -36,6 +37,12 @@ def main() -> int:
             f"{properties.major}.{properties.minor}; expected at least "
             f"{args.min_compute_capability}.0"
         )
+    memory_gib = properties.total_memory / 2**30
+    if memory_gib < args.min_memory_gib:
+        raise RuntimeError(
+            f"GPU {local_rank} is {properties.name} with {memory_gib:.1f} GiB; "
+            f"expected at least {args.min_memory_gib:.1f} GiB"
+        )
 
     if world > 1:
         dist.init_process_group("nccl")
@@ -49,7 +56,7 @@ def main() -> int:
 
     print(
         f"rank={rank}/{world} gpu={local_rank} name={properties.name!r} "
-        f"cc={properties.major}.{properties.minor} memory_gib={properties.total_memory / 2**30:.1f} "
+        f"cc={properties.major}.{properties.minor} memory_gib={memory_gib:.1f} "
         f"torch={torch.__version__} cuda={torch.version.cuda} bf16_checksum={checksum.item():.6f}",
         flush=True,
     )

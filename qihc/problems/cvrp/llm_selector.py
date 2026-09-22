@@ -630,6 +630,7 @@ class LocalLLMNeighborhoodSelector:
             self._audit(
                 {
                     "instance": instance.name,
+                    "search_seed": seed,
                     "iteration": iteration,
                     "ok": True,
                     "prompt": prompt,
@@ -646,6 +647,7 @@ class LocalLLMNeighborhoodSelector:
             self._audit(
                 {
                     "instance": instance.name,
+                    "search_seed": seed,
                     "iteration": iteration,
                     "ok": False,
                     "prompt": prompt,

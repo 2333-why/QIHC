@@ -10,6 +10,111 @@
 
 ---
 
+## 8×A100：两组正式实验 + ZeRO-3 后训练一键流水线
+
+本节是 `llm-cvrp` 分支在已安装环境、已下载 Qwen3.5-35B-A3B 的
+8×A100 80GB 服务器上的
+主要入口。一键脚本依次执行：
+
+1. 12 个 400–1000 客户的困难 CVRPLIB/NL-CVRP 实验；
+2. 12 个 200–399 客户的中等难度实验；
+3. 合并约束 CPP、LLM 候选域和 p-bit logits 反馈轨迹；
+4. 8 卡 DeepSpeed ZeRO-3 LoRA SFT → DPO → GRPO；
+5. 校验产物并自动生成不含大型中间 checkpoint 的 `.tar.gz` 包。
+
+### 1. 更新代码并检查现有环境/模型
+
+```bash
+export USER_ROOT=/mnt/shared-storage-gpfs2/ai4scifm-gpfs02/wanglihao
+export REPO_DIR="$USER_ROOT/code/qihc/QIHC-llm-cvrp"
+export CONDA_ROOT="$USER_ROOT/miniconda3"
+export CONDA_ENVS_PATH="$CONDA_ROOT/envs"
+
+cd "$REPO_DIR"
+git fetch origin
+git switch llm-cvrp
+git pull --ff-only origin llm-cvrp
+
+source "$CONDA_ROOT/etc/profile.d/conda.sh"
+conda activate "$CONDA_ENVS_PATH/qihc"
+
+export WORK_ROOT="$REPO_DIR/deployment"
+export MODEL_DIR="$WORK_ROOT/models/Qwen--Qwen3.5-35B-A3B"
+
+python - <<'PY'
+import importlib
+import os
+from pathlib import Path
+
+for name in ("torch", "transformers", "accelerate", "datasets", "peft", "trl", "deepspeed"):
+    module = importlib.import_module(name)
+    print(name, getattr(module, "__version__", "ok"))
+model = Path(os.environ["MODEL_DIR"])
+assert (model / "config.json").is_file(), model
+assert list(model.glob("*.safetensors")) or list(model.glob("*.bin")), model
+print("environment and model files: OK")
+PY
+```
+
+如果只是 `deepspeed`/`trl`/`peft` 等后训练依赖缺失，在原环境中补齐，不需要重新下载模型：
+
+```bash
+python -m pip install -r "$REPO_DIR/requirements-training.txt"
+```
+
+### 2. 一键启动
+
+```bash
+export BENCHMARK_DIR="$WORK_ROOT/data/CVRPLIB/X"
+export PIPELINE_ROOT="$WORK_ROOT/results/formal_20260922_cvrp_posttrain_8gpu_v1"
+export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+export NPROC_PER_NODE=8
+export AUTO_PACKAGE=1
+
+mkdir -p "$PIPELINE_ROOT"
+nohup setsid bash "$REPO_DIR/scripts/s2e/run_full_cvrp_posttrain_pipeline.sh" \
+  > "$PIPELINE_ROOT/pipeline.log" 2>&1 < /dev/null &
+echo $! | tee "$PIPELINE_ROOT/pipeline.pid"
+```
+
+如果困难组已经由旧入口启动，额外设置它的路径；总流水线会等待它结束，不会
+重复启动 8 卡任务：
+
+```bash
+export HARD_RUN_ROOT="$WORK_ROOT/results/formal_20260922_8gpu_07"
+```
+
+### 3. 重新登录后查看状态
+
+```bash
+export USER_ROOT=/mnt/shared-storage-gpfs2/ai4scifm-gpfs02/wanglihao
+export REPO_DIR="$USER_ROOT/code/qihc/QIHC-llm-cvrp"
+export PIPELINE_ROOT="$REPO_DIR/deployment/results/formal_20260922_cvrp_posttrain_8gpu_v1"
+
+ps -fp "$(cat "$PIPELINE_ROOT/pipeline.pid")" || true
+tail -n 100 "$PIPELINE_ROOT/pipeline.log"
+tail -n 30 "$PIPELINE_ROOT/posttrain/logs/sft.log" 2>/dev/null || true
+tail -n 30 "$PIPELINE_ROOT/posttrain/logs/dpo.log" 2>/dev/null || true
+tail -n 30 "$PIPELINE_ROOT/posttrain/logs/grpo.log" 2>/dev/null || true
+nvidia-smi --query-gpu=index,memory.used,utilization.gpu,power.draw \
+  --format=csv,noheader
+```
+
+### 4. 完成产物与结果包
+
+```bash
+test -s "$PIPELINE_ROOT/full_pipeline_summary.json"
+test -s "$PIPELINE_ROOT/posttrain/adapters/grpo/adapter_config.json"
+python -m json.tool "$PIPELINE_ROOT/full_pipeline_summary.json" | head -n 120
+ls -lh "${PIPELINE_ROOT}.tar.gz"
+```
+
+最终后训练适配器位于 `posttrain/adapters/grpo`。打包文件包含两组实验、训练数据摘要、
+SFT/DPO/GRPO 适配器和日志，但排除可重建的 `checkpoint-*` 目录。该适配器使用这两组
+轨迹训练；若要报告“后训练提升”，必须另用不参与训练的独立 holdout 实例评测。
+
+---
+
 ## 功能特性
 
 - **p-bit / Ising 概率网络仿真**（`qihc.ising`）

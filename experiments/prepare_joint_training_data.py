@@ -36,17 +36,21 @@ def proposal_prompt(row: dict) -> str:
     )
 
 
-def load_llm_audits(path: Path | None) -> dict[tuple[str, int], dict]:
+def load_llm_audits(path: Path | None) -> dict[tuple[str, int, int], dict]:
     if path is None:
         return {}
     files = sorted(path.glob("llm_audit_rank*.jsonl")) if path.is_dir() else [path]
-    audits: dict[tuple[str, int], dict] = {}
+    audits: dict[tuple[str, int, int], dict] = {}
     for source in files:
         if not source.exists():
             continue
         for row in read_jsonl(source):
-            if row.get("ok") and row.get("instance") is not None and row.get("iteration") is not None:
-                audits[(str(row["instance"]), int(row["iteration"]))] = row
+            if (row.get("ok") and row.get("instance") is not None
+                    and row.get("search_seed") is not None
+                    and row.get("iteration") is not None):
+                audits[(
+                    str(row["instance"]), int(row["search_seed"]), int(row["iteration"])
+                )] = row
     return audits
 
 
@@ -108,12 +112,15 @@ def main() -> int:
         if not candidates:
             continue
         if audits:
+            search_seed = int(row.get("search_seed", -1))
             candidates = [
                 record for record in candidates
-                if (str(row["instance"]), int(record["iteration"])) in audits
+                if (str(row["instance"]), search_seed, int(record["iteration"])) in audits
             ]
             for record in candidates:
-                audit = audits[(str(row["instance"]), int(record["iteration"]))]
+                audit = audits[(
+                    str(row["instance"]), search_seed, int(record["iteration"])
+                )]
                 prompt = audit["prompt"]
                 rejected_payload = record["proposal_payload"]
                 chosen_payload = pbit_teacher_proposal(

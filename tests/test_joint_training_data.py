@@ -1,7 +1,7 @@
 import json
 import sys
 
-from experiments.prepare_joint_training_data import main
+from experiments.prepare_joint_training_data import load_llm_audits, main
 from qihc.problems.cvrp.instance import generate_synthetic_instance, save_jsonl
 from qihc.s2e.cpp import ConstraintProgramPackage
 
@@ -46,3 +46,14 @@ def test_joint_training_data_contains_constraint_and_pbit_proposal(tmp_path, mon
     dpo = [json.loads(line) for line in (output / "dpo.jsonl").read_text(encoding="utf-8").splitlines()]
     assert {row["task"] for row in sft} == {"constraint", "proposal"}
     assert any(row["task"] == "proposal" for row in dpo)
+
+
+def test_llm_audits_are_seed_aligned(tmp_path):
+    audit = tmp_path / "llm_audit_rank0.jsonl"
+    audit.write_text("\n".join([
+        json.dumps({"instance": "case", "search_seed": 0, "iteration": 5, "ok": True}),
+        json.dumps({"instance": "case", "search_seed": 1, "iteration": 5, "ok": True}),
+        json.dumps({"instance": "legacy", "iteration": 5, "ok": True}),
+    ]) + "\n", encoding="utf-8")
+    loaded = load_llm_audits(tmp_path)
+    assert set(loaded) == {("case", 0, 5), ("case", 1, 5)}
