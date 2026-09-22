@@ -372,6 +372,63 @@ python -m json.tool "$RUN_ROOT/method_comparison.json" | head -n 80
 扩大候选域。保护机制只在所有 p-bit 样本均不可行时处理当前小批次，不会读取
 公开 witness 路线，也不会用完整问题的传统求解器替代 p-bit 冷启动。
 
+### 8 卡服务器：困难组→中等组两阶段流水线
+
+[`scripts/s2e/run_two_stage_cvrp_pipeline.sh`](scripts/s2e/run_two_stage_cvrp_pipeline.sh)
+会先运行 12 个 400–1000 客户的困难实例，完成且通过结果校验后，自动
+运行 12 个 200–399 客户的中等难度实例。两组不重叠，都使用 3 个搜索种子和完整的
+9 方法对比；中等组使用 1024 条 p-bit 链和 128 个采样步。任一阶段失败时
+流水线立即停止，不会开始下一阶段；重启时会复用已完成的有效结果。
+
+```bash
+export USER_ROOT=/mnt/shared-storage-gpfs2/ai4scifm-gpfs02/wanglihao
+export REPO_DIR="$USER_ROOT/code/qihc/QIHC-llm-cvrp"
+export CONDA_ROOT="$USER_ROOT/miniconda3"
+export CONDA_ENVS_PATH="$CONDA_ROOT/envs"
+
+cd "$REPO_DIR"
+git fetch origin
+git switch llm-cvrp
+git pull --ff-only origin llm-cvrp
+
+source "$CONDA_ROOT/etc/profile.d/conda.sh"
+conda activate "$CONDA_ENVS_PATH/qihc"
+
+export WORK_ROOT="$REPO_DIR/deployment"
+export MODEL_DIR="$WORK_ROOT/models/Qwen--Qwen3.5-35B-A3B"
+export BENCHMARK_DIR="$WORK_ROOT/data/CVRPLIB/X"
+export PIPELINE_ROOT="$WORK_ROOT/results/formal_20260922_two_stage_8gpu_v1"
+export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+export NPROC_PER_NODE=8
+
+mkdir -p "$PIPELINE_ROOT"
+nohup setsid bash "$REPO_DIR/scripts/s2e/run_two_stage_cvrp_pipeline.sh" \
+  > "$PIPELINE_ROOT/pipeline.log" 2>&1 < /dev/null &
+echo $! | tee "$PIPELINE_ROOT/pipeline.pid"
+```
+
+重新登录后检查当前阶段：
+
+```bash
+export REPO_DIR=/mnt/shared-storage-gpfs2/ai4scifm-gpfs02/wanglihao/code/qihc/QIHC-llm-cvrp
+export PIPELINE_ROOT="$REPO_DIR/deployment/results/formal_20260922_two_stage_8gpu_v1"
+
+ps -fp "$(cat "$PIPELINE_ROOT/pipeline.pid")" || true
+tail -n 80 "$PIPELINE_ROOT/pipeline.log"
+find "$PIPELINE_ROOT" -name method_comparison.json -print
+nvidia-smi --query-gpu=index,memory.used,utilization.gpu,power.draw \
+  --format=csv,noheader
+```
+
+全部完成后会生成 `two_stage_summary.json`，可以一次打包两组结果：
+
+```bash
+test -s "$PIPELINE_ROOT/two_stage_summary.json"
+tar -C "$(dirname "$PIPELINE_ROOT")" -czf "${PIPELINE_ROOT}.tar.gz" \
+  "$(basename "$PIPELINE_ROOT")"
+ls -lh "${PIPELINE_ROOT}.tar.gz"
+```
+
 ---
 
 ## QIHC 异构架构（可升级）
