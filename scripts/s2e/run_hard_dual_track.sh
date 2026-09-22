@@ -35,6 +35,19 @@ torchrun --standalone --nproc_per_node="${NPROC_PER_NODE}" experiments/run_s2e_p
   --temperature 0 --max-new-tokens 1024 --resume \
   >"${RUN_ROOT}/logs/cpp.log" 2>&1
 
+python - "${CPP}/summary.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+summary = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+required = ("success_rate", "a4_pass_rate", "semantic_match_rate")
+failed = {key: summary.get(key) for key in required if summary.get(key) != 1.0}
+if failed:
+    raise SystemExit(f"CPP preflight failed; refusing to run search: {failed}")
+print("CPP preflight passed:", {key: summary[key] for key in required})
+PY
+
 for ARM in full no_feedback pbit_only oracle; do
   OUTPUT="${RUN_ROOT}/${ARM}"
   EXTRA=(--constraint-source cpp --cpp-records "${CPP}/records.jsonl")

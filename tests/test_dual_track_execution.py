@@ -2,13 +2,13 @@ from argparse import Namespace
 
 import numpy as np
 
-from experiments.run_cvrp_lns import prepare_compiled_instance
+from experiments.run_cvrp_lns import prepare_compiled_instance, run_job
 from experiments.prepare_hard_nlcvrp import add_constraints, align_solution_ids
 from experiments.download_hard_cvrplib import discover
 from qihc.problems.cvrp import generate_synthetic_instance
 from qihc.problems.cvrp.baselines import direct_llm_prompt, parse_direct_llm_solution
 from qihc.problems.cvrp.cold_start import _co_route_groups, construct_with_pbit
-from qihc.problems.cvrp.instance import RouteSolution
+from qihc.problems.cvrp.instance import ConstraintSpec, RouteSolution
 from qihc.problems.cvrp.verifier import verify_solution
 from qihc.problems.cvrp.llm_selector import PBitRouteTokenLogitsProcessor
 from qihc.problems.cvrp.scheduler import LNSConfig, QIHCLNSSolver
@@ -162,3 +162,27 @@ def test_direct_llm_baseline_does_not_complete_missing_customers():
     verification = verify_solution(instance, solution)
     assert not verification.feasible
     assert any(item["type"] == "missing_customer" for item in verification.violations)
+
+
+def test_greedy_baseline_records_strict_infeasibility_instead_of_crashing():
+    instance = generate_synthetic_instance(12, 3, 100, seed=21, semantic_constraints=False)
+    instance.metadata.pop("known_feasible_routes", None)
+    greedy = QIHCLNSSolver(LNSConfig(iterations=0)).solve(instance).solution
+    same_route = next(route for route in greedy.routes if len(route) >= 2)
+    instance.constraints = [
+        ConstraintSpec("same_resource", params={"entities": same_route[:2]}),
+        ConstraintSpec("mutual_exclusion", params={"entities": same_route[:2]}),
+    ]
+    result = run_job(
+        instance,
+        "greedy",
+        0,
+        Namespace(initialization="incumbent", sampler="numpy"),
+        selector=None,
+        local_rank=0,
+    )
+    assert result["feasible"] is False
+    assert any(
+        item["type"] in {"same_resource", "mutual_exclusion"}
+        for item in result["reference_violations"]
+    )

@@ -334,8 +334,6 @@ def run_job(
         initial = greedy_initial_solution(instance)
     initial_result = verify_solution(instance, initial) if initial is not None else None
     initial_elapsed_s = time.perf_counter() - initial_started
-    if initial_result is not None and not initial_result.feasible:
-        raise ValueError(f"No feasible incumbent: {initial_result.violations}")
     if method == "greedy":
         summary = {
             "instance": instance.name,
@@ -365,6 +363,8 @@ def run_job(
             "solution": initial.to_dict(),
         }
         return summary
+    if initial_result is not None and not initial_result.feasible:
+        raise ValueError(f"No feasible incumbent: {initial_result.violations}")
     if method in {"ortools", "hgs"}:
         from qihc.problems.cvrp.baselines import solve_hgs, solve_ortools
 

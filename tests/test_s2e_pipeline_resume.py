@@ -1,6 +1,6 @@
 import json
 
-from experiments.run_s2e_pipeline import main, read_checkpoint
+from experiments.run_s2e_pipeline import main, read_checkpoint, semantic_closure
 from qihc.problems.cvrp.instance import generate_synthetic_instance, save_jsonl
 
 
@@ -29,3 +29,17 @@ def test_cpp_pipeline_resumes_completed_instance(tmp_path, monkeypatch):
     assert len(checkpoint.read_text(encoding="utf-8").splitlines()) == 1
     assert main() == 0
     assert len(checkpoint.read_text(encoding="utf-8").splitlines()) == 1
+
+
+def test_semantic_closure_accepts_materialized_precedence_same_resource():
+    precedence = json.dumps(
+        {"type": "precedence", "hard": True, "params": {"before": 3, "after": 4}},
+        sort_keys=True,
+        ensure_ascii=False,
+    )
+    same = json.dumps(
+        {"type": "same_resource", "hard": True, "params": {"entities": [3, 4]}},
+        sort_keys=True,
+        ensure_ascii=False,
+    )
+    assert semantic_closure({precedence}) == semantic_closure({precedence, same})

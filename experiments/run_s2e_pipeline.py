@@ -17,9 +17,50 @@ from qihc.s2e import CPPValidator, ConstraintSynthesizer, FeedbackRecord, build_
 from qihc.s2e.synthesizer import HeuristicConstraintBackend, LocalLLMConstraintBackend
 
 
+def canonical_constraint(kind: str, hard: bool, params: dict) -> str:
+    kind = "same_resource" if kind == "same_vehicle" else kind
+    normalized = dict(params)
+    if kind in {"same_resource", "mutual_exclusion"}:
+        entities = normalized.get("entities", normalized.get("customers", []))
+        normalized = {"entities": sorted(int(value) for value in entities)}
+    elif kind == "precedence":
+        normalized = {
+            "before": int(normalized["before"]),
+            "after": int(normalized["after"]),
+        }
+    return json.dumps(
+        {"type": kind, "hard": bool(hard), "params": normalized},
+        sort_keys=True,
+        ensure_ascii=False,
+    )
+
+
 def canonical(program) -> str:
-    kind = "same_resource" if program.type == "same_vehicle" else program.type
-    return json.dumps({"type": kind, "hard": program.hard, "params": program.params}, sort_keys=True, ensure_ascii=False)
+    return canonical_constraint(program.type, program.hard, program.params)
+
+
+def semantic_closure(items: set[str]) -> set[str]:
+    """Canonical constraint set including implications used by the compiler.
+
+    A precedence constraint necessarily places both customers on one route, so
+    the compiler materializes a same_resource constraint as well.  Comparing
+    raw sets therefore reports a false mismatch for a semantically exact CPP.
+    """
+    closed = set(items)
+    for item in items:
+        value = json.loads(item)
+        if value.get("type") != "precedence":
+            continue
+        params = value.get("params", {})
+        before, after = params.get("before"), params.get("after")
+        if before is None or after is None:
+            continue
+        closed.add(json.dumps({
+            "type": "same_resource",
+            "hard": value.get("hard", True),
+            "params": {"entities": [before, after]},
+        }, sort_keys=True, ensure_ascii=False))
+    return closed
 
 
 def write_jsonl(path: Path, rows) -> None:
@@ -43,6 +84,14 @@ def read_checkpoint(path: Path) -> dict[str, dict]:
         if isinstance(record, dict) and isinstance(feedback, dict) and isinstance(record.get("instance"), str):
             selected[record["instance"]] = item
     return selected
+
+
+def checkpoint_is_complete(item: dict | None) -> bool:
+    """Only reuse records produced by the semantics-aware pipeline."""
+    if not item:
+        return False
+    record = item.get("record", {})
+    return record.get("status") == "ok" and record.get("semantic_match") is True
 
 
 def main() -> int:
@@ -70,9 +119,9 @@ def main() -> int:
         for previous_path in sorted(args.output.glob("checkpoint_rank*.jsonl")):
             for name, item in read_checkpoint(previous_path).items():
                 previous = selected.get(name)
-                if previous is None or previous["record"].get("status") != "ok":
+                if previous is None or not checkpoint_is_complete(previous):
                     selected[name] = item
-    print(json.dumps({"rank": rank, "resume": args.resume, "successful_checkpoints": sum(item["record"].get("status") == "ok" for item in selected.values()), "remaining_instances": sum(selected.get(instance.name, {}).get("record", {}).get("status") != "ok" for instance in shard)}), flush=True)
+    print(json.dumps({"rank": rank, "resume": args.resume, "successful_checkpoints": sum(checkpoint_is_complete(item) for item in selected.values()), "remaining_instances": sum(not checkpoint_is_complete(selected.get(instance.name)) for instance in shard)}), flush=True)
     if args.resume and checkpoint_path.exists() and checkpoint_path.stat().st_size:
         with checkpoint_path.open("rb+") as existing:
             existing.seek(-1, os.SEEK_END)
@@ -80,14 +129,16 @@ def main() -> int:
                 existing.write(b"\n")
     with checkpoint_path.open("a" if args.resume else "w", encoding="utf-8") as journal:
         for instance in shard:
-            if selected.get(instance.name, {}).get("record", {}).get("status") == "ok":
+            if checkpoint_is_complete(selected.get(instance.name)):
                 continue
             try:
                 cpp, repair_reports = synth.synthesize_verified(instance, validator); report = repair_reports[-1]; plan = compile_cpp(cpp, instance, report) if report.passed and report.highest_stage == "A4_ENCODING" else None
-                gold = {json.dumps({"type": "same_resource" if s.type == "same_vehicle" else s.type, "hard": s.hard, "params": s.params}, sort_keys=True, ensure_ascii=False) for s in instance.constraints}
-                pred = {canonical(x) for x in cpp.programs}; semantic = gold == pred
+                gold = {canonical_constraint(s.type, s.hard, s.params) for s in instance.constraints}
+                pred = {canonical(x) for x in cpp.programs}
+                exact = gold == pred
+                semantic = semantic_closure(gold) == semantic_closure(pred)
                 response = cpp.canonical_json()
-                record = {"instance": instance.name, "status": "ok", "cpp": cpp.to_dict(), "cpp_checksum": cpp.checksum, "validation": report.to_dict(), "validation_attempts": [x.to_dict() for x in repair_reports], "compilation": plan.to_dict() if plan else None, "exact_match": semantic, "gold": sorted(gold), "predicted": sorted(pred)}
+                record = {"instance": instance.name, "status": "ok", "cpp": cpp.to_dict(), "cpp_checksum": cpp.checksum, "validation": report.to_dict(), "validation_attempts": [x.to_dict() for x in repair_reports], "compilation": plan.to_dict() if plan else None, "exact_match": exact, "semantic_match": semantic, "gold": sorted(gold), "predicted": sorted(pred)}
                 feedback = FeedbackRecord(instance.description, response, True, semantic, report.passed, compile_cost=float(plan.estimated_binary_variables if plan else 0), counterexamples=report.counterexamples)
             except Exception as exc:
                 record = {"instance": instance.name, "status": "error", "error": repr(exc)}
@@ -111,7 +162,7 @@ def main() -> int:
         write_jsonl(args.output / "sft.jsonl", build_sft_records(all_feedback)); write_jsonl(args.output / "dpo.jsonl", build_dpo_pairs(all_feedback)); write_jsonl(args.output / "grpo.jsonl", build_grpo_records(all_feedback))
         ok = [x for x in all_records if x["status"] == "ok"]
         fallback_count = sum("fallback" in x.get("cpp", {}).get("generator", {}).get("backend", "") or "repaired" in x.get("cpp", {}).get("generator", {}).get("backend", "") for x in ok)
-        summary = {"n": len(all_records), "success_rate": len(ok) / max(len(all_records), 1), "a4_pass_rate": sum(x["validation"]["passed"] for x in ok) / max(len(all_records), 1), "exact_match_rate": sum(x["exact_match"] for x in ok) / max(len(all_records), 1), "constraint_fallback_rate": fallback_count / max(len(all_records), 1)}
+        summary = {"n": len(all_records), "success_rate": len(ok) / max(len(all_records), 1), "a4_pass_rate": sum(x["validation"]["passed"] for x in ok) / max(len(all_records), 1), "exact_match_rate": sum(x["exact_match"] for x in ok) / max(len(all_records), 1), "semantic_match_rate": sum(x.get("semantic_match", x["exact_match"]) for x in ok) / max(len(all_records), 1), "constraint_fallback_rate": fallback_count / max(len(all_records), 1)}
         (args.output / "summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
     if dist: dist.barrier(); dist.destroy_process_group()
     return 0

@@ -288,7 +288,9 @@ CUDA_VISIBLE_DEVICES=0,1 torchrun --standalone --nproc_per_node=2 experiments/ru
 以下命令用于出现
 `p-bit cold construction found no feasible extension` 后的重新运行。修复从提交
 `c0718a8` 开始生效。必须先确认旧任务已经停止，并使用新的 `RUN_ROOT`，不要把
-新结果写入失败运行的目录。
+新结果写入失败运行的目录。当前版本还修复了中文约束 fallback 对
+`先于……且同车` 和 `不得由同一辆车` 的误分类；正式脚本会在 CPP
+语义匹配率不是 100% 时立即停止，不会带着错误约束继续消耗 GPU。
 
 ```bash
 export USER_ROOT=/mnt/shared-storage-gpfs2/ai4scifm-gpfs02/wanglihao
@@ -316,18 +318,18 @@ git merge-base --is-ancestor c0718a8 HEAD || {
 
 source "$CONDA_ROOT/etc/profile.d/conda.sh"
 conda activate "$CONDA_ENVS_PATH/qihc"
-python -m pytest -q tests/test_dual_track_execution.py
+python -m pytest -q
 ```
 
-回归测试通过后启动正式任务。下面的 `_04` 是新目录，不能改回已经失败的
-`formal_20260921_8gpu_03`：
+回归测试通过后启动正式任务。下面的 `_07` 是新目录，不能改回已经失败的
+`formal_20260921_8gpu_03`；也不要复用任何旧版 CPP 检查点。
 
 ```bash
 export WORK_ROOT="$REPO_DIR/deployment"
 export GLOBAL_ROOT="$WORK_ROOT"
 export MODEL_DIR="$WORK_ROOT/models/Qwen--Qwen3.5-35B-A3B"
 export BENCHMARK_DIR="$WORK_ROOT/data/CVRPLIB/X"
-export RUN_ROOT="$WORK_ROOT/results/formal_20260921_8gpu_04"
+export RUN_ROOT="$WORK_ROOT/results/formal_20260922_8gpu_07"
 export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 export NPROC_PER_NODE=8
 export NUM_CHAINS=2048
@@ -348,10 +350,11 @@ echo $! | tee "$RUN_ROOT/launcher.pid"
 ```bash
 export USER_ROOT=/mnt/shared-storage-gpfs2/ai4scifm-gpfs02/wanglihao
 export REPO_DIR="$USER_ROOT/code/qihc/QIHC-llm-cvrp"
-export RUN_ROOT="$REPO_DIR/deployment/results/formal_20260921_8gpu_04"
+export RUN_ROOT="$REPO_DIR/deployment/results/formal_20260922_8gpu_07"
 
 ps -fp "$(cat "$RUN_ROOT/launcher.pid")" || true
 tail -n 50 "$RUN_ROOT/launcher.log"
+python -m json.tool "$RUN_ROOT/cpp/summary.json" 2>/dev/null || true
 find "$RUN_ROOT" -path '*/failures.json' -size +2c -print
 nvidia-smi --query-gpu=index,memory.used,utilization.gpu,power.draw \
   --format=csv,noheader

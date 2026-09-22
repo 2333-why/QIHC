@@ -26,12 +26,24 @@ class HeuristicConstraintBackend:
         for clause in clauses:
             ids = [int(x) for x in re.findall(r"(?:客户|订单)?\s*(\d+)", clause) if int(x) in valid]
             spec = None
-            if len(ids) >= 2 and any(k in clause for k in ("不能由同一", "不得同车", "不能同车", "different vehicle")):
-                spec = ConstraintSpec("mutual_exclusion", params={"entities": ids[:2]}, source_text=clause)
-            elif len(ids) >= 2 and any(k in clause for k in ("同一辆车", "同车", "same vehicle")):
-                spec = ConstraintSpec("same_resource", params={"entities": ids[:2]}, source_text=clause)
-            elif len(ids) >= 2 and any(k in clause for k in ("先于", "之前", "before")):
+            normalized = clause.lower()
+            # Precedence clauses in the benchmark explicitly add that both
+            # customers use the same vehicle.  Detect the ordering relation
+            # first; otherwise the phrase "同一辆车" silently changes the
+            # constraint into same_resource during an LLM fallback.
+            if len(ids) >= 2 and any(k in normalized for k in ("先于", "之前", "before", "precede")):
                 spec = ConstraintSpec("precedence", params={"before": ids[0], "after": ids[1]}, source_text=clause)
+            # Test negative same-vehicle language before the positive form.
+            # The generated Chinese benchmark uses "不得由同一辆车", which
+            # was not covered by the former, narrower keyword list.
+            elif len(ids) >= 2 and any(k in normalized for k in (
+                "不能由同一", "不得由同一", "不可由同一", "禁止由同一",
+                "不得同车", "不能同车", "不可同车", "different vehicle",
+                "must not share", "cannot share",
+            )):
+                spec = ConstraintSpec("mutual_exclusion", params={"entities": ids[:2]}, source_text=clause)
+            elif len(ids) >= 2 and any(k in normalized for k in ("同一辆车", "同车", "same vehicle")):
+                spec = ConstraintSpec("same_resource", params={"entities": ids[:2]}, source_text=clause)
             if spec:
                 specs.append(spec)
         return specs, {"backend": "heuristic", "clauses": clauses}

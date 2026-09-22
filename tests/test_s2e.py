@@ -31,6 +31,21 @@ def test_heuristic_constraint_synthesis():
     assert [p.type for p in cpp.programs] == ["same_resource", "mutual_exclusion", "precedence"]
 
 
+def test_heuristic_constraint_synthesis_matches_formal_chinese_templates():
+    instance = generate_synthetic_instance(6, 3, 30, seed=11, semantic_constraints=False)
+    instance.description = (
+        "客户 1 与客户 2 必须由同一辆车配送。"
+        "客户 3 必须先于客户 4 完成配送，且两者在同一辆车上。"
+        "客户 5 与客户 6 不得由同一辆车配送。"
+    )
+    cpp = ConstraintSynthesizer(HeuristicConstraintBackend()).synthesize(instance)
+    assert [p.type for p in cpp.programs] == [
+        "same_resource", "precedence", "mutual_exclusion",
+    ]
+    assert cpp.programs[1].params == {"before": 3, "after": 4}
+    assert cpp.programs[2].params == {"entities": [5, 6]}
+
+
 def test_compile_rejects_unvalidated_cpp_and_selects_representations():
     instance = generate_synthetic_instance(6, 3, 30, seed=2)
     cpp = ConstraintProgramPackage.from_specs(instance.name, instance.description, instance.customer_ids, instance.constraints)
