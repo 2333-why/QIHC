@@ -42,8 +42,17 @@ def main() -> int:
     parser.add_argument("--max-customers", type=int, default=400)
     parser.add_argument("--limit", type=int, default=3)
     parser.add_argument("--selection", choices=["smallest", "spread"], default="smallest")
+    parser.add_argument("--manifest-name", default="download_manifest.json")
+    parser.add_argument("--verify-cached", action="store_true")
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
+    previous_manifest = args.output_dir / args.manifest_name
+    previous = {}
+    if previous_manifest.exists():
+        try:
+            previous = {row["name"]: row for row in json.loads(previous_manifest.read_text(encoding="utf-8"))}
+        except (ValueError, KeyError):
+            previous = {}
     html = fetch(BASE + "/en/instances").decode("utf-8", errors="replace")
     cases = [(name, code) for name, code in discover(html)
              if args.min_customers <= int(name.split("-")[1][1:]) - 1 <= args.max_customers]
@@ -67,17 +76,26 @@ def main() -> int:
                                      ("sol", "bks", b"Route #")):
             url = f"{BASE}/en/download/{kind}/{code}"
             target = args.output_dir / f"{name}.{suffix}"
-            payload = target.read_bytes() if target.exists() else fetch(url)
+            payload = target.read_bytes() if target.exists() else None
+            expected_sha = previous.get(name, {}).get("files", {}).get(suffix, {}).get("sha256")
+            cached_valid = (payload is not None and marker in payload and (
+                not args.verify_cached or expected_sha == hashlib.sha256(payload).hexdigest()))
+            replace_cache = not cached_valid
+            if replace_cache:
+                payload = fetch(url)
             if marker not in payload:
                 raise ValueError(f"Unexpected official response for {url}")
-            if not target.exists():
+            if replace_cache:
+                if target.exists():
+                    backup = target.with_suffix(target.suffix + f".invalid-{time.time_ns()}.bak")
+                    backup.write_bytes(target.read_bytes())
                 temporary = target.with_suffix(target.suffix + ".part")
                 temporary.write_bytes(payload)
                 temporary.replace(target)
             entry["files"][suffix] = {"url": url, "sha256": hashlib.sha256(payload).hexdigest()}
         manifest.append(entry)
         print(json.dumps({"downloaded": name}, ensure_ascii=False), flush=True)
-    (args.output_dir / "download_manifest.json").write_text(
+    (args.output_dir / args.manifest_name).write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     return 0
 

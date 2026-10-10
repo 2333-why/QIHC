@@ -144,35 +144,100 @@ def _group_domains(
     return domains
 
 
+def _cold_batch_context(
+    instance: CVRPInstance,
+    current: RouteSolution,
+    groups: list[list[int]],
+    domains: dict[int, list[int]],
+    remaining_groups: list[list[int]],
+) -> dict:
+    """Expose objective/capacity/look-ahead facts without asking the LLM to infer them."""
+    loads = [sum(instance.customers[c].demand for c in route) for route in current.routes]
+    route_rows = []
+    for route_idx, route in enumerate(current.routes):
+        route_rows.append({
+            "route": route_idx,
+            "load": loads[route_idx],
+            "remaining_capacity": instance.vehicle_capacity - loads[route_idx],
+            "size": len(route),
+            "customers": list(route),
+        })
+    customer_rows: dict[str, dict] = {}
+    for group in groups:
+        demand = sum(instance.customers[c].demand for c in group)
+        candidates = []
+        for route_idx in domains[group[0]]:
+            scratch = list(current.routes[route_idx])
+            insertion_delta = 0.0
+            insertions = []
+            for customer in group:
+                position, delta = best_insertion(instance, scratch, customer)
+                scratch.insert(position, customer)
+                insertion_delta += delta
+                insertions.append({"customer": customer, "position": position, "delta": round(delta, 3)})
+            candidates.append({
+                "route": route_idx,
+                "insertion_delta": round(insertion_delta, 3),
+                "remaining_after": instance.vehicle_capacity - loads[route_idx] - demand,
+                "insertions": insertions,
+            })
+        row = {
+            "group": list(group),
+            "group_demand": demand,
+            "coordinates": {
+                str(c): [round(instance.customers[c].x, 3), round(instance.customers[c].y, 3)]
+                for c in group
+            },
+            "candidates": candidates,
+        }
+        for customer in group:
+            customer_rows[str(customer)] = row
+    remaining_demands = sorted(
+        (sum(instance.customers[c].demand for c in group) for group in remaining_groups),
+        reverse=True,
+    )
+    residuals = sorted((instance.vehicle_capacity - load for load in loads), reverse=True)
+    return {
+        "capacity": instance.vehicle_capacity,
+        "routes": route_rows,
+        "customers": customer_rows,
+        "lookahead": {
+            "remaining_group_count": len(remaining_groups),
+            "remaining_total_demand": sum(remaining_demands),
+            "largest_remaining_group_demands": remaining_demands[:16],
+            "route_residual_capacities": residuals,
+            "capacity_slack": sum(residuals) - sum(remaining_demands),
+        },
+    }
+
+
 def _sanitize_proposal(
     domain: NeighborhoodProposal,
     proposed: NeighborhoodProposal,
     groups: list[list[int]],
+    *,
+    confidence_threshold: float,
+    max_abs_logit: float,
 ) -> NeighborhoodProposal:
-    """Keep LLM ordering/logits but restore safe, common domains for coupled customers."""
+    """Keep bounded logits and the baseline domain order for coupled customers."""
     safe: dict[int, list[int]] = {}
     logits: dict[int, dict[int, float]] = {}
     for group in groups:
         common = set(domain.candidate_routes[group[0]])
         for customer in group[1:]:
             common &= set(domain.candidate_routes[customer])
-        ordered: list[int] = []
-        for customer in group:
-            for route in proposed.candidate_routes.get(customer, []):
-                if route in common and route not in ordered:
-                    ordered.append(route)
-        ordered.extend(
-            route
-            for route in domain.candidate_routes[group[0]]
-            if route in common and route not in ordered
-        )
+        ordered = [route for route in domain.candidate_routes[group[0]] if route in common]
         if not ordered:
             ordered = list(domain.candidate_routes[group[0]])
         for customer in group:
             safe[customer] = list(ordered)
+            supplied = proposed.candidate_route_logits.get(customer, {})
+            enabled = float(proposed.confidence) >= confidence_threshold
+            values = [float(supplied.get(route, 0.0)) for route in ordered] if enabled else [0.0] * len(ordered)
+            center = sum(values) / max(len(values), 1)
             logits[customer] = {
-                route: float(proposed.candidate_route_logits.get(customer, {}).get(route, 0.0))
-                for route in ordered
+                route: max(-max_abs_logit, min(max_abs_logit, value - center))
+                for route, value in zip(ordered, values)
             }
     sanitized = NeighborhoodProposal(
         list(domain.destroy_customers),
@@ -271,24 +336,48 @@ def _construct_attempt(
     route_limit: int,
     seed: int,
     selector,
+    proposal_bias: float,
+    confidence_threshold: float,
+    max_abs_logit: float,
 ) -> tuple[RouteSolution, float, int, int]:
     remaining = [list(group) for group in groups]
     current = RouteSolution([[] for _ in range(instance.vehicle_count)], source="pbit_cold_start")
     elapsed = 0.0
     batches = 0
     guarded_batches = 0
+    trace: list[dict] = []
     while remaining:
         batch_groups = _next_group_batch(remaining, batch_size)
         accepted = None
         while batch_groups and accepted is None:
             batch = [customer for group in batch_groups for customer in group]
             domains = _group_domains(instance, current, batch_groups, route_limit)
-            proposal = NeighborhoodProposal(batch, domains, source="pbit_cold_domain")
+            context = _cold_batch_context(instance, current, batch_groups, domains, remaining)
+            proposal = NeighborhoodProposal(
+                batch, domains, source="pbit_cold_domain", raw={"cold_context": context}
+            )
             if selector is not None and hasattr(selector, "propose_cold_batch"):
                 proposed = selector.propose_cold_batch(instance, current, proposal, batches, seed)
-                proposal = _sanitize_proposal(proposal, proposed, batch_groups)
+                proposal = _sanitize_proposal(
+                    proposal, proposed, batch_groups,
+                    confidence_threshold=confidence_threshold,
+                    max_abs_logit=max_abs_logit,
+                )
+                logit_scales = {}
+                for customer, values in proposal.candidate_route_logits.items():
+                    feature_rows = context["customers"][str(customer)]["candidates"]
+                    deltas = [float(row["insertion_delta"]) for row in feature_rows]
+                    scale = max(1.0, max(deltas) - min(deltas)) if deltas else 1.0
+                    logit_scales[str(customer)] = scale
+                    proposal.candidate_route_logits[customer] = {
+                        route: value * scale for route, value in values.items()
+                    }
+                if isinstance(proposal.raw, dict):
+                    proposal.raw["cold_logit_scales"] = logit_scales
             proposal.validate(instance)
-            problem = build_assignment_qubo(instance, current, proposal)
+            problem = build_assignment_qubo(
+                instance, current, proposal, proposal_bias=proposal_bias
+            )
             base_sampler = sampler_factory(seed + 7919 * batches)
             plan = instance.metadata.get("constraint_compilation") or {}
             use_hybrid = any(
@@ -308,6 +397,7 @@ def _construct_attempt(
                     steps=base_sampler.steps,
                     top_k=base_sampler.top_k,
                     seed=seed + 7919 * batches,
+                    proposal_bias=proposal_bias,
                 )
                 if sampler_type is TorchPDitMFCSampler:
                     kwargs["device"] = base_sampler.device
@@ -335,9 +425,15 @@ def _construct_attempt(
                     assigned = {customer for route in decoded.routes for customer in route}
                     partial.customers = {customer: instance.customers[customer] for customer in assigned}
                     partial.constraints = [spec for spec in instance.constraints if _applicable(spec, assigned)]
-                    candidates.append((verify_solution(partial, decoded).objective, decoded))
+                    assignment = {
+                        customer: route_idx
+                        for route_idx, route in enumerate(decoded.routes)
+                        for customer in batch if customer in route
+                    }
+                    candidates.append((verify_solution(partial, decoded).objective, decoded, assignment))
             if candidates:
-                accepted = min(candidates, key=lambda item: item[0])[1]
+                candidates.sort(key=lambda item: item[0])
+                accepted = candidates[0][1]
             else:
                 accepted = _guarded_extension(
                     instance,
@@ -348,6 +444,68 @@ def _construct_attempt(
                 )
                 if accepted is not None:
                     guarded_batches += 1
+            if accepted is not None:
+                chosen_assignment = {
+                    customer: route_idx
+                    for route_idx, route in enumerate(accepted.routes)
+                    for customer in batch if customer in route
+                }
+                teacher_payload = {
+                    "destroy_customers": list(batch),
+                    "candidate_routes": {
+                        str(customer): list(proposal.candidate_routes[customer]) for customer in batch
+                    },
+                    "candidate_route_scores": {
+                        str(customer): {
+                            str(route): (1.0 if route == chosen_assignment[customer] else -1.0)
+                            for route in proposal.candidate_routes[customer]
+                        }
+                        for customer in batch
+                    },
+                    "confidence": 1.0,
+                }
+                rejected_payload = None
+                margin = 0.0
+                if len(candidates) > 1:
+                    rejected_assignment = candidates[-1][2]
+                    rejected_payload = {
+                        "destroy_customers": list(batch),
+                        "candidate_routes": {
+                            str(customer): list(proposal.candidate_routes[customer]) for customer in batch
+                        },
+                        "candidate_route_scores": {
+                            str(customer): {
+                                str(route): (1.0 if route == rejected_assignment[customer] else -1.0)
+                                for route in proposal.candidate_routes[customer]
+                            }
+                            for customer in batch
+                        },
+                        "confidence": 0.0,
+                    }
+                    margin = float(candidates[-1][0] - candidates[0][0])
+                trace.append({
+                    "task": "cold_start",
+                    "batch": batches,
+                    "seed": seed,
+                    "prompt": proposal.raw.get("cold_prompt") if isinstance(proposal.raw, dict) else None,
+                    "context": context,
+                    "incumbent_routes_before": [list(route) for route in current.routes],
+                    "accepted_partial_objective": candidates[0][0] if candidates else None,
+                    "proposal_payload": {
+                        "destroy_customers": list(batch),
+                        "candidate_routes": {str(k): v for k, v in proposal.candidate_routes.items()},
+                        "candidate_route_logits": {
+                            str(k): {str(r): value for r, value in values.items()}
+                            for k, values in proposal.candidate_route_logits.items()
+                        },
+                        "confidence": proposal.confidence,
+                    },
+                    "teacher_payload": teacher_payload,
+                    "rejected_payload": rejected_payload,
+                    "objective_margin": margin,
+                    "guarded": not bool(candidates),
+                    "cold_llm_error": proposal.raw.get("cold_llm_error") if isinstance(proposal.raw, dict) else None,
+                })
             if accepted is None:
                 batch_groups = batch_groups[: len(batch_groups) // 2]
         if accepted is None:
@@ -365,6 +523,7 @@ def _construct_attempt(
     current.source = "pbit_cold_start"
     current.metadata["construction_batches"] = batches
     current.metadata["guarded_batches"] = guarded_batches
+    current.metadata["cold_start_records"] = trace
     return current, elapsed, batches, guarded_batches
 
 
@@ -376,6 +535,10 @@ def construct_with_pbit(
     routes_per_customer: int = 4,
     seed: int = 0,
     selector=None,
+    proposal_bias: float = 0.25,
+    confidence_threshold: float = 0.55,
+    max_abs_logit: float = 1.0,
+    quality_attempts: int = 1,
 ) -> ColdStartResult:
     """Incrementally construct a solution with p-bit samples and bounded recovery.
 
@@ -385,7 +548,7 @@ def construct_with_pbit(
     partial packing still reaches a dead end, construction restarts from empty
     routes with a different seed and a wider candidate domain.
     """
-    if batch_size <= 0 or routes_per_customer <= 0:
+    if batch_size <= 0 or routes_per_customer <= 0 or quality_attempts <= 0:
         raise ValueError("cold-start batch size and route count must be positive")
     if sum(customer.demand for customer in instance.customers.values()) > (
         instance.vehicle_count * instance.vehicle_capacity
@@ -394,6 +557,8 @@ def construct_with_pbit(
 
     errors: list[str] = []
     total_elapsed = 0.0
+    successes: list[tuple[float, RouteSolution, int, int, int]] = []
+    all_trace: list[dict] = []
     for attempt in range(4):
         groups = _ordered_groups(instance, seed, attempt)
         route_limit = (
@@ -411,14 +576,38 @@ def construct_with_pbit(
                 route_limit=route_limit,
                 seed=attempt_seed,
                 selector=selector,
+                proposal_bias=proposal_bias,
+                confidence_threshold=confidence_threshold,
+                max_abs_logit=max_abs_logit,
             )
             total_elapsed += elapsed
-            solution.metadata["construction_attempts"] = attempt + 1
-            solution.metadata["cold_route_limit"] = route_limit
-            solution.metadata["guarded_batches"] = guarded
-            return ColdStartResult(solution, total_elapsed, batches)
+            for record in solution.metadata.get("cold_start_records", []):
+                record["attempt"] = attempt + 1
+                all_trace.append(record)
+            objective = verify_solution(instance, solution).objective
+            for record in solution.metadata.get("cold_start_records", []):
+                record["rollout_objective"] = objective
+            successes.append((objective, solution, batches, guarded, route_limit))
+            if len(successes) >= min(quality_attempts, 4):
+                break
         except ValueError as exc:
             errors.append(f"attempt={attempt + 1}, route_limit={route_limit}: {exc}")
-    raise ValueError(
-        "p-bit cold construction exhausted four restart attempts: " + " | ".join(errors)
+    if not successes:
+        raise ValueError(
+            "p-bit cold construction exhausted four restart attempts: " + " | ".join(errors)
+        )
+    _, solution, batches, guarded, route_limit = min(successes, key=lambda item: item[0])
+    selected_attempt = next(
+        int(record["attempt"])
+        for record in all_trace
+        if record.get("rollout_objective") == verify_solution(instance, solution).objective
     )
+    for record in all_trace:
+        record["selected_attempt"] = int(record.get("attempt", -1)) == selected_attempt
+    solution.metadata["construction_attempts"] = len(successes) + len(errors)
+    solution.metadata["successful_construction_attempts"] = len(successes)
+    solution.metadata["cold_route_limit"] = route_limit
+    solution.metadata["guarded_batches"] = guarded
+    solution.metadata["cold_proposal_bias"] = proposal_bias
+    solution.metadata["cold_start_records"] = all_trace
+    return ColdStartResult(solution, total_elapsed, batches)

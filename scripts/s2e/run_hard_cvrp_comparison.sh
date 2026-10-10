@@ -24,6 +24,13 @@ NUM_CHAINS="${NUM_CHAINS:-2048}"
 TOP_SAMPLES="${TOP_SAMPLES:-128}"
 BASELINE_TIME_LIMIT="${BASELINE_TIME_LIMIT:-300}"
 LLM_DIRECT_MAX_NEW_TOKENS="${LLM_DIRECT_MAX_NEW_TOKENS:-8192}"
+ADAPTER_PATH="${ADAPTER_PATH:-}"
+COLD_PROPOSAL_BIAS="${COLD_PROPOSAL_BIAS:-0.25}"
+COLD_CONFIDENCE_THRESHOLD="${COLD_CONFIDENCE_THRESHOLD:-0.55}"
+COLD_MAX_ABS_LOGIT="${COLD_MAX_ABS_LOGIT:-1.0}"
+COLD_QUALITY_ATTEMPTS="${COLD_QUALITY_ATTEMPTS:-2}"
+ARMS="${ARMS:-full full_neutral_cold no_feedback pbit_only random_pbit oracle}"
+RUN_BASELINES="${RUN_BASELINES:-1}"
 
 NPROC_PER_NODE="${NPROC_PER_NODE:-8}"
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1,2,3,4,5,6,7}"
@@ -48,9 +55,14 @@ python experiments/prepare_hard_nlcvrp.py "${BENCHMARK_DIR}" "${DATA}" \
   --clauses-per-type "${CLAUSES_PER_TYPE}" \
   >"${RUN_ROOT}/logs/prepare.log" 2>&1
 
+ADAPTER_ARGS=()
+if [[ -n "${ADAPTER_PATH}" ]]; then
+  ADAPTER_ARGS+=(--adapter-path "${ADAPTER_PATH}")
+fi
+
 torchrun --standalone --nproc_per_node="${NPROC_PER_NODE}" experiments/run_s2e_pipeline.py \
   --data "${DATA}" --model-path "${MODEL_DIR}" --output "${CPP}" \
-  --temperature 0 --max-new-tokens 1536 --resume \
+  --temperature 0 --max-new-tokens 1536 "${ADAPTER_ARGS[@]}" --resume \
   >"${RUN_ROOT}/logs/cpp.log" 2>&1
 
 # Never launch the expensive search with a syntactically valid but
@@ -68,7 +80,7 @@ if failed:
 print("CPP preflight passed:", {key: summary[key] for key in required})
 PY
 
-for ARM in full no_feedback pbit_only random_pbit oracle; do
+for ARM in ${ARMS}; do
   OUTPUT="${RUN_ROOT}/${ARM}"
   EXTRA=(--constraint-source cpp --cpp-records "${CPP}/records.jsonl")
   METHOD=llm
@@ -80,6 +92,8 @@ for ARM in full no_feedback pbit_only random_pbit oracle; do
     METHOD=random
   elif [[ "${ARM}" == oracle ]]; then
     EXTRA=(--constraint-source dataset)
+  elif [[ "${ARM}" == full_neutral_cold ]]; then
+    EXTRA+=(--cold-selector-mode neutral)
   fi
   # shellcheck disable=SC2086
   torchrun --standalone --nproc_per_node="${NPROC_PER_NODE}" experiments/run_cvrp_lns.py \
@@ -87,34 +101,43 @@ for ARM in full no_feedback pbit_only random_pbit oracle; do
     --methods "${METHOD}" --search-seeds ${SEARCH_SEEDS} --sampler torch \
     --initialization pbit-cold --cold-batch-size 8 \
     --cold-routes-per-customer "${ROUTES_PER_CUSTOMER}" \
+    --cold-proposal-bias "${COLD_PROPOSAL_BIAS}" \
+    --cold-confidence-threshold "${COLD_CONFIDENCE_THRESHOLD}" \
+    --cold-max-abs-logit "${COLD_MAX_ABS_LOGIT}" \
+    --cold-quality-attempts "${COLD_QUALITY_ATTEMPTS}" \
     --iterations "${ITERATIONS}" --patience "${PATIENCE}" \
     --destroy-size "${DESTROY_SIZE}" --routes-per-customer "${ROUTES_PER_CUSTOMER}" \
     --sampling-steps "${SAMPLING_STEPS}" --num-chains "${NUM_CHAINS}" \
     --top-samples "${TOP_SAMPLES}" --model-path "${MODEL_DIR}" \
     --llm-temperature 0 --llm-refresh-interval 5 --llm-max-new-tokens 1536 \
     --llm-max-input-tokens 32768 --proposal-bias 5 --logit-feedback-rate 0.8 \
-    "${EXTRA[@]}" --resume >"${RUN_ROOT}/logs/${ARM}.log" 2>&1
+    --export-training-context \
+    "${ADAPTER_ARGS[@]}" "${EXTRA[@]}" --resume >"${RUN_ROOT}/logs/${ARM}.log" 2>&1
 done
 
 HGS_DIR="${HGS_DIR:-${WORK_ROOT:-/hdd/wl2}/runtime/src/HGS-CVRP}"
 HGS_BINARY="${HGS_BINARY:-${HGS_DIR}/build/hgs}"
-[[ -x "${HGS_BINARY}" ]] || HGS_BINARY="${HGS_DIR}/build/bin/hgs"
-if [[ ! -x "${HGS_BINARY}" ]]; then
-  echo "HGS executable not found under ${HGS_DIR}/build" >&2
-  exit 2
+if [[ "${RUN_BASELINES}" == "1" ]]; then
+  [[ -x "${HGS_BINARY}" ]] || HGS_BINARY="${HGS_DIR}/build/bin/hgs"
+  if [[ ! -x "${HGS_BINARY}" ]]; then
+    echo "HGS executable not found under ${HGS_DIR}/build" >&2
+    exit 2
+  fi
 fi
 
 # The direct LLM receives raw numerical data and natural-language requirements,
 # then emits a complete solution. No repair is performed before verification.
-# shellcheck disable=SC2086
-torchrun --standalone --nproc_per_node="${NPROC_PER_NODE}" experiments/run_cvrp_lns.py \
-  --dataset jsonl --data "${DATA}" --output "${RUN_ROOT}/baselines" \
-  --methods greedy ortools hgs llm_direct --search-seeds ${SEARCH_SEEDS} \
-  --constraint-source dataset --model-path "${MODEL_DIR}" \
-  --llm-temperature 0.2 --llm-direct-max-new-tokens "${LLM_DIRECT_MAX_NEW_TOKENS}" \
-  --llm-max-input-tokens 32768 --baseline-time-limit "${BASELINE_TIME_LIMIT}" \
-  --hgs-binary "${HGS_BINARY}" --resume \
-  >"${RUN_ROOT}/logs/baselines.log" 2>&1
+if [[ "${RUN_BASELINES}" == "1" ]]; then
+  # shellcheck disable=SC2086
+  torchrun --standalone --nproc_per_node="${NPROC_PER_NODE}" experiments/run_cvrp_lns.py \
+    --dataset jsonl --data "${DATA}" --output "${RUN_ROOT}/baselines" \
+    --methods greedy ortools hgs llm_direct --search-seeds ${SEARCH_SEEDS} \
+    --constraint-source dataset --model-path "${MODEL_DIR}" \
+    --llm-temperature 0.2 --llm-direct-max-new-tokens "${LLM_DIRECT_MAX_NEW_TOKENS}" \
+    --llm-max-input-tokens 32768 --baseline-time-limit "${BASELINE_TIME_LIMIT}" \
+    --hgs-binary "${HGS_BINARY}" --resume \
+    >"${RUN_ROOT}/logs/baselines.log" 2>&1
+fi
 
 # shellcheck disable=SC2086
 python experiments/analyze_cvrp_method_comparison.py "${RUN_ROOT}" \

@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import itertools
+import copy
+import math
 from dataclasses import asdict, dataclass, field
 from enum import IntEnum
 from typing import Any
@@ -26,6 +28,8 @@ class StageResult:
     passed: bool
     errors: list[dict[str, Any]] = field(default_factory=list)
     checked: int = 0
+    skipped: bool = False
+    coverage: str = ""
 
 
 @dataclass
@@ -50,9 +54,10 @@ class CPPValidator:
         ids = [p.id for p in cpp.programs]
         if len(ids) != len(set(ids)): errors.append({"reason": "duplicate_program_id"})
         for p in cpp.programs:
+            if not isinstance(p.hard, bool): errors.append({"program": p.id, "reason": "hard_flag_not_boolean"})
             if p.type not in SUPPORTED_CONSTRAINTS: errors.append({"program": p.id, "reason": "unsupported_type", "type": p.type})
             if not 0 <= p.confidence <= 1: errors.append({"program": p.id, "reason": "confidence_range"})
-            if p.weight < 0: errors.append({"program": p.id, "reason": "negative_weight"})
+            if not math.isfinite(p.weight) or p.weight < 0: errors.append({"program": p.id, "reason": "nonfinite_or_negative_weight"})
         return StageResult("A0_SCHEMA", not errors, errors, len(cpp.programs))
 
     def _mentioned(self, p: ConstraintProgram) -> list[int]:
@@ -70,13 +75,32 @@ class CPPValidator:
             if p.type == "precedence" and (len(mentioned) != 2 or mentioned[0] == mentioned[1]): errors.append({"program": p.id, "reason": "precedence_domain"})
         return StageResult("A1_STATIC", not errors, errors, len(cpp.programs))
 
-    def _a2(self, cpp: ConstraintProgramPackage) -> StageResult:
+    def _a2(self, cpp: ConstraintProgramPackage, instance: CVRPInstance | None) -> StageResult:
         errors, checked = [], 0
         for p in cpp.programs:
             for test in p.tests:
                 checked += 1
-                if "expected" not in test or "routes" not in test: errors.append({"program": p.id, "reason": "malformed_test", "test": test})
-        return StageResult("A2_TESTS", not errors, errors, checked)
+                if "expected" not in test or "routes" not in test or not isinstance(test["expected"], bool):
+                    errors.append({"program": p.id, "reason": "malformed_test", "test": test})
+                    continue
+                if instance is None:
+                    errors.append({"program": p.id, "reason": "test_instance_required"})
+                    continue
+                isolated = copy.copy(instance)
+                isolated.constraints = [p.to_spec()]
+                mentioned = set(self._mentioned(p))
+                used = {int(c) for route in test["routes"] for c in route} | mentioned
+                if used - set(instance.customer_ids):
+                    errors.append({"program": p.id, "reason": "unknown_fixture_customer"})
+                    continue
+                isolated.customers = {c: instance.customers[c] for c in used}
+                if p.type in {"same_resource", "same_vehicle", "mutual_exclusion", "precedence"}:
+                    isolated.vehicle_capacity = 10**9
+                    isolated.vehicle_count = max(instance.vehicle_count, len(test["routes"]))
+                observed = verify_solution(isolated, RouteSolution(test["routes"])).feasible
+                if observed != test["expected"]:
+                    errors.append({"program": p.id, "reason": "test_failed", "expected": test["expected"], "observed": observed})
+        return StageResult("A2_TESTS", not errors, errors, checked, skipped=not bool(checked), coverage="provided executable fixtures")
 
     def _assignment_satisfies(self, p: ConstraintProgram, assignment: dict[int, int]) -> bool:
         if p.type in {"same_resource", "same_vehicle"}:
@@ -87,8 +111,8 @@ class CPPValidator:
 
     def _a3(self, cpp: ConstraintProgramPackage, instance: CVRPInstance | None) -> tuple[StageResult, list[dict[str, Any]]]:
         if instance is None or len(instance.customer_ids) > self.exact_customer_limit:
-            return StageResult("A3_EXACT", True, [], 0), []
-        relevant = [p for p in cpp.programs if p.type in {"same_resource", "same_vehicle", "mutual_exclusion"}]
+            return StageResult("A3_EXACT", True, [], 0, skipped=True, coverage="not enumerated: size limit or no instance"), []
+        relevant = [p for p in cpp.programs if p.hard and p.type in {"same_resource", "same_vehicle", "mutual_exclusion"}]
         checked, counterexamples = 0, []
         for values in itertools.product(range(instance.vehicle_count), repeat=len(instance.customer_ids)):
             checked += 1
@@ -102,18 +126,20 @@ class CPPValidator:
                 if expected != observed:
                     counterexamples.append({"program": p.id, "assignment": assignment, "expected": expected, "observed": observed})
                     return StageResult("A3_EXACT", False, [{"reason": "checker_mismatch", "program": p.id}], checked), counterexamples
-        return StageResult("A3_EXACT", True, [], checked), counterexamples
+        return StageResult("A3_EXACT", True, [], min(checked, self.max_exact_assignments),
+                           coverage="bounded enumeration" if checked > self.max_exact_assignments else "complete assignment enumeration"), counterexamples
 
     def _a4(self, cpp: ConstraintProgramPackage) -> StageResult:
-        errors = [{"program": p.id, "reason": "no_candidate_encoding"} for p in cpp.programs if not p.candidate_encodings]
-        return StageResult("A4_ENCODING", not errors, errors, len(cpp.programs))
+        errors = [{"program": p.id, "reason": "no_supported_candidate_encoding"} for p in cpp.programs
+                  if not set(p.candidate_encodings) & {"qubo", "pdit", "mfc"}]
+        return StageResult("A4_ENCODING", not errors, errors, len(cpp.programs), coverage="encoding availability, not equivalence proof")
 
     def validate(self, cpp: ConstraintProgramPackage, instance: CVRPInstance | None = None, through: ValidationStage = ValidationStage.A4_ENCODING) -> CPPValidationReport:
         stages, counterexamples = [], []
         for idx in range(int(through) + 1):
             if idx == 0: result = self._a0(cpp)
             elif idx == 1: result = self._a1(cpp)
-            elif idx == 2: result = self._a2(cpp)
+            elif idx == 2: result = self._a2(cpp, instance)
             elif idx == 3:
                 result, ces = self._a3(cpp, instance); counterexamples.extend(ces)
             else: result = self._a4(cpp)

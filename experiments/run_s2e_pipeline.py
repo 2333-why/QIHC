@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from datetime import timedelta
 import os
 import sys
 from pathlib import Path
@@ -17,7 +18,7 @@ from qihc.s2e import CPPValidator, ConstraintSynthesizer, FeedbackRecord, build_
 from qihc.s2e.synthesizer import HeuristicConstraintBackend, LocalLLMConstraintBackend
 
 
-def canonical_constraint(kind: str, hard: bool, params: dict) -> str:
+def canonical_constraint(kind: str, hard: bool, params: dict, weight: float = 1.0) -> str:
     kind = "same_resource" if kind == "same_vehicle" else kind
     normalized = dict(params)
     if kind in {"same_resource", "mutual_exclusion"}:
@@ -28,15 +29,18 @@ def canonical_constraint(kind: str, hard: bool, params: dict) -> str:
             "before": int(normalized["before"]),
             "after": int(normalized["after"]),
         }
+    payload = {"type": kind, "hard": bool(hard), "params": normalized}
+    if not hard:
+        payload["weight"] = float(weight)
     return json.dumps(
-        {"type": kind, "hard": bool(hard), "params": normalized},
+        payload,
         sort_keys=True,
         ensure_ascii=False,
     )
 
 
 def canonical(program) -> str:
-    return canonical_constraint(program.type, program.hard, program.params)
+    return canonical_constraint(program.type, program.hard, program.params, program.weight)
 
 
 def semantic_closure(items: set[str]) -> set[str]:
@@ -49,7 +53,7 @@ def semantic_closure(items: set[str]) -> set[str]:
     closed = set(items)
     for item in items:
         value = json.loads(item)
-        if value.get("type") != "precedence":
+        if value.get("type") != "precedence" or not value.get("hard", True):
             continue
         params = value.get("params", {})
         before, after = params.get("before"), params.get("after")
@@ -104,8 +108,8 @@ def main() -> int:
     args = p.parse_args(); rank = int(os.environ.get("RANK", 0)); world = int(os.environ.get("WORLD_SIZE", 1)); local_rank = int(os.environ.get("LOCAL_RANK", rank))
     dist = None
     if world > 1:
-        import torch.distributed as td
-        td.init_process_group("gloo"); dist = td
+        from experiments.distributed_runtime import initialize_gloo
+        dist = initialize_gloo(rank, world)
     args.output.mkdir(parents=True, exist_ok=True)
     instances = load_jsonl(args.data)[: args.limit or None]
     backend = HeuristicConstraintBackend() if args.backend == "heuristic" else LocalLLMConstraintBackend(args.model_path, f"cuda:{local_rank}", args.temperature, args.max_new_tokens, args.adapter_path)
@@ -133,7 +137,7 @@ def main() -> int:
                 continue
             try:
                 cpp, repair_reports = synth.synthesize_verified(instance, validator); report = repair_reports[-1]; plan = compile_cpp(cpp, instance, report) if report.passed and report.highest_stage == "A4_ENCODING" else None
-                gold = {canonical_constraint(s.type, s.hard, s.params) for s in instance.constraints}
+                gold = {canonical_constraint(s.type, s.hard, s.params, s.weight) for s in instance.constraints}
                 pred = {canonical(x) for x in cpp.programs}
                 exact = gold == pred
                 semantic = semantic_closure(gold) == semantic_closure(pred)

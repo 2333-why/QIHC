@@ -189,7 +189,7 @@ def test_llm_move_features_expose_objective_deltas_and_capacity():
         assert len(row["moves"]) <= selector.routes_per_customer - 1
         assert all(move["route"] != row["current_route"] for move in row["moves"])
         assert all(isinstance(move["net_delta"], float) for move in row["moves"])
-        assert all(move["remaining"] >= 0 for move in row["moves"])
+        assert all(move["remaining"] + move["capacity_release_required"] >= 0 for move in row["moves"])
     constrained = {1, 2, 3, 4, 5, 6}
     assert constrained.issubset({row["customer"] for row in features})
 

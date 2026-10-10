@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from collections import Counter
 from dataclasses import dataclass, field
 from typing import Iterable
 
@@ -47,7 +48,7 @@ def verify_solution(instance: CVRPInstance, solution: RouteSolution | list[list[
     expected = set(instance.customer_ids)
     unknown = sorted(set(seen) - expected)
     missing = sorted(expected - set(seen))
-    duplicates = sorted({customer for customer in seen if seen.count(customer) > 1})
+    duplicates = sorted(customer for customer, count in Counter(seen).items() if count > 1)
     if unknown:
         violations.append({"type": "unknown_customer", "entities": unknown})
     if missing:
@@ -60,6 +61,12 @@ def verify_solution(instance: CVRPInstance, solution: RouteSolution | list[list[
     loads: list[int] = []
     arrivals: dict[int, float] = {}
     total_cost = 0.0
+    hard_ready = {}
+    for spec in instance.constraints:
+        if spec.type == "time_window" and spec.hard:
+            entity = int(spec.params.get("entity", spec.params.get("customer", -1)))
+            interval = spec.params.get("interval", [spec.params.get("ready_time", 0.0), spec.params.get("due_time", math.inf)])
+            hard_ready[entity] = max(hard_ready.get(entity, 0.0), float(interval[0]))
     for route_idx, route in enumerate(routes):
         valid_route = [customer for customer in route if customer in instance.customers]
         load = sum(instance.customers[customer].demand for customer in valid_route)
@@ -74,7 +81,7 @@ def verify_solution(instance: CVRPInstance, solution: RouteSolution | list[list[
         for customer_id in valid_route:
             customer = instance.customers[customer_id]
             clock += instance.distance(previous, customer_id)
-            clock = max(clock, customer.ready_time)
+            clock = max(clock, customer.ready_time, hard_ready.get(customer_id, 0.0))
             arrivals[customer_id] = clock
             if clock > customer.due_time:
                 violations.append(
@@ -114,12 +121,23 @@ def verify_solution(instance: CVRPInstance, solution: RouteSolution | list[list[
                         violations.append(violation)
                     else:
                         soft_penalty += spec.weight * (distance - limit)
-        elif kind == "preferred_time":
+        elif kind in {"preferred_time", "time_window"}:
             entity = int(params.get("entity", params.get("customer")))
-            interval = params.get("interval", [0.0, math.inf])
+            interval = params.get("interval", [params.get("ready_time", 0.0), params.get("due_time", math.inf)])
             arrival = arrivals.get(entity, math.inf)
             if not (float(interval[0]) <= arrival <= float(interval[1])):
                 local_violation = {"type": kind, "entity": entity, "arrival": arrival, "interval": interval}
+        elif kind == "capacity":
+            limit = float(params.get("limit", params.get("capacity", instance.vehicle_capacity)))
+            for route_idx, load in enumerate(loads):
+                if load > limit:
+                    if spec.hard:
+                        if limit != instance.vehicle_capacity:
+                            violations.append({"type": kind, "route": route_idx, "actual": load, "limit": limit})
+                    else:
+                        soft_penalty += spec.weight * (load - limit)
+        else:
+            violations.append({"type": "unsupported_constraint", "constraint_type": kind})
 
         if local_violation:
             if spec.hard:

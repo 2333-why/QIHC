@@ -38,6 +38,10 @@ class ConstraintSpec:
 
     @classmethod
     def from_dict(cls, value: dict[str, Any]) -> "ConstraintSpec":
+        if not isinstance(value.get("hard", True), bool):
+            raise ValueError("Constraint hard flag must be a JSON boolean")
+        if not math.isfinite(float(value.get("weight", 1.0))) or float(value.get("weight", 1.0)) < 0:
+            raise ValueError("Constraint weight must be finite and nonnegative")
         known = {"type", "hard", "weight", "params", "source_text", "confidence"}
         params = dict(value.get("params", {}))
         params.update({k: v for k, v in value.items() if k not in known})
@@ -73,6 +77,8 @@ class CVRPInstance:
             raise ValueError("vehicle_capacity must be positive")
         if any(c.demand < 0 for c in self.customers.values()):
             raise ValueError("customer demand cannot be negative")
+        if any(not math.isfinite(point.x) or not math.isfinite(point.y) for point in [self.depot, *self.customers.values()]):
+            raise ValueError("Customer coordinates must be finite")
 
     @property
     def customer_ids(self) -> list[int]:

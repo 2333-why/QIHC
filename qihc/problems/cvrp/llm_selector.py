@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import json
 import re
+import math
+import time
 from pathlib import Path
 
 from qihc.problems.cvrp.instance import CVRPInstance, ConstraintSpec, RouteSolution
@@ -12,6 +14,14 @@ from qihc.problems.cvrp.neighborhood import (
     NeighborhoodProposal,
 )
 from qihc.problems.cvrp.verifier import verify_solution
+from qihc.problems.cvrp.json_output import answer_text, extract_answer_json
+
+
+def bounded_number(value, lower: float, upper: float) -> float:
+    number = float(value)
+    if not math.isfinite(number):
+        raise ValueError("Non-finite LLM numeric output")
+    return max(lower, min(upper, number))
 
 
 class PBitRouteTokenLogitsProcessor:
@@ -54,25 +64,15 @@ class PBitRouteTokenLogitsProcessor:
 
 
 def _extract_json(text: str) -> dict:
-    fenced = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL | re.IGNORECASE)
-    candidates = [fenced.group(1)] if fenced else []
-    start, end = text.find("{"), text.rfind("}")
-    if start >= 0 and end > start:
-        candidates.append(text[start : end + 1])
-    for candidate in candidates:
-        try:
-            value = json.loads(candidate)
-            if isinstance(value, dict):
-                return value
-        except json.JSONDecodeError:
-            continue
-    raise ValueError("LLM output contains no valid JSON object")
+    return extract_answer_json(text)
 
 
 def _extract_json_member(text: str, key: str):
     """Decode one complete top-level member from an otherwise truncated object."""
 
-    match = re.search(rf'"{re.escape(key)}"\s*:', text)
+    text = answer_text(text)
+    matches = list(re.finditer(rf'"{re.escape(key)}"\s*:', text))
+    match = matches[-1] if matches else None
     if not match:
         raise ValueError(f"LLM output is missing {key}")
     start = match.end()
@@ -174,7 +174,22 @@ class LocalLLMNeighborhoodSelector:
         self._cache: NeighborhoodProposal | None = None
         self._cache_instance: str | None = None
         self._pbit_logit_feedback: dict[int, dict[int, float]] = {}
+        self._token_logit_feedback: dict[int, dict[int, float]] = {}
+        self._distribution_diagnostics: dict = {}
         self._last_token_feedback_steps = 0
+
+    def reset_search_state(self) -> None:
+        self._cache = None
+        self._cache_instance = None
+        self._pbit_logit_feedback = {}
+        self._token_logit_feedback = {}
+        self._distribution_diagnostics = {}
+        self._generation_totals = {"calls": 0, "input_tokens": 0, "output_tokens": 0, "elapsed_s": 0.0}
+
+    def set_feedback_channels(self, prompt_feedback: dict, token_feedback: dict, diagnostics: dict) -> None:
+        self._pbit_logit_feedback = prompt_feedback
+        self._token_logit_feedback = token_feedback
+        self._distribution_diagnostics = diagnostics
 
     def set_pbit_logit_feedback(self, feedback: dict[int, dict[int, float]]) -> None:
         """Inject the previous p-bit posterior residuals into the next LLM turn."""
@@ -182,6 +197,7 @@ class LocalLLMNeighborhoodSelector:
             int(customer): {int(route): float(value) for route, value in routes.items()}
             for customer, routes in feedback.items()
         }
+        self._token_logit_feedback = dict(self._pbit_logit_feedback)
 
     def _move_features(
         self, instance: CVRPInstance, solution: RouteSolution
@@ -222,8 +238,6 @@ class LocalLLMNeighborhoodSelector:
                     if target_route == current_route:
                         continue
                     remaining = instance.vehicle_capacity - route_loads[target_route]
-                    if remaining < node.demand:
-                        continue
                     target_extended = [instance.depot.id, *target, instance.depot.id]
                     insertion = min(
                         instance.distance(target_extended[index], customer)
@@ -236,12 +250,11 @@ class LocalLLMNeighborhoodSelector:
                             "route": target_route,
                             "net_delta": round(insertion - removal_saving, 2),
                             "remaining": int(remaining - node.demand),
+                            "capacity_release_required": max(0, int(node.demand - remaining)),
                         }
                     )
                 moves.sort(key=lambda item: (item["net_delta"], item["route"]))
                 moves = moves[: max(1, self.routes_per_customer - 1)]
-                if not moves:
-                    continue
                 rows.append(
                     {
                         "customer": customer,
@@ -250,7 +263,7 @@ class LocalLLMNeighborhoodSelector:
                         "demand": node.demand,
                         "removal_saving": round(removal_saving, 2),
                         "moves": moves,
-                        "best_net_delta": moves[0]["net_delta"],
+                        "best_net_delta": moves[0]["net_delta"] if moves else 0.0,
                         "constraint_related": customer in constrained,
                     }
                 )
@@ -306,6 +319,8 @@ class LocalLLMNeighborhoodSelector:
             "The move feature net_delta is the exact geometric objective change before secondary interactions; "
             "negative is promising. Choose destroy_customers from the supplied feature shortlist and choose route "
             "IDs only from that customer's moves plus its current_route. p-bit will perform the final joint search.\n"
+            "A positive capacity_release_required means another selected customer must leave that route; "
+            "such moves can be feasible jointly even though they are infeasible in isolation.\n"
             f"Iteration: {iteration}\n"
             f"Vehicle capacity: {instance.vehicle_capacity}\n"
             f"Constraints: {json.dumps(constraints, ensure_ascii=False)}\n"
@@ -313,9 +328,10 @@ class LocalLLMNeighborhoodSelector:
             f"Objective-aware move features: {json.dumps(move_features, ensure_ascii=False, separators=(',', ':'))}\n"
             f"P-bit logit feedback from earlier iterations: "
             f"{json.dumps(compact_feedback, ensure_ascii=False, separators=(',', ':'))}\n"
+            f"Empirical population diagnostics: {json.dumps({k: v for k, v in getattr(self, '_distribution_diagnostics', {}).items() if k != 'marginals'}, ensure_ascii=False, separators=(',', ':'))}\n"
             "Positive feedback means p-bit repeatedly selected that assignment in improving samples; "
             "negative feedback means it was unsupported or harmful. Use it as evidence, not a hard rule.\n"
-            f"Required destroy count: {self.destroy_size}\n"
+            f"Required destroy count: {min(self.destroy_size, len(move_features))}\n"
             f"Maximum candidate routes per customer: {self.routes_per_customer}\n"
             "Return one compact JSON object with exactly these four fields; omit explanations, "
             "candidate_solution, candidate_edges, and reason. candidate_routes is the proposed "
@@ -330,6 +346,7 @@ class LocalLLMNeighborhoodSelector:
         )
 
     def _generate(self, prompt: str) -> str:
+        started = time.perf_counter()
         messages = [{"role": "user", "content": prompt}]
         if self.processor is not None:
             inputs = self.processor.apply_chat_template(
@@ -360,15 +377,20 @@ class LocalLLMNeighborhoodSelector:
         if do_sample:
             generation_kwargs.update({"temperature": self.temperature, "top_p": 0.9})
         processor = None
-        if self._pbit_logit_feedback and self.token_feedback_strength:
+        token_feedback = getattr(self, "_token_logit_feedback", self._pbit_logit_feedback)
+        if token_feedback and self.token_feedback_strength:
             processor = PBitRouteTokenLogitsProcessor(
                 self.tokenizer, inputs["input_ids"].shape[1],
-                self._pbit_logit_feedback, self.token_feedback_strength,
+                token_feedback, self.token_feedback_strength,
             )
             generation_kwargs["logits_processor"] = [processor]
         with self.torch.inference_mode():
             output = self.model.generate(**inputs, **generation_kwargs)
         generated = output[0, inputs["input_ids"].shape[1] :]
+        statistics = {"calls": 1, "input_tokens": input_length, "output_tokens": int(generated.shape[0]),
+                      "elapsed_s": time.perf_counter() - started}
+        totals = getattr(self, "_generation_totals", {"calls": 0, "input_tokens": 0, "output_tokens": 0, "elapsed_s": 0.0})
+        self._generation_totals = {key: totals[key] + statistics[key] for key in totals}
         self._last_token_feedback_steps = processor.applied_steps if processor else 0
         return (self.processor.decode(generated, skip_special_tokens=True)
                 if self.processor is not None else self.tokenizer.decode(generated, skip_special_tokens=True))
@@ -377,44 +399,71 @@ class LocalLLMNeighborhoodSelector:
         self, instance: CVRPInstance, partial: RouteSolution,
         domain: NeighborhoodProposal, iteration: int, seed: int,
     ) -> NeighborhoodProposal:
-        """LLM narrows a cold-start batch; p-bit still chooses the assignment."""
-        loads = [sum(instance.customers[c].demand for c in route) for route in partial.routes]
+        """Ask for a bounded residual preference after exposing exact numeric features."""
+        context = domain.raw.get("cold_context", {}) if isinstance(domain.raw, dict) else {}
         prompt = (
             "Construct a CVRP solution from empty routes, one batch at a time. "
-            "Choose candidate vehicle IDs for each unassigned customer; p-bit will decide the joint assignment. "
-            "Return compact JSON {\"candidate_routes\":{\"customer_id\":[route_id]}}. "
-            "Only use route IDs from the supplied domains and include at least one per customer.\n"
-            f"Capacity: {instance.vehicle_capacity}; route_loads: {json.dumps(loads)}\n"
-            f"Customers: {json.dumps({c: instance.customers[c].demand for c in domain.destroy_customers})}\n"
-            f"Allowed domains: {json.dumps(domain.candidate_routes)}\n"
+            "The supplied insertion_delta is the trusted geometric baseline. Add only a small residual "
+            "preference for future capacity scarcity and semantic constraints; p-bit decides the joint assignment. "
+            "Return JSON with candidate_routes, candidate_route_scores in [-1,1], and confidence in [0,1]. "
+            "Use every supplied route exactly once in each customer's ranked list; never invent or remove a route. "
+            "A low-confidence answer should use zero scores.\n"
+            f"Numeric construction state: {json.dumps(context, ensure_ascii=False, separators=(',', ':'))}\n"
+            f"Allowed domains: {json.dumps(domain.candidate_routes, separators=(',', ':'))}\n"
             f"Constraints: {json.dumps([{'type': c.type, 'params': c.params} for c in instance.constraints], ensure_ascii=False)}"
         )
         try:
-            value = _extract_json(self._generate(prompt))
+            raw_output = self._generate(prompt)
+            value = _extract_json(raw_output)
             raw = value.get("candidate_routes", {})
+            raw_scores = value.get("candidate_route_scores", value.get("candidate_route_logits", {}))
             candidates = {}
+            logits = {}
             for customer in domain.destroy_customers:
                 selected = [int(route) for route in raw.get(str(customer), raw.get(customer, []))]
                 preferred = [
                     route for route in selected
                     if route in domain.candidate_routes[customer]
-                ][:self.routes_per_customer]
+                ]
                 candidates[customer] = list(dict.fromkeys(
                     preferred + domain.candidate_routes[customer]
                 ))
+                supplied = raw_scores.get(str(customer), raw_scores.get(customer, {}))
+                logits[customer] = {
+                    route: bounded_number(supplied.get(str(route), supplied.get(route, 0.0)), -1.0, 1.0)
+                    for route in candidates[customer]
+                }
+            confidence = bounded_number(value.get("confidence", 0.5), 0.0, 1.0)
+            trace_raw = dict(value)
+            trace_raw.update({
+                "cold_prompt": prompt,
+                "cold_output": raw_output,
+                "cold_context": context,
+            })
             proposal = NeighborhoodProposal(
                 list(domain.destroy_customers), candidates,
-                source="llm_cold_domain", raw=value,
-                candidate_route_logits={
-                    customer: {route: float(len(candidates[customer]) - index)
-                               for index, route in enumerate(candidates[customer])}
-                    for customer in candidates
-                },
+                source="llm_cold_domain", raw=trace_raw,
+                confidence=confidence,
+                candidate_route_logits=logits,
             )
             proposal.validate(instance)
+            self._audit({
+                "instance": instance.name,
+                "search_seed": seed,
+                "iteration": iteration,
+                "phase": "cold_start",
+                "ok": True,
+                "prompt": prompt,
+                "output": raw_output,
+                "proposal": value,
+            })
             return proposal
         except Exception as exc:
-            domain.raw = {"cold_llm_error": repr(exc)}
+            domain.raw = {
+                **(domain.raw if isinstance(domain.raw, dict) else {}),
+                "cold_prompt": prompt,
+                "cold_llm_error": repr(exc),
+            }
             return domain
 
     def parse_constraint_ir(
@@ -439,6 +488,8 @@ class LocalLLMNeighborhoodSelector:
         )
         raw_output = self._generate(prompt)
         value = _extract_json(raw_output)
+        if "constraints" not in value:
+            raise ValueError("Constraint IR response is missing the constraints field")
         raw_constraints = value.get("constraints", [])
         if not isinstance(raw_constraints, list):
             raise ValueError("constraints must be a list")
@@ -541,12 +592,15 @@ class LocalLLMNeighborhoodSelector:
             if len(destroyed) >= self.destroy_size:
                 break
         if len(destroyed) < self.destroy_size:
+            retained_model_customers = len(destroyed)
             fallback = self.fallback.propose(instance, solution, iteration=0, seed=0)
             for customer in fallback.destroy_customers:
-                if customer not in destroyed:
+                if customer not in destroyed and customer in shortlist_ids:
                     destroyed.append(customer)
-                if len(destroyed) >= min(self.destroy_size, len(valid_ids)):
+                if len(destroyed) >= min(self.destroy_size, len(shortlist_ids)):
                     break
+        else:
+            retained_model_customers = len(destroyed)
         raw_routes = value.get("candidate_routes", {})
         current = {
             customer: route_idx for route_idx, route in enumerate(solution.routes) for customer in route
@@ -568,11 +622,14 @@ class LocalLLMNeighborhoodSelector:
                 if len(normalized) >= self.routes_per_customer:
                     break
             if current[customer] not in normalized:
-                normalized.append(current[customer])
+                if len(normalized) >= self.routes_per_customer:
+                    normalized[-1] = current[customer]
+                else:
+                    normalized.append(current[customer])
             candidate_routes[customer] = normalized[: self.routes_per_customer]
             supplied = raw_logits.get(str(customer), raw_logits.get(customer, {}))
             candidate_route_logits[customer] = {
-                route: float(supplied.get(str(route), supplied.get(route, 0.0)))
+                route: bounded_number(supplied.get(str(route), supplied.get(route, 0.0)), -2.0, 2.0)
                 for route in candidate_routes[customer]
             }
         candidate_edges = []
@@ -584,9 +641,10 @@ class LocalLLMNeighborhoodSelector:
         proposal = NeighborhoodProposal(
             destroy_customers=destroyed,
             candidate_routes=candidate_routes,
-            confidence=float(value.get("confidence", 0.5)),
-            source="llm",
-            raw=value,
+            confidence=bounded_number(value.get("confidence", 0.5), 0.0, 1.0),
+            source="llm" if retained_model_customers else "llm_fallback_knn",
+            raw={**value, "retained_model_customers": retained_model_customers,
+                 "normalization_filled_customers": len(destroyed) - retained_model_customers},
             candidate_route_logits=candidate_route_logits,
             candidate_edges=candidate_edges,
         )
@@ -609,7 +667,7 @@ class LocalLLMNeighborhoodSelector:
                 destroy_customers=list(self._cache.destroy_customers),
                 candidate_routes={k: list(v) for k, v in self._cache.candidate_routes.items()},
                 confidence=self._cache.confidence,
-                source="llm_cached",
+                source=self._cache.source + "_cached" if "fallback" in self._cache.source else "llm_cached",
                 raw=dict(self._cache.raw),
                 candidate_route_logits={
                     customer: dict(logits)

@@ -7,7 +7,7 @@ source "${REPO_DIR}/scripts/s2e/activate_qihc.sh"
 cd "${REPO_DIR}"
 
 WORK_ROOT="${WORK_ROOT:-${REPO_DIR}/deployment}"
-PIPELINE_ROOT="${PIPELINE_ROOT:-${WORK_ROOT}/results/formal_cvrp_posttrain_8gpu_v1}"
+PIPELINE_ROOT="${PIPELINE_ROOT:-${WORK_ROOT}/results/formal_cvrp_posttrain_8gpu_v2}"
 MODEL_DIR="${MODEL_DIR:-${WORK_ROOT}/models/Qwen--Qwen3.5-35B-A3B}"
 POSTTRAIN_ROOT="${POSTTRAIN_ROOT:-${PIPELINE_ROOT}/posttrain}"
 DEEPSPEED_CONFIG="${DEEPSPEED_CONFIG:-${REPO_DIR}/configs/deepspeed-zero3-bf16.json}"
@@ -69,17 +69,26 @@ prepare_stage_data() {
     --constraint-records "${stage_root}/cpp/records.jsonl" \
     --solver-results "${stage_root}/full/results.json" \
     --llm-audits "${stage_root}/full" \
+    --holdout-modulus "${HOLDOUT_MODULUS:-4}" \
+    --holdout-fold "${HOLDOUT_FOLD:-2}" \
     --output "${output}"
-  python - "${output}/summary.json" <<'PY'
+  python - "${output}/summary.json" "${MIN_COLD_START_RECORDS_PER_STAGE:-200}" <<'PY'
 import json
 import sys
 from pathlib import Path
 
 summary = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+minimum_cold = int(sys.argv[2])
 if not summary.get("used_exact_llm_audits"):
     raise SystemExit("exact seed-aware LLM audits are required for p-bit feedback training")
 if summary.get("constraint_sft", 0) <= 0 or summary.get("proposal_sft", 0) <= 0:
     raise SystemExit(f"incomplete joint training data: {summary}")
+if summary.get("cold_start_sft", 0) < minimum_cold:
+    raise SystemExit(
+        f"insufficient winning cold-start trajectories: {summary.get('cold_start_sft', 0)} < {minimum_cold}"
+    )
+if summary.get("holdout_instances", 0) <= 0:
+    raise SystemExit(f"the generalization holdout is empty: {summary}")
 print(json.dumps(summary, ensure_ascii=False))
 PY
 }
@@ -159,13 +168,50 @@ train_stage dpo "${POSTTRAIN_ROOT}/data/dpo.jsonl" "${DPO_ADAPTER}" \
 train_stage grpo "${POSTTRAIN_ROOT}/data/grpo.jsonl" "${GRPO_ADAPTER}" \
   "${GRPO_MAX_STEPS:-100}" "${GRPO_LEARNING_RATE:-2e-6}" "${DPO_ADAPTER}"
 
-python - "${PIPELINE_ROOT}" "${POSTTRAIN_ROOT}" <<'PY'
+evaluate_posttrained_stage() {
+  local name="$1"
+  local before_root="$2"
+  local after_root="$3"
+  local min_customers="$4"
+  local max_customers="$5"
+  local clauses_per_type="$6"
+  local chains="$7"
+  local steps="$8"
+  local holdout_instances="$9"
+  log "${name}: evaluating the final adapter on the same instance/seed protocol."
+  env RUN_ROOT="${after_root}" \
+    MIN_CUSTOMERS="${min_customers}" MAX_CUSTOMERS="${max_customers}" \
+    CASE_LIMIT="${CASE_LIMIT:-12}" SELECTION="${SELECTION:-spread}" \
+    CLAUSES_PER_TYPE="${clauses_per_type}" SEARCH_SEEDS="${SEARCH_SEEDS:-0 1 2}" \
+    ITERATIONS="${ITERATIONS:-40}" PATIENCE="${PATIENCE:-20}" \
+    DESTROY_SIZE="${DESTROY_SIZE:-20}" ROUTES_PER_CUSTOMER="${ROUTES_PER_CUSTOMER:-8}" \
+    NUM_CHAINS="${chains}" SAMPLING_STEPS="${steps}" TOP_SAMPLES="${TOP_SAMPLES:-128}" \
+    ADAPTER_PATH="${GRPO_ADAPTER}" ARMS="full full_neutral_cold" RUN_BASELINES=0 \
+    COLD_QUALITY_ATTEMPTS="${COLD_QUALITY_ATTEMPTS:-2}" \
+    bash "${REPO_DIR}/scripts/s2e/run_hard_cvrp_comparison.sh"
+  python experiments/compare_pre_posttraining.py \
+    --before "${before_root}" --after "${after_root}" \
+    --instances "${holdout_instances}" \
+    --output "${after_root}/pre_post_comparison.json"
+}
+
+POSTTRAIN_EVAL_ROOT="${POSTTRAIN_EVAL_ROOT:-${PIPELINE_ROOT}/posttrain_eval}"
+if [[ "${RUN_POSTTRAIN_EVAL:-1}" == "1" ]]; then
+  evaluate_posttrained_stage "hard-posttrain" "${HARD_RUN_ROOT}" \
+    "${POSTTRAIN_EVAL_ROOT}/hard_x400_1000" 400 1000 4 2048 160 \
+    "${POSTTRAIN_ROOT}/data_hard/holdout_instances.json"
+  evaluate_posttrained_stage "medium-posttrain" "${MEDIUM_RUN_ROOT}" \
+    "${POSTTRAIN_EVAL_ROOT}/medium_x200_399" 200 399 3 1024 128 \
+    "${POSTTRAIN_ROOT}/data_medium/holdout_instances.json"
+fi
+
+python - "${PIPELINE_ROOT}" "${POSTTRAIN_ROOT}" "${POSTTRAIN_EVAL_ROOT}" <<'PY'
 import json
 import subprocess
 import sys
 from pathlib import Path
 
-pipeline, posttrain = map(Path, sys.argv[1:])
+pipeline, posttrain, posttrain_eval = map(Path, sys.argv[1:])
 summary = {
     "status": "complete",
     "git_commit": subprocess.check_output(
@@ -184,6 +230,13 @@ summary = {
         for stage in ("sft", "dpo", "grpo")
     },
     "final_adapter": str(posttrain / "adapters" / "grpo"),
+    "posttrain_evaluation": {
+        stage: json.loads(
+            (posttrain_eval / directory / "pre_post_comparison.json").read_text(encoding="utf-8")
+        )
+        for stage, directory in (("hard", "hard_x400_1000"), ("medium", "medium_x200_399"))
+        if (posttrain_eval / directory / "pre_post_comparison.json").is_file()
+    },
 }
 (pipeline / "full_pipeline_summary.json").write_text(
     json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8"

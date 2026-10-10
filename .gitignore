@@ -51,3 +51,8 @@ formal_outputs/
 /artifacts/
 /projects/
 /tmp/
+
+# Isolated dependencies used to verify research backends locally
+/deployment/runtime/research_test_deps/
+/deployment/runtime/research_optional_deps/
+/deployment/runtime/research_training_deps/

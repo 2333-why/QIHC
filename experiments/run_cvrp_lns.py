@@ -18,6 +18,7 @@ import time
 import traceback
 import copy
 from dataclasses import asdict
+from datetime import timedelta
 from pathlib import Path
 
 import numpy as np
@@ -53,6 +54,31 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--vehicle-capacity", type=int, default=60)
     parser.add_argument("--methods", nargs="+", default=["greedy", "random", "knn"])
     parser.add_argument("--sampler", choices=["numpy", "torch"], default="torch")
+    parser.add_argument("--search-backend", choices=["pbit", "pbit-qubo", "cp-sat", "metropolis", "uniform"], default="pbit")
+    parser.add_argument("--feedback-mode", choices=["legacy", "population", "best"], default="legacy")
+    parser.add_argument("--feedback-source", choices=["population", "elite"], default="population")
+    parser.add_argument("--feedback-population-limit", type=int, default=128)
+    parser.add_argument("--feedback-kl-budget", type=float, default=0.05)
+    parser.add_argument("--disable-feedback-trust-region", action="store_true")
+    parser.add_argument("--disable-feedback-pairs", action="store_true")
+    parser.add_argument("--disable-prompt-feedback", action="store_true")
+    parser.add_argument("--disable-token-feedback", action="store_true")
+    parser.add_argument("--disable-energy-feedback", action="store_true")
+    parser.add_argument("--search-time-limit", type=float, default=0.0)
+    parser.add_argument("--backend-time-limit", type=float, default=5.0)
+    parser.add_argument("--initial-solutions", type=Path, help="Shared neutral initial solutions JSONL, keyed by instance and search_seed")
+    parser.add_argument("--export-training-context", action="store_true")
+    parser.add_argument("--block-updates", action="store_true")
+    parser.add_argument("--disable-block-updates", action="store_true")
+    parser.add_argument("--constraint-aware-decode", action="store_true")
+    parser.add_argument("--disable-semantic-repair", action="store_true")
+    parser.add_argument("--temperature-ladder", action="store_true")
+    parser.add_argument("--disable-temperature-ladder", action="store_true")
+    parser.add_argument("--normalize-objective", action="store_true")
+    parser.add_argument("--disable-objective-normalization", action="store_true")
+    parser.add_argument("--time-budget-only", action="store_true")
+    parser.add_argument("--strict-assignment-decode", action="store_true")
+    parser.add_argument("--shuffle-feedback-quality", action="store_true")
     parser.add_argument("--iterations", type=int, default=100)
     parser.add_argument("--patience", type=int, default=30)
     parser.add_argument("--destroy-size", type=int, default=12)
@@ -68,6 +94,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--initialization", choices=["incumbent", "pbit-cold"], default="incumbent")
     parser.add_argument("--cold-batch-size", type=int, default=6)
     parser.add_argument("--cold-routes-per-customer", type=int, default=4)
+    parser.add_argument("--cold-selector-mode", choices=["selector", "neutral"], default="selector")
+    parser.add_argument("--cold-proposal-bias", type=float, default=0.25)
+    parser.add_argument("--cold-confidence-threshold", type=float, default=0.55)
+    parser.add_argument("--cold-max-abs-logit", type=float, default=1.0)
+    parser.add_argument("--cold-quality-attempts", type=int, default=1)
     parser.add_argument("--token-feedback-strength", type=float, default=1.0)
     parser.add_argument("--adapter-path", type=str)
     parser.add_argument("--llm-refresh-interval", type=int, default=5)
@@ -144,11 +175,8 @@ def distributed_context() -> tuple[int, int, int, object | None]:
     local_rank = int(os.environ.get("LOCAL_RANK", str(rank)))
     dist = None
     if world_size > 1:
-        import torch.distributed as torch_dist
-
-        if not torch_dist.is_initialized():
-            torch_dist.init_process_group("gloo")
-        dist = torch_dist
+        from experiments.distributed_runtime import initialize_gloo
+        dist = initialize_gloo(rank, world_size)
     return rank, world_size, local_rank, dist
 
 
@@ -303,7 +331,7 @@ def run_job(
         from qihc.problems.cvrp.baselines import solve_direct_llm
 
         baseline = solve_direct_llm(instance, selector._generate)
-        final = baseline.verification
+        final = verify_solution(reference_instance, baseline.solution)
         return {
             "instance": instance.name, "method": method, "search_seed": search_seed,
             "n_customers": len(instance.customers), "initial_objective": None,
@@ -323,6 +351,13 @@ def run_job(
     initial_started = time.perf_counter()
     if method in {"ortools", "hgs"}:
         initial = None
+    elif getattr(args, "initial_solutions", None):
+        matching = [row for row in read_valid_jsonl(args.initial_solutions)
+                    if row.get("instance") == instance.name and int(row.get("search_seed", -1)) == search_seed]
+        if len(matching) != 1:
+            raise ValueError(f"Expected one shared initial solution for {instance.name}/seed={search_seed}")
+        value = matching[0]["solution"]
+        initial = RouteSolution(value["routes"], source="shared_neutral_pbit", metadata=value.get("metadata", {}))
     elif cold_start:
         initial = None
     elif instance.metadata.get("known_feasible_routes"):
@@ -333,6 +368,7 @@ def run_job(
     else:
         initial = greedy_initial_solution(instance)
     initial_result = verify_solution(instance, initial) if initial is not None else None
+    reference_initial_result = verify_solution(reference_instance, initial) if initial is not None else None
     initial_elapsed_s = time.perf_counter() - initial_started
     if method == "greedy":
         summary = {
@@ -341,11 +377,11 @@ def run_job(
             "search_seed": search_seed,
             "n_customers": len(instance.customers),
             "initial_objective": initial_result.objective,
-            "final_objective": initial_result.objective,
+            "final_objective": reference_initial_result.objective,
             "improvement_fraction": 0.0,
-            "feasible": initial_result.feasible,
-            "reference_feasible": initial_result.feasible,
-            "reference_violations": initial_result.violations,
+            "feasible": reference_initial_result.feasible,
+            "reference_feasible": reference_initial_result.feasible,
+            "reference_violations": reference_initial_result.violations,
             "accepted_moves": 0,
             "iterations": 0,
             "total_elapsed_s": initial_elapsed_s,
@@ -374,7 +410,7 @@ def run_job(
             if args.hgs_binary is None:
                 raise ValueError("--hgs-binary is required for method=hgs")
             baseline = solve_hgs(instance, args.hgs_binary, args.baseline_time_limit, search_seed)
-        final = baseline.verification
+        final = verify_solution(reference_instance, baseline.solution)
         return {
             "instance": instance.name,
             "method": method,
@@ -428,11 +464,54 @@ def run_job(
         initialization=args.initialization,
         cold_batch_size=args.cold_batch_size,
         cold_routes_per_customer=args.cold_routes_per_customer,
+        cold_selector_mode=args.cold_selector_mode,
+        cold_proposal_bias=args.cold_proposal_bias,
+        cold_confidence_threshold=args.cold_confidence_threshold,
+        cold_max_abs_logit=args.cold_max_abs_logit,
+        cold_quality_attempts=args.cold_quality_attempts,
+        search_backend=args.search_backend,
+        feedback_mode=args.feedback_mode,
+        feedback_source=args.feedback_source,
+        feedback_population_limit=args.feedback_population_limit,
+        feedback_kl_budget=args.feedback_kl_budget,
+        feedback_trust_region=not args.disable_feedback_trust_region,
+        feedback_pairs=not args.disable_feedback_pairs,
+        feedback_prompt=not args.disable_prompt_feedback,
+        feedback_token=not args.disable_token_feedback,
+        feedback_energy=not args.disable_energy_feedback,
+        search_time_limit_s=args.search_time_limit,
+        backend_time_limit_s=args.backend_time_limit,
+        block_updates=args.block_updates and not args.disable_block_updates,
+        constraint_aware_decode=args.constraint_aware_decode and not args.disable_semantic_repair,
+        temperature_ladder=args.temperature_ladder and not args.disable_temperature_ladder,
+        normalize_objective=args.normalize_objective and not args.disable_objective_normalization,
+        time_budget_only=args.time_budget_only,
+        strict_assignment_decode=args.strict_assignment_decode,
+        shuffle_feedback_quality=args.shuffle_feedback_quality,
     )
     result = QIHCLNSSolver(config, selector=selector).solve(instance, initial=initial)
     summary = result.to_summary()
+    summary["llm_generation_totals"] = dict(getattr(selector, "_generation_totals", {}))
+    if args.export_training_context:
+        summary["training_instance"] = reference_instance.to_dict()
+        summary["training_instance"]["metadata"]["constraint_compilation"] = instance.metadata.get("constraint_compilation", {})
     compiled_feasible = summary["feasible"]
     reference_check = verify_solution(reference_instance, result.solution)
+    reference_start = verify_solution(reference_instance, result.initial_solution)
+    summary["compiled_objective"] = result.verification.objective
+    summary["final_objective"] = reference_check.objective
+    summary["initial_objective"] = reference_start.objective
+    summary["reference_initial_feasible"] = reference_start.feasible
+    summary["improvement_fraction"] = (reference_start.objective - reference_check.objective) / max(abs(reference_start.objective), 1e-12)
+    reference_records = [asdict(record) for record in result.records]
+    for record in reference_records:
+        record["compiled_incumbent_before"] = record["incumbent_before"]
+        record["compiled_incumbent_after"] = record["incumbent_after"]
+        ref_before = verify_solution(reference_instance, record["incumbent_routes_before"])
+        ref_after = verify_solution(reference_instance, record["incumbent_routes_after"])
+        record["incumbent_before"] = ref_before.objective
+        record["incumbent_after"] = ref_after.objective
+        record["reference_incumbent_feasible"] = ref_after.feasible
     summary["compiled_feasible"] = compiled_feasible
     summary["feasible"] = reference_check.feasible
     summary.update(
@@ -442,11 +521,11 @@ def run_job(
             "n_customers": len(instance.customers),
             "best_known_cost": instance.best_known_cost,
             "optimality_gap": (
-                (result.verification.cost - instance.best_known_cost) / instance.best_known_cost
+                (reference_check.cost - instance.best_known_cost) / instance.best_known_cost
                 if instance.best_known_cost and reference_check.feasible
                 else None
             ),
-            "records": [asdict(record) for record in result.records],
+            "records": reference_records,
             "solution": result.solution.to_dict(),
             "problem_prompt": instance.description,
             "constraints": [

@@ -14,6 +14,7 @@ class PBitSampleBatch:
     energies: np.ndarray
     elapsed_s: float
     metadata: dict = field(default_factory=dict)
+    population_bits: np.ndarray | None = None
 
 
 def ising_energy(states: np.ndarray, weight: np.ndarray, field: np.ndarray) -> np.ndarray:
@@ -33,6 +34,7 @@ class NumpyPBitSampler:
         update_fraction: float = 0.25,
         top_k: int = 16,
         seed: int = 0,
+        time_limit_s: float | None = None,
     ):
         self.num_chains = int(num_chains)
         self.steps = int(steps)
@@ -41,6 +43,7 @@ class NumpyPBitSampler:
         self.update_fraction = float(update_fraction)
         self.top_k = int(top_k)
         self.seed = int(seed)
+        self.time_limit_s = time_limit_s
 
     def solve(
         self,
@@ -57,6 +60,8 @@ class NumpyPBitSampler:
         best_energies = ising_energy(states, weight, field)
         t0 = time.perf_counter()
         for step in range(self.steps):
+            if self.time_limit_s is not None and time.perf_counter() - t0 >= self.time_limit_s:
+                break
             progress = step / max(self.steps - 1, 1)
             temperature = self.temperature_start * (
                 self.temperature_end / self.temperature_start
@@ -93,6 +98,7 @@ class NumpyPBitSampler:
                 "steps": self.steps,
                 "update_fraction": self.update_fraction,
             },
+            population_bits=(states > 0).astype(np.int8),
         )
 
 class TorchPBitSampler:
@@ -109,6 +115,7 @@ class TorchPBitSampler:
         seed: int = 0,
         device: str = "cuda:0",
         dtype: str = "float32",
+        time_limit_s: float | None = None,
     ):
         self.num_chains = int(num_chains)
         self.steps = int(steps)
@@ -119,6 +126,7 @@ class TorchPBitSampler:
         self.seed = int(seed)
         self.device = device
         self.dtype = dtype
+        self.time_limit_s = time_limit_s
 
     def solve(
         self,
@@ -156,6 +164,8 @@ class TorchPBitSampler:
         t0 = time.perf_counter()
         with torch.inference_mode():
             for step in range(self.steps):
+                if self.time_limit_s is not None and time.perf_counter() - t0 >= self.time_limit_s:
+                    break
                 progress = step / max(self.steps - 1, 1)
                 temperature = self.temperature_start * (
                     self.temperature_end / self.temperature_start
@@ -205,4 +215,5 @@ class TorchPBitSampler:
                 "steps": self.steps,
                 "update_fraction": self.update_fraction,
             },
+            population_bits=(states.detach().cpu().numpy() > 0).astype(np.int8),
         )

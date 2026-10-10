@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Protocol
+import math
 
 import numpy as np
 
@@ -21,6 +22,8 @@ class NeighborhoodProposal:
     candidate_edges: list[tuple[int, int]] = field(default_factory=list)
 
     def validate(self, instance: CVRPInstance) -> None:
+        if not math.isfinite(self.confidence) or not 0 <= self.confidence <= 1:
+            raise ValueError("proposal confidence must be finite and in [0,1]")
         unknown = set(self.destroy_customers) - set(instance.customer_ids)
         if unknown:
             raise ValueError(f"Unknown destroy customers: {sorted(unknown)}")
@@ -35,12 +38,23 @@ class NeighborhoodProposal:
             logits = self.candidate_route_logits.get(customer, {})
             if any(route not in routes for route in logits):
                 raise ValueError(f"Customer {customer} has logits outside candidate routes")
+            if any(not math.isfinite(float(value)) for value in logits.values()):
+                raise ValueError(f"Customer {customer} has non-finite logits")
 
 
 class NeighborhoodSelector(Protocol):
     def propose(
         self, instance: CVRPInstance, solution: RouteSolution, iteration: int, seed: int
     ) -> NeighborhoodProposal: ...
+
+
+def canonicalize_proposal(proposal: NeighborhoodProposal) -> NeighborhoodProposal:
+    """JSON list ordering is not an optimization signal; explicit logits are."""
+    customers = sorted(proposal.destroy_customers)
+    return NeighborhoodProposal(customers, {c: sorted(set(proposal.candidate_routes[c])) for c in customers},
+                                confidence=proposal.confidence, source=proposal.source, raw=proposal.raw,
+                                candidate_route_logits={c: dict(proposal.candidate_route_logits.get(c, {})) for c in customers},
+                                candidate_edges=list(proposal.candidate_edges))
 
 
 def _customer_route_map(solution: RouteSolution) -> dict[int, int]:

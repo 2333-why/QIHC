@@ -33,6 +33,14 @@ def test_joint_training_data_contains_constraint_and_pbit_proposal(tmp_path, mon
                 {"accepted": False, "objective_improvement": 0.0, "candidate_route_recall": 0.0,
                  "candidate_compression": 0.5, "proposal_payload": {"destroy_customers": [2], "candidate_routes": {"2": [2]}}},
             ],
+            "solution": {"metadata": {"cold_start_records": [{
+                "prompt": "cold numeric prompt",
+                "teacher_payload": {"destroy_customers": [1], "candidate_routes": {"1": [0, 1]},
+                                    "candidate_route_scores": {"1": {"0": 1.0, "1": -1.0}}},
+                "rejected_payload": {"destroy_customers": [1], "candidate_routes": {"1": [0, 1]},
+                                     "candidate_route_scores": {"1": {"0": -1.0, "1": 1.0}}},
+                "objective_margin": 4.0,
+            }]}},
         }]), encoding="utf-8"
     )
     output = tmp_path / "training"
@@ -46,6 +54,9 @@ def test_joint_training_data_contains_constraint_and_pbit_proposal(tmp_path, mon
     dpo = [json.loads(line) for line in (output / "dpo.jsonl").read_text(encoding="utf-8").splitlines()]
     assert {row["task"] for row in sft} == {"constraint", "proposal"}
     assert any(row["task"] == "proposal" for row in dpo)
+    assert any(row.get("phase") == "cold_start" for row in sft)
+    summary = json.loads((output / "summary.json").read_text(encoding="utf-8"))
+    assert summary["cold_start_sft"] == 1
 
 
 def test_llm_audits_are_seed_aligned(tmp_path):
@@ -53,6 +64,7 @@ def test_llm_audits_are_seed_aligned(tmp_path):
     audit.write_text("\n".join([
         json.dumps({"instance": "case", "search_seed": 0, "iteration": 5, "ok": True}),
         json.dumps({"instance": "case", "search_seed": 1, "iteration": 5, "ok": True}),
+        json.dumps({"instance": "case", "search_seed": 0, "iteration": 5, "phase": "cold_start", "ok": True}),
         json.dumps({"instance": "legacy", "iteration": 5, "ok": True}),
     ]) + "\n", encoding="utf-8")
     loaded = load_llm_audits(tmp_path)

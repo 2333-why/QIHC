@@ -43,7 +43,7 @@ if bad:
 comparison = json.loads((root / "method_comparison.json").read_text(encoding="utf-8"))
 methods = comparison.get("methods", {})
 expected = {
-    "qihc_full", "qihc_no_feedback", "pbit_only",
+    "qihc_full", "qihc_full_neutral_cold", "qihc_no_feedback", "pbit_only",
     "random_neighborhood_pbit", "oracle_constraints_qihc",
     "greedy_oracle", "ortools_gls_oracle",
     "hgs_constraint_unaware", "llm_direct_unrepaired",

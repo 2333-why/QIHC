@@ -110,6 +110,7 @@ def build_assignment_qubo(
     capacity_penalty: float = 12.0,
     semantic_penalty: float = 20.0,
     proposal_bias: float = 1.0,
+    normalize_objective: bool = False,
 ) -> AssignmentQUBO:
     proposal.validate(instance)
     destroyed = set(proposal.destroy_customers)
@@ -118,15 +119,20 @@ def build_assignment_qubo(
     fixed_routes = fixed_routes[: instance.vehicle_count]
     model = QUBOModel()
     insertion_costs: dict[tuple[int, int], float] = {}
+    for customer in proposal.destroy_customers:
+        for route in proposal.candidate_routes[customer]:
+            insertion_costs[(customer, route)] = best_insertion(instance, fixed_routes[route], customer)[1]
+    minima = {c: min(insertion_costs[(c, r)] for r in proposal.candidate_routes[c]) for c in proposal.destroy_customers}
+    scale = max(1.0, max((value - minima[c] for (c, _), value in insertion_costs.items()), default=1.0)) if normalize_objective else 1.0
 
     for customer in proposal.destroy_customers:
         terms: dict[Variable, float] = {}
         for route_idx in proposal.candidate_routes[customer]:
             variable = ("assign", customer, route_idx)
             terms[variable] = 1.0
-            _, delta = best_insertion(instance, fixed_routes[route_idx], customer)
-            insertion_costs[(customer, route_idx)] = delta
-            model.add_linear(variable, delta)
+            delta = insertion_costs[(customer, route_idx)]
+            geometric_cost = (delta - minima[customer]) / scale if normalize_objective else delta
+            model.add_linear(variable, geometric_cost)
             # The LLM/p-bit prior guides search but never replaces the objective
             # or hard constraint penalties.
             logit = proposal.candidate_route_logits.get(customer, {}).get(route_idx, 0.0)
@@ -163,7 +169,7 @@ def build_assignment_qubo(
             right_var = ("assign", right, route_idx)
             left_active = left in destroyed and left_var in model.index
             right_active = right in destroyed and right_var in model.index
-            coefficient = semantic_penalty * spec.weight
+            coefficient = semantic_penalty * (1.0 if spec.hard else spec.weight)
             if spec.type in {"same_resource", "same_vehicle", "precedence"}:
                 if left_active and right_active:
                     model.add_linear(left_var, coefficient)
@@ -204,7 +210,7 @@ def build_assignment_qubo(
     return AssignmentQUBO(model, proposal, fixed_routes, insertion_costs, initial_bits)
 
 
-def decode_assignment(instance: CVRPInstance, problem: AssignmentQUBO, bits: np.ndarray) -> RouteSolution:
+def decode_assignment(instance: CVRPInstance, problem: AssignmentQUBO, bits: np.ndarray, *, strict: bool = False) -> RouteSolution:
     """Decode p-bit output with capacity-aware deterministic insertion and fallback choices."""
 
     bits = np.asarray(bits, dtype=np.int8).ravel()
@@ -219,6 +225,8 @@ def decode_assignment(instance: CVRPInstance, problem: AssignmentQUBO, bits: np.
             if idx is not None and idx < bits.size and bits[idx] > 0:
                 active.append(route_idx)
         desired[customer] = active
+        if strict and len(active) != 1:
+            raise ValueError("Strict decoding requires exactly one active route per customer")
 
     order = sorted(
         problem.proposal.destroy_customers,
@@ -228,6 +236,8 @@ def decode_assignment(instance: CVRPInstance, problem: AssignmentQUBO, bits: np.
         demand = instance.customers[customer].demand
         preferred = desired[customer]
         feasible = [route for route in preferred if loads[route] + demand <= instance.vehicle_capacity]
+        if strict and not feasible:
+            raise ValueError("Strict decoded assignment violates capacity")
         if not feasible:
             feasible = [
                 route for route in problem.proposal.candidate_routes[customer]

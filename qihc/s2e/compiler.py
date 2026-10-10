@@ -87,7 +87,11 @@ def compile_cpp(cpp: ConstraintProgramPackage, instance: CVRPInstance, validatio
         elif p.type == "precedence":
             execution = "route_colocation_penalty_plus_order_verifier"
         elif p.type == "capacity":
-            execution = "qubo_capacity_penalty" if chosen == Representation.QUBO else "multiplier_capacity_penalty"
+            limit = float(p.params.get("limit", p.params.get("capacity", instance.vehicle_capacity)))
+            if limit != instance.vehicle_capacity:
+                execution = "verifier_only"
+            else:
+                execution = "qubo_capacity_penalty" if chosen == Representation.QUBO else "multiplier_capacity_penalty"
         else:
             # These constraints are enforced by the exact solution verifier,
             # but are not yet lowered into a local assignment energy.

@@ -18,15 +18,42 @@ class HybridSampleBatch:
     energies: np.ndarray
     elapsed_s: float
     metadata: dict = field(default_factory=dict)
+    population_assignments: list[dict[int, int]] = field(default_factory=list)
 
 
 class PDitMFCSampler:
     """Categorical Gibbs updates; capacity multipliers adapt from population violation."""
 
-    def __init__(self, num_chains=256, steps=200, temperature_start=3.0, temperature_end=0.05, multiplier_lr=0.1, quadratic_penalty=2.0, semantic_penalty=20.0, top_k=16, seed=0, proposal_bias=1.0):
+    def __init__(self, num_chains=256, steps=200, temperature_start=3.0, temperature_end=0.05, multiplier_lr=0.1, quadratic_penalty=2.0, semantic_penalty=20.0, top_k=16, seed=0, proposal_bias=1.0, time_limit_s=None, block_updates=False, temperature_ladder=False, normalize_objective=False):
         self.num_chains, self.steps, self.temperature_start, self.temperature_end = int(num_chains), int(steps), float(temperature_start), float(temperature_end)
         self.multiplier_lr, self.quadratic_penalty, self.semantic_penalty, self.top_k, self.seed = float(multiplier_lr), float(quadratic_penalty), float(semantic_penalty), int(top_k), int(seed)
         self.proposal_bias = float(proposal_bias)
+        self.time_limit_s = time_limit_s
+        self.block_updates = block_updates
+        self.temperature_ladder = temperature_ladder
+        self.normalize_objective = normalize_objective
+
+    def _blocks(self, instance, solution, destroyed, candidates):
+        if not self.block_updates:
+            return [[[(i, k)] for k in range(len(values))] for i, values in enumerate(candidates)]
+        from qihc.problems.cvrp.cold_start import _co_route_groups
+        index = {c: i for i, c in enumerate(destroyed)}
+        fixed = {c: r for r, route in enumerate(solution.routes) for c in route if c not in index}
+        blocks = []
+        for group in _co_route_groups(instance):
+            active = [index[c] for c in group if c in index]
+            if not active:
+                continue
+            allowed = set(candidates[active[0]])
+            for i in active[1:]:
+                allowed &= set(candidates[i])
+            fixed_routes = {fixed[c] for c in group if c in fixed}
+            if fixed_routes:
+                allowed &= fixed_routes if len(fixed_routes) == 1 else set()
+            if not allowed:
+                raise ValueError("No common candidate route for hard co-route block")
+            blocks.append([[(i, candidates[i].index(r)) for i in active] for r in sorted(allowed)])
+        return blocks
 
     def _context(self, instance: CVRPInstance, solution: RouteSolution, proposal: NeighborhoodProposal):
         destroyed = list(proposal.destroy_customers); removed = set(destroyed)
@@ -34,11 +61,19 @@ class PDitMFCSampler:
         fixed += [[] for _ in range(instance.vehicle_count - len(fixed))]
         base_load = np.asarray([sum(instance.customers[c].demand for c in r) for r in fixed], dtype=float)
         candidates = [list(proposal.candidate_routes[c]) for c in destroyed]
-        insertion = [[best_insertion(instance, fixed[k], c)[1] - self.proposal_bias * proposal.candidate_route_logits.get(c, {}).get(k, 0.0) for k in ks] for c, ks in zip(destroyed, candidates)]
+        insertion = [[best_insertion(instance, fixed[k], c)[1] for k in ks] for c, ks in zip(destroyed, candidates)]
+        if self.normalize_objective:
+            scale = max(1.0, max((max(values) - min(values) for values in insertion), default=1.0))
+            insertion = [[(value - min(values)) / scale for value in values] for values in insertion]
+        insertion = [[value - self.proposal_bias * proposal.candidate_route_logits.get(c, {}).get(k, 0.0)
+                      for value, k in zip(values, ks)] for c, ks, values in zip(destroyed, candidates, insertion)]
         return destroyed, candidates, np.asarray([instance.customers[c].demand for c in destroyed], dtype=float), base_load, insertion
 
     def solve(self, instance: CVRPInstance, solution: RouteSolution, proposal: NeighborhoodProposal) -> HybridSampleBatch:
         destroyed, candidates, demands, base_load, insertion = self._context(instance, solution, proposal)
+        blocks = self._blocks(instance, solution, destroyed, candidates)
+        exploration_temperature = max(self.temperature_start, float(np.median([np.ptp(values) for values in insertion])))
+        ladder = np.linspace(0.0, 1.0, self.num_chains) ** 2 if self.temperature_ladder else np.zeros(self.num_chains)
         rng = np.random.default_rng(self.seed); n = len(destroyed)
         states = np.asarray([[rng.integers(len(candidates[i])) for i in range(n)] for _ in range(self.num_chains)], dtype=np.int32)
         current_route = {c: r for r, route in enumerate(solution.routes) for c in route}
@@ -63,24 +98,42 @@ class PDitMFCSampler:
                 ra = routes[:, index[a]] if a in index else current_route.get(a, -1)
                 rb = routes[:, index[b]] if b in index else current_route.get(b, -1)
                 bad = (ra != rb) if spec.type in {"same_resource", "same_vehicle", "precedence"} else (ra == rb)
-                e += self.semantic_penalty * spec.weight * bad
+                e += self.semantic_penalty * (1.0 if spec.hard else spec.weight) * bad
             return e, violation
 
         t0 = time.perf_counter(); best_states = states.copy(); best_energy, _ = energy(states)
         for step in range(self.steps):
+            if self.time_limit_s is not None and time.perf_counter() - t0 >= self.time_limit_s:
+                break
             temperature = self.temperature_start * (self.temperature_end / self.temperature_start) ** (step / max(self.steps - 1, 1))
-            for i in rng.permutation(n):
+            for block_idx in rng.permutation(len(blocks)):
+                if self.time_limit_s is not None and time.perf_counter() - t0 >= self.time_limit_s:
+                    break
                 choices = []
-                for state_idx in range(len(candidates[i])):
-                    trial = states.copy(); trial[:, i] = state_idx; trial_e, _ = energy(trial); choices.append(trial_e)
-                logits = -np.stack(choices, axis=1) / max(temperature, 1e-8); logits -= logits.max(axis=1, keepdims=True)
+                block = blocks[block_idx]
+                for option in block:
+                    trial = states.copy()
+                    for i, state_idx in option:
+                        trial[:, i] = state_idx
+                    trial_e, _ = energy(trial); choices.append(trial_e)
+                chain_temperatures = temperature + ladder * max(0.0, exploration_temperature - temperature)
+                logits = -np.stack(choices, axis=1) / np.maximum(chain_temperatures[:, None], 1e-8); logits -= logits.max(axis=1, keepdims=True)
                 probs = np.exp(np.clip(logits, -60, 0)); probs /= probs.sum(axis=1, keepdims=True)
-                draws = rng.random(self.num_chains); states[:, i] = (draws[:, None] > np.cumsum(probs, axis=1)).sum(axis=1)
+                draws = rng.random(self.num_chains)
+                selected = np.minimum((draws[:, None] > np.cumsum(probs, axis=1)).sum(axis=1), len(block) - 1)
+                for option_idx, option in enumerate(block):
+                    for i, state_idx in option:
+                        states[selected == option_idx, i] = state_idx
             energies, violation = energy(states); multipliers = np.maximum(0.0, multipliers + self.multiplier_lr * violation.mean(axis=0))
+            energies, _ = energy(states)
+            best_energy, _ = energy(best_states)
             improved = energies < best_energy; best_states[improved] = states[improved]; best_energy[improved] = energies[improved]
+        # Compare all retained states under the same final multiplier vector.
+        best_energy, _ = energy(best_states)
         order = np.argsort(best_energy)[: self.top_k]
         assignments = [{c: candidates[i][int(best_states[b, i])] for i, c in enumerate(destroyed)} for b in order]
-        return HybridSampleBatch(assignments, best_energy[order], time.perf_counter() - t0, {"backend": "pdit-mfc-numpy", "multipliers": multipliers.tolist(), "steps": self.steps, "num_chains": self.num_chains})
+        population = [{c: candidates[i][int(states[b, i])] for i, c in enumerate(destroyed)} for b in range(len(states))]
+        return HybridSampleBatch(assignments, best_energy[order], time.perf_counter() - t0, {"backend": "pdit-mfc-numpy", "multipliers": multipliers.tolist(), "steps": self.steps, "num_chains": self.num_chains, "temperature_ladder": self.temperature_ladder, "exploration_temperature": exploration_temperature}, population)
 
 
 class TorchPDitMFCSampler(PDitMFCSampler):
@@ -93,6 +146,8 @@ class TorchPDitMFCSampler(PDitMFCSampler):
         import torch
         if self.device.startswith("cuda") and not torch.cuda.is_available(): raise RuntimeError("CUDA unavailable")
         destroyed, candidates, demands_np, base_np, insertion = self._context(instance, solution, proposal)
+        blocks = self._blocks(instance, solution, destroyed, candidates)
+        exploration_temperature = max(self.temperature_start, float(np.median([np.ptp(values) for values in insertion])))
         device = torch.device(self.device); bsz, n = self.num_chains, len(destroyed); max_k = max(map(len, candidates))
         cand = torch.full((n, max_k), -1, device=device, dtype=torch.long); ins = torch.full((n, max_k), 1e6, device=device)
         valid = torch.zeros((n, max_k), device=device, dtype=torch.bool)
@@ -101,6 +156,7 @@ class TorchPDitMFCSampler(PDitMFCSampler):
         gen = torch.Generator(device=device); gen.manual_seed(self.seed)
         states = torch.stack([torch.randint(0, len(candidates[i]), (bsz,), device=device, generator=gen) for i in range(n)], dim=1)
         compute_dtype = ins.dtype
+        ladder = torch.linspace(0.0, 1.0, bsz, device=device).square() if self.temperature_ladder else torch.zeros(bsz, device=device)
         demands = torch.as_tensor(demands_np, device=device, dtype=compute_dtype)
         base = torch.as_tensor(base_np, device=device, dtype=compute_dtype)
         multipliers = torch.zeros(instance.vehicle_count, device=device, dtype=compute_dtype)
@@ -128,21 +184,38 @@ class TorchPDitMFCSampler(PDitMFCSampler):
                         (len(s),), current.get(b, -1), device=device, dtype=routes.dtype
                     )
                 )
-                bad = (ra != rb) if spec.type in {"same_resource", "same_vehicle", "precedence"} else (ra == rb); e = e + self.semantic_penalty * spec.weight * bad.float()
+                bad = (ra != rb) if spec.type in {"same_resource", "same_vehicle", "precedence"} else (ra == rb); e = e + self.semantic_penalty * (1.0 if spec.hard else spec.weight) * bad.float()
             return e, violation
         if device.type == "cuda": torch.cuda.synchronize(device)
         t0 = time.perf_counter(); best = states.clone(); best_e, _ = energy(states)
         with torch.inference_mode():
             for step in range(self.steps):
+                if self.time_limit_s is not None and time.perf_counter() - t0 >= self.time_limit_s:
+                    break
                 temp = self.temperature_start * (self.temperature_end / self.temperature_start) ** (step / max(self.steps - 1, 1))
-                for i in torch.randperm(n, device=device, generator=gen).tolist():
+                for block_idx in torch.randperm(len(blocks), device=device, generator=gen).tolist():
+                    if self.time_limit_s is not None and time.perf_counter() - t0 >= self.time_limit_s:
+                        break
                     options = []
-                    for k in range(max_k):
-                        if not bool(valid[i, k]): options.append(torch.full((bsz,), 1e6, device=device)); continue
-                        trial = states.clone(); trial[:, i] = k; options.append(energy(trial)[0])
-                    logits = -torch.stack(options, 1) / max(temp, 1e-8); states[:, i] = torch.multinomial(torch.softmax(logits, 1), 1, generator=gen).squeeze(1)
-                e, v = energy(states); multipliers = torch.relu(multipliers + self.multiplier_lr * v.mean(0)); improved = e < best_e; best[improved] = states[improved]; best_e = torch.minimum(best_e, e)
+                    block = blocks[block_idx]
+                    for option in block:
+                        trial = states.clone()
+                        for i, k in option:
+                            trial[:, i] = k
+                        options.append(energy(trial)[0])
+                    chain_temperatures = temp + ladder * max(0.0, exploration_temperature - temp)
+                    logits = -torch.stack(options, 1) / chain_temperatures[:, None].clamp_min(1e-8)
+                    selected = torch.multinomial(torch.softmax(logits, 1), 1, generator=gen).squeeze(1)
+                    for option_idx, option in enumerate(block):
+                        for i, k in option:
+                            states[selected == option_idx, i] = k
+                e, v = energy(states); multipliers = torch.relu(multipliers + self.multiplier_lr * v.mean(0))
+                e, _ = energy(states); best_e, _ = energy(best)
+                improved = e < best_e; best[improved] = states[improved]; best_e = torch.minimum(best_e, e)
         if device.type == "cuda": torch.cuda.synchronize(device)
+        best_e, _ = energy(best)
         order = torch.argsort(best_e)[:self.top_k].cpu().numpy(); best_np = best.cpu().numpy(); e_np = best_e.cpu().numpy()
         assignments = [{c: candidates[i][int(best_np[b, i])] for i, c in enumerate(destroyed)} for b in order]
-        return HybridSampleBatch(assignments, e_np[order], time.perf_counter() - t0, {"backend": "pdit-mfc-torch", "device": str(device), "multipliers": multipliers.cpu().tolist(), "steps": self.steps, "num_chains": self.num_chains})
+        terminal = states.cpu().numpy()
+        population = [{c: candidates[i][int(terminal[b, i])] for i, c in enumerate(destroyed)} for b in range(len(terminal))]
+        return HybridSampleBatch(assignments, e_np[order], time.perf_counter() - t0, {"backend": "pdit-mfc-torch", "device": str(device), "multipliers": multipliers.cpu().tolist(), "steps": self.steps, "num_chains": self.num_chains, "temperature_ladder": self.temperature_ladder, "exploration_temperature": exploration_temperature}, population)

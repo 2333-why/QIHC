@@ -51,20 +51,8 @@ def direct_llm_prompt(instance: CVRPInstance) -> str:
 def parse_direct_llm_solution(text: str) -> RouteSolution:
     """Strictly parse an LLM solution without heuristic completion or repair."""
 
-    fenced = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL | re.IGNORECASE)
-    candidates = [fenced.group(1)] if fenced else []
-    start, end = text.find("{"), text.rfind("}")
-    if start >= 0 and end > start:
-        candidates.append(text[start : end + 1])
-    value = None
-    for candidate in candidates:
-        try:
-            decoded = json.loads(candidate)
-        except json.JSONDecodeError:
-            continue
-        if isinstance(decoded, dict):
-            value = decoded
-            break
+    from qihc.problems.cvrp.json_output import extract_answer_json
+    value = extract_answer_json(text)
     if value is None or not isinstance(value.get("routes"), list):
         raise ValueError("LLM direct output has no valid routes JSON")
     routes = value["routes"]

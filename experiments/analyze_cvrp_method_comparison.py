@@ -32,6 +32,7 @@ def main() -> int:
     expected = {(row["name"], seed) for row in data for seed in args.seeds}
     sources = {
         "qihc_full": ("full", "llm"),
+        "qihc_full_neutral_cold": ("full_neutral_cold", "llm"),
         "qihc_no_feedback": ("no_feedback", "llm"),
         "pbit_only": ("pbit_only", "knn"),
         "random_neighborhood_pbit": ("random_pbit", "random"),
