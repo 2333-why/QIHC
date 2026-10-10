@@ -31,8 +31,11 @@ if [[ "${1:-}" == '--preflight-only' ]]; then CHECK_ONLY=1; shift; fi
 [[ "$(uname -s)" == Linux && "$(uname -m)" == x86_64 ]] || { echo 'Linux x86_64 required.' >&2; exit 2; }
 [[ "$PROFILE" == pilot || "$PROFILE" == formal ]] || { echo 'Use pilot or formal.' >&2; exit 2; }
 [[ -f "$BASE/artifacts/prepared.json" && -x "$ENV_PREFIX/bin/python" ]] || { echo 'Run script 01 successfully first with the same QIHC_CUDA_WHEEL.' >&2; exit 2; }
+# Conda compiler activation hooks are not guaranteed nounset-safe.
+set +u
 source "$BASE/miniconda3/etc/profile.d/conda.sh"
 conda activate "$ENV_PREFIX"
+set -u
 export CUDA_HOME="$ENV_PREFIX" CUDA_DEVICE_ORDER=PCI_BUS_ID
 export HF_HOME="$BASE/cache/huggingface" HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
 export WANDB_MODE=disabled PIP_NO_INDEX=1 TOKENIZERS_PARALLELISM=false MPLBACKEND=Agg

@@ -20,6 +20,8 @@ bash scripts/server/01_prepare_online.sh
 
 无需 sudo，不执行 `conda init`，不修改 `.bashrc`。Miniconda 使用固定安装包和官方 SHA256；环境使用 conda-forge/NVIDIA 显式渠道。脚本在 CPU 节点也安装 **GPU 版** torch，不能换成 CPU wheel。
 
+若旧版在 Conda 激活时出现 `SYS_SYSROOT: unbound variable`，更新代码后重跑第一个脚本即可，无需删除环境。当前脚本仅在 Conda 钩子执行期间关闭 nounset，完成后恢复严格模式；真实的激活错误仍会中止。
+
 准备步骤包括：
 
 1. Miniconda、Conda Python、编译器和匹配 CUDA toolkit。

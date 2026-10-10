@@ -1,4 +1,7 @@
 import json
+import re
+import shutil
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -89,3 +92,33 @@ def test_grpo_generation_memory_budget_independent_of_accumulation():
     assert resolve_generation_batch(0, 3, 4, 1) == 12
     with pytest.raises(ValueError, match='divisible'):
         resolve_generation_batch(4, 8, 4, 8)
+
+
+@pytest.mark.parametrize('name', ['01_prepare_online.sh', '02_run_offline_gpu.sh'])
+def test_conda_hooks_allow_unset_variables_and_restore_strict_mode(name):
+    root = Path(__file__).resolve().parents[1]
+    bash = shutil.which('bash')
+    if bash is None and Path('C:/Program Files/Git/bin/bash.exe').is_file():
+        bash = 'C:/Program Files/Git/bin/bash.exe'
+    if bash is None:
+        pytest.skip('Bash is required to execute activation-hook regression')
+    source = (root / 'scripts/server' / name).read_text(encoding='utf-8')
+    blocks = re.findall(r'^set \+u\n.*?^set -u$', source, flags=re.MULTILINE | re.DOTALL)
+    assert blocks and 'source ' in '\n'.join(blocks) and 'conda activate' in '\n'.join(blocks)
+    prelude = '''set -Eeuo pipefail
+unset SYS_SYSROOT
+CONDA_ROOT=/unused
+BASE=/unused
+ENV_PREFIX=/unused
+CONDA_ACTION=install
+TOOLKIT=12.8
+source() { printf '%s' "$SYS_SYSROOT" >/dev/null; }
+conda() { printf '%s' "$SYS_SYSROOT" >/dev/null; }
+'''
+    check = '\ncase "$-" in *u*) ;; *) exit 44;; esac\nprintf "strict_restored"\n'
+    passed = subprocess.run([bash, '-c', prelude + '\n'.join(blocks) + check], capture_output=True, text=True)
+    assert passed.returncode == 0, passed.stderr
+    assert 'strict_restored' in passed.stdout
+    # Errexit must still stop a genuinely failing activation hook.
+    failed = subprocess.run([bash, '-c', prelude + '\nconda() { return 23; }\n' + '\n'.join(blocks) + check], capture_output=True, text=True)
+    assert failed.returncode == 23

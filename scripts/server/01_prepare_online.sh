@@ -55,11 +55,20 @@ if [[ ! -x "$CONDA_ROOT/bin/conda" ]]; then
   bash "$INSTALLER" -b -p "$CONDA_ROOT"
 fi
 # Only conda-forge and NVIDIA channels: no implicit defaults-channel ToS action.
+# Third-party conda/compiler hooks can read unset variables (e.g. SYS_SYSROOT).
+# Suspend nounset only across hook execution; retain errexit and pipefail.
+set +u
 source "$CONDA_ROOT/etc/profile.d/conda.sh"
+set -u
 if [[ -x "$ENV_PREFIX/bin/python" ]]; then CONDA_ACTION=install; else CONDA_ACTION=create; fi
+# `conda install` may also reactivate the calling environment after its transaction.
+set +u
 conda "$CONDA_ACTION" --yes --prefix "$ENV_PREFIX" --override-channels -c conda-forge -c nvidia \
   python=3.11 pip setuptools wheel gcc_linux-64=12 gxx_linux-64=12 cmake "cuda-toolkit=$TOOLKIT"
+set -u
+set +u
 conda activate "$ENV_PREFIX"
+set -u
 export CUDA_HOME="$ENV_PREFIX" DS_BUILD_OPS=0 MAX_JOBS="${QIHC_BUILD_JOBS:-4}"
 export TORCH_EXTENSIONS_DIR="$BASE/cache/torch_extensions" TRITON_CACHE_DIR="$BASE/cache/triton"
 python -m pip install --upgrade pip
