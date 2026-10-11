@@ -94,6 +94,16 @@ def check_files(directory: Path, files: dict) -> None:
             raise ValueError(f'Checksum mismatch: {path}')
 
 
+def hf_download_command(hf: str, repo: str, revision: str, directory: Path, filenames: list[str]) -> list[str]:
+    """Use explicit files; Typer's list options consume one value per occurrence."""
+    if not filenames:
+        raise ValueError('No selected model files to download')
+    for name in filenames:
+        child_path(directory, name)
+    return [hf, 'download', repo, '--revision', revision, '--local-dir', str(directory),
+            '--max-workers', '4', '--', *sorted(set(filenames))]
+
+
 def download_model(args) -> None:
     from huggingface_hub import HfApi
     info = HfApi().model_info(args.repo, revision=args.revision, files_metadata=True)
@@ -104,14 +114,19 @@ def download_model(args) -> None:
     selected = [f for f in info.siblings if any(fnmatch.fnmatch(f.rfilename, pattern) for pattern in PATTERNS)]
     if not any(f.rfilename.endswith('.safetensors') for f in selected):
         raise ValueError('Model repository contains no selected safetensors')
-    missing_bytes = sum(int(f.size or 0) for f in selected if not child_path(directory, f.rfilename).is_file())
+    missing_bytes = sum(int(f.size or 0) for f in selected
+                        if not child_path(directory, f.rfilename).is_file()
+                        or (f.size is not None and child_path(directory, f.rfilename).stat().st_size != f.size))
     if shutil.disk_usage(directory).free < missing_bytes + 10 * 1024**3:
         raise ValueError('Not enough filesystem free space for model plus 10 GiB reserve; check quota too')
     hf = shutil.which('hf')
     if not hf:
         raise RuntimeError('hf CLI missing from active environment')
-    subprocess.run([hf, 'download', args.repo, '--revision', info.sha, '--local-dir', str(directory),
-                    '--max-workers', '4', '--include', *PATTERNS], check=True)
+    print(json.dumps({'repo': args.repo, 'revision': info.sha, 'files': len(selected),
+                      'weight_shards': sum(f.rfilename.endswith('.safetensors') for f in selected),
+                      'download_bytes_missing_or_truncated': missing_bytes}), flush=True)
+    subprocess.run(hf_download_command(hf, args.repo, info.sha, directory,
+                                      [f.rfilename for f in selected]), check=True)
     files = {}
     for item in selected:
         path = child_path(directory, item.rfilename)

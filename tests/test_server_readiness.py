@@ -2,6 +2,8 @@ import json
 import re
 import shutil
 import subprocess
+import sys
+from types import SimpleNamespace
 from pathlib import Path
 
 import pytest
@@ -122,3 +124,47 @@ conda() { printf '%s' "$SYS_SYSROOT" >/dev/null; }
     # Errexit must still stop a genuinely failing activation hook.
     failed = subprocess.run([bash, '-c', prelude + '\nconda() { return 23; }\n' + '\n'.join(blocks) + check], capture_output=True, text=True)
     assert failed.returncode == 23
+
+
+def test_hf_cli_download_explicitly_lists_all_weight_shards(tmp_path):
+    from experiments.server_readiness import hf_download_command
+    files = ['config.json', 'model.safetensors.index.json',
+             *[f'model.safetensors-{n:05d}-of-00004.safetensors' for n in range(1, 5)]]
+    command = hf_download_command('hf', 'Qwen/Qwen3.5-9B', 'fixed-sha', tmp_path, files)
+    assert '--include' not in command
+    assert command[command.index('--') + 1:] == sorted(files)
+    assert command[command.index('--revision') + 1] == 'fixed-sha'
+    assert not any('*' in value for value in command)
+
+
+def test_download_model_cli_then_verifies_complete_manifest(tmp_path, monkeypatch):
+    import experiments.server_readiness as readiness
+    payloads = {'config.json': b'{}', 'model.safetensors-00001-of-00002.safetensors': b'abc',
+                'model.safetensors-00002-of-00002.safetensors': b'def'}
+    siblings = [SimpleNamespace(rfilename=name, size=len(payload), lfs=None) for name, payload in payloads.items()]
+    info = SimpleNamespace(sha='immutable-revision', siblings=siblings)
+    monkeypatch.setitem(sys.modules, 'huggingface_hub', SimpleNamespace(HfApi=lambda: SimpleNamespace(model_info=lambda *a, **kw: info)))
+    monkeypatch.setattr(readiness.shutil, 'which', lambda name: 'hf')
+    monkeypatch.setattr(readiness.shutil, 'disk_usage', lambda directory: SimpleNamespace(free=100 * 1024**3))
+    monkeypatch.setattr(readiness, 'check_model_headers', lambda directory: {'shards': 2, 'tensors': 2})
+    calls = []
+
+    def downloaded(command, check):
+        calls.append(command)
+        directory = Path(command[command.index('--local-dir') + 1])
+        for name in command[command.index('--') + 1:]:
+            (directory / name).write_bytes(payloads[name])
+
+    monkeypatch.setattr(readiness.subprocess, 'run', downloaded)
+    args = SimpleNamespace(repo='Qwen/test', revision='main', model_path=tmp_path / 'model', output=tmp_path / 'manifest.json')
+    readiness.download_model(args)
+    saved = json.loads(args.output.read_text(encoding='utf-8'))
+    assert saved['revision'] == 'immutable-revision'
+    assert set(saved['files']) == set(payloads)
+    assert len(calls) == 1
+    readiness.check_files(args.model_path, saved['files'])
+
+
+def test_server_requirements_include_hf_cli_dependency():
+    root = Path(__file__).resolve().parents[1]
+    assert 'click==8.3.0' in (root / 'configs/server-requirements.lock.txt').read_text(encoding='utf-8')

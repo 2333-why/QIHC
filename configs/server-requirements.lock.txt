@@ -6,6 +6,8 @@ peft==0.21.2
 trl==1.14.2
 datasets==5.0.0
 huggingface-hub==1.12.1
+# Explicit CLI runtime dependency, also needed with newer Typer packaging.
+click==8.3.0
 deepspeed==0.18.8
 numpy==2.2.6
 pandas==2.3.3

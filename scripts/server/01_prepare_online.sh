@@ -76,6 +76,7 @@ python -m pip install torch==2.9.1 torchvision==0.24.1 --index-url "https://down
 python -m pip install --no-build-isolation -r "$CODE/configs/server-requirements.lock.txt"
 python -m pip install --no-deps --no-build-isolation -e "$CODE"
 python -m pip check
+hf --help > /dev/null
 python -c 'import sys,torch; assert torch.version.cuda == sys.argv[1], (torch.__version__, torch.version.cuda); print("GPU-enabled torch installed:", torch.__version__)' "$TOOLKIT"
 nvcc --version
 cd "$CODE"

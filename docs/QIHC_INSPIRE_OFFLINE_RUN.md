@@ -22,6 +22,8 @@ bash scripts/server/01_prepare_online.sh
 
 若旧版在 Conda 激活时出现 `SYS_SYSROOT: unbound variable`，更新代码后重跑第一个脚本即可，无需删除环境。当前脚本仅在 Conda 钩子执行期间关闭 nounset，完成后恢复严格模式；真实的激活错误仍会中止。
 
+模型下载使用明确的文件清单，包括全部权重分片，避免将多个 `--include` 模式误解析为文件名。下载后继续检查完整性，CLI 显示成功不等于准备完成。若旧版缺少 `click` 或只下载了配置文件，更新后重跑即可，保留已有缓存，无需删除模型目录。
+
 准备步骤包括：
 
 1. Miniconda、Conda Python、编译器和匹配 CUDA toolkit。
@@ -110,7 +112,7 @@ CUDA wheel/toolkit 不会安装或升级 NVIDIA 驱动。驱动不匹配时联�
 
 ## 当前验证边界
 
-本地已验证两个脚本的 Bash 语法与计划输出，新增双卡默认配置和 GRPO 批量约束测试，全套共 128 项通过。Linux Conda 安装、目标机器 CUDA/NCCL/ZeRO-3、完整 Qwen3.5 运行与正式后训练，均需要在用户实际节点执行验收，当前未远程执行。
+本地已验证两个脚本的 Bash 语法与计划输出、Conda 激活兼容、双卡默认配置、GRPO 批量和明确的权重下载清单，全套共 133 项通过。使用服务器同版本 HF CLI 的实际 dry-run 已识别 9B 模型全部 4 个权重分片，约 19.3 GB。本地未下载这些大权重，也未完成目标服务器 CUDA/NCCL/ZeRO-3 或正式长实验验收。
 
 本次重新执行的 [微型真实训练记录](../deployment/results/server_launcher_training_api_20261010/summary.json)已完成三阶段训练、权重保存与适配器推理；[CPU 全分支记录](../deployment/results/server_launcher_smoke_20261010/research_results.json)包含 19 个分支、76 个任务，失败 0。这些是流程验证，不是正式模型能力提升或目标服务器验收。
 
