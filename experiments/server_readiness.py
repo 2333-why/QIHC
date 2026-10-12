@@ -13,6 +13,8 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import time
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -94,19 +96,71 @@ def check_files(directory: Path, files: dict) -> None:
             raise ValueError(f'Checksum mismatch: {path}')
 
 
-def hf_download_command(hf: str, repo: str, revision: str, directory: Path, filenames: list[str]) -> list[str]:
+def hf_download_command(hf: str, repo: str, revision: str, directory: Path, filenames: list[str], workers: int = 1) -> list[str]:
     """Use explicit files; Typer's list options consume one value per occurrence."""
     if not filenames:
         raise ValueError('No selected model files to download')
+    if workers < 1:
+        raise ValueError('Download worker count must be positive')
     for name in filenames:
         child_path(directory, name)
     return [hf, 'download', repo, '--revision', revision, '--local-dir', str(directory),
-            '--max-workers', '4', '--', *sorted(set(filenames))]
+            '--max-workers', str(workers), '--', *sorted(set(filenames))]
+
+
+def hub_access(endpoint: str, environment: dict[str, str]) -> tuple[bool | None, dict[str, str]]:
+    """Never implicitly forward Hub credentials to a third-party mirror."""
+    parsed = urlsplit(endpoint)
+    if parsed.scheme != 'https' or not parsed.hostname or parsed.username or parsed.password or parsed.query or parsed.fragment:
+        raise ValueError('HF endpoint must be an HTTPS URL without embedded credentials/query')
+    official = parsed.hostname == 'huggingface.co' and parsed.port in (None, 443)
+    anonymous = not official and environment.get('QIHC_MIRROR_ALLOW_TOKEN') != '1'
+    child_env = dict(environment)
+    child_env['HF_ENDPOINT'] = endpoint
+    if anonymous:
+        for key in ('HF_TOKEN', 'HUGGING_FACE_HUB_TOKEN'):
+            child_env.pop(key, None)
+        child_env['HF_HUB_DISABLE_IMPLICIT_TOKEN'] = '1'
+    return (False if anonymous else None), child_env
+
+
+def model_info_with_retries(api, repo: str, revision: str, attempts: int):
+    import httpx
+    for attempt in range(1, attempts + 1):
+        try:
+            return api.model_info(repo, revision=revision, files_metadata=True, timeout=60)
+        except httpx.HTTPStatusError as exc:
+            if exc.response.status_code not in (429, 500, 502, 503, 504) or attempt == attempts:
+                raise
+        except httpx.TransportError:
+            if attempt == attempts:
+                raise
+        print(f'Model metadata request failed; retry {attempt}/{attempts}', flush=True)
+        time.sleep(min(2 ** attempt, 8))
+    raise RuntimeError('No metadata request attempted')
+
+
+def run_download_with_retries(command: list[str], environment: dict[str, str], attempts: int) -> None:
+    for attempt in range(1, attempts + 1):
+        try:
+            subprocess.run(command, env=environment, check=True)
+            return
+        except subprocess.CalledProcessError:
+            if attempt == attempts:
+                raise
+        print(f'Download failed; retry {attempt}/{attempts}. Keeping completed/partial files.', flush=True)
+        time.sleep(min(2 ** attempt, 8))
 
 
 def download_model(args) -> None:
     from huggingface_hub import HfApi
-    info = HfApi().model_info(args.repo, revision=args.revision, files_metadata=True)
+    endpoint = os.environ.get('HF_ENDPOINT', 'https://huggingface.co').rstrip('/')
+    api_token, download_env = hub_access(endpoint, dict(os.environ))
+    workers = int(os.environ.get('QIHC_HF_DOWNLOAD_WORKERS', '1'))
+    attempts = int(os.environ.get('QIHC_HF_DOWNLOAD_ATTEMPTS', '3'))
+    if workers < 1 or not 1 <= attempts <= 10:
+        raise ValueError('Require positive download workers and 1–10 attempts')
+    info = model_info_with_retries(HfApi(endpoint=endpoint, token=api_token), args.repo, args.revision, attempts)
     if not info.sha:
         raise ValueError('Hub returned no immutable revision')
     directory = args.model_path.resolve()
@@ -122,11 +176,12 @@ def download_model(args) -> None:
     hf = shutil.which('hf')
     if not hf:
         raise RuntimeError('hf CLI missing from active environment')
-    print(json.dumps({'repo': args.repo, 'revision': info.sha, 'files': len(selected),
+    print(json.dumps({'repo': args.repo, 'endpoint': endpoint, 'anonymous_mirror': api_token is False,
+                      'workers': workers, 'attempts': attempts, 'revision': info.sha, 'files': len(selected),
                       'weight_shards': sum(f.rfilename.endswith('.safetensors') for f in selected),
                       'download_bytes_missing_or_truncated': missing_bytes}), flush=True)
-    subprocess.run(hf_download_command(hf, args.repo, info.sha, directory,
-                                      [f.rfilename for f in selected]), check=True)
+    run_download_with_retries(hf_download_command(hf, args.repo, info.sha, directory,
+                                                 [f.rfilename for f in selected], workers), download_env, attempts)
     files = {}
     for item in selected:
         path = child_path(directory, item.rfilename)
@@ -139,7 +194,8 @@ def download_model(args) -> None:
             raise ValueError(f'Hub SHA256 mismatch: {item.rfilename}')
         files[item.rfilename] = {'size': path.stat().st_size, 'sha256': sha, 'remote_lfs_sha256': remote_sha}
     headers = check_model_headers(directory)
-    atomic_json(args.output, {'repo': args.repo, 'requested_revision': args.revision, 'revision': info.sha,
+    atomic_json(args.output, {'repo': args.repo, 'endpoint': endpoint,
+                             'requested_revision': args.revision, 'revision': info.sha,
                              'model_path': str(directory), 'files': files, 'headers': headers})
     print(json.dumps({'model_ready': str(directory), 'revision': info.sha, **headers}))
 

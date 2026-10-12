@@ -143,13 +143,13 @@ def test_download_model_cli_then_verifies_complete_manifest(tmp_path, monkeypatc
                 'model.safetensors-00002-of-00002.safetensors': b'def'}
     siblings = [SimpleNamespace(rfilename=name, size=len(payload), lfs=None) for name, payload in payloads.items()]
     info = SimpleNamespace(sha='immutable-revision', siblings=siblings)
-    monkeypatch.setitem(sys.modules, 'huggingface_hub', SimpleNamespace(HfApi=lambda: SimpleNamespace(model_info=lambda *a, **kw: info)))
+    monkeypatch.setitem(sys.modules, 'huggingface_hub', SimpleNamespace(HfApi=lambda **kwargs: SimpleNamespace(model_info=lambda *a, **kw: info)))
     monkeypatch.setattr(readiness.shutil, 'which', lambda name: 'hf')
     monkeypatch.setattr(readiness.shutil, 'disk_usage', lambda directory: SimpleNamespace(free=100 * 1024**3))
     monkeypatch.setattr(readiness, 'check_model_headers', lambda directory: {'shards': 2, 'tensors': 2})
     calls = []
 
-    def downloaded(command, check):
+    def downloaded(command, check, env):
         calls.append(command)
         directory = Path(command[command.index('--local-dir') + 1])
         for name in command[command.index('--') + 1:]:
@@ -168,3 +168,47 @@ def test_download_model_cli_then_verifies_complete_manifest(tmp_path, monkeypatc
 def test_server_requirements_include_hf_cli_dependency():
     root = Path(__file__).resolve().parents[1]
     assert 'click==8.3.0' in (root / 'configs/server-requirements.lock.txt').read_text(encoding='utf-8')
+
+
+def test_mirror_never_receives_implicit_or_environment_token():
+    from experiments.server_readiness import hub_access
+    supplied = {'HF_TOKEN': 'test-placeholder', 'HUGGING_FACE_HUB_TOKEN': 'test-placeholder'}
+    token, child = hub_access('https://hf-mirror.com', supplied)
+    assert token is False
+    assert 'HF_TOKEN' not in child and 'HUGGING_FACE_HUB_TOKEN' not in child
+    assert child['HF_HUB_DISABLE_IMPLICIT_TOKEN'] == '1'
+    assert supplied['HF_TOKEN'] == 'test-placeholder'
+    token, child = hub_access('https://huggingface.co', supplied)
+    assert token is None and child['HF_TOKEN'] == 'test-placeholder'
+
+
+def test_download_retry_is_bounded_and_keeps_same_revision(tmp_path, monkeypatch):
+    import experiments.server_readiness as readiness
+    calls = []
+    monkeypatch.setattr(readiness.time, 'sleep', lambda delay: None)
+    def run(command, env, check):
+        calls.append(command)
+        if len(calls) < 3:
+            raise subprocess.CalledProcessError(1, command)
+    monkeypatch.setattr(readiness.subprocess, 'run', run)
+    command = readiness.hf_download_command('hf', 'Qwen/test', 'fixed', tmp_path, ['model.safetensors'])
+    readiness.run_download_with_retries(command, {}, 3)
+    assert len(calls) == 3 and all(c == command for c in calls)
+    assert command[command.index('--max-workers') + 1] == '1'
+
+
+def test_metadata_network_retry_and_mirror_launcher_defaults(monkeypatch):
+    import httpx
+    import experiments.server_readiness as readiness
+    calls = []
+    monkeypatch.setattr(readiness.time, 'sleep', lambda delay: None)
+    def model_info(repo, **kwargs):
+        calls.append(kwargs)
+        if len(calls) == 1:
+            raise httpx.ConnectTimeout('test network timeout')
+        return 'metadata'
+    assert readiness.model_info_with_retries(SimpleNamespace(model_info=model_info), 'repo', 'revision', 3) == 'metadata'
+    assert len(calls) == 2 and calls[0]['timeout'] == 60
+    source = (Path(__file__).resolve().parents[1] / 'scripts/server/01_prepare_online.sh').read_text(encoding='utf-8')
+    assert '${QIHC_HF_ENDPOINT:-https://hf-mirror.com}' in source
+    assert '${HF_HUB_DISABLE_XET:-1}' in source

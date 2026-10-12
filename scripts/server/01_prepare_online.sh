@@ -7,19 +7,22 @@ BASE="${QIHC_BASE:-/inspire/hdd/global_user/czxs25210022/why}"
 CODE="${QIHC_CODE_DIR:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd -P)}"
 CUDA_FLAVOR="${QIHC_CUDA_WHEEL:-cu128}"
 MODEL_ID="${QIHC_MODEL_ID:-Qwen/Qwen3.5-9B}"
+SOURCE_ENDPOINT="${QIHC_HF_ENDPOINT:-https://hf-mirror.com}"
 REVISION="${QIHC_MODEL_REVISION:-main}"
 CONDA_ROOT="${BASE}/miniconda3"
 ENV_PREFIX="${BASE}/envs/qihc-${CUDA_FLAVOR}"
 MODEL_DIR="${QIHC_MODEL_DIR:-${BASE}/models/${MODEL_ID##*/}}"
 if [[ "${1:-}" == '--help' ]]; then
   printf '%s\n' 'Usage: bash scripts/server/01_prepare_online.sh [--print-plan]' \
-    'Defaults: shared why directory, Python 3.11, Qwen3.5-9B, CUDA 12.8 wheels/toolkit.' \
+    'Defaults: shared why directory, Python 3.11, Qwen3.5-9B, CUDA 12.8, hf-mirror.com (anonymous).' \
     'Overrides: QIHC_BASE, QIHC_CODE_DIR, QIHC_MODEL_ID, QIHC_MODEL_REVISION,' \
-    'QIHC_MODEL_DIR, QIHC_CUDA_WHEEL=cu126|cu128, QIHC_CASES_PER_RANGE=12.'
+    'QIHC_MODEL_DIR, QIHC_CUDA_WHEEL=cu126|cu128, QIHC_CASES_PER_RANGE=12,' \
+    'QIHC_HF_ENDPOINT, QIHC_HF_DOWNLOAD_WORKERS=1, QIHC_HF_DOWNLOAD_ATTEMPTS=3.'
   exit 0
 fi
 if [[ "${1:-}" == '--print-plan' ]]; then
   printf 'ONLINE PREPARATION\nbase=%s\ncode=%s\nenv=%s\nmodel=%s\nmodel_id=%s\nrevision=%s\n' "$BASE" "$CODE" "$ENV_PREFIX" "$MODEL_DIR" "$MODEL_ID" "$REVISION"
+  printf 'hf_endpoint=%s\n' "$SOURCE_ENDPOINT"
   printf '%s\n' 'Install verified Miniconda; conda Python/compiler/CUDA toolkit; GPU-enabled torch;' \
     'install locked dependencies; download pinned model and benchmarks;' \
     'offline model metadata check; pytest; actual tiny SFT/DPO/GRPO; CPU suite smoke; seal manifest.'
@@ -42,6 +45,11 @@ fi
 exec > >(tee -a "$BASE/logs/online-$RUN_ID.log") 2>&1
 export CONDA_PKGS_DIRS="$BASE/cache/conda" PIP_CACHE_DIR="$BASE/cache/pip" TMPDIR="$BASE/tmp"
 export HF_HOME="$BASE/cache/huggingface" HF_HUB_DOWNLOAD_TIMEOUT=600 HF_HUB_ETAG_TIMEOUT=120
+export HF_ENDPOINT="$SOURCE_ENDPOINT"
+export HF_HUB_DISABLE_XET="${HF_HUB_DISABLE_XET:-1}"
+export HF_HUB_DISABLE_UPDATE_CHECK=1
+export QIHC_HF_DOWNLOAD_WORKERS="${QIHC_HF_DOWNLOAD_WORKERS:-1}"
+export QIHC_HF_DOWNLOAD_ATTEMPTS="${QIHC_HF_DOWNLOAD_ATTEMPTS:-3}"
 export HF_HUB_OFFLINE=0 TRANSFORMERS_OFFLINE=0 HF_DATASETS_OFFLINE=0 PIP_NO_INDEX=0
 export TOKENIZERS_PARALLELISM=false MPLBACKEND=Agg OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
 export PYTHONNOUSERSITE=1 PYTHONPATH="$CODE"

@@ -24,6 +24,10 @@ bash scripts/server/01_prepare_online.sh
 
 模型下载使用明确的文件清单，包括全部权重分片，避免将多个 `--include` 模式误解析为文件名。下载后继续检查完整性，CLI 显示成功不等于准备完成。若旧版缺少 `click` 或只下载了配置文件，更新后重跑即可，保留已有缓存，无需删除模型目录。
 
+**当前默认从 `https://hf-mirror.com` 下载公开模型**，获取清单与下载使用同一 endpoint，记录来源和不可变 revision。默认关闭 Xet，使用 1 个下载线程，最多重试 3 次；分片大小、LFS 哈希（源提供时）与 safetensors 索引检查不变。完整文件可复用，未完成文件是否续传取决于服务响应与下载缓存，无需主动删除缓存。
+
+HF-Mirror 是第三方镜像，默认不向其转发环境或缓存里的 HF token。元数据请求明确匿名，下载子进程移除 token 环境变量并关闭隐式认证。公开 Qwen 模型无需 token。镜像元数据可达不代表节点的所有大文件连接都会稳定，文件地址也可能经过重定向。
+
 准备步骤包括：
 
 1. Miniconda、Conda Python、编译器和匹配 CUDA toolkit。
@@ -102,7 +106,9 @@ CUDA wheel/toolkit 不会安装或升级 NVIDIA 驱动。驱动不匹配时联�
 其他常用覆盖项：
 
 - `QIHC_MODEL_ID`、`QIHC_MODEL_REVISION`、`QIHC_MODEL_DIR`：仅在联网准备阶段指定，离线阶段读取准备清单中的实际路径。
-- `HF_ENDPOINT`、`HF_TOKEN`：按网络与访问权限在联网阶段设置。脚本不记录 token，也不自动改用未知镜像。
+- `QIHC_HF_ENDPOINT`：覆盖默认镜像；例如设为 `https://huggingface.co` 使用官方源。脚本在下载前设置标准 `HF_ENDPOINT`。
+- `QIHC_HF_DOWNLOAD_WORKERS=1`、`QIHC_HF_DOWNLOAD_ATTEMPTS=3`：下载线程和尝试次数（1–10）。元数据网络请求也有有界重试。
+- `HF_TOKEN`：官方源可以使用。镜像默认匿名；只有明确设置 `QIHC_MIRROR_ALLOW_TOKEN=1` 才允许第三方接收认证信息，请自行判断信任边界。脚本不记录 token。
 - `QIHC_PROFILE=pilot`：较小计算预算试跑，仍使用真实大模型并执行训练。
 - `QIHC_TRAINING_STEPS=200`：每阶段训练步数，默认 200。
 - `QIHC_GRPO_GENERATION_BATCH_SIZE=4`：全局 GRPO 生成批量，须同时被 GPU 进程数和每提示回答数 4 整除。
@@ -112,7 +118,7 @@ CUDA wheel/toolkit 不会安装或升级 NVIDIA 驱动。驱动不匹配时联�
 
 ## 当前验证边界
 
-本地已验证两个脚本的 Bash 语法与计划输出、Conda 激活兼容、双卡默认配置、GRPO 批量和明确的权重下载清单，全套共 133 项通过。使用服务器同版本 HF CLI 的实际 dry-run 已识别 9B 模型全部 4 个权重分片，约 19.3 GB。本地未下载这些大权重，也未完成目标服务器 CUDA/NCCL/ZeRO-3 或正式长实验验收。
+本地已验证两个脚本的 Bash 语法与计划输出、Conda 激活兼容、双卡默认配置、GRPO 批量、明确的下载清单及镜像 token 隔离，全套共 136 项通过。镜像实际元数据请求已返回既定 revision 和 4 个权重分片；此前同版本 CLI dry-run 已识别权重约 19.3 GB。本地未下载这些大权重，也未完成目标服务器 CUDA/NCCL/ZeRO-3 或正式长实验验收。
 
 本次重新执行的 [微型真实训练记录](../deployment/results/server_launcher_training_api_20261010/summary.json)已完成三阶段训练、权重保存与适配器推理；[CPU 全分支记录](../deployment/results/server_launcher_smoke_20261010/research_results.json)包含 19 个分支、76 个任务，失败 0。这些是流程验证，不是正式模型能力提升或目标服务器验收。
 
