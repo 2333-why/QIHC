@@ -248,11 +248,12 @@ def main() -> int:
             download_manifest = args.benchmark_dir / f"{name}_download_manifest.json"
             runner.run(f"download_{name}", [sys.executable, "experiments/download_hard_cvrplib.py", str(args.benchmark_dir),
                        "--min-customers", str(low), "--max-customers", str(high), "--limit", str(args.cases_per_range), "--selection", "spread",
-                       "--verify-cached", "--manifest-name", download_manifest.name], download_manifest)
+                       "--reserve-factor", "2", "--verify-cached", "--manifest-name", download_manifest.name], download_manifest)
             raw = root / f"raw_{name}.jsonl"
             runner.run(f"prepare_{name}", [sys.executable, "experiments/prepare_hard_nlcvrp.py", str(args.benchmark_dir), str(raw),
                        "--min-customers", str(low), "--max-customers", str(high), "--limit", str(args.cases_per_range),
-                       "--selection", "spread", "--clauses-per-type", "3"], raw)
+                       "--selection", "spread", "--clauses-per-type", "3", "--input-manifest", str(download_manifest)], raw,
+                       [raw.with_suffix(".manifest.json")])
             raw_inputs.append(raw)
     runner.run("data", [sys.executable, "experiments/prepare_research_data.py", "--output", str(data_root),
                "--sizes", *map(str, sizes), "--instances-per-size", str(cases),

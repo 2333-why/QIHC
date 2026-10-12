@@ -34,7 +34,7 @@ HF-Mirror 是第三方镜像，默认不向其转发环境或缓存里的 HF tok
 2. CUDA torch/torchvision、固定核心依赖和本项目。
 3. 将 Hub revision 解析为不可变 commit，再由 `hf download` 下载本地文件。
 4. 校验分片大小、SHA256、远端 LFS SHA256（提供时）、safetensors 索引与文件头。
-5. 下载 CVRPLIB 的 200–399 与 400–1000 客户数据，分别准备 12 个带业务约束实例。之后 GPU 节点只使用本地 JSONL。
+5. 下载 CVRPLIB 的 200–399 与 400–1000 客户数据，各预备最多 24 个候选（12 主选＋12 备用，按可用数量截断），各准备 12 个带业务约束实例。保持原车辆数上限；主选参考解不合格时，补选规模最接近的合格备用实例。之后 GPU 节点只使用本地 JSONL。
 6. 检查离线 tokenizer/processor/config、模型类、训练 API，执行全套测试、真实微型 SFT/DPO/GRPO 与适配器推理、全分支 CPU 冒烟。
 7. 全部成功才生成 `artifacts/prepared.json`。它记录代码、包版本、权重与数据指纹。
 
@@ -116,9 +116,11 @@ CUDA wheel/toolkit 不会安装或升级 NVIDIA 驱动。驱动不匹配时联�
 
 预下载数据失败会中止，不以缺少实例的文件作为准备成功。代码、依赖或模型改变后，需重新执行联网准备，避免用旧清单运行。
 
+数据准备仅使用本轮下载清单中的候选，不扫描混入的旧缓存。通过验证的原主选实例保留，备用实例只填补失败主选的位置；没有依据求解算法的表现挑选实例。`medium.manifest.json`、`hard.manifest.json` 保存候选、详细违反项及替换关系。不增加车辆数、不导出参考路线，不足 12 个合格实例仍会中止。
+
 ## 当前验证边界
 
-本地已验证两个脚本的 Bash 语法与计划输出、Conda 激活兼容、双卡默认配置、GRPO 批量、明确的下载清单及镜像 token 隔离，全套共 136 项通过。镜像实际元数据请求已返回既定 revision 和 4 个权重分片；此前同版本 CLI dry-run 已识别权重约 19.3 GB。本地未下载这些大权重，也未完成目标服务器 CUDA/NCCL/ZeRO-3 或正式长实验验收。
+本地已验证两个脚本的 Bash 语法与计划输出、Conda 激活兼容、双卡默认配置、GRPO 批量、下载清单、镜像 token 隔离及严格车辆上限下的备用补选，全套共 140 项通过。镜像实际元数据请求已返回既定 revision 和 4 个权重分片；此前同版本 CLI dry-run 已识别权重约 19.3 GB。本地未下载这些大权重，也未完成目标服务器 CUDA/NCCL/ZeRO-3 或正式长实验验收。
 
 本次重新执行的 [微型真实训练记录](../deployment/results/server_launcher_training_api_20261010/summary.json)已完成三阶段训练、权重保存与适配器推理；[CPU 全分支记录](../deployment/results/server_launcher_smoke_20261010/research_results.json)包含 19 个分支、76 个任务，失败 0。这些是流程验证，不是正式模型能力提升或目标服务器验收。
 

@@ -41,10 +41,13 @@ def main() -> int:
     parser.add_argument("--min-customers", type=int, default=200)
     parser.add_argument("--max-customers", type=int, default=400)
     parser.add_argument("--limit", type=int, default=3)
+    parser.add_argument("--reserve-factor", type=int, default=1, help="Download a larger candidate pool, capped by available instances")
     parser.add_argument("--selection", choices=["smallest", "spread"], default="smallest")
     parser.add_argument("--manifest-name", default="download_manifest.json")
     parser.add_argument("--verify-cached", action="store_true")
     args = parser.parse_args()
+    if args.limit < 0 or args.reserve_factor < 1:
+        parser.error("limit must be nonnegative and reserve-factor must be positive")
     args.output_dir.mkdir(parents=True, exist_ok=True)
     previous_manifest = args.output_dir / args.manifest_name
     previous = {}
@@ -61,17 +64,23 @@ def main() -> int:
         raise RuntimeError("No matching X instances found on the official index")
     if args.limit and len(cases) < args.limit:
         raise ValueError(f"Requested {args.limit} X instances, but only {len(cases)} are available in the selected size range")
-    if args.limit and args.selection == "spread" and len(cases) > args.limit:
-        if args.limit == 1:
-            cases = cases[:1]
-        else:
-            indices = [round(i * (len(cases) - 1) / (args.limit - 1)) for i in range(args.limit)]
-            cases = [cases[index] for index in indices]
-    else:
-        cases = cases[:args.limit or None]
+    pool_limit = min(len(cases), args.limit * args.reserve_factor) if args.limit else len(cases)
+    def choose(items, count):
+        if count <= 0:
+            return []
+        if args.selection != "spread" or len(items) <= count:
+            return items[:count]
+        if count == 1:
+            return items[:1]
+        return [items[round(i * (len(items) - 1) / (count - 1))] for i in range(count)]
+    # Keep the original primary selection stable; add backups rather than reselect it.
+    primary = choose(cases, args.limit or len(cases))
+    primary_names = {name for name, _ in primary}
+    reserves = choose([item for item in cases if item[0] not in primary_names], pool_limit - len(primary))
+    cases = primary + reserves
     manifest = []
     for name, code in cases:
-        entry = {"name": name, "official_id": code, "files": {}}
+        entry = {"name": name, "official_id": code, "candidate_role": "primary" if name in primary_names else "reserve", "files": {}}
         for suffix, kind, marker in (("vrp", "instance", b"NODE_COORD_SECTION"),
                                      ("sol", "bks", b"Route #")):
             url = f"{BASE}/en/download/{kind}/{code}"

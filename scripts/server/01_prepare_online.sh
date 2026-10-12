@@ -95,11 +95,12 @@ mkdir -p "$DATA_DIR"
 for range in medium hard; do
   if [[ "$range" == medium ]]; then LOW=200; HIGH=399; else LOW=400; HIGH=1000; fi
   python experiments/download_hard_cvrplib.py "$DATA_DIR/CVRPLIB/X" --min-customers "$LOW" --max-customers "$HIGH" \
-    --limit "${QIHC_CASES_PER_RANGE:-12}" --selection spread --verify-cached --manifest-name "${range}_download_manifest.json"
+    --limit "${QIHC_CASES_PER_RANGE:-12}" --reserve-factor 2 --selection spread --verify-cached --manifest-name "${range}_download_manifest.json"
   python experiments/prepare_hard_nlcvrp.py "$DATA_DIR/CVRPLIB/X" "$DATA_DIR/${range}.jsonl" \
-    --min-customers "$LOW" --max-customers "$HIGH" --limit "${QIHC_CASES_PER_RANGE:-12}" --selection spread --clauses-per-type 3
+    --min-customers "$LOW" --max-customers "$HIGH" --limit "${QIHC_CASES_PER_RANGE:-12}" --selection spread --clauses-per-type 3 \
+    --input-manifest "$DATA_DIR/CVRPLIB/X/${range}_download_manifest.json"
 done
-# From here on, checks must work without Hub access. Full 35B forward is deferred.
+# From here on, checks must work without Hub access. Full 9B forward is deferred.
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
 python experiments/check_research_environment.py --model-path "$MODEL_DIR" --nproc 1 --training --cpu-only --output "$REPORT_DIR/cpu_environment.json"
 python -m compileall -q qihc experiments
