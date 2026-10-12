@@ -2,6 +2,20 @@
 
 默认个人目录：`/inspire/hdd/global_user/czxs25210022/why`。
 
+## 已完成准备：单卡一行启动
+
+在已分配一张 H100 的离线 GPU 节点，仓库更新后，在仓库目录只需运行：
+
+```bash
+bash scripts/run_single_h100.sh
+```
+
+该入口固定使用一个 GPU 进程，自动启用已有 Conda 环境，核验准备清单后运行完整 formal 流水线，包括实验对比、教师造数、SFT/DPO/GRPO 和复评。无需手动激活环境或设置 `QIHC_NPROC`，也不自动申请 GPU。
+
+本次仅新增入口并更新说明，未更改准备清单核验的核心源码；已成功完成第一步的用户无需因此重新下载或准备。初次获取入口先执行 `git pull --ff-only origin llm-cvrp`。模型仍为准备清单中的 9B，实验预算不缩减；单卡 GRPO 默认一次生成 4 条回答，长序列训练的实际显存需在服务器验收，不能保证一张 H100 上所有阶段均不溢出。
+
+可用 `bash scripts/run_single_h100.sh --print-plan` 查看计划，或加 `--preflight-only` 仅验收。下文原始第二脚本仍保留双卡默认值；单卡用户使用上述新入口。
+
 ## 两个脚本
 
 - `scripts/server/01_prepare_online.sh`：安装 Miniconda、创建 Python 3.11 环境、安装 CUDA 版 PyTorch 与训练依赖、下载模型及评测数据、执行 CPU 检查。
