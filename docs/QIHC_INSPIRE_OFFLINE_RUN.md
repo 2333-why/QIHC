@@ -16,6 +16,10 @@ bash scripts/run_single_h100.sh
 
 可用 `bash scripts/run_single_h100.sh --print-plan` 查看计划，或加 `--preflight-only` 仅验收。下文原始第二脚本仍保留双卡默认值；单卡用户使用上述新入口。
 
+平台任务配置为一个 worker、一张 H100 时，可直接将 `bash scripts/run_single_h100.sh` 作为启动命令。入口接受平台注入的 rank=0、world size=1 元数据，确认不是多进程后清除外层分布式变量，由内部验收自行启动 torchrun。若声明多个进程或非零 rank，则仍拒绝启动，避免重复实验。`CUDA_VISIBLE_DEVICES` 保持平台原值。
+
+GPU 容器没有 `nvidia-smi` 时，入口仅对该信息展示命令提供提示性兼容函数；不会跳过后续 PyTorch CUDA、BF16、NCCL 和 ZeRO-3 实际验收。若 CUDA 确实不可用，实验仍会失败。此次兼容修复仍只修改不参与准备源码指纹的入口和说明，不需重跑第一步。
+
 ## 两个脚本
 
 - `scripts/server/01_prepare_online.sh`：安装 Miniconda、创建 Python 3.11 环境、安装 CUDA 版 PyTorch 与训练依赖、下载模型及评测数据、执行 CPU 检查。
