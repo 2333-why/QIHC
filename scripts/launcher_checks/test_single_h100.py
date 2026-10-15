@@ -13,7 +13,7 @@ if not Path(BASH).is_file():
     pytest.skip("Bash unavailable", allow_module_level=True)
 
 
-def run_wrapper(tmp_path, overrides=None, cli_present=False):
+def run_wrapper(tmp_path, overrides=None, cli_present=False, prepared=False, activation_fails=False):
     wrapper = tmp_path / "scripts/run_single_h100.sh"
     child = tmp_path / "scripts/server/02_run_offline_gpu.sh"
     child.parent.mkdir(parents=True)
@@ -35,6 +35,34 @@ def run_wrapper(tmp_path, overrides=None, cli_present=False):
     env["PATH"] = Path(BASH).parent.as_posix()
     env.update(QIHC_NPROC="2", CUDA_VISIBLE_DEVICES="3",
                MASTER_ADDR="platform-host", MASTER_PORT="12345")
+    env["QIHC_BASE"] = (tmp_path / "base").as_posix()
+    if prepared:
+        base = tmp_path / "base"
+        hook = base / "miniconda3/etc/profile.d/conda.sh"
+        hook.parent.mkdir(parents=True)
+        hook.write_text(
+            'conda() {\n'
+            ' : "$SYS_SYSROOT"\n'  # Real compiler hooks may read unset names.
+            + (' return 37\n' if activation_fails else
+               ' export CONDA_PREFIX="$2"\n export PATH="$(cd "$2/bin" && pwd -P):$PATH"\n')
+            + '}\n', encoding="utf-8", newline="\n",
+        )
+        python = base / "envs/qihc-cu128/bin/python"
+        python.parent.mkdir(parents=True)
+        python.write_text(
+            '#!/usr/bin/env bash\nset -eu\n'
+            '[[ "$CUDA_HOME" == "$CONDA_PREFIX" ]]\n'
+            '[[ "$(command -v python)" -ef "$CONDA_PREFIX/bin/python" ]]\n'
+            '[[ -d "$TRITON_CACHE_DIR" && -d "$TORCH_EXTENSIONS_DIR" && -d "$TMPDIR" ]]\n'
+            '[[ "$HF_HUB_OFFLINE" == 1 && "$PIP_NO_INDEX" == 1 ]]\n'
+            '[[ "$PYTHONNOUSERSITE" == 1 && "$CUDA_VISIBLE_DEVICES" == 3 ]]\n'
+            'printf "REVALIDATION_ENV_READY\\n"\n', encoding="utf-8", newline="\n",
+        )
+        python.chmod(0o755)
+        (base / "artifacts").mkdir()
+        (base / "artifacts/prepared.json").write_text("{}", encoding="utf-8")
+        env.pop("SYS_SYSROOT", None)
+        env.pop("CUDA_HOME", None)
     if cli_present:
         cli = tmp_path / "nvidia-smi"
         cli.write_text('#!/usr/bin/env bash\necho REAL_CLI\n', encoding="utf-8", newline="\n")
@@ -59,6 +87,20 @@ def test_real_cli_is_not_overridden(tmp_path):
     assert result.returncode == 0, result.stderr
     assert "REAL_CLI" in result.stdout
     assert "unavailable" not in result.stdout
+
+
+def test_preparation_refresh_runs_after_conda_and_cuda_setup(tmp_path):
+    result = run_wrapper(tmp_path, prepared=True)
+    assert result.returncode == 0, result.stderr
+    assert "REVALIDATION_ENV_READY" in result.stdout
+    assert result.stdout.index("REVALIDATION_ENV_READY") < result.stdout.index("nproc=1")
+
+
+def test_activation_error_stops_before_refresh(tmp_path):
+    result = run_wrapper(tmp_path, prepared=True, activation_fails=True)
+    assert result.returncode == 37
+    assert "REVALIDATION_ENV_READY" not in result.stdout
+    assert "nproc=" not in result.stdout
 
 
 @pytest.mark.parametrize("metadata", [{"WORLD_SIZE": "2"}, {"LOCAL_WORLD_SIZE": "2"},

@@ -39,6 +39,20 @@ if [[ "${1:-}" != '--print-plan' ]]; then
   BASE="${QIHC_BASE:-/inspire/hdd/global_user/czxs25210022/why}"
   ENV_PREFIX="$BASE/envs/qihc-${QIHC_CUDA_WHEEL:-cu128}"
   if [[ -x "$ENV_PREFIX/bin/python" && -f "$BASE/artifacts/prepared.json" ]]; then
+    # Revalidation imports DeepSpeed even for its tiny CPU training test.
+    # Activate the toolkit before that import, not only in the child launcher.
+    set +u
+    source "$BASE/miniconda3/etc/profile.d/conda.sh"
+    conda activate "$ENV_PREFIX"
+    set -u
+    export CUDA_HOME="$ENV_PREFIX" CUDA_DEVICE_ORDER=PCI_BUS_ID
+    export HF_HOME="$BASE/cache/huggingface" HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
+    export WANDB_MODE=disabled PIP_NO_INDEX=1 TOKENIZERS_PARALLELISM=false MPLBACKEND=Agg
+    export PYTHONNOUSERSITE=1 PYTHONPATH="${QIHC_CODE_DIR:-$CODE}"
+    export TORCH_EXTENSIONS_DIR="$BASE/cache/torch_extensions" TRITON_CACHE_DIR="$BASE/cache/triton"
+    export TMPDIR="$BASE/tmp" MAX_JOBS="${QIHC_BUILD_JOBS:-4}"
+    export OMP_NUM_THREADS="${OMP_NUM_THREADS:-1}" OPENBLAS_NUM_THREADS=1
+    mkdir -p "$TORCH_EXTENSIONS_DIR" "$TRITON_CACHE_DIR" "$TMPDIR"
     PYTHONNOUSERSITE=1 "$ENV_PREFIX/bin/python" "$CODE/scripts/refresh_non_thinking_preparation.py" \
       --manifest "$BASE/artifacts/prepared.json" --code-dir "${QIHC_CODE_DIR:-$CODE}" --env-prefix "$ENV_PREFIX"
   fi
