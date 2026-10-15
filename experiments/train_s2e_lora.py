@@ -84,7 +84,8 @@ def main() -> int:
     tokenizer.pad_token = tokenizer.pad_token or tokenizer.eos_token
     if hasattr(tokenizer, "apply_chat_template") and tokenizer.chat_template:
         rows = [{**row, "prompt": tokenizer.apply_chat_template(
-            [{"role": "user", "content": row["prompt"]}], tokenize=False, add_generation_prompt=True
+            [{"role": "user", "content": row["prompt"]}], tokenize=False, add_generation_prompt=True,
+            enable_thinking=False,
         )} for row in rows]
     # Preserve the supervised answer at the end when a long structural prompt
     # must be shortened to the configured context window.

@@ -35,4 +35,12 @@ if ! command -v nvidia-smi >/dev/null 2>&1; then
   export -f nvidia-smi
 fi
 export QIHC_NPROC=1
+if [[ "${1:-}" != '--print-plan' ]]; then
+  BASE="${QIHC_BASE:-/inspire/hdd/global_user/czxs25210022/why}"
+  ENV_PREFIX="$BASE/envs/qihc-${QIHC_CUDA_WHEEL:-cu128}"
+  if [[ -x "$ENV_PREFIX/bin/python" && -f "$BASE/artifacts/prepared.json" ]]; then
+    PYTHONNOUSERSITE=1 "$ENV_PREFIX/bin/python" "$CODE/scripts/refresh_non_thinking_preparation.py" \
+      --manifest "$BASE/artifacts/prepared.json" --code-dir "${QIHC_CODE_DIR:-$CODE}" --env-prefix "$ENV_PREFIX"
+  fi
+fi
 exec bash "$CODE/scripts/server/02_run_offline_gpu.sh" "$@"

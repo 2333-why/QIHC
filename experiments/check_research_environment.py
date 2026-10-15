@@ -43,8 +43,10 @@ def main() -> int:
         inference = processor.apply_chat_template(
             [{"role": "user", "content": [{"type": "text", "text": prompt}]}],
             add_generation_prompt=True, tokenize=True, return_dict=True, return_tensors="pt",
+            enable_thinking=False,
         )["input_ids"][0].tolist()
-        rendered = tokenizer.apply_chat_template([{ "role": "user", "content": prompt}], tokenize=False, add_generation_prompt=True)
+        rendered = tokenizer.apply_chat_template([{ "role": "user", "content": prompt}], tokenize=False,
+                                                  add_generation_prompt=True, enable_thinking=False)
         training = tokenizer.encode(rendered, add_special_tokens=False)
         if inference != training:
             raise RuntimeError("Qwen processor and training tokenizer produce different text prompt tokens")

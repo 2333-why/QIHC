@@ -63,11 +63,11 @@ class LocalDirectLLMGenerator:
             messages = [{"role": "user", "content": [{"type": "text", "text": prompt}]}]
             return self.processor.apply_chat_template(
                 messages, add_generation_prompt=True, tokenize=True,
-                return_dict=True, return_tensors="pt",
+                return_dict=True, return_tensors="pt", enable_thinking=False,
             )
         if hasattr(self.tokenizer, "apply_chat_template") and self.tokenizer.chat_template:
             rendered = self.tokenizer.apply_chat_template(
-                messages, tokenize=False, add_generation_prompt=True
+                messages, tokenize=False, add_generation_prompt=True, enable_thinking=False
             )
         else:
             rendered = prompt

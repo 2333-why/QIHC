@@ -332,6 +332,9 @@ class LocalLLMNeighborhoodSelector:
             "Positive feedback means p-bit repeatedly selected that assignment in improving samples; "
             "negative feedback means it was unsupported or harmful. Use it as evidence, not a hard rule.\n"
             f"Required destroy count: {min(self.destroy_size, len(move_features))}\n"
+            "Destroy means include in the search region, not force a route change. "
+            "Each customer may keep its current route. Propose candidates, not a final "
+            "joint assignment; p-bit and the verifier handle joint feasibility.\n"
             f"Maximum candidate routes per customer: {self.routes_per_customer}\n"
             "Return one compact JSON object with exactly these four fields; omit explanations, "
             "candidate_solution, candidate_edges, and reason. candidate_routes is the proposed "
@@ -347,15 +350,17 @@ class LocalLLMNeighborhoodSelector:
 
     def _generate(self, prompt: str) -> str:
         started = time.perf_counter()
+        self._last_generation_diagnostics = {"thinking_enabled": False}
         messages = [{"role": "user", "content": prompt}]
         if self.processor is not None:
             inputs = self.processor.apply_chat_template(
                 [{"role": "user", "content": [{"type": "text", "text": prompt}]}],
                 add_generation_prompt=True, tokenize=True, return_dict=True, return_tensors="pt",
+                enable_thinking=False,
             )
         elif hasattr(self.tokenizer, "apply_chat_template") and self.tokenizer.chat_template:
             rendered = self.tokenizer.apply_chat_template(
-                messages, tokenize=False, add_generation_prompt=True
+                messages, tokenize=False, add_generation_prompt=True, enable_thinking=False
             )
             inputs = self.tokenizer(rendered, return_tensors="pt", truncation=False)
         else:
@@ -387,6 +392,11 @@ class LocalLLMNeighborhoodSelector:
         with self.torch.inference_mode():
             output = self.model.generate(**inputs, **generation_kwargs)
         generated = output[0, inputs["input_ids"].shape[1] :]
+        self._last_generation_diagnostics = {
+            "thinking_enabled": False, "generated_tokens": int(generated.shape[0]),
+            "max_new_tokens": self.max_new_tokens,
+            "reached_token_limit": int(generated.shape[0]) >= self.max_new_tokens,
+        }
         statistics = {"calls": 1, "input_tokens": input_length, "output_tokens": int(generated.shape[0]),
                       "elapsed_s": time.perf_counter() - started}
         totals = getattr(self, "_generation_totals", {"calls": 0, "input_tokens": 0, "output_tokens": 0, "elapsed_s": 0.0})
@@ -652,6 +662,7 @@ class LocalLLMNeighborhoodSelector:
         return proposal
 
     def _audit(self, record: dict) -> None:
+        record.setdefault("generation", getattr(self, "_last_generation_diagnostics", {}))
         if not self.audit_path:
             return
         with self.audit_path.open("a", encoding="utf-8") as handle:
