@@ -16,8 +16,11 @@ def setup_record(tmp_path, monkeypatch):
     return manifest, original
 
 
-def test_refresh_reuses_inputs_and_preserves_original_evidence(tmp_path, monkeypatch):
+@pytest.mark.parametrize("previous", [migration.PREVIOUS, migration.PREVIOUS_NON_THINKING])
+def test_refresh_reuses_inputs_and_preserves_original_evidence(tmp_path, monkeypatch, previous):
     manifest, original = setup_record(tmp_path, monkeypatch)
+    original["source_sha256"] = previous
+    manifest.write_text(json.dumps(original))
     verified = []
     monkeypatch.setattr(migration, "verify", lambda args: verified.append(json.loads(args.manifest.read_text())))
     commands = []
@@ -36,9 +39,9 @@ def test_refresh_reuses_inputs_and_preserves_original_evidence(tmp_path, monkeyp
     updated = json.loads(manifest.read_text())
     assert updated["source_sha256"] == migration.CURRENT
     assert updated["model_path"] == original["model_path"]
-    assert json.loads((tmp_path / "prepared.before-non-thinking.json").read_text()) == original
+    assert json.loads((tmp_path / f"prepared.before-{previous[:12]}.json").read_text()) == original
     assert len(commands) == 2 and len(verified) == 1
-    assert updated["source_migrations"][0]["previous_source_sha256"] == migration.PREVIOUS
+    assert updated["source_migrations"][0]["previous_source_sha256"] == previous
     assert not (tmp_path / "prepared.non-thinking.pending.json").exists()
 
 

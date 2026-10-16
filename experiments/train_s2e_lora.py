@@ -39,6 +39,9 @@ def main() -> int:
     p.add_argument("--data", type=Path, required=True); p.add_argument("--output", required=True); p.add_argument("--max-steps", type=int, default=500)
     p.add_argument("--adapter-path", type=Path, help="Merge a previous LoRA stage before training this stage")
     p.add_argument("--learning-rate", type=float, default=2e-5); p.add_argument("--max-length", type=int, default=4096)
+    p.add_argument("--dpo-beta", type=float, default=0.1)
+    p.add_argument("--dpo-sft-weight", type=float, default=0.0,
+                   help="Add chosen-answer NLL to DPO to preserve output format")
     p.add_argument("--lora-rank", type=int, default=16)
     p.add_argument(
         "--lora-target-modules",
@@ -59,6 +62,8 @@ def main() -> int:
     p.add_argument("--require-reward-variance", action="store_true")
     p.add_argument("--resume", action="store_true")
     args = p.parse_args()
+    if args.dpo_beta <= 0 or args.dpo_sft_weight < 0:
+        p.error("DPO beta must be positive and SFT weight nonnegative")
     if args.use_cpu and args.deepspeed_config:
         p.error("CPU training smoke cannot use DeepSpeed")
     from datasets import Dataset
@@ -165,12 +170,21 @@ def main() -> int:
         from trl import DPOConfig, DPOTrainer
         dataset = Dataset.from_list([{key: row[key] for key in ("prompt", "chosen", "rejected")} for row in rows])
         reference_kwargs = {}
+        dpo_config = dict(common, max_length=args.max_length, beta=args.dpo_beta)
+        if args.dpo_sft_weight:
+            parameters = inspect.signature(DPOConfig).parameters
+            if "loss_weights" in parameters:
+                dpo_config.update(loss_type=["sigmoid", "sft"], loss_weights=[1.0, args.dpo_sft_weight])
+            elif "rpo_alpha" in parameters:
+                dpo_config["rpo_alpha"] = args.dpo_sft_weight
+            else:
+                raise RuntimeError("Installed TRL cannot add chosen-answer supervision; refusing unregularized DPO")
         if args.adapter_path and "ref_adapter_name" in inspect.signature(DPOTrainer.__init__).parameters:
             model.load_adapter(str(args.adapter_path), adapter_name="ref", is_trainable=False)
             reference_kwargs = {"model_adapter_name": "default", "ref_adapter_name": "ref"}
         trainer = DPOTrainer(
             model=model, train_dataset=dataset, peft_config=trainer_peft,
-            args=DPOConfig(**common, max_length=args.max_length),
+            args=DPOConfig(**dpo_config),
             **processing_kwargs(DPOTrainer), **reference_kwargs,
         )
         if args.adapter_path and "ref" not in getattr(trainer.model, "peft_config", {}):
@@ -246,6 +260,8 @@ def main() -> int:
         (Path(args.output) / "qihc_training_manifest.json").write_text(
             json.dumps({
                 "stage": args.stage,
+                "dpo_beta": args.dpo_beta if args.stage == "dpo" else None,
+                "dpo_sft_weight": args.dpo_sft_weight if args.stage == "dpo" else None,
                 "model_path": args.model_path,
                 "adapter_path": str(args.adapter_path) if args.adapter_path else None,
                 "data": str(args.data),

@@ -4,11 +4,12 @@ set -Eeuo pipefail
 CODE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
 BASE="${QIHC_BASE:-/inspire/hdd/global_user/czxs25210022/why}"
 if [[ "${1:-}" == '--print-plan' ]]; then
-  printf '%s\n' 'Qwen3.5-9B; 100/200/300 customers; 18 instances/size (54 total).' \
-    '36 training / 9 validation / 9 test geometries; test seeds 0,1 (18 paired jobs).' \
-    'Base evaluation -> 4-iteration p-bit/LLM teacher -> SFT 60 steps -> evaluation -> DPO 30 steps -> evaluation.' \
+  printf '%s\n' 'Qwen3.5-9B; 100/200/300 customers; 36 instances/size (108 total).' \
+    '72 training / 18 validation / 18 test geometries; test seeds 0,1 (36 paired jobs).' \
+    'Base and pure KNN+pbit -> 6-iteration, 2-seed teacher (up to 864 proposals) -> SFT 120 steps -> regularized DPO <=40 steps.' \
+    'DPO requires >=64 verified proposal pairs; at most one data pass; validation strict-output gate >=95%.' \
     'Shared neutral starts; 3 search iterations/evaluation; no LLM cold-start training or GRPO.' \
-    'Default wall-clock cap: 8 hours. Partial results saved; no guarantee all stages finish.' \
+    'Default wall-clock cap: 24 hours. Partial results saved; no guarantee all stages finish.' \
     'Use a separate allocated H100, or wait for the existing GPU job to finish.'
   exit 0
 fi
@@ -35,6 +36,7 @@ RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)-$$"
 exec > >(tee -a "$BASE/logs/overnight-$RUN_ID.log") 2>&1
 cd "$CODE"
 python -c 'import torch; assert torch.cuda.is_available(), "CUDA unavailable"; free,total=torch.cuda.mem_get_info(0); print("GPU:",torch.cuda.get_device_name(0),"free GiB:",free/2**30); assert free >= 60*2**30, "Need a separately allocated H100 with >=60 GiB free; do not share with the running formal job"'
+python scripts/refresh_non_thinking_preparation.py --manifest "$BASE/artifacts/prepared.json" --code-dir "$CODE" --env-prefix "$ENV_PREFIX"
 python experiments/server_readiness.py verify --manifest "$BASE/artifacts/prepared.json" --code-dir "$CODE" --env-prefix "$ENV_PREFIX"
 exec python scripts/posttrain_overnight.py --manifest "$BASE/artifacts/prepared.json" \
-  --output "$BASE/results/posttrain_overnight_$RUN_ID" --hours "${QIHC_OVERNIGHT_HOURS:-8}"
+  --output "$BASE/results/posttrain_overnight_$RUN_ID" --hours "${QIHC_OVERNIGHT_HOURS:-24}"

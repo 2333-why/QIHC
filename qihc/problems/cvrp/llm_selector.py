@@ -695,6 +695,13 @@ class LocalLLMNeighborhoodSelector:
             except ValueError:
                 parsed = _extract_partial_neighborhood_json(raw_output)
             proposal = self._normalize(instance, solution, parsed)
+            normalized_payload = {
+                "destroy_customers": proposal.destroy_customers,
+                "candidate_routes": {str(c): routes for c, routes in proposal.candidate_routes.items()},
+                "candidate_route_logits": {str(c): {str(r): v for r, v in logits.items()}
+                                           for c, logits in proposal.candidate_route_logits.items()},
+                "confidence": proposal.confidence,
+            }
             self._cache, self._cache_instance = proposal, instance.name
             self._audit(
                 {
@@ -705,6 +712,11 @@ class LocalLLMNeighborhoodSelector:
                     "prompt": prompt,
                     "output": raw_output,
                     "proposal": parsed,
+                    "proposal_source": proposal.source,
+                    "retained_model_customers": proposal.raw.get("retained_model_customers", 0),
+                    "normalization_filled_customers": proposal.raw.get("normalization_filled_customers", 0),
+                    "normalization_changed": parsed != normalized_payload,
+                    "recovered_truncated_logits": bool(parsed.get("recovered_truncated_logits")),
                     "token_feedback_applied_steps": self._last_token_feedback_steps,
                 }
             )
@@ -722,6 +734,7 @@ class LocalLLMNeighborhoodSelector:
                     "prompt": prompt,
                     "output": raw_output,
                     "error": repr(exc),
+                    "error_type": type(exc).__name__,
                 }
             )
             return fallback

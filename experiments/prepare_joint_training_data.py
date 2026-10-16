@@ -158,6 +158,33 @@ def align_teacher_domain(payload: dict, allowed: dict) -> dict | None:
     return teacher
 
 
+def canonical_proposal(payload: dict) -> str:
+    """Train the inference schema, never debug metadata or alphabetic field order."""
+    customers = list(dict.fromkeys(int(c) for c in payload["destroy_customers"]))
+    if not customers:
+        raise ValueError("Empty proposal")
+    routes, logits = {}, {}
+    for customer in customers:
+        key = str(customer)
+        routes[key] = list(dict.fromkeys(int(r) for r in payload["candidate_routes"][key]))
+        if not routes[key]:
+            raise ValueError("Empty route domain")
+        source = payload.get("candidate_route_logits", {}).get(key, {})
+        logits[key] = {}
+        for route in routes[key]:
+            value = float(source.get(str(route), source.get(route, 0)))
+            if not math.isfinite(value):
+                raise ValueError("Nonfinite logit")
+            # Match the compact integer protocol requested at inference time.
+            logits[key][str(route)] = max(-2, min(2, round(value)))
+    confidence = float(payload.get("confidence", 1))
+    if not math.isfinite(confidence):
+        raise ValueError("Nonfinite confidence")
+    return json.dumps({"destroy_customers": customers, "candidate_routes": routes,
+                       "candidate_route_logits": logits, "confidence": round(max(0, min(1, confidence)), 3)},
+                      ensure_ascii=False, separators=(",", ":"), allow_nan=False)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=Path, required=True)
@@ -239,8 +266,11 @@ def main() -> int:
                 chosen_payload = align_teacher_domain(chosen_payload, allowed_routes)
                 if chosen_payload is None:
                     continue
-                rejected = json.dumps(rejected_payload, ensure_ascii=False, sort_keys=True)
-                chosen = json.dumps(chosen_payload, ensure_ascii=False, sort_keys=True)
+                try:
+                    rejected = canonical_proposal(rejected_payload)
+                    chosen = canonical_proposal(chosen_payload)
+                except (ValueError, TypeError, KeyError):
+                    continue
                 reward = (
                     2.0 * float(record.get("accepted", False))
                     + float(record.get("objective_improvement", 0.0))
@@ -261,7 +291,7 @@ def main() -> int:
                         "energy_feedback_context": record.get("energy_feedback_context", {}),
                     }
                 grpo.append(grpo_row)
-                if chosen != rejected and record.get("accepted", False):
+                if chosen != rejected and (args.verify_preferences or record.get("accepted", False)):
                     dpo.append({"task": "proposal", "prompt": prompt, "chosen": chosen, "rejected": rejected,
                                 "reward_context": grpo_row.get("reward_context")})
             continue
@@ -277,7 +307,7 @@ def main() -> int:
             reverse=True,
         )
         chosen_record = ranked[0]
-        chosen = json.dumps(chosen_record["proposal_payload"], ensure_ascii=False, sort_keys=True)
+        chosen = canonical_proposal(chosen_record["proposal_payload"])
         reward = (
             2.0 * float(chosen_record.get("accepted", False))
             + float(chosen_record.get("objective_improvement", 0.0))
@@ -287,7 +317,7 @@ def main() -> int:
         sft.append({"task": "proposal", "prompt": prompt, "completion": chosen, "recorded_reward": reward})
         grpo.append({"task": "proposal", "prompt": prompt, "gold_completion": chosen, "recorded_reward": reward})
         if len(ranked) > 1:
-            rejected = json.dumps(ranked[-1]["proposal_payload"], ensure_ascii=False, sort_keys=True)
+            rejected = canonical_proposal(ranked[-1]["proposal_payload"])
             if rejected != chosen:
                 dpo.append({"task": "proposal", "prompt": prompt, "chosen": chosen, "rejected": rejected})
 
@@ -306,13 +336,15 @@ def main() -> int:
                 rejected_score = rollout_reward(json.loads(pair["rejected"]), context)
             except (ValueError, KeyError, TypeError):
                 continue
-            if abs(chosen_score - rejected_score) <= 1e-9:
+            if not all(math.isfinite(v) for v in (chosen_score, rejected_score)) or abs(chosen_score - rejected_score) <= 1e-9:
                 continue
             if rejected_score > chosen_score:
                 pair["chosen"], pair["rejected"] = pair["rejected"], pair["chosen"]
             pair["executed_reward_margin"] = abs(chosen_score - rejected_score)
             validated_pairs.append(pair)
         dpo = validated_pairs
+    # Repeated logging must not amplify a preference's training weight.
+    dpo = list({(r["prompt"], r["chosen"], r["rejected"]): r for r in dpo}.values())
     write_jsonl(args.output / "sft.jsonl", sft)
     write_jsonl(args.output / "dpo.jsonl", dpo)
     write_jsonl(args.output / "grpo.jsonl", grpo)

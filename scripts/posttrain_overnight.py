@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 import hashlib
 import json
 import os
@@ -41,24 +42,49 @@ def compare(before, after):
 def audit_summary(directory):
     rows = [json.loads(line) for p in directory.glob("llm_audit_rank*.jsonl")
             for line in p.read_text(encoding="utf-8").splitlines() if line.strip()]
+    failures = [r for r in rows if not r.get("ok")]
+    strict = sum(bool(r.get("ok")) and r.get("proposal_source") == "llm"
+                 and not r.get("recovered_truncated_logits")
+                 and not r.get("normalization_changed", True)
+                 and r.get("normalization_filled_customers", 0) == 0 for r in rows)
     return {"calls": len(rows), "successful_calls": sum(bool(r.get("ok")) for r in rows),
+            "strict_model_calls": strict, "strict_model_rate": strict / len(rows) if rows else 0,
+            "failed_calls": len(failures),
+            "recovered_calls": sum(bool(r.get("recovered_truncated_logits")) for r in rows),
+            "normalization_changed_calls": sum(bool(r.get("normalization_changed")) for r in rows),
+            "knn_fallback_calls": sum(not r.get("ok") or r.get("proposal_source") == "llm_fallback_knn" for r in rows),
+            "error_types": dict(Counter(r.get("error_type", "unknown") for r in failures)),
+            "failure_examples": [{k: r.get(k) for k in ("instance", "search_seed", "iteration", "error", "generation")}
+                                 | {"output_tail": str(r.get("output", ""))[-600:]} for r in failures[:5]],
             "token_limit_calls": sum(bool(r.get("generation", {}).get("reached_token_limit")) for r in rows)}
 
 
-def select_training(source, target, tokenizer, stage, max_length=16384):
+def reliability_gate(audit, reference=None):
+    rate = audit["strict_model_rate"]
+    return bool(audit["calls"] and rate >= 0.95
+                and (reference is None or rate >= reference["strict_model_rate"] - 0.02))
+
+
+def select_training(source, target, tokenizer, stage, max_length=16384, max_completion=1536):
     rows = [json.loads(line) for line in source.read_text(encoding="utf-8").splitlines() if line]
     kept = []
+    over_completion = 0
+    over_context = 0
     for row in rows:
         prompt = tokenizer.apply_chat_template([{"role": "user", "content": row["prompt"]}],
                                                tokenize=False, add_generation_prompt=True, enable_thinking=False)
         answers = [row[k] for k in ("completion", "chosen", "rejected") if k in row]
-        length = len(tokenizer.encode(prompt, add_special_tokens=False)) + 1 + max(
-            len(tokenizer.encode(a, add_special_tokens=False)) for a in answers)
-        if length <= max_length:
+        completion_length = 1 + max(len(tokenizer.encode(a, add_special_tokens=False)) for a in answers)
+        length = len(tokenizer.encode(prompt, add_special_tokens=False)) + completion_length
+        if completion_length > max_completion:
+            over_completion += 1
+        elif length > max_length:
+            over_context += 1
+        else:
             kept.append(row)
     target.write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in kept), encoding="utf-8")
     return {"stage": stage, "input_rows": len(rows), "kept_rows": len(kept),
-            "excluded_over_context": len(rows) - len(kept),
+            "excluded_over_context": over_context, "excluded_over_completion": over_completion,
             "proposal_rows": sum(r.get("task") == "proposal" for r in kept), "max_length": max_length}
 
 
@@ -66,7 +92,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--manifest", type=Path, required=True)
     p.add_argument("--output", type=Path, required=True)
-    p.add_argument("--hours", type=float, default=8)
+    p.add_argument("--hours", type=float, default=24)
     args = p.parse_args()
     if not 0 < args.hours <= 48:
         p.error("--hours must be in (0,48]")
@@ -76,9 +102,10 @@ def main():
     model = json.loads(args.manifest.read_text(encoding="utf-8"))["model_path"]
     deadline = time.monotonic() + args.hours * 3600
     report = {"status": "running", "scope": "p-bit-guided neighborhood post-training, SFT then DPO; no GRPO or LLM cold-start comparison",
-              "model": model, "hours_cap": args.hours, "sizes": [100, 200, 300], "instances_per_size": 18,
-              "seeds": [0, 1], "sft_steps": 60, "dpo_steps": 30, "train_max_length": 16384,
-              "teacher_iterations": 4, "evaluation_iterations": 3,
+              "model": model, "hours_cap": args.hours, "sizes": [100, 200, 300], "instances_per_size": 36,
+              "seeds": [0, 1], "sft_steps": 120, "dpo_steps_cap": 40, "train_max_length": 16384,
+              "dpo_method": "sigmoid DPO + 0.2 chosen-answer NLL; beta=0.2; at most one data pass",
+              "teacher_iterations": 6, "teacher_seeds": [0, 1], "evaluation_iterations": 3,
               "source_sha256": code_hash(ROOT), "driver_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
               "stages": {}, "comparisons": {}, "limitations": "Synthetic constrained CVRP; preliminary single-training-seed evidence, not a full benchmark conclusion"}
 
@@ -138,34 +165,46 @@ def main():
         run("preflight", python("experiments/check_research_environment.py", "--model-path", model,
                                  "--nproc", 1, "--training", "--output", root / "environment.json"))
         run("data", python("experiments/prepare_research_data.py", "--output", data,
-                           "--sizes", 100, 200, 300, "--instances-per-size", 18, "--clauses-per-type", 2))
+                           "--sizes", 100, 200, 300, "--instances-per-size", 36, "--clauses-per-type", 2))
         report["split"] = json.loads((data / "split_manifest.json").read_text())["splits"]
         run("shared_initial", python("experiments/run_cvrp_lns.py", *common, "--methods", "knn",
              "--data", data / "all.jsonl", "--search-seeds", 0, 1, "--iterations", 0, "--output", root / "shared_initial"))
         run("export_initial", python("experiments/export_shared_initials.py", "--results",
              root / "shared_initial/results.json", "--output", initials))
 
-        def evaluate(name, adapter=None):
+        def evaluate(name, adapter=None, method="llm", split="test"):
             directory = root / name
-            command = python("experiments/run_cvrp_lns.py", *common, *llm, "--data", data / "test.jsonl",
+            selector = llm if method == "llm" else ["--methods", "knn"]
+            command = python("experiments/run_cvrp_lns.py", *common, *selector, "--data", data / f"{split}.jsonl",
                              "--initial-solutions", initials, "--search-seeds", 0, 1, "--iterations", 3, "--output", directory)
             if adapter:
                 command += ["--adapter-path", str(adapter)]
             run(name, command)
-            report.setdefault("llm_audits", {})[name] = audit_summary(directory)
-            if name != "base":
+            if method == "llm":
+                report.setdefault("llm_audits", {})[name] = audit_summary(directory)
+            if split == "test" and name != "base":
                 report["comparisons"][name] = compare(json.loads((root / "base/results.json").read_text()),
                                                      json.loads((directory / "results.json").read_text()))
-                report["comparisons"][name]["quality_gate_passed"] = False
+                if name != "knn_pbit":
+                    report.setdefault("comparisons_vs_knn_pbit", {})[name] = compare(
+                        json.loads((root / "knn_pbit/results.json").read_text()),
+                        json.loads((directory / "results.json").read_text()))
                 save()  # Preserve useful results even if a later stage fails.
-            run(name + "_check", python("experiments/check_model_smoke.py", "--root", directory))
-            if name != "base":
-                report["comparisons"][name]["quality_gate_passed"] = True
+            rows = json.loads((directory / "results.json").read_text())
+            expected = {(instance, seed) for instance in report["split"][split] for seed in (0, 1)}
+            actual = {(r.get("instance"), r.get("search_seed")) for r in rows}
+            report.setdefault("feasibility_checks", {})[name] = (
+                len(rows) == len(expected) and actual == expected and all(
+                    r.get("status") == "ok" and r.get("reference_feasible") for r in rows))
             save()
 
         evaluate("base")
+        evaluate("knn_pbit", method="knn")
+        report.setdefault("comparisons_vs_knn_pbit", {})["base"] = compare(
+            json.loads((root / "knn_pbit/results.json").read_text()),
+            json.loads((root / "base/results.json").read_text()))
         run("teacher", python("experiments/run_cvrp_lns.py", *common, *llm, "--data", data / "train.jsonl",
-            "--initial-solutions", initials, "--search-seeds", 0, "--iterations", 4,
+            "--initial-solutions", initials, "--search-seeds", 0, 1, "--iterations", 6,
             "--export-training-context", "--output", root / "teacher"))
         run("teacher_check", python("experiments/check_model_smoke.py", "--root", root / "teacher"))
         training = root / "training_data"
@@ -177,16 +216,18 @@ def main():
         report["training_data"] = json.loads((training / "summary.json").read_text())
         report["length_filter"] = {}
         previous = None
-        for stage, steps, lr in [("sft", 60, "2e-5"), ("dpo", 30, "5e-6")]:
+        for stage, steps, lr in [("sft", 120, "2e-5"), ("dpo", 40, "1e-6")]:
             selected = training / f"{stage}_bounded.jsonl"
             counts = select_training(training / f"{stage}.jsonl", selected, tokenizer, stage)
             report["length_filter"][stage] = counts
             save()
-            if stage == "sft" and (counts["kept_rows"] < 60 or counts["proposal_rows"] < 24):
+            if stage == "sft" and (counts["kept_rows"] < 360 or counts["proposal_rows"] < 288):
                 raise RuntimeError(f"Insufficient p-bit teacher supervision: {counts}")
-            if stage == "dpo" and counts["proposal_rows"] < 16:
-                report["dpo_skipped"] = "Fewer than 16 executed, verified proposal preference pairs"
-                break
+            if stage == "dpo" and counts["proposal_rows"] < 64:
+                raise RuntimeError(f"Need at least 64 verified proposal pairs, got {counts['proposal_rows']}; training data retained, refusing small-data DPO")
+            if stage == "dpo":
+                steps = min(steps, counts["kept_rows"] // 4)
+                report["dpo_steps"] = steps
             adapter = root / "adapters" / stage
             command = [sys.executable, "-m", "torch.distributed.run", "--standalone", "--nproc_per_node=1",
                        "experiments/train_s2e_lora.py", "--stage", stage, "--model-path", model,
@@ -195,10 +236,22 @@ def main():
                        "--save-steps", "20", "--deepspeed-config", str(ROOT / "configs/deepspeed-zero3-bf16.json")]
             if previous:
                 command += ["--adapter-path", str(previous)]
+            if stage == "dpo":
+                command += ["--dpo-beta", "0.2", "--dpo-sft-weight", "0.2"]
             run("train_" + stage, command)
+            evaluate(stage + "_validation", adapter, split="validation")
+            validation = report["llm_audits"][stage + "_validation"]
+            reference = report["llm_audits"].get("sft_validation") if stage == "dpo" else None
+            passed = reliability_gate(validation, reference) and report["feasibility_checks"][stage + "_validation"]
+            report.setdefault("validation_reliability", {})[stage] = passed
             evaluate(stage, adapter)
             previous = adapter
-        report["status"] = "sft_complete_dpo_skipped" if report.get("dpo_skipped") else "complete"
+        passed = all(report["validation_reliability"].values()) and all(report["feasibility_checks"].values())
+        report["status"] = "complete" if passed else "complete_quality_gate_failed"
+        report["dpo_output_repair_validated"] = report["validation_reliability"]["dpo"]
+        report["adapter_reliability_recommendation"] = (
+            "dpo" if report["validation_reliability"]["dpo"] else
+            "sft" if report["validation_reliability"]["sft"] else "neither")
     except TimeoutError as exc:
         report.update(status="time_budget_reached", error=str(exc))
     except Exception as exc:
@@ -207,7 +260,7 @@ def main():
     finally:
         save()
         print(f"RESULTS: {root / 'summary.json'}", flush=True)
-    return 0
+    return 0 if report["status"] == "complete" else 2
 
 
 if __name__ == "__main__":

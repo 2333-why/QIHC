@@ -70,6 +70,8 @@ def main() -> int:
                    "--use-cpu", "--precision", "fp32", "--logging-steps", "1", "--save-steps", "1"]
         if previous is not None:
             command += ["--adapter-path", str(previous)]
+        if stage == "dpo":
+            command += ["--dpo-beta", "0.2", "--dpo-sft-weight", "0.2"]
         if stage == "grpo":
             command += ["--generation-batch-size", str(args.grpo_generation_batch_size)]
         env = {**os.environ, "CUDA_VISIBLE_DEVICES": "", "OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1", "TOKENIZERS_PARALLELISM": "false"}

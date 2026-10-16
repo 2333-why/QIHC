@@ -1,9 +1,32 @@
 import json
 import sys
+import pytest
 
 from experiments.prepare_joint_training_data import load_llm_audits, main
 from qihc.problems.cvrp.instance import generate_synthetic_instance, save_jsonl
 from qihc.s2e.cpp import ConstraintProgramPackage
+
+
+def test_canonical_proposal_matches_inference_order_and_discards_metadata():
+    from experiments.prepare_joint_training_data import canonical_proposal
+    payload = {"destroy_customers": [2, 2], "candidate_routes": {"2": [0, 1, 1]},
+               "candidate_route_logits": {"2": {"0": 0.7777777, "1": -8.1}},
+               "confidence": 0.987654, "retained_model_customers": 1, "recovered_truncated_logits": True}
+    result = canonical_proposal(payload)
+    parsed = json.loads(result)
+    assert list(parsed) == ["destroy_customers", "candidate_routes", "candidate_route_logits", "confidence"]
+    assert parsed["candidate_route_logits"] == {"2": {"0": 1, "1": -2}}
+    assert parsed["destroy_customers"] == [2] and parsed["candidate_routes"] == {"2": [0, 1]}
+    assert " " not in result
+    assert canonical_proposal(parsed) == result
+
+
+@pytest.mark.parametrize("bad", [float("nan"), float("inf"), float("-inf")])
+def test_canonical_proposal_rejects_nonfinite_values(bad):
+    from experiments.prepare_joint_training_data import canonical_proposal
+    with pytest.raises(ValueError, match="Nonfinite"):
+        canonical_proposal({"destroy_customers": [1], "candidate_routes": {"1": [0]},
+                            "candidate_route_logits": {"1": {"0": bad}}})
 
 
 def test_joint_training_data_contains_constraint_and_pbit_proposal(tmp_path, monkeypatch):

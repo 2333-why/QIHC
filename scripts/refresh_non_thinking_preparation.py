@@ -17,7 +17,8 @@ from experiments.server_readiness import atomic_json, code_hash, verify
 
 # Exact LF source fingerprints of the already prepared release and this patch.
 PREVIOUS = "f981bda58233dace190b32155d2930a72aad030b91538605e926ba7f61bc79d2"
-CURRENT = "5a858b9fb8a87dd6ba0b17b05c0f98ab2e7282b3981dc09c1af611cedcb38c56"
+CURRENT = "4e9d0c6217ba777988b9afb0df7d118425bab2ffead3589521b5cd7ab037666c"
+PREVIOUS_NON_THINKING = "5a858b9fb8a87dd6ba0b17b05c0f98ab2e7282b3981dc09c1af611cedcb38c56"
 
 
 def refresh(manifest: Path, code_dir: Path, env_prefix: Path) -> None:
@@ -25,7 +26,7 @@ def refresh(manifest: Path, code_dir: Path, env_prefix: Path) -> None:
     actual = code_hash(code_dir)
     if record.get("source_sha256") == actual:
         return  # Normal launcher still verifies every input afterward.
-    if record.get("source_sha256") != PREVIOUS or actual != CURRENT:
+    if record.get("source_sha256") not in {PREVIOUS, PREVIOUS_NON_THINKING} or actual != CURRENT:
         raise RuntimeError("Source is not the approved non-thinking migration; refusing to reseal arbitrary changes")
     if code_dir.resolve() != ROOT.resolve():
         raise RuntimeError("Migration and pipeline must use the same checkout")
@@ -50,11 +51,11 @@ def refresh(manifest: Path, code_dir: Path, env_prefix: Path) -> None:
         # Abort if the checkout was modified while the tests were running.
         if code_hash(code_dir) != actual:
             raise RuntimeError("Source changed during patch revalidation")
-        backup = manifest.with_name("prepared.before-non-thinking.json")
+        backup = manifest.with_name(f"prepared.before-{record['source_sha256'][:12]}.json")
         if not backup.exists():
             atomic_json(backup, record)
         candidate["source_migrations"] = [*record.get("source_migrations", []), {
-            "name": "explicit_non_thinking_protocol", "previous_source_sha256": PREVIOUS,
+            "name": "compact_regularized_dpo", "previous_source_sha256": record["source_sha256"],
             "source_sha256": actual, "utc": datetime.now(timezone.utc).isoformat(),
             "checks": "all unit tests, actual tiny SFT/DPO/GRPO and adapter inference, original package/model/data verification",
             "training_smoke": str(report), "backup": str(backup),
