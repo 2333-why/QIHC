@@ -105,7 +105,7 @@ def test_full_driver_builds_matched_knn_and_regularized_dpo_commands(tmp_path, m
                 data.mkdir()
                 (data / "split_manifest.json").write_text(json.dumps({"splits": {
                     "train": ["train"], "validation": ["validation"], "test": ["test"]}}))
-            if name in {"base", "knn_pbit", "sft", "dpo", "sft_validation", "dpo_validation"}:
+            if name in {"base", "legacy_base", "knn_pbit", "sft", "dpo", "sft_validation", "dpo_validation"}:
                 directory = output / name
                 directory.mkdir()
                 instance = "validation" if name.endswith("validation") else "test"
@@ -131,7 +131,7 @@ def test_full_driver_builds_matched_knn_and_regularized_dpo_commands(tmp_path, m
     assert driver.main() == 0
     report = json.loads((output / "summary.json").read_text())
     assert report["dpo_steps"] == 16 and report["dpo_output_repair_validated"]
-    assert set(report["comparisons_vs_knn_pbit"]) == {"base", "sft", "dpo"}
+    assert set(report["comparisons_vs_knn_pbit"]) == {"base", "legacy_base", "sft", "dpo"}
     knn, base = commands["knn_pbit"], commands["base"]
     assert "--model-path" not in knn and knn[knn.index("--methods") + 1] == "knn"
     for flag in ("--initial-solutions", "--iterations", "--num-chains", "--sampling-steps", "--data"):

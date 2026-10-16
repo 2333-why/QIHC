@@ -6,10 +6,11 @@ BASE="${QIHC_BASE:-/inspire/hdd/global_user/czxs25210022/why}"
 if [[ "${1:-}" == '--print-plan' ]]; then
   printf '%s\n' 'Qwen3.5-9B; 100/200/300 customers; 36 instances/size (108 total).' \
     '72 training / 18 validation / 18 test geometries; test seeds 0,1 (36 paired jobs).' \
-    'Base and pure KNN+pbit -> 6-iteration, 2-seed teacher (up to 864 proposals) -> SFT 120 steps -> regularized DPO <=40 steps.' \
+    'Competitive base + baseline-strategy ablation + pure KNN+pbit; 864 teacher states; KNN/pbit/LLM competition on 3 rollout seeds.' \
+    'SFT <=240 steps; regularized DPO <=96 steps; each limited to one data pass.' \
     'DPO requires >=64 verified proposal pairs; at most one data pass; validation strict-output gate >=95%.' \
     'Shared neutral starts; 3 search iterations/evaluation; no LLM cold-start training or GRPO.' \
-    'Default wall-clock cap: 24 hours. Partial results saved; no guarantee all stages finish.' \
+    'Default wall-clock cap: 36 hours. Partial results saved; no guarantee all stages finish.' \
     'Use a separate allocated H100, or wait for the existing GPU job to finish.'
   exit 0
 fi
@@ -39,4 +40,4 @@ python -c 'import torch; assert torch.cuda.is_available(), "CUDA unavailable"; f
 python scripts/refresh_non_thinking_preparation.py --manifest "$BASE/artifacts/prepared.json" --code-dir "$CODE" --env-prefix "$ENV_PREFIX"
 python experiments/server_readiness.py verify --manifest "$BASE/artifacts/prepared.json" --code-dir "$CODE" --env-prefix "$ENV_PREFIX"
 exec python scripts/posttrain_overnight.py --manifest "$BASE/artifacts/prepared.json" \
-  --output "$BASE/results/posttrain_overnight_$RUN_ID" --hours "${QIHC_OVERNIGHT_HOURS:-24}"
+  --output "$BASE/results/posttrain_overnight_$RUN_ID" --hours "${QIHC_OVERNIGHT_HOURS:-36}"

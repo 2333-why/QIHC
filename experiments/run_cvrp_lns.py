@@ -103,6 +103,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--adapter-path", type=str)
     parser.add_argument("--llm-refresh-interval", type=int, default=5)
     parser.add_argument("--llm-temperature", type=float, default=0.2)
+    parser.add_argument("--llm-neighborhood-strategy", choices=["baseline", "competitive"], default="baseline")
     parser.add_argument("--llm-max-new-tokens", type=int, default=768)
     parser.add_argument("--llm-direct-max-new-tokens", type=int, default=8192)
     parser.add_argument("--llm-max-input-tokens", type=int, default=32768)
@@ -231,7 +232,7 @@ def make_selector(args: argparse.Namespace, method: str, local_rank: int, output
             raise ValueError("--model-path is required for method=llm")
         from qihc.problems.cvrp.llm_selector import LocalLLMNeighborhoodSelector
 
-        return LocalLLMNeighborhoodSelector(
+        selector = LocalLLMNeighborhoodSelector(
             model_path=args.model_path,
             adapter_path=args.adapter_path,
             destroy_size=args.destroy_size,
@@ -244,6 +245,8 @@ def make_selector(args: argparse.Namespace, method: str, local_rank: int, output
             token_feedback_strength=args.token_feedback_strength,
             max_input_tokens=args.llm_max_input_tokens,
         )
+        selector.neighborhood_strategy = args.llm_neighborhood_strategy
+        return selector
     raise ValueError(f"Unknown method: {method}")
 
 

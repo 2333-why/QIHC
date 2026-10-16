@@ -194,9 +194,17 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--holdout-modulus", type=int, default=0)
     parser.add_argument("--holdout-fold", type=int, default=0)
+    parser.add_argument("--competitive-teacher", action="store_true")
+    parser.add_argument("--preference-chains", type=int, default=64)
+    parser.add_argument("--preference-steps", type=int, default=48)
+    parser.add_argument("--preference-margin", type=float, default=0.001)
     parser.add_argument("--verify-preferences", action="store_true",
                         help="Keep proposal DPO pairs only after matched execution rewards establish a preference")
     args = parser.parse_args(); args.output.mkdir(parents=True, exist_ok=True)
+    if args.competitive_teacher and (not args.verify_preferences or not args.llm_audits):
+        parser.error("Competitive teachers require --verify-preferences and --llm-audits")
+    if min(args.preference_chains, args.preference_steps) <= 0 or args.preference_margin <= 0:
+        parser.error("Preference rollout budgets and margin must be positive")
 
     instances = {instance.name: instance for instance in load_jsonl(args.data)}
     if args.holdout_modulus < 0 or (
@@ -211,8 +219,11 @@ def main() -> int:
     constraint_records = {row["instance"]: row for row in read_jsonl(args.constraint_records)}
     solver_rows = json.loads(args.solver_results.read_text(encoding="utf-8"))
     audits = load_llm_audits(args.llm_audits)
+    if args.competitive_teacher and not audits:
+        raise ValueError("No successful exact inference audits for competitive supervision")
     sft: list[dict] = []; dpo: list[dict] = []; grpo: list[dict] = []
     cold_start_examples = 0
+    competitions = []
 
     for name, instance in training_instances.items():
         predicted = constraint_records.get(name)
@@ -277,7 +288,7 @@ def main() -> int:
                     + 0.5 * float(record.get("candidate_route_recall", 0.0))
                     + 0.5 * float(record.get("candidate_compression", 0.0))
                 )
-                sft.append({"task": "proposal", "prompt": prompt, "completion": chosen, "recorded_reward": reward})
+                sft_row = {"task": "proposal", "prompt": prompt, "completion": chosen, "recorded_reward": reward}
                 grpo_row = {"task": "proposal", "prompt": prompt, "gold_completion": chosen, "recorded_reward": reward}
                 if row.get("training_instance") and record.get("incumbent_routes_before"):
                     grpo_row["reward_context"] = {
@@ -290,6 +301,33 @@ def main() -> int:
                         "iteration": int(record["iteration"]),
                         "energy_feedback_context": record.get("energy_feedback_context", {}),
                     }
+                if args.competitive_teacher:
+                    from experiments.competitive_teacher import select_teacher
+                    context = grpo_row.get("reward_context")
+                    if context is None:
+                        raise ValueError("Competitive supervision requires exported execution context")
+                    competition = select_teacher(prompt, chosen_payload, rejected_payload, context,
+                        chains=args.preference_chains, steps=args.preference_steps, margin=args.preference_margin)
+                    competitions.append({"instance": row["instance"], "seed": search_seed,
+                                         "iteration": record["iteration"], "competition": competition})
+                    if not competition or not competition["winner"]:
+                        continue
+                    winner, loser = competition["winner"], competition["pair"]
+                    chosen = winner["answer"]
+                    sft_row.update(completion=chosen, teacher_source=winner["source"],
+                                   recorded_reward=winner["selection_reward"])
+                    grpo_row.update(gold_completion=chosen, recorded_reward=winner["selection_reward"])
+                    sft.append(sft_row)
+                    grpo.append(grpo_row)
+                    if loser:
+                        dpo.append({"task": "proposal", "prompt": prompt, "chosen": chosen,
+                                    "rejected": loser["answer"], "reward_context": context,
+                                    "competition_verified": True,
+                                    "chosen_source": winner["source"], "rejected_source": loser["source"],
+                                    "chosen_rewards": winner["rewards"], "rejected_rewards": loser["rewards"],
+                                    "executed_reward_margin": min(a-b for a,b in zip(winner["rewards"], loser["rewards"]))})
+                    continue
+                sft.append(sft_row)
                 grpo.append(grpo_row)
                 if chosen != rejected and (args.verify_preferences or record.get("accepted", False)):
                     dpo.append({"task": "proposal", "prompt": prompt, "chosen": chosen, "rejected": rejected,
@@ -325,6 +363,9 @@ def main() -> int:
     if args.verify_preferences:
         validated_pairs = []
         for pair in dpo:
+            if args.competitive_teacher and pair.get("competition_verified"):
+                validated_pairs.append(pair)
+                continue
             if pair.get("task") == "constraint":
                 validated_pairs.append(pair)
                 continue
@@ -348,6 +389,7 @@ def main() -> int:
     write_jsonl(args.output / "sft.jsonl", sft)
     write_jsonl(args.output / "dpo.jsonl", dpo)
     write_jsonl(args.output / "grpo.jsonl", grpo)
+    write_jsonl(args.output / "teacher_competitions.jsonl", competitions)
     (args.output / "summary.json").write_text(
         json.dumps({
             "sft": len(sft), "dpo": len(dpo), "grpo": len(grpo),
@@ -359,6 +401,12 @@ def main() -> int:
             "holdout_instances": len(holdout),
             "preference_pairs_attempted": attempted_preferences,
             "preferences_execution_verified": args.verify_preferences,
+            "competitive_teacher": args.competitive_teacher,
+            "competition_states": len(competitions),
+            "teacher_wins": {name: sum(r.get("teacher_source") == name for r in sft)
+                             for name in ("knn", "pbit", "llm")},
+            "preference_rollout": {"chains": args.preference_chains, "steps": args.preference_steps,
+                                   "ranking_seeds": 2, "confirmation_seeds": 1, "minimum_reward_margin": args.preference_margin},
         }, indent=2), encoding="utf-8"
     )
     (args.output / "holdout_instances.json").write_text(

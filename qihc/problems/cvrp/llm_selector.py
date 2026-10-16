@@ -199,6 +199,14 @@ class LocalLLMNeighborhoodSelector:
         }
         self._token_logit_feedback = dict(self._pbit_logit_feedback)
 
+    def _knn_reference(self, instance, solution):
+        proposal = self.fallback.propose(instance, solution,
+            getattr(self, '_proposal_iteration', 0), getattr(self, '_proposal_seed', 0))
+        return {"destroy_customers": proposal.destroy_customers,
+                "candidate_routes": {str(c): rs for c, rs in proposal.candidate_routes.items()},
+                "candidate_route_logits": {str(c): {str(r): 0 for r in rs}
+                                           for c, rs in proposal.candidate_routes.items()}, "confidence": 1}
+
     def _move_features(
         self, instance: CVRPInstance, solution: RouteSolution
     ) -> list[dict]:
@@ -208,6 +216,9 @@ class LocalLLMNeighborhoodSelector:
             sum(instance.customers[customer].demand for customer in route)
             for route in solution.routes
         ]
+        competitive = getattr(self, "neighborhood_strategy", "baseline") == "competitive"
+        reference = self._knn_reference(instance, solution) if competitive else {}
+        reference_customers = set(reference.get("destroy_customers", []))
         constrained: set[int] = set()
         for spec in instance.constraints:
             if spec.type in {"same_resource", "same_vehicle", "mutual_exclusion"}:
@@ -254,7 +265,11 @@ class LocalLLMNeighborhoodSelector:
                         }
                     )
                 moves.sort(key=lambda item: (item["net_delta"], item["route"]))
-                moves = moves[: max(1, self.routes_per_customer - 1)]
+                retained = moves[: max(1, self.routes_per_customer - 1)]
+                if competitive and customer in reference_customers:
+                    reference_routes = reference["candidate_routes"][str(customer)]
+                    retained += [m for m in moves if m["route"] in reference_routes and m not in retained]
+                moves = retained
                 rows.append(
                     {
                         "customer": customer,
@@ -265,6 +280,8 @@ class LocalLLMNeighborhoodSelector:
                         "moves": moves,
                         "best_net_delta": moves[0]["net_delta"] if moves else 0.0,
                         "constraint_related": customer in constrained,
+                        **({"xy": [round(node.x, 2), round(node.y, 2)],
+                            "knn_reference_member": customer in reference_customers} if competitive else {}),
                     }
                 )
 
@@ -276,7 +293,7 @@ class LocalLLMNeighborhoodSelector:
             )
         )
         shortlist_size = max(24, self.destroy_size * 4)
-        required = [row for row in rows if row["constraint_related"]]
+        required = [row for row in rows if row["constraint_related"] or row["customer"] in reference_customers]
         selected_ids = {row["customer"] for row in required}
         selected = list(required)
         for row in sorted(rows, key=lambda item: (item["best_net_delta"], item["customer"])):
@@ -312,6 +329,17 @@ class LocalLLMNeighborhoodSelector:
             for customer, routes in self._pbit_logit_feedback.items()
             if customer in feature_ids
         }
+        guidance = ""
+        if getattr(self, "neighborhood_strategy", "baseline") == "competitive":
+            guidance = (
+                f"KNN reference proposal: {json.dumps(self._knn_reference(instance, solution), separators=(',', ':'))}\n"
+                "Use the KNN reference as a complete legal starting neighborhood, not as an optimal answer. "
+                "Prefer a coherent nearby customer cluster spanning interacting routes, not scattered customers "
+                "chosen only by individual net_delta. Improve the reference when geometry, constraints or "
+                "p-bit feedback provide evidence. Pair capacity-blocked moves with customers leaving their "
+                "target route; keep same-resource partners together. Avoid excessive bias based on uncertain "
+                "single-customer gains: use zero logits when evidence is weak.\n"
+            )
         return (
             "You understand the complete constrained CVRP and propose a candidate solution/search region. "
             "Do not create an energy function. Return JSON only. Select customers whose reassignment may reduce "
@@ -326,6 +354,7 @@ class LocalLLMNeighborhoodSelector:
             f"Constraints: {json.dumps(constraints, ensure_ascii=False)}\n"
             f"Route capacities: {json.dumps(route_summary, ensure_ascii=False, separators=(',', ':'))}\n"
             f"Objective-aware move features: {json.dumps(move_features, ensure_ascii=False, separators=(',', ':'))}\n"
+            + guidance +
             f"P-bit logit feedback from earlier iterations: "
             f"{json.dumps(compact_feedback, ensure_ascii=False, separators=(',', ':'))}\n"
             f"Empirical population diagnostics: {json.dumps({k: v for k, v in getattr(self, '_distribution_diagnostics', {}).items() if k != 'marginals'}, ensure_ascii=False, separators=(',', ':'))}\n"
@@ -333,6 +362,7 @@ class LocalLLMNeighborhoodSelector:
             "negative feedback means it was unsupported or harmful. Use it as evidence, not a hard rule.\n"
             f"Required destroy count: {min(self.destroy_size, len(move_features))}\n"
             "Destroy means include in the search region, not force a route change. "
+            "Always include each customer's current route and give a logit for every listed route. "
             "Each customer may keep its current route. Propose candidates, not a final "
             "joint assignment; p-bit and the verifier handle joint feasibility.\n"
             f"Maximum candidate routes per customer: {self.routes_per_customer}\n"
@@ -686,6 +716,7 @@ class LocalLLMNeighborhoodSelector:
                 },
                 candidate_edges=list(self._cache.candidate_edges),
             )
+        self._proposal_iteration, self._proposal_seed = iteration, seed
         prompt = self._prompt(instance, solution, iteration)
         raw_output = ""
         try:
@@ -716,6 +747,8 @@ class LocalLLMNeighborhoodSelector:
                     "retained_model_customers": proposal.raw.get("retained_model_customers", 0),
                     "normalization_filled_customers": proposal.raw.get("normalization_filled_customers", 0),
                     "normalization_changed": parsed != normalized_payload,
+                    "normalization_changed_fields": [k for k in normalized_payload if parsed.get(k) != normalized_payload[k]],
+                    "extra_output_fields": sorted(set(parsed) - set(normalized_payload)),
                     "recovered_truncated_logits": bool(parsed.get("recovered_truncated_logits")),
                     "token_feedback_applied_steps": self._last_token_feedback_steps,
                 }
