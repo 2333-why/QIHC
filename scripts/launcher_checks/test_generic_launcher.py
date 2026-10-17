@@ -18,6 +18,14 @@ def test_generic_launcher_syntax_and_plan():
     assert "192 instances" in result.stdout and "No FPGA" in result.stdout
 
 
+def test_semantic_dual_launcher_syntax_and_plan():
+    script = (ROOT / "scripts/run_semantic_dual_gpu.sh").as_posix()
+    assert subprocess.run([BASH, "-n", script], capture_output=True).returncode == 0
+    result = subprocess.run([BASH, script, "--print-plan"], capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr
+    assert "768" in result.stdout and "2 H100" in result.stdout and "semantic-only" in result.stdout
+
+
 @pytest.mark.parametrize("metadata", [{"WORLD_SIZE": "2"}, {"LOCAL_RANK": "1"}])
 def test_generic_launcher_rejects_multiple_workers(metadata):
     result = subprocess.run([BASH, SCRIPT], env={**os.environ, **metadata}, capture_output=True, text=True)

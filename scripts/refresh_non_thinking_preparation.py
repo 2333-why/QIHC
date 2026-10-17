@@ -17,11 +17,12 @@ from experiments.server_readiness import atomic_json, code_hash, verify
 
 # Exact LF source fingerprints of the already prepared release and this patch.
 PREVIOUS = "f981bda58233dace190b32155d2930a72aad030b91538605e926ba7f61bc79d2"
-CURRENT = "563ff264837303c21b02d35396006df05b1fe90aeb810200dbc11871cf0615b1"
+CURRENT = "bda0b983bb48ab98faef4838e404b6bb259f88f019a9f4e051e2e44c3925b75b"
 PREVIOUS_NON_THINKING = "5a858b9fb8a87dd6ba0b17b05c0f98ab2e7282b3981dc09c1af611cedcb38c56"
 PREVIOUS_REGULARIZED = "4e9d0c6217ba777988b9afb0df7d118425bab2ffead3589521b5cd7ab037666c"
 PREVIOUS_COMPETITIVE = "86356606a82229a29fc206db10ea6f4b7b2e464cdcd5204e2c3085c29f9903ea"
 PREVIOUS_GENERIC = "ec3fb8840f9cbe70d6d02967a566893b775b63f67bfdae7a796a8f60b9db089c"
+PREVIOUS_GENERIC_AUDITED = "563ff264837303c21b02d35396006df05b1fe90aeb810200dbc11871cf0615b1"
 
 
 def refresh(manifest: Path, code_dir: Path, env_prefix: Path) -> None:
@@ -29,7 +30,7 @@ def refresh(manifest: Path, code_dir: Path, env_prefix: Path) -> None:
     actual = code_hash(code_dir)
     if record.get("source_sha256") == actual:
         return  # Normal launcher still verifies every input afterward.
-    if record.get("source_sha256") not in {PREVIOUS, PREVIOUS_NON_THINKING, PREVIOUS_REGULARIZED, PREVIOUS_COMPETITIVE, PREVIOUS_GENERIC} or actual != CURRENT:
+    if record.get("source_sha256") not in {PREVIOUS, PREVIOUS_NON_THINKING, PREVIOUS_REGULARIZED, PREVIOUS_COMPETITIVE, PREVIOUS_GENERIC, PREVIOUS_GENERIC_AUDITED} or actual != CURRENT:
         raise RuntimeError("Source is not the approved non-thinking migration; refusing to reseal arbitrary changes")
     if code_dir.resolve() != ROOT.resolve():
         raise RuntimeError("Migration and pipeline must use the same checkout")
@@ -52,7 +53,15 @@ def refresh(manifest: Path, code_dir: Path, env_prefix: Path) -> None:
         if training.get("status") != "complete" or not training.get("adapter_inference_exercised"):
             raise RuntimeError("Patched training/adapter inference revalidation failed")
         generic_report = manifest.parent / "generic-energy-training-api"
-        subprocess.run([sys.executable, "experiments/check_training_integration.py", "--generic", "--output", str(generic_report)],
+        teacher_data = manifest.parent / ("semantic-teacher-" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
+        for stage in ("data", "teacher"):
+            subprocess.run([sys.executable, "experiments/generic_energy.py", stage, "--semantic-training",
+                            "--per-family", "8", "--steps", "128", "--chains", "16", "--output", str(teacher_data)],
+                           cwd=code_dir, env=offline, check=True)
+        from experiments.generic_energy import audit_teacher, read_rows
+        audit_teacher(teacher_data, read_rows(teacher_data / "cases.jsonl"), "balanced_cut")
+        subprocess.run([sys.executable, "experiments/check_training_integration.py", "--generic", "--output", str(generic_report),
+                        "--generic-teacher-data", str(teacher_data)],
                        cwd=code_dir, env=offline, check=True)
         generic_training = json.loads((generic_report / "summary.json").read_text(encoding="utf-8"))
         if generic_training.get("status") != "complete" or not generic_training.get("adapter_inference_exercised"):
@@ -64,10 +73,11 @@ def refresh(manifest: Path, code_dir: Path, env_prefix: Path) -> None:
         if not backup.exists():
             atomic_json(backup, record)
         candidate["source_migrations"] = [*record.get("source_migrations", []), {
-            "name": "generic_objective_constraint_energy", "previous_source_sha256": record["source_sha256"],
+            "name": "witness_verified_semantic_dpo_dual_gpu", "previous_source_sha256": record["source_sha256"],
             "source_sha256": actual, "utc": datetime.now(timezone.utc).isoformat(),
             "checks": "all unit tests, actual tiny legacy SFT/DPO/GRPO and generic SFT/DPO/adapter inference, original package/model/data verification",
             "generic_training_smoke": str(generic_report),
+            "semantic_teacher_data": str(teacher_data),
             "training_smoke": str(report), "backup": str(backup),
             "deferred": "real-model generation and GPU training remain mandatory in launcher",
         }]

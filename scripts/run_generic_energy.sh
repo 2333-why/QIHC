@@ -34,9 +34,14 @@ mkdir -p "$TORCH_EXTENSIONS_DIR" "$TRITON_CACHE_DIR" "$TMPDIR" "$BASE/logs"
 RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)-$$"
 exec > >(tee -a "$BASE/logs/generic-energy-$RUN_ID.log") 2>&1
 cd "$CODE"
-python -c 'import torch; assert torch.cuda.is_available(), "CUDA unavailable"; free,total=torch.cuda.mem_get_info(0); print("GPU:",torch.cuda.get_device_name(0),"free GiB:",free/2**30); assert free >= 60*2**30, "Need >=60 GiB free on a separately allocated H100"'
+export QIHC_GENERIC_NPROC="${QIHC_GENERIC_NPROC:-1}"
+python -c 'import os,torch; n=int(os.environ["QIHC_GENERIC_NPROC"]); assert n in (1,2); assert torch.cuda.is_available() and torch.cuda.device_count() >= n, "Not enough visible CUDA devices"; stats=[torch.cuda.mem_get_info(i) for i in range(n)]; print("GPUs:",[(torch.cuda.get_device_name(i),free/2**30) for i,(free,total) in enumerate(stats)]); assert all(free >= 60*2**30 for free,total in stats), "Need >=60 GiB free on EACH allocated H100"'
 python scripts/refresh_non_thinking_preparation.py --manifest "$BASE/artifacts/prepared.json" --code-dir "$CODE" --env-prefix "$ENV_PREFIX"
 python experiments/server_readiness.py verify --manifest "$BASE/artifacts/prepared.json" --code-dir "$CODE" --env-prefix "$ENV_PREFIX"
-exec python scripts/generic_energy_pipeline.py --manifest "$BASE/artifacts/prepared.json" \
+EXTRA=(--nproc "$QIHC_GENERIC_NPROC")
+if [[ "${QIHC_GENERIC_SEMANTIC:-0}" == 1 ]]; then
+  EXTRA+=(--semantic-training --mine-cases "${QIHC_GENERIC_MINE_CASES:-96}" --dpo-steps "${QIHC_GENERIC_DPO_STEPS:-128}")
+fi
+exec python scripts/generic_energy_pipeline.py --manifest "$BASE/artifacts/prepared.json" "${EXTRA[@]}" \
   --output "$BASE/results/generic_energy_$RUN_ID" --hours "${QIHC_GENERIC_HOURS:-36}" \
   --per-family "${QIHC_GENERIC_CASES:-48}" --steps "${QIHC_GENERIC_STEPS:-4096}" --chains "${QIHC_GENERIC_CHAINS:-64}"

@@ -75,6 +75,107 @@ def teacher(args, cases):
         write_rows(args.output / "dpo.jsonl", dpo)
         write_rows(args.output / "teacher_audit.jsonl", audit)
         print(f"TEACHER {case['id']} sft={len(sft)} dpo={len(dpo)}", flush=True)
+    if getattr(args, "semantic_training", False):
+        build_semantic_training(args, cases, audit, dpo)
+
+
+def build_semantic_training(args, cases, evidence, policy_pairs):
+    from qihc.generic.semantic import completion, joint_prompt, mutations, verified_preference
+    allowed = {c["id"]: c for c in cases if c["split"] == "train" and c["family"] != args.holdout_family}
+    sft, semantic, policies = [], [], []
+    for case in allowed.values():
+        # Fixed neutral label across SFT cases isolates modeling from policy fitting.
+        sft.append({"case_id": case["id"], "task": "joint_modeling", "prompt": joint_prompt(case["description"]),
+                    "completion": completion(case["gold"], "adaptive")})
+        for kind, bad in mutations(case["gold"]):
+            row = verified_preference(case, bad, "adaptive", kind)
+            if row is not None:
+                semantic.append(row)
+    for row in policy_pairs:
+        case = allowed[row["case_id"]]
+        policies.append({**row, "task": "execution_policy", "prompt": joint_prompt(case["description"]),
+                         "chosen": completion(case["gold"], json.loads(row["chosen"])["policy"]),
+                         "rejected": completion(case["gold"], json.loads(row["rejected"])["policy"])})
+    write_rows(args.output / "sft.jsonl", sft)
+    write_rows(args.output / "dpo_semantic.jsonl", semantic)
+    write_rows(args.output / "dpo_policy.jsonl", policies)
+    write_rows(args.output / "dpo.jsonl", semantic + policies)
+    print(f"SEMANTIC sft={len(sft)} semantic_pairs={len(semantic)} policy_pairs={len(policies)}", flush=True)
+
+
+def audit_semantic_teacher(directory, cases, holdout_family):
+    from qihc.generic.semantic import joint_prompt, parse_joint, verify_witness
+    allowed = {c["id"]: c for c in cases if c["split"] == "train" and c["family"] != holdout_family}
+    sft = read_rows(directory / "sft.jsonl")
+    if len(sft) != len(allowed) or {r["case_id"] for r in sft} != set(allowed):
+        raise RuntimeError("Missing/duplicate/out-of-split semantic SFT data")
+    traces = read_rows(directory / "teacher_audit.jsonl")
+    trace = {r["case_id"]: r for r in traces}
+    if len(traces) != len(allowed) or set(trace) != set(allowed):
+        raise RuntimeError("Missing policy teacher evidence")
+    semantic = read_rows(directory / "dpo_semantic.jsonl")
+    policies = read_rows(directory / "dpo_policy.jsonl")
+    pairs = read_rows(directory / "dpo.jsonl")
+    if pairs != semantic + policies:
+        raise RuntimeError("Mixed DPO does not match its component datasets")
+    seen = set()
+    for row in sft + pairs:
+        case = allowed.get(row["case_id"])
+        if case is None or row["prompt"] != joint_prompt(case["description"]):
+            raise RuntimeError("Held-out leakage or mismatched joint prompt")
+        chosen, cp = parse_joint(row.get("completion", row.get("chosen")))
+        if chosen != case["gold"]:
+            raise RuntimeError("Chosen answer is not gold modeling")
+        if "rejected" not in row:
+            continue
+        key = (row["case_id"], row["chosen"], row["rejected"])
+        if key in seen:
+            raise RuntimeError("Duplicate semantic preference")
+        seen.add(key)
+        rejected, rp = parse_joint(row["rejected"])
+        if row["task"] == "semantic_modeling":
+            if cp != rp or not verify_witness(case["gold"], rejected, row["witness"]):
+                raise RuntimeError("Unverified semantic preference or policy confound")
+        elif row["task"] == "execution_policy":
+            t = trace[row["case_id"]]
+            if rejected != chosen or cp == rp or not t["accepted"] or cp != t["selected"]:
+                raise RuntimeError("Unverified execution preference")
+            if not all(r["feasible"] for r in t["runs"][cp]) or min(row["margin"], row["confirmation_margin"]) <= .001:
+                raise RuntimeError("Invalid execution preference margin")
+        else:
+            raise RuntimeError("Unknown DPO task")
+    return {"sft_rows": len(sft), "dpo_rows": len(pairs), "semantic_pairs": len(semantic),
+            "policy_pairs": len(policies), "training_cases": len(allowed)}
+
+
+def mine_semantic_negatives(args, cases):
+    """Mine only training cases from the SFT policy; no evaluation examples or gold in prompts."""
+    from qihc.generic.semantic import joint_prompt, parse_joint, verified_preference
+    gen = Generator(args)
+    semantic = read_rows(args.output / "dpo_semantic.jsonl")
+    seen = {(r["case_id"], r["rejected"]) for r in semantic}
+    # Round-robin by family so a capped mining budget cannot select only knapsack.
+    families = sorted({c["family"] for c in cases if c["family"] != args.holdout_family})
+    buckets = [[c for c in cases if c["split"] == "train" and c["family"] == f] for f in families]
+    eligible = [b[i] for i in range(max(map(len, buckets), default=0)) for b in buckets if i < len(b)]
+    audit = []
+    for case in eligible[:args.mine_cases]:
+        raw = gen.generate(joint_prompt(case["description"]))
+        record = {"case_id": case["id"], "accepted": False}
+        try:
+            bad, policy = parse_joint(raw)
+            row = verified_preference(case, bad, policy, "sft_model_error")
+            if row and (row["case_id"], row["rejected"]) not in seen:
+                semantic.append(row)
+                seen.add((row["case_id"], row["rejected"]))
+                record["accepted"] = True
+        except (ValueError, TypeError, KeyError, IndexError, OverflowError) as exc:
+            record["skipped_invalid_output"] = repr(exc)
+        audit.append(record)
+    write_rows(args.output / "mining_audit.jsonl", audit)
+    write_rows(args.output / "dpo_semantic.jsonl", semantic)
+    write_rows(args.output / "dpo.jsonl", semantic + read_rows(args.output / "dpo_policy.jsonl"))
+    audit_semantic_teacher(args.output, cases, args.holdout_family)
 
 
 def expected_keys(cases, mode, tag, seeds):
@@ -98,6 +199,8 @@ def audit_evaluation(path, cases, mode, tag, seeds):
 
 
 def audit_teacher(directory, cases, holdout_family):
+    if (directory / "dpo_semantic.jsonl").exists():
+        return audit_semantic_teacher(directory, cases, holdout_family)
     allowed = {c["id"]: c for c in cases if c["split"] == "train" and c["family"] != holdout_family}
     sft, dpo = read_rows(directory / "sft.jsonl"), read_rows(directory / "dpo.jsonl")
     evidence = read_rows(directory / "teacher_audit.jsonl")
@@ -149,7 +252,7 @@ def training_preflight(args, cases):
     effective_limit = min(args.train_max_length, context_limit)
     tokenizer = (AutoProcessor.from_pretrained(args.model_path, local_files_only=True).tokenizer
                  if str(config.model_type).startswith("qwen3_5") else AutoTokenizer.from_pretrained(args.model_path, local_files_only=True))
-    maxima = {}
+    maxima, longest = {}, {}
     for stage in ("sft", "dpo"):
         lengths = []
         for row in read_rows(args.output / f"{stage}.jsonl"):
@@ -164,7 +267,8 @@ def training_preflight(args, cases):
                 raise ValueError(f"{stage} case {row['case_id']} needs context={required}, answer={answer_n + 1}; limits={effective_limit}/{args.max_new_tokens}; no truncation permitted")
             lengths.append(required)
         maxima[stage] = max(lengths, default=0)
-    (args.output / "training_preflight.json").write_text(json.dumps({**counts, "max_required_tokens": maxima, "effective_context_limit": effective_limit}, indent=2), encoding="utf-8")
+        longest[stage] = int(np.argmax(lengths)) if lengths else None
+    (args.output / "training_preflight.json").write_text(json.dumps({**counts, "max_required_tokens": maxima, "longest_row": longest, "effective_context_limit": effective_limit}, indent=2), encoding="utf-8")
 
 
 class Generator:
@@ -208,6 +312,7 @@ def evaluate(args, cases):
         gold = case["gold"]
         case_rows = []
         common = {"case_id": case["id"], "family": case["family"], "split": case["split"], "size": case["size"],
+                  "size_ood": case.get("size_ood", False),
                   "holdout_family": case["family"] == args.holdout_family, "objective_sense": gold["objective"]["sense"]}
         if args.mode == "oracle":
             ref = reference_solve(gold, args.reference_seconds)
@@ -236,7 +341,8 @@ def evaluate(args, cases):
                                     "llm_calls": gen.calls - calls_before, "input_tokens": gen.input_tokens - input_before,
                                     "output_tokens": gen.output_tokens - output_before})
                 else:
-                    predicted, policy, _ = infer(gen, case["description"])
+                    from qihc.generic.semantic import infer_joint, semantic_metrics
+                    predicted, policy, _ = (infer_joint if getattr(args, "semantic_training", False) else infer)(gen, case["description"])
                     if predicted["n"] != gold["n"]:
                         raise ValueError("Predicted variables cannot be aligned with benchmark variables")
                     compile_energy(predicted)  # Reject resource limits before emitting any paired arm.
@@ -251,7 +357,7 @@ def evaluate(args, cases):
                                     "feasible": x_ref is not None and ref_violation == 0, "violation": ref_violation,
                                     "objective": float(objective(gold, x_ref)) if x_ref is not None else None,
                                     "predicted_objective": ref["objective"], "bound_scope": "predicted_IR_not_gold",
-                                    "semantic_match": semantic_equal(predicted, gold), "model_seconds": model_seconds,
+                                    **semantic_metrics(predicted, gold), "model_seconds": model_seconds,
                                     "translation_shared_across_seeds_and_fixed_arm": True})
                     for seed in range(args.seeds):
                         # Paired no-policy ablation uses the very same model translation.
@@ -262,7 +368,7 @@ def evaluate(args, cases):
                             v = float(violations(gold, x).sum())
                             case_rows.append({**common, "arm": arm, **result, "predicted_feasible": result["feasible"],
                                             "predicted_objective": result["objective"], "feasible": v == 0, "violation": v,
-                                            "objective": float(objective(gold, x)), "semantic_match": semantic_equal(predicted, gold),
+                                            "objective": float(objective(gold, x)), **semantic_metrics(predicted, gold),
                                             "model_seconds": model_seconds, "llm_calls": gen.calls - calls_before,
                                             "input_tokens": gen.input_tokens - input_before, "output_tokens": gen.output_tokens - output_before,
                                             "translation_shared_across_seeds_and_fixed_arm": True})
@@ -274,6 +380,7 @@ def evaluate(args, cases):
                 for arm in ([args.tag, args.tag + "_fixed", args.tag + "_no_feedback", args.tag + "_cp_sat"] if args.mode == "llm" else [args.tag]):
                     for seed in (range(args.seeds) if args.mode == "llm" and not arm.endswith("_cp_sat") else [None]):
                         case_rows.append({**common, "arm": arm, "seed": seed, "feasible": False, "semantic_match": False,
+                                        "objective_match": False, "constraint_match": False,
                                         "error": repr(exc), "seconds": time.perf_counter() - started})
         for row in case_rows:
             append(output, row)
@@ -284,7 +391,7 @@ def evaluate(args, cases):
 def summarize(directory):
     rows = []
     for path in directory.glob("*.jsonl"):
-        if path.name in {"oracle.jsonl", "base.jsonl", "sft_eval.jsonl", "dpo_eval.jsonl", "direct.jsonl"}:
+        if path.name in {"oracle.jsonl", "base.jsonl", "sft_eval.jsonl", "dpo_eval.jsonl", "direct.jsonl", "dpo_policy_eval.jsonl", "dpo_semantic_eval.jsonl"}:
             rows.extend(read_rows(path))
     refs = {r["case_id"]: r for r in rows if r["arm"] == "cp_sat_gold"}
     keys = [(r["case_id"], r["arm"], r.get("seed")) for r in rows]
@@ -304,6 +411,8 @@ def summarize(directory):
         summary.append({"split": split, "family": family, "arm": arm, "jobs": len(records),
                         "feasible_rate": len(feasible) / len(records), "errors": sum("error" in r for r in records),
                         "semantic_match_rate": sum(r.get("semantic_match", False) for r in records) / len(records) if any("semantic_match" in r for r in records) else None,
+                        **{k + "_rate": sum(r.get(k, False) for r in records) / len(records) if any(k in r for r in records) else None
+                           for k in ("objective_match", "constraint_match")},
                         "mean_feasible_objective": float(np.mean([r["objective"] for r in feasible])) if feasible else None,
                         "mean_proven_optimal_gap": float(np.mean(gaps)) if gaps else None, "proven_gap_count": len(gaps),
                         "mean_search_or_direct_seconds": float(np.mean([r.get("seconds", 0) for r in records])),
@@ -328,6 +437,20 @@ def summarize(directory):
     for path in directory.glob("*_generation.jsonl"):
         calls = read_rows(path)
         costs[path.stem] = {"physical_calls": len(calls), **{key: sum(r.get(key, 0) for r in calls) for key in ("seconds", "input_tokens", "output_tokens")}}
+    modeling = []
+    # One translation per case: do not count sampling seeds as independent language tests.
+    model_arms = {"base", "sft_eval", "dpo_eval", "dpo_policy_eval", "dpo_semantic_eval"}
+    language_groups = {}
+    for r in rows:
+        if r["arm"] not in model_arms or r.get("seed") != 0:
+            continue
+        for subset in ("all", "larger_size" if r.get("size_ood") else "in_size"):
+            language_groups.setdefault((r["split"], r["family"], r["arm"], subset), []).append(r)
+    for (split, family, arm, subset), rs in sorted(language_groups.items()):
+        modeling.append({"split": split, "family": family, "arm": arm, "subset": subset, "cases": len(rs),
+                         "valid_model_rate": sum("error" not in r for r in rs) / len(rs),
+                         **{k + "_rate": sum(r.get(k, False) for r in rs) / len(rs)
+                            for k in ("objective_match", "constraint_match", "semantic_match")}})
     # Case is the statistical unit. Deterministic CP-SAT/direct LLM have no seed,
     # so they must not disappear from paired comparisons or count as 3 replicates.
     base_cases = {}
@@ -358,13 +481,20 @@ def summarize(directory):
     payload = {"scope": "synthetic binary linear-constraint quadratic-objective problems; NOT arbitrary NLP optimization",
                "energy_measurements": "not measured; software CPU sampler, no FPGA energy claim",
                "cost_note": "Generation logs contain physical calls/time/tokens. Translation metadata repeats across paired arms/seeds; do not sum it.",
-               "rows": summary, "paired_vs_base": paired, "case_paired_vs_base": case_paired, "physical_generation_costs": costs}
+               "rows": summary, "paired_vs_base": paired, "case_paired_vs_base": case_paired,
+               "modeling_per_case": modeling, "physical_generation_costs": costs}
     (directory / "comparison.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
     lines = ["# 通用能量闭环：实际实验汇总", "", "可行性由独立 gold IR 判定；均值只覆盖可行解，必须同时看可行率。不同实例目标规模不同，原始成本均值仅作描述。", "",
              "|划分|问题|方法|任务数|可行率|建模结构匹配率|可行目标均值|已证最优相对差距|", "|---|---|---|---:|---:|---:|---:|---:|"]
     fmt = lambda v: "—" if v is None else f"{v:.4f}"
     for r in summary:
         lines.append(f"|{r['split']}|{r['family']}|{r['arm']}|{r['jobs']}|{r['feasible_rate']:.1%}|{fmt(r['semantic_match_rate'])}|{fmt(r['mean_feasible_objective'])}|{fmt(r['mean_proven_optimal_gap'])}|")
+    if modeling:
+        lines += ["", "## 独立建模评价（每实例只计一次；结构匹配不等于语义等价证明）", "",
+                  "|划分|问题|方法|规模子集|实例|合法建模|目标匹配|约束匹配|完整匹配|",
+                  "|---|---|---|---|---:|---:|---:|---:|---:|"]
+        for r in modeling:
+            lines.append(f"|{r['split']}|{r['family']}|{r['arm']}|{r['subset']}|{r['cases']}|{r['valid_model_rate']:.1%}|{r['objective_match_rate']:.1%}|{r['constraint_match_rate']:.1%}|{r['semantic_match_rate']:.1%}|")
     lines += ["", "软件采样未测硬件能耗，不代表 FPGA 实测。完整调用成本见 *_generation.jsonl。跨方法优劣必须按同实例/种子配对，不能只比较不同可行子集的均值。"]
     (directory / "comparison.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     return payload
@@ -372,7 +502,7 @@ def summarize(directory):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("stage", choices=["data", "teacher", "eval", "summary", "preflight"])
+    p.add_argument("stage", choices=["data", "teacher", "eval", "summary", "preflight", "mine"])
     p.add_argument("--output", type=Path, required=True)
     p.add_argument("--per-family", type=int, default=48)
     p.add_argument("--holdout-family", default="balanced_cut", choices=["none", "knapsack", "vertex_cover", "balanced_cut", "assignment"])
@@ -387,6 +517,9 @@ def main():
     p.add_argument("--max-new-tokens", type=int, default=4096)
     p.add_argument("--reference-seconds", type=float, default=10)
     p.add_argument("--train-max-length", type=int, default=16384)
+    p.add_argument("--semantic-training", action="store_true")
+    p.add_argument("--mine-cases", type=int, default=96)
+    p.add_argument("--expanded-sizes", action="store_true")
     args = p.parse_args()
     if args.seeds < 1 or not 1 <= args.steps <= 1000000 or not 1 <= args.chains <= 4096 or not np.isfinite(args.reference_seconds) or args.reference_seconds <= 0:
         p.error("Positive valid seed count, sampling budget and reference time required")
@@ -395,12 +528,12 @@ def main():
         target = args.output / "cases.jsonl"
         if target.exists():
             raise FileExistsError(target)
-        write_rows(target, make_dataset(args.per_family))
+        write_rows(target, make_dataset(args.per_family, expanded=args.expanded_sizes))
     elif args.stage == "summary":
         summarize(args.output)
     else:
         cases = read_rows(args.output / "cases.jsonl")
-        {"teacher": teacher, "preflight": training_preflight, "eval": evaluate}[args.stage](args, cases)
+        {"teacher": teacher, "preflight": training_preflight, "eval": evaluate, "mine": mine_semantic_negatives}[args.stage](args, cases)
 
 
 if __name__ == "__main__":

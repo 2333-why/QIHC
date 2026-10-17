@@ -13,14 +13,18 @@ from qihc.generic.benchmark import make_dataset
 
 
 @pytest.mark.parametrize("failure", [None, "preflight", "weights"])
-def test_full_orchestration_and_failure_status(tmp_path, monkeypatch, failure):
+@pytest.mark.parametrize("semantic", [False, True])
+def test_full_orchestration_and_failure_status(tmp_path, monkeypatch, failure, semantic):
+    if semantic:
+        pytest.importorskip("ortools")
     model = tmp_path / "model"
     model.mkdir()
     manifest = tmp_path / "prepared.json"
     manifest.write_text(json.dumps({"model_path": str(model)}))
     output = tmp_path / "run"
     commands = []
-    monkeypatch.setattr(sys, "argv", ["pipeline", "--manifest", str(manifest), "--output", str(output)])
+    monkeypatch.setattr(sys, "argv", ["pipeline", "--manifest", str(manifest), "--output", str(output)] +
+                        (["--semantic-training", "--nproc", "2"] if semantic else []))
 
     def value(cmd, key):
         return cmd[cmd.index(key) + 1]
@@ -36,7 +40,8 @@ def test_full_orchestration_and_failure_status(tmp_path, monkeypatch, failure):
             target = Path(value(cmd, "--output"))
             target.mkdir()
             if stage == "dpo":
-                assert value(cmd, "--adapter-path") == str(output / "adapter_sft")
+                expected = "smoke_adapter_sft" if target.name.startswith("smoke_") else "adapter_sft"
+                assert value(cmd, "--adapter-path") == str(output / expected)
             if failure != "weights":
                 (target / "adapter_model.safetensors").write_bytes(b"test fixture, not real weights")
             (target / "qihc_training_manifest.json").write_text(json.dumps({"training_metrics": [{"loss": 1.0}]}))
@@ -45,10 +50,11 @@ def test_full_orchestration_and_failure_status(tmp_path, monkeypatch, failure):
         if stage == "data":
             runner.write_rows(output / "cases.jsonl", make_dataset(48))
         elif stage == "teacher":
-            runner.teacher(SimpleNamespace(output=output, holdout_family="balanced_cut", steps=2, chains=2), runner.read_rows(output / "cases.jsonl"))
+            runner.teacher(SimpleNamespace(output=output, holdout_family="balanced_cut", steps=2, chains=2, semantic_training=semantic), runner.read_rows(output / "cases.jsonl"))
         elif stage == "preflight":
             if failure == "preflight":
                 raise subprocess.CalledProcessError(1, cmd)
+            (output / "training_preflight.json").write_text(json.dumps({"longest_row": {"sft": 0, "dpo": 0}}))
         elif stage == "eval":
             mode, tag = value(cmd, "--mode"), value(cmd, "--tag")
             if tag in ("sft_eval", "dpo_eval"):
@@ -76,8 +82,12 @@ def test_full_orchestration_and_failure_status(tmp_path, monkeypatch, failure):
     assert all(s["status"] != "running" for s in report["stages"])
     assert (output / "comparison.json").exists()
     if not failure:
-        assert report["sft_rows"] == 192 and report["dpo_rows"] > 16
+        assert report["sft_rows"] == (96 if semantic else 192) and report["dpo_rows"] > 16
         assert [r["stage"] for r in report["stages"]][-2:] == ["train_dpo", "dpo_eval"]
+        if semantic:
+            dpos = [c for c in commands if "experiments/train_s2e_lora.py" in c and value(c, "--stage") == "dpo" and not value(c, "--output").endswith("smoke_adapter_dpo")]
+            assert len(dpos) == 3
+            assert all(value(c, "--max-steps") == "128" and "--nproc_per_node=2" in c for c in dpos)
 
 
 @pytest.mark.parametrize("metrics", [[], [{"epoch": 1}], [{"loss": float("nan")}], [{"train_loss": float("inf")}]])

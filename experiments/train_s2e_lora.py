@@ -37,7 +37,7 @@ def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--stage", choices=["sft", "dpo", "grpo"], required=True); p.add_argument("--model-path", required=True)
     p.add_argument("--data", type=Path, required=True); p.add_argument("--output", required=True); p.add_argument("--max-steps", type=int, default=500)
-    p.add_argument("--adapter-path", type=Path, help="Merge a previous LoRA stage before training this stage")
+    p.add_argument("--adapter-path", type=Path, help="Continue a previous LoRA adapter; DPO freezes a separate reference copy")
     p.add_argument("--learning-rate", type=float, default=2e-5); p.add_argument("--max-length", type=int, default=4096)
     p.add_argument("--dpo-beta", type=float, default=0.1)
     p.add_argument("--dpo-sft-weight", type=float, default=0.0,
@@ -171,6 +171,10 @@ def main() -> int:
         dataset = Dataset.from_list([{key: row[key] for key in ("prompt", "chosen", "rejected")} for row in rows])
         reference_kwargs = {}
         dpo_config = dict(common, max_length=args.max_length, beta=args.dpo_beta)
+        # Newer TRL can omit prompt logits, reducing the large-vocabulary peak.
+        # This does not remove completion logits; the full-model smoke remains mandatory.
+        if "use_logits_to_keep" in inspect.signature(DPOConfig).parameters:
+            dpo_config["use_logits_to_keep"] = True
         if args.dpo_sft_weight:
             parameters = inspect.signature(DPOConfig).parameters
             if "loss_weights" in parameters:

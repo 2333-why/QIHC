@@ -61,7 +61,7 @@ def make_case(family, size, seed, split="train"):
             "description": description, "gold": spec}
 
 
-def make_dataset(per_family=24, seed=20261017):
+def make_dataset(per_family=24, seed=20261017, expanded=False):
     if per_family < 8:
         raise ValueError("At least eight cases per family")
     rows = []
@@ -69,7 +69,19 @@ def make_dataset(per_family=24, seed=20261017):
         for i in range(per_family):
             split = "train" if i < per_family * 2 // 3 else "validation" if i < per_family * 5 // 6 else "test"
             size = (3, 4, 5)[i % 3] if family == "assignment" else (12, 20, 32)[i % 3]
-            rows.append(make_case(family, size, seed + fi * 100000 + i, split))
+            if expanded and split != "train":
+                size = (4, 5, 6)[i % 3] if family == "assignment" else (20, 32, 40)[i % 3]
+            case = make_case(family, size, seed + fi * 100000 + i, split)
+            if expanded:
+                # Surface augmentation is deterministic and split-specific. This is
+                # synthetic wording diversity, NOT a real-language generalization test.
+                headings = {"train": ("Operations specification:", "Planning brief:", "Decision request:"),
+                            "validation": ("Audit this planning specification:", "Model this request:"),
+                            "test": ("New deployment request:", "Translate this unseen planning brief:")}
+                choices = headings[split]
+                case["description"] = choices[i % len(choices)] + "\n" + case["description"]
+                case["size_ood"] = size > (5 if family == "assignment" else 32)
+            rows.append(case)
     return rows
 
 
