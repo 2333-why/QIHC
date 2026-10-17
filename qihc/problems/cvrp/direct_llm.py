@@ -93,6 +93,7 @@ class LocalDirectLLMGenerator:
         with self.torch.inference_mode():
             output = self.model.generate(**inputs, **generate_kwargs)
         generated = output[0, input_length:]
+        self.last_usage = {"input_tokens": input_length, "output_tokens": int(generated.numel())}
         if self.processor is not None:
             return self.processor.decode(generated, skip_special_tokens=True)
         return self.tokenizer.decode(generated, skip_special_tokens=True)

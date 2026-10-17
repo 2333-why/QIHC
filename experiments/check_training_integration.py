@@ -23,6 +23,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--grpo-generation-batch-size", type=int, default=4)
+    parser.add_argument("--generic", action="store_true", help="Exercise generic objective/penalty SFT, DPO and generic inference (no GRPO)")
     args = parser.parse_args()
     import torch
     from tokenizers import Tokenizer, models, pre_tokenizers, trainers, decoders
@@ -44,27 +45,40 @@ def main() -> int:
         "grpo": [{"task": "constraint", "prompt": prompt, "gold_completion": gold},
                  {"task": "proposal", "prompt": "Choose a route for customer 1; allowed routes are 0 and 1.", "gold_completion": proposal, "reward_context": context}],
     }
+    if args.generic:
+        from qihc.generic.benchmark import make_case, objective_prompt, constraint_prompt
+        case = make_case("knapsack", 4, 1)
+        first = {"n": 4, "objective": case["gold"]["objective"]}
+        prompt = constraint_prompt(case["description"], first)
+        gold = json.dumps({"constraints": case["gold"]["constraints"], "policy": "fixed"})
+        rejected = json.dumps({"constraints": case["gold"]["constraints"], "policy": "warm"})
+        # Artificial preference is ONLY an API smoke fixture, never benchmark teacher data.
+        rows = {"sft": [{"task": "generic_objective", "prompt": objective_prompt(case["description"]), "completion": json.dumps(first)},
+                        {"task": "generic_constraints_policy", "prompt": prompt, "completion": gold}],
+                "dpo": [{"task": "generic_constraints_policy", "prompt": prompt, "chosen": gold, "rejected": rejected}]}
     tokenizer_impl = Tokenizer(models.BPE(unk_token="<unk>"))
     tokenizer_impl.pre_tokenizer = pre_tokenizers.ByteLevel(add_prefix_space=False)
     tokenizer_impl.decoder = decoders.ByteLevel()
-    tokenizer_impl.train_from_iterator([prompt, gold, rejected, proposal] * 5,
-        trainers.BpeTrainer(vocab_size=300, special_tokens=["<pad>", "<unk>", "<eos>"]))
+    corpus = ([str(value) for records in rows.values() for row in records for value in row.values()]
+              if args.generic else [prompt, gold, rejected, proposal])
+    tokenizer_impl.train_from_iterator(corpus * 5,
+        trainers.BpeTrainer(vocab_size=512 if args.generic else 300, special_tokens=["<pad>", "<unk>", "<eos>"]))
     tokenizer = PreTrainedTokenizerFast(tokenizer_object=tokenizer_impl, pad_token="<pad>", unk_token="<unk>", eos_token="<eos>")
     tokenizer.chat_template = "{% for message in messages %}{{message['role'] + ': ' + message['content'] + '\\n'}}{% endfor %}{% if add_generation_prompt %}assistant: {% endif %}"
     model_root = root / "model"
     tokenizer.save_pretrained(model_root)
     model = GPT2LMHeadModel(GPT2Config(vocab_size=len(tokenizer), n_embd=32, n_layer=1, n_head=2,
-                                      n_positions=512, bos_token_id=tokenizer.eos_token_id,
+                                      n_positions=2048 if args.generic else 512, bos_token_id=tokenizer.eos_token_id,
                                       eos_token_id=tokenizer.eos_token_id, pad_token_id=tokenizer.pad_token_id))
     model.save_pretrained(model_root)
     previous = None; summary = {"purpose": "training API integration only", "stages": {}}
-    for stage in ("sft", "dpo", "grpo"):
+    for stage in (("sft", "dpo") if args.generic else ("sft", "dpo", "grpo")):
         data = root / f"{stage}.jsonl"
         data.write_text("".join(json.dumps(row) + "\n" for row in rows[stage]), encoding="utf-8")
         adapter = root / "adapters" / stage
         command = [sys.executable, str(ROOT / "experiments/train_s2e_lora.py"), "--stage", stage,
                    "--model-path", str(model_root), "--data", str(data), "--output", str(adapter),
-                   "--max-steps", "1", "--max-length", "512", "--max-completion-length", "32",
+                   "--max-steps", "1", "--max-length", "2048" if args.generic else "512", "--max-completion-length", "32",
                    "--num-generations", "2", "--gradient-accumulation-steps", "2",
                    "--lora-rank", "2", "--lora-target-modules", "c_attn,c_proj,c_fc",
                    "--use-cpu", "--precision", "fp32", "--logging-steps", "1", "--save-steps", "1"]
@@ -98,9 +112,16 @@ def main() -> int:
                 raise RuntimeError("DPO reference weights are not the frozen SFT adapter")
             summary["stages"][stage]["reference_equals_sft_adapter"] = True
         previous = adapter
-    from qihc.problems.cvrp.llm_selector import LocalLLMNeighborhoodSelector
-    frontend = LocalLLMNeighborhoodSelector(str(model_root), adapter_path=str(previous), device="cpu", max_new_tokens=8)
-    generated = frontend._generate(prompt)
+    if args.generic:
+        from types import SimpleNamespace
+        from experiments.generic_energy import Generator
+        frontend = Generator(SimpleNamespace(model_path=str(model_root), device="cpu", max_new_tokens=8,
+                                             adapters=[str(previous)], output=root, tag="generic_api_smoke"))
+        generated = frontend.generate(prompt)
+    else:
+        from qihc.problems.cvrp.llm_selector import LocalLLMNeighborhoodSelector
+        frontend = LocalLLMNeighborhoodSelector(str(model_root), adapter_path=str(previous), device="cpu", max_new_tokens=8)
+        generated = frontend._generate(prompt)
     summary.update({"status": "complete", "adapter_inference_exercised": True,
                     "sample_output": generated, "random_tiny_model_is_not_a_quality_benchmark": True})
     (root / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
