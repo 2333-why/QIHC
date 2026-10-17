@@ -128,6 +128,8 @@ def semantic_equal(predicted, gold):
 def reference_solve(spec, seconds=10):
     """Independent integer reference, with explicit time limit/status/bound."""
     from ortools.sat.python import cp_model
+    import time
+    started = time.perf_counter()
     model = cp_model.CpModel()
     x = [model.NewBoolVar(f"x{i}") for i in range(spec["n"])]
     expression = sum(c * x[i] for i, c in enumerate(spec["objective"]["linear"]))
@@ -146,4 +148,5 @@ def reference_solve(spec, seconds=10):
     feasible = status in (cp_model.OPTIMAL, cp_model.FEASIBLE)
     return {"status": solver.StatusName(status), "x": [solver.Value(v) for v in x] if feasible else None,
             "objective": solver.ObjectiveValue() if feasible else None,
-            "bound": solver.BestObjectiveBound(), "seconds": solver.WallTime()}
+            "bound": solver.BestObjectiveBound(), "solver_seconds": solver.WallTime(),
+            "seconds": time.perf_counter() - started}

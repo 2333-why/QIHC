@@ -24,7 +24,10 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--grpo-generation-batch-size", type=int, default=4)
     parser.add_argument("--generic", action="store_true", help="Exercise generic objective/penalty SFT, DPO and generic inference (no GRPO)")
+    parser.add_argument("--generic-teacher-data", type=Path, help="Use actual generic teacher SFT/DPO records instead of API-only fixture labels")
     args = parser.parse_args()
+    if args.generic_teacher_data and not args.generic:
+        parser.error("--generic-teacher-data requires --generic")
     import torch
     from tokenizers import Tokenizer, models, pre_tokenizers, trainers, decoders
     from transformers import GPT2Config, GPT2LMHeadModel, PreTrainedTokenizerFast
@@ -56,6 +59,13 @@ def main() -> int:
         rows = {"sft": [{"task": "generic_objective", "prompt": objective_prompt(case["description"]), "completion": json.dumps(first)},
                         {"task": "generic_constraints_policy", "prompt": prompt, "completion": gold}],
                 "dpo": [{"task": "generic_constraints_policy", "prompt": prompt, "chosen": gold, "rejected": rejected}]}
+        if args.generic_teacher_data:
+            for stage, count in (("sft", 2), ("dpo", 1)):
+                records = [json.loads(line) for line in (args.generic_teacher_data / f"{stage}.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
+                if len(records) < count:
+                    raise ValueError(f"Not enough real {stage} teacher records")
+                rows[stage] = records[:count]
+            prompt, gold, rejected = (rows["dpo"][0][key] for key in ("prompt", "chosen", "rejected"))
     tokenizer_impl = Tokenizer(models.BPE(unk_token="<unk>"))
     tokenizer_impl.pre_tokenizer = pre_tokenizers.ByteLevel(add_prefix_space=False)
     tokenizer_impl.decoder = decoders.ByteLevel()
@@ -71,7 +81,8 @@ def main() -> int:
                                       n_positions=2048 if args.generic else 512, bos_token_id=tokenizer.eos_token_id,
                                       eos_token_id=tokenizer.eos_token_id, pad_token_id=tokenizer.pad_token_id))
     model.save_pretrained(model_root)
-    previous = None; summary = {"purpose": "training API integration only", "stages": {}}
+    previous = None; summary = {"purpose": "training API integration only", "stages": {},
+                                "generic_teacher_data": str(args.generic_teacher_data) if args.generic_teacher_data else None}
     for stage in (("sft", "dpo") if args.generic else ("sft", "dpo", "grpo")):
         data = root / f"{stage}.jsonl"
         data.write_text("".join(json.dumps(row) + "\n" for row in rows[stage]), encoding="utf-8")

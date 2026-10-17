@@ -154,11 +154,11 @@ def test_failed_translation_keeps_all_evaluation_denominators(tmp_path, monkeypa
     args = SimpleNamespace(output=tmp_path, tag="base", mode="llm", holdout_family="balanced_cut", seeds=3)
     runner.evaluate(args, [make_case("knapsack", 4, 1, "test")])
     rows = runner.read_rows(tmp_path / "base.jsonl")
-    assert len(rows) == 7
+    assert len(rows) == 10
     assert all(not r["feasible"] and "error" in r for r in rows)
     summary = runner.summarize(tmp_path)
     assert all(r["feasible_rate"] == 0 for r in summary["rows"])
-    assert sorted(r["jobs"] for r in summary["rows"]) == [1, 3, 3]
+    assert sorted(r["jobs"] for r in summary["rows"]) == [1, 3, 3, 3]
 
 
 def test_teacher_keeps_constraints_identical_and_excludes_heldout(tmp_path, monkeypatch):
@@ -198,8 +198,103 @@ def test_predicted_model_cannot_self_certify_feasibility(tmp_path, monkeypatch):
                            steps=16, chains=8, reference_seconds=1)
     runner.evaluate(args, [case])
     rows = runner.read_rows(tmp_path / "base.jsonl")
-    assert len(rows) == 3
+    assert len(rows) == 4
     for row in rows:
         assert row["feasible"] == (violations(gold, np.asarray(row["x"])).sum() == 0)
         assert not row["semantic_match"]
     assert not next(r for r in rows if r["arm"] == "base_cp_sat")["feasible"]
+
+
+@pytest.mark.parametrize("steps", [1, 2, 3, 5, 9, 17, 64])
+def test_final_hardening_is_used_and_no_feedback_is_matched(steps):
+    spec = tiny("ge", 3)  # impossible, feedback rates always positive
+    active = solve(spec, steps=steps, chains=4)
+    control = solve(spec, steps=steps, chains=4, feedback=False)
+    assert min(active["history"][-1]["weights"]) >= 2
+    assert control["final_weights"] == [2]
+    assert all(row["weights"][0] in (.1, 2) for row in control["history"])
+    assert active["bit_updates"] == control["bit_updates"]
+
+
+def test_fixed_policy_identical_when_feedback_disabled():
+    a = solve(tiny(), policy="fixed", steps=64, chains=8)
+    b = solve(tiny(), policy="fixed", steps=64, chains=8, feedback=False)
+    assert a["x"] == b["x"] and a["history"] == b["history"]
+
+
+def test_missing_and_duplicate_results_rejected(tmp_path):
+    from experiments.generic_energy import audit_evaluation, write_rows, summarize
+    case = make_case("knapsack", 4, 1, "test")
+    row = {"case_id": case["id"], "arm": "direct", "seed": None}
+    path = tmp_path / "direct.jsonl"
+    write_rows(path, [])
+    with pytest.raises(RuntimeError, match="Incomplete"):
+        audit_evaluation(path, [case], "direct", "direct", 1)
+    write_rows(path, [row, row])
+    with pytest.raises(RuntimeError, match="Incomplete"):
+        audit_evaluation(path, [case], "direct", "direct", 1)
+    with pytest.raises(RuntimeError, match="Duplicate"):
+        summarize(tmp_path)
+
+
+def test_solver_exception_is_not_misreported_as_llm_failure(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    from experiments import generic_energy as runner
+    case = make_case("knapsack", 4, 1, "test")
+    class Good:
+        calls = input_tokens = output_tokens = 0
+        def __init__(self, args):
+            pass
+    monkeypatch.setattr(runner, "Generator", Good)
+    monkeypatch.setattr(runner, "infer", lambda *a: (case["gold"], "fixed", []))
+    def fail(*args):
+        raise ValueError("backend broken")
+    monkeypatch.setattr(runner, "reference_solve", fail)
+    args = SimpleNamespace(output=tmp_path, tag="base", mode="llm", holdout_family="balanced_cut", seeds=1, reference_seconds=1)
+    with pytest.raises(ValueError, match="backend broken"):
+        runner.evaluate(args, [case])
+    assert not (tmp_path / "base.jsonl").exists()
+
+
+def test_unstable_teacher_cannot_generate_preference(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    from experiments import generic_energy as runner
+    case = make_case("knapsack", 4, 1)
+    def fake(spec, policy, seed, **kwargs):
+        return {"feasible": seed != 47, "objective": {"fixed": 10, "adaptive": 8, "warm": 6, "cold": 4}[policy], "violation": int(seed == 47)}
+    monkeypatch.setattr(runner, "solve", fake)
+    args = SimpleNamespace(output=tmp_path, holdout_family="balanced_cut", chains=2, steps=2)
+    runner.teacher(args, [case])
+    assert runner.read_rows(tmp_path / "dpo.jsonl") == []
+    assert runner.audit_teacher(tmp_path, [case], "balanced_cut")["sft_rows"] == 2
+    rows = runner.read_rows(tmp_path / "sft.jsonl")
+    rows[1]["completion"] = json.dumps({"constraints": [], "policy": "fixed"})
+    runner.write_rows(tmp_path / "sft.jsonl", rows)
+    with pytest.raises(RuntimeError, match="semantics"):
+        runner.audit_teacher(tmp_path, [case], "balanced_cut")
+
+
+def test_mixed_constraints_compose_without_cross_penalty_terms():
+    spec = tiny()
+    spec["constraints"] = [{"id": "a", "a": [1, 1], "op": "ge", "rhs": 1},
+                           {"id": "b", "a": [1, -1], "op": "eq", "rhs": 0},
+                           {"id": "c", "a": [-2, 1], "op": "le", "rhs": 0}]
+    e = compile_energy(spec)
+    weights = np.array([1.01, 4, 2])
+    bits = np.array(list(itertools.product([0, 1], repeat=e.bits)))
+    q, c = e.qubo(weights)
+    values = np.einsum("bi,ij,bj->b", bits, q, bits) + c
+    direct = -objective(spec, bits[:, :2]) / e.bound + ((bits @ e.residual_a.T - e.rhs) ** 2) @ weights
+    np.testing.assert_allclose(values, direct, atol=1e-10)
+    assert np.all(violations(spec, bits[np.isclose(values, values.min()), :2]) == 0)
+
+
+def test_case_pairing_includes_deterministic_baselines_once(tmp_path):
+    from experiments.generic_energy import write_rows, summarize
+    common = {"case_id": "k1", "family": "knapsack", "split": "test", "objective_sense": "max", "feasible": True, "seconds": 1}
+    write_rows(tmp_path / "base.jsonl", [{**common, "arm": "base", "seed": s, "objective": 10} for s in range(3)])
+    write_rows(tmp_path / "direct.jsonl", [{**common, "arm": "direct", "seed": None, "objective": 12}])
+    summary = summarize(tmp_path)
+    paired = next(r for r in summary["case_paired_vs_base"] if r["arm"] == "direct")
+    assert paired["paired_cases"] == 1
+    assert paired["mean_relative_improvement_both_all_feasible"] == pytest.approx(.2)

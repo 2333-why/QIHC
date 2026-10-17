@@ -24,15 +24,15 @@ def validate(spec: dict) -> dict:
     obj = spec["objective"]
     if not isinstance(obj, dict) or set(obj) != {"sense", "linear", "quadratic"}:
         raise ValueError("Invalid objective fields")
-    if obj["sense"] not in ("min", "max") or len(obj["linear"]) != n:
+    if obj["sense"] not in ("min", "max") or not isinstance(obj["linear"], list) or len(obj["linear"]) != n:
         raise ValueError("Invalid sense or linear dimension")
     for c in obj["linear"]:
         integer(c)
-    if len(obj["quadratic"]) > n * (n - 1) // 2:
+    if not isinstance(obj["quadratic"], list) or len(obj["quadratic"]) > n * (n - 1) // 2:
         raise ValueError("Too many quadratic terms")
     seen = set()
     for term in obj["quadratic"]:
-        if len(term) != 3:
+        if not isinstance(term, list) or len(term) != 3:
             raise ValueError("Quadratic terms are [i,j,coefficient]")
         i, j, c = map(integer, term)
         if not 0 <= i < j < n or (i, j) in seen:
@@ -43,12 +43,12 @@ def validate(spec: dict) -> dict:
         raise ValueError("At most 128 constraints")
     ids = set()
     for con in spec["constraints"]:
-        if set(con) != {"id", "a", "op", "rhs"}:
+        if not isinstance(con, dict) or set(con) != {"id", "a", "op", "rhs"}:
             raise ValueError("Invalid constraint fields")
         if not isinstance(con["id"], str) or not 0 < len(con["id"]) <= 64 or con["id"] in ids:
             raise ValueError("Constraint IDs must be unique bounded strings")
         ids.add(con["id"])
-        if con["op"] not in ("le", "ge", "eq") or len(con["a"]) != n:
+        if con["op"] not in ("le", "ge", "eq") or not isinstance(con["a"], list) or len(con["a"]) != n:
             raise ValueError("Invalid relation or dimension")
         for c in con["a"]:
             integer(c)
@@ -150,7 +150,7 @@ POLICIES = {
 }
 
 
-def solve(spec, *, policy="adaptive", seed=0, chains=64, steps=4096, method="pbit"):
+def solve(spec, *, policy="adaptive", seed=0, chains=64, steps=4096, method="pbit", feedback=True):
     """Exact single-site conditional updates, parallel ONLY across independent chains.
 
     One step means one proposed bit per chain, not a full sweep. Random initial
@@ -164,8 +164,8 @@ def solve(spec, *, policy="adaptive", seed=0, chains=64, steps=4096, method="pbi
         raise ValueError("Invalid sampling budget")
     energy = compile_energy(spec)
     cfg = POLICIES[policy]
-    rng = np.random.default_rng(seed)
-    states = rng.integers(0, 2, (chains, energy.bits)).astype(float)
+    init_rng, site_rng, draw_rng = [np.random.default_rng(s) for s in np.random.SeedSequence(seed).spawn(3)]
+    states = init_rng.integers(0, 2, (chains, energy.bits)).astype(float)
     weights = np.full(len(spec["constraints"]), cfg["weight"])
     archive, best_key, history = None, None, []
     sign = 1 if spec["objective"]["sense"] == "min" else -1
@@ -173,13 +173,14 @@ def solve(spec, *, policy="adaptive", seed=0, chains=64, steps=4096, method="pbi
     def inspect_states():
         nonlocal archive, best_key
         x = states[:, :spec["n"]]
-        v = violations(spec, x).sum(axis=1)
+        residuals = violations(spec, x)
+        v = residuals.sum(axis=1)
         f = objective(spec, x)
         idx = min(range(chains), key=lambda i: (v[i] > 0, v[i], sign * f[i]))
         key = (bool(v[idx] > 0), float(v[idx]), float(sign * f[idx]))
         if best_key is None or key < best_key:
             best_key, archive = key, x[idx].astype(int).tolist()
-        return violations(spec, x)
+        return residuals
 
     inspect_states()
     q, _ = energy.qubo(weights)
@@ -188,40 +189,43 @@ def solve(spec, *, policy="adaptive", seed=0, chains=64, steps=4096, method="pbi
     # so changing penalty scales never invalidates previous comparisons.
     block = max(1, steps // 8)
     for step in range(steps):
+        if cfg["adaptive"] and method != "uniform" and step == int(.75 * steps):
+            # Apply BEFORE sampling, including very short budgets. Identical in
+            # feedback and no-feedback arms: this is scheduled hardening, not feedback.
+            weights = np.maximum(2, weights)
+            q, _ = energy.qubo(weights)
+            fields = 2 * states @ q - np.diag(q)
+        i = int(site_rng.integers(energy.bits))
+        draws = draw_rng.random(chains)
         if method == "uniform":
-            # One independent original-bit draw per chain; equal bit-update budget.
-            i = int(rng.integers(energy.bits))
-            new = rng.integers(0, 2, chains)
+            # Random-scan fair-bit refresh, NOT independent full-vector samples.
+            new = (draws < .5).astype(float)
         else:
-            i = int(rng.integers(energy.bits))
             # field excluding the current bit: E(x_i=1)-E(x_i=0)
             delta = fields[:, i] + 2 * q[i, i] * (1 - states[:, i])
             temp = cfg["temperature"] * (0.02 ** (step / max(1, steps - 1)))
             if method == "pbit":
                 prob = 1 / (1 + np.exp(np.clip(delta / temp, -60, 60)))
-                new = (rng.random(chains) < prob).astype(float)
+                new = (draws < prob).astype(float)
             else:
                 change = (1 - 2 * states[:, i]) * delta
-                accept = rng.random(chains) < np.exp(np.minimum(0, -change / temp))
+                accept = draws < np.exp(np.minimum(0, -change / temp))
                 new = np.where(accept, 1 - states[:, i], states[:, i])
         diff = new - states[:, i]
         states[:, i] = new
         fields += 2 * diff[:, None] * q[i][None, :]
         # Every updated state is eligible, not just block endpoints.
         v = inspect_states()
-        if (step + 1) % block == 0:
+        if (step + 1) % block == 0 or step + 1 == steps:
             rates = (v > 0).mean(axis=0)
             history.append({"step": step + 1, "violation_rates": rates.tolist(), "weights": weights.tolist()})
-            if cfg["adaptive"] and method != "uniform":
+            if feedback and cfg["adaptive"] and method != "uniform" and step + 1 < steps:
                 weights = np.minimum(8, weights * (1 + 0.75 * rates))
-                if step + 1 >= .75 * steps:
-                    # Exploration may use soft weights; final phase restores the
-                    # sufficient exact-arithmetic ground-state penalty bound.
-                    weights = np.maximum(2, weights)
                 q, _ = energy.qubo(weights)
                 fields = 2 * states @ q - np.diag(q)
     return {"x": archive, "feasible": not best_key[0], "violation": best_key[1],
             "objective": float(objective(spec, np.asarray(archive))), "bits": energy.bits,
             "steps": steps, "chains": chains, "bit_updates": steps * chains,
             "seconds": time.perf_counter() - started, "history": history,
-            "method": method, "policy": policy, "seed": seed}
+            "method": method, "policy": policy, "seed": seed, "feedback_enabled": bool(feedback),
+            "final_weights": weights.tolist(), "rng_protocol": "separate_init_site_draw_streams_v2"}

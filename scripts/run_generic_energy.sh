@@ -7,7 +7,7 @@ if [[ "${1:-}" == '--print-plan' ]]; then
   printf '%s\n' 'Generic binary NL optimization: knapsack, vertex cover, balanced cut, assignment.' \
     'Default 192 instances; disjoint train/validation/test; balanced-cut family excluded from all training.' \
     'Two-stage LLM objective/constraint IR; compiler + random-start pbit; independent gold verification.' \
-    'CP-SAT, uniform, Metropolis, fixed/adaptive pbit, direct LLM, base/SFT/DPO + fixed-policy ablations.' \
+    'CP-SAT, random-scan fair bits, Metropolis, fixed/adaptive pbit, direct LLM, base/SFT/DPO + matched no-feedback ablations.' \
     'Single H100 for real SFT/DPO; CPU float64 pbit emulator. No FPGA or energy-efficiency claim.' \
     'Existing prepared model reused; no download. Default 36-hour cap. Separate free GPU required.'
   exit 0

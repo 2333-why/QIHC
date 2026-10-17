@@ -14,7 +14,16 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from experiments.generic_energy import read_rows, summarize
+from experiments.generic_energy import read_rows, summarize, audit_teacher
+
+
+def check_training_output(target):
+    manifest = json.loads((target / "qihc_training_manifest.json").read_text(encoding="utf-8"))
+    weights = target / "adapter_model.safetensors"
+    losses = [float(row[k]) for row in manifest.get("training_metrics", []) for k in ("loss", "train_loss") if k in row]
+    if not weights.is_file() or weights.stat().st_size == 0 or not losses or not all(math.isfinite(x) for x in losses):
+        raise RuntimeError(f"Missing weights or missing/nonfinite training loss: {target}")
+    return weights.stat().st_size
 
 
 def main():
@@ -27,7 +36,7 @@ def main():
     p.add_argument("--hours", type=float, default=36)
     p.add_argument("--cpu-smoke", action="store_true")
     args = p.parse_args()
-    if args.hours <= 0 or args.per_family < 8:
+    if not math.isfinite(args.hours) or args.hours <= 0 or args.per_family < 8 or not 1 <= args.steps <= 1000000 or not 1 <= args.chains <= 4096:
         p.error("Positive hours and >=8 cases/family required")
     args.output = args.output.resolve()
     if args.output.exists():
@@ -44,7 +53,9 @@ def main():
 
     def save():
         report["elapsed_seconds"] = time.monotonic() - started
-        (args.output / "run.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+        pending = args.output / "run.pending.json"
+        pending.write_text(json.dumps(report, indent=2), encoding="utf-8")
+        pending.replace(args.output / "run.json")
 
     def run(label, command):
         remaining = args.hours * 3600 - (time.monotonic() - started)
@@ -55,9 +66,15 @@ def main():
         save()
         print(f"RUN {label}", flush=True)
         t = time.monotonic()
-        with (args.output / f"{label}.log").open("w", encoding="utf-8") as log:
-            subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True, timeout=remaining,
-                           env={**os.environ, "PYTHONPATH": str(ROOT) + os.pathsep + os.environ.get("PYTHONPATH", "")})
+        try:
+            with (args.output / f"{label}.log").open("w", encoding="utf-8") as log:
+                subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True, timeout=remaining,
+                               env={**os.environ, "PYTHONPATH": str(ROOT) + os.pathsep + os.environ.get("PYTHONPATH", "")})
+        except Exception as exc:
+            record.update(status="failed", seconds=time.monotonic() - t, error=repr(exc))
+            save()
+            print(f"FAILED {label}; inspect {args.output / (label + '.log')}", flush=True)
+            raise
         record.update(status="complete", seconds=time.monotonic() - t)
         save()
 
@@ -67,19 +84,24 @@ def main():
     common = ["--output", str(args.output), "--steps", str(steps), "--chains", str(chains)]
     try:
         save()
+        if not args.cpu_smoke:
+            if args.manifest is None:
+                raise ValueError("Prepared manifest required; no automatic downloads")
+            model = json.loads(args.manifest.read_text(encoding="utf-8"))["model_path"]
+            if not Path(model).is_dir():
+                raise FileNotFoundError(f"Prepared model directory unavailable: {model}")
+            report["prepared_manifest_sha256"] = hashlib.sha256(args.manifest.read_bytes()).hexdigest()
+            report["model_path"] = model
         run("data", prefix + ["data", "--per-family", str(8 if args.cpu_smoke else args.per_family)] + common)
         report["dataset_sha256"] = hashlib.sha256((args.output / "cases.jsonl").read_bytes()).hexdigest()
         run("oracle", prefix + ["eval", "--mode", "oracle", "--tag", "oracle", "--seeds", "1" if args.cpu_smoke else "3"] + common)
         if not args.cpu_smoke:
-            if args.manifest is None:
-                raise ValueError("Prepared manifest required; no automatic model downloads")
-            model = json.loads(args.manifest.read_text(encoding="utf-8"))["model_path"]
-            report["prepared_manifest_sha256"] = hashlib.sha256(args.manifest.read_bytes()).hexdigest()
-            report["model_path"] = model
+            run("teacher", prefix + ["teacher"] + common)
+            report["teacher_audit"] = audit_teacher(args.output, read_rows(args.output / "cases.jsonl"), "balanced_cut")
+            run("training_preflight", prefix + ["preflight", "--model-path", model, "--max-new-tokens", "12288"] + common)
             inference = ["--model-path", model, "--max-new-tokens", "12288"] + common
             run("base", prefix + ["eval", "--mode", "llm", "--tag", "base"] + inference)
             run("direct", prefix + ["eval", "--mode", "direct", "--tag", "direct"] + inference)
-            run("teacher", prefix + ["teacher"] + common)
             adapters = []
             for stage, cap, lr in (("sft", 128, "1e-5"), ("dpo", 64, "1e-6")):
                 data = args.output / f"{stage}.jsonl"
@@ -98,14 +120,8 @@ def main():
                 if stage == "dpo":
                     command += ["--adapter-path", adapters[0], "--dpo-beta", "0.2", "--dpo-sft-weight", "0.2"]
                 run(f"train_{stage}", command)
-                manifest = json.loads((target / "qihc_training_manifest.json").read_text(encoding="utf-8"))
-                weights_file = target / "adapter_model.safetensors"
-                if not weights_file.is_file() or weights_file.stat().st_size == 0:
-                    raise RuntimeError(f"No saved {stage} adapter weights")
-                metrics = manifest.get("training_metrics", [])
-                if not metrics or any(not math.isfinite(float(row[k])) for row in metrics for k in ("loss", "train_loss") if k in row):
-                    raise RuntimeError(f"Missing/nonfinite {stage} training metrics")
-                report[f"{stage}_training"] = {"rows": count, "weights_bytes": weights_file.stat().st_size,
+                weight_bytes = check_training_output(target)
+                report[f"{stage}_training"] = {"rows": count, "weights_bytes": weight_bytes,
                                               "manifest": str(target / "qihc_training_manifest.json")}
                 adapters.append(str(target))
                 # Trainer continues the existing adapter, not a delta on merged SFT.
@@ -118,7 +134,14 @@ def main():
         raise
     finally:
         save()
-        summarize(args.output)
+        try:
+            summarize(args.output)
+        except Exception as exc:
+            already_failed = report["status"] == "failed"
+            report.update(status="failed", summary_error=repr(exc))
+            save()
+            if not already_failed:
+                raise
         print(f"Results: {args.output}", flush=True)
 
 
