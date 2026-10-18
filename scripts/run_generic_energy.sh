@@ -39,6 +39,9 @@ python -c 'import os,torch; n=int(os.environ["QIHC_GENERIC_NPROC"]); assert n in
 python scripts/refresh_non_thinking_preparation.py --manifest "$BASE/artifacts/prepared.json" --code-dir "$CODE" --env-prefix "$ENV_PREFIX"
 python experiments/server_readiness.py verify --manifest "$BASE/artifacts/prepared.json" --code-dir "$CODE" --env-prefix "$ENV_PREFIX"
 EXTRA=(--nproc "$QIHC_GENERIC_NPROC")
+if [[ -n "${QIHC_GENERIC_REUSE:-}" ]]; then
+  EXTRA+=(--reuse-preparation "$QIHC_GENERIC_REUSE")
+fi
 if [[ "${QIHC_GENERIC_SEMANTIC:-0}" == 1 ]]; then
   EXTRA+=(--semantic-training --mine-cases "${QIHC_GENERIC_MINE_CASES:-96}" --dpo-steps "${QIHC_GENERIC_DPO_STEPS:-128}")
 fi

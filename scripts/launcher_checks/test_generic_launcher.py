@@ -33,7 +33,8 @@ def test_generic_launcher_rejects_multiple_workers(metadata):
     assert "Requires" in result.stderr
 
 
-def test_generic_single_worker_activates_environment_and_runs_pipeline(tmp_path):
+@pytest.mark.parametrize("reuse", [False, True])
+def test_generic_single_worker_activates_environment_and_runs_pipeline(tmp_path, reuse):
     script = tmp_path / "scripts/run_generic_energy.sh"
     script.parent.mkdir()
     script.write_text(Path(SCRIPT).read_text(), encoding="utf-8", newline="\n")
@@ -49,9 +50,14 @@ def test_generic_single_worker_activates_environment_and_runs_pipeline(tmp_path)
                       'printf "CHECKED %s\\n" "$*"\n', encoding="utf-8", newline="\n")
     python.chmod(0o755)
     env = {**os.environ, "QIHC_BASE": base.as_posix(), "RANK": "0", "LOCAL_RANK": "0", "WORLD_SIZE": "1"}
+    if reuse:
+        env["QIHC_GENERIC_REUSE"] = "/existing/failed-run"
+    else:
+        env.pop("QIHC_GENERIC_REUSE", None)
     for key in ("LOCAL_WORLD_SIZE", "GROUP_WORLD_SIZE", "ROLE_WORLD_SIZE", "GROUP_RANK", "ROLE_RANK"):
         env.pop(key, None)
     result = subprocess.run([BASH, script.as_posix()], env=env, capture_output=True, text=True)
     assert result.returncode == 0, result.stderr
     assert "refresh_non_thinking_preparation.py" in result.stdout
     assert "scripts/generic_energy_pipeline.py" in result.stdout
+    assert ("--reuse-preparation /existing/failed-run" in result.stdout) == reuse

@@ -16,7 +16,7 @@ def setup_record(tmp_path, monkeypatch):
     return manifest, original
 
 
-@pytest.mark.parametrize("previous", [migration.PREVIOUS, migration.PREVIOUS_NON_THINKING, migration.PREVIOUS_REGULARIZED, migration.PREVIOUS_COMPETITIVE, migration.PREVIOUS_GENERIC, migration.PREVIOUS_GENERIC_AUDITED])
+@pytest.mark.parametrize("previous", [migration.PREVIOUS, migration.PREVIOUS_NON_THINKING, migration.PREVIOUS_REGULARIZED, migration.PREVIOUS_COMPETITIVE, migration.PREVIOUS_GENERIC, migration.PREVIOUS_GENERIC_AUDITED, migration.PREVIOUS_SEMANTIC_DUAL])
 def test_refresh_reuses_inputs_and_preserves_original_evidence(tmp_path, monkeypatch, previous):
     manifest, original = setup_record(tmp_path, monkeypatch)
     original["source_sha256"] = previous

@@ -9,12 +9,48 @@ import math
 import os
 from pathlib import Path
 import subprocess
+import shutil
 import sys
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from experiments.generic_energy import read_rows, write_rows, summarize, audit_teacher
+from experiments.generic_energy import read_rows, write_rows, summarize, audit_teacher, audit_evaluation
+
+
+def reuse_preparation(source, target, args, model):
+    """Copy audited pre-training artifacts into a NEW run; never alter the failed run."""
+    from qihc.generic.benchmark import make_dataset
+    source = source.resolve()
+    if source == target.resolve() or not args.semantic_training or args.cpu_smoke:
+        raise ValueError("Reuse requires a distinct source and a full semantic-training run")
+    old = json.loads((source / "run.json").read_text(encoding="utf-8"))
+    for key in ("per_family", "steps", "chains", "semantic_training", "cpu_smoke"):
+        if old.get("config", {}).get(key) != getattr(args, key):
+            raise ValueError(f"Reuse configuration mismatch: {key}")
+    if old.get("model_path") != model or old.get("holdout_family") != "balanced_cut":
+        raise ValueError("Reuse model or holdout mismatch")
+    completed = {s["stage"] for s in old["stages"] if s["status"] == "complete"}
+    if not {"data", "oracle", "teacher"}.issubset(completed) or any(s["stage"] == "mine" for s in old["stages"]):
+        raise ValueError("Reuse requires complete preparation without subsequent mining")
+    cases = read_rows(source / "cases.jsonl")
+    if cases != make_dataset(args.per_family, expanded=True):
+        raise ValueError("Source dataset differs from current benchmark definition")
+    digest = hashlib.sha256((source / "cases.jsonl").read_bytes()).hexdigest()
+    if digest != old.get("dataset_sha256"):
+        raise ValueError("Source dataset digest mismatch")
+    audit_teacher(source, cases, "balanced_cut")
+    audit_evaluation(source / "oracle.jsonl", cases, "oracle", "oracle", 3)
+    files = ("cases.jsonl", "oracle.jsonl", "teacher_audit.jsonl", "sft.jsonl", "dpo.jsonl", "dpo_semantic.jsonl", "dpo_policy.jsonl")
+    fingerprints = {name: hashlib.sha256((source / name).read_bytes()).hexdigest() for name in files}
+    for name in files:
+        if (target / name).exists():
+            raise FileExistsError(target / name)
+        shutil.copyfile(source / name, target / name)
+        if hashlib.sha256((target / name).read_bytes()).hexdigest() != fingerprints[name]:
+            raise RuntimeError("Source changed while copying preparation")
+    return {"source": str(source), "source_git_commit": old.get("git_commit"), "files_sha256": fingerprints,
+            "stages": ["data", "oracle", "teacher"], "original_run_preserved": True}
 
 
 def training_command(model, data, target, stage, steps, nproc=1, adapter=None):
@@ -57,6 +93,7 @@ def main():
     p.add_argument("--semantic-training", action="store_true")
     p.add_argument("--mine-cases", type=int, default=96)
     p.add_argument("--dpo-steps", type=int, default=128)
+    p.add_argument("--reuse-preparation", type=Path)
     args = p.parse_args()
     if not math.isfinite(args.hours) or args.hours <= 0 or args.per_family < 8 or not 1 <= args.steps <= 1000000 or not 1 <= args.chains <= 4096 or args.mine_cases < 0 or args.dpo_steps < 1:
         p.error("Positive hours and >=8 cases/family required")
@@ -84,6 +121,11 @@ def main():
         pending.replace(args.output / "run.json")
 
     def run(label, command):
+        if label in report.get("reused_preparation", {}).get("stages", []):
+            report["stages"].append({"stage": label, "status": "complete", "reused": True, "seconds": 0})
+            save()
+            print(f"REUSE {label} (audited existing artifacts)", flush=True)
+            return
         remaining = args.hours * 3600 - (time.monotonic() - started)
         if remaining <= 0:
             raise TimeoutError("Experiment wall-clock budget exhausted")
@@ -100,6 +142,7 @@ def main():
             record.update(status="failed", seconds=time.monotonic() - t, error=repr(exc))
             save()
             print(f"FAILED {label}; inspect {args.output / (label + '.log')}", flush=True)
+            print((args.output / f"{label}.log").read_text(encoding="utf-8", errors="replace")[-16000:], flush=True)
             raise
         record.update(status="complete", seconds=time.monotonic() - t)
         save()
@@ -120,6 +163,9 @@ def main():
                 raise FileNotFoundError(f"Prepared model directory unavailable: {model}")
             report["prepared_manifest_sha256"] = hashlib.sha256(args.manifest.read_bytes()).hexdigest()
             report["model_path"] = model
+            if args.reuse_preparation:
+                report["reused_preparation"] = reuse_preparation(args.reuse_preparation, args.output, args, model)
+                save()
             if args.nproc > 1:
                 run("distributed_smoke", [sys.executable, "-m", "torch.distributed.run", "--standalone",
                     f"--nproc_per_node={args.nproc}", "experiments/server_readiness.py", "distributed-smoke",

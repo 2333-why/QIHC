@@ -2,6 +2,22 @@
 
 ## 一键运行
 
+### 2026-10-19 修复与复用已完成阶段
+
+已修复 `4 != 1 * 2 * 1`：完整模型加载前显式初始化 Torch／DeepSpeed NCCL，绑定 LOCAL_RANK 对应显卡，并校验实际通信 world size；全局 batch 仍为 4，不通过改小 batch 绕过检查。
+
+对于在 `memory_smoke_sft` 失败的这轮任务，更新／上传代码后，在 1 worker、2 H100 上使用：
+
+```bash
+cd /inspire/hdd/global_user/czxs25210022/why/qihc && QIHC_GENERIC_REUSE=/inspire/hdd/global_user/czxs25210022/why/results/generic_energy_20261017T154803Z-20 bash scripts/run_semantic_dual_gpu.sh
+```
+
+脚本审计旧数据集、划分、采样预算、教师偏好和对照记录完整性后，将准备产物复制到**新结果目录**；打印 `REUSE data`、`REUSE oracle`、`REUSE teacher`。不覆盖旧目录，不复制失败的模型权重。重新执行通信检查、训练数据预检查和完整模型 SFT/DPO 检查，再开始正式评测训练。若检测到预算变化、缺失阶段、数据不一致或旧目录已开始负例挖掘，会拒绝复用。此功能不是任意阶段 checkpoint 续训。
+
+子进程失败时，主日志会同时显示对应阶段日志末尾，便于直接定位根因。真实 H100 的修复后训练与显存情况仍需服务器检查确认。
+
+### 全新运行
+
 分布式训练平台配置：**1 个 worker、2 张 H100 80GB**。启动命令（代码更新后）：
 
 ```bash

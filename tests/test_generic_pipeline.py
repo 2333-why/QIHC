@@ -48,7 +48,7 @@ def test_full_orchestration_and_failure_status(tmp_path, monkeypatch, failure, s
             return subprocess.CompletedProcess(cmd, 0)
         stage = cmd[2]
         if stage == "data":
-            runner.write_rows(output / "cases.jsonl", make_dataset(48))
+            runner.write_rows(output / "cases.jsonl", make_dataset(48, expanded=semantic))
         elif stage == "teacher":
             runner.teacher(SimpleNamespace(output=output, holdout_family="balanced_cut", steps=2, chains=2, semantic_training=semantic), runner.read_rows(output / "cases.jsonl"))
         elif stage == "preflight":
@@ -88,6 +88,19 @@ def test_full_orchestration_and_failure_status(tmp_path, monkeypatch, failure, s
             dpos = [c for c in commands if "experiments/train_s2e_lora.py" in c and value(c, "--stage") == "dpo" and not value(c, "--output").endswith("smoke_adapter_dpo")]
             assert len(dpos) == 3
             assert all(value(c, "--max-steps") == "128" and "--nproc_per_node=2" in c for c in dpos)
+    if semantic and failure == "weights":
+        old_output = output
+        output = tmp_path / "retry"
+        failure = None
+        commands.clear()
+        monkeypatch.setattr(sys, "argv", ["pipeline", "--manifest", str(manifest), "--output", str(output),
+                                         "--semantic-training", "--nproc", "2", "--reuse-preparation", str(old_output)])
+        pipeline.main()
+        retried = json.loads((output / "run.json").read_text())
+        assert retried["status"] == "complete"
+        assert {s["stage"] for s in retried["stages"] if s.get("reused")} == {"data", "oracle", "teacher"}
+        assert not any(len(c) > 2 and c[2] in ("data", "teacher") for c in commands)
+        assert json.loads((old_output / "run.json").read_text())["status"] == "failed"
 
 
 @pytest.mark.parametrize("metrics", [[], [{"epoch": 1}], [{"loss": float("nan")}], [{"train_loss": float("inf")}]])

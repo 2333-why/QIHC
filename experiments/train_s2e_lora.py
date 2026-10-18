@@ -9,6 +9,31 @@ import json
 import math
 import os
 from pathlib import Path
+from datetime import timedelta
+
+
+def initialize_zero_runtime(torch, deepspeed, environ=None):
+    """Initialize BOTH Torch and DeepSpeed communication before zero.Init/config.
+
+    torchrun sets environment variables; it does not initialize either backend.
+    Model loading triggers zero.Init before Trainer/Accelerate can do so for us.
+    """
+    env = os.environ if environ is None else environ
+    required = ("RANK", "LOCAL_RANK", "WORLD_SIZE", "MASTER_ADDR", "MASTER_PORT")
+    if any(k not in env for k in required):
+        raise RuntimeError("ZeRO training must be launched through torchrun, including single-GPU runs")
+    rank, local, world = (int(env[k]) for k in ("RANK", "LOCAL_RANK", "WORLD_SIZE"))
+    if world < 1 or not 0 <= rank < world or not 0 <= local < torch.cuda.device_count():
+        raise RuntimeError("Invalid distributed rank/world size or local GPU index")
+    torch.cuda.set_device(local)
+    deepspeed.init_distributed(dist_backend="nccl", auto_mpi_discovery=False, timeout=timedelta(minutes=10))
+    if not torch.distributed.is_initialized() or not deepspeed.comm.is_initialized():
+        raise RuntimeError("Torch/DeepSpeed communication was not initialized")
+    actual = torch.distributed.get_world_size()
+    if actual != world or deepspeed.comm.get_world_size() != world or torch.distributed.get_rank() != rank:
+        raise RuntimeError("Initialized communication disagrees with torchrun rank/world size")
+    print(f"ZERO_RUNTIME_READY rank={rank} local_rank={local} world_size={actual}", flush=True)
+    return actual
 
 
 def latest_checkpoint(output: Path) -> Path | None:
@@ -107,10 +132,12 @@ def main() -> int:
     deepspeed_model_config = None
     if args.deepspeed_config:
         from transformers.integrations import HfDeepSpeedConfig
+        import deepspeed
+        world = initialize_zero_runtime(torch, deepspeed)
         deepspeed_config = json.loads(args.deepspeed_config.read_text(encoding="utf-8"))
         deepspeed_config.update({"train_micro_batch_size_per_gpu": 1,
                                 "gradient_accumulation_steps": args.gradient_accumulation_steps,
-                                "train_batch_size": int(os.environ.get("WORLD_SIZE", "1")) * args.gradient_accumulation_steps,
+                                "train_batch_size": world * args.gradient_accumulation_steps,
                                 "gradient_clipping": 1.0})
         deepspeed_model_config = HfDeepSpeedConfig(deepspeed_config)
     model = model_class.from_pretrained(

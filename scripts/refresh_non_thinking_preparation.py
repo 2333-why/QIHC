@@ -17,12 +17,13 @@ from experiments.server_readiness import atomic_json, code_hash, verify
 
 # Exact LF source fingerprints of the already prepared release and this patch.
 PREVIOUS = "f981bda58233dace190b32155d2930a72aad030b91538605e926ba7f61bc79d2"
-CURRENT = "bda0b983bb48ab98faef4838e404b6bb259f88f019a9f4e051e2e44c3925b75b"
+CURRENT = "e683ce74ff620ddf4add66ab12c08aaac2ea2c089e35740399359d94bc0ef0a7"
 PREVIOUS_NON_THINKING = "5a858b9fb8a87dd6ba0b17b05c0f98ab2e7282b3981dc09c1af611cedcb38c56"
 PREVIOUS_REGULARIZED = "4e9d0c6217ba777988b9afb0df7d118425bab2ffead3589521b5cd7ab037666c"
 PREVIOUS_COMPETITIVE = "86356606a82229a29fc206db10ea6f4b7b2e464cdcd5204e2c3085c29f9903ea"
 PREVIOUS_GENERIC = "ec3fb8840f9cbe70d6d02967a566893b775b63f67bfdae7a796a8f60b9db089c"
 PREVIOUS_GENERIC_AUDITED = "563ff264837303c21b02d35396006df05b1fe90aeb810200dbc11871cf0615b1"
+PREVIOUS_SEMANTIC_DUAL = "bda0b983bb48ab98faef4838e404b6bb259f88f019a9f4e051e2e44c3925b75b"
 
 
 def refresh(manifest: Path, code_dir: Path, env_prefix: Path) -> None:
@@ -30,7 +31,7 @@ def refresh(manifest: Path, code_dir: Path, env_prefix: Path) -> None:
     actual = code_hash(code_dir)
     if record.get("source_sha256") == actual:
         return  # Normal launcher still verifies every input afterward.
-    if record.get("source_sha256") not in {PREVIOUS, PREVIOUS_NON_THINKING, PREVIOUS_REGULARIZED, PREVIOUS_COMPETITIVE, PREVIOUS_GENERIC, PREVIOUS_GENERIC_AUDITED} or actual != CURRENT:
+    if record.get("source_sha256") not in {PREVIOUS, PREVIOUS_NON_THINKING, PREVIOUS_REGULARIZED, PREVIOUS_COMPETITIVE, PREVIOUS_GENERIC, PREVIOUS_GENERIC_AUDITED, PREVIOUS_SEMANTIC_DUAL} or actual != CURRENT:
         raise RuntimeError("Source is not the approved non-thinking migration; refusing to reseal arbitrary changes")
     if code_dir.resolve() != ROOT.resolve():
         raise RuntimeError("Migration and pipeline must use the same checkout")
