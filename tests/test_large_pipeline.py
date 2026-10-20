@@ -86,3 +86,34 @@ def test_full_orchestration_and_resume(tmp_path, monkeypatch):
     assert len([c for c in commands if "--nproc_per_node=4" in c]) == 7
     p.run(SimpleNamespace(base=tmp_path, output=out))
     assert len(commands) == 19
+
+
+def test_legacy_resume_requires_unchanged_dependencies(monkeypatch):
+    import scripts.large_model_pipeline as p
+    monkeypatch.setattr(p, "sources", lambda exclude_runner=False: p.LEGACY_NONRUNNER if exclude_runner else "new")
+    assert p.compatible_source(p.LEGACY_SOURCE)
+    assert not p.compatible_source("unknown")
+    monkeypatch.setattr(p, "sources", lambda exclude_runner=False: "changed-dependency")
+    assert not p.compatible_source(p.LEGACY_SOURCE)
+
+
+def test_prediction_checkpoint_recovers_only_incomplete_tail(tmp_path):
+    from scripts.large_model_pipeline import prediction_checkpoint
+    row = {"case_id": "a", "response": "{}", "input_tokens": 1, "output_tokens": 1, "seconds": 1}
+    path = tmp_path / "pred.jsonl"
+    raw = json.dumps(row).encode() + b'\n{"case_id":"b'
+    path.write_bytes(raw)
+    assert prediction_checkpoint(path) == [row]
+    assert read_rows(path) == [row]
+    assert next(tmp_path.glob("*.bak")).read_bytes() == raw
+    path.write_bytes(b'not json\n' + json.dumps(row).encode())
+    with pytest.raises(ValueError, match="Corrupt complete"):
+        prediction_checkpoint(path)
+
+
+def test_prediction_checkpoint_valid_without_final_newline(tmp_path):
+    from scripts.large_model_pipeline import prediction_checkpoint
+    row = {"case_id": "a", "response": "{}", "input_tokens": 1, "output_tokens": 1, "seconds": 1}
+    path = tmp_path / "pred.jsonl"
+    path.write_text(json.dumps(row))
+    assert prediction_checkpoint(path) == [row]

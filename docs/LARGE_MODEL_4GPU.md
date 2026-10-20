@@ -41,7 +41,13 @@ cd /inspire/hdd/global_user/czxs25210022/why/qihc && bash scripts/run_large_4gpu
 cd /inspire/hdd/global_user/czxs25210022/why/qihc && QIHC_LARGE_RESUME=/inspire/hdd/global_user/czxs25210022/why/results/实际运行目录 bash scripts/run_large_4gpu.sh
 ```
 
-完成阶段跳过；未完成训练从可用 checkpoint 续跑，未保存 checkpoint 时重跑该阶段；推理按实例续跑、搜索按完整实例续跑。不得在旧目录修改协议重跑。部分损坏的预测 JSONL 会显式报错，不自动删数据。
+完成阶段跳过；未完成训练从可用 checkpoint 续跑，未保存 checkpoint 时重跑该阶段；推理按实例续跑、搜索按完整实例续跑。不得在旧目录修改协议重跑。预测使用原子整文件保存；旧版预测文件若只有末尾未写完整，保留原始文件的 `.bak` 副本后恢复完整行；中间损坏或完整行非法仍报错。
+
+### 2026-10-20 续跑加固
+
+已兼容 `92056b8` 版本准备的清单，仅允许运行编排改动，模型/训练/数据/求解依赖必须与旧版保持一致。无需重下载权重、重新造数或重跑 CPU 准备。运行清单记录实际新源码指纹，但不修改旧 prepared.json。
+
+阶段运行时每60秒向平台日志输出 HEARTBEAT，并写入 `heartbeat.json`（最后观测时间不是存活保证）；子进程失败记录阶段、退出码及日志末尾。可捕获 SIGTERM，但 SIGKILL、节点断电可能仍留下 running。增加单任务锁，避免同一准备目录上重复启动并发作业。此次未改变采样、训练、评估预算，也没有证据能确认此前终止的根因。
 
 ## 本入口包含什么
 

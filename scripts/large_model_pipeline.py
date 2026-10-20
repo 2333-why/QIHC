@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import threading
 import time
 from types import SimpleNamespace
 
@@ -16,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from experiments.server_readiness import (download_model, digest, check_files, atomic_json,
                                           package_versions, check_model_headers)
-from experiments.generic_energy import read_rows, write_rows, append
+from experiments.generic_energy import read_rows, write_rows
 from qihc.generic.compositional import dataset
 from qihc.generic.direct_control import matched_data, direct_prompt, evaluate_direct
 from qihc.generic.sparse import prompt, parse
@@ -27,16 +28,52 @@ from scripts.generic_energy_pipeline import training_command, check_training_out
 
 REPO = "Qwen/Qwen3-32B"
 PACKAGES = ("torch", "transformers", "trl", "peft", "accelerate", "deepspeed", "datasets", "ortools")
+LEGACY_SOURCE = "350f8bf96923232b2acb1615848d19f640405264b2e213ae32c24d0114907dd3"
+LEGACY_NONRUNNER = "ee289c14a1a500de29b9b945896fe827d6f19f37d4417bff5b05c48109eb5fbe"
 
 
-def sources():
+def sources(exclude_runner=False):
     paths = sorted({p for folder in ("qihc", "experiments", "scripts", "configs")
                     for p in (ROOT / folder).rglob("*") if p.suffix in (".py", ".sh", ".json")})
     h = hashlib.sha256()
     for p in paths:
+        if exclude_runner and p.relative_to(ROOT).as_posix() == "scripts/large_model_pipeline.py":
+            continue
         h.update(p.relative_to(ROOT).as_posix().encode())
         h.update(p.read_bytes().replace(b"\r\n", b"\n"))
     return h.hexdigest()
+
+
+def compatible_source(recorded):
+    # Only orchestration/checkpoint diagnostics changed from this audited release.
+    # All model, data, training, scoring dependencies must remain byte-identical.
+    return recorded == sources() or (
+        recorded == LEGACY_SOURCE and sources(exclude_runner=True) == LEGACY_NONRUNNER)
+
+
+def prediction_checkpoint(path):
+    """Recover only an interrupted final JSON write, preserving original bytes."""
+    if not path.exists():
+        return []
+    raw = path.read_bytes()
+    lines = raw.splitlines(keepends=True)
+    records = []
+    for i, line in enumerate(lines):
+        try:
+            record = json.loads(line)
+        except (ValueError, UnicodeDecodeError):
+            if i != len(lines) - 1 or line.endswith(b"\n"):
+                raise ValueError(f"Corrupt complete checkpoint record {i + 1}: {path}")
+            backup = path.with_name(path.name + f".interrupted-{time.time_ns()}.bak")
+            with backup.open("xb") as f:
+                f.write(raw)
+            write_rows(path, records)
+            print(f"RECOVERED incomplete final record; original preserved: {backup}", flush=True)
+            return records
+        if not isinstance(record, dict) or not {"case_id", "response", "input_tokens", "output_tokens", "seconds"} <= record.keys():
+            raise ValueError(f"Malformed checkpoint record {i + 1}: {path}")
+        records.append(record)
+    return records
 
 
 def preflight(directory, model):
@@ -117,6 +154,14 @@ def prepare(a):
 def infer(a):
     import torch
     from qihc.problems.cvrp.direct_llm import LocalDirectLLMGenerator
+    records = prediction_checkpoint(a.output)
+    cases = [c for c in read_rows(a.data / "cases.jsonl") if c["split"] != "train"]
+    done = {r["case_id"] for r in records}
+    if len(done) != len(records) or not done.issubset({c["id"] for c in cases}):
+        raise ValueError("Invalid prediction checkpoint")
+    print(f"RESUME {a.arm}: {len(done)}/{len(cases)} predictions already saved", flush=True)
+    if len(done) == len(cases):
+        return
     gen = LocalDirectLLMGenerator(str(a.model), device="auto", temperature=0,
                                  max_input_tokens=4096, max_new_tokens=4096)
     if a.adapter:
@@ -124,20 +169,17 @@ def infer(a):
         # Keep adapter unmerged: avoids temporary full-matrix copies during merge.
         gen.model = PeftModel.from_pretrained(gen.model, str(a.adapter), local_files_only=True)
         gen.model.eval()
-    records = read_rows(a.output) if a.output.exists() else []
-    cases = [c for c in read_rows(a.data / "cases.jsonl") if c["split"] != "train"]
-    done = {r["case_id"] for r in records}
-    if len(done) != len(records) or not done.issubset({c["id"] for c in cases}):
-        raise ValueError("Invalid prediction checkpoint")
     for c in cases:
         if c["id"] in done:
             continue
         p = direct_prompt(c["description"]) if a.arm == "direct" else prompt(c["description"])
         start = time.perf_counter()
+        print(f"BEGIN {a.arm} {c['id']}", flush=True)
         raw = gen.generate(p)
         torch.cuda.synchronize()
-        append(a.output, {"case_id": c["id"], "response": raw, **gen.last_usage,
-                          "seconds": time.perf_counter() - start})
+        records.append({"case_id": c["id"], "response": raw, **gen.last_usage,
+                        "seconds": time.perf_counter() - start})
+        write_rows(a.output, records)
         print(f"PREDICT {a.arm} {c['id']}", flush=True)
 
 
@@ -193,7 +235,7 @@ def run(a):
             raise RuntimeError("Requires four H100 80GB, each with >=70 GiB free")
     prepared = a.base / "artifacts/large32b"
     manifest = json.loads((prepared / "prepared.json").read_text())
-    if manifest["source"] != sources() or manifest["env_prefix"] != sys.prefix:
+    if not compatible_source(manifest["source"]) or manifest["env_prefix"] != sys.prefix:
         raise RuntimeError("Source/environment path changed since CPU preparation; rerun preparation in a new directory")
     versions = package_versions()
     if any(versions.get(k) != v for k, v in manifest["packages"].items()):
@@ -211,6 +253,9 @@ def run(a):
         "prepared_sha256": digest(prepared / "prepared.json"), "stages": {}, "status": "running"}
     if report["prepared_sha256"] != digest(prepared / "prepared.json"):
         raise RuntimeError("Cannot resume with different preparation")
+    report.update(status="running", active_source=sources(),
+                  resumed_at=datetime.now(timezone.utc).isoformat())
+    report.pop("error", None)
     deadline = time.monotonic() + 96 * 3600
     def launch(name, cmd):
         if report["stages"].get(name, {}).get("status") == "complete":
@@ -219,9 +264,33 @@ def run(a):
         report["stages"][name] = {"status": "running"}
         atomic_json(statepath, report)
         start = time.perf_counter()
-        with (out / f"{name}.log").open("a", encoding="utf-8") as log:
-            subprocess.run(cmd, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True,
-                           timeout=max(1, deadline - time.monotonic()))
+        stopped = threading.Event()
+        logpath = out / f"{name}.log"
+        def heartbeat():
+            while not stopped.wait(60):
+                message = {"stage": name, "observed_at": datetime.now(timezone.utc).isoformat(),
+                           "stage_elapsed_seconds": round(time.perf_counter() - start),
+                           "log_bytes": logpath.stat().st_size if logpath.exists() else 0}
+                atomic_json(out / "heartbeat.json", message)
+                print("HEARTBEAT " + json.dumps(message), flush=True)
+        worker = threading.Thread(target=heartbeat, daemon=True)
+        worker.start()
+        try:
+            with logpath.open("a", encoding="utf-8") as log:
+                subprocess.run(cmd, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True,
+                               timeout=max(1, deadline - time.monotonic()))
+        except BaseException as exc:
+            report["stages"][name] = {"status": "failed", "error": repr(exc),
+                "returncode": getattr(exc, "returncode", None), "seconds": time.perf_counter() - start}
+            atomic_json(statepath, report)
+            if logpath.exists():
+                with logpath.open("rb") as f:
+                    f.seek(max(0, logpath.stat().st_size - 12000))
+                    print(f.read().decode("utf-8", errors="replace"), flush=True)
+            raise
+        finally:
+            stopped.set()
+            worker.join(timeout=2)
         report["stages"][name] = {"status": "complete", "seconds": time.perf_counter() - start}
         atomic_json(statepath, report)
     def train(label, arm, stage, steps, adapter=None):
@@ -256,7 +325,7 @@ def run(a):
             dpo = train(f"{arm}_dpo", arm, "dpo", 128, sft)
             evaluation(f"{arm}_dpo", arm, dpo)
         report["status"] = "complete"
-    except Exception as exc:
+    except BaseException as exc:
         report.update(status="failed", error=repr(exc))
         print(f"FAILED. Logs and resume directory: {out}", flush=True)
         raise
@@ -303,7 +372,21 @@ def main():
         else:
             s.add_argument("--predictions", type=Path, required=True)
     a = p.parse_args()
-    {"prepare": prepare, "run": run, "infer": infer, "score": score}[a.stage](a)
+    if a.stage == "run":
+        import fcntl
+        import signal
+        def terminate(signum, frame):
+            raise SystemExit(f"Platform signal {signum}; resume the same output directory")
+        signal.signal(signal.SIGTERM, terminate)
+        lockpath = a.base / "artifacts/large32b/run.lock"
+        with lockpath.open("a") as lock:
+            try:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                raise SystemExit("Another large32b run is active; do not start duplicate workers")
+            run(a)
+    else:
+        {"prepare": prepare, "infer": infer, "score": score}[a.stage](a)
 
 
 if __name__ == "__main__":
