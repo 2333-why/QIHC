@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "verified_on": "2026-10-21",
+  "repo": "chenyitian-shanshu/ORLMBenchmark",
+  "revision": "54ca621042b4619b90ce23ba3edd710611822e02",
+  "source": "https://github.com/Cardinal-Operations/SIRL",
+  "declared_collection_license": "apache-2.0",
+  "license_note": "Collection card declaration; preserve upstream attribution and review upstream terms before redistribution.",
+  "files": [
+    {"name": "README.md", "bytes": 2588, "sha256": "cc92f5fdd6b5747e3ff95b4864c86ca02d03ac2d53cd773fb540600dbb0e6920"},
+    {"name": "NL4OPT.jsonl", "rows": 245, "bytes": 143215, "sha256": "409b34856faba736bd6d4b3ab1569d74e7c513233389c691a9219bd2b9cc1689"},
+    {"name": "MAMO_EasyLP_fixed.jsonl", "rows": 642, "bytes": 701118, "sha256": "1f68e4cd6473cd0d09ff3a63c228da0c5427005096882fd29dd294fed36f9575"},
+    {"name": "MAMO_ComplexLP_fixed.jsonl", "rows": 203, "bytes": 357954, "sha256": "42b11d697c170582698d4c96b957f343df7a7a0fab1fa51765fe7a6e802fc699"},
+    {"name": "IndustryOR_fixedV2.json", "rows": 100, "bytes": 115295, "sha256": "756549264386d9c28f3bf15b442e4d45e345f809155f7c7951c9b7edfd25ee8b"},
+    {"name": "OptMATH_Bench_166.jsonl", "rows": 166, "bytes": 492277, "sha256": "7b38f66f1d42dd74b8dfaf6bc1e6f391fe76e5ec70214c42dd0244dbb6a2c351"},
+    {"name": "OptiBench.jsonl", "rows": 605, "bytes": 439990, "sha256": "ebc64041b7bd2316a8397279843d7ba9990337f76602691ddbc79d9d9e40c860"}
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "bounded-integer-v2",
+  "variables": [
+    {"name": "production", "lower": 0, "upper": 7},
+    {"name": "open_line", "lower": 0, "upper": 1},
+    {"name": "staffed", "lower": 0, "upper": 1}
+  ],
+  "objective": {"sense": "max", "linear": [3, -4, -1], "quadratic": []},
+  "constraints": [{"id": "capacity_if_open", "a": [1, -7, 0], "op": "le", "rhs": 0}],
+  "logic": [{"id": "open_requires_staff", "expr": {"op": "implies", "args": [{"var": 1}, {"var": 2}]}}]
+}

@@ -1,1 +1,2 @@
 scripts/server/*.sh text eol=lf
+tools/benchmarks/*.sh text eol=lf

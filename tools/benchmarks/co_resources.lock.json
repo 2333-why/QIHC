@@ -1,0 +1,9 @@
+{
+  "repositories": [
+    {"name":"NLCO","repo":"jing12e/nlco","revision":"79438eb01b3d14e23bc945fd6b31854048c1c6b4","status":"binary_subset_adapter"},
+    {"name":"CO-Bench","repo":"sunnweiwei/CO-Bench","revision":"2f6620ba5cc8d80d6fefc121b5ee2c4dcec29f33","status":"source_only_not_evaluated"},
+    {"name":"ReEvo","repo":"ai4co/reevo","revision":"6dce18257da5e11db2d138e417a2fffc5c72d05f","status":"blocked_generated_code_sandbox"},
+    {"name":"EoH","repo":"FeiLiu36/EoH","revision":"472545785c936dcfc863d2bc0d6109cf23c7ce62","status":"blocked_generated_code_sandbox"},
+    {"name":"LLMCoSolver","repo":"Summer142857/LLMCoSolver","revision":"f6388991d243c0aa91d9ee7e2fa18ed1c9e72477","status":"blocked_verified_checkpoint_and_task_adapter"}
+  ]
+}

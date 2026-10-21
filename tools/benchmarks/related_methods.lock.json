@@ -1,0 +1,14 @@
+{
+  "verified_on": "2026-10-22",
+  "repositories": [
+    {"name": "SIRL", "repo": "Cardinal-Operations/SIRL", "revision": "b329ff288e9240ecd41813fa41e7f003fd5ca47d", "status": "blocked_native_reproduction_requires_solver_license_and_code_sandbox"},
+    {"name": "ORLM", "repo": "Cardinal-Operations/ORLM", "revision": "33bc47d0a1d1710d24ab839118bdf4cb89b9e31b", "status": "blocked_native_reproduction_requires_COPT_and_code_sandbox"},
+    {"name": "OptiMUS", "repo": "teshnizi/OptiMUS", "revision": "59e8d99653459b40361f618eafdc91eee3a85ebb", "status": "reference_only_not_reproduced"},
+    {"name": "Chain-of-Experts", "repo": "xzymustbexzy/Chain-of-Experts", "revision": "afb89bf602690ea621f13a23c42722f20f653a43", "status": "reference_only_original_requires_API"}
+  ],
+  "models": [
+    {"repo": "Qwen/Qwen3-32B", "revision": "9216db5781bf21249d130ec9da846c4624c16137", "directory": "Qwen3-32B", "license": "apache-2.0", "default": true},
+    {"repo": "chenyitian-shanshu/SIRL-Gurobi32B", "revision": "78b9b642cffbec0f707d078f5270f2c678fe57c9", "license": "mit", "default": false, "reason": "Do not spend 64GB downloading an unlicensed native solver workflow"},
+    {"repo": "CardinalOperations/ORLM-LLaMA-3-8B", "revision": "94fdc3c5738c6536d4880dc19a78f215529181c5", "license": "llama3", "default": false, "reason": "Requires license review and COPT for native evaluation"}
+  ]
+}
