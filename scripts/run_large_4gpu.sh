@@ -26,4 +26,6 @@ exec > >(tee -a "$BASE/logs/large-four-gpu-$(date -u +%Y%m%dT%H%M%SZ)-$$.log") 2
 cd "$CODE"
 EXTRA=()
 if [[ -n "${QIHC_LARGE_RESUME:-}" ]]; then EXTRA+=(--output "$QIHC_LARGE_RESUME"); fi
+if [[ -n "${QIHC_EXTRA_DATA:-}" ]]; then EXTRA+=(--extra-data "$QIHC_EXTRA_DATA"); fi
+EXTRA+=(--train-seed "${QIHC_TRAIN_SEED:-42}")
 exec python scripts/large_model_pipeline.py run --base "$BASE" "${EXTRA[@]}"

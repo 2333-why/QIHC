@@ -36,7 +36,7 @@ def test_scoring_resume_and_summary(tmp_path, monkeypatch):
     assert len(calls) == 9
     summarize(tmp_path)
     summary = json.loads((tmp_path / "summary.json").read_text())
-    assert len(summary["metrics"]) == 4
+    assert len(summary["metrics"]) == 8
     assert all(r["completed_cases"] == 1 for r in summary["metrics"].values())
 
 
@@ -80,12 +80,13 @@ def test_full_orchestration_and_resume(tmp_path, monkeypatch):
     out = tmp_path / "run"
     p.run(SimpleNamespace(base=tmp_path, output=out))
     report = json.loads((out / "run.json").read_text())
-    assert report["status"] == "complete"
-    assert len(commands) == 19  # NCCL + 2 memory smokes + 4 training + 12 inference/scoring.
+    assert report["status"] == "gpu_complete_cpu_scoring_pending"
+    assert len(commands) == 13  # NCCL + 2 smokes + 4 training + 6 inference, NO CPU search.
+    assert not any("score" in c for c in commands)
     assert len([c for c in commands if "infer" in c]) == 6
     assert len([c for c in commands if "--nproc_per_node=4" in c]) == 7
     p.run(SimpleNamespace(base=tmp_path, output=out))
-    assert len(commands) == 19
+    assert len(commands) == 13
 
 
 def test_legacy_resume_requires_unchanged_dependencies(monkeypatch):
@@ -117,3 +118,38 @@ def test_prediction_checkpoint_valid_without_final_newline(tmp_path):
     path = tmp_path / "pred.jsonl"
     path.write_text(json.dumps(row))
     assert prediction_checkpoint(path) == [row]
+
+
+def test_cpu_scoring_skips_unfinished_gpu_stages(tmp_path, monkeypatch):
+    import scripts.large_model_pipeline as p
+    prepared = tmp_path / "artifacts/large32b"
+    prepared.mkdir(parents=True)
+    (prepared / "prepared.json").write_text(json.dumps({"source": "ok", "data": {}}))
+    out = tmp_path / "run"
+    out.mkdir()
+    state = {"prepared_sha256": p.digest(prepared / "prepared.json"), "stages": {
+        "modeling_base_infer": {"status": "complete"}, "modeling_sft_infer": {"status": "running"}}}
+    (out / "run.json").write_text(json.dumps(state))
+    before = (out / "run.json").read_bytes()
+    monkeypatch.setattr(p, "compatible_source", lambda s: True)
+    calls = []
+    monkeypatch.setattr(p, "score", lambda a: calls.append(a))
+    p.cpu_score(SimpleNamespace(base=tmp_path, output=out))
+    assert len(calls) == 1 and calls[0].arm == "modeling"
+    assert (out / "run.json").read_bytes() == before
+    cpu = json.loads((out / "cpu_run.json").read_text())
+    assert cpu["status"] == "partial_waiting_for_gpu"
+
+
+def test_extended_grid_evaluation_only(tmp_path):
+    import scripts.large_model_pipeline as p
+    out = tmp_path / "extended"
+    p.prepare_extra(SimpleNamespace(output=out))
+    rows = read_rows(out / "cases.jsonl")
+    assert len(rows) == 240
+    assert len({r["id"] for r in rows}) == 240
+    assert {r["size"] for r in rows} == {20, 32, 48, 64}
+    assert {r["split"] for r in rows} == {"test"}
+    assert {r["evaluation_group"] for r in rows} == {"single", "triple"}
+    with pytest.raises(FileExistsError):
+        p.prepare_extra(SimpleNamespace(output=out))

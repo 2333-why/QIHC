@@ -29,7 +29,7 @@ from scripts.generic_energy_pipeline import training_command, check_training_out
 REPO = "Qwen/Qwen3-32B"
 PACKAGES = ("torch", "transformers", "trl", "peft", "accelerate", "deepspeed", "datasets", "ortools")
 LEGACY_SOURCE = "350f8bf96923232b2acb1615848d19f640405264b2e213ae32c24d0114907dd3"
-LEGACY_NONRUNNER = "ee289c14a1a500de29b9b945896fe827d6f19f37d4417bff5b05c48109eb5fbe"
+LEGACY_NONRUNNER = "b219f844cd1665add2402ddad6fa411a3f879c0cf6b870a9495bf910e9a4ac47"
 
 
 def sources(exclude_runner=False):
@@ -37,7 +37,8 @@ def sources(exclude_runner=False):
                     for p in (ROOT / folder).rglob("*") if p.suffix in (".py", ".sh", ".json")})
     h = hashlib.sha256()
     for p in paths:
-        if exclude_runner and p.relative_to(ROOT).as_posix() == "scripts/large_model_pipeline.py":
+        if exclude_runner and p.relative_to(ROOT).as_posix() in (
+                "scripts/large_model_pipeline.py", "scripts/run_large_4gpu.sh", "scripts/score_large_cpu.sh"):
             continue
         h.update(p.relative_to(ROOT).as_posix().encode())
         h.update(p.read_bytes().replace(b"\r\n", b"\n"))
@@ -190,7 +191,9 @@ def score(a):
     if len(set(ids)) != len(ids) or set(ids) != {c["id"] for c in cases}:
         raise ValueError("Incomplete/duplicate prediction set")
     if a.arm == "direct":
-        write_rows(a.output, [{**r, "backend": "direct"} for r in evaluate_direct(cases, preds)])
+        group = {c["id"]: c.get("evaluation_group", "original") for c in cases}
+        write_rows(a.output, [{**r, "backend": "direct", "evaluation_group": group[r["case_id"]]}
+                              for r in evaluate_direct(cases, preds)])
         return
     predicted = {r["case_id"]: r["response"] for r in preds}
     rows = read_rows(a.output) if a.output.exists() else []
@@ -199,7 +202,8 @@ def score(a):
         if c["id"] in done:
             continue
         batch = []
-        common = {"case_id": c["id"], "split": c["split"], "size": c["size"]}
+        common = {"case_id": c["id"], "split": c["split"], "size": c["size"],
+                  "evaluation_group": c.get("evaluation_group", "original")}
         try:
             spec = parse(predicted[c["id"]])
             if spec["n"] != c["gold"]["n"]:
@@ -223,6 +227,81 @@ def score(a):
                     "search_seconds": time.perf_counter() - start})
         rows.extend(batch)
         write_rows(a.output, rows)  # Atomic complete-case checkpoint.
+        print(f"SCORED {c['id']} saved_rows={len(rows)}", flush=True)
+
+
+def prepare_extra(a):
+    """Evaluation-only, never mixed into training: size x rule composition grid."""
+    from itertools import combinations
+    from qihc.generic.compositional import make_case, RULES
+    a.output.mkdir(parents=True, exist_ok=False)
+    cases = []
+    rule_sets = [(r,) for r in RULES] + list(combinations(RULES, 3))
+    for n in (20, 32, 48, 64):
+        for rules in rule_sets:
+            for repeat in range(4):
+                c = make_case(n, 91000000 + len(cases), rules, "test")
+                c["evaluation_group"] = "single" if len(rules) == 1 else "triple"
+                cases.append(c)
+    write_rows(a.output / "cases.jsonl", cases)
+    atomic_json(a.output / "protocol.json", {"scope": "evaluation only; no training labels consumed",
+        "cases": len(cases), "sizes": [20, 32, 48, 64], "replicates": 4,
+        "sha256": digest(a.output / "cases.jsonl")})
+
+
+def cpu_score(a):
+    """One CPU snapshot of all completed prediction stages; never imports CUDA."""
+    prepared = a.base / "artifacts/large32b"
+    manifest = json.loads((prepared / "prepared.json").read_text())
+    if not compatible_source(manifest["source"]):
+        raise ValueError("Incompatible scoring source")
+    data = prepared / "data"
+    for name, checksum in manifest["data"].items():
+        if digest(data / name) != checksum:
+            raise ValueError(f"Changed prepared data: {name}")
+    out = a.output
+    report = json.loads((out / "run.json").read_text())
+    if report["prepared_sha256"] != digest(prepared / "prepared.json"):
+        raise ValueError("Run and prepared manifest mismatch")
+    cpu_path = out / "cpu_run.json"
+    state = {"status": "running", "stages": {}}
+    atomic_json(cpu_path, state)
+    try:
+        for arm in ("direct", "modeling"):
+            for label in ("base", "sft", "dpo"):
+                tag = f"{arm}_{label}"
+                if report["stages"].get(tag + "_infer", {}).get("status") != "complete":
+                    state["stages"][tag] = "waiting_for_gpu"
+                    continue
+                start = time.perf_counter()
+                score(SimpleNamespace(data=data, predictions=out / f"{tag}_predictions.jsonl",
+                                      output=out / f"{tag}_scores.jsonl", arm=arm))
+                state["stages"][tag] = "complete"
+                state.setdefault("seconds", {})[tag] = time.perf_counter() - start
+                atomic_json(cpu_path, state)
+                summarize(out)
+        if report.get("extra_data"):
+            extra = Path(report["extra_data"])
+            if digest(extra / "cases.jsonl") != report["extra_sha256"]:
+                raise ValueError("Extended evaluation data changed")
+            for arm in ("direct", "modeling"):
+                for label in ("base", "sft", "dpo"):
+                    tag = f"extra_{arm}_{label}"
+                    if report["stages"].get(tag + "_infer", {}).get("status") != "complete":
+                        state["stages"][tag] = "waiting_for_gpu"
+                        continue
+                    score(SimpleNamespace(data=extra, predictions=out / f"{tag}_predictions.jsonl",
+                                          output=out / f"{tag}_scores.jsonl", arm=arm))
+                    state["stages"][tag] = "complete"
+                    atomic_json(cpu_path, state)
+                    summarize(out)
+        state["status"] = "complete" if all(v == "complete" for v in state["stages"].values()) else "partial_waiting_for_gpu"
+    except BaseException as exc:
+        state.update(status="failed", error=repr(exc))
+        raise
+    finally:
+        atomic_json(cpu_path, state)
+        summarize(out)
 
 
 def run(a):
@@ -253,6 +332,29 @@ def run(a):
         "prepared_sha256": digest(prepared / "prepared.json"), "stages": {}, "status": "running"}
     if report["prepared_sha256"] != digest(prepared / "prepared.json"):
         raise RuntimeError("Cannot resume with different preparation")
+    seed = getattr(a, "train_seed", 42)
+    if statepath.exists() and report.get("train_seed", 42) != seed:
+        raise ValueError("Different training seed requires a NEW output directory")
+    report["train_seed"] = seed
+    for name, stage in report["stages"].items():
+        if name.endswith("_score") and stage.get("status") != "complete":
+            stage["status"] = "deferred_to_cpu"
+    extra = getattr(a, "extra_data", None)
+    if extra:
+        extra = extra.resolve()
+        extra_cases = read_rows(extra / "cases.jsonl")
+        if any(c["split"] != "test" for c in extra_cases):
+            raise ValueError("Extended data must be evaluation-only")
+        if {c["id"] for c in extra_cases} & {c["id"] for c in read_rows(data / "cases.jsonl")}:
+            raise ValueError("Extended cases overlap original cases")
+        checksum = digest(extra / "cases.jsonl")
+        if report.get("extra_sha256", checksum) != checksum:
+            raise ValueError("Extended protocol changed during resume")
+        report.update(extra_data=str(extra), extra_sha256=checksum)
+    elif report.get("extra_data"):
+        extra = Path(report["extra_data"])
+        if digest(extra / "cases.jsonl") != report["extra_sha256"]:
+            raise ValueError("Extended protocol changed")
     report.update(status="running", active_source=sources(),
                   resumed_at=datetime.now(timezone.utc).isoformat())
     report.pop("error", None)
@@ -298,6 +400,7 @@ def run(a):
         source = data / (f"smoke_{stage}.jsonl" if arm == "smoke" else f"{arm}_{stage}.jsonl")
         cmd = training_command(model, source, target, stage, steps, 4, adapter)
         cmd[cmd.index("--max-length") + 1] = "8192"
+        cmd += ["--seed", str(seed)]
         if target.exists():
             cmd += ["--resume"]
         launch(label, cmd)
@@ -310,8 +413,13 @@ def run(a):
         if adapter:
             cmd += ["--adapter", str(adapter)]
         launch(label + "_infer", cmd)
-        launch(label + "_score", [sys.executable, __file__, "score", "--data", str(data),
-            "--predictions", str(prediction), "--output", str(out / f"{label}_scores.jsonl"), "--arm", arm])
+        # CPU search is deliberately absent from GPU jobs; it triggers idle-GPU recycling.
+        if extra:
+            extra_cmd = [sys.executable, __file__, "infer", "--model", model, "--data", str(extra),
+                         "--output", str(out / f"extra_{label}_predictions.jsonl"), "--arm", arm]
+            if adapter:
+                extra_cmd += ["--adapter", str(adapter)]
+            launch("extra_" + label + "_infer", extra_cmd)
     try:
         launch("nccl", [sys.executable, "-m", "torch.distributed.run", "--standalone", "--nproc_per_node=4",
             "experiments/server_readiness.py", "distributed-smoke", "--deepspeed-config",
@@ -324,14 +432,14 @@ def run(a):
             evaluation(f"{arm}_sft", arm, sft)
             dpo = train(f"{arm}_dpo", arm, "dpo", 128, sft)
             evaluation(f"{arm}_dpo", arm, dpo)
-        report["status"] = "complete"
+        report["status"] = "gpu_complete_cpu_scoring_pending"
     except BaseException as exc:
         report.update(status="failed", error=repr(exc))
         print(f"FAILED. Logs and resume directory: {out}", flush=True)
         raise
     finally:
         atomic_json(statepath, report)
-        summarize(out)
+        # CPU scorer owns summary.json; avoid concurrent writers.
         print(f"Results: {out}", flush=True)
 
 
@@ -349,6 +457,26 @@ def summarize(out):
                 "completed_cases": len(cases),
                 "valid_rate": sum(all(r["valid"] for r in rs) for rs in cases.values()) / len(cases),
                 "feasible_rate": sum(sum(r["feasible"] for r in rs) / len(rs) for rs in cases.values()) / len(cases)}
+        for size in sorted({r["size"] for r in rows}):
+            subset = [r for r in rows if r["size"] == size]
+            for backend in sorted({r["backend"] for r in subset}):
+                cs = {}
+                for r in subset:
+                    if r["backend"] == backend and r["split"] == "test":
+                        cs.setdefault(r["case_id"], []).append(r)
+                if cs:
+                    summary[f"{file.stem}/{backend}/test/n={size}"] = {"completed_cases": len(cs),
+                        "feasible_rate": sum(sum(r["feasible"] for r in rs)/len(rs) for rs in cs.values())/len(cs)}
+        for group in ("single", "triple"):
+            for size in sorted({r["size"] for r in rows}):
+                for backend in sorted({r["backend"] for r in rows}):
+                    cs = {}
+                    for r in rows:
+                        if r.get("evaluation_group") == group and r["size"] == size and r["backend"] == backend:
+                            cs.setdefault(r["case_id"], []).append(r)
+                    if cs:
+                        summary[f"{file.stem}/{backend}/{group}/n={size}"] = {"completed_cases": len(cs),
+                            "feasible_rate": sum(sum(r["feasible"] for r in rs)/len(rs) for rs in cs.values())/len(cs)}
     atomic_json(out / "summary.json", {"metrics": summary,
         "warning": "Partial files are partial results. See run.json for completeness. Costs in prediction/stage logs; raw objectives require paired-case comparison."})
 
@@ -356,11 +484,16 @@ def summarize(out):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     sub = p.add_subparsers(dest="stage", required=True)
-    for stage in ("prepare", "run"):
+    for stage in ("prepare", "run", "cpu-score"):
         s = sub.add_parser(stage)
         s.add_argument("--base", type=Path, required=True)
         s.add_argument("--count", type=int, default=240)
         s.add_argument("--output", type=Path)
+        if stage == "run":
+            s.add_argument("--extra-data", type=Path)
+            s.add_argument("--train-seed", type=int, default=42)
+    s = sub.add_parser("prepare-extra")
+    s.add_argument("--output", type=Path, required=True)
     for stage in ("infer", "score"):
         s = sub.add_parser(stage)
         s.add_argument("--data", type=Path, required=True)
@@ -372,21 +505,23 @@ def main():
         else:
             s.add_argument("--predictions", type=Path, required=True)
     a = p.parse_args()
-    if a.stage == "run":
+    if a.stage in ("run", "cpu-score"):
         import fcntl
         import signal
         def terminate(signum, frame):
             raise SystemExit(f"Platform signal {signum}; resume the same output directory")
         signal.signal(signal.SIGTERM, terminate)
-        lockpath = a.base / "artifacts/large32b/run.lock"
+        if a.stage == "cpu-score" and not a.output:
+            p.error("cpu-score requires --output existing run directory")
+        lockpath = (a.base / "artifacts/large32b/run.lock" if a.stage == "run" else a.output / "cpu-score.lock")
         with lockpath.open("a") as lock:
             try:
                 fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
             except BlockingIOError:
                 raise SystemExit("Another large32b run is active; do not start duplicate workers")
-            run(a)
+            (run if a.stage == "run" else cpu_score)(a)
     else:
-        {"prepare": prepare, "infer": infer, "score": score}[a.stage](a)
+        {"prepare": prepare, "infer": infer, "score": score, "prepare-extra": prepare_extra}[a.stage](a)
 
 
 if __name__ == "__main__":
