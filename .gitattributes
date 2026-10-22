@@ -1,2 +1,3 @@
 scripts/server/*.sh text eol=lf
 tools/benchmarks/*.sh text eol=lf
+tools/runtime/distribution_job/*.sh text eol=lf
