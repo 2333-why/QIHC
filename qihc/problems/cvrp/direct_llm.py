@@ -26,7 +26,7 @@ class LocalDirectLLMGenerator:
         except ImportError as exc:  # pragma: no cover - optional dependency
             raise RuntimeError("Direct local LLM solving requires torch and transformers") from exc
         self.torch = torch
-        sharded = device == "auto"
+        sharded = device in ("auto", "balanced")
         self.device = "cuda:0" if sharded else device
         self.temperature = float(temperature)
         self.max_new_tokens = int(max_new_tokens)
@@ -35,7 +35,7 @@ class LocalDirectLLMGenerator:
         dtype = torch.bfloat16 if sharded or device.startswith("cuda") else torch.float32
         load_kwargs = {"local_files_only": True, "torch_dtype": dtype, "low_cpu_mem_usage": True}
         if sharded:
-            load_kwargs.update(device_map="auto", attn_implementation="sdpa",
+            load_kwargs.update(device_map=device, attn_implementation="sdpa",
                                max_memory={i: int(torch.cuda.mem_get_info(i)[0] * .8)
                                            for i in range(torch.cuda.device_count())})
         elif device.startswith("cuda"):

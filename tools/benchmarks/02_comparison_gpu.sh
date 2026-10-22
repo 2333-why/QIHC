@@ -20,4 +20,7 @@ exec > >(tee -a "$BASE/logs/comparison-gpu-$(date -u +%Y%m%dT%H%M%SZ)-$$.log") 2
 cd "$CODE"
 [[ -f "$RUN/manifest.json" ]] || { echo 'CPU preparation not complete'; exit 2; }
 "$ENV_PREFIX/bin/python" -c 'import torch; assert torch.cuda.is_available(), "CUDA unavailable"; print("Visible GPUs:", torch.cuda.device_count())'
+if [[ "${QIHC_PARALLEL_INFERENCE:-0}" == 1 ]]; then
+  exec "$ENV_PREFIX/bin/python" tools/benchmarks/parallel_inference.py launch --run "$RUN" --replicas "${QIHC_INFERENCE_REPLICAS:-2}" --batch-size "${QIHC_INFERENCE_BATCH:-4}" --idle-exit 45
+fi
 exec "$ENV_PREFIX/bin/python" tools/benchmarks/comparison.py gpu --run "$RUN" --idle-exit 45
