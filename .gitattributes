@@ -2,3 +2,4 @@ scripts/server/*.sh text eol=lf
 tools/benchmarks/*.sh text eol=lf
 tools/runtime/distribution_job/*.sh text eol=lf
 tools/runtime/modeling_v2/*.sh text eol=lf
+tools/runtime/modeling_v3/*.sh text eol=lf
