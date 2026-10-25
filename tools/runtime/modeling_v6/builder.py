@@ -8,7 +8,8 @@ import json
 import math
 
 from .protocol import compile_math, inspect
-from tools.runtime.modeling_v5.sources import catalog, expand
+from tools.runtime.modeling_v5.sources import expand
+from .source_view import render_catalog
 
 MAX_REQUIREMENTS = 64
 MAX_CHUNKS = 4
@@ -42,7 +43,7 @@ A constraint entry may be {"forall_rows":{"source":"dID","id_prefix":"c","terms"
 These are syntax examples, not suggested formulas. Use references instead of copying numbers.
 Max 256 variables, 512 expanded constraints, integer magnitude <=10000; no invented bounds.
 If unsupported, return {"unsupported":"specific reason"}. No prose outside JSON.
-''' + '\nORIGINAL QUESTION:\n'+question+'\nPUBLIC VARIABLE LAYOUT (same assistance for every frontend):\n'+dump(names)+ '\nSOURCE CATALOG:\n'+dump(catalog(question))
+''' + '\nORIGINAL QUESTION:\n'+question+'\nPUBLIC VARIABLE LAYOUT (same assistance for every frontend):\n'+dump(names)+ '\nSOURCE CATALOG:\n'+render_catalog(question)
 
 
 def requirement(row):

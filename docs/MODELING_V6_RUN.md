@@ -15,6 +15,14 @@ bash tools/runtime/modeling_v6/00_prepare_format.sh
 已装 v5 的小型格式依赖时直接复用，不升级环境或下载模型。没有时只安装固定版本 `lm-format-enforcer==0.11.3` 和 `interegular==0.3.3`，默认清华源。
 CPU 用本地真实 tokenizer 检查五种输出 schema 与两类初始提示长度，不加载模型权重。
 
+若初始提示曾在 `vertex_cover-40-20261026` 超过 32768 tokens，原因是旧提示把每个数值的
+哈希和重复上下文也交给了模型。修复版统一使用紧凑引用目录，保留每个引用 ID、类型、原文位置、
+JSON 路径和精确数值；原题不截断，完整哈希仍由原有解析器保存和审计。不改变编译语义或 token 上限。
+预检测量两类建模的真实首轮提示（含 PLAN 指令），打印各类最大长度与所有超限项。
+本地用 Qwen3-32B tokenizer 检查已归档的 300 题共 600 个首轮提示，最大 10949 tokens；
+上述失败题的一次建模提示由 34153 降至 6987 tokens。此结果仅验证输入长度，后续生成、语义质量与搜索
+仍需 GPU 验收；动态反馈提示仍执行原有超限检查，不会静默裁剪。
+
 若旧版本准备脚本出现 `cannot import name 'PreTrainedTokenizerBase'`，紧接着提示
 `transformers is not installed`，这是 LM Format Enforcer 0.11.3 的旧 Transformers 适配器误报。
 修复版通过 `token_bridge.py` 将同一个 TokenEnforcer 核心接到公开的 `prefix_allowed_tokens_fn` 接口，
