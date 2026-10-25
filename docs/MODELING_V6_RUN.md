@@ -15,6 +15,15 @@ bash tools/runtime/modeling_v6/00_prepare_format.sh
 已装 v5 的小型格式依赖时直接复用，不升级环境或下载模型。没有时只安装固定版本 `lm-format-enforcer==0.11.3` 和 `interegular==0.3.3`，默认清华源。
 CPU 用本地真实 tokenizer 检查五种输出 schema 与两类初始提示长度，不加载模型权重。
 
+若旧版本准备脚本出现 `cannot import name 'PreTrainedTokenizerBase'`，紧接着提示
+`transformers is not installed`，这是 LM Format Enforcer 0.11.3 的旧 Transformers 适配器误报。
+修复版通过 `token_bridge.py` 将同一个 TokenEnforcer 核心接到公开的 `prefix_allowed_tokens_fn` 接口，
+不再导入旧适配器，不修改已安装的 Transformers/Torch，也不禁用格式约束。
+准备脚本会打印实际使用的项目 Python 路径和依赖版本；不要在 `/etc/inspire` 环境用裸 `pip` 重装 Transformers。
+CPU 准备失败后保留的 `.format-v6-*` 临时目录不影响再次执行准备脚本，不需要重新下载模型。
+兼容回归包含 Transformers 5.13.0 的真实 tokenizer、五种 schema 过滤与随机初始化小模型的批量生成；
+这验证的是接口连接，不是 Qwen 权重或 H100 实验效果。
+
 1 worker、4 H100、80 核 CPU 的任务启动命令：
 
 ```bash

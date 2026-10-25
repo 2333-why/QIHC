@@ -4,7 +4,7 @@ import json
 import os
 from pathlib import Path
 from types import SimpleNamespace
-from .formatting import check_dependencies, prefix_function
+from .formatting import check_runtime, prefix_function
 from .experiment import initial_prompt, initial_phases, ARMS
 
 
@@ -13,7 +13,7 @@ def main():
     cli=argparse.ArgumentParser(description=__doc__)
     cli.add_argument('--source',type=Path,default=Path(os.environ.get('QIHC_DISTRIBUTION_SOURCE',str(base/'results/co_comparison_v1'))))
     args=cli.parse_args()
-    check_dependencies()
+    print(json.dumps(check_runtime()),flush=True)
     manifest=json.loads((args.source/'manifest.json').read_text())
     model=Path(manifest['settings']['model'])
     from transformers import AutoTokenizer

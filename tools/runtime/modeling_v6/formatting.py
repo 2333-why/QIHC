@@ -11,6 +11,20 @@ def check_dependencies():
     import pydantic, yaml, packaging  # noqa: F401
 
 
+def check_runtime():
+    """Check the exact public API used by this runtime; load no model weights."""
+    check_dependencies()
+    import sys
+    import torch
+    import transformers
+    from transformers import AutoTokenizer, StoppingCriteria, StoppingCriteriaList  # noqa: F401
+    from .token_bridge import PrefixFilter, build_tokenizer_data  # noqa: F401
+    parser()
+    return {'python':sys.executable,'transformers':transformers.__version__,
+            'torch':torch.__version__,'format_bridge':'qihc-lmfe-core-public-prefix-api',
+            'weights_loaded':False}
+
+
 def schema():
     array = {'type':'array','items':{},'maxItems':16384}
     object_ = {'type':'object'}
@@ -60,14 +74,13 @@ def restore_parser_limits(enforcer):
 
 def prefix_function(generator, prompt_width=0, kind='flat'):
     check_dependencies()
-    from lmformatenforcer.integrations.transformers import (
-        build_token_enforcer_tokenizer_data, build_transformers_prefix_allowed_tokens_fn)
-    if not hasattr(generator,'_v5_tokenizer_data'):
-        generator._v5_tokenizer_data = build_token_enforcer_tokenizer_data(generator.tokenizer)
-    fn = build_transformers_prefix_allowed_tokens_fn(generator._v5_tokenizer_data,parser(kind))
+    from .token_bridge import build_tokenizer_data, PrefixFilter
+    if not hasattr(generator,'_v6_tokenizer_data'):
+        generator._v6_tokenizer_data = build_tokenizer_data(generator.tokenizer)
+    fn = PrefixFilter(generator._v6_tokenizer_data,parser(kind),prompt_width)
     # TokenEnforcer rebuilds the parser config to install the tokenizer alphabet.
     # Restore the explicit nested-array limit after that reset, without losing alphabet.
     restore_parser_limits(fn.token_enforcer)
     # Grammar state depends only on generated JSON, not the long source prompt.
     # All batch rows use the same schema; equal output prefixes can share states.
-    return (lambda batch_id,sent: fn(batch_id,sent[prompt_width:])) if prompt_width else fn
+    return fn
