@@ -1,0 +1,9 @@
+---
+description: 为每轮 QIHC 实验建立独立文档目录并持续记录设置与结果
+alwaysApply: true
+---
+
+执行项目根目录 `AGENTS.md` 中的实验记录约定：每轮实验在
+`docs/experiments/YYYYMMDD_实验名称_版本或run-id/record.md` 单独建档，
+从准备阶段记录设置和命令，运行后追加结果、错误和结论，并更新索引。
+模板为 `docs/experiments/TEMPLATE.md`；保留旧结果，未完成的实验不得写成完成。

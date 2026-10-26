@@ -1,0 +1,17 @@
+{
+  "experiment": "prompt_efficiency_v1",
+  "arms": ["legacy_flat", "concise_flat", "legacy_staged", "concise_staged", "semantic_staged"],
+  "seeds": [0, 1, 2],
+  "chains": 16,
+  "budget": 8192,
+  "solver_seconds": 5.0,
+  "total_output_tokens": 16384,
+  "thinking": false,
+  "feedback": "none",
+  "selection": "fixed",
+  "replicas": 2,
+  "batch_size": 2,
+  "cpu_workers": 32,
+  "max_idle_seconds": 900,
+  "generation_watchdog_seconds": 5400
+}

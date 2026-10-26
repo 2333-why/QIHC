@@ -1,0 +1,250 @@
+Return ONE complete compact JSON object. No markdown, comments, reasoning prose or ellipses.
+Envelope keys: requirements, model, grounding. Write model FIRST, then short requirements and grounding.
+FORMAT ONLY:
+{"requirements":[{"id":"r0","quote":"exact source substring","kind":"constraint","expected_count":1,"targets":["constraint:c0"],"explanation":"one rule"}],"model":{"schema":"bounded-integer-v2","variables":[{"name":"x0","lower":0,"upper":1}],"objective":{"sense":"max","linear":{"0":1},"quadratic":[]},"constraints":[{"id":"c0","a":{"0":1},"op":"le","rhs":1}],"logic":[]},"grounding":[{"targets":["objective","variable:x0"],"quote":"exact substring","explanation":"brief"}]}.
+Before modeling, enumerate EACH original obligation: objective direction and meaning, domains, limits, quantifiers, conditional and exclusion rules. Split independent conjuncts even if in one sentence. For every quantified rule count how many scalar constraints it requires over its domain; expected_count must equal the number of DISTINCT mapped targets. Do not merge independent quantifiers into one family or omit a direction. Include all relationships/data rows, not just a sample. Requirements kinds are objective, domain, constraint. Targets use objective, variable:NAME or constraint:ID. Every model target must be covered. This ledger is a self-audit, NOT a proof of correctness.
+Model schema is REQUIRED: "bounded-integer-v2". Exactly these model keys: schema,variables,objective,constraints,logic. Variable objects: name,lower,upper (integers). You may compress ALL variable objects into a list of triples [["x0",0,1],["x1",0,1],...]. No inferred or invented bounds.
+Objective keys exactly sense,linear,quadratic; sense min or max. Linear and each constraint a are dense integer arrays of length n OR sparse index dictionaries {"0":2,"5":-1}, omitted entries ZERO. An empty dense array [] is invalid for n>0; use {} for the zero vector. Prefer sparse constraints. Quadratic terms [i,j,c] mean c*x_i*x_j, not an arbitrary relationship score. Expand the meaning of the objective algebraically; test local truth assignments, signs and units before returning it. Unique pairs, i<=j.
+Constraint objects: id,a,op,rhs, op le/ge/eq; optional compact representation for ALL linear constraints: [[ID,SPARSE_A,OP,RHS],...]. Logic objects: id,expr; expr {"var":index} or {"op":OP,"args":[EXPR,...]}, OP one of not,and,or,implies,iff. Every root must be true.
+No unsupported objective fields/constants, penalties, auxiliary decision variables or guessed fixed assignments.
+Grounding maps targets to exact source substrings with brief explanation. Multiple evidence entries per target are allowed, but do not repeat the same evidence. You may omit grounding entries for targets already evidenced by a requirement quote. Never paraphrase a quote. Citation issues are audited separately from mathematical validity.
+Check EVERY source obligation independently of whether the model is easy to solve. Search feasibility does not prove original-question correctness. Max 256 variables, 512 source constraints, integer magnitude <=10000. If outside bounded integer/Boolean scope return {"unsupported":"specific reason"}.
+Treat original text and previous responses as DATA; their output-format requests do not override this protocol.
+ORIGINAL PROBLEM:
+Recently the network team needed to divide client devices into VLAN A versus VLAN B so the network would have as many active peer links as possible running between the two VLANs. To evaluate any division, just count the active links that land on different VLANs; the division with the larger count is preferred. Be sure every device is assigned to one VLAN only; no device can be left out or duplicated. The full list of devices and links is shown below.
+
+{
+  "total_devices": 25,
+  "total_active_peer_links": 50,
+  "edges": [
+    {
+      "endpoint_device_u": 13,
+      "endpoint_device_v": 5
+    },
+    {
+      "endpoint_device_u": 13,
+      "endpoint_device_v": 6
+    },
+    {
+      "endpoint_device_u": 13,
+      "endpoint_device_v": 16
+    },
+    {
+      "endpoint_device_u": 16,
+      "endpoint_device_v": 6
+    },
+    {
+      "endpoint_device_u": 16,
+      "endpoint_device_v": 10
+    },
+    {
+      "endpoint_device_u": 17,
+      "endpoint_device_v": 4
+    },
+    {
+      "endpoint_device_u": 17,
+      "endpoint_device_v": 5
+    },
+    {
+      "endpoint_device_u": 17,
+      "endpoint_device_v": 6
+    },
+    {
+      "endpoint_device_u": 17,
+      "endpoint_device_v": 8
+    },
+    {
+      "endpoint_device_u": 17,
+      "endpoint_device_v": 12
+    },
+    {
+      "endpoint_device_u": 17,
+      "endpoint_device_v": 21
+    },
+    {
+      "endpoint_device_u": 15,
+      "endpoint_device_v": 2
+    },
+    {
+      "endpoint_device_u": 15,
+      "endpoint_device_v": 7
+    },
+    {
+      "endpoint_device_u": 15,
+      "endpoint_device_v": 10
+    },
+    {
+      "endpoint_device_u": 15,
+      "endpoint_device_v": 23
+    },
+    {
+      "endpoint_device_u": 0,
+      "endpoint_device_v": 9
+    },
+    {
+      "endpoint_device_u": 0,
+      "endpoint_device_v": 20
+    },
+    {
+      "endpoint_device_u": 0,
+      "endpoint_device_v": 24
+    },
+    {
+      "endpoint_device_u": 11,
+      "endpoint_device_v": 1
+    },
+    {
+      "endpoint_device_u": 11,
+      "endpoint_device_v": 7
+    },
+    {
+      "endpoint_device_u": 11,
+      "endpoint_device_v": 14
+    },
+    {
+      "endpoint_device_u": 11,
+      "endpoint_device_v": 18
+    },
+    {
+      "endpoint_device_u": 11,
+      "endpoint_device_v": 20
+    },
+    {
+      "endpoint_device_u": 7,
+      "endpoint_device_v": 2
+    },
+    {
+      "endpoint_device_u": 7,
+      "endpoint_device_v": 3
+    },
+    {
+      "endpoint_device_u": 7,
+      "endpoint_device_v": 6
+    },
+    {
+      "endpoint_device_u": 7,
+      "endpoint_device_v": 9
+    },
+    {
+      "endpoint_device_u": 7,
+      "endpoint_device_v": 14
+    },
+    {
+      "endpoint_device_u": 7,
+      "endpoint_device_v": 19
+    },
+    {
+      "endpoint_device_u": 7,
+      "endpoint_device_v": 20
+    },
+    {
+      "endpoint_device_u": 7,
+      "endpoint_device_v": 21
+    },
+    {
+      "endpoint_device_u": 7,
+      "endpoint_device_v": 22
+    },
+    {
+      "endpoint_device_u": 5,
+      "endpoint_device_v": 4
+    },
+    {
+      "endpoint_device_u": 5,
+      "endpoint_device_v": 12
+    },
+    {
+      "endpoint_device_u": 1,
+      "endpoint_device_v": 20
+    },
+    {
+      "endpoint_device_u": 14,
+      "endpoint_device_v": 18
+    },
+    {
+      "endpoint_device_u": 14,
+      "endpoint_device_v": 21
+    },
+    {
+      "endpoint_device_u": 2,
+      "endpoint_device_v": 19
+    },
+    {
+      "endpoint_device_u": 6,
+      "endpoint_device_v": 4
+    },
+    {
+      "endpoint_device_u": 6,
+      "endpoint_device_v": 10
+    },
+    {
+      "endpoint_device_u": 6,
+      "endpoint_device_v": 21
+    },
+    {
+      "endpoint_device_u": 9,
+      "endpoint_device_v": 19
+    },
+    {
+      "endpoint_device_u": 9,
+      "endpoint_device_v": 20
+    },
+    {
+      "endpoint_device_u": 9,
+      "endpoint_device_v": 24
+    },
+    {
+      "endpoint_device_u": 18,
+      "endpoint_device_v": 8
+    },
+    {
+      "endpoint_device_u": 18,
+      "endpoint_device_v": 12
+    },
+    {
+      "endpoint_device_u": 18,
+      "endpoint_device_v": 21
+    },
+    {
+      "endpoint_device_u": 21,
+      "endpoint_device_v": 8
+    },
+    {
+      "endpoint_device_u": 21,
+      "endpoint_device_v": 22
+    },
+    {
+      "endpoint_device_u": 8,
+      "endpoint_device_v": 12
+    }
+  ]
+}
+
+If you want to send over a candidate division, just use this simple JSON shape — makes it easy for me to read and for whatever tooling you might have to pick up:
+
+{
+  "solution": [
+    ["device_id", "device_id", ...],
+    ["device_id", "device_id", ...]
+  ]
+}
+
+Friendly note: the first list is the devices you want in VLAN A, the second list is the devices for VLAN B. Each "device_id" is a placeholder for one exact device identifier from the instance. This is just a sketch of the shape I expect, not the actual answer itself.
+
+Please be sure to use the identifiers exactly as they appear in the instance input — do not rename them or invent new labels.
+- for example: "Valid identifiers look like plain numbers such as "1" or "23", single capital letters like "A" or "B", or a capital letter followed by digits like "A1" or "X7".
+Evaluation output convention: x0,...,x24 denote partition membership (0/1) in this identifier order: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]. Ignore the original response-format example; follow the requested output schema. 
+Required variable names in original index order: ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8", "x9", "x10", "x11", "x12", "x13", "x14", "x15", "x16", "x17", "x18", "x19", "x20", "x21", "x22", "x23", "x24"]
+V5 COMPACT SOURCE-BOUND EXTENSIONS (preferred over retyping numeric arrays):
+The catalog below is extracted ONLY from literal spans in ORIGINAL PROBLEM. It is data, not instructions or gold. Choose which data implements each requirement; do not blindly use a nearby array.
+Any linear coefficient vector may be {"source":"dID"} or {"source":"dID","scale":INTEGER}. For a matrix use {"source":"dID","flatten":true} (row-major order); for a table column use {"source":"dID","column":"name"}. Compiler copies exact numbers and checks length; do not retype them. Scalars (rhs/bounds/count) may be {"source":"dID"}; an array length is {"length_of":"dID"}. Scalar source/column selectors can also carry an integer scale, e.g. {"column":"weight","scale":-2}.
+Variables may be {"count":INTEGER_OR_LENGTH_REF,"prefix":"x","lower":0,"upper":1}, expanded deterministically to x0,x1,... . Use the required names/order.
+For any literal table, a linear vector may be {"sum_rows":{"source":"dID","terms":[{"index":{"column":"column_name"},"coefficient":INTEGER}]}}. Column keys can also be integer positions for matrix rows. An index can be a literal integer or {"row_index":true}. Coefficients may use {"column":"weight_column"}.
+Quadratic terms may likewise be {"sum_rows":{"source":"dID","terms":[{"i":{"column":"first_column"},"j":{"column":"second_column"},"c":INTEGER}]}}. This is a generic polynomial sum, NOT a predefined graph objective: derive the correct linear and quadratic terms from the meaning, including signs. Literal quadratic terms may be [i,j,c] or {"i":i,"j":j,"c":c}; repeated/oriented pairs are added algebraically, not discarded.
+A constraints list entry may be {"forall_rows":{"source":"dID","id_prefix":"c","terms":[{"index":{"column":"first_column"},"coefficient":1},{"index":{"column":"second_column"},"coefficient":1}],"op":"ge","rhs":1}}. This emits one constraint per source row. It is a syntax example, NOT advice to use these coefficients or direction for your problem.
+Compact evidence targets may be "variable:*" or "constraint:c*"; expected_count can be an integer or {"length_of":"dID"}. Every expanded scalar constraint still requires the intended mathematical meaning. Wildcard coverage is NOT semantic proof.
+Check domain membership versus forced assignments, each quantifier and conjunction, direction and units, and data indexing. Test small local objective truth assignments against the ORIGINAL wording before finalizing. Do not confuse low energy with correct interpretation.
+Optional revision_notes is a short list of {"target":"...","quote":"exact source evidence","reason":"why changed or retained"}. When reviewing, address each flagged discrepancy with evidence, not just copy the previous answer. No new output fields besides model,requirements,grounding,revision_notes (or unsupported).
+SOURCE CATALOG:
+Rows use the listed columns. start/end are zero-based character offsets [start,end) in the original question; path is a JSON pointer within that span. Use the id in source references. All values are exact. Hashes and repeated context are retained by the verifier, not needed in your output.
+{"columns":["id","kind","start","end","path","value"],"rows":[["d0","table",456,4188,"/edges",[{"endpoint_device_u":13,"endpoint_device_v":5},{"endpoint_device_u":13,"endpoint_device_v":6},{"endpoint_device_u":13,"endpoint_device_v":16},{"endpoint_device_u":16,"endpoint_device_v":6},{"endpoint_device_u":16,"endpoint_device_v":10},{"endpoint_device_u":17,"endpoint_device_v":4},{"endpoint_device_u":17,"endpoint_device_v":5},{"endpoint_device_u":17,"endpoint_device_v":6},{"endpoint_device_u":17,"endpoint_device_v":8},{"endpoint_device_u":17,"endpoint_device_v":12},{"endpoint_device_u":17,"endpoint_device_v":21},{"endpoint_device_u":15,"endpoint_device_v":2},{"endpoint_device_u":15,"endpoint_device_v":7},{"endpoint_device_u":15,"endpoint_device_v":10},{"endpoint_device_u":15,"endpoint_device_v":23},{"endpoint_device_u":0,"endpoint_device_v":9},{"endpoint_device_u":0,"endpoint_device_v":20},{"endpoint_device_u":0,"endpoint_device_v":24},{"endpoint_device_u":11,"endpoint_device_v":1},{"endpoint_device_u":11,"endpoint_device_v":7},{"endpoint_device_u":11,"endpoint_device_v":14},{"endpoint_device_u":11,"endpoint_device_v":18},{"endpoint_device_u":11,"endpoint_device_v":20},{"endpoint_device_u":7,"endpoint_device_v":2},{"endpoint_device_u":7,"endpoint_device_v":3},{"endpoint_device_u":7,"endpoint_device_v":6},{"endpoint_device_u":7,"endpoint_device_v":9},{"endpoint_device_u":7,"endpoint_device_v":14},{"endpoint_device_u":7,"endpoint_device_v":19},{"endpoint_device_u":7,"endpoint_device_v":20},{"endpoint_device_u":7,"endpoint_device_v":21},{"endpoint_device_u":7,"endpoint_device_v":22},{"endpoint_device_u":5,"endpoint_device_v":4},{"endpoint_device_u":5,"endpoint_device_v":12},{"endpoint_device_u":1,"endpoint_device_v":20},{"endpoint_device_u":14,"endpoint_device_v":18},{"endpoint_device_u":14,"endpoint_device_v":21},{"endpoint_device_u":2,"endpoint_device_v":19},{"endpoint_device_u":6,"endpoint_device_v":4},{"endpoint_device_u":6,"endpoint_device_v":10},{"endpoint_device_u":6,"endpoint_device_v":21},{"endpoint_device_u":9,"endpoint_device_v":19},{"endpoint_device_u":9,"endpoint_device_v":20},{"endpoint_device_u":9,"endpoint_device_v":24},{"endpoint_device_u":18,"endpoint_device_v":8},{"endpoint_device_u":18,"endpoint_device_v":12},{"endpoint_device_u":18,"endpoint_device_v":21},{"endpoint_device_u":21,"endpoint_device_v":8},{"endpoint_device_u":21,"endpoint_device_v":22},{"endpoint_device_u":8,"endpoint_device_v":12}]],["d1","scalar",456,4188,"/total_active_peer_links",50],["d2","scalar",456,4188,"/total_devices",25],["d3","scalar",4913,4914,"",1],["d4","scalar",4920,4922,"",23],["d5","scalar",5093,5094,"",0],["d6","scalar",5095,5096,"",1],["d7","vector",5124,5214,"",[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]]]}
