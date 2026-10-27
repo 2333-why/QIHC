@@ -1,0 +1,3052 @@
+{
+  "archive_sha256": "083bd7a054087de540d902895308706a66736c1ac62b49340794e0809bdc73a2",
+  "code_commit": "4fd79366dd5a99fea966a0bcd008055daa9bd534",
+  "replayed_requests": 40,
+  "step_finish_counts": {
+    "json_complete": 80,
+    "time_limit": 5,
+    "eos_without_complete_json": 2
+  },
+  "validity_counts": {
+    "invalid": 28,
+    "unsupported": 1,
+    "valid": 11
+  },
+  "error_counts": {
+    "objective.linear: missing/invalid column": 2,
+    "Enumerate objective and domain obligations": 11,
+    "objective.linear: index 24 outside 0..23": 4,
+    "objective.linear: flatten requires an array of arrays and true flag": 2,
+    "Duplicate JSON key: path": 1,
+    "quadratic row term requires i,j,c": 1,
+    "constraint c0.a: sparse index must be a canonical string integer in 0..n-1": 1,
+    "objective.linear: vector supports source, scale, and either column or flatten": 1,
+    "Step did not finish: eos_without_complete_json": 1,
+    "constraint:c0: vector supports source, scale, and either column or flatten": 1,
+    "Step did not finish: time_limit": 2,
+    "Expected bounded integer, not bool/float/string": 1
+  },
+  "scope": "Replay saved outputs through original validators; no new model inference or solver run. Exact inequality is not proof of semantic inequality.",
+  "cases": [
+    {
+      "case": "assignment-7-20261026",
+      "arm": "legacy_staged",
+      "response_path": "gate/responses/026914c5eb95d1950a461e675721e772040ddbfc894b911a293cdb7af50ce148.json",
+      "validity": "invalid",
+      "failed_step": "objective",
+      "error": "objective.linear: missing/invalid column",
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/026914c5eb95d1950a461e675721e772040ddbfc894b911a293cdb7af50ce148/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1402,
+          "output_tokens": 556
+        },
+        {
+          "path": "gate/builder_steps/026914c5eb95d1950a461e675721e772040ddbfc894b911a293cdb7af50ce148/01.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1798,
+          "output_tokens": 41
+        },
+        {
+          "path": "gate/builder_steps/026914c5eb95d1950a461e675721e772040ddbfc894b911a293cdb7af50ce148/02.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1870,
+          "output_tokens": 54
+        }
+      ]
+    },
+    {
+      "case": "nlco_MIS_L_020",
+      "arm": "concise_staged",
+      "response_path": "gate/responses/0cbba602ed41f95d7d7259452be3c1d68ad0c475800e0987f1e87d67201ec0e7.json",
+      "validity": "invalid",
+      "failed_step": "plan",
+      "error": "Enumerate objective and domain obligations",
+      "reference_answer": 8.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/0cbba602ed41f95d7d7259452be3c1d68ad0c475800e0987f1e87d67201ec0e7/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 3655,
+          "output_tokens": 3133
+        },
+        {
+          "path": "gate/builder_steps/0cbba602ed41f95d7d7259452be3c1d68ad0c475800e0987f1e87d67201ec0e7/01.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 6818,
+          "output_tokens": 2294
+        }
+      ]
+    },
+    {
+      "case": "vertex_cover-40-20261026",
+      "arm": "legacy_flat",
+      "response_path": "gate/responses/1559fbb339050e14831b8cd65d48e529669eea9042db702de36a262ea6904f6e.json",
+      "validity": "unsupported",
+      "failed_step": null,
+      "error": null,
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/1559fbb339050e14831b8cd65d48e529669eea9042db702de36a262ea6904f6e/00.json",
+          "kind": "flat",
+          "status": "incomplete_output",
+          "finish_reason": "time_limit",
+          "input_tokens": 6987,
+          "output_tokens": 4962
+        },
+        {
+          "path": "gate/builder_steps/1559fbb339050e14831b8cd65d48e529669eea9042db702de36a262ea6904f6e/01.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 11982,
+          "output_tokens": 29
+        }
+      ]
+    },
+    {
+      "case": "knapsack-64-20261025",
+      "arm": "semantic_staged",
+      "response_path": "gate/responses/1567fcbf5749a3e2f137b49b02995a3c840f2cc1708ee7ee6351a490e1daf7f0.json",
+      "validity": "valid",
+      "failed_step": null,
+      "error": null,
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 420.0,
+          "objective": 420.0,
+          "reference_gap": null,
+          "seconds": 0.0047614686191082,
+          "solver_status": "OPTIMAL"
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 346.0,
+          "objective": 346.0,
+          "reference_gap": null,
+          "seconds": 1.3427526950836182,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 340.0,
+          "objective": 340.0,
+          "reference_gap": null,
+          "seconds": 1.320960994809866,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 344.0,
+          "objective": 344.0,
+          "reference_gap": null,
+          "seconds": 1.3368529416620731,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/1567fcbf5749a3e2f137b49b02995a3c840f2cc1708ee7ee6351a490e1daf7f0/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1620,
+          "output_tokens": 227
+        },
+        {
+          "path": "gate/builder_steps/1567fcbf5749a3e2f137b49b02995a3c840f2cc1708ee7ee6351a490e1daf7f0/01.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1795,
+          "output_tokens": 20
+        },
+        {
+          "path": "gate/builder_steps/1567fcbf5749a3e2f137b49b02995a3c840f2cc1708ee7ee6351a490e1daf7f0/02.json",
+          "kind": "rules",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1832,
+          "output_tokens": 40
+        }
+      ],
+      "exact_model_equal": false,
+      "exact_objective_equal": true,
+      "model_constraint_count": 1,
+      "gold_constraint_count": 1
+    },
+    {
+      "case": "nlco_MIS_L_020",
+      "arm": "legacy_staged",
+      "response_path": "gate/responses/1f48c0ab3a20a73138851833dba02b15e86cc775280b137b8220a4163347985f.json",
+      "validity": "invalid",
+      "failed_step": "plan",
+      "error": "Enumerate objective and domain obligations",
+      "reference_answer": 8.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/1f48c0ab3a20a73138851833dba02b15e86cc775280b137b8220a4163347985f/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 3991,
+          "output_tokens": 3854
+        },
+        {
+          "path": "gate/builder_steps/1f48c0ab3a20a73138851833dba02b15e86cc775280b137b8220a4163347985f/01.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 7875,
+          "output_tokens": 3854
+        }
+      ]
+    },
+    {
+      "case": "knapsack-64-20261025",
+      "arm": "concise_staged",
+      "response_path": "gate/responses/24e1b9b0b12da8fc0448e9fae6d50f451be81eebd5d3b06d9fd9084a34e40b4e.json",
+      "validity": "valid",
+      "failed_step": null,
+      "error": null,
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 420.0,
+          "objective": 420.0,
+          "reference_gap": null,
+          "seconds": 0.004765074700117111,
+          "solver_status": "OPTIMAL"
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 346.0,
+          "objective": 346.0,
+          "reference_gap": null,
+          "seconds": 1.3615329042077065,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 340.0,
+          "objective": 340.0,
+          "reference_gap": null,
+          "seconds": 1.2924430184066296,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 344.0,
+          "objective": 344.0,
+          "reference_gap": null,
+          "seconds": 1.3220459185540676,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/24e1b9b0b12da8fc0448e9fae6d50f451be81eebd5d3b06d9fd9084a34e40b4e/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1510,
+          "output_tokens": 228
+        },
+        {
+          "path": "gate/builder_steps/24e1b9b0b12da8fc0448e9fae6d50f451be81eebd5d3b06d9fd9084a34e40b4e/01.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1686,
+          "output_tokens": 20
+        },
+        {
+          "path": "gate/builder_steps/24e1b9b0b12da8fc0448e9fae6d50f451be81eebd5d3b06d9fd9084a34e40b4e/02.json",
+          "kind": "rules",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1722,
+          "output_tokens": 40
+        }
+      ],
+      "exact_model_equal": false,
+      "exact_objective_equal": true,
+      "model_constraint_count": 1,
+      "gold_constraint_count": 1
+    },
+    {
+      "case": "knapsack-64-20261025",
+      "arm": "concise_flat",
+      "response_path": "gate/responses/250aa6ffecf8a6dca79dd58a7ceac5c2fd4632c6428083c73c8a9a3014d9edae.json",
+      "validity": "valid",
+      "failed_step": null,
+      "error": null,
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 420.0,
+          "objective": 420.0,
+          "reference_gap": null,
+          "seconds": 0.0022832751274108887,
+          "solver_status": "OPTIMAL"
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 346.0,
+          "objective": 346.0,
+          "reference_gap": null,
+          "seconds": 1.3238301947712898,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 340.0,
+          "objective": 340.0,
+          "reference_gap": null,
+          "seconds": 1.317624744027853,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 344.0,
+          "objective": 344.0,
+          "reference_gap": null,
+          "seconds": 1.371169663965702,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/250aa6ffecf8a6dca79dd58a7ceac5c2fd4632c6428083c73c8a9a3014d9edae/00.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1828,
+          "output_tokens": 187
+        }
+      ],
+      "exact_model_equal": true,
+      "exact_objective_equal": true,
+      "model_constraint_count": 1,
+      "gold_constraint_count": 1
+    },
+    {
+      "case": "assignment-7-20261026",
+      "arm": "concise_staged",
+      "response_path": "gate/responses/2adafaf80a6ed916bbaf3e3ac83afe5822733a82e6124d6899460ae9fd1d7e0a.json",
+      "validity": "invalid",
+      "failed_step": "plan",
+      "error": "Enumerate objective and domain obligations",
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/2adafaf80a6ed916bbaf3e3ac83afe5822733a82e6124d6899460ae9fd1d7e0a/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1095,
+          "output_tokens": 211
+        },
+        {
+          "path": "gate/builder_steps/2adafaf80a6ed916bbaf3e3ac83afe5822733a82e6124d6899460ae9fd1d7e0a/01.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1336,
+          "output_tokens": 229
+        }
+      ]
+    },
+    {
+      "case": "nlco_KP_L_009",
+      "arm": "semantic_staged",
+      "response_path": "gate/responses/2b01e08eb82617ee516e7f3a9a64ac00d0f09e8a5548c6a3e804133a8a0a3dd6.json",
+      "validity": "invalid",
+      "failed_step": "objective",
+      "error": "objective.linear: index 24 outside 0..23",
+      "reference_answer": 1015.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/2b01e08eb82617ee516e7f3a9a64ac00d0f09e8a5548c6a3e804133a8a0a3dd6/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2677,
+          "output_tokens": 257
+        },
+        {
+          "path": "gate/builder_steps/2b01e08eb82617ee516e7f3a9a64ac00d0f09e8a5548c6a3e804133a8a0a3dd6/01.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2882,
+          "output_tokens": 46
+        },
+        {
+          "path": "gate/builder_steps/2b01e08eb82617ee516e7f3a9a64ac00d0f09e8a5548c6a3e804133a8a0a3dd6/02.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2965,
+          "output_tokens": 46
+        }
+      ]
+    },
+    {
+      "case": "nlco_MVC_L_020",
+      "arm": "concise_staged",
+      "response_path": "gate/responses/2b70f2a923ae6fd59be2f2001c3fb833e7032d22317e41ba37ed4d6cd3478c32.json",
+      "validity": "invalid",
+      "failed_step": "objective",
+      "error": "objective.linear: flatten requires an array of arrays and true flag",
+      "reference_answer": 13.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/2b70f2a923ae6fd59be2f2001c3fb833e7032d22317e41ba37ed4d6cd3478c32/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1902,
+          "output_tokens": 307
+        },
+        {
+          "path": "gate/builder_steps/2b70f2a923ae6fd59be2f2001c3fb833e7032d22317e41ba37ed4d6cd3478c32/01.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2148,
+          "output_tokens": 28
+        },
+        {
+          "path": "gate/builder_steps/2b70f2a923ae6fd59be2f2001c3fb833e7032d22317e41ba37ed4d6cd3478c32/02.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2214,
+          "output_tokens": 24
+        }
+      ]
+    },
+    {
+      "case": "nlco_MVC_L_020",
+      "arm": "semantic_staged",
+      "response_path": "gate/responses/39e52a09ce9a40bf1ea96de1fd7297c8bc0a3a9730e6d0482559593f624a4319.json",
+      "validity": "invalid",
+      "failed_step": "rules",
+      "error": "Duplicate JSON key: path",
+      "reference_answer": 13.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/39e52a09ce9a40bf1ea96de1fd7297c8bc0a3a9730e6d0482559593f624a4319/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2012,
+          "output_tokens": 259
+        },
+        {
+          "path": "gate/builder_steps/39e52a09ce9a40bf1ea96de1fd7297c8bc0a3a9730e6d0482559593f624a4319/01.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2210,
+          "output_tokens": 24
+        },
+        {
+          "path": "gate/builder_steps/39e52a09ce9a40bf1ea96de1fd7297c8bc0a3a9730e6d0482559593f624a4319/02.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2272,
+          "output_tokens": 59
+        },
+        {
+          "path": "gate/builder_steps/39e52a09ce9a40bf1ea96de1fd7297c8bc0a3a9730e6d0482559593f624a4319/03.json",
+          "kind": "rules",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2269,
+          "output_tokens": 1193
+        }
+      ]
+    },
+    {
+      "case": "vertex_cover-40-20261026",
+      "arm": "semantic_staged",
+      "response_path": "gate/responses/3ddd620c7de58fe7b6402c3f038a28a610a04b59090bd652211542a3ce8aac2c.json",
+      "validity": "invalid",
+      "failed_step": "plan",
+      "error": "Enumerate objective and domain obligations",
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/3ddd620c7de58fe7b6402c3f038a28a610a04b59090bd652211542a3ce8aac2c/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 5980,
+          "output_tokens": 328
+        },
+        {
+          "path": "gate/builder_steps/3ddd620c7de58fe7b6402c3f038a28a610a04b59090bd652211542a3ce8aac2c/01.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 6338,
+          "output_tokens": 263
+        }
+      ]
+    },
+    {
+      "case": "nlco_MVC_L_020",
+      "arm": "legacy_flat",
+      "response_path": "gate/responses/43b9d0861c386c74eda8c40ecfaeb8eb24ec2801aaec3687115352503783c4e2.json",
+      "validity": "valid",
+      "failed_step": null,
+      "error": null,
+      "reference_answer": 13.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": false,
+          "verified_objective": 13.0,
+          "objective": 13.0,
+          "reference_gap": null,
+          "seconds": 0.004701811820268631,
+          "solver_status": "OPTIMAL"
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": false,
+          "verified_objective": 13.0,
+          "objective": 13.0,
+          "reference_gap": null,
+          "seconds": 3.849226724356413,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "searched",
+          "verified_feasible": false,
+          "verified_objective": 13.0,
+          "objective": 13.0,
+          "reference_gap": null,
+          "seconds": 3.8333179615437984,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "searched",
+          "verified_feasible": false,
+          "verified_objective": 13.0,
+          "objective": 13.0,
+          "reference_gap": null,
+          "seconds": 3.7898381911218166,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/43b9d0861c386c74eda8c40ecfaeb8eb24ec2801aaec3687115352503783c4e2/00.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 3019,
+          "output_tokens": 3191
+        }
+      ],
+      "exact_model_equal": false,
+      "exact_objective_equal": true,
+      "model_constraint_count": 44,
+      "gold_constraint_count": 44
+    },
+    {
+      "case": "balanced_cut-64-20261023",
+      "arm": "concise_staged",
+      "response_path": "gate/responses/54096687c57a297d149f062fa8378588c8542976bcf9bc4ed976d0a13a1013ec.json",
+      "validity": "invalid",
+      "failed_step": "plan",
+      "error": "Enumerate objective and domain obligations",
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/54096687c57a297d149f062fa8378588c8542976bcf9bc4ed976d0a13a1013ec/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 9832,
+          "output_tokens": 179
+        },
+        {
+          "path": "gate/builder_steps/54096687c57a297d149f062fa8378588c8542976bcf9bc4ed976d0a13a1013ec/01.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 10041,
+          "output_tokens": 121
+        }
+      ]
+    },
+    {
+      "case": "nlco_KP_L_009",
+      "arm": "concise_flat",
+      "response_path": "gate/responses/65478a6c7a6c4d7e8b42bea04807c7d45c3101b98922cfd9a89cc2c887ca6737.json",
+      "validity": "invalid",
+      "failed_step": "flat",
+      "error": "objective.linear: index 24 outside 0..23",
+      "reference_answer": 1015.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/65478a6c7a6c4d7e8b42bea04807c7d45c3101b98922cfd9a89cc2c887ca6737/00.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2885,
+          "output_tokens": 538
+        },
+        {
+          "path": "gate/builder_steps/65478a6c7a6c4d7e8b42bea04807c7d45c3101b98922cfd9a89cc2c887ca6737/01.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 3461,
+          "output_tokens": 536
+        }
+      ]
+    },
+    {
+      "case": "assignment-7-20261026",
+      "arm": "legacy_flat",
+      "response_path": "gate/responses/75bc0654f9e5be4419864d769fa1358b7f2b9c7e53e046f143650633e64f1635.json",
+      "validity": "valid",
+      "failed_step": null,
+      "error": null,
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 44.0,
+          "objective": 44.0,
+          "reference_gap": null,
+          "seconds": 0.00920901820063591,
+          "solver_status": "OPTIMAL"
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 64.0,
+          "objective": 64.0,
+          "reference_gap": null,
+          "seconds": 2.0932954028248787,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 81.0,
+          "objective": 81.0,
+          "reference_gap": null,
+          "seconds": 2.0705948136746883,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 78.0,
+          "objective": 78.0,
+          "reference_gap": null,
+          "seconds": 2.055017352104187,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/75bc0654f9e5be4419864d769fa1358b7f2b9c7e53e046f143650633e64f1635/00.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2212,
+          "output_tokens": 3746
+        }
+      ],
+      "exact_model_equal": false,
+      "exact_objective_equal": true,
+      "model_constraint_count": 14,
+      "gold_constraint_count": 14
+    },
+    {
+      "case": "assignment-7-20261026",
+      "arm": "semantic_staged",
+      "response_path": "gate/responses/76ee0cb7df55cc3a0b66f6508fe3e8c9c66783501149f282508166ee93351d1b.json",
+      "validity": "invalid",
+      "failed_step": "plan",
+      "error": "Enumerate objective and domain obligations",
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/76ee0cb7df55cc3a0b66f6508fe3e8c9c66783501149f282508166ee93351d1b/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1205,
+          "output_tokens": 211
+        },
+        {
+          "path": "gate/builder_steps/76ee0cb7df55cc3a0b66f6508fe3e8c9c66783501149f282508166ee93351d1b/01.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1446,
+          "output_tokens": 211
+        }
+      ]
+    },
+    {
+      "case": "balanced_cut-64-20261023",
+      "arm": "legacy_staged",
+      "response_path": "gate/responses/866baa961132ff491793fdc2a1efce6fc01912bbb8b7335f2752c38947fd43ca.json",
+      "validity": "invalid",
+      "failed_step": "plan",
+      "error": "Enumerate objective and domain obligations",
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/866baa961132ff491793fdc2a1efce6fc01912bbb8b7335f2752c38947fd43ca/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 10124,
+          "output_tokens": 345
+        },
+        {
+          "path": "gate/builder_steps/866baa961132ff491793fdc2a1efce6fc01912bbb8b7335f2752c38947fd43ca/01.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 10499,
+          "output_tokens": 1740
+        }
+      ]
+    },
+    {
+      "case": "nlco_KP_L_009",
+      "arm": "legacy_staged",
+      "response_path": "gate/responses/8bf58d86f12cfe83a93ac2c70a7af1bfecfb6ac14f9cde2f02336dfb3a4d106f.json",
+      "validity": "invalid",
+      "failed_step": "objective",
+      "error": "objective.linear: index 24 outside 0..23",
+      "reference_answer": 1015.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/8bf58d86f12cfe83a93ac2c70a7af1bfecfb6ac14f9cde2f02336dfb3a4d106f/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2899,
+          "output_tokens": 365
+        },
+        {
+          "path": "gate/builder_steps/8bf58d86f12cfe83a93ac2c70a7af1bfecfb6ac14f9cde2f02336dfb3a4d106f/01.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 3128,
+          "output_tokens": 46
+        },
+        {
+          "path": "gate/builder_steps/8bf58d86f12cfe83a93ac2c70a7af1bfecfb6ac14f9cde2f02336dfb3a4d106f/02.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 3211,
+          "output_tokens": 50
+        }
+      ]
+    },
+    {
+      "case": "nlco_MAXCUT_L_017",
+      "arm": "concise_staged",
+      "response_path": "gate/responses/912731498c960d707d746d4c365412793c1074d06360ddfb63ab79b9e34a5c0f.json",
+      "validity": "valid",
+      "failed_step": null,
+      "error": null,
+      "reference_answer": 38.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 0.0,
+          "objective": 100.0,
+          "reference_gap": 1.0,
+          "seconds": 0.008089974522590637,
+          "solver_status": "OPTIMAL"
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 0.0,
+          "objective": 100.0,
+          "reference_gap": 1.0,
+          "seconds": 2.880333874374628,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 0.0,
+          "objective": 100.0,
+          "reference_gap": 1.0,
+          "seconds": 2.8223870657384396,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 0.0,
+          "objective": 100.0,
+          "reference_gap": 1.0,
+          "seconds": 2.825964894145727,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/912731498c960d707d746d4c365412793c1074d06360ddfb63ab79b9e34a5c0f/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2944,
+          "output_tokens": 221
+        },
+        {
+          "path": "gate/builder_steps/912731498c960d707d746d4c365412793c1074d06360ddfb63ab79b9e34a5c0f/01.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 3132,
+          "output_tokens": 422
+        }
+      ],
+      "exact_model_equal": false,
+      "exact_objective_equal": false,
+      "model_constraint_count": 0,
+      "gold_constraint_count": 0
+    },
+    {
+      "case": "nlco_MAXCUT_L_017",
+      "arm": "semantic_staged",
+      "response_path": "gate/responses/973a7214247a3e66baaf23777794a8b3d9b83f5646b58373e6cebf02b890e842.json",
+      "validity": "invalid",
+      "failed_step": "objective",
+      "error": "quadratic row term requires i,j,c",
+      "reference_answer": 38.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/973a7214247a3e66baaf23777794a8b3d9b83f5646b58373e6cebf02b890e842/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 3054,
+          "output_tokens": 277
+        },
+        {
+          "path": "gate/builder_steps/973a7214247a3e66baaf23777794a8b3d9b83f5646b58373e6cebf02b890e842/01.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 3274,
+          "output_tokens": 79
+        },
+        {
+          "path": "gate/builder_steps/973a7214247a3e66baaf23777794a8b3d9b83f5646b58373e6cebf02b890e842/02.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 3385,
+          "output_tokens": 89
+        }
+      ]
+    },
+    {
+      "case": "nlco_MAXCUT_L_017",
+      "arm": "concise_flat",
+      "response_path": "gate/responses/983397e17cdcc47fc49cb389900bcbbbb67c2afffc809fa1e226a235ed42f965.json",
+      "validity": "invalid",
+      "failed_step": "flat",
+      "error": "constraint c0.a: sparse index must be a canonical string integer in 0..n-1",
+      "reference_answer": 38.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/983397e17cdcc47fc49cb389900bcbbbb67c2afffc809fa1e226a235ed42f965/00.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 3262,
+          "output_tokens": 222
+        },
+        {
+          "path": "gate/builder_steps/983397e17cdcc47fc49cb389900bcbbbb67c2afffc809fa1e226a235ed42f965/01.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 3529,
+          "output_tokens": 222
+        }
+      ]
+    },
+    {
+      "case": "nlco_KP_L_009",
+      "arm": "legacy_flat",
+      "response_path": "gate/responses/9cdfc0b8b2e5a6e7e9fcadb1071e7f2a716a440c976dd5bbcbe8b4366e5eab83.json",
+      "validity": "invalid",
+      "failed_step": "flat",
+      "error": "objective.linear: vector supports source, scale, and either column or flatten",
+      "reference_answer": 1015.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/9cdfc0b8b2e5a6e7e9fcadb1071e7f2a716a440c976dd5bbcbe8b4366e5eab83/00.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 3684,
+          "output_tokens": 1766
+        },
+        {
+          "path": "gate/builder_steps/9cdfc0b8b2e5a6e7e9fcadb1071e7f2a716a440c976dd5bbcbe8b4366e5eab83/01.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 5488,
+          "output_tokens": 1766
+        }
+      ]
+    },
+    {
+      "case": "nlco_MIS_L_020",
+      "arm": "semantic_staged",
+      "response_path": "gate/responses/a0e46e1587aebc34a21907183cbad00d1d0054fb9d5688f208e3df551dde3382.json",
+      "validity": "invalid",
+      "failed_step": "plan",
+      "error": "Enumerate objective and domain obligations",
+      "reference_answer": 8.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/a0e46e1587aebc34a21907183cbad00d1d0054fb9d5688f208e3df551dde3382/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 3765,
+          "output_tokens": 3843
+        },
+        {
+          "path": "gate/builder_steps/a0e46e1587aebc34a21907183cbad00d1d0054fb9d5688f208e3df551dde3382/01.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 7638,
+          "output_tokens": 3843
+        }
+      ]
+    },
+    {
+      "case": "balanced_cut-64-20261023",
+      "arm": "concise_flat",
+      "response_path": "gate/responses/acba2bcb52069f0eaae9139ff15c9834e6af651539769970231436a14e10fd72.json",
+      "validity": "invalid",
+      "failed_step": "flat",
+      "error": "Step did not finish: eos_without_complete_json",
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/acba2bcb52069f0eaae9139ff15c9834e6af651539769970231436a14e10fd72/00.json",
+          "kind": "flat",
+          "status": "incomplete_output",
+          "finish_reason": "eos_without_complete_json",
+          "input_tokens": 10150,
+          "output_tokens": 1835
+        },
+        {
+          "path": "gate/builder_steps/acba2bcb52069f0eaae9139ff15c9834e6af651539769970231436a14e10fd72/01.json",
+          "kind": "flat",
+          "status": "incomplete_output",
+          "finish_reason": "eos_without_complete_json",
+          "input_tokens": 12024,
+          "output_tokens": 1836
+        }
+      ]
+    },
+    {
+      "case": "nlco_MIS_L_020",
+      "arm": "concise_flat",
+      "response_path": "gate/responses/b15a5e23701fdf9d8c5fd3705ade59a41d285afeebd0b8c71d32a1496619cea2.json",
+      "validity": "invalid",
+      "failed_step": "flat",
+      "error": "constraint:c0: vector supports source, scale, and either column or flatten",
+      "reference_answer": 8.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/b15a5e23701fdf9d8c5fd3705ade59a41d285afeebd0b8c71d32a1496619cea2/00.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 3973,
+          "output_tokens": 3162
+        },
+        {
+          "path": "gate/builder_steps/b15a5e23701fdf9d8c5fd3705ade59a41d285afeebd0b8c71d32a1496619cea2/01.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 7336,
+          "output_tokens": 2386
+        }
+      ]
+    },
+    {
+      "case": "vertex_cover-40-20261026",
+      "arm": "concise_flat",
+      "response_path": "gate/responses/b5d24d55a0b50ff18b3e801bffc73cc763e0b3f1393c271f3036333d3268e0ff.json",
+      "validity": "invalid",
+      "failed_step": "flat",
+      "error": "Step did not finish: time_limit",
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/b5d24d55a0b50ff18b3e801bffc73cc763e0b3f1393c271f3036333d3268e0ff/00.json",
+          "kind": "flat",
+          "status": "incomplete_output",
+          "finish_reason": "time_limit",
+          "input_tokens": 6188,
+          "output_tokens": 4450
+        },
+        {
+          "path": "gate/builder_steps/b5d24d55a0b50ff18b3e801bffc73cc763e0b3f1393c271f3036333d3268e0ff/01.json",
+          "kind": "flat",
+          "status": "incomplete_output",
+          "finish_reason": "time_limit",
+          "input_tokens": 10670,
+          "output_tokens": 5002
+        }
+      ]
+    },
+    {
+      "case": "knapsack-64-20261025",
+      "arm": "legacy_staged",
+      "response_path": "gate/responses/b6dcce0225d1343703098b40f3187819aab7d0b9f6f4700612181082ed0fcb8c.json",
+      "validity": "invalid",
+      "failed_step": "objective",
+      "error": "objective.linear: missing/invalid column",
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/b6dcce0225d1343703098b40f3187819aab7d0b9f6f4700612181082ed0fcb8c/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1802,
+          "output_tokens": 327
+        },
+        {
+          "path": "gate/builder_steps/b6dcce0225d1343703098b40f3187819aab7d0b9f6f4700612181082ed0fcb8c/01.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1988,
+          "output_tokens": 42
+        },
+        {
+          "path": "gate/builder_steps/b6dcce0225d1343703098b40f3187819aab7d0b9f6f4700612181082ed0fcb8c/02.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2061,
+          "output_tokens": 54
+        }
+      ]
+    },
+    {
+      "case": "nlco_MVC_L_020",
+      "arm": "legacy_staged",
+      "response_path": "gate/responses/cc53007f400481c077538169e457d6cfe17ed21445d266290668f18e3870cd94.json",
+      "validity": "invalid",
+      "failed_step": "rules",
+      "error": "Expected bounded integer, not bool/float/string",
+      "reference_answer": 13.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/cc53007f400481c077538169e457d6cfe17ed21445d266290668f18e3870cd94/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2236,
+          "output_tokens": 368
+        },
+        {
+          "path": "gate/builder_steps/cc53007f400481c077538169e457d6cfe17ed21445d266290668f18e3870cd94/01.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2460,
+          "output_tokens": 60
+        },
+        {
+          "path": "gate/builder_steps/cc53007f400481c077538169e457d6cfe17ed21445d266290668f18e3870cd94/02.json",
+          "kind": "rules",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2648,
+          "output_tokens": 120
+        },
+        {
+          "path": "gate/builder_steps/cc53007f400481c077538169e457d6cfe17ed21445d266290668f18e3870cd94/03.json",
+          "kind": "rules",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2807,
+          "output_tokens": 128
+        }
+      ]
+    },
+    {
+      "case": "nlco_MAXCUT_L_017",
+      "arm": "legacy_flat",
+      "response_path": "gate/responses/d1b9c9f87850503d21922dd9dadc63c625123b20032f165dd6028495de2cc716.json",
+      "validity": "valid",
+      "failed_step": null,
+      "error": null,
+      "reference_answer": 38.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 0.0,
+          "objective": 62.0,
+          "reference_gap": 1.0,
+          "seconds": 0.00578298419713974,
+          "solver_status": "OPTIMAL"
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 0.0,
+          "objective": 62.0,
+          "reference_gap": 1.0,
+          "seconds": 4.563852533698082,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 0.0,
+          "objective": 62.0,
+          "reference_gap": 1.0,
+          "seconds": 4.643743202090263,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 0.0,
+          "objective": 62.0,
+          "reference_gap": 1.0,
+          "seconds": 4.453105799853802,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/d1b9c9f87850503d21922dd9dadc63c625123b20032f165dd6028495de2cc716/00.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 4061,
+          "output_tokens": 2492
+        },
+        {
+          "path": "gate/builder_steps/d1b9c9f87850503d21922dd9dadc63c625123b20032f165dd6028495de2cc716/01.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 6582,
+          "output_tokens": 2511
+        }
+      ],
+      "exact_model_equal": false,
+      "exact_objective_equal": false,
+      "model_constraint_count": 25,
+      "gold_constraint_count": 0
+    },
+    {
+      "case": "nlco_MVC_L_020",
+      "arm": "concise_flat",
+      "response_path": "gate/responses/d248b7b424ed223a0ce4e786fd8fecfbf6133ad84b3aa83c8051a66870b3508c.json",
+      "validity": "invalid",
+      "failed_step": "flat",
+      "error": "objective.linear: flatten requires an array of arrays and true flag",
+      "reference_answer": 13.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/d248b7b424ed223a0ce4e786fd8fecfbf6133ad84b3aa83c8051a66870b3508c/00.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2220,
+          "output_tokens": 365
+        },
+        {
+          "path": "gate/builder_steps/d248b7b424ed223a0ce4e786fd8fecfbf6133ad84b3aa83c8051a66870b3508c/01.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2622,
+          "output_tokens": 365
+        }
+      ]
+    },
+    {
+      "case": "vertex_cover-40-20261026",
+      "arm": "concise_staged",
+      "response_path": "gate/responses/d69984e15aeebe7463f663a9d52e3a2750baca98e679609e7c25551798c16d6d.json",
+      "validity": "invalid",
+      "failed_step": "plan",
+      "error": "Step did not finish: time_limit",
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/d69984e15aeebe7463f663a9d52e3a2750baca98e679609e7c25551798c16d6d/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 5870,
+          "output_tokens": 4992
+        },
+        {
+          "path": "gate/builder_steps/d69984e15aeebe7463f663a9d52e3a2750baca98e679609e7c25551798c16d6d/01.json",
+          "kind": "plan",
+          "status": "incomplete_output",
+          "finish_reason": "time_limit",
+          "input_tokens": 10893,
+          "output_tokens": 4267
+        }
+      ]
+    },
+    {
+      "case": "nlco_MAXCUT_L_017",
+      "arm": "legacy_staged",
+      "response_path": "gate/responses/db7297a0fd24617b845987be120cace3e430583a1a40848cbf136afd33455c0d.json",
+      "validity": "invalid",
+      "failed_step": "plan",
+      "error": "Enumerate objective and domain obligations",
+      "reference_answer": 38.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/db7297a0fd24617b845987be120cace3e430583a1a40848cbf136afd33455c0d/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 3275,
+          "output_tokens": 356
+        },
+        {
+          "path": "gate/builder_steps/db7297a0fd24617b845987be120cace3e430583a1a40848cbf136afd33455c0d/01.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 3661,
+          "output_tokens": 356
+        }
+      ]
+    },
+    {
+      "case": "assignment-7-20261026",
+      "arm": "concise_flat",
+      "response_path": "gate/responses/deec5541524fa39abbd94ed27548a0f8ad425b85a22801e2d025712952ed67a6.json",
+      "validity": "valid",
+      "failed_step": null,
+      "error": null,
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": false,
+          "verified_objective": 1.0,
+          "objective": 1.0,
+          "reference_gap": null,
+          "seconds": 0.007935121655464172,
+          "solver_status": "OPTIMAL"
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": false,
+          "verified_objective": 1.0,
+          "objective": 1.0,
+          "reference_gap": null,
+          "seconds": 1.5177125595510006,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "searched",
+          "verified_feasible": false,
+          "verified_objective": 1.0,
+          "objective": 1.0,
+          "reference_gap": null,
+          "seconds": 1.4965907521545887,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "searched",
+          "verified_feasible": false,
+          "verified_objective": 1.0,
+          "objective": 1.0,
+          "reference_gap": null,
+          "seconds": 1.4900314286351204,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/deec5541524fa39abbd94ed27548a0f8ad425b85a22801e2d025712952ed67a6/00.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 1413,
+          "output_tokens": 506
+        }
+      ],
+      "exact_model_equal": false,
+      "exact_objective_equal": true,
+      "model_constraint_count": 2,
+      "gold_constraint_count": 14
+    },
+    {
+      "case": "balanced_cut-64-20261023",
+      "arm": "semantic_staged",
+      "response_path": "gate/responses/dfe418500a11bfb6bb8c309bc0293fa3cb2e7fcb8fa0790e84a759307b3fcaa6.json",
+      "validity": "invalid",
+      "failed_step": "plan",
+      "error": "Enumerate objective and domain obligations",
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/dfe418500a11bfb6bb8c309bc0293fa3cb2e7fcb8fa0790e84a759307b3fcaa6/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 9942,
+          "output_tokens": 185
+        },
+        {
+          "path": "gate/builder_steps/dfe418500a11bfb6bb8c309bc0293fa3cb2e7fcb8fa0790e84a759307b3fcaa6/01.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 10157,
+          "output_tokens": 125
+        }
+      ]
+    },
+    {
+      "case": "nlco_MIS_L_020",
+      "arm": "legacy_flat",
+      "response_path": "gate/responses/e204986ac9cadaa32788b1cd3cedd802a46573fb5259548de2f8999dacd45a7a.json",
+      "validity": "valid",
+      "failed_step": null,
+      "error": null,
+      "reference_answer": 8.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 8.0,
+          "objective": 8.0,
+          "reference_gap": -0.0,
+          "seconds": 0.004090566188097,
+          "solver_status": "OPTIMAL"
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 8.0,
+          "objective": 8.0,
+          "reference_gap": -0.0,
+          "seconds": 3.452267937362194,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 8.0,
+          "objective": 8.0,
+          "reference_gap": -0.0,
+          "seconds": 3.54687238112092,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 8.0,
+          "objective": 8.0,
+          "reference_gap": -0.0,
+          "seconds": 3.5025810673832893,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/e204986ac9cadaa32788b1cd3cedd802a46573fb5259548de2f8999dacd45a7a/00.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 4772,
+          "output_tokens": 2169
+        }
+      ],
+      "exact_model_equal": false,
+      "exact_objective_equal": true,
+      "model_constraint_count": 42,
+      "gold_constraint_count": 42
+    },
+    {
+      "case": "knapsack-64-20261025",
+      "arm": "legacy_flat",
+      "response_path": "gate/responses/e4bfb985cad5a3aea01ca95ee348761f471d5853ac4ab4f9de24adbac2be189c.json",
+      "validity": "valid",
+      "failed_step": null,
+      "error": null,
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 420.0,
+          "objective": 420.0,
+          "reference_gap": null,
+          "seconds": 0.004708427935838699,
+          "solver_status": "OPTIMAL"
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 346.0,
+          "objective": 346.0,
+          "reference_gap": null,
+          "seconds": 1.340274315327406,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 340.0,
+          "objective": 340.0,
+          "reference_gap": null,
+          "seconds": 1.321304801851511,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 344.0,
+          "objective": 344.0,
+          "reference_gap": null,
+          "seconds": 1.3284065760672092,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/e4bfb985cad5a3aea01ca95ee348761f471d5853ac4ab4f9de24adbac2be189c/00.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2627,
+          "output_tokens": 1492
+        }
+      ],
+      "exact_model_equal": true,
+      "exact_objective_equal": true,
+      "model_constraint_count": 1,
+      "gold_constraint_count": 1
+    },
+    {
+      "case": "nlco_KP_L_009",
+      "arm": "concise_staged",
+      "response_path": "gate/responses/e83a177cc7e628c8777375a4e2322cd3b8ccff8ff91fa0820a25a9c2368da9bf.json",
+      "validity": "invalid",
+      "failed_step": "objective",
+      "error": "objective.linear: index 24 outside 0..23",
+      "reference_answer": 1015.0,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/e83a177cc7e628c8777375a4e2322cd3b8ccff8ff91fa0820a25a9c2368da9bf/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2567,
+          "output_tokens": 275
+        },
+        {
+          "path": "gate/builder_steps/e83a177cc7e628c8777375a4e2322cd3b8ccff8ff91fa0820a25a9c2368da9bf/01.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2772,
+          "output_tokens": 42
+        },
+        {
+          "path": "gate/builder_steps/e83a177cc7e628c8777375a4e2322cd3b8ccff8ff91fa0820a25a9c2368da9bf/02.json",
+          "kind": "objective",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 2847,
+          "output_tokens": 46
+        }
+      ]
+    },
+    {
+      "case": "vertex_cover-40-20261026",
+      "arm": "legacy_staged",
+      "response_path": "gate/responses/ef7b2de53c4c1e19bc1f4e79717ef5ef987e05025600cb20d5acdc6cc8eddff5.json",
+      "validity": "invalid",
+      "failed_step": "plan",
+      "error": "Enumerate objective and domain obligations",
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "invalid_model",
+          "verified_feasible": false,
+          "verified_objective": null,
+          "objective": null,
+          "reference_gap": null,
+          "seconds": 0.0,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/ef7b2de53c4c1e19bc1f4e79717ef5ef987e05025600cb20d5acdc6cc8eddff5/00.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 6186,
+          "output_tokens": 328
+        },
+        {
+          "path": "gate/builder_steps/ef7b2de53c4c1e19bc1f4e79717ef5ef987e05025600cb20d5acdc6cc8eddff5/01.json",
+          "kind": "plan",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 6544,
+          "output_tokens": 328
+        }
+      ]
+    },
+    {
+      "case": "balanced_cut-64-20261023",
+      "arm": "legacy_flat",
+      "response_path": "gate/responses/f0a1251767951d9f30d305c4063eee85005938d567bf549916c829e3f1d6ae2b.json",
+      "validity": "valid",
+      "failed_step": null,
+      "error": null,
+      "reference_answer": null,
+      "scores": [
+        {
+          "backend": "cp_sat",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 69.0,
+          "objective": 77.0,
+          "reference_gap": null,
+          "seconds": 5.006688591092825,
+          "solver_status": "FEASIBLE"
+        },
+        {
+          "backend": "pbit",
+          "seed": 0,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 66.0,
+          "objective": 59.0,
+          "reference_gap": null,
+          "seconds": 7.670745138078928,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 1,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 81.0,
+          "objective": 56.0,
+          "reference_gap": null,
+          "seconds": 7.894959036260843,
+          "solver_status": null
+        },
+        {
+          "backend": "pbit",
+          "seed": 2,
+          "status": "searched",
+          "verified_feasible": true,
+          "verified_objective": 81.0,
+          "objective": 58.0,
+          "reference_gap": null,
+          "seconds": 7.650162033736706,
+          "solver_status": null
+        }
+      ],
+      "steps": [
+        {
+          "path": "gate/builder_steps/f0a1251767951d9f30d305c4063eee85005938d567bf549916c829e3f1d6ae2b/00.json",
+          "kind": "flat",
+          "status": "incomplete_output",
+          "finish_reason": "time_limit",
+          "input_tokens": 10949,
+          "output_tokens": 3859
+        },
+        {
+          "path": "gate/builder_steps/f0a1251767951d9f30d305c4063eee85005938d567bf549916c829e3f1d6ae2b/01.json",
+          "kind": "flat",
+          "status": "generated",
+          "finish_reason": "json_complete",
+          "input_tokens": 14841,
+          "output_tokens": 3664
+        }
+      ],
+      "exact_model_equal": false,
+      "exact_objective_equal": false,
+      "model_constraint_count": 1,
+      "gold_constraint_count": 1
+    }
+  ]
+}
