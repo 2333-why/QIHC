@@ -1,0 +1,87 @@
+{
+  "date_asia_shanghai": "2026-10-27",
+  "status": "local_validation_passed_gpu_validation_pending",
+  "source_hash": "ec70029916a9b816b258c7a70936f32851c6a0edf765554f50c64b8fb9a5e3f4",
+  "tests": {
+    "suite_passed": 253,
+    "suite_seconds": 88.19,
+    "final_change": "Ignore ID renames/reordering in mathematics_changed; 9 relevant v3 tests rerun and passed (4.16 seconds).",
+    "files": [
+      "test_prompt_efficiency_v3.py",
+      "test_prompt_efficiency_v2.py",
+      "test_prompt_efficiency_v1.py",
+      "test_modeling_core_inference.py",
+      "test_modeling_v6.py",
+      "test_modeling_v6_token_bridge.py",
+      "test_modeling_v5.py",
+      "test_modeling_v5_sources.py",
+      "test_distribution_feedback.py",
+      "test_distribution_job.py",
+      "test_distribution_reporting.py"
+    ]
+  },
+  "preflight": {
+    "schemas_checked": [
+      "flat",
+      "plan",
+      "objective",
+      "rules",
+      "patch"
+    ],
+    "typed_schema_probes": 49,
+    "first_prompts_checked": 1800,
+    "by_arm": {
+      "typed_staged": {
+        "count": 300,
+        "max_tokens": 14328,
+        "mean_tokens": 3111.9966666666664
+      },
+      "canonical_staged": {
+        "count": 300,
+        "max_tokens": 14328,
+        "mean_tokens": 3111.9966666666664
+      },
+      "typed_flat": {
+        "count": 300,
+        "max_tokens": 14291,
+        "mean_tokens": 3074.9966666666664
+      },
+      "semantic_staged": {
+        "count": 300,
+        "max_tokens": 14328,
+        "mean_tokens": 3111.9966666666664
+      },
+      "legacy_flat": {
+        "count": 300,
+        "max_tokens": 10949,
+        "mean_tokens": 3189.2633333333333
+      },
+      "semantic_flat": {
+        "count": 300,
+        "max_tokens": 14291,
+        "mean_tokens": 3074.9966666666664
+      }
+    },
+    "status": "passed",
+    "source_hash": "ec70029916a9b816b258c7a70936f32851c6a0edf765554f50c64b8fb9a5e3f4",
+    "scope": "CPU preflight only; real GPU generation/search acceptance remains required"
+  },
+  "environment": {
+    "python": "D:/Anaconda/python.exe",
+    "transformers": "5.13.0",
+    "torch": "2.9.1+cpu",
+    "lm_format_enforcer": "0.11.3",
+    "interegular": "0.3.3"
+  },
+  "other_checks": [
+    "ruff --select F passed",
+    "bash -n passed individually for three scripts",
+    "git diff --check passed"
+  ],
+  "evidence_limits": [
+    "No local H100/32B weight inference",
+    "Tiny real Transformers CPU batch generation validates interface, not language modeling quality",
+    "Semantic examples are observed v1 failures; v2 per-case raw files not supplied",
+    "Server real-model gate and formal results pending"
+  ]
+}

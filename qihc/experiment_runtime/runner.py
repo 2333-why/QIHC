@@ -183,7 +183,8 @@ def launch(root, study):
                     if STOP:
                         break
                     if phase == 'gate':
-                        accepted = gate_check(report); s.save(root/'gate_acceptance.json', accepted)
+                        accepted = getattr(study, 'gate_check', gate_check)(report)
+                        s.save(root/'gate_acceptance.json', accepted)
                         record_event(root, 'Execution acceptance: '+json.dumps(accepted))
                         if not accepted['passed']:
                             print('GATE FAILURE DETAILS '+json.dumps({a: report['overall'][a] for a in accepted['failed_arms']}), flush=True)
