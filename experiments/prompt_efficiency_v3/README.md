@@ -1,6 +1,6 @@
 # 通用语义复核与确定性约束编号 v3
 
-实验记录：[record.md](../../docs/experiments/20261027_prompt_efficiency_v3/record.md)。历史证据和边界：[failure_analysis.md](../../docs/experiments/20261027_prompt_efficiency_v3/failure_analysis.md)。
+实验记录：[record.md](../../docs/experiments/E001_prompt/E001-1.3_record.md)。历史证据和边界：[failure_analysis.md](../../docs/experiments/E001_prompt/E001-1.3_failure_analysis.md)。
 
 ## 六组配对实验
 

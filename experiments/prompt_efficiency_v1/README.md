@@ -71,4 +71,4 @@ tar -czf "$BASE/prompt_efficiency_v1_analysis.tar.gz" -C "$BASE/results" prompt_
 报告每组输入／输出 token、调用数、分摊生成耗时和搜索耗时；分摊时间不是单请求独占 GPU 的延迟。
 配对 bootstrap 区间仅作描述，未作多重比较显著性声明。可行率不能证明整个模型数学等价。
 
-实验记录：[本轮文档](../../docs/experiments/20261026_prompt_efficiency_v1/record.md)。
+实验记录：[本轮文档](../../docs/experiments/E001_prompt/E001-1.1_record.md)。

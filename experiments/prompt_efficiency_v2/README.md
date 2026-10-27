@@ -1,7 +1,7 @@
 # 建模接口与局部纠错实验 v2
 
-修复依据：[v1 真实失败归档](../../docs/experiments/20261026_prompt_efficiency_v1/gate_analysis.md)。
-本轮记录：[20261027_prompt_efficiency_v2](../../docs/experiments/20261027_prompt_efficiency_v2/record.md)。
+修复依据：[v1 真实失败归档](../../docs/experiments/E001_prompt/E001-1.1_gate_analysis.md)。
+本轮记录：[20261027_prompt_efficiency_v2](../../docs/experiments/E001_prompt/E001-1.2_record.md)。
 
 ## 比较方法
 
