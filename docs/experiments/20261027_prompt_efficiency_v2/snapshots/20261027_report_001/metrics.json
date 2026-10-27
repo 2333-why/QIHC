@@ -1,0 +1,460 @@
+{
+  "gate": {
+    "status": "complete",
+    "completed_case_arms": 40,
+    "expected_case_arms": 40,
+    "rows": [
+      {
+        "arm": "legacy_flat",
+        "backend": "pbit",
+        "compiled": 7,
+        "generated": 8,
+        "scored": 8,
+        "expected": 8,
+        "feasible_rate": 0.625,
+        "reference_gap": 0.5,
+        "gap_cases": 2.0,
+        "input_tokens": 8712.0,
+        "output_tokens": 3995.625,
+        "calls": 1.5,
+        "generation_seconds": 371.7586,
+        "search_seconds_per_seed": 4.0074
+      },
+      {
+        "arm": "legacy_flat",
+        "backend": "cp_sat",
+        "compiled": 7,
+        "generated": 8,
+        "scored": 8,
+        "expected": 8,
+        "feasible_rate": 0.625,
+        "reference_gap": 0.5,
+        "gap_cases": 2.0,
+        "input_tokens": 8712.0,
+        "output_tokens": 3995.625,
+        "calls": 1.5,
+        "generation_seconds": 371.7586,
+        "search_seconds_per_seed": 0.0269
+      },
+      {
+        "arm": "audit_staged",
+        "backend": "pbit",
+        "compiled": 1,
+        "generated": 8,
+        "scored": 8,
+        "expected": 8,
+        "feasible_rate": 0.0,
+        "reference_gap": null,
+        "gap_cases": 0.0,
+        "input_tokens": 19966.5,
+        "output_tokens": 2302.5,
+        "calls": 3.875,
+        "generation_seconds": 312.4435,
+        "search_seconds_per_seed": 0.4411
+      },
+      {
+        "arm": "audit_staged",
+        "backend": "cp_sat",
+        "compiled": 1,
+        "generated": 8,
+        "scored": 8,
+        "expected": 8,
+        "feasible_rate": 0.0,
+        "reference_gap": null,
+        "gap_cases": 0.0,
+        "input_tokens": 19966.5,
+        "output_tokens": 2302.5,
+        "calls": 3.875,
+        "generation_seconds": 312.4435,
+        "search_seconds_per_seed": 0.0006
+      },
+      {
+        "arm": "typed_flat",
+        "backend": "pbit",
+        "compiled": 8,
+        "generated": 8,
+        "scored": 8,
+        "expected": 8,
+        "feasible_rate": 0.5,
+        "reference_gap": 0.1727,
+        "gap_cases": 2.0,
+        "input_tokens": 6590.375,
+        "output_tokens": 2287.25,
+        "calls": 1.125,
+        "generation_seconds": 311.9833,
+        "search_seconds_per_seed": 3.0196
+      },
+      {
+        "arm": "typed_flat",
+        "backend": "cp_sat",
+        "compiled": 8,
+        "generated": 8,
+        "scored": 8,
+        "expected": 8,
+        "feasible_rate": 0.5,
+        "reference_gap": 0.1842,
+        "gap_cases": 2.0,
+        "input_tokens": 6590.375,
+        "output_tokens": 2287.25,
+        "calls": 1.125,
+        "generation_seconds": 311.9833,
+        "search_seconds_per_seed": 0.6299
+      },
+      {
+        "arm": "typed_staged",
+        "backend": "pbit",
+        "compiled": 5,
+        "generated": 8,
+        "scored": 8,
+        "expected": 8,
+        "feasible_rate": 0.375,
+        "reference_gap": 1.0,
+        "gap_cases": 1.0,
+        "input_tokens": 20290.5,
+        "output_tokens": 2575.875,
+        "calls": 3.625,
+        "generation_seconds": 203.0445,
+        "search_seconds_per_seed": 1.9181
+      },
+      {
+        "arm": "typed_staged",
+        "backend": "cp_sat",
+        "compiled": 5,
+        "generated": 8,
+        "scored": 8,
+        "expected": 8,
+        "feasible_rate": 0.375,
+        "reference_gap": 1.0,
+        "gap_cases": 1.0,
+        "input_tokens": 20290.5,
+        "output_tokens": 2575.875,
+        "calls": 3.625,
+        "generation_seconds": 203.0445,
+        "search_seconds_per_seed": 0.6276
+      },
+      {
+        "arm": "typed_staged_local",
+        "backend": "pbit",
+        "compiled": 5,
+        "generated": 8,
+        "scored": 8,
+        "expected": 8,
+        "feasible_rate": 0.375,
+        "reference_gap": 1.0,
+        "gap_cases": 1.0,
+        "input_tokens": 20321.125,
+        "output_tokens": 2153.5,
+        "calls": 3.625,
+        "generation_seconds": 251.1238,
+        "search_seconds_per_seed": 1.957
+      },
+      {
+        "arm": "typed_staged_local",
+        "backend": "cp_sat",
+        "compiled": 5,
+        "generated": 8,
+        "scored": 8,
+        "expected": 8,
+        "feasible_rate": 0.375,
+        "reference_gap": 1.0,
+        "gap_cases": 1.0,
+        "input_tokens": 20321.125,
+        "output_tokens": 2153.5,
+        "calls": 3.625,
+        "generation_seconds": 251.1238,
+        "search_seconds_per_seed": 0.6274
+      }
+    ],
+    "failures": [
+      {
+        "arm": "legacy_flat",
+        "reason": "objective.linear: vector supports source, scale, and either column or flatten",
+        "cases": 1
+      },
+      {
+        "arm": "audit_staged",
+        "reason": "objective.linear: missing/invalid column",
+        "cases": 2
+      },
+      {
+        "arm": "audit_staged",
+        "reason": "Rule keys: requirement_id,constraints,logic",
+        "cases": 2
+      },
+      {
+        "arm": "audit_staged",
+        "reason": "objective.linear: flatten requires an array of arrays and true flag",
+        "cases": 1
+      },
+      {
+        "arm": "audit_staged",
+        "reason": "constraint:c0: missing/invalid column",
+        "cases": 1
+      },
+      {
+        "arm": "audit_staged",
+        "reason": "constraints.forall_rows: row expansion needs 1..512 rows",
+        "cases": 1
+      },
+      {
+        "arm": "typed_staged",
+        "reason": "Step did not finish: eos_without_complete_json",
+        "cases": 1
+      },
+      {
+        "arm": "typed_staged",
+        "reason": "Unique bounded constraint IDs required",
+        "cases": 2
+      },
+      {
+        "arm": "typed_staged_local",
+        "reason": "Step did not finish: eos_without_complete_json",
+        "cases": 1
+      },
+      {
+        "arm": "typed_staged_local",
+        "reason": "Return exactly one item for EACH requested requirement",
+        "cases": 1
+      },
+      {
+        "arm": "typed_staged_local",
+        "reason": "Unique bounded constraint IDs required",
+        "cases": 1
+      }
+    ]
+  },
+  "formal": {
+    "status": "partial",
+    "completed_case_arms": 134,
+    "expected_case_arms": 1500,
+    "rows": [
+      {
+        "arm": "legacy_flat",
+        "backend": "pbit",
+        "compiled": 22,
+        "generated": 27,
+        "scored": 27,
+        "expected": 300,
+        "feasible_rate": 0.7778,
+        "reference_gap": null,
+        "gap_cases": 0.0,
+        "input_tokens": 6106.1481,
+        "output_tokens": 2701.0741,
+        "calls": 1.2963,
+        "generation_seconds": 238.2422,
+        "search_seconds_per_seed": 2.3165
+      },
+      {
+        "arm": "legacy_flat",
+        "backend": "cp_sat",
+        "compiled": 22,
+        "generated": 27,
+        "scored": 27,
+        "expected": 300,
+        "feasible_rate": 0.7778,
+        "reference_gap": null,
+        "gap_cases": 0.0,
+        "input_tokens": 6106.1481,
+        "output_tokens": 2701.0741,
+        "calls": 1.2963,
+        "generation_seconds": 238.2422,
+        "search_seconds_per_seed": 0.3765
+      },
+      {
+        "arm": "audit_staged",
+        "backend": "pbit",
+        "compiled": 0,
+        "generated": 27,
+        "scored": 27,
+        "expected": 300,
+        "feasible_rate": 0.0,
+        "reference_gap": null,
+        "gap_cases": 0.0,
+        "input_tokens": 11383.037,
+        "output_tokens": 2135.7407,
+        "calls": 3.4444,
+        "generation_seconds": 227.248,
+        "search_seconds_per_seed": 0.0
+      },
+      {
+        "arm": "audit_staged",
+        "backend": "cp_sat",
+        "compiled": 0,
+        "generated": 27,
+        "scored": 27,
+        "expected": 300,
+        "feasible_rate": 0.0,
+        "reference_gap": null,
+        "gap_cases": 0.0,
+        "input_tokens": 11383.037,
+        "output_tokens": 2135.7407,
+        "calls": 3.4444,
+        "generation_seconds": 227.248,
+        "search_seconds_per_seed": 0.0
+      },
+      {
+        "arm": "typed_flat",
+        "backend": "pbit",
+        "compiled": 27,
+        "generated": 27,
+        "scored": 27,
+        "expected": 300,
+        "feasible_rate": 0.5432,
+        "reference_gap": null,
+        "gap_cases": 0.0,
+        "input_tokens": 3470.3704,
+        "output_tokens": 663.5556,
+        "calls": 1.0,
+        "generation_seconds": 116.1159,
+        "search_seconds_per_seed": 2.4003
+      },
+      {
+        "arm": "typed_flat",
+        "backend": "cp_sat",
+        "compiled": 27,
+        "generated": 27,
+        "scored": 27,
+        "expected": 300,
+        "feasible_rate": 0.5185,
+        "reference_gap": null,
+        "gap_cases": 0.0,
+        "input_tokens": 3470.3704,
+        "output_tokens": 663.5556,
+        "calls": 1.0,
+        "generation_seconds": 116.1159,
+        "search_seconds_per_seed": 1.1226
+      },
+      {
+        "arm": "typed_staged",
+        "backend": "pbit",
+        "compiled": 16,
+        "generated": 27,
+        "scored": 27,
+        "expected": 300,
+        "feasible_rate": 0.4815,
+        "reference_gap": null,
+        "gap_cases": 0.0,
+        "input_tokens": 12858.2963,
+        "output_tokens": 1866.8148,
+        "calls": 3.7407,
+        "generation_seconds": 178.7276,
+        "search_seconds_per_seed": 1.9507
+      },
+      {
+        "arm": "typed_staged",
+        "backend": "cp_sat",
+        "compiled": 16,
+        "generated": 27,
+        "scored": 27,
+        "expected": 300,
+        "feasible_rate": 0.4444,
+        "reference_gap": null,
+        "gap_cases": 0.0,
+        "input_tokens": 12858.2963,
+        "output_tokens": 1866.8148,
+        "calls": 3.7407,
+        "generation_seconds": 178.7276,
+        "search_seconds_per_seed": 1.3034
+      },
+      {
+        "arm": "typed_staged_local",
+        "backend": "pbit",
+        "compiled": 15,
+        "generated": 26,
+        "scored": 26,
+        "expected": 300,
+        "feasible_rate": 0.4231,
+        "reference_gap": null,
+        "gap_cases": 0.0,
+        "input_tokens": 11577.5,
+        "output_tokens": 1800.8462,
+        "calls": 3.7692,
+        "generation_seconds": 145.4124,
+        "search_seconds_per_seed": 1.7486
+      },
+      {
+        "arm": "typed_staged_local",
+        "backend": "cp_sat",
+        "compiled": 15,
+        "generated": 26,
+        "scored": 26,
+        "expected": 300,
+        "feasible_rate": 0.4231,
+        "reference_gap": null,
+        "gap_cases": 0.0,
+        "input_tokens": 11577.5,
+        "output_tokens": 1800.8462,
+        "calls": 3.7692,
+        "generation_seconds": 145.4124,
+        "search_seconds_per_seed": 1.1613
+      }
+    ],
+    "failures": [
+      {
+        "arm": "legacy_flat",
+        "reason": "Expected bounded integer, not bool/float/string",
+        "cases": 1
+      },
+      {
+        "arm": "legacy_flat",
+        "reason": "unsupported",
+        "cases": 3
+      },
+      {
+        "arm": "legacy_flat",
+        "reason": "objective.linear: row expansion needs 1..512 rows",
+        "cases": 1
+      },
+      {
+        "arm": "audit_staged",
+        "reason": "objective.linear: flatten requires an array of arrays and true flag",
+        "cases": 12
+      },
+      {
+        "arm": "audit_staged",
+        "reason": "Rule keys: requirement_id,constraints,logic",
+        "cases": 8
+      },
+      {
+        "arm": "audit_staged",
+        "reason": "Expected bounded integer, not bool/float/string",
+        "cases": 1
+      },
+      {
+        "arm": "audit_staged",
+        "reason": "objective.linear: missing/invalid column",
+        "cases": 1
+      },
+      {
+        "arm": "audit_staged",
+        "reason": "Step did not finish: token_limit",
+        "cases": 3
+      },
+      {
+        "arm": "audit_staged",
+        "reason": "objective.linear: row expansion needs 1..512 rows",
+        "cases": 2
+      },
+      {
+        "arm": "typed_staged",
+        "reason": "Unique bounded constraint IDs required",
+        "cases": 9
+      },
+      {
+        "arm": "typed_staged",
+        "reason": "Step did not finish: token_limit",
+        "cases": 2
+      },
+      {
+        "arm": "typed_staged_local",
+        "reason": "Unique bounded constraint IDs required",
+        "cases": 9
+      },
+      {
+        "arm": "typed_staged_local",
+        "reason": "Step did not finish: token_limit",
+        "cases": 2
+      }
+    ]
+  }
+}

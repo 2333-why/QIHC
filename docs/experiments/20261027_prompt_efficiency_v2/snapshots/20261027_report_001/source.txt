@@ -1,0 +1,86 @@
+(/etc/inspire) [root:qihc-prompt-v2-f4d0498]$ cat /inspire/hdd/global_user/czxs25210022/why/results/prompt_efficiency_v2/gate/report.md
+cat /inspire/hdd/global_user/czxs25210022/why/results/prompt_efficiency_v2/formal/report.md
+# Typed modeling contract study v2
+
+Status: complete; 40/40 case-arms
+
+| Arm | Backend | Compiled/generated | Scored cases | Original feasible rate | Feasible reference gap | Gap cases | Input tokens | Output tokens | Calls | Generation s | Search s/seed |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| legacy_flat | pbit | 7/8 | 8/8 | 0.6250 | 0.5000 | 2.0000 | 8712.0000 | 3995.6250 | 1.5000 | 371.7586 | 4.0074 |
+| legacy_flat | cp_sat | 7/8 | 8/8 | 0.6250 | 0.5000 | 2.0000 | 8712.0000 | 3995.6250 | 1.5000 | 371.7586 | 0.0269 |
+| audit_staged | pbit | 1/8 | 8/8 | 0.0000 | - | 0.0000 | 19966.5000 | 2302.5000 | 3.8750 | 312.4435 | 0.4411 |
+| audit_staged | cp_sat | 1/8 | 8/8 | 0.0000 | - | 0.0000 | 19966.5000 | 2302.5000 | 3.8750 | 312.4435 | 0.0006 |
+| typed_flat | pbit | 8/8 | 8/8 | 0.5000 | 0.1727 | 2.0000 | 6590.3750 | 2287.2500 | 1.1250 | 311.9833 | 3.0196 |
+| typed_flat | cp_sat | 8/8 | 8/8 | 0.5000 | 0.1842 | 2.0000 | 6590.3750 | 2287.2500 | 1.1250 | 311.9833 | 0.6299 |
+| typed_staged | pbit | 5/8 | 8/8 | 0.3750 | 1.0000 | 1.0000 | 20290.5000 | 2575.8750 | 3.6250 | 203.0445 | 1.9181 |
+| typed_staged | cp_sat | 5/8 | 8/8 | 0.3750 | 1.0000 | 1.0000 | 20290.5000 | 2575.8750 | 3.6250 | 203.0445 | 0.6276 |
+| typed_staged_local | pbit | 5/8 | 8/8 | 0.3750 | 1.0000 | 1.0000 | 20321.1250 | 2153.5000 | 3.6250 | 251.1238 | 1.9570 |
+| typed_staged_local | cp_sat | 5/8 | 8/8 | 0.3750 | 1.0000 | 1.0000 | 20321.1250 | 2153.5000 | 3.6250 | 251.1238 | 0.6274 |
+
+## Generation failures
+
+| Arm | Reason | Cases |
+|---|---|---:|
+| legacy_flat | objective.linear: vector supports source, scale, and either column or flatten | 1 |
+| audit_staged | objective.linear: missing/invalid column | 2 |
+| audit_staged | Rule keys: requirement_id,constraints,logic | 2 |
+| audit_staged | objective.linear: flatten requires an array of arrays and true flag | 1 |
+| audit_staged | constraint:c0: missing/invalid column | 1 |
+| audit_staged | constraints.forall_rows: row expansion needs 1..512 rows | 1 |
+| typed_staged | Step did not finish: eos_without_complete_json | 1 |
+| typed_staged | Unique bounded constraint IDs required | 2 |
+| typed_staged_local | Step did not finish: eos_without_complete_json | 1 |
+| typed_staged_local | Return exactly one item for EACH requested requirement | 1 |
+| typed_staged_local | Unique bounded constraint IDs required | 1 |
+
+Initial modeling only; no post-training or solver feedback. Feasibility is not semantic equivalence.
+
+Attributed generation time includes failed attempts. Not equal FLOPs or total token costs; CP-SAT has a wall-clock cap.
+
+Published reference gap, not proven optimality. Only paired feasible same-seed results for gap deltas.
+
+Pairwise deltas and descriptive confidence intervals: summary.json / paired.
+Case bootstrap is descriptive, unadjusted for multiple comparisons; not a significance claim.
+# Typed modeling contract study v2
+
+Status: partial; 134/1500 case-arms
+
+| Arm | Backend | Compiled/generated | Scored cases | Original feasible rate | Feasible reference gap | Gap cases | Input tokens | Output tokens | Calls | Generation s | Search s/seed |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| legacy_flat | pbit | 22/27 | 27/300 | 0.7778 | - | 0.0000 | 6106.1481 | 2701.0741 | 1.2963 | 238.2422 | 2.3165 |
+| legacy_flat | cp_sat | 22/27 | 27/300 | 0.7778 | - | 0.0000 | 6106.1481 | 2701.0741 | 1.2963 | 238.2422 | 0.3765 |
+| audit_staged | pbit | 0/27 | 27/300 | 0.0000 | - | 0.0000 | 11383.0370 | 2135.7407 | 3.4444 | 227.2480 | 0.0000 |
+| audit_staged | cp_sat | 0/27 | 27/300 | 0.0000 | - | 0.0000 | 11383.0370 | 2135.7407 | 3.4444 | 227.2480 | 0.0000 |
+| typed_flat | pbit | 27/27 | 27/300 | 0.5432 | - | 0.0000 | 3470.3704 | 663.5556 | 1.0000 | 116.1159 | 2.4003 |
+| typed_flat | cp_sat | 27/27 | 27/300 | 0.5185 | - | 0.0000 | 3470.3704 | 663.5556 | 1.0000 | 116.1159 | 1.1226 |
+| typed_staged | pbit | 16/27 | 27/300 | 0.4815 | - | 0.0000 | 12858.2963 | 1866.8148 | 3.7407 | 178.7276 | 1.9507 |
+| typed_staged | cp_sat | 16/27 | 27/300 | 0.4444 | - | 0.0000 | 12858.2963 | 1866.8148 | 3.7407 | 178.7276 | 1.3034 |
+| typed_staged_local | pbit | 15/26 | 26/300 | 0.4231 | - | 0.0000 | 11577.5000 | 1800.8462 | 3.7692 | 145.4124 | 1.7486 |
+| typed_staged_local | cp_sat | 15/26 | 26/300 | 0.4231 | - | 0.0000 | 11577.5000 | 1800.8462 | 3.7692 | 145.4124 | 1.1613 |
+
+## Generation failures
+
+| Arm | Reason | Cases |
+|---|---|---:|
+| legacy_flat | Expected bounded integer, not bool/float/string | 1 |
+| legacy_flat | unsupported | 3 |
+| legacy_flat | objective.linear: row expansion needs 1..512 rows | 1 |
+| audit_staged | objective.linear: flatten requires an array of arrays and true flag | 12 |
+| audit_staged | Rule keys: requirement_id,constraints,logic | 8 |
+| audit_staged | Expected bounded integer, not bool/float/string | 1 |
+| audit_staged | objective.linear: missing/invalid column | 1 |
+| audit_staged | Step did not finish: token_limit | 3 |
+| audit_staged | objective.linear: row expansion needs 1..512 rows | 2 |
+| typed_staged | Unique bounded constraint IDs required | 9 |
+| typed_staged | Step did not finish: token_limit | 2 |
+| typed_staged_local | Unique bounded constraint IDs required | 9 |
+| typed_staged_local | Step did not finish: token_limit | 2 |
+
+Initial modeling only; no post-training or solver feedback. Feasibility is not semantic equivalence.
+
+Attributed generation time includes failed attempts. Not equal FLOPs or total token costs; CP-SAT has a wall-clock cap.
+
+Published reference gap, not proven optimality. Only paired feasible same-seed results for gap deltas.
+
+Pairwise deltas and descriptive confidence intervals: summary.json / paired.
+Case bootstrap is descriptive, unadjusted for multiple comparisons; not a significance claim.

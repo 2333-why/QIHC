@@ -1,9 +1,9 @@
 # 实验 02：类型明确的建模接口与局部纠错
 
 - 日期：2026-10-27（Asia/Shanghai）。
-- 状态：本地回归与真实 tokenizer 预检已通过；服务器真实模型结果待返回。
+- 状态：已进入服务器正式评测；收到的首次快照为 gate 40/40、formal 134/1500（8.93%）。这是部分结果，当前进程是否仍运行未核实。
 - 前一轮：[v1 验收失败分析](../20261026_prompt_efficiency_v1/gate_analysis.md)。
-- 基础提交：`6b9e6b810c64bf94ea4c29394d67e2950a1172fd`；交付提交由服务器 manifest.json 记录完整 SHA。
+- 基础提交：`6b9e6b810c64bf94ea4c29394d67e2950a1172fd`；交付提交 `f4d04983b1cec6bffd867da2ad08f37cecfa0022`。服务器工作目录名与该交付版本一致，manifest 尚待返回复核。
 - 独立入口：[experiments/prompt_efficiency_v2](../../../experiments/prompt_efficiency_v2/README.md)；[固定配置](../../../experiments/prompt_efficiency_v2/config.json)。
 - 默认结果：`/inspire/hdd/global_user/czxs25210022/why/results/prompt_efficiency_v2/`；不覆盖或迁移 v1。
 
@@ -64,6 +64,21 @@ bash experiments/prompt_efficiency_v2/02_report.sh
 
 ## 结果、风险与后续
 
-真实模型编译率、原题可行率、解质量、生成成本及局部纠错收益：**待返回**。
+首次结果分析：[analysis_20261027_partial_001.md](analysis_20261027_partial_001.md)。原始报告与结构化指标保存在 [snapshots/20261027_report_001](snapshots/20261027_report_001/source.txt)，后续快照追加保存，不覆盖本次数据。
+
+| 组 | formal 编译／生成 | 已评分题数 | p-bit 原题可行率 | CP-SAT 原题可行率 |
+|---|---:|---:|---:|---:|
+| legacy_flat | 22/27 | 27/300 | 77.78% | 77.78% |
+| audit_staged | 0/27 | 27/300 | 0% | 0% |
+| typed_flat | 27/27 | 27/300 | 54.32% | 51.85% |
+| typed_staged | 16/27 | 27/300 | 48.15% | 44.44% |
+| typed_staged_local | 15/26 | 26/300 | 42.31% | 42.31% |
+
+- 2026-10-27 收到用户粘贴报告：验收完成并已进入正式阶段；以上是部分样本、各组完成集合未核对，不能用作最终配对结论。
+- typed_flat 当前已生成样本全部编译通过；描述性总 token 均值比 legacy_flat 少约 53.06%，分摊生成秒数少约 51.26%，但原题可行率更低，暂不证明整体效果提升。
+- 两个类型明确的分步组各有 9 次约束 ID 不唯一、2 次 token_limit。现有局部数学字段修复不包含 ID 修改，局部纠错收益尚未体现。
+- 正式快照所有组 Gap cases=0，目标质量无法从该表判断。完整结果、逐题目标、同题配对区间与服务器 manifest：**待返回**。
+- 本次仅更新实验文档与原始快照，不调整运行配置或旧结果。
+
 约束生成是概率过程，类型过滤不能证明语义正确；数学有效但目标错误的情况仍可能发生。必须同时查看可行率和原题 gap，不能把 CP-SAT 对预测模型的 OPTIMAL 当作原题正确建模。
 保持真实模型执行验收与失败熔断，未绕过门槛；若仍失败，主日志和独立目录保留失败原因和子步骤供下一轮分析。

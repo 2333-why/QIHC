@@ -1,0 +1,12 @@
+{
+  "snapshot_id": "20261027_report_001",
+  "received_date": "2026-10-27",
+  "timezone": "Asia/Shanghai",
+  "report_generated_at": null,
+  "source_attachment": "C:\\Users\\ROG\\.codex\\attachments\\590feafb-0994-4442-9795-d33571571e4d\\已粘贴的文本.txt",
+  "source_sha256": "905f4b0c375f6ba7bc602eae45c6ee22ba99d5c55d2290915879c508d99f5393",
+  "server_run": "/inspire/hdd/global_user/czxs25210022/why/results/prompt_efficiency_v2",
+  "expected_code_commit": "f4d04983b1cec6bffd867da2ad08f37cecfa0022",
+  "server_manifest_verified": false,
+  "evidence_scope": "User-pasted gate/formal Markdown reports only; no per-case scores, current process status, manifest or paired confidence intervals received."
+}
