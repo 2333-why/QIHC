@@ -4,7 +4,7 @@
 - 状态：实现及本地验证已完成；服务器真实模型验收和正式实验均待运行。
 - 日期：2026-10-27，Asia/Shanghai。
 - 前一轮：[v2 部分结果](../20261027_prompt_efficiency_v2/analysis_20261027_partial_001.md)。新算法、新目录；不覆盖旧结果。
-- 分支：`llm-cvrp`；代码发布提交将在完成验证后登记；服务器 `manifest.json.code_commit` 保存实际完整提交。
+- 分支：`llm-cvrp`；算法发布提交：`3bf3a5179c0a27378663deefac1301a0635494eb`；本次后续提交仅补发布记录。服务器 `manifest.json.code_commit` 保存实际完整提交。
 - 服务器结果目录：`/inspire/hdd/global_user/czxs25210022/why/results/prompt_efficiency_v3`。
 
 ## 目的与设置
@@ -47,7 +47,19 @@
 
 ## 启动、续跑与结果
 
-完整发布提交和 worktree 命令将在验证后补齐。进入独立固定提交 worktree 后：
+联网 CPU 从原仓库只执行 fetch，然后建立新的固定提交 worktree（不切换旧 worktree）：
+
+```bash
+cd /inspire/hdd/global_user/czxs25210022/why/qihc && git fetch origin llm-cvrp && git worktree add --detach ../qihc-prompt-v3-3bf3a51 3bf3a5179c0a27378663deefac1301a0635494eb && cd ../qihc-prompt-v3-3bf3a51 && bash experiments/prompt_efficiency_v3/00_prepare_cpu.sh
+```
+
+四卡任务的一行启动/续跑命令：
+
+```bash
+cd /inspire/hdd/global_user/czxs25210022/why/qihc-prompt-v3-3bf3a51 && bash experiments/prompt_efficiency_v3/01_run_4gpu.sh
+```
+
+各阶段命令及状态检查：
 
 ```bash
 # 联网 CPU：仅准备，无常驻计算，不重新下载模型
@@ -72,6 +84,7 @@ tar -czf "$BASE/prompt_efficiency_v3_analysis_$(date +%Y%m%dT%H%M%S).tar.gz" -C 
 - 2026-10-27：253 项相关测试通过（88.19 秒）；最终数学差异标签调整后，9 项 v3 测试再次通过（4.16 秒）。覆盖真实 v1 失败、ID 冲突、两后端 CPU 搜索、6 组报告、断点重放、旧结果只读诊断。
 - 2026-10-27：实际 Qwen3-32B tokenizer 的 49 项类型/复核 schema 探针通过；1800 首轮提示全部通过长度检查，最大 14328 tokens；原版 legacy_flat 最大 10949。未载入 32B 权重。
 - 2026-10-27：Ruff F 检查、三个 shell 脚本分别 bash -n、git diff --check 均通过。共享旧默认流程经相关回归测试；旧 v1/v2 实验源码未改。
+- 2026-10-27：算法发布提交 `3bf3a5179c0a27378663deefac1301a0635494eb`；旧工作树、旧结果及旧环境未改；服务器未由本地启动。
 - 预检源指纹：`ec70029916a9b816b258c7a70936f32851c6a0edf765554f50c64b8fb9a5e3f4`。详细证据：[validation.json](validation.json)。
 
 ## 结果与结论

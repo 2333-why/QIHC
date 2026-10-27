@@ -83,5 +83,6 @@
     "Tiny real Transformers CPU batch generation validates interface, not language modeling quality",
     "Semantic examples are observed v1 failures; v2 per-case raw files not supplied",
     "Server real-model gate and formal results pending"
-  ]
+  ],
+  "implementation_commit": "3bf3a5179c0a27378663deefac1301a0635494eb"
 }
