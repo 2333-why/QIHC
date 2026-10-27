@@ -3,6 +3,7 @@
 新实验采用 `experiments/<实验名>_vN/` 独立目录，包含配置、CPU 准备、GPU 运行、报告入口及说明。
 
 - [prompt_efficiency_v1](prompt_efficiency_v1/README.md)：五组提示词，固定编译与求解后端，评估建模质量和实际成本。
+- [prompt_efficiency_v2](prompt_efficiency_v2/README.md)：保留原版一次建模，比较审计分离、类型明确的数据引用、显式编号映射和局部字段纠错。
 
 通用建模位于 `qihc/modeling/`，共享实验基础组件位于 `qihc/experiment_runtime/`，
 搜索算法继续位于 `qihc/generic/`。实验设置不得通过修改这些组件的模块全局变量临时注入。

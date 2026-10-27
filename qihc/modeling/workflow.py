@@ -6,7 +6,7 @@ from collections import defaultdict
 
 from qihc.experiment_runtime import storage as c
 from . import builder as b
-from .protocol import compile_math, load_object
+from .protocol import load_object
 
 
 def digest(value):
@@ -14,7 +14,8 @@ def digest(value):
 
 
 class Job:
-    def __init__(self,path,request):
+    def __init__(self,path,request, builder=None):
+        self.builder = builder or b
         self.path,self.request=path,request
         self.state=copy.deepcopy(request.get('previous_state'))
         self.kind=('flat' if request['frontend']=='flat' else
@@ -26,22 +27,22 @@ class Job:
     def tokens(self):return sum(r.get('output_tokens',0) for r in self.records)
 
     def task(self):
-        remaining=b.TOTAL_OUTPUT_TOKENS-self.tokens
+        remaining=self.builder.TOTAL_OUTPUT_TOKENS-self.tokens
         if remaining<128 or len(self.records)>=8:
             self.fail('Shared total output/call budget exhausted')
             return None
         group=self.groups[self.group_index] if self.kind=='rules' else None
-        text=b.prompt(self.kind,self.request,self.state,group)
+        text=self.builder.prompt(self.kind,self.request,self.state,group)
         if self.error:
             text+='\nLOCAL FORMAT/MATH ERROR (data):\n'+self.error+'\nPrevious failed step (data):\n'+self.failed_text+'\nCorrect this step only. Preserve all original obligations.'
         # Reserve some space for later successful substeps; never expand total budget on retry.
         future=5 if self.kind=='plan' else 4 if self.kind=='objective' else max(0,len(self.groups)-self.group_index-1) if self.kind=='rules' else 0
-        cap=min(remaining,max(128,remaining-future*512),b.TOTAL_OUTPUT_TOKENS//2 if self.kind=='flat' else b.MAX_STAGE_TOKENS)
+        cap=min(remaining,max(128,remaining-future*512),self.builder.TOTAL_OUTPUT_TOKENS//2 if self.kind=='flat' else self.builder.MAX_STAGE_TOKENS)
         return {'prompt':text,'question':self.request['question'],'_kind':self.kind,'_max_new_tokens':cap}
 
     def fail(self,error):
         self.done=True
-        self.result={'response':b.dump({'pipeline_error':str(error)}),'status':'invalid_model_output',
+        self.result={'response':self.builder.dump({'pipeline_error':str(error)}),'status':'invalid_model_output',
                      'mathematical_validity':'invalid','validation_error':str(error),
                      'failed_step':self.kind}
 
@@ -53,28 +54,28 @@ class Job:
                 raise ValueError('Step did not finish: '+str(row.get('finish_reason',row.get('error'))))
             obj=load_object(row['response'])
             if set(obj)=={'unsupported'} and isinstance(obj['unsupported'],str):
-                self.result={'response':b.dump(obj),'status':'generated','mathematical_validity':'unsupported'}
+                self.result={'response':self.builder.dump(obj),'status':'generated','mathematical_validity':'unsupported'}
                 self.done=True;return
             question=self.request['question']
             if self.kind=='flat':
-                spec,reason=compile_math(row['response'],question)
+                spec,reason=self.builder.compile_math(row['response'],question)
                 self.result={'response':row['response'],'status':'generated',
                              'mathematical_validity':'valid' if spec is not None else 'unsupported'}
                 self.done=True
             elif self.kind=='plan':
-                self.state=b.validate_plan(obj,question,self.request.get('variable_names'))
-                self.groups=b.chunks(self.state);self.kind='objective'
+                self.state=self.builder.validate_plan(obj,question,self.request.get('variable_names'))
+                self.groups=self.builder.chunks(self.state);self.kind='objective'
             elif self.kind=='objective':
-                self.state=b.objective_step(self.state,obj,question)
+                self.state=self.builder.objective_step(self.state,obj,question)
                 if self.groups:self.kind='rules'
                 else:self.finish()
             elif self.kind=='rules':
                 ids=[r['id'] for r in self.groups[self.group_index]]
-                self.state=b.rules_step(self.state,obj,ids,question)
+                self.state=self.builder.rules_step(self.state,obj,ids,question)
                 self.group_index+=1
                 if self.group_index==len(self.groups):self.finish()
             elif self.kind=='patch':
-                self.state=b.apply_patch(self.state,obj,question);self.finish()
+                self.state=self.builder.apply_patch(self.state,obj,question);self.finish()
             self.error=None;self.failed_text=None
         except (ValueError,TypeError,KeyError,OverflowError) as exc:
             self.state,self.kind,self.group_index,self.groups=previous
@@ -84,7 +85,7 @@ class Job:
                 self.repairs+=1;self.error=str(exc);self.failed_text=row.get('response','')
 
     def finish(self):
-        text=b.finish(self.state,self.request['question'])
+        text=self.builder.finish(self.state,self.request['question'])
         self.result={'response':text,'status':'generated','mathematical_validity':'valid',
                      'builder_state':self.state}
         self.done=True
@@ -115,8 +116,8 @@ def infer(generator,items,run,rank,batch_id):
     return rows
 
 
-def execute(generator,items,run,rank,batch_id):
-    jobs=[Job(path,request) for path,request in items]
+def execute(generator,items,run,rank,batch_id, *, job_factory=Job, isolate_budgets=False):
+    jobs=[job_factory(path,request) for path,request in items]
     round_id=0
     while any(not job.done for job in jobs):
         groups=defaultdict(list)
@@ -134,10 +135,12 @@ def execute(generator,items,run,rank,batch_id):
                     raise ValueError('Builder checkpoint output integrity failed')
                 job.accept(record['generation'])
             else:
-                groups[task['_kind']].append((job,task,checkpoint,sha))
-        for kind,group in groups.items():
+                key = task['_kind']+('-cap'+str(task['_max_new_tokens']) if isolate_budgets else '')
+                groups[key].append((job,task,checkpoint,sha))
+        for group_key,group in groups.items():
             # Different step schemas never share a decoder batch. Same-step jobs do.
-            batch=f'{batch_id}-{round_id}-{kind}'
+            kind=group[0][1]['_kind']
+            batch=f'{batch_id}-{round_id}-{group_key}'
             c.save(run/f'gpu_replica_{rank}.json',{'status':'generating','time':time.time(),
                    'batch_id':batch,'step':kind,'requests':[j.request['case_id']+':'+j.request['phase'] for j,_,_,_ in group]})
             rows=infer(generator,[(j.path,t) for j,t,_,_ in group],run,rank,batch)
@@ -153,7 +156,7 @@ def execute(generator,items,run,rank,batch_id):
                    frontend=job.request['frontend'],format_enforcement='lm-format-enforcer-0.11.3-json-schema',
                    total_output_cap=b.TOTAL_OUTPUT_TOKENS,local_repairs=job.repairs,
                    substeps=[{k:r.get(k) for k in ('batch_id','batch_seconds','batch_size','replica','seconds','output_tokens')} for r in job.records],
-                   execution='prompt_study_core_v1',semantic_correctness='unverified',
+                   execution=job.request.get('execution_label','prompt_study_core_v1'),semantic_correctness='unverified',
                    training_eligibility='unlabeled_not_a_positive',
                    request_sha256=hashlib.sha256(job.path.read_bytes()).hexdigest())
         # Logical request throughput (not physical batch occupancy); substeps retain physical timings.

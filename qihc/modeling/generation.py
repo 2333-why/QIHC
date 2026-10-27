@@ -86,7 +86,13 @@ def generate(generator, items, *, retry=False):
             return torch.tensor([complete_object(tokenizer.decode(row[width:], skip_special_tokens=True)) is not None
                                  for row in input_ids], dtype=torch.bool, device=input_ids.device)
 
-    enforced = prefix_function(generator,prompt_width=width,kind=next(iter(kinds)))
+    if any(r.get('_schema') is not None for _, r in items):
+        filters = [prefix_function(generator, prompt_width=width, kind=r.get('_kind', 'flat'),
+                                   schema_override=r.get('_schema')) for _, r in items]
+        def enforced(batch_id, token_ids):
+            return filters[batch_id](0, token_ids)
+    else:
+        enforced = prefix_function(generator,prompt_width=width,kind=next(iter(kinds)))
     started = time.perf_counter()
     with torch.inference_mode():
         output = generator.model.generate(input_ids=ids, attention_mask=mask, do_sample=False,

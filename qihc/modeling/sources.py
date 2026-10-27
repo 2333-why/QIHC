@@ -185,9 +185,9 @@ class Resolver:
         return [[i,j,integer(c)] for (i,j),c in sorted(combined.items()) if c]
 
 
-def expand(obj, question):
+def expand(obj, question, *, resolver_type=Resolver):
     obj = copy.deepcopy(obj)
-    resolver = Resolver(question)
+    resolver = resolver_type(question)
     model = obj.get('model')
     if not isinstance(model,dict):
         return obj, []

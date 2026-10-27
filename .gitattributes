@@ -7,5 +7,6 @@ tools/runtime/modeling_v4/*.sh text eol=lf
 tools/runtime/modeling_v5/*.sh text eol=lf
 tools/runtime/modeling_v6/*.sh text eol=lf
 experiments/prompt_efficiency_v1/*.sh text eol=lf
+experiments/prompt_efficiency_v2/*.sh text eol=lf
 # Exact prompt snapshots preserve whitespace in the original question.
 docs/experiments/20261026_modeling_prompt_baseline/*_prompt.txt -whitespace

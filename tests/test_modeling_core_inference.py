@@ -1,8 +1,10 @@
 """Real offline Transformers loading + constrained generation, with a tiny CPU model."""
 from pathlib import Path
+import pytest
 
 
-def test_real_saved_model_backend_and_batch_decoder(tmp_path, monkeypatch):
+@pytest.mark.parametrize('typed', [False, True])
+def test_real_saved_model_backend_and_batch_decoder(tmp_path, monkeypatch, typed):
     from tokenizers import Tokenizer, Regex, models, pre_tokenizers, decoders
     from transformers import PreTrainedTokenizerFast, GPT2Config, GPT2LMHeadModel
     from qihc.modeling.backend import LocalModel
@@ -20,16 +22,27 @@ def test_real_saved_model_backend_and_batch_decoder(tmp_path, monkeypatch):
     gen = LocalModel(str(tmp_path), device='cpu', temperature=0, max_input_tokens=200)
     expected = ['{"unsupported":"fixture"}', '{"unsupported":"second fixture"}']
     ids = [gen.tokenizer.encode(text, add_special_tokens=False) for text in expected]
-    def forced(generator, prompt_width=0, kind='flat'):
-        real = f.prefix_function(generator, prompt_width, kind)
+    calls = []
+    def forced(generator, prompt_width=0, kind='flat', schema_override=None):
+        real = f.prefix_function(generator, prompt_width, kind, schema_override)
+        row_index = len(calls)
+        calls.append(schema_override)
         def fn(batch, sent):
             offset = len(sent)-prompt_width
-            token = ids[batch][offset] if offset < len(ids[batch]) else 0
+            selected = row_index if typed else batch
+            token = ids[selected][offset] if offset < len(ids[selected]) else 0
             assert token in real(batch, sent)
             return [token]
         return fn
     monkeypatch.setattr(g, 'prefix_function', forced)
-    rows = g.generate(gen, [(Path('a'), {'prompt': 'Q', '_kind': 'flat', '_max_new_tokens': 128}),
-                            (Path('b'), {'prompt': 'QQ', '_kind': 'flat', '_max_new_tokens': 128})])
+    items = [(Path('a'), {'prompt': 'Q', '_kind': 'flat', '_max_new_tokens': 128}),
+             (Path('b'), {'prompt': 'QQ', '_kind': 'flat', '_max_new_tokens': 128})]
+    if typed:
+        import json
+        for (_, task), text in zip(items, expected):
+            task['_schema'] = {'type': 'object', 'required': ['unsupported'], 'additionalProperties': False,
+                               'properties': {'unsupported': {'const': json.loads(text)['unsupported']}}}
+    rows = g.generate(gen, items)
     assert [r['response'] for r in rows] == expected
     assert all(r['status'] == 'generated' for r in rows)
+    assert len(calls) == (2 if typed else 1)

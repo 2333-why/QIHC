@@ -61,23 +61,23 @@ def stage_schema(kind):
                       'properties':{'unsupported':{'type':'string'}}}]}
 
 
-def parser(kind='flat'):
+def parser(kind='flat', schema_override=None):
     from lmformatenforcer import JsonSchemaParser
     from lmformatenforcer.characterlevelparser import CharacterLevelParserConfig
     # The library default (20 array items) must never silently shrink CO models.
-    return JsonSchemaParser(stage_schema(kind),config=CharacterLevelParserConfig(max_json_array_length=16384))
+    return JsonSchemaParser(schema_override if schema_override is not None else stage_schema(kind),config=CharacterLevelParserConfig(max_json_array_length=16384))
 
 
 def restore_parser_limits(enforcer):
     enforcer.root_parser.config.max_json_array_length = 16384
 
 
-def prefix_function(generator, prompt_width=0, kind='flat'):
+def prefix_function(generator, prompt_width=0, kind='flat', schema_override=None):
     check_dependencies()
     from .token_bridge import build_tokenizer_data, PrefixFilter
     if not hasattr(generator,'_v6_tokenizer_data'):
         generator._v6_tokenizer_data = build_tokenizer_data(generator.tokenizer)
-    fn = PrefixFilter(generator._v6_tokenizer_data,parser(kind),prompt_width)
+    fn = PrefixFilter(generator._v6_tokenizer_data,parser(kind, schema_override),prompt_width)
     # TokenEnforcer rebuilds the parser config to install the tokenizer alphabet.
     # Restore the explicit nested-array limit after that reset, without losing alphabet.
     restore_parser_limits(fn.token_enforcer)

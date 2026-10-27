@@ -72,7 +72,7 @@ def worker(root, rank, study):
             batch = f'{rank}-{time.time_ns()}'
             s.save(root/f'gpu-{rank}.json', {'status': 'generating', 'phase': phase, 'time': time.time(),
                     'requests': [r['id'] for _, r in items]})
-            execute(generator, items, directory, rank, batch)
+            getattr(study, "execute", execute)(generator, items, directory, rank, batch)
             s.save(root/f'gpu-{rank}.json', {'status': 'batch_complete', 'phase': phase, 'time': time.time()})
 
 
@@ -186,6 +186,7 @@ def launch(root, study):
                         accepted = gate_check(report); s.save(root/'gate_acceptance.json', accepted)
                         record_event(root, 'Execution acceptance: '+json.dumps(accepted))
                         if not accepted['passed']:
+                            print('GATE FAILURE DETAILS '+json.dumps({a: report['overall'][a] for a in accepted['failed_arms']}), flush=True)
                             raise RuntimeError('Execution gate failed: '+str(accepted['failed_arms'])+'; inspect gate/report.md and builder_steps')
                         print('EXECUTION GATE PASSED; starting formal prompt comparisons', flush=True)
             s.save(root/'phase.json', {'phase': 'done'})
