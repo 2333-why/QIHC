@@ -76,6 +76,9 @@ def schema(kind, question, n, repair_paths=None):
         constraints.append(obj({'forall_rows': obj({'source': sid, 'id_prefix': TEXT, 'terms': terms,
                             'op': {'enum': ['le', 'ge', 'eq']}, 'rhs': row_scalar})}))
     vector = union(*vector_variants)
+    constraints.append(obj({'forall_affine': obj({'id_prefix': TEXT, 'count': scalar,
+        'width': scalar, 'start': scalar, 'group_stride': scalar, 'term_stride': scalar,
+        'coefficient': scalar, 'op': {'enum': ['le', 'ge', 'eq']}, 'rhs': scalar})}))
     objective = obj({'sense': {'enum': ['min', 'max']}, 'linear': vector, 'quadratic': union(*quadratic_variants)})
     constraints.insert(0, obj({'id': TEXT, 'a': vector, 'op': {'enum': ['le', 'ge', 'eq']}, 'rhs': scalar}))
     expr = union(obj({'var': index}), obj({'op': {'enum': ['not', 'and', 'or', 'implies', 'iff']},

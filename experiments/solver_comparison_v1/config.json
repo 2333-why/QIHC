@@ -1,0 +1,11 @@
+{
+  "experiment_id": "E002-1.1",
+  "source_arms": ["legacy_flat", "semantic_staged"],
+  "backends": ["cp_sat", "scip", "highs", "sa", "pt", "penalty_pt", "pbit"],
+  "seconds": [1, 5, 20],
+  "seeds": [0, 1, 2],
+  "chains": 16,
+  "cpu_workers": 24,
+  "reference_seconds": 30,
+  "report_interval_seconds": 30
+}

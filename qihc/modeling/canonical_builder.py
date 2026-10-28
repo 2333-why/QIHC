@@ -14,10 +14,11 @@ class Builder(TypedBuilder):
             for field, tag in [('constraints', 'c'), ('logic', 'l')]:
                 for i, item in enumerate(rule[field]):
                     key = f'r{group}_{tag}{i}'
-                    if 'forall_rows' in item:
-                        old = item['forall_rows']['id_prefix']
+                    expansion = next((k for k in ('forall_rows', 'forall_affine') if k in item), None)
+                    if expansion:
+                        old = item[expansion]['id_prefix']
                         new = key+'_row_'
-                        item['forall_rows']['id_prefix'] = new
+                        item[expansion]['id_prefix'] = new
                         kind = 'prefix'
                     else:
                         old, new = item['id'], key

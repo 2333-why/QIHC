@@ -1,0 +1,56 @@
+{
+  "experiment_id": "E001-1.2",
+  "received_date_Asia_Shanghai": "2026-10-28",
+  "source_archive": "E:/E001-1.2_analysis_20261028T094259.tar.gz",
+  "saved_archive": "F:\\p-bit\\QIHC\\artifacts\\experiment_archives\\E001-1.2_20261028T094259\\E001-1.2_analysis_20261028T094259.tar.gz",
+  "archive_sha256": "2ee6021c2434df9f26605512edac3c9f0ea7cd5be198986f1b90e2f48b69c518",
+  "archive_bytes": 4392656,
+  "code_commit": "f4d04983b1cec6bffd867da2ad08f37cecfa0022",
+  "source_hash": "0df20ccd5da0af325f278ecbdb2a593fc00c325c37578253610ed374548caf3e",
+  "phase_cases_sha256": {
+    "gate": "a1e8c626450e040bd6a605309359ebea140386f4e1d9f8f093102ade94e88b12",
+    "formal": "193340a8c5826b1df26232197f14a40ae1cee1a6efe8fcc342a4611383a62eda"
+  },
+  "model": "/inspire/hdd/global_user/czxs25210022/why/models/Qwen3-32B",
+  "source_cases_sha256": "96ee820e4a0a07d10636d9816f3c5dccf57ef7352aa53c286f5949efc0b54752",
+  "config": {
+    "experiment": "prompt_efficiency_v2",
+    "arms": [
+      "legacy_flat",
+      "audit_staged",
+      "typed_flat",
+      "typed_staged",
+      "typed_staged_local"
+    ],
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "chains": 16,
+    "budget": 8192,
+    "solver_seconds": 5.0,
+    "total_output_tokens": 16384,
+    "thinking": false,
+    "feedback": "none",
+    "selection": "fixed",
+    "replicas": 2,
+    "batch_size": 2,
+    "cpu_workers": 32,
+    "max_idle_seconds": 900,
+    "generation_watchdog_seconds": 5400
+  },
+  "scope": "previously inspected diagnostic benchmark, not an unseen test claim",
+  "assistance": "original_variable_names_and_order_from_gold_when_available",
+  "weights_sha256_available": false,
+  "snapshot_files": {
+    "manifest.json": "22b593b3df227b4c9d45c65536ad2480f52a9c544822ffce9b431f41ad31a6e4",
+    "status.json": "2ba038eb0ec106ee41b3cb5f17a4364dfca254e6cb1b883077f5b4ba9f90aa56",
+    "formal\\summary.json": "77e5c5369a66e2e404c917384b9c97acd1a84ae77e5429ed14173d33fb4e4038",
+    "gate\\summary.json": "f2786e5a59b4057e978b9a7b94cade73f96cf8472052df7ff56dd527cdf4a343",
+    "logs\\20261027T045424Z-20-gpu-0.log": "c1da109b63884f999de313c57adce0451af4a94c186f5f5ae4da454662f2f1ce",
+    "logs\\20261027T045424Z-20-gpu-1.log": "82da73330e1c0e033cf075ce432a664a10f4512631e702d3c6439b64d126b732"
+  },
+  "analysis_script_sha256": "0aae028eaf9b2644bd7d62b8d2b50470c0e304a75b8c622bd541d83d033c9374",
+  "metrics_sha256": "83e709122ff48b45aba3f991ccbfd77389a29038c6f825812423130ed5a40868"
+}

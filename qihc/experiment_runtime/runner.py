@@ -37,7 +37,12 @@ def pending(directory, rank, batch):
         if hashlib.sha256(row['question'].encode()).hexdigest() != row['question_sha256']:
             raise ValueError('Source text integrity mismatch')
         rows.append((p, row))
+    # Opt-in stratified ordering. Historical requests without queue_group keep
+    # their exact ordering; new runs interleave datasets rather than exhaust A.
     rows.sort(key=lambda x: (x[1]['case_id'], x[1]['phase']))
+    if rows and any('queue_group' in r for _, r in rows):
+        rows.sort(key=lambda x: (x[1].get('queue_order', 0), x[1].get('queue_group', ''),
+                                 x[1]['case_id'], x[1]['phase']))
     if not rows:
         return []
     kind = rows[0][1]['frontend']

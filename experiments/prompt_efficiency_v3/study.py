@@ -78,6 +78,7 @@ def request(case, arm):
     else:
         text = typed_builder.prompt(case['question'], names, frontend)
     return {'id': s.key(case['id'], arm), 'case_id': case['id'], 'phase': arm,
+            'queue_group': case['dataset'], 'queue_order': case.get('_queue_order', 0),
             'question': case['question'], 'question_sha256': hashlib.sha256(case['question'].encode()).hexdigest(),
             'prompt': text, 'frontend': frontend, 'prompt_style': 'legacy', 'variable_names': names,
             'contract': 'legacy' if style == 'legacy' else 'audit' if style == 'audit' else 'typed',
@@ -115,6 +116,14 @@ def prepare(root, source):
     if s.digest(case_path) != previous['cases_sha256']:
         raise ValueError('Source case checksum differs from original manifest')
     cases = s.load(case_path)
+    # Fixed rank within each dataset makes queue interleaving stable on resume.
+    from collections import defaultdict
+    groups = defaultdict(list)
+    for c in cases:
+        groups[c['dataset']].append(c)
+    for rows in groups.values():
+        for rank, c in enumerate(sorted(rows, key=lambda c: c['id'])):
+            c['_queue_order'] = rank
     if not cases or len({c['id'] for c in cases}) != len(cases):
         raise ValueError('Empty or duplicate case set')
     if any(not c.get('gold') for c in cases):

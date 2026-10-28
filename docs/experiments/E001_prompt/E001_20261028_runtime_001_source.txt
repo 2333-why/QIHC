@@ -1,0 +1,216 @@
+== /inspire/hdd/global_user/czxs25210022/why/results/prompt_efficiency_v1 ===
+{"status": "failed", "error": "RuntimeError(\"Execution gate failed: ['legacy_staged']; inspect gate/report.md and builder_steps\")", "elapsed_seconds_this_launch": 7889.925692722201, "time": 1793038351.516921}
+--- /inspire/hdd/global_user/czxs25210022/why/results/prompt_efficiency_v1/logs/20261026T160101Z-23-gpu-0.log ---
+GPU 0: loading /inspire/hdd/global_user/czxs25210022/why/models/Qwen3-32B
+Loading weights: 100%|██████████| 707/707 [02:09<00:00,  5.47it/s]
+GPU 0: weights loaded; placement={'model.embed_tokens': 0, 'model.layers.0': 0, 'model.layers.1': 0, 'model.layers.2': 0, 'model.layers.3': 0, 'model.layers.4': 0, 'model.layers.5': 0, 'model.layers.6': 0, 'model.layers.7': 0, 'model.layers.8': 0, 'model.layers.9': 0, 'model.layers.10': 0, 'model.layers.11': 0, 'model.layers.12': 0, 'model.layers.13': 0, 'model.layers.14': 0, 'model.layers.15': 0, 'model.layers.16': 0, 'model.layers.17': 0, 'model.layers.18': 0, 'model.layers.19': 0, 'model.layers.20': 0, 'model.layers.21': 0, 'model.layers.22': 0, 'model.layers.23': 0, 'model.layers.24': 0, 'model.layers.25': 0, 'model.layers.26': 0, 'model.layers.27': 0, 'model.layers.28': 0, 'model.layers.29': 0, 'model.layers.30': 0, 'model.layers.31': 1, 'model.layers.32': 1, 'model.layers.33': 1, 'model.layers.34': 1, 'model.layers.35': 1, 'model.layers.36': 1, 'model.layers.37': 1, 'model.layers.38': 1, 'model.layers.39': 1, 'model.layers.40': 1, 'model.layers.41': 1, 'model.layers.42': 1, 'model.layers.43': 1, 'model.layers.44': 1, 'model.layers.45': 1, 'model.layers.46': 1, 'model.layers.47': 1, 'model.layers.48': 1, 'model.layers.49': 1, 'model.layers.50': 1, 'model.layers.51': 1, 'model.layers.52': 1, 'model.layers.53': 1, 'model.layers.54': 1, 'model.layers.55': 1, 'model.layers.56': 1, 'model.layers.57': 1, 'model.layers.58': 1, 'model.layers.59': 1, 'model.layers.60': 1, 'model.layers.61': 1, 'model.layers.62': 1, 'model.layers.63': 1, 'model.norm': 1, 'model.rotary_emb': 1, 'lm_head': 1}
+REPLICA 0: builder flat saved 2 substeps
+REPLICA 0: builder flat saved 1 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: builder plan saved 1 substeps
+REPLICA 0: builder objective saved 1 substeps
+REPLICA 0: builder objective saved 1 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: builder plan saved 1 substeps
+REPLICA 0: builder objective saved 1 substeps
+REPLICA 0: builder rules saved 1 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder flat saved 2 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: builder objective saved 2 substeps
+REPLICA 0: builder objective saved 1 substeps
+REPLICA 0: builder rules saved 1 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: builder objective saved 2 substeps
+REPLICA 0: builder objective saved 2 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder flat saved 2 substeps
+REPLICA 0: builder flat saved 2 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder flat saved 2 substeps
+REPLICA 0: builder flat saved 1 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: builder plan saved 1 substeps
+REPLICA 0: builder objective saved 1 substeps
+REPLICA 0: builder objective saved 1 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder flat saved 2 substeps
+REPLICA 0: builder flat saved 1 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: builder objective saved 1 substeps
+REPLICA 0: builder plan saved 1 substeps
+REPLICA 0: builder rules saved 1 substeps
+REPLICA 0: builder rules saved 1 substeps
+REPLICA 0: saved 2 logical responses
+[W1026 18:12:34.303406227 AllocatorConfig.cpp:28] Warning: PYTORCH_CUDA_ALLOC_CONF is deprecated, use PYTORCH_ALLOC_CONF instead (function operator())
+
+--- /inspire/hdd/global_user/czxs25210022/why/results/prompt_efficiency_v1/logs/20261026T160101Z-23-gpu-1.log ---
+GPU 1: loading /inspire/hdd/global_user/czxs25210022/why/models/Qwen3-32B
+Loading weights: 100%|██████████| 707/707 [02:09<00:00,  5.48it/s]
+GPU 1: weights loaded; placement={'model.embed_tokens': 0, 'model.layers.0': 0, 'model.layers.1': 0, 'model.layers.2': 0, 'model.layers.3': 0, 'model.layers.4': 0, 'model.layers.5': 0, 'model.layers.6': 0, 'model.layers.7': 0, 'model.layers.8': 0, 'model.layers.9': 0, 'model.layers.10': 0, 'model.layers.11': 0, 'model.layers.12': 0, 'model.layers.13': 0, 'model.layers.14': 0, 'model.layers.15': 0, 'model.layers.16': 0, 'model.layers.17': 0, 'model.layers.18': 0, 'model.layers.19': 0, 'model.layers.20': 0, 'model.layers.21': 0, 'model.layers.22': 0, 'model.layers.23': 0, 'model.layers.24': 0, 'model.layers.25': 0, 'model.layers.26': 0, 'model.layers.27': 0, 'model.layers.28': 0, 'model.layers.29': 0, 'model.layers.30': 0, 'model.layers.31': 1, 'model.layers.32': 1, 'model.layers.33': 1, 'model.layers.34': 1, 'model.layers.35': 1, 'model.layers.36': 1, 'model.layers.37': 1, 'model.layers.38': 1, 'model.layers.39': 1, 'model.layers.40': 1, 'model.layers.41': 1, 'model.layers.42': 1, 'model.layers.43': 1, 'model.layers.44': 1, 'model.layers.45': 1, 'model.layers.46': 1, 'model.layers.47': 1, 'model.layers.48': 1, 'model.layers.49': 1, 'model.layers.50': 1, 'model.layers.51': 1, 'model.layers.52': 1, 'model.layers.53': 1, 'model.layers.54': 1, 'model.layers.55': 1, 'model.layers.56': 1, 'model.layers.57': 1, 'model.layers.58': 1, 'model.layers.59': 1, 'model.layers.60': 1, 'model.layers.61': 1, 'model.layers.62': 1, 'model.layers.63': 1, 'model.norm': 1, 'model.rotary_emb': 1, 'lm_head': 1}
+REPLICA 1: builder flat saved 2 substeps
+REPLICA 1: builder flat saved 1 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder plan saved 2 substeps
+REPLICA 1: builder plan saved 1 substeps
+REPLICA 1: builder objective saved 1 substeps
+REPLICA 1: builder objective saved 1 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder flat saved 2 substeps
+REPLICA 1: builder flat saved 2 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder plan saved 2 substeps
+REPLICA 1: builder objective saved 2 substeps
+REPLICA 1: builder objective saved 1 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder flat saved 2 substeps
+REPLICA 1: builder flat saved 2 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder plan saved 2 substeps
+REPLICA 1: builder plan saved 2 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder plan saved 2 substeps
+REPLICA 1: builder plan saved 1 substeps
+REPLICA 1: builder objective saved 1 substeps
+REPLICA 1: builder objective saved 1 substeps
+REPLICA 1: builder rules saved 1 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder plan saved 2 substeps
+REPLICA 1: builder plan saved 2 substeps
+REPLICA 1: saved 2 logical responses
+[W1026 18:12:34.290216586 AllocatorConfig.cpp:28] Warning: PYTORCH_CUDA_ALLOC_CONF is deprecated, use PYTORCH_ALLOC_CONF instead (function operator())
+
+=== /inspire/hdd/global_user/czxs25210022/why/results/prompt_efficiency_v2 ===
+{"status": "running", "phase": "formal", "responses": 134, "requests": 1500, "completed_case_arms": 134, "active_cpu": 0, "generation_eta_seconds": 132679.08687022832, "eta_scope": "current-phase measured throughput; excludes remaining CPU tail and future phase", "elapsed_seconds": 20472.849617066997, "time": 1793097337.6168487}
+--- /inspire/hdd/global_user/czxs25210022/why/results/prompt_efficiency_v2/logs/20261027T045424Z-20-gpu-0.log ---
+REPLICA 0: builder rules saved 2 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder flat saved 2 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: builder objective saved 2 substeps
+REPLICA 0: builder rules saved 2 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: builder objective saved 2 substeps
+REPLICA 0: builder objective saved 1 substeps
+REPLICA 0: builder rules saved 1 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder flat saved 2 substeps
+REPLICA 0: builder flat saved 1 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: builder objective saved 2 substeps
+REPLICA 0: builder rules saved 2 substeps
+REPLICA 0: builder rules saved 1 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder flat saved 2 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: builder objective saved 2 substeps
+REPLICA 0: builder rules saved 2 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: builder objective saved 2 substeps
+REPLICA 0: builder rules saved 2 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder flat saved 2 substeps
+REPLICA 0: builder flat saved 1 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: builder objective saved 2 substeps
+REPLICA 0: builder rules saved 2 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: builder objective saved 2 substeps
+REPLICA 0: builder objective saved 1 substeps
+REPLICA 0: builder rules saved 1 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: builder objective saved 2 substeps
+REPLICA 0: builder rules saved 2 substeps
+REPLICA 0: builder rules saved 1 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder flat saved 2 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: builder objective saved 2 substeps
+REPLICA 0: builder objective saved 1 substeps
+REPLICA 0: builder rules saved 1 substeps
+REPLICA 0: builder rules saved 1 substeps
+REPLICA 0: saved 2 logical responses
+REPLICA 0: builder plan saved 2 substeps
+REPLICA 0: builder objective saved 2 substeps
+REPLICA 0: builder rules saved 1 substeps
+REPLICA 0: builder objective saved 1 substeps
+
+--- /inspire/hdd/global_user/czxs25210022/why/results/prompt_efficiency_v2/logs/20261027T045424Z-20-gpu-1.log ---
+REPLICA 1: builder objective saved 1 substeps
+REPLICA 1: builder objective saved 1 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder flat saved 2 substeps
+REPLICA 1: builder flat saved 1 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder plan saved 2 substeps
+REPLICA 1: builder objective saved 2 substeps
+REPLICA 1: builder rules saved 2 substeps
+REPLICA 1: builder rules saved 2 substeps
+REPLICA 1: builder local_repair saved 1 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder flat saved 2 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder plan saved 2 substeps
+REPLICA 1: builder objective saved 2 substeps
+REPLICA 1: builder rules saved 2 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder flat saved 2 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder plan saved 2 substeps
+REPLICA 1: builder objective saved 2 substeps
+REPLICA 1: builder rules saved 2 substeps
+REPLICA 1: builder rules saved 1 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder flat saved 2 substeps
+REPLICA 1: builder flat saved 1 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder plan saved 2 substeps
+REPLICA 1: builder objective saved 2 substeps
+REPLICA 1: builder rules saved 2 substeps
+REPLICA 1: builder rules saved 2 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder flat saved 2 substeps
+REPLICA 1: builder flat saved 1 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder plan saved 2 substeps
+REPLICA 1: builder objective saved 2 substeps
+REPLICA 1: builder objective saved 1 substeps
+REPLICA 1: builder rules saved 1 substeps
+REPLICA 1: builder rules saved 1 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder flat saved 2 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder flat saved 2 substeps
+REPLICA 1: builder flat saved 2 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder plan saved 2 substeps
+REPLICA 1: builder objective saved 2 substeps
+REPLICA 1: builder rules saved 2 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder plan saved 2 substeps
+REPLICA 1: builder objective saved 2 substeps
+REPLICA 1: builder objective saved 1 substeps
+REPLICA 1: builder rules saved 1 substeps
+REPLICA 1: builder rules saved 1 substeps
+REPLICA 1: saved 2 logical responses
+REPLICA 1: builder flat saved 2 substeps
+REPLICA 1: builder flat saved 1 substeps
+REPLICA 1: saved 2 logical responses

@@ -30,6 +30,7 @@ def schema(question, n):
 
 
 def diagnostics(text, question):
+    from .structural_review import diagnostics as structural_diagnostics
     model, _, audits = typed_sources.inspect(text, question)
     obj = protocol.load_object(text)
     def bounded(value):
@@ -40,7 +41,7 @@ def diagnostics(text, question):
         if isinstance(value, str):
             return value[:800]
         return value
-    return {'audits': bounded(audits),
+    return {'audits': bounded(audits), 'structural_questions': structural_diagnostics(model),
             'obligations': bounded(obj.get('requirements', [])),
             'constraint_count': len(model['constraints'])+len(model['logic']),
             'variable_count': len(model['variables']),
@@ -57,6 +58,18 @@ def prompt(request, original):
         'including independent clauses in one sentence. Bind all numeric inputs and business labels explicitly. '
         'Check the objective direction, signs, units and local assignments, including equal and unequal variable values. '
         'For inequalities distinguish at-most, at-least and exactly. Diagnostics may be false positives. '
+        'For EVERY quantified statement, identify its index set, expected expansion count and separate target constraints. '
+        'Do not replace independent obligations by one total or by repeated copies of a global constraint. '
+        'For repeated equal-coefficient sums you may use a generic compact constraint: '
+        '{"forall_affine":{"id_prefix":"r","count":G,"width":W,"start":S,"group_stride":A,'
+        '"term_stride":B,"coefficient":C,"op":"eq","rhs":R}}. '
+        'It generates G separate constraints; group g sums C*x[S+g*A+t*B] over t=0..W-1. '
+        'Derive every parameter from text and the public layout; each generated index must be in range. '
+        'A numeric table can supply objective costs without supplying constraint coefficients. Re-derive each role. '
+        'Map labels using the required public variable order, not a newly sorted order or edge-list appearance order. '
+        'Test two assignments with the same number of selected variables but different identities/relations when possible; '
+        'a count-only objective cannot express a reward that changes between such assignments. '
+        'Include a boundary violation and a permitted assignment if these exist; explain which original clause distinguishes them. '
         'Return {"candidate":COMPLETE_ENVELOPE,"checks":[{"assignment":{"0":0},'
         '"expected_objective":0,"expected_feasible":false,"source_quote":"exact source substring",'
         '"reason":"derive expected values from original text"}],"change_reason":"brief"}. '

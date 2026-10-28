@@ -65,7 +65,34 @@ def parser(kind='flat', schema_override=None):
     from lmformatenforcer import JsonSchemaParser
     from lmformatenforcer.characterlevelparser import CharacterLevelParserConfig
     # The library default (20 array items) must never silently shrink CO models.
-    return JsonSchemaParser(schema_override if schema_override is not None else stage_schema(kind),config=CharacterLevelParserConfig(max_json_array_length=16384))
+    return JsonSchemaParser(token_schema(schema_override if schema_override is not None else stage_schema(kind)),config=CharacterLevelParserConfig(max_json_array_length=16384))
+
+
+def token_schema(value):
+    """LMFE 0.11.3 sends non-string const values to a string parser.
+
+    Keep string consts exact. Numeric consts use numeric enums; bool consts
+    use JSON boolean syntax (not Python True/False). The compiler still
+    enforces true-only row_index/flatten, so false never becomes valid math.
+    This transforms a copy for token filtering, not the execution schema.
+    """
+    if isinstance(value, list):
+        return [token_schema(v) for v in value]
+    if not isinstance(value, dict):
+        return value
+    out = {k: token_schema(v) for k, v in value.items()}
+    if 'const' in out and type(out['const']) is not str:
+        literal = out.pop('const')
+        if type(literal) is bool:
+            out.pop('enum', None)
+            out['type'] = 'boolean'
+        elif literal is None:
+            out['type'] = 'null'
+        elif type(literal) in (int, float):
+            out['enum'] = [literal]
+        else:
+            raise ValueError('Unsupported non-scalar schema const')
+    return out
 
 
 def restore_parser_limits(enforcer):

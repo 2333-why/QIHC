@@ -46,14 +46,25 @@ def check_tokenizer(tokenizer, requests, typed_requests=()):
             'local_repair': {'edits': [{'path': '/objective/linear', 'value': {}}], 'reason': 'probe'},
         }
         probes = list(typed_examples.items())
+        probes.append(('rules', {'items': [{'requirement_id': 'a', 'constraints': [{'forall_affine': {
+            'id_prefix': 'probe_', 'count': 1, 'width': n, 'start': 0, 'group_stride': n,
+            'term_stride': 1, 'coefficient': 1, 'op': 'le', 'rhs': n}}], 'logic': []}]}))
         from qihc.modeling.typed_sources import describe
         for source in describe(req['question']):
+            if source.get('columns') and source['length'] <= n:
+                probes.append(('objective', {'objective': {'sense': 'max', 'linear': {'sum_rows': {
+                    'source': source['id'], 'terms': [{'index': {'row_index': True}, 'coefficient': 1}]}},
+                    'quadratic': []}}))
+            if source.get('flatten_reference') and len(source.get('row_lengths', [])) == 1 and source['length']*source['row_lengths'][0] == n:
+                probes.append(('objective', {'objective': {'sense': 'min',
+                    'linear': source['flatten_reference'], 'quadratic': []}}))
             if source.get('unique_columns') and source['length'] <= n:
                 column = source['unique_columns'][0]
                 probes.append(('objective', {'objective': {'sense': 'max', 'linear': {'sum_rows': {
                     'source': source['id'], 'terms': [{'index': {'index_of': {'source': source['id'],
                         'column': column, 'value': {'column': column}}}, 'coefficient': 1}]}}, 'quadratic': []}}))
-                break
+                # Continue: boolean row_index and matrix flatten branches also
+                # need tokenizer coverage, not just the first index_of table.
         for kind, example in probes:
             fn = prefix_function(generator, prompt_width=2, kind=kind,
                                  schema_override=schema(kind, req['question'], n, ['/objective/linear']))

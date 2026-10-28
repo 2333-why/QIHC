@@ -1,0 +1,139 @@
+{
+  "date_Asia_Shanghai": "2026-10-28",
+  "scope": "CPU validation only; no 32B weight loading or H100 execution",
+  "base_commit": "f465e7c86c993af798e1a094c36db829a2a381c5",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.7",
+  "solver_dependencies": {
+    "numpy": "1.26.4",
+    "ortools": "9.15.6755",
+    "highspy": "1.15.1",
+    "pyscipopt": "6.3.0"
+  },
+  "E002_source_hash": "4584e15533ffea8bcad3ad92235e970a1cf82b780d0eab4336cc2a4bfbca530e",
+  "solver_smoke": {
+    "cp_sat": {
+      "status": "OPTIMAL",
+      "feasible": true,
+      "objective": -1.0,
+      "seconds": 0.0050398000166751444
+    },
+    "scip": {
+      "status": "optimal",
+      "feasible": true,
+      "objective": -1.0,
+      "seconds": 0.005705899966415018
+    },
+    "highs": {
+      "status": "Optimal",
+      "feasible": true,
+      "objective": -1.0,
+      "seconds": 0.013294700009282678
+    },
+    "sa": {
+      "status": "BUDGET_END",
+      "feasible": true,
+      "objective": -1.0,
+      "seconds": 0.10014710004907101
+    },
+    "pt": {
+      "status": "BUDGET_END",
+      "feasible": true,
+      "objective": -1.0,
+      "seconds": 0.10007549996953458
+    },
+    "penalty_pt": {
+      "status": "BUDGET_END",
+      "feasible": true,
+      "objective": -1.0,
+      "seconds": 0.1000478999922052
+    },
+    "pbit": {
+      "status": "BUDGET_END",
+      "feasible": true,
+      "objective": -1.0,
+      "seconds": 0.1000728000071831
+    }
+  },
+  "prompt_preflight": {
+    "schemas_checked": [
+      "flat",
+      "plan",
+      "objective",
+      "rules",
+      "patch"
+    ],
+    "typed_schema_probes": 58,
+    "first_prompts_checked": 1800,
+    "by_arm": {
+      "typed_staged": {
+        "count": 300,
+        "max_tokens": 14328,
+        "mean_tokens": 3111.9966666666664
+      },
+      "canonical_staged": {
+        "count": 300,
+        "max_tokens": 14328,
+        "mean_tokens": 3111.9966666666664
+      },
+      "typed_flat": {
+        "count": 300,
+        "max_tokens": 14291,
+        "mean_tokens": 3074.9966666666664
+      },
+      "semantic_staged": {
+        "count": 300,
+        "max_tokens": 14328,
+        "mean_tokens": 3111.9966666666664
+      },
+      "legacy_flat": {
+        "count": 300,
+        "max_tokens": 10949,
+        "mean_tokens": 3189.2633333333333
+      },
+      "semantic_flat": {
+        "count": 300,
+        "max_tokens": 14291,
+        "mean_tokens": 3074.9966666666664
+      }
+    },
+    "status": "passed",
+    "source_hash": "e3a57f69cf0648efba231f4cb978dd785a432e4677d5f4395cfee1a56f5b6f7e",
+    "scope": "CPU preflight only; real GPU generation/search acceptance remains required"
+  },
+  "pytest_batches": [
+    {
+      "suite": "E002, prompt archive, prompt v1/v2/v3, modeling core/bridge, bounded energy, distribution",
+      "passed": 196,
+      "seconds": 193.45
+    },
+    {
+      "suite": "modeling v5_sources/v6/v6_source_view/v5",
+      "passed": 76,
+      "skipped": 1,
+      "seconds": 23.79
+    },
+    {
+      "suite": "E002 and archive regressions after final config/queue checks",
+      "passed": 30,
+      "seconds": 70.36
+    },
+    {
+      "suite": "v6_source_view with real tokenizer, resolving prior skipped check",
+      "passed": 12,
+      "skipped": 0,
+      "seconds": 24.85
+    }
+  ],
+  "static_checks": [
+    "Ruff F passed",
+    "bash -n new scripts passed",
+    "git diff --check passed"
+  ],
+  "limitations": [
+    "Batches overlap; do not sum raw counts",
+    "No server full-run results yet",
+    "PT kernels are not a paper reproduction",
+    "Legacy code hash regression passed after isolating new CP-SAT adapter"
+  ]
+}

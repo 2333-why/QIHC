@@ -1,0 +1,51 @@
+{
+  "date_Asia_Shanghai": "2026-10-28",
+  "preflight": {
+    "schemas_checked": [
+      "flat",
+      "plan",
+      "objective",
+      "rules",
+      "patch"
+    ],
+    "typed_schema_probes": 58,
+    "first_prompts_checked": 1800,
+    "by_arm": {
+      "typed_staged": {
+        "count": 300,
+        "max_tokens": 14328,
+        "mean_tokens": 3111.9966666666664
+      },
+      "canonical_staged": {
+        "count": 300,
+        "max_tokens": 14328,
+        "mean_tokens": 3111.9966666666664
+      },
+      "typed_flat": {
+        "count": 300,
+        "max_tokens": 14291,
+        "mean_tokens": 3074.9966666666664
+      },
+      "semantic_staged": {
+        "count": 300,
+        "max_tokens": 14328,
+        "mean_tokens": 3111.9966666666664
+      },
+      "legacy_flat": {
+        "count": 300,
+        "max_tokens": 10949,
+        "mean_tokens": 3189.2633333333333
+      },
+      "semantic_flat": {
+        "count": 300,
+        "max_tokens": 14291,
+        "mean_tokens": 3074.9966666666664
+      }
+    },
+    "status": "passed",
+    "source_hash": "e3a57f69cf0648efba231f4cb978dd785a432e4677d5f4395cfee1a56f5b6f7e",
+    "scope": "CPU preflight only; real GPU generation/search acceptance remains required"
+  },
+  "regression_evidence": "../E002_solver_comparison/E002-1.1_validation_20261028.json",
+  "server_generation": "pending; weights not loaded locally"
+}

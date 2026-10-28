@@ -1,0 +1,14 @@
+2026-10-27 12:52:05 SetPodTemplateSchedulerName Another scheduler is specified when gang-scheduling is enabled and it will not be overwritten
+2026-10-27 12:52:05 SuccessfulCreateService Created service: job-cfc7af77-00e3-401e-b29b-05e6364ea178-worker-0
+2026-10-27 12:52:05 SuccessfulCreatePod Created pod: job-cfc7af77-00e3-401e-b29b-05e6364ea178-worker-0
+2026-10-27 12:52:15 Unschedulable Error pod job-cfc7af77-00e3-401e-b29b-05e6364ea178-worker-0 condition message: Pod project-public/job-cfc7af77-00e3-401e-b29b-05e6364ea178-worker-0 can possibly be assigned to qb-prod-gpu186, once resource is released and minAvailable is satisfied
+2026-10-27 12:52:23 Unschedulable Error pod job-cfc7af77-00e3-401e-b29b-05e6364ea178-worker-0 condition message: Pod project-public/job-cfc7af77-00e3-401e-b29b-05e6364ea178-worker-0 can possibly be assigned to qb-prod-gpu186, once resource is released and minAvailable is satisfied
+2026-10-27 18:41:29 PyTorchJobFailed PyTorchJob job-cfc7af77-00e3-401e-b29b-05e6364ea178 is failed because 1 Worker replica(s) [job-cfc7af77-00e3-401e-b29b-05e6364ea178-worker-0] failed.
+2026-10-27 18:41:36 SuccessfulDeletePod Deleted pod: job-cfc7af77-00e3-401e-b29b-05e6364ea178-worker-0
+2026-10-27 18:41:36 SuccessfulDeleteService Deleted service: job-cfc7af77-00e3-401e-b29b-05e6364ea178-worker-0
+2026-10-27 18:41:36 JobTerminated Job has been terminated. Deleting PodGroup
+2026-10-27 18:41:37 SuccessfulDeletePodGroup Deleted PodGroup: job-cfc7af77-00e3-401e-b29b-05e6364ea178
+2026-10-27 18:41:43 JobTerminated Job has been terminated. Deleting PodGroup
+2026-10-27 18:41:43 SuccessfulDeletePodGroup Deleted PodGroup: job-cfc7af77-00e3-401e-b29b-05e6364ea178
+2026-10-28 02:57:47 SuccessfulDeletePodGroup Deleted PodGroup: job-cfc7af77-00e3-401e-b29b-05e6364ea178
+2026-10-28 02:57:47 JobTerminated Job has been terminated. Deleting PodGroup

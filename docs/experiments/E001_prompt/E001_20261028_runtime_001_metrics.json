@@ -1,0 +1,39 @@
+{
+  "received_date_asia_shanghai": "2026-10-28",
+  "source_attachment": "C:\\Users\\ROG\\.codex\\attachments\\3c403bc7-851b-4772-bd19-68fddb41b918\\已粘贴的文本.txt",
+  "source_sha256": "aaf909fa61269b73ddae49aff4e2d12eda83e5fe11a8b0e3b97300af968a63ab",
+  "snapshot_file": "E001_20261028_runtime_001_source.txt",
+  "states": [
+    {
+      "run": "/inspire/hdd/global_user/czxs25210022/why/results/prompt_efficiency_v1",
+      "status": {
+        "status": "failed",
+        "error": "RuntimeError(\"Execution gate failed: ['legacy_staged']; inspect gate/report.md and builder_steps\")",
+        "elapsed_seconds_this_launch": 7889.925692722201,
+        "time": 1793038351.516921
+      },
+      "status_time_asia_shanghai": "2026-10-27T02:12:31.516921+08:00"
+    },
+    {
+      "run": "/inspire/hdd/global_user/czxs25210022/why/results/prompt_efficiency_v2",
+      "status": {
+        "status": "running",
+        "phase": "formal",
+        "responses": 134,
+        "requests": 1500,
+        "completed_case_arms": 134,
+        "active_cpu": 0,
+        "generation_eta_seconds": 132679.08687022832,
+        "eta_scope": "current-phase measured throughput; excludes remaining CPU tail and future phase",
+        "elapsed_seconds": 20472.849617066997,
+        "time": 1793097337.6168487
+      },
+      "status_time_asia_shanghai": "2026-10-27T18:35:37.616849+08:00"
+    }
+  ],
+  "v3_heading_observed": false,
+  "scope": "User-provided shared-storage snapshot; not a live process probe. Link to platform Job ID remains unverified.",
+  "v2_completed_case_arms": 134,
+  "v2_expected_case_arms": 1500,
+  "v2_completion_fraction": 0.08933333333333333
+}

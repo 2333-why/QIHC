@@ -28,7 +28,43 @@ class Resolver(sources.Resolver):
 
 
 def expand(obj, question):
-    return sources.expand(obj, question, resolver_type=Resolver)
+    # Generic repeated sums over affine index sets. Parameters are explicit
+    # model output; no task classifier, inferred matrix shape or gold access.
+    obj = copy.deepcopy(obj)
+    affine_bindings = []
+    model = obj.get('model')
+    if isinstance(model, dict) and isinstance(model.get('constraints'), list):
+        out = []; resolver = Resolver(question)
+        variables = model.get('variables')
+        n = (resolver.scalar(variables['count'], 'variables.count') if isinstance(variables, dict)
+             else len(variables) if isinstance(variables, list) else 0)
+        for c in model['constraints']:
+            if isinstance(c, dict) and set(c) == {'forall_affine'}:
+                if not 1 <= n <= 256:
+                    raise ValueError('forall_affine requires 1..256 variables')
+                a = c['forall_affine']
+                required = {'id_prefix', 'count', 'width', 'start', 'group_stride', 'term_stride', 'coefficient', 'op', 'rhs'}
+                if not isinstance(a, dict) or set(a) != required or not isinstance(a['id_prefix'], str):
+                    raise ValueError('forall_affine requires explicit bounded index-set parameters')
+                pars = {k: resolver.scalar(a[k], 'constraints.forall_affine.'+k) for k in required-{'id_prefix', 'op'}}
+                if not 1 <= pars['count'] <= 512 or not 1 <= pars['width'] <= 256:
+                    raise ValueError('forall_affine count/width exceed limits')
+                for group in range(pars['count']):
+                    indices = [pars['start']+group*pars['group_stride']+t*pars['term_stride'] for t in range(pars['width'])]
+                    if len(set(indices)) != len(indices) or any(not 0 <= i < n for i in indices):
+                        raise ValueError('forall_affine duplicate or out-of-range index')
+                    vector = [0]*n
+                    for i in indices:
+                        vector[i] = pars['coefficient']
+                    out.append({'id': a['id_prefix']+str(group), 'a': vector, 'op': a['op'], 'rhs': pars['rhs']})
+            else:
+                out.append(c)
+            if len(out) > 512:
+                raise ValueError('Too many expanded constraints')
+        model['constraints'] = out
+        affine_bindings = resolver.bindings
+    expanded, bindings = sources.expand(obj, question, resolver_type=Resolver)
+    return expanded, affine_bindings+bindings
 
 
 def compile_math(text, question=''):
