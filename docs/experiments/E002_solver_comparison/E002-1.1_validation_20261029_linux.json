@@ -1,0 +1,38 @@
+{
+  "date_Asia_Shanghai": "2026-10-29",
+  "code_commit": "09062258b2c48bde622252881bd439bea1806bc2",
+  "run_id": 40742306411,
+  "url": "https://github.com/2333-why/QIHC/actions/runs/40742306411",
+  "platform": "Ubuntu 22.04 / Python 3.11 / NumPy 2.2.6",
+  "local_windows_tests": {
+    "passed": 27,
+    "seconds": 92.31
+  },
+  "jobs": [
+    {
+      "job_id": 123006838758,
+      "name": "linux-isolation (9.15.6755)",
+      "conclusion": "success",
+      "isolated_smoke": "success",
+      "regression": "success",
+      "log_evidence": [
+        "2026-10-28T18:08:57.8574783Z Legacy mixed-loader exit code: 1",
+        "2026-10-28T18:08:57.8588640Z ImportError: /opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/highspy/_core.cpython-311-x86_64-linux-gnu.so: undefined symbol: _ZN5Highs13releaseMemoryEv",
+        "2026-10-28T18:09:29.9849569Z 27 passed in 27.59s"
+      ]
+    },
+    {
+      "job_id": 123006838921,
+      "name": "linux-isolation (9.14.6206)",
+      "conclusion": "success",
+      "isolated_smoke": "success",
+      "regression": "success",
+      "log_evidence": [
+        "2026-10-28T18:09:09.3562061Z Legacy mixed-loader exit code: 1",
+        "2026-10-28T18:09:09.3570696Z ImportError: /opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/highspy/_core.cpython-311-x86_64-linux-gnu.so: undefined symbol: _ZN5Highs13releaseMemoryEv",
+        "2026-10-28T18:09:44.3150811Z 27 passed in 28.25s"
+      ]
+    }
+  ],
+  "scope": "Original mixed-loader failure reproduced; isolated native backends and 27 regressions passed for both OR-Tools versions. Full server experiment not yet run."
+}
