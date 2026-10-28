@@ -1,0 +1,48 @@
+name: E002 Linux native solver isolation
+
+on:
+  push:
+    branches: [llm-cvrp]
+    paths:
+      - '.github/workflows/e002-native-solvers.yml'
+      - 'qihc/generic/solver_baselines/**'
+      - 'experiments/solver_comparison_v1/**'
+      - 'tests/test_e002*.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  linux-isolation:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        ortools: ['9.14.6206', '9.15.6755']
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install native solver wheels
+        run: python -m pip install 'numpy==2.2.6' 'pytest==8.4.2' 'ortools==${{ matrix.ortools }}' 'highspy==1.15.1' 'pyscipopt==6.3.0'
+      - name: Legacy mixed-loader diagnostic in disposable process
+        run: |
+          python - <<'PY'
+          import subprocess, sys
+          p = subprocess.run([sys.executable, '-c', 'from ortools.sat.python import cp_model; import pyscipopt; import highspy'], capture_output=True, text=True)
+          print('Legacy mixed-loader exit code:', p.returncode)
+          print(p.stdout)
+          print(p.stderr)
+          PY
+      - name: Isolated real solver acceptance
+        run: python -m experiments.solver_comparison_v1.smoke
+      - name: Mathematical correctness, isolation, queue and resume regression
+        run: python -m pytest tests/test_e002_solver_comparison.py tests/test_e002_native_isolation.py -q

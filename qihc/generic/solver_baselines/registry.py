@@ -2,6 +2,7 @@
 import math
 import time
 from ..bounded import validate
+from .isolation import ensure_backend
 
 BACKENDS = ('cp_sat', 'scip', 'highs', 'sa', 'pt', 'penalty_pt', 'pbit')
 
@@ -10,6 +11,7 @@ def solve(spec, backend, seconds, seed=0, chains=16):
     validate(spec)
     if backend not in BACKENDS or not math.isfinite(seconds) or seconds <= 0:
         raise ValueError('Unknown backend or invalid time budget')
+    ensure_backend(backend)
     # Native library initialization is a separately reported one-off cost,
     # not allowed to consume just the first solver/seed's search budget.
     loading = time.perf_counter()

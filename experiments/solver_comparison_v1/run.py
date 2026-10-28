@@ -1,11 +1,10 @@
 """CPU-only streaming evaluator of frozen LLM outputs; never writes source run."""
 import argparse
-from concurrent.futures import ProcessPoolExecutor
+from collections import Counter
 import hashlib
 import importlib.metadata
 import json
 import math
-import multiprocessing
 import os
 from pathlib import Path
 import signal
@@ -15,6 +14,7 @@ import time
 from qihc.experiment_runtime import storage as s
 from qihc.modeling import protocol, typed_sources
 from qihc.generic.solver_baselines.registry import BACKENDS, solve
+from qihc.generic.solver_baselines.isolation import BackendPools
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -181,21 +181,25 @@ def run(root, source, follow=False):
             # Dependency integration smoke is mandatory before the large queue.
             from .smoke import check
             check()
-            with ProcessPoolExecutor(cfg['cpu_workers'], mp_context=multiprocessing.get_context('spawn')) as pool:
+            with BackendPools(tuple(dict.fromkeys(['cp_sat', *cfg['backends']])), cfg['cpu_workers']) as pools:
                 while not STOP:
-                    for name, f in list(active.items()):
+                    for name, (backend, f) in list(active.items()):
                         if f.done():
                             f.result(); del active[name]
+                    busy = Counter(backend for backend, _ in active.values())
                     imported = import_models(root, manifest, cases)
                     for name, fun, args in tasks(root, cases, cfg):
                         if len(active) >= cfg['cpu_workers']:
                             break
-                        if name not in active:
-                            active[name] = pool.submit(fun, *args)
+                        backend = 'cp_sat' if fun is reference_one else args[3]
+                        if name not in active and busy[backend] < pools.capacity[backend]:
+                            active[name] = (backend, pools.submit(backend, fun, *args))
+                            busy[backend] += 1
                     if time.monotonic()-last >= cfg['report_interval_seconds'] or not active:
                         summary = report(root)
                         state = {'status': summary['status'], 'imported_models': imported,
                             'expected_models': len(cases)*len(cfg['source_arms']), 'active_cpu': len(active),
+                            'active_by_backend': dict(busy), 'worker_capacity_by_backend': pools.capacity,
                             'completed_scores': summary['completed_scores'], 'expected_scores': summary['expected_scores'],
                             'seconds_this_launch': time.monotonic()-start, 'time': time.time()}
                         s.save(root/'status.json', state); print(json.dumps(state), flush=True); last = time.monotonic()

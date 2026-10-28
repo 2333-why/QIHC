@@ -6,16 +6,23 @@ import pytest
 
 from qihc.generic.bounded import objective, violations
 from qihc.generic.solver_baselines.milp import compile_model
-from qihc.generic.solver_baselines.registry import BACKENDS, solve
+from qihc.generic.solver_baselines.registry import BACKENDS, solve as native_solve
+from qihc.generic.solver_baselines.isolation import BackendPools
 from qihc.generic.solver_baselines.sampling import solve as sample, swap_log_ratio
 from qihc.experiment_runtime import storage as s
 from experiments.solver_comparison_v1.smoke import case
 from experiments.solver_comparison_v1 import run, report
 
 
+@pytest.fixture(scope='module')
+def backend_pools():
+    with BackendPools(BACKENDS, 7) as pools:
+        yield pools
+
+
 @pytest.mark.parametrize('sense', ['min', 'max'])
 @pytest.mark.parametrize('seed', range(5))
-def test_exact_backends_match_exhaustive_integer_quadratic_logic(seed, sense):
+def test_exact_backends_match_exhaustive_integer_quadratic_logic(seed, sense, backend_pools):
     spec = case(); rng = np.random.default_rng(seed)
     spec['objective']['sense'] = sense
     spec['objective']['linear'] = rng.integers(-5, 6, 3).tolist()
@@ -25,7 +32,7 @@ def test_exact_backends_match_exhaustive_integer_quadratic_logic(seed, sense):
     values = [float(objective(spec, x)) for x in itertools.product(range(-1, 3), range(2), range(2)) if violations(spec, x).sum() == 0]
     target = (min if sense == 'min' else max)(values)
     for backend in ('cp_sat', 'scip', 'highs'):
-        row = solve(spec, backend, 3., seed)
+        row = backend_pools.submit(backend, native_solve, spec, backend, 3., seed).result()
         assert row['feasible'] and row['optimality_proven'], row
         assert row['objective'] == pytest.approx(target)
         assert row['bound'] == pytest.approx(target)
@@ -67,13 +74,13 @@ def test_swap_detailed_balance_and_noop_temperature():
 
 
 @pytest.mark.parametrize('backend', ['cp_sat', 'scip', 'highs'])
-def test_infeasible_and_fixed_models(backend):
+def test_infeasible_and_fixed_models(backend, backend_pools):
     spec = case(); spec['constraints'].append({'id': 'impossible', 'a': [0, 0, 0], 'op': 'eq', 'rhs': 1})
-    row = solve(spec, backend, 2)
+    row = backend_pools.submit(backend, native_solve, spec, backend, 2).result()
     assert not row['feasible'] and not row['optimality_proven']
     spec = {'schema': 'bounded-integer-v2', 'variables': [{'name': 'x', 'lower': -2, 'upper': -2}],
         'objective': {'sense': 'max', 'linear': [3], 'quadratic': [[0, 0, 2]]}, 'constraints': [], 'logic': []}
-    row = solve(spec, backend, 2)
+    row = backend_pools.submit(backend, native_solve, spec, backend, 2).result()
     assert row['feasible'] and row['objective'] == 2
 
 
@@ -94,17 +101,17 @@ def source_fixture(tmp_path):
     return source, root, c
 
 
-def test_import_frozen_model_resume_reporting_and_tamper(tmp_path, monkeypatch):
+def test_import_frozen_model_resume_reporting_and_tamper(tmp_path, monkeypatch, backend_pools):
     source, root, c = source_fixture(tmp_path)
     cfg = {'experiment_id': 'E002-1.1', 'source_arms': ['legacy_flat', 'semantic_staged'], 'backends': ['cp_sat', 'pbit'],
         'seconds': [0.1], 'seeds': [0, 1], 'chains': 4, 'cpu_workers': 1, 'reference_seconds': 2, 'report_interval_seconds': 1}
     s.save(tmp_path/'config.json', cfg); monkeypatch.setattr(run, 'HERE', tmp_path)
     manifest = run.prepare(root, source)
     assert run.import_models(root, manifest, [c]) == 2
-    run.reference_one(root, c, 2)
+    backend_pools.submit('cp_sat', run.reference_one, root, c, 2).result()
     pending = list(run.tasks(root, [c], cfg)); assert len(pending) == 8
     for _, fn, args in pending:
-        fn(*args)
+        backend_pools.submit(args[3], fn, *args).result()
     assert not list(run.tasks(root, [c], cfg))
     summary = report.report(root)
     assert summary['status'] == 'complete' and summary['completed_scores'] == 8
