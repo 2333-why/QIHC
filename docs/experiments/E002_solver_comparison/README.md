@@ -9,3 +9,5 @@
 主表使用 `legacy_flat` 的冻结模型；`semantic_staged` 单独作为建模来源稳健性表。不能按求解成绩选择建模来源，也不能跨来源声称同模型求解器优势。
 
 当前使用 [独立入口说明](../../../experiments/solver_comparison_v1/README.md)：E001 单独四卡建模，E002 单独 CPU 求解。[旧联合命令](E002-1.1_release_20261028.md) 仅保留作历史复现。
+
+[两项实验各自的固定提交、准备、启动、续跑和报告命令](E002-1.1_standalone_release_20261028.md)。
