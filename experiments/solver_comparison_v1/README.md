@@ -1,4 +1,20 @@
-# E002-1.1 / E001-1.3 联合运行
+# E002-1.1 独立运行
+
+2026-10-28 按用户要求将两项实验分开。以下为当前推荐入口；后面的联合命令仅保留作历史复现。
+
+| 操作 | 独立入口 |
+|---|---|
+| 联网 CPU 只安装 E002 求解器依赖 | `bash experiments/solver_comparison_v1/05_prepare_standalone_cpu.sh` |
+| CPU 计算节点启动/续跑 E002，建议 32 核，无需 GPU | `bash experiments/solver_comparison_v1/06_run_standalone_cpu.sh` |
+| 只更新 E002 报告 | `bash experiments/solver_comparison_v1/07_report_standalone.sh` |
+
+独立结果目录为 `$BASE/results/E002-1.1_solver_standalone`。E002 只读 `$BASE/results/E001-1.3_prompt_fixed` 的 `legacy_flat`、`semantic_staged` 冻结建模输出；两个来源分别统计。完整 300 题对应 600 份模型响应（包含建模失败记录）。响应未齐会在计算前报出缺少数量，不等待、不启动 E001、不占 GPU。生成成本仍从原响应读取，七个求解器不重复调用 LLM。
+
+E001 自己使用固定代码版本的 `03_prepare_fixed_cpu.sh`、`04_run_fixed_4gpu.sh`，报告调用其 `02_report.sh` 并设置 `QIHC_PROMPT_V3_RUN` 到新结果路径。可先准备两个环境，随后运行 E001，建模输出齐全后再启动 E002。
+
+旧联合结果 `E002-1.1_solver_comparison` 保留；若已经在跑，继续原固定工作树，不能用新代码混合旧检查点。新独立入口保留相同求解预算、种子和方法，属于同一实验配置的独立运行方式。
+
+## 历史联合入口（新运行不推荐）
 
 完整设置与公平性：[E002-1.1 记录](../../docs/experiments/E002_solver_comparison/E002-1.1_record.md)。
 

@@ -142,3 +142,19 @@ def test_real_process_pool_streaming_resume(tmp_path, monkeypatch):
     assert len(before) == 14 and s.load(root/'summary.json')['status'] == 'complete'
     assert run.run(root, source) == 0
     assert before == {p: p.stat().st_mtime_ns for p in before}
+
+
+def test_standalone_requires_all_models_without_modifying_source(tmp_path):
+    from experiments.solver_comparison_v1.standalone import require_models
+    with pytest.raises(ValueError, match='separately first'):
+        require_models(tmp_path/'absent')
+    source, root, _ = source_fixture(tmp_path)
+    before = {p: s.digest(p) for p in source.rglob('*') if p.is_file()}
+    assert require_models(source) == 2
+    assert before == {p: s.digest(p) for p in source.rglob('*') if p.is_file()}
+    assert not root.exists()
+    path = next((source/'formal/responses').glob('*.json'))
+    path.unlink()
+    with pytest.raises(ValueError, match='1/2 model outputs'):
+        require_models(source)
+    assert not root.exists()
