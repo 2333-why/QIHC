@@ -1,0 +1,189 @@
+{
+  "date_Asia_Shanghai": "2026-10-29",
+  "code_commit": "dfd262530fcf9b62b083f907fd0cc65f56e76962",
+  "source_hash": "58838b2110de0c5b705fb8262971cead7f9fbc79a6879932458978b4b1d7faee",
+  "public_data": {
+    "repo": "summer142857jiang/NLCO",
+    "revision": "6a7dff75171906e0054ba6c92aa1ef8015b47c36",
+    "files_sha256": {
+      "KP/KP_S_context.csv": "f3bb7059c7ce705759b5d733b180ed1dbcb5d23958a7787682bfc7e3c7e010e1",
+      "KP/KP_M_context.csv": "6d81459a30833cd651e90f1e2586836b6621e8f5e23f618cd169169f78dac46a",
+      "KP/KP_L_context.csv": "ece24279e9a96aca61174f98f791341450cdf548c0080f6235a2e9c56c60e8f3",
+      "MIS/MIS_S_context.csv": "8254dc0e858fcce3fab266e53ae5831d933bd195ed8452e3163e24c97f7fdf3c",
+      "MIS/MIS_M_context.csv": "9d43c7564245fe073d86b55c9b32fc67c27035212091760fc4d8b9d6924682a6",
+      "MIS/MIS_L_context.csv": "512a79f6f97d1cbe174a17217c7f6aaea31eabeadf3d79f842c0fb04b6094882",
+      "MVC/MVC_S_context.csv": "202080e3996da6e11cc38253cb7a8259eee0f16458345e47db8554edf5b35f0c",
+      "MVC/MVC_M_context.csv": "e5510b64334d80860d976003cd963c1c000665c9f9652a72b0623ecbaea3b127",
+      "MVC/MVC_L_context.csv": "eea4c72b56ebc96959b67a209a0d10a4c7e47c124e88a9507ddf5e39436e861c",
+      "MAXCUT/MAXCUT_S_context.csv": "0b00556026b4edb271b98570222909e0ef83e1f785659d7f23a440f27d773bc2",
+      "MAXCUT/MAXCUT_M_context.csv": "8f0c9f83c96f11ba187ed03dc80913f5f3aaf7642e6b6c914deb8911e9808b40",
+      "MAXCUT/MAXCUT_L_context.csv": "99d43c3ba2ce81bf0f843bb102c4a4bbf0ead5612005f65e4f4ca412b1482097",
+      "MCP/MCP_S_context.csv": "8a3a0848cc171bd1837927c7df69d7288c1172c9f948747da726f1e30b473766",
+      "MCP/MCP_M_context.csv": "ecb6a9224f9e370f07d06312848337e7d954b4f720edd60f149d7202a8fd4620",
+      "MCP/MCP_L_context.csv": "d9d64fb7487ca7f90d12a5fca5d2c7b0b10ee3237afff84af0277ce0b48d79d2",
+      "MDS/MDS_S_context.csv": "8f74efa1fcf1b0d2df0537a96038c75df5626c012fc4e69092309732f28a35ef",
+      "MDS/MDS_M_context.csv": "e39fa1ec1436c707ba23e6d026f36fb59ccae846081fb9cdf13ca63fb15134b7",
+      "MDS/MDS_L_context.csv": "90fd08c567e01445f68cd702ad7ab08f843e7d6f22852e78fe803847e0dadaeb"
+    },
+    "rows": 900
+  },
+  "coverage": {
+    "nlco_KP_S": {
+      "cases": 50,
+      "min_variables": 5,
+      "max_variables": 10
+    },
+    "nlco_KP_M": {
+      "cases": 50,
+      "min_variables": 11,
+      "max_variables": 20
+    },
+    "nlco_KP_L": {
+      "cases": 50,
+      "min_variables": 21,
+      "max_variables": 30
+    },
+    "nlco_MIS_S": {
+      "cases": 50,
+      "min_variables": 8,
+      "max_variables": 12
+    },
+    "nlco_MIS_M": {
+      "cases": 50,
+      "min_variables": 13,
+      "max_variables": 18
+    },
+    "nlco_MIS_L": {
+      "cases": 50,
+      "min_variables": 19,
+      "max_variables": 25
+    },
+    "nlco_MVC_S": {
+      "cases": 50,
+      "min_variables": 8,
+      "max_variables": 12
+    },
+    "nlco_MVC_M": {
+      "cases": 50,
+      "min_variables": 13,
+      "max_variables": 18
+    },
+    "nlco_MVC_L": {
+      "cases": 50,
+      "min_variables": 19,
+      "max_variables": 25
+    },
+    "nlco_MAXCUT_S": {
+      "cases": 50,
+      "min_variables": 8,
+      "max_variables": 12
+    },
+    "nlco_MAXCUT_M": {
+      "cases": 50,
+      "min_variables": 13,
+      "max_variables": 18
+    },
+    "nlco_MAXCUT_L": {
+      "cases": 50,
+      "min_variables": 19,
+      "max_variables": 25
+    },
+    "nlco_MCP_S": {
+      "cases": 50,
+      "min_variables": 8,
+      "max_variables": 12
+    },
+    "nlco_MCP_M": {
+      "cases": 50,
+      "min_variables": 13,
+      "max_variables": 18
+    },
+    "nlco_MCP_L": {
+      "cases": 50,
+      "min_variables": 19,
+      "max_variables": 25
+    },
+    "nlco_MDS_S": {
+      "cases": 50,
+      "min_variables": 8,
+      "max_variables": 12
+    },
+    "nlco_MDS_M": {
+      "cases": 50,
+      "min_variables": 13,
+      "max_variables": 18
+    },
+    "nlco_MDS_L": {
+      "cases": 50,
+      "min_variables": 19,
+      "max_variables": 25
+    }
+  },
+  "adapter_exclusions": [],
+  "preflight": {
+    "status": "complete",
+    "source_hash": "58838b2110de0c5b705fb8262971cead7f9fbc79a6879932458978b4b1d7faee",
+    "requests": 900,
+    "max_input_tokens": 10047,
+    "skips": [],
+    "tokenizer_schema_groups_probed": [
+      "nlco_KP_L",
+      "nlco_KP_M",
+      "nlco_KP_S",
+      "nlco_MAXCUT_L",
+      "nlco_MAXCUT_M",
+      "nlco_MAXCUT_S",
+      "nlco_MCP_L",
+      "nlco_MCP_M",
+      "nlco_MCP_S",
+      "nlco_MDS_L",
+      "nlco_MDS_M",
+      "nlco_MDS_S",
+      "nlco_MIS_L",
+      "nlco_MIS_M",
+      "nlco_MIS_S",
+      "nlco_MVC_L",
+      "nlco_MVC_M",
+      "nlco_MVC_S"
+    ],
+    "weights_loaded": false,
+    "scope": "No semantic/gold gate; real generation remains for GPU."
+  },
+  "local_validation": {
+    "E003_final_tests": "12 passed in 60.91s; includes seven real backends, crash containment, checkpoint resume, malformed generation and atomic reader-lock regression",
+    "E002_regression": "27 passed in combined 38-test run before E003 report/storage refinements; old E002 modules unchanged",
+    "NLCO_existing_adapters": "6 passed in 1.55s",
+    "lint": "ruff F checks passed",
+    "shell": "bash -n passed for all E003 entry scripts",
+    "GPU_weights_loaded": false,
+    "formal_solver_scores_run": false
+  },
+  "linux_validation": {
+    "run_id": 40830616239,
+    "job_id": 123303731975,
+    "url": "https://github.com/2333-why/QIHC/actions/runs/40830616239",
+    "conclusion": "success",
+    "code_commit": "dfd262530fcf9b62b083f907fd0cc65f56e76962",
+    "test_result": "2026-10-29T06:41:16.3759835Z 39 passed in 31.24s",
+    "data_download_lines": [
+      "2026-10-29T06:40:43.2240649Z DATA READY KP/KP_S_context.csv",
+      "2026-10-29T06:40:43.3111268Z DATA READY KP/KP_M_context.csv",
+      "2026-10-29T06:40:43.4052604Z DATA READY KP/KP_L_context.csv",
+      "2026-10-29T06:40:43.4959131Z DATA READY MIS/MIS_S_context.csv",
+      "2026-10-29T06:40:43.5868490Z DATA READY MIS/MIS_M_context.csv",
+      "2026-10-29T06:40:43.6832085Z DATA READY MIS/MIS_L_context.csv",
+      "2026-10-29T06:40:43.7695378Z DATA READY MVC/MVC_S_context.csv",
+      "2026-10-29T06:40:43.8621269Z DATA READY MVC/MVC_M_context.csv",
+      "2026-10-29T06:40:43.9512717Z DATA READY MVC/MVC_L_context.csv",
+      "2026-10-29T06:40:44.0360800Z DATA READY MAXCUT/MAXCUT_S_context.csv",
+      "2026-10-29T06:40:44.1299182Z DATA READY MAXCUT/MAXCUT_M_context.csv",
+      "2026-10-29T06:40:44.2239993Z DATA READY MAXCUT/MAXCUT_L_context.csv",
+      "2026-10-29T06:40:44.3305619Z DATA READY MCP/MCP_S_context.csv",
+      "2026-10-29T06:40:44.4224576Z DATA READY MCP/MCP_M_context.csv",
+      "2026-10-29T06:40:44.5153493Z DATA READY MCP/MCP_L_context.csv",
+      "2026-10-29T06:40:44.6045674Z DATA READY MDS/MDS_S_context.csv",
+      "2026-10-29T06:40:44.6980472Z DATA READY MDS/MDS_M_context.csv",
+      "2026-10-29T06:40:44.7897997Z DATA READY MDS/MDS_L_context.csv"
+    ]
+  }
+}
