@@ -29,4 +29,4 @@ jobs:
           HF_ENDPOINT: https://huggingface.co
         run: python -m experiments.public_solver_v1.data artifacts/E003-NLCO
       - name: Real native solvers, fault isolation, resume and full data validation
-        run: python -m pytest tests/test_e003_public_solver.py tests/test_e002_solver_comparison.py tests/test_e002_native_isolation.py -q
+        run: python -m pytest tests/test_e003_download.py tests/test_e003_public_solver.py tests/test_e002_solver_comparison.py tests/test_e002_native_isolation.py -q

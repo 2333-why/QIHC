@@ -1,0 +1,28 @@
+{
+  "repo": "summer142857jiang/NLCO",
+  "revision": "6a7dff75171906e0054ba6c92aa1ef8015b47c36",
+  "files_sha256": {
+    "KP/KP_S_context.csv": "f3bb7059c7ce705759b5d733b180ed1dbcb5d23958a7787682bfc7e3c7e010e1",
+    "KP/KP_M_context.csv": "6d81459a30833cd651e90f1e2586836b6621e8f5e23f618cd169169f78dac46a",
+    "KP/KP_L_context.csv": "ece24279e9a96aca61174f98f791341450cdf548c0080f6235a2e9c56c60e8f3",
+    "MIS/MIS_S_context.csv": "8254dc0e858fcce3fab266e53ae5831d933bd195ed8452e3163e24c97f7fdf3c",
+    "MIS/MIS_M_context.csv": "9d43c7564245fe073d86b55c9b32fc67c27035212091760fc4d8b9d6924682a6",
+    "MIS/MIS_L_context.csv": "512a79f6f97d1cbe174a17217c7f6aaea31eabeadf3d79f842c0fb04b6094882",
+    "MVC/MVC_S_context.csv": "202080e3996da6e11cc38253cb7a8259eee0f16458345e47db8554edf5b35f0c",
+    "MVC/MVC_M_context.csv": "e5510b64334d80860d976003cd963c1c000665c9f9652a72b0623ecbaea3b127",
+    "MVC/MVC_L_context.csv": "eea4c72b56ebc96959b67a209a0d10a4c7e47c124e88a9507ddf5e39436e861c",
+    "MAXCUT/MAXCUT_S_context.csv": "0b00556026b4edb271b98570222909e0ef83e1f785659d7f23a440f27d773bc2",
+    "MAXCUT/MAXCUT_M_context.csv": "8f0c9f83c96f11ba187ed03dc80913f5f3aaf7642e6b6c914deb8911e9808b40",
+    "MAXCUT/MAXCUT_L_context.csv": "99d43c3ba2ce81bf0f843bb102c4a4bbf0ead5612005f65e4f4ca412b1482097",
+    "MCP/MCP_S_context.csv": "8a3a0848cc171bd1837927c7df69d7288c1172c9f948747da726f1e30b473766",
+    "MCP/MCP_M_context.csv": "ecb6a9224f9e370f07d06312848337e7d954b4f720edd60f149d7202a8fd4620",
+    "MCP/MCP_L_context.csv": "d9d64fb7487ca7f90d12a5fca5d2c7b0b10ee3237afff84af0277ce0b48d79d2",
+    "MDS/MDS_S_context.csv": "8f74efa1fcf1b0d2df0537a96038c75df5626c012fc4e69092309732f28a35ef",
+    "MDS/MDS_M_context.csv": "e39fa1ec1436c707ba23e6d026f36fb59ccae846081fb9cdf13ca63fb15134b7",
+    "MDS/MDS_L_context.csv": "90fd08c567e01445f68cd702ad7ab08f843e7d6f22852e78fe803847e0dadaeb"
+  },
+  "rows": 900,
+  "bundle": "nlco-six-tasks-6a7dff7.tar.gz",
+  "bundle_sha256": "edb98666c842cad9c85fe86ad58230be9b5d76fdc89309cada6d4fa296bcec5c",
+  "bundle_bytes": 566400
+}

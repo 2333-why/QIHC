@@ -6,7 +6,7 @@
 
 ## 顺序与资源
 
-1. 联网 CPU：`bash experiments/public_solver_v1/00_prepare_cpu.sh`。复用项目 Python、Qwen3-32B 权重和已下载求解器；HF 国内镜像优先下载 18 个固定版本 CSV，校验完整 900 题。联网 CPU 完成后退出。
+1. 联网 CPU：`bash experiments/public_solver_v1/00_prepare_cpu.sh`。复用项目 Python、Qwen3-32B 权重和已下载求解器；优先用随 Git 提供的可校验公开数据快照补齐 18 个固定版本 CSV，完整 900 题。省略快照的源码分发才回退 HF 国内镜像／官方源。联网 CPU 完成后退出。
 2. CPU 计算任务（建议 32 核、24 workers）：`bash experiments/public_solver_v1/02_solve_cpu.sh --track canonical`。立即运行标准模型轨道，不需要 GPU/LLM 输出。
 3. GPU 计算任务（一个 worker、四张 H100）：`bash experiments/public_solver_v1/01_model_4gpu.sh`。可与第 2 步同时启动；两组双卡、每组 batch=4，真实建模，无语义自检。GPU 只做生成，完成就退出。
 4. GPU 生成完成后，CPU 计算任务：`bash experiments/public_solver_v1/02_solve_cpu.sh`。两轨道补齐，已完成标准模型评分不会重复。
