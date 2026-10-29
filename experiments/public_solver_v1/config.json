@@ -1,0 +1,19 @@
+{
+  "experiment_id": "E003-1.1",
+  "tasks": ["KP", "MIS", "MVC", "MAXCUT", "MCP", "MDS"],
+  "per_tier": 50,
+  "source_arms": ["canonical", "llm_typed_flat"],
+  "backends": ["cp_sat", "scip", "highs", "sa", "pt", "penalty_pt", "pbit"],
+  "seconds": [1, 5, 20],
+  "seeds": [0, 1, 2, 3, 4],
+  "chains": 16,
+  "cpu_workers": 24,
+  "batch_size": 4,
+  "reference_seconds": 30,
+  "report_interval_seconds": 300,
+  "gpu_replicas": 2,
+  "gpu_watchdog_seconds": 2100,
+  "max_gpu_restarts": 2,
+  "total_output_tokens": 16384,
+  "semantic_review": false
+}

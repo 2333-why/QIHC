@@ -1,0 +1,32 @@
+name: E003 public solver reliability
+on:
+  push:
+    branches: [llm-cvrp]
+    paths:
+      - '.github/workflows/e003-public-solvers.yml'
+      - 'experiments/public_solver_v1/**'
+      - 'tests/test_e003*.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  reliability:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy==2.2.6 matplotlib==3.10.7 networkx==3.4.2 pytest==8.4.2 ortools==9.15.6755 highspy==1.15.1 pyscipopt==6.3.0
+      - name: Download complete pinned six-family public release
+        env:
+          HF_ENDPOINT: https://huggingface.co
+        run: python -m experiments.public_solver_v1.data artifacts/E003-NLCO
+      - name: Real native solvers, fault isolation, resume and full data validation
+        run: python -m pytest tests/test_e003_public_solver.py tests/test_e002_solver_comparison.py tests/test_e002_native_isolation.py -q
