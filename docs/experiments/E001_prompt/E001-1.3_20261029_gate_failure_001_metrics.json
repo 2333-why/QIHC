@@ -1,0 +1,85 @@
+{
+  "experiment_id": "E001-1.3",
+  "date_Asia_Shanghai": "2026-10-29",
+  "source_file": "C:\\Users\\ROG\\.codex\\attachments\\60ea0c11-aa88-4360-b0b9-f223b93f9b17\\已粘贴的文本.txt",
+  "source_sha256": "15dfa85e6c04c88179c431957f8ddb500266e87bbb3f99bd8dff7961b8c69363",
+  "code_commit": "b1e3a78911ffb344f944b5773cfdcabf3e746bd2",
+  "run_path": "/inspire/hdd/global_user/czxs25210022/why/results/E001-1.3_prompt_fixed",
+  "exit_code": 1,
+  "stop_reason": "Execution gate failed: semantic_flat",
+  "phase": "gate",
+  "formal_started": false,
+  "gate_last_status": {
+    "status": "running",
+    "phase": "gate",
+    "responses": 48,
+    "requests": 48,
+    "completed_case_arms": 48,
+    "active_cpu": 0,
+    "generation_eta_seconds": 0.0,
+    "eta_scope": "current-phase measured throughput; excludes remaining CPU tail and future phase",
+    "elapsed_seconds": 8551.259833478369,
+    "time": 1793220215.2190309
+  },
+  "failed_arm_detail": {
+    "semantic_flat": {
+      "expected_cases": 8,
+      "generated_cases": 8,
+      "compiled_cases": 8,
+      "failure_reasons": {},
+      "compilable_fraction_of_generated": 1.0,
+      "mean_input_tokens": 13134.75,
+      "mean_output_tokens": 7384.5,
+      "mean_generation_calls": 2.0,
+      "semantic_review_statuses": {
+        "rejected_preserved_initial": 8
+      },
+      "mean_attributed_generation_seconds": 717.7148468234227,
+      "backends": {
+        "pbit": {
+          "completed_cases": 8,
+          "failure_attribution_runs": {
+            "original_feasible_semantics_not_proven": 12,
+            "predicted_feasible_original_infeasible_witness": 11,
+            "no_original_feasible_solution_search_or_model_unresolved": 1
+          },
+          "review_transition_runs": {
+            "unchanged": 24
+          },
+          "review_same_initial_case_feasibility_delta": 0.0,
+          "review_evaluated_cases": 8,
+          "diagnostic_extra_search_seconds": 0.0,
+          "verified_feasible_rate": 0.5,
+          "mean_search_seconds_per_seed": 2.7741727782413363,
+          "mean_reference_gap_feasible_only": 0.17710655950220378,
+          "reference_gap_cases": 2,
+          "searched_runs": 24
+        },
+        "cp_sat": {
+          "completed_cases": 8,
+          "failure_attribution_runs": {
+            "original_feasible_semantics_not_proven": 4,
+            "predicted_feasible_original_infeasible_witness": 4
+          },
+          "review_transition_runs": {
+            "unchanged": 8
+          },
+          "review_same_initial_case_feasibility_delta": 0.0,
+          "review_evaluated_cases": 8,
+          "diagnostic_extra_search_seconds": 0.0,
+          "verified_feasible_rate": 0.5,
+          "mean_search_seconds_per_seed": 0.628667836310342,
+          "mean_reference_gap_feasible_only": 0.07894736842105263,
+          "reference_gap_cases": 2,
+          "searched_runs": 8
+        }
+      }
+    }
+  },
+  "missing_evidence": [
+    "per-case semantic_review.error",
+    "raw review generations in builder_steps",
+    "other five arms gate report"
+  ],
+  "scope": "Summary log only; exact rejection causes unknown. Original feasibility is not semantic equivalence."
+}

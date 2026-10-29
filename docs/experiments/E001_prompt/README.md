@@ -8,7 +8,7 @@
 |---|---|---|---|---|
 | **E001-1.1** | 提示词效率与建模可靠性；包含原有提示审查材料 | `experiments/prompt_efficiency_v1` | 8 题 × 5 组验收完成评分后未通过执行门槛；正式阶段未启动；完整归档已分析 | [设置与记录](E001-1.1_record.md)、[验收分析](E001-1.1_gate_analysis.md)、[准备材料](E001-1.1_baseline_record.md) |
 | **E001-1.2** | 类型明确的建模接口、显式引用和局部纠错 | `experiments/prompt_efficiency_v2` | 完整包已归档并复算；gate 40/40、formal 134/1500（仅分配／平衡割 27 题），NLCO 正式完成 0；最终退出原因待查 | [设置与记录](E001-1.2_record.md)、[部分结果分析](E001-1.2_analysis_20261027_partial_001.md)、[运行快照](E001_20261028_runtime_001_analysis.md)、[完整包分析](E001-1.2_analysis_20261028_archive_002.md) |
-| **E001-1.3** | 约束 ID 自动编号、通用语义复核和纠错前后评分 | `experiments/prompt_efficiency_v3` | 本地测试与 tokenizer 预检通过；服务器真实模型验收及正式结果待返回 | [设置与记录](E001-1.3_record.md)、[失败原因与边界](E001-1.3_failure_analysis.md)、[本地验证](E001-1.3_validation.json) |
+| **E001-1.3** | 约束 ID 自动编号、通用语义复核和纠错前后评分 | `experiments/prompt_efficiency_v3` | 服务器 CPU 预检通过；真实 gate 48/48 完成评分后，semantic_flat 全部复核回退导致验收失败；正式阶段未启动 | [设置与记录](E001-1.3_record.md)、[失败原因与边界](E001-1.3_failure_analysis.md)、[本地验证](E001-1.3_validation.json) |
 
 上述状态来自已收到的证据，不代表 2026-10-28 服务器的实时运行状态。
 
@@ -33,3 +33,5 @@
 8 份非 Markdown 材料（原始报告、指标、来源校验、提示词、回放工具和验证数据）搬迁前后按 SHA-256 核对，内容字节保持一致；Markdown 调整标题、归属编号和相对链接。原始证据中的旧路径/旧实验名保留为历史来源信息。日期目录的 Markdown 文件仅作旧链接跳转入口，后续内容在本目录更新。
 
 此次只调整文档归档和规则：历史 Python 运行模块、配置、shell 脚本、权重、服务器结果路径及已发布提交均沿用。正在运行的实验继续使用原固定工作树。
+
+2026-10-29 最新 E001-1.3：[Gate 语义复核失败汇总](E001-1.3_analysis_20261029_gate_failure_001.md)，具体拒绝原因待原始 gate 包。
