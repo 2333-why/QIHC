@@ -217,3 +217,30 @@ def test_unproven_reference_is_not_reported_as_optimal(tmp_path):
     assert all(r['quality5_all_assigned']==0 and r['quality5_reference_all_assigned']==1 for r in summary['rows'])
     metrics={r['metric'] for r in s.load(tmp_path/'paired_extension.json')['comparisons']}
     assert metrics=={'original_feasible','quality5_reference'}
+
+
+def test_launcher_accepts_scheduler_rank_metadata(tmp_path):
+    import os,shutil,subprocess
+    bash=shutil.which('bash')
+    if os.name=='nt':
+        bash='C:/Program Files/Git/usr/bin/bash.exe'
+    if not bash or not Path(bash).exists():
+        pytest.skip('Bash not installed')
+    prefix=tmp_path/'mock-env';p=prefix/'bin/python';p.parent.mkdir(parents=True)
+    p.write_text('#!/usr/bin/env bash\nprintf "MOCK_INTERPRETER %s\\n" "$*"\n',encoding='utf-8',newline='\n')
+    p.chmod(0o755)
+    env=dict(os.environ,QIHC_ENV_PREFIX=prefix.as_posix(),QIHC_BASE=tmp_path.as_posix(),
+             QIHC_E004_RUN=(tmp_path/'run').as_posix(),WORLD_SIZE='4',RANK='1',LOCAL_RANK='0')
+    command=[bash,(HERE/'01_run_4gpu.sh').as_posix()]
+    if os.name=='nt':
+        # The direct MSYS executable lacks Git's wrapper PATH initialization.
+        command=[bash,'-c','export PATH=/usr/bin:/bin:$PATH; exec bash "$1"',
+                 'launcher-test',(HERE/'01_run_4gpu.sh').as_posix()]
+    output=tmp_path/'launcher-output.txt'
+    # Git Bash process substitution may inherit PIPE handles on Windows. A real
+    # file tests the launcher without mistaking tee's handle lifetime for a hang.
+    with output.open('w',encoding='utf-8') as f:
+        result=subprocess.run(command,env=env,stdout=f,stderr=subprocess.STDOUT,timeout=180 if os.name=='nt' else 30)
+    text=output.read_text(encoding='utf-8')
+    assert result.returncode==0,text
+    assert 'MOCK_INTERPRETER' in text
