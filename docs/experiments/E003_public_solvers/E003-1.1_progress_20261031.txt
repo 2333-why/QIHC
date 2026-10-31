@@ -1,0 +1,100 @@
+[root:why]$ cd /inspire/hdd/global_user/czxs25210022/why/qihc-E003-1.1-dfd2625
+bash experiments/public_solver_v1/03_report.sh
+cat "$RUN/report.md"
+Report: /inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/report.md
+# E003-1.1 public solver benchmark
+
+Status: partial; scores 150088/189000
+
+| Modeling arm | Budget s | Solver | Cases | Compiled | Predicted feasible | Original feasible | Reference gap | Gap cases | Actual solver s |
+|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
+| canonical | 1 | cp_sat | 900/900 | 900 | 1.0000 | 1.0000 | 0.0001 | 900 | 0.0523 |
+| canonical | 1 | scip | 900/900 | 900 | 1.0000 | 1.0000 | 0.0000 | 900 | 0.0156 |
+| canonical | 1 | highs | 900/900 | 900 | 1.0000 | 1.0000 | 0.0000 | 900 | 0.0252 |
+| canonical | 1 | sa | 900/900 | 900 | 1.0000 | 1.0000 | 0.0012 | 900 | 1.0002 |
+| canonical | 1 | pt | 900/900 | 900 | 1.0000 | 1.0000 | 0.0013 | 900 | 1.0003 |
+| canonical | 1 | penalty_pt | 900/900 | 900 | 1.0000 | 1.0000 | 0.0014 | 900 | 1.0003 |
+| canonical | 1 | pbit | 900/900 | 900 | 1.0000 | 1.0000 | 0.0017 | 900 | 1.0003 |
+| canonical | 5 | cp_sat | 900/900 | 900 | 1.0000 | 1.0000 | 0.0000 | 900 | 0.1327 |
+| canonical | 5 | scip | 900/900 | 900 | 1.0000 | 1.0000 | 0.0000 | 900 | 0.0196 |
+| canonical | 5 | highs | 900/900 | 900 | 1.0000 | 1.0000 | 0.0000 | 900 | 0.0293 |
+| canonical | 5 | sa | 900/900 | 900 | 1.0000 | 1.0000 | 0.0004 | 900 | 5.0002 |
+| canonical | 5 | pt | 900/900 | 900 | 1.0000 | 1.0000 | 0.0004 | 900 | 5.0003 |
+| canonical | 5 | penalty_pt | 900/900 | 900 | 1.0000 | 1.0000 | 0.0004 | 900 | 5.0003 |
+| canonical | 5 | pbit | 900/900 | 900 | 1.0000 | 1.0000 | 0.0005 | 900 | 5.0002 |
+| canonical | 20 | cp_sat | 900/900 | 900 | 1.0000 | 1.0000 | 0.0000 | 900 | 0.1838 |
+| canonical | 20 | scip | 900/900 | 900 | 1.0000 | 1.0000 | 0.0000 | 900 | 0.0195 |
+| canonical | 20 | highs | 900/900 | 900 | 1.0000 | 1.0000 | 0.0000 | 900 | 0.0292 |
+| canonical | 20 | sa | 900/900 | 900 | 1.0000 | 1.0000 | 0.0001 | 900 | 20.0002 |
+| canonical | 20 | pt | 900/900 | 900 | 1.0000 | 1.0000 | 0.0001 | 900 | 20.0002 |
+| canonical | 20 | penalty_pt | 900/900 | 900 | 1.0000 | 1.0000 | 0.0001 | 900 | 20.0002 |
+| canonical | 20 | pbit | 900/900 | 900 | 1.0000 | 1.0000 | 0.0001 | 900 | 20.0002 |
+| llm_typed_flat | 1 | cp_sat | 531/900 | 465 | 0.8531 | 0.3638 | 0.5159 | 194 | 0.0054 |
+| llm_typed_flat | 1 | scip | 531/900 | 465 | 0.8531 | 0.3559 | 0.5277 | 189 | 0.0105 |
+| llm_typed_flat | 1 | highs | 531/900 | 465 | 0.8531 | 0.3574 | 0.5183 | 193 | 0.0094 |
+| llm_typed_flat | 1 | sa | 531/900 | 465 | 0.8527 | 0.3627 | 0.5057 | 206 | 1.0003 |
+| llm_typed_flat | 1 | pt | 531/900 | 465 | 0.8531 | 0.3620 | 0.5017 | 204 | 1.0004 |
+| llm_typed_flat | 1 | penalty_pt | 531/900 | 465 | 0.8531 | 0.3620 | 0.5035 | 205 | 1.0004 |
+| llm_typed_flat | 1 | pbit | 531/900 | 465 | 0.8531 | 0.3631 | 0.5044 | 203 | 1.0004 |
+| llm_typed_flat | 5 | cp_sat | 531/900 | 465 | 0.8531 | 0.3638 | 0.5159 | 194 | 0.0063 |
+| llm_typed_flat | 5 | scip | 531/900 | 465 | 0.8531 | 0.3559 | 0.5277 | 189 | 0.0121 |
+| llm_typed_flat | 5 | highs | 531/900 | 465 | 0.8531 | 0.3574 | 0.5183 | 193 | 0.0110 |
+| llm_typed_flat | 5 | sa | 525/900 | 459 | 0.8514 | 0.3600 | 0.4993 | 203 | 5.0002 |
+| llm_typed_flat | 5 | pt | 525/900 | 459 | 0.8514 | 0.3585 | 0.4971 | 200 | 5.0002 |
+| llm_typed_flat | 5 | penalty_pt | 525/900 | 459 | 0.8514 | 0.3581 | 0.5010 | 200 | 5.0002 |
+| llm_typed_flat | 5 | pbit | 525/900 | 459 | 0.8514 | 0.3585 | 0.5015 | 199 | 5.0002 |
+| llm_typed_flat | 20 | cp_sat | 531/900 | 465 | 0.8531 | 0.3638 | 0.5159 | 194 | 0.0064 |
+| llm_typed_flat | 20 | scip | 531/900 | 465 | 0.8531 | 0.3559 | 0.5277 | 189 | 0.0121 |
+| llm_typed_flat | 20 | highs | 531/900 | 465 | 0.8531 | 0.3574 | 0.5183 | 193 | 0.0107 |
+| llm_typed_flat | 20 | sa | 525/900 | 459 | 0.8514 | 0.3596 | 0.5000 | 203 | 20.0002 |
+| llm_typed_flat | 20 | pt | 525/900 | 459 | 0.8514 | 0.3585 | 0.4968 | 200 | 20.0002 |
+| llm_typed_flat | 20 | penalty_pt | 525/900 | 459 | 0.8514 | 0.3577 | 0.4975 | 201 | 20.0002 |
+| llm_typed_flat | 20 | pbit | 525/900 | 459 | 0.8514 | 0.3596 | 0.5010 | 200 | 20.0002 |
+
+Canonical public mathematics and frozen LLM mathematics are separate tracks. Six complete NLCO task families (900 selected), not the full 43-task leaderboard. All seven CPU backends receive identical mathematics within each track. No semantic gate.
+
+Case means over seeds. Partial nonrandom completion. Bootstrap descriptive, no multiplicity adjustment. Equal wall budgets, not equal FLOPs.
+
+Original feasibility is not semantic equivalence. Predicted optimality is not original optimality.
+Only compiled common models identify solver capability; invalid models count in end-to-end totals.
+PT/penalty_PT are reference kernels, not an original-paper reproduction. All backends here run on CPU.
+Generation cost charged once per model, never summed seven times. No measured hardware energy advantage.
+
+
+## Independent track progress
+
+| Track | Status | Scores |
+|---|---|---:|
+| canonical | complete | 94500/94500 |
+| llm_typed_flat | partial | 55631/94500 |
+
+
+## Terminal status accounting
+
+| Track | Backend | Status | Runs |
+|---|---|---|---:|
+| canonical | cp_sat | searched | 13500 |
+| canonical | highs | searched | 13500 |
+| canonical | pbit | searched | 13500 |
+| canonical | penalty_pt | searched | 13500 |
+| canonical | pt | searched | 13500 |
+| canonical | sa | searched | 13500 |
+| canonical | scip | searched | 13500 |
+| llm_typed_flat | cp_sat | invalid_model | 990 |
+| llm_typed_flat | cp_sat | searched | 6975 |
+| llm_typed_flat | highs | invalid_model | 990 |
+| llm_typed_flat | highs | searched | 6975 |
+| llm_typed_flat | pbit | invalid_model | 990 |
+| llm_typed_flat | pbit | searched | 6944 |
+| llm_typed_flat | penalty_pt | invalid_model | 990 |
+| llm_typed_flat | penalty_pt | searched | 6944 |
+| llm_typed_flat | pt | invalid_model | 990 |
+| llm_typed_flat | pt | searched | 6944 |
+| llm_typed_flat | sa | invalid_model | 990 |
+| llm_typed_flat | sa | searched | 6944 |
+| llm_typed_flat | scip | invalid_model | 990 |
+| llm_typed_flat | scip | searched | 6975 |
+
+Selected before validation: 900; adapter exclusions: 0. No replacement by easier cases.
+
+A complete run can contain failures. Canonical is the solver-only track; LLM is end-to-end and must not be pooled with canonical. Published references are not automatically optima.

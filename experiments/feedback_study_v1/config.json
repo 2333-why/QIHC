@@ -1,0 +1,22 @@
+{
+  "experiment_id": "E004-1.1",
+  "public_arms": ["C0", "C1", "C2", "C3", "M1", "M2", "M3", "M4", "U1", "U2", "B1", "B2"],
+  "extension_arms": ["C0", "C1", "C3", "U2", "B1", "B2"],
+  "diagnostic_arms": ["no_memory", "no_q", "event"],
+  "seeds": [0, 1, 2], "rounds": 3, "chains": 32,
+  "base_seconds": 4.0, "probe_seconds": 10.0, "final_seconds": 6.0,
+  "reference_seconds": 30.0, "diagnostic_seconds": 5.0,
+  "cpu_workers": 48, "gpu_replicas": 4, "batch_size": 1, "inflight_trajectories": 768,
+  "max_input_tokens": 32768, "trajectory_input_tokens": 98304,
+  "review_output_tokens": 1024, "patch_output_tokens": 3072,
+  "feedback_tokens": 4096, "initial_output_tokens": 8192,
+  "gpu_watchdog_seconds": 1200, "cpu_watchdog_grace": 15,
+  "max_gpu_restarts": 3,
+  "report_interval_seconds": 60, "idle_checkpoint_seconds": 1200,
+  "temperatures": [0.1, 0.5, 1.0], "penalty_multipliers": [0.25, 4.0],
+  "router_coefficients": [0.35, 0.30, 0.25, 0.10],
+  "event_min_score": 0.20, "event_min_new_states": 2,
+  "extension_seed": 202611010, "development_seed": 202611020,
+  "development_cases": 120, "extension_per_cell": 50,
+  "extension_sizes": [32, 64, 128, 256], "diagnostic_per_cell": 10
+}
