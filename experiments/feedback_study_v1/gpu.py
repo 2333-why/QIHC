@@ -74,7 +74,13 @@ def worker(root, rank):
         if not placement or any(str(v) in ('cpu', 'disk') for v in placement.values()):
             raise RuntimeError('Model does not fit on assigned GPUs; CPU/disk offload forbidden')
         print('MODEL LOADED', rank, placement, flush=True)
+        cleanup_after_oom=False
         while not STOP:
+            if cleanup_after_oom:
+                # Run after the exception traceback has left scope, otherwise
+                # failed generation tensors can still keep GPU storage alive.
+                import gc
+                gc.collect();generator.torch.cuda.empty_cache();cleanup_after_oom=False
             control = s.load(root/'control.json')
             if control['status'] != 'running':
                 break
@@ -111,7 +117,9 @@ def worker(root, rank):
                     terminal_error(root, path, repr(exc), attempted=True)
                 generator.torch.cuda.empty_cache()
                 # Device failures require a new process/context; no silent CPU fallback.
-                if isinstance(exc, RuntimeError):
+                if isinstance(exc,generator.torch.cuda.OutOfMemoryError):
+                    cleanup_after_oom=True
+                elif isinstance(exc, RuntimeError):
                     raise
                 continue
             elapsed = time.monotonic()-started

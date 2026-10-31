@@ -27,7 +27,7 @@ def paired(rows, split, replicates=2000):
         strata[row['case_id']] = (row['dataset'], row.get('size'))
     results = []; rng = np.random.default_rng(20261101)
     for left,right in PAIRS:
-        for metric in ('original_feasible','quality_5_percent'):
+        for metric in ('original_feasible','quality5_reference' if split=='extension' else 'quality_5_percent'):
             blocks = defaultdict(list)
             for case_id, arms in grouped.items():
                 if left in arms and right in arms:
@@ -67,6 +67,7 @@ def report(root, pairs=False):
         row.setdefault('original_feasible',False); row.setdefault('reference_proven',False)
         row['quality_5_percent']=bool(row['original_feasible'] and row['reference_proven'] and
                                      row.get('gap_percent') is not None and row['gap_percent']<=5.+1e-8)
+        row['quality5_reference']=bool(row['original_feasible'] and row.get('gap_percent') is not None and row['gap_percent']<=5.+1e-8)
         for field in ('input_tokens','output_tokens','generation_attempts','attributed_seconds','cpu_seconds','searched_windows','cost_incomplete'):
             row[field]=st.get(field,0)
         row['execution_errors']=len(st.get('errors',[]))
@@ -82,6 +83,7 @@ def report(root, pairs=False):
             'feasible_all_assigned':sumfield('original_feasible')/total,
             'feasible_completed':sumfield('original_feasible')/completed if completed else None,
             'quality5_all_assigned':sumfield('quality_5_percent')/total,
+            'quality5_reference_all_assigned':sumfield('quality5_reference')/total,
             'optimal_all_assigned':sumfield('optimal_hit')/total,
             'proven_reference_fraction_completed':sumfield('reference_proven')/completed if completed else None,
             'calls':sumfield('generation_attempts'),'input_tokens':sumfield('input_tokens'),
@@ -95,7 +97,8 @@ def report(root, pairs=False):
     total=sum(expected.values()); done=len(cache)
     obj={'experiment_id':'E004-1.1','status':'complete' if done==total else 'partial','completed':done,'expected':total,
          'rows':summary,'time':time.time(),'scope':'Pending rows are not measured failures; assigned-denominator rates are lower bounds until complete. '
-         'Formal and development splits separate; quality5 requires proven references. Cost excludes shared initial generation and separate evaluation.'}
+         'Formal and development splits separate; quality5 requires proven references, quality5_reference uses the recorded best-known feasible reference (not necessarily optimal). '
+         'Cost excludes shared initial generation and separate evaluation.'}
     initial_cost=defaultdict(float)
     for p in (root/'initial').glob('*.json'):
         for k,v in s.load(p).get('generation_cost',{}).items():
@@ -104,10 +107,10 @@ def report(root, pairs=False):
     obj['shared_initial_generation_cost']=dict(initial_cost)
     s.save(root/'summary.json',obj)
     lines=['# E004-1.1 feedback study','',f'Status: {obj["status"]}; {done}/{total} trajectories (including development).','',
-           '| Split | Arm | Completed | Original feasible / assigned | Quality ≤5% / assigned | Calls | Output tokens |',
-           '|---|---|---:|---:|---:|---:|---:|']
+           '| Split | Arm | Completed | Original feasible / assigned | Proven optimum gap ≤5% / assigned | Reference gap ≤5% / assigned | Calls | Output tokens |',
+           '|---|---|---:|---:|---:|---:|---:|---:|']
     for r in summary:
-        lines.append(f'| {r["split"]} | {r["arm"]} | {r["completed"]}/{r["expected"]} | {r["feasible_all_assigned"]:.2%} | {r["quality5_all_assigned"]:.2%} | {r["calls"]:.0f} | {r["output_tokens"]:.0f} |')
+        lines.append(f'| {r["split"]} | {r["arm"]} | {r["completed"]}/{r["expected"]} | {r["feasible_all_assigned"]:.2%} | {r["quality5_all_assigned"]:.2%} | {r["quality5_reference_all_assigned"]:.2%} | {r["calls"]:.0f} | {r["output_tokens"]:.0f} |')
     lines+=['',obj['scope'],'','Feasibility is evaluated against original mathematics, not the generated model. '
             'No hardware-energy or universal solver-superiority claims. Partial paired statistics are descriptive only.']
     (root/'report.md').write_text('\n'.join(lines)+'\n',encoding='utf-8')

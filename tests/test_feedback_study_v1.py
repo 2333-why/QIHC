@@ -165,3 +165,55 @@ def test_pending_marker_removed_concurrently(tmp_path,monkeypatch):
         return original(self,*args,**kwargs)
     monkeypatch.setattr(Path,'stat',disappear)
     assert pending(tmp_path,0,1)==[]
+
+
+def test_gpu_oom_is_one_terminal_request_then_queue_continues(tmp_path,monkeypatch):
+    from types import SimpleNamespace
+    from experiments.feedback_study_v1 import gpu
+    from qihc.modeling import backend,generation
+    from qihc.experiment_runtime import identity as model_identity
+    class OOM(RuntimeError):
+        pass
+    fake=SimpleNamespace(model=SimpleNamespace(hf_device_map={'':'cuda:0'}),
+        torch=SimpleNamespace(cuda=SimpleNamespace(OutOfMemoryError=OOM,empty_cache=lambda:None,
+                 memory_allocated=lambda i:100,device_count=lambda:1)),
+        _inputs=lambda p:{'input_ids':SimpleNamespace(shape=(1,5))})
+    monkeypatch.setattr(backend,'LocalModel',lambda *a,**k:fake)
+    monkeypatch.setattr(model_identity,'model_identity',lambda p:[])
+    cfg=config();cfg['batch_size']=1
+    monkeypatch.setattr(gpu,'validate',lambda r:{'model':'test','model_files':[],'config':cfg})
+    calls=[]
+    def generate(model,items):
+        calls.append(1)
+        if len(calls)==1:
+            raise OOM('simulated one-request OOM')
+        s.save(tmp_path/'control.json',{'status':'stopped'})
+        return [{'status':'generated','response':'{}','input_tokens':5,'output_tokens':2}]
+    monkeypatch.setattr(generation,'generate',generate)
+    for name in ('a','b'):
+        path=tmp_path/'requests'/(name+'.json');s.save(path,{'prompt':name,'stage':'review'})
+        s.save(tmp_path/'pending/0'/path.name,{'request_sha256':s.digest(path)})
+    s.save(tmp_path/'control.json',{'status':'running'})
+    gpu.STOP=False;gpu.worker(tmp_path,0)
+    rows=[s.load(p) for p in (tmp_path/'responses').glob('*.json')]
+    assert sorted(r['status'] for r in rows)==['generated','generation_error']
+    assert len(calls)==2
+    assert next(r for r in rows if r['status']=='generation_error')['cost_incomplete']
+
+
+def test_unproven_reference_is_not_reported_as_optimal(tmp_path):
+    from experiments.feedback_study_v1.common import identity
+    from experiments.feedback_study_v1.report import report
+    c={'id':'test-reference','dataset':'test','size':2,'split':'extension'}
+    cfg=config();cfg.update(extension_arms=['U2','C1'],seeds=[0])
+    s.save(tmp_path/'manifest.json',{'config':cfg});s.save(tmp_path/'cases.public.json',[c])
+    for arm in cfg['extension_arms']:
+        key=identity(c['id'],arm,0)
+        s.save(tmp_path/'states'/(key+'.json'),{'stage':'done'})
+        s.save(tmp_path/'evaluation/scores'/(key+'.json'),{'original_feasible':True,
+               'reference_proven':False,'gap_percent':2.,'optimal_hit':False})
+    summary=report(tmp_path,pairs=True)
+    assert summary['status']=='complete'
+    assert all(r['quality5_all_assigned']==0 and r['quality5_reference_all_assigned']==1 for r in summary['rows'])
+    metrics={r['metric'] for r in s.load(tmp_path/'paired_extension.json')['comparisons']}
+    assert metrics=={'original_feasible','quality5_reference'}

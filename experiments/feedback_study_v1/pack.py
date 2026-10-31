@@ -12,7 +12,7 @@ def pack(root, output):
             p=root/name
             if p.exists():
                 tar.add(p,arcname=name)
-        for name in ('states','mathematics','rounds','evaluation','initial','responses','inference_events','logs'):
+        for name in ('states','mathematics','rounds','evaluation','initial','requests','responses','inference_events','cpu_execution_events','logs'):
             for p in sorted((root/name).rglob('*')):
                 if p.is_file() and not p.name.startswith('.'):
                     tar.add(p,arcname=p.relative_to(root).as_posix())
