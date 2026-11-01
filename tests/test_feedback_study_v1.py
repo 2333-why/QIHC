@@ -167,17 +167,21 @@ def test_pending_marker_removed_concurrently(tmp_path,monkeypatch):
     assert pending(tmp_path,0,1)==[]
 
 
-def test_gpu_oom_is_one_terminal_request_then_queue_continues(tmp_path,monkeypatch):
+@pytest.mark.parametrize('has_mapping',[True,False])
+def test_gpu_oom_is_one_terminal_request_then_queue_continues(tmp_path,monkeypatch,has_mapping):
     from types import SimpleNamespace
     from experiments.feedback_study_v1 import gpu
     from qihc.modeling import backend,generation
     from qihc.experiment_runtime import identity as model_identity
     class OOM(RuntimeError):
         pass
-    fake=SimpleNamespace(model=SimpleNamespace(hf_device_map={'':'cuda:0'}),
+    fake_tensor=SimpleNamespace(device=SimpleNamespace(type='cuda',index=0),numel=lambda:1,element_size=lambda:2)
+    fake=SimpleNamespace(model=SimpleNamespace(hf_device_map={'':'cuda:0'},
+        named_parameters=lambda:[('weight',fake_tensor)],named_buffers=lambda:[]),
         torch=SimpleNamespace(cuda=SimpleNamespace(OutOfMemoryError=OOM,empty_cache=lambda:None,
                  memory_allocated=lambda i:100,device_count=lambda:1)),
         _inputs=lambda p:{'input_ids':SimpleNamespace(shape=(1,5))})
+    if not has_mapping:del fake.model.hf_device_map
     monkeypatch.setattr(backend,'LocalModel',lambda *a,**k:fake)
     monkeypatch.setattr(model_identity,'model_identity',lambda p:[])
     cfg=config();cfg['batch_size']=1
@@ -199,6 +203,7 @@ def test_gpu_oom_is_one_terminal_request_then_queue_continues(tmp_path,monkeypat
     assert sorted(r['status'] for r in rows)==['generated','generation_error']
     assert len(calls)==2
     assert next(r for r in rows if r['status']=='generation_error')['cost_incomplete']
+    assert s.load(tmp_path/'gpu-0-placement.json')['status']=='passed'
 
 
 def test_unproven_reference_is_not_reported_as_optimal(tmp_path):

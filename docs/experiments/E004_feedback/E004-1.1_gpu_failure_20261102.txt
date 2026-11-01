@@ -1,0 +1,45 @@
+2026-11-01 23:02:38.684  processExitCode: 1
+2026-11-01 23:02:38.684  failed
+2026-11-01 23:02:38.684  exit code 1
+2026-11-01 23:02:37.992  RuntimeError: Repeated GPU infrastructure failures; results retained, inspect /inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/gpu-2-1793545310853808455.log
+2026-11-01 23:02:37.992      raise RuntimeError('Repeated GPU infrastructure failures; results retained, inspect '+str(log.name))
+2026-11-01 23:02:37.991    File "/inspire/hdd/global_user/czxs25210022/why/qihc-E004-1.1/experiments/feedback_study_v1/runtime.py", line 364, in check_gpus
+2026-11-01 23:02:37.991                    ^^^^^^^^^^^^
+2026-11-01 23:02:37.991      procs.poll(); check_gpus()
+2026-11-01 23:02:37.991    File "/inspire/hdd/global_user/czxs25210022/why/qihc-E004-1.1/experiments/feedback_study_v1/runtime.py", line 393, in launch
+2026-11-01 23:02:37.991             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-01 23:02:37.991      return launch(a.run,a.cpu_only,a.phase)
+2026-11-01 23:02:37.991    File "/inspire/hdd/global_user/czxs25210022/why/qihc-E004-1.1/experiments/feedback_study_v1/runtime.py", line 489, in main
+2026-11-01 23:02:37.991                       ^^^^^^
+2026-11-01 23:02:37.991      raise SystemExit(main())
+2026-11-01 23:02:37.991    File "/inspire/hdd/global_user/czxs25210022/why/qihc-E004-1.1/experiments/feedback_study_v1/runtime.py", line 493, in <module>
+2026-11-01 23:02:37.991    File "<frozen runpy>", line 88, in _run_code
+2026-11-01 23:02:37.991    File "<frozen runpy>", line 198, in _run_module_as_main
+2026-11-01 23:02:37.991  Traceback (most recent call last):
+2026-11-01 23:02:22.688  {"status": "running", "phase": "development_debug", "completed": 0, "expected": 720, "active_cpu": 0, "active_trajectories": 0, "pending_requests": 60, "eta_seconds": null, "eta_scope": "current phase terminal throughput, includes failures; future phases excluded", "time": 1793545342.684499, "restarts": {"0": 3, "1": 3, "2": 3, "3": 3}}
+2026-11-01 23:01:51.344  GPU START 1 /inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/gpu-1-1793545311342299794.log
+2026-11-01 23:01:51.099  GPU START 3 /inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/gpu-3-1793545311097318551.log
+2026-11-01 23:01:50.855  GPU START 2 /inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/gpu-2-1793545310853808455.log
+2026-11-01 23:01:50.371  GPU START 0 /inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/gpu-0-1793545310369705442.log
+2026-11-01 23:01:22.354  {"status": "running", "phase": "development_debug", "completed": 0, "expected": 720, "active_cpu": 0, "active_trajectories": 0, "pending_requests": 60, "eta_seconds": null, "eta_scope": "current phase terminal throughput, includes failures; future phases excluded", "time": 1793545282.3513992, "restarts": {"0": 2, "1": 2, "2": 2, "3": 2}}
+2026-11-01 23:01:08.007  GPU START 2 /inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/gpu-2-1793545268005484214.log
+2026-11-01 23:01:07.519  GPU START 1 /inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/gpu-1-1793545267517202823.log
+2026-11-01 23:01:04.853  GPU START 3 /inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/gpu-3-1793545264851223956.log
+2026-11-01 23:01:04.124  GPU START 0 /inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/gpu-0-1793545264122567519.log
+2026-11-01 23:00:21.957  {"status": "running", "phase": "development_debug", "completed": 0, "expected": 720, "active_cpu": 0, "active_trajectories": 0, "pending_requests": 60, "eta_seconds": null, "eta_scope": "current phase terminal throughput, includes failures; future phases excluded", "time": 1793545221.9549177, "restarts": {"0": 1, "1": 1, "2": 1, "3": 1}}
+2026-11-01 23:00:13.152  GPU START 3 /inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/gpu-3-1793545213150007075.log
+2026-11-01 23:00:12.907  GPU START 0 /inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/gpu-0-1793545212905370527.log
+2026-11-01 23:00:12.663  GPU START 2 /inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/gpu-2-1793545212661088146.log
+2026-11-01 23:00:12.418  GPU START 1 /inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/gpu-1-1793545212416187357.log
+2026-11-01 22:59:21.335  {"status": "running", "phase": "development_debug", "completed": 0, "expected": 720, "active_cpu": 0, "active_trajectories": 0, "pending_requests": 60, "eta_seconds": null, "eta_scope": "current phase terminal throughput, includes failures; future phases excluded", "time": 1793545161.3328366, "restarts": {"0": 0, "1": 0, "2": 0, "3": 0}}
+2026-11-01 22:58:21.018  {"status": "running", "phase": "development_debug", "completed": 0, "expected": 720, "active_cpu": 0, "active_trajectories": 0, "pending_requests": 60, "eta_seconds": null, "eta_scope": "current phase terminal throughput, includes failures; future phases excluded", "time": 1793545100.7297559, "restarts": {"0": 0, "1": 0, "2": 0, "3": 0}}
+2026-11-01 22:57:20.343  {"status": "running", "phase": "development_debug", "completed": 0, "expected": 720, "active_cpu": 0, "active_trajectories": 0, "pending_requests": 60, "eta_seconds": null, "eta_scope": "current phase terminal throughput, includes failures; future phases excluded", "time": 1793545040.3250089, "restarts": {"0": 0, "1": 0, "2": 0, "3": 0}}
+2026-11-01 22:56:19.793  {"status": "running", "phase": "development_debug", "completed": 0, "expected": 720, "active_cpu": 0, "active_trajectories": 0, "pending_requests": 60, "eta_seconds": null, "eta_scope": "current phase terminal throughput, includes failures; future phases excluded", "time": 1793544979.788334, "restarts": {"0": 0, "1": 0, "2": 0, "3": 0}}
+2026-11-01 22:55:19.461  {"status": "running", "phase": "development_debug", "completed": 0, "expected": 720, "active_cpu": 0, "active_trajectories": 0, "pending_requests": 60, "eta_seconds": null, "eta_scope": "current phase terminal throughput, includes failures; future phases excluded", "time": 1793544919.4580605, "restarts": {"0": 0, "1": 0, "2": 0, "3": 0}}
+2026-11-01 22:54:10.846  {"status": "running", "phase": "development_debug", "completed": 0, "expected": 720, "active_cpu": 0, "active_trajectories": 0, "pending_requests": 60, "eta_seconds": null, "eta_scope": "current phase terminal throughput, includes failures; future phases excluded", "time": 1793544850.8431547, "restarts": {"0": 0, "1": 0, "2": 0, "3": 0}}
+2026-11-01 22:54:10.221  GPU START 3 /inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/gpu-3-1793544850220237327.log
+2026-11-01 22:54:10.220  GPU START 2 /inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/gpu-2-1793544850218529131.log
+2026-11-01 22:54:10.218  GPU START 1 /inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/gpu-1-1793544850216906546.log
+2026-11-01 22:54:10.216  GPU START 0 /inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/gpu-0-1793544850215021131.log
+2026-11-01 22:52:54.244  watch file /etc/exit_code/job-d4e32644-384e-40de-aa18-afeeecbb0842-worker-0
+2026-11-01 22:52:54.054  E004 launch/resume; log=/inspire/hdd/global_user/czxs25210022/why/results/E004-1.1_feedback/logs/launch-20261101T145254Z-20.log

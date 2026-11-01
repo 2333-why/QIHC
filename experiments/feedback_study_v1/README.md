@@ -27,6 +27,14 @@ cd /inspire/hdd/global_user/czxs25210022/why/qihc-E004-1.1 && bash experiments/f
 
 中断后仍用同一条 GPU 命令。无需重跑准备；配置、数据和源码不一致会拒绝混用结果。状态按每题、每轮、每阶段恢复，完整响应不重复生成。
 
+**2026-11-02 设备检查修复：**如果运行的是 `d7411dd`/`521daee` 的准备记录，GPU 子日志在权重加载完成后报 `CPU/disk offload forbidden`，且尚未有任何推理响应或搜索状态，更新已停止的 E004 工作树后改用：
+
+```bash
+cd /inspire/hdd/global_user/czxs25210022/why/qihc-E004-1.1 && bash experiments/feedback_study_v1/06_resume_devicecheck.sh
+```
+
+该入口先执行有限兼容迁移再启动原运行器，无需下载权重或重跑准备。它保留旧新 manifest/preflight、原请求和日志；若检测到已有推理尝试/轨迹、数据变化或未审计源码，会拒绝快捷迁移。迁移之后正常 `01_run_4gpu.sh` 续跑仍可用。真正位于 CPU/meta/磁盘的权重仍禁止，缺少 `hf_device_map` 由实际张量设备核验替代，证据写入 `gpu-<rank>-placement.json`。
+
 CPU 节点轻量查看进度和日志新鲜度：
 
 ```bash

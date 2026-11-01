@@ -62,6 +62,7 @@ def worker(root, rank):
     from qihc.modeling.generation import generate
     from qihc.experiment_runtime.identity import model_identity
     from .protocol import bounded_evidence
+    from .placement import verify_placement, DevicePlacementError
     m = validate(root); cfg = m['config']
     if model_identity(Path(m['model'])) != m['model_files']:
         raise ValueError('Model metadata changed')
@@ -70,9 +71,16 @@ def worker(root, rank):
         s.save(hb, {'status':'loading', 'time':time.time()})
         generator = LocalModel(m['model'], device='cuda:0' if cfg['gpu_replicas']==4 else 'balanced',
                                temperature=0., max_input_tokens=cfg['max_input_tokens'])
-        placement = getattr(generator.model, 'hf_device_map', {})
-        if not placement or any(str(v) in ('cpu', 'disk') for v in placement.values()):
-            raise RuntimeError('Model does not fit on assigned GPUs; CPU/disk offload forbidden')
+        try:
+            placement = verify_placement(generator.model, generator.torch.cuda.device_count())
+        except DevicePlacementError as exc:
+            placement = dict(exc.report, time=time.time(), rank=rank)
+            s.save(root/f'gpu-{rank}-placement.json', placement)
+            s.save(hb, {'status':'placement_failed', 'time':time.time(), 'error':str(exc)})
+            print('MODEL PLACEMENT', json.dumps(placement), flush=True)
+            raise
+        placement.update(time=time.time(), rank=rank)
+        s.save(root/f'gpu-{rank}-placement.json', placement)
         print('MODEL LOADED', rank, placement, flush=True)
         cleanup_after_oom=False
         while not STOP:

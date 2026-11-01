@@ -8,7 +8,8 @@ from .common import s, default_root
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--run',type=Path,default=default_root());a=p.parse_args()
-    for name in ('status.json','acceptance.json','gpu-0.json','gpu-1.json','gpu-2.json','gpu-3.json'):
+    for name in ('status.json','acceptance.json','gpu-0.json','gpu-1.json','gpu-2.json','gpu-3.json',
+                 'gpu-0-placement.json','gpu-1-placement.json','gpu-2-placement.json','gpu-3-placement.json'):
         f=a.run/name
         if f.exists():
             row=s.load(f)

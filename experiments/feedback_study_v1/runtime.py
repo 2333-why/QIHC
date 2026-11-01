@@ -263,7 +263,7 @@ class Processes:
             if code is None and not timedout:
                 continue
             if code is None:
-                proc.kill(); proc.wait()
+                proc.kill(); code = proc.wait()
             if not out.exists():
                 s.save(out, {'status':'hard_timeout' if timedout else 'worker_crash', 'x':None,
                     'error':f'exit={code}; log={log.name}', 'job_sha256':s.digest(job),
@@ -360,6 +360,12 @@ def launch(root, cpu_only=False, phase='all'):
                 for key in hb.get('requests',[]):
                     terminal_error(root,root/'requests'/(key+'.json'),f'GPU exit={code}, watchdog={timedout}; {log.name}',attempted=True)
             log.close(); del children[rank]
+            failure={'rank':rank,'exit_code':code,'watchdog':timedout,'heartbeat':hb,
+                     'log':log.name,'time':time.time()}
+            s.save(root/'gpu_failures'/f'{rank}-{time.time_ns()}.json',failure)
+            print('GPU EXIT',json.dumps(failure),flush=True)
+            if hb.get('status')=='placement_failed' and hb.get('time',0)>=born:
+                raise RuntimeError('GPU placement check failed: '+hb.get('error','')+'; inspect '+str(log.name))
             if restarts[rank] >= cfg['max_gpu_restarts']:
                 raise RuntimeError('Repeated GPU infrastructure failures; results retained, inspect '+str(log.name))
             restarts[rank] += 1; spawn(rank)
