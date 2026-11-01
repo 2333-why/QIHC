@@ -16,7 +16,7 @@ OLD_SOURCE_HASH='62fd9a27f432375104ae6622e51d4ddcf66b454f6056d28f7bc89de34c4bb53
 # Excludes this receipt writer to avoid a self-referential hash; includes every
 # model, algorithm, runtime and launch file. A future code change cannot silently
 # reuse today's compatibility assertion.
-COMPATIBLE_PATCH_HASH='aa4d26c6ddb4d09c92ea6ffd9efa3b713a56ab755a00055251a69776775e1a9d'
+COMPATIBLE_PATCH_HASH='c75476535fd520092613989eec00c4cc017ef8aa416e9460bf75097fbf1123de'
 
 
 def patch_fingerprint():

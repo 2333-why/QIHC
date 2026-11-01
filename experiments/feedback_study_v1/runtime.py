@@ -355,7 +355,7 @@ def launch(root, cpu_only=False, phase='all'):
             if code is None and not timedout:
                 continue
             if code is None:
-                proc.kill(); proc.wait()
+                proc.kill(); code = proc.wait()
             if hb.get('status')=='generating' and hb.get('time',0)>=born:
                 for key in hb.get('requests',[]):
                     terminal_error(root,root/'requests'/(key+'.json'),f'GPU exit={code}, watchdog={timedout}; {log.name}',attempted=True)
