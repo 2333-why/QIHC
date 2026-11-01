@@ -1,0 +1,116 @@
+[root:qihc-E003-1.1-dfd2625]$ cd /inspire/hdd/global_user/czxs25210022/why/qihc && git fetch origin llm-cvrp && git worktree add --detach ../qihc-E004-1.1 e09563fbcedd6a1a0c4d50b2990731d02e3ce666 && cd ../qihc-E004-1.1 && bash experiments/feedback_study_v1/00_prepare_cpu.sh
+remote: Enumerating objects: 89, done.
+remote: Counting objects: 100% (89/89), done.
+remote: Compressing objects: 100% (40/40), done.
+remote: Total 77 (delta 37), reused 77 (delta 37), pack-reused 0 (from 0)
+Unpacking objects: 100% (77/77), 117.14 KiB | 231.00 KiB/s, done.
+From https://github.com/2333-why/QIHC
+ * branch            llm-cvrp   -> FETCH_HEAD
+   8fc8078..e09563f  llm-cvrp   -> origin/llm-cvrp
+Preparing worktree (detached HEAD e09563f)
+Updating files: 100% (856/856), done.
+HEAD is now at e09563f fix: accept scheduler metadata and record E004 validation
+{
+  "cp_sat": {
+    "status": "OPTIMAL",
+    "feasible": true,
+    "objective": -1.0,
+    "seconds": 0.01827252469956875,
+    "worker_pid": 2257929,
+    "loaded_solver_modules": {
+      "cp_sat": "/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/lib/python3.11/site-packages/ortools/__init__.py"
+    },
+    "native_library_paths": [
+      "/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/lib/python3.11/site-packages/numpy.libs/libscipy_openblas64_-56d6093b.so",
+      "/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/lib/python3.11/site-packages/ortools/.libs/libhighs.so.1",
+      "/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/lib/python3.11/site-packages/ortools/.libs/libortools.so.9",
+      "/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/lib/python3.11/site-packages/ortools/.libs/libscip.so.10.0"
+    ]
+  },
+  "scip": {
+    "status": "optimal",
+    "feasible": true,
+    "objective": -1.0,
+    "seconds": 0.0284271202981472,
+    "worker_pid": 2257932,
+    "loaded_solver_modules": {
+      "scip": "/inspire/hdd/global_user/czxs25210022/why/deps/e002-solvers-highs1151-scip630/pyscipopt/__init__.py"
+    },
+    "native_library_paths": [
+      "/inspire/hdd/global_user/czxs25210022/why/deps/e002-solvers-highs1151-scip630/pyscipopt.libs/libscip-d031042e.so.10.0",
+      "/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/lib/python3.11/site-packages/numpy.libs/libscipy_openblas64_-56d6093b.so"
+    ]
+  },
+  "highs": {
+    "status": "Optimal",
+    "feasible": true,
+    "objective": -1.0,
+    "seconds": 0.03512384928762913,
+    "worker_pid": 2257935,
+    "loaded_solver_modules": {
+      "highs": "/inspire/hdd/global_user/czxs25210022/why/deps/e002-solvers-highs1151-scip630/highspy/__init__.py"
+    },
+    "native_library_paths": [
+      "/inspire/hdd/global_user/czxs25210022/why/deps/e002-solvers-highs1151-scip630/highspy/libhighs.so.1",
+      "/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/lib/python3.11/site-packages/numpy.libs/libscipy_openblas64_-56d6093b.so"
+    ]
+  },
+  "sa": {
+    "status": "BUDGET_END",
+    "feasible": true,
+    "objective": -1.0,
+    "seconds": 0.22073133289813995,
+    "worker_pid": 2257938,
+    "loaded_solver_modules": {},
+    "native_library_paths": [
+      "/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/lib/python3.11/site-packages/numpy.libs/libscipy_openblas64_-56d6093b.so"
+    ]
+  },
+  "pt": {
+    "status": "BUDGET_END",
+    "feasible": true,
+    "objective": -1.0,
+    "seconds": 0.21832035295665264,
+    "worker_pid": 2257941,
+    "loaded_solver_modules": {},
+    "native_library_paths": [
+      "/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/lib/python3.11/site-packages/numpy.libs/libscipy_openblas64_-56d6093b.so"
+    ]
+  },
+  "penalty_pt": {
+    "status": "BUDGET_END",
+    "feasible": true,
+    "objective": -1.0,
+    "seconds": 0.22023737989366055,
+    "worker_pid": 2257945,
+    "loaded_solver_modules": {},
+    "native_library_paths": [
+      "/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/lib/python3.11/site-packages/numpy.libs/libscipy_openblas64_-56d6093b.so"
+    ]
+  },
+  "pbit": {
+    "status": "BUDGET_END",
+    "feasible": true,
+    "objective": -1.0,
+    "seconds": 0.12855535186827183,
+    "worker_pid": 2257952,
+    "loaded_solver_modules": {},
+    "native_library_paths": [
+      "/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/lib/python3.11/site-packages/numpy.libs/libscipy_openblas64_-56d6093b.so"
+    ]
+  }
+}
+OPTIMAL
+optimal
+{"status": "passed", "scope": "CPU actual solvers and conditional kernels; not real LLM acceptance"}
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/inspire/hdd/global_user/czxs25210022/why/qihc-E004-1.1/experiments/feedback_study_v1/prepare.py", line 129, in <module>
+    main()
+  File "/inspire/hdd/global_user/czxs25210022/why/qihc-E004-1.1/experiments/feedback_study_v1/prepare.py", line 124, in main
+    prepare(a.run, a.source, a.model,cfg); preflight(a.run)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/inspire/hdd/global_user/czxs25210022/why/qihc-E004-1.1/experiments/feedback_study_v1/prepare.py", line 52, in prepare
+    raise ValueError('Mathematical instance leakage between development and formal data')
+ValueError: Mathematical instance leakage between development and formal data

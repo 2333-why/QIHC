@@ -2,6 +2,7 @@
 import json
 import numpy as np
 from qihc.generic.bounded import validate
+from qihc.experiment_runtime.resilient_storage import value_digest
 
 FAMILIES = ('KP', 'MIS', 'MVC', 'MAXCUT', 'MCP', 'MDS')
 
@@ -79,7 +80,31 @@ def extension(cfg):
     return cases
 
 
-def development(cfg):
-    return [make_case(FAMILIES[k%6], (8, 16, 32, 64)[(k//6)%4], cfg['development_seed']+k,
-                      'development_debug' if k < cfg['development_cases']//2 else 'development_acceptance', k)
-            for k in range(cfg['development_cases'])]
+def development(cfg, excluded=(), audit=None):
+    """Freeze formal cases, deterministically replace colliding development draws.
+
+    Seeds alone do not prove disjointness. Compare the actual mathematical IR,
+    including previously accepted development cases, without consulting scores.
+    """
+    seen = {value_digest(c['gold']): c['id'] for c in excluded}
+    cases = []
+    for k in range(cfg['development_cases']):
+        original_seed = cfg['development_seed']+k
+        split = 'development_debug' if k < cfg['development_cases']//2 else 'development_acceptance'
+        rejected = []
+        for attempt in range(100):
+            seed = original_seed+attempt*10000000
+            c = make_case(FAMILIES[k%6], (8, 16, 32, 64)[(k//6)%4], seed, split, k)
+            digest = value_digest(c['gold'])
+            if digest not in seen:
+                break
+            rejected.append({'case_id': c['id'], 'generation_seed': seed,
+                             'mathematics_sha256': digest, 'collides_with': seen[digest]})
+        else:
+            raise ValueError(f'Cannot generate disjoint development case at index {k} after 100 attempts')
+        seen[digest] = c['id']; cases.append(c)
+        if rejected and audit is not None:
+            audit.append({'index': k, 'split': split, 'original_seed': original_seed,
+                          'rejected': rejected, 'replacement_id': c['id'],
+                          'replacement_seed': seed, 'replacement_sha256': digest})
+    return cases

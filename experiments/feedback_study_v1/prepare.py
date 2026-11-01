@@ -38,7 +38,9 @@ def prepare(root, source, model, cfg=None, smoke=False):
             references[case['id']] = s.load(ref)
             if references[case['id']].get('gold_sha256') != s.value_digest(case['gold']):
                 raise ValueError('E003 reference/model identity mismatch')
-    cases = development(cfg)+public+extension(cfg)
+    formal = public+extension(cfg)
+    replacements = []
+    cases = development(cfg, excluded=formal, audit=replacements)+formal
     if len({c['id'] for c in cases}) != len(cases):
         raise ValueError('Duplicate case IDs')
     for c in cases:
@@ -49,7 +51,7 @@ def prepare(root, source, model, cfg=None, smoke=False):
         digest = s.value_digest(c['gold'])
         group = 'development' if c['split'].startswith('development') else 'formal'
         if digest in groups and groups[digest] != group:
-            raise ValueError('Mathematical instance leakage between development and formal data')
+            raise ValueError('Mathematical instance leakage between development and formal data: '+c['id'])
         groups[digest] = group
     sanitized = [{k: v for k,v in c.items() if k in ('id','dataset','size','split','question','variable_names','generation_seed','diagnostic_subset')}
                  for c in cases]
@@ -61,6 +63,11 @@ def prepare(root, source, model, cfg=None, smoke=False):
                 'config_digest': s.value_digest(cfg), 'cases': len(cases), 'smoke': smoke,
                 'scope': 'No gold/reference enters feedback. E003 immutable read-only source.'}
     with s.worker_lock(root/'prepare.lock'):
+        immutable(root/'evaluation'/'split_audit.json', {
+            'status': 'passed', 'scope': 'Exact mathematical IR hashes; not graph isomorphism or semantic equivalence',
+            'formal_cases_preserved': len(formal), 'development_cases': cfg['development_cases'],
+            'replacement_policy': 'Development only; seed + attempt * 10000000; max 100 attempts',
+            'replacements': replacements})
         immutable(root/'cases.public.json', sanitized)
         immutable(root/'evaluation'/'cases.CPU_ONLY.json', cases)
         manifest['public_digest'] = s.digest(root/'cases.public.json')
