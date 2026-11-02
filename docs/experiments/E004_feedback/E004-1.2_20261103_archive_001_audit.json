@@ -1,0 +1,4649 @@
+{
+  "experiment_id": "E004-1.2",
+  "archive": "E:\\E004-1.2_analysis_20261102T171803.tar.gz",
+  "archive_sha256": "c5a476153963242eb9fed65d70c8b423b256fa67a12b87a4dadeaa92f3cd86c8",
+  "raw_scores_recomputed": 72,
+  "mismatches": [],
+  "changed_vs_C0": [
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "C0": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 36.36363636363637,
+        "proven_reference": true
+      },
+      "C1": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "U2": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "B2": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      }
+    },
+    {
+      "case_id": "nlco_KP_M_026",
+      "C0": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "C1": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "U2": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "B2": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      }
+    },
+    {
+      "case_id": "nlco_MDS_M_021",
+      "C0": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "C1": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 50.0,
+        "proven_reference": true
+      },
+      "U2": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 50.0,
+        "proven_reference": true
+      },
+      "B2": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 50.0,
+        "proven_reference": true
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_L_038",
+      "C0": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 82.85714285714286,
+        "proven_reference": true
+      },
+      "C1": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 97.14285714285714,
+        "proven_reference": true
+      },
+      "U2": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "B2": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      }
+    },
+    {
+      "case_id": "nlco_MIS_L_013",
+      "C0": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "C1": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "U2": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "B2": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      }
+    }
+  ],
+  "per_case": [
+    {
+      "case_id": "nlco_KP_S_001",
+      "final_models_equal": true,
+      "metrics": {
+        "C0": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        }
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "final_models_equal": true,
+      "metrics": {
+        "C0": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 36.36363636363637,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        }
+      }
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "final_models_equal": false,
+      "metrics": {
+        "C0": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      }
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "final_models_equal": false,
+      "metrics": {
+        "C0": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 25.0,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 25.0,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 25.0,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 25.0,
+          "proven_reference": true
+        }
+      }
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "final_models_equal": false,
+      "metrics": {
+        "C0": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      }
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "final_models_equal": true,
+      "metrics": {
+        "C0": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      }
+    },
+    {
+      "case_id": "nlco_KP_M_026",
+      "final_models_equal": true,
+      "metrics": {
+        "C0": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        }
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_M_023",
+      "final_models_equal": true,
+      "metrics": {
+        "C0": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        }
+      }
+    },
+    {
+      "case_id": "nlco_MCP_M_039",
+      "final_models_equal": true,
+      "metrics": {
+        "C0": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      }
+    },
+    {
+      "case_id": "nlco_MDS_M_021",
+      "final_models_equal": false,
+      "metrics": {
+        "C0": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 50.0,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 50.0,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 50.0,
+          "proven_reference": true
+        }
+      }
+    },
+    {
+      "case_id": "nlco_MIS_M_045",
+      "final_models_equal": false,
+      "metrics": {
+        "C0": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      }
+    },
+    {
+      "case_id": "nlco_MVC_M_019",
+      "final_models_equal": false,
+      "metrics": {
+        "C0": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      }
+    },
+    {
+      "case_id": "nlco_KP_L_033",
+      "final_models_equal": true,
+      "metrics": {
+        "C0": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        }
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_L_038",
+      "final_models_equal": false,
+      "metrics": {
+        "C0": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 82.85714285714286,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 97.14285714285714,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        }
+      }
+    },
+    {
+      "case_id": "nlco_MCP_L_037",
+      "final_models_equal": true,
+      "metrics": {
+        "C0": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      }
+    },
+    {
+      "case_id": "nlco_MDS_L_014",
+      "final_models_equal": false,
+      "metrics": {
+        "C0": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 177.77777777777777,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 177.77777777777777,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 177.77777777777777,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 177.77777777777777,
+          "proven_reference": true
+        }
+      }
+    },
+    {
+      "case_id": "nlco_MIS_L_013",
+      "final_models_equal": false,
+      "metrics": {
+        "C0": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      }
+    },
+    {
+      "case_id": "nlco_MVC_L_011",
+      "final_models_equal": false,
+      "metrics": {
+        "C0": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "C1": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "U2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "B2": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      }
+    }
+  ],
+  "summary": {
+    "experiment_id": "E004-1.2",
+    "status": "complete",
+    "completed": 72,
+    "expected": 72,
+    "instances": 18,
+    "seed": 0,
+    "time": 1793639883.4600208,
+    "rows": [
+      {
+        "method": "E003/canonical/cp_sat",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 18,
+          "optimal_hit": 18,
+          "quality1": 18,
+          "quality5": 18
+        },
+        "cost_completed_only": {
+          "recorded_solver_wall_seconds": 0.9922817684710026
+        }
+      },
+      {
+        "method": "E003/canonical/highs",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 18,
+          "optimal_hit": 18,
+          "quality1": 18,
+          "quality5": 18
+        },
+        "cost_completed_only": {
+          "recorded_solver_wall_seconds": 0.5322893839329481
+        }
+      },
+      {
+        "method": "E003/canonical/pbit",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 18,
+          "optimal_hit": 18,
+          "quality1": 18,
+          "quality5": 18
+        },
+        "cost_completed_only": {
+          "recorded_solver_wall_seconds": 360.00321740843356
+        }
+      },
+      {
+        "method": "E003/canonical/penalty_pt",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 18,
+          "optimal_hit": 18,
+          "quality1": 18,
+          "quality5": 18
+        },
+        "cost_completed_only": {
+          "recorded_solver_wall_seconds": 360.0035313181579
+        }
+      },
+      {
+        "method": "E003/canonical/pt",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 18,
+          "optimal_hit": 18,
+          "quality1": 18,
+          "quality5": 18
+        },
+        "cost_completed_only": {
+          "recorded_solver_wall_seconds": 360.00418146699667
+        }
+      },
+      {
+        "method": "E003/canonical/sa",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 18,
+          "optimal_hit": 18,
+          "quality1": 18,
+          "quality5": 18
+        },
+        "cost_completed_only": {
+          "recorded_solver_wall_seconds": 360.00264017656446
+        }
+      },
+      {
+        "method": "E003/canonical/scip",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 18,
+          "optimal_hit": 18,
+          "quality1": 18,
+          "quality5": 18
+        },
+        "cost_completed_only": {
+          "recorded_solver_wall_seconds": 0.3734954781830311
+        }
+      },
+      {
+        "method": "E003/llm_typed_flat/cp_sat",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 8,
+          "optimal_hit": 2,
+          "quality1": 2,
+          "quality5": 2
+        },
+        "cost_completed_only": {
+          "recorded_solver_wall_seconds": 0.10222622193396091
+        }
+      },
+      {
+        "method": "E003/llm_typed_flat/highs",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 8,
+          "optimal_hit": 2,
+          "quality1": 2,
+          "quality5": 2
+        },
+        "cost_completed_only": {
+          "recorded_solver_wall_seconds": 0.2121941689401865
+        }
+      },
+      {
+        "method": "E003/llm_typed_flat/pbit",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 8,
+          "optimal_hit": 2,
+          "quality1": 2,
+          "quality5": 2
+        },
+        "cost_completed_only": {
+          "recorded_solver_wall_seconds": 340.00206263549626
+        }
+      },
+      {
+        "method": "E003/llm_typed_flat/penalty_pt",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 8,
+          "optimal_hit": 2,
+          "quality1": 2,
+          "quality5": 2
+        },
+        "cost_completed_only": {
+          "recorded_solver_wall_seconds": 340.002621922642
+        }
+      },
+      {
+        "method": "E003/llm_typed_flat/pt",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 9,
+          "optimal_hit": 2,
+          "quality1": 2,
+          "quality5": 2
+        },
+        "cost_completed_only": {
+          "recorded_solver_wall_seconds": 340.00215735286474
+        }
+      },
+      {
+        "method": "E003/llm_typed_flat/sa",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 9,
+          "optimal_hit": 2,
+          "quality1": 2,
+          "quality5": 2
+        },
+        "cost_completed_only": {
+          "recorded_solver_wall_seconds": 340.0021789651364
+        }
+      },
+      {
+        "method": "E003/llm_typed_flat/scip",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 8,
+          "optimal_hit": 2,
+          "quality1": 2,
+          "quality5": 2
+        },
+        "cost_completed_only": {
+          "recorded_solver_wall_seconds": 0.16780851036310196
+        }
+      },
+      {
+        "method": "E004/B2",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 9,
+          "optimal_hit": 3,
+          "quality1": 3,
+          "quality5": 3
+        },
+        "cost_completed_only": {
+          "generation_attempts": 72,
+          "input_tokens": 237248,
+          "output_tokens": 31761,
+          "attributed_seconds": 1830.81436986872,
+          "cpu_seconds": 54.74279062333517,
+          "valid_patch_outputs": 34,
+          "cost_incomplete": 0,
+          "execution_errors": 11,
+          "trajectories_with_errors": 2
+        }
+      },
+      {
+        "method": "E004/C0",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 8,
+          "optimal_hit": 2,
+          "quality1": 2,
+          "quality5": 2
+        },
+        "cost_completed_only": {
+          "generation_attempts": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "attributed_seconds": 0,
+          "cpu_seconds": 680.3395010484383,
+          "valid_patch_outputs": 0,
+          "cost_incomplete": 0,
+          "execution_errors": 6,
+          "trajectories_with_errors": 1
+        }
+      },
+      {
+        "method": "E004/C1",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 9,
+          "optimal_hit": 3,
+          "quality1": 3,
+          "quality5": 3
+        },
+        "cost_completed_only": {
+          "generation_attempts": 72,
+          "input_tokens": 169959,
+          "output_tokens": 32652,
+          "attributed_seconds": 1883.1357967446093,
+          "cpu_seconds": 680.3357092337683,
+          "valid_patch_outputs": 34,
+          "cost_incomplete": 0,
+          "execution_errors": 11,
+          "trajectories_with_errors": 2
+        }
+      },
+      {
+        "method": "E004/U2",
+        "completed": 18,
+        "expected": 18,
+        "counts": {
+          "original_feasible": 9,
+          "optimal_hit": 3,
+          "quality1": 3,
+          "quality5": 3
+        },
+        "cost_completed_only": {
+          "generation_attempts": 72,
+          "input_tokens": 216726,
+          "output_tokens": 30888,
+          "attributed_seconds": 1790.2652385451365,
+          "cpu_seconds": 680.3327462994494,
+          "valid_patch_outputs": 34,
+          "cost_incomplete": 0,
+          "execution_errors": 11,
+          "trajectories_with_errors": 2
+        }
+      }
+    ],
+    "paired": [
+      {
+        "left": "E004/U2",
+        "right": "E003/canonical/cp_sat",
+        "paired_instances": 18,
+        "complete": true,
+        "binary_metrics": {
+          "original_feasible": {
+            "wins": 0,
+            "ties": 9,
+            "losses": 9
+          },
+          "optimal_hit": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          },
+          "quality1": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          },
+          "quality5": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          }
+        },
+        "scope": "oracle-model reference"
+      },
+      {
+        "left": "E004/U2",
+        "right": "E003/canonical/highs",
+        "paired_instances": 18,
+        "complete": true,
+        "binary_metrics": {
+          "original_feasible": {
+            "wins": 0,
+            "ties": 9,
+            "losses": 9
+          },
+          "optimal_hit": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          },
+          "quality1": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          },
+          "quality5": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          }
+        },
+        "scope": "oracle-model reference"
+      },
+      {
+        "left": "E004/U2",
+        "right": "E003/canonical/pbit",
+        "paired_instances": 18,
+        "complete": true,
+        "binary_metrics": {
+          "original_feasible": {
+            "wins": 0,
+            "ties": 9,
+            "losses": 9
+          },
+          "optimal_hit": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          },
+          "quality1": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          },
+          "quality5": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          }
+        },
+        "scope": "oracle-model reference"
+      },
+      {
+        "left": "E004/U2",
+        "right": "E003/canonical/penalty_pt",
+        "paired_instances": 18,
+        "complete": true,
+        "binary_metrics": {
+          "original_feasible": {
+            "wins": 0,
+            "ties": 9,
+            "losses": 9
+          },
+          "optimal_hit": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          },
+          "quality1": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          },
+          "quality5": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          }
+        },
+        "scope": "oracle-model reference"
+      },
+      {
+        "left": "E004/U2",
+        "right": "E003/canonical/pt",
+        "paired_instances": 18,
+        "complete": true,
+        "binary_metrics": {
+          "original_feasible": {
+            "wins": 0,
+            "ties": 9,
+            "losses": 9
+          },
+          "optimal_hit": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          },
+          "quality1": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          },
+          "quality5": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          }
+        },
+        "scope": "oracle-model reference"
+      },
+      {
+        "left": "E004/U2",
+        "right": "E003/canonical/sa",
+        "paired_instances": 18,
+        "complete": true,
+        "binary_metrics": {
+          "original_feasible": {
+            "wins": 0,
+            "ties": 9,
+            "losses": 9
+          },
+          "optimal_hit": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          },
+          "quality1": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          },
+          "quality5": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          }
+        },
+        "scope": "oracle-model reference"
+      },
+      {
+        "left": "E004/U2",
+        "right": "E003/canonical/scip",
+        "paired_instances": 18,
+        "complete": true,
+        "binary_metrics": {
+          "original_feasible": {
+            "wins": 0,
+            "ties": 9,
+            "losses": 9
+          },
+          "optimal_hit": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          },
+          "quality1": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          },
+          "quality5": {
+            "wins": 0,
+            "ties": 3,
+            "losses": 15
+          }
+        },
+        "scope": "oracle-model reference"
+      },
+      {
+        "left": "E004/U2",
+        "right": "E003/llm_typed_flat/cp_sat",
+        "paired_instances": 18,
+        "complete": true,
+        "binary_metrics": {
+          "original_feasible": {
+            "wins": 2,
+            "ties": 15,
+            "losses": 1
+          },
+          "optimal_hit": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          },
+          "quality1": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          },
+          "quality5": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          }
+        },
+        "scope": "unequal total budget historical contrast"
+      },
+      {
+        "left": "E004/U2",
+        "right": "E003/llm_typed_flat/highs",
+        "paired_instances": 18,
+        "complete": true,
+        "binary_metrics": {
+          "original_feasible": {
+            "wins": 2,
+            "ties": 15,
+            "losses": 1
+          },
+          "optimal_hit": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          },
+          "quality1": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          },
+          "quality5": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          }
+        },
+        "scope": "unequal total budget historical contrast"
+      },
+      {
+        "left": "E004/U2",
+        "right": "E003/llm_typed_flat/pbit",
+        "paired_instances": 18,
+        "complete": true,
+        "binary_metrics": {
+          "original_feasible": {
+            "wins": 2,
+            "ties": 15,
+            "losses": 1
+          },
+          "optimal_hit": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          },
+          "quality1": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          },
+          "quality5": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          }
+        },
+        "scope": "unequal total budget historical contrast"
+      },
+      {
+        "left": "E004/U2",
+        "right": "E003/llm_typed_flat/penalty_pt",
+        "paired_instances": 18,
+        "complete": true,
+        "binary_metrics": {
+          "original_feasible": {
+            "wins": 2,
+            "ties": 15,
+            "losses": 1
+          },
+          "optimal_hit": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          },
+          "quality1": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          },
+          "quality5": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          }
+        },
+        "scope": "unequal total budget historical contrast"
+      },
+      {
+        "left": "E004/U2",
+        "right": "E003/llm_typed_flat/pt",
+        "paired_instances": 18,
+        "complete": true,
+        "binary_metrics": {
+          "original_feasible": {
+            "wins": 1,
+            "ties": 16,
+            "losses": 1
+          },
+          "optimal_hit": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          },
+          "quality1": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          },
+          "quality5": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          }
+        },
+        "scope": "unequal total budget historical contrast"
+      },
+      {
+        "left": "E004/U2",
+        "right": "E003/llm_typed_flat/sa",
+        "paired_instances": 18,
+        "complete": true,
+        "binary_metrics": {
+          "original_feasible": {
+            "wins": 1,
+            "ties": 16,
+            "losses": 1
+          },
+          "optimal_hit": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          },
+          "quality1": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          },
+          "quality5": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          }
+        },
+        "scope": "unequal total budget historical contrast"
+      },
+      {
+        "left": "E004/U2",
+        "right": "E003/llm_typed_flat/scip",
+        "paired_instances": 18,
+        "complete": true,
+        "binary_metrics": {
+          "original_feasible": {
+            "wins": 2,
+            "ties": 15,
+            "losses": 1
+          },
+          "optimal_hit": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          },
+          "quality1": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          },
+          "quality5": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          }
+        },
+        "scope": "unequal total budget historical contrast"
+      },
+      {
+        "left": "E004/U2",
+        "right": "E004/B2",
+        "paired_instances": 18,
+        "complete": true,
+        "binary_metrics": {
+          "original_feasible": {
+            "wins": 0,
+            "ties": 18,
+            "losses": 0
+          },
+          "optimal_hit": {
+            "wins": 0,
+            "ties": 18,
+            "losses": 0
+          },
+          "quality1": {
+            "wins": 0,
+            "ties": 18,
+            "losses": 0
+          },
+          "quality5": {
+            "wins": 0,
+            "ties": 18,
+            "losses": 0
+          }
+        },
+        "scope": "same pilot budget"
+      },
+      {
+        "left": "E004/U2",
+        "right": "E004/C0",
+        "paired_instances": 18,
+        "complete": true,
+        "binary_metrics": {
+          "original_feasible": {
+            "wins": 2,
+            "ties": 15,
+            "losses": 1
+          },
+          "optimal_hit": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          },
+          "quality1": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          },
+          "quality5": {
+            "wins": 1,
+            "ties": 17,
+            "losses": 0
+          }
+        },
+        "scope": "same pilot budget"
+      },
+      {
+        "left": "E004/U2",
+        "right": "E004/C1",
+        "paired_instances": 18,
+        "complete": true,
+        "binary_metrics": {
+          "original_feasible": {
+            "wins": 0,
+            "ties": 18,
+            "losses": 0
+          },
+          "optimal_hit": {
+            "wins": 0,
+            "ties": 18,
+            "losses": 0
+          },
+          "quality1": {
+            "wins": 0,
+            "ties": 18,
+            "losses": 0
+          },
+          "quality5": {
+            "wins": 0,
+            "ties": 18,
+            "losses": 0
+          }
+        },
+        "scope": "same pilot budget"
+      }
+    ],
+    "per_case": {
+      "E003/llm_typed_flat/cp_sat": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 36.36363636363637,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 25.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 77.14285714285714,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 177.77777777777777,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      },
+      "E003/llm_typed_flat/scip": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 36.36363636363637,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 25.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 65.71428571428571,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 177.77777777777777,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      },
+      "E003/llm_typed_flat/highs": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 36.36363636363637,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 25.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 77.14285714285714,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 177.77777777777777,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      },
+      "E003/llm_typed_flat/sa": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 36.36363636363637,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 25.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 50.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 65.71428571428571,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 177.77777777777777,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      },
+      "E003/llm_typed_flat/pt": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 36.36363636363637,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 25.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 50.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 51.42857142857143,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 177.77777777777777,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      },
+      "E003/llm_typed_flat/penalty_pt": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 36.36363636363637,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 25.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 51.42857142857143,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 177.77777777777777,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      },
+      "E003/llm_typed_flat/pbit": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 36.36363636363637,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 25.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 51.42857142857143,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 177.77777777777777,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      },
+      "E003/canonical/cp_sat": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        }
+      },
+      "E003/canonical/scip": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        }
+      },
+      "E003/canonical/highs": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        }
+      },
+      "E003/canonical/sa": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        }
+      },
+      "E003/canonical/pt": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        }
+      },
+      "E003/canonical/penalty_pt": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        }
+      },
+      "E003/canonical/pbit": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": 0.0,
+          "proven_reference": true
+        }
+      },
+      "E004/C0": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 36.36363636363637,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 25.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 82.85714285714286,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 177.77777777777777,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      },
+      "E004/C1": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 25.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 50.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 97.14285714285714,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 177.77777777777777,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      },
+      "E004/U2": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 25.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 50.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 177.77777777777777,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      },
+      "E004/B2": {
+        "nlco_KP_S_001": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_S_035": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_S_023": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_S_006": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 25.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_S_009": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_S_020": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_M_026": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_M_023": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_M_039": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_M_021": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 50.0,
+          "proven_reference": true
+        },
+        "nlco_MIS_M_045": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_M_019": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_KP_L_033": {
+          "original_feasible": true,
+          "optimal_hit": true,
+          "quality1": true,
+          "quality5": true,
+          "gap_percent": -0.0,
+          "proven_reference": true
+        },
+        "nlco_MAXCUT_L_038": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 100.0,
+          "proven_reference": true
+        },
+        "nlco_MCP_L_037": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MDS_L_014": {
+          "original_feasible": true,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": 177.77777777777777,
+          "proven_reference": true
+        },
+        "nlco_MIS_L_013": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        },
+        "nlco_MVC_L_011": {
+          "original_feasible": false,
+          "optimal_hit": false,
+          "quality1": false,
+          "quality5": false,
+          "gap_percent": null,
+          "proven_reference": true
+        }
+      }
+    },
+    "state_stages": {
+      "round2/done": 72
+    },
+    "error_events": {
+      "invalid_model": 24,
+      "incomplete_output": 15
+    },
+    "shared_initial_generation_cost_once": {
+      "input_tokens": 65008,
+      "output_tokens": 40673,
+      "seconds": 3098.9617662507662,
+      "generation_attempts": 20
+    },
+    "scope": "18-case retrospective exploratory screen. Pending rows are not failures. E003 uses 20s without revision; pilot uses 40s plus up to four LLM calls. Canonical uses the correct model; it is not an end-to-end baseline. One instance per stratum and one seed cannot establish stable superiority; no degenerate singleton bootstrap CI. Costs cover completed records, not total GPU-hours or energy."
+  },
+  "manifest": {
+    "experiment_id": "E004-1.2",
+    "config": {
+      "experiment_id": "E004-1.2",
+      "public_arms": [
+        "C0",
+        "C1",
+        "U2",
+        "B2"
+      ],
+      "extension_arms": [
+        "C0",
+        "C1",
+        "U2",
+        "B2"
+      ],
+      "diagnostic_arms": [],
+      "seeds": [
+        0
+      ],
+      "rounds": 2,
+      "chains": 32,
+      "base_seconds": 4.0,
+      "probe_seconds": 10.0,
+      "final_seconds": 6.0,
+      "reference_seconds": 30.0,
+      "diagnostic_seconds": 5.0,
+      "cpu_workers": 24,
+      "gpu_replicas": 4,
+      "batch_size": 1,
+      "inflight_trajectories": 12,
+      "max_input_tokens": 32768,
+      "trajectory_input_tokens": 131072,
+      "review_output_tokens": 2048,
+      "patch_output_tokens": 4096,
+      "feedback_tokens": 4096,
+      "initial_output_tokens": 8192,
+      "gpu_watchdog_seconds": 1200,
+      "cpu_watchdog_grace": 15,
+      "max_gpu_restarts": 3,
+      "report_interval_seconds": 60,
+      "idle_checkpoint_seconds": 1200,
+      "temperatures": [
+        0.1,
+        0.5,
+        1.0
+      ],
+      "penalty_multipliers": [
+        0.25,
+        4.0
+      ],
+      "router_coefficients": [
+        0.35,
+        0.3,
+        0.25,
+        0.1
+      ],
+      "event_min_score": 0.2,
+      "event_min_new_states": 2,
+      "extension_seed": 202611010,
+      "development_seed": 202611020,
+      "development_cases": 0,
+      "extension_per_cell": 50,
+      "extension_sizes": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "diagnostic_per_cell": 10,
+      "selection_seed": 20261102,
+      "pilot_scope": "exploratory retrospective stratified pilot; no formal quality acceptance claim"
+    },
+    "config_digest": "9fd001c3634bca862e739ed574dd533dce52501c9c65618ca4910d9e95be652c",
+    "source_hash": "8ca99dc09f31cfab03716dcfc5da3f6c4b4b71e4181bea2730065a483c5c1b10",
+    "code_commit": "5a813cd4610e5d3e3e2e5350da4fab194aeb71a1",
+    "source_run": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers",
+    "source_manifest_sha256": "58462b4ac5e5525e07cf2a23217ad55a3e4d5546b30075d0cb38d5bcc1f6c032",
+    "model": "/inspire/hdd/global_user/czxs25210022/why/models/Qwen3-32B",
+    "model_files": [
+      {
+        "path": "config.json",
+        "bytes": 728,
+        "mtime_ns": 1792405177548178208,
+        "sha256": "97e295b63283935788fac5e4f8860862a56d4089538cafc93f0431f2ebe483bb"
+      },
+      {
+        "path": "generation_config.json",
+        "bytes": 239,
+        "mtime_ns": 1792405178051758299,
+        "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+      },
+      {
+        "path": "model-00001-of-00017.safetensors",
+        "bytes": 3957109648,
+        "mtime_ns": 1792406031172955956,
+        "sha256": null
+      },
+      {
+        "path": "model-00002-of-00017.safetensors",
+        "bytes": 3900791760,
+        "mtime_ns": 1792407032999621560,
+        "sha256": null
+      },
+      {
+        "path": "model-00003-of-00017.safetensors",
+        "bytes": 3900791760,
+        "mtime_ns": 1792407953529061432,
+        "sha256": null
+      },
+      {
+        "path": "model-00004-of-00017.safetensors",
+        "bytes": 3900791800,
+        "mtime_ns": 1792408982492945525,
+        "sha256": null
+      },
+      {
+        "path": "model-00005-of-00017.safetensors",
+        "bytes": 3900791800,
+        "mtime_ns": 1792410117348385866,
+        "sha256": null
+      },
+      {
+        "path": "model-00006-of-00017.safetensors",
+        "bytes": 3900791800,
+        "mtime_ns": 1792411420558023800,
+        "sha256": null
+      },
+      {
+        "path": "model-00007-of-00017.safetensors",
+        "bytes": 3900791800,
+        "mtime_ns": 1792412577467748057,
+        "sha256": null
+      },
+      {
+        "path": "model-00008-of-00017.safetensors",
+        "bytes": 3900791800,
+        "mtime_ns": 1792413727656980933,
+        "sha256": null
+      },
+      {
+        "path": "model-00009-of-00017.safetensors",
+        "bytes": 3900791800,
+        "mtime_ns": 1792414908171115360,
+        "sha256": null
+      },
+      {
+        "path": "model-00010-of-00017.safetensors",
+        "bytes": 3900791800,
+        "mtime_ns": 1792416218768167601,
+        "sha256": null
+      },
+      {
+        "path": "model-00011-of-00017.safetensors",
+        "bytes": 3900791800,
+        "mtime_ns": 1792417787289823644,
+        "sha256": null
+      },
+      {
+        "path": "model-00012-of-00017.safetensors",
+        "bytes": 3900791800,
+        "mtime_ns": 1792418987896728649,
+        "sha256": null
+      },
+      {
+        "path": "model-00013-of-00017.safetensors",
+        "bytes": 3900791800,
+        "mtime_ns": 1792419914322693479,
+        "sha256": null
+      },
+      {
+        "path": "model-00014-of-00017.safetensors",
+        "bytes": 3900791800,
+        "mtime_ns": 1792420819997001988,
+        "sha256": null
+      },
+      {
+        "path": "model-00015-of-00017.safetensors",
+        "bytes": 3900791800,
+        "mtime_ns": 1792421584091707063,
+        "sha256": null
+      },
+      {
+        "path": "model-00016-of-00017.safetensors",
+        "bytes": 3900791800,
+        "mtime_ns": 1792422294809207385,
+        "sha256": null
+      },
+      {
+        "path": "model-00017-of-00017.safetensors",
+        "bytes": 3055341992,
+        "mtime_ns": 1792422645922914714,
+        "sha256": null
+      },
+      {
+        "path": "model.safetensors.index.json",
+        "bytes": 58330,
+        "mtime_ns": 1792422646603274000,
+        "sha256": "bed42c6c55274bc08a1f616bceb3bcb84b3f02cb6584c573bd18c6519291ecd0"
+      },
+      {
+        "path": "tokenizer.json",
+        "bytes": 11422654,
+        "mtime_ns": 1792422648630804065,
+        "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "bytes": 9732,
+        "mtime_ns": 1792422649333139000,
+        "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+      },
+      {
+        "path": "vocab.json",
+        "bytes": 2776833,
+        "mtime_ns": 1792422652214412165,
+        "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+      }
+    ],
+    "dependencies": {
+      "numpy": "2.2.6",
+      "ortools": "9.15.6755",
+      "pyscipopt": "6.3.0",
+      "torch": "2.9.1+cu128",
+      "transformers": "5.13.0",
+      "lm-format-enforcer": "0.11.3",
+      "interegular": "0.3.3"
+    },
+    "smoke": false,
+    "cases": 18,
+    "selection": {
+      "seed": 20261102,
+      "rule": "min sha256(seed NUL case_id) per dataset; no outcome/validity filtering",
+      "ids": [
+        "nlco_KP_S_001",
+        "nlco_MAXCUT_S_035",
+        "nlco_MCP_S_023",
+        "nlco_MDS_S_006",
+        "nlco_MIS_S_009",
+        "nlco_MVC_S_020",
+        "nlco_KP_M_026",
+        "nlco_MAXCUT_M_023",
+        "nlco_MCP_M_039",
+        "nlco_MDS_M_021",
+        "nlco_MIS_M_045",
+        "nlco_MVC_M_019",
+        "nlco_KP_L_033",
+        "nlco_MAXCUT_L_038",
+        "nlco_MCP_L_037",
+        "nlco_MDS_L_014",
+        "nlco_MIS_L_013",
+        "nlco_MVC_L_011"
+      ]
+    },
+    "source_evidence": {
+      "nlco_KP_S_001": {
+        "initial": "6d062673ab67a2f204086870dec5e5ab52762e350b3ef50e2d7266ba9396fd2f",
+        "reference": "b3228f00590cbcc04d78f9135a365e1ead55178aab9f3efe4217ac5f1401a4a4"
+      },
+      "nlco_MAXCUT_S_035": {
+        "initial": "45b60f56a7ee39708400a30571e8d65fce8c6f60cec90a1025dabd133eaa42a7",
+        "reference": "1e9847c6ed732187a2de7a3364e8948884b1547e64461aec2cd78109ed0900dd"
+      },
+      "nlco_MCP_S_023": {
+        "initial": "e131eacd737818dc26a2a50603aa9327fe9b0c7be44d759bd64d3cfbd1da4db2",
+        "reference": "9d3388a7a4cd32d443eb2de9f7dc51c72834c197aac60df6c6fe85afb8afc472"
+      },
+      "nlco_MDS_S_006": {
+        "initial": "fc2560774cd71ba75195f72d47ed82d0aa04989889967a822305d62ad634dc0b",
+        "reference": "f2fd22fb16cb12b4aad522e431fd0da62b19f5e908eedf3e406b1059f3cb33b5"
+      },
+      "nlco_MIS_S_009": {
+        "initial": "7e5dc3487f401b7952755a4b38bcdaa0d02c1d1c10bbef42275d6ceff7cf27e3",
+        "reference": "398e86fc7dcaf647dce15797e9c82f9e49e419f7f348c73e64132440c12c6d48"
+      },
+      "nlco_MVC_S_020": {
+        "initial": "1b7d9ee038a29ece5646da8726a36d0ae8dc5d2191b21c6309205e8750ebaa5a",
+        "reference": "081f0ebe8e822a02c5446bd111951f998bc6cb09035a26261153de2798aba844"
+      },
+      "nlco_KP_M_026": {
+        "initial": "cb996052dba1fbfae7fe733efe364b499a4054a6e0f4193a5f6ea0dde35e1a07",
+        "reference": "d1b15f86382c692f0d733971ec7d9794095049fb4763961a144c187fa9aa5d8a"
+      },
+      "nlco_MAXCUT_M_023": {
+        "initial": "b205c8358a1ff470041477cda00a95c8fa918aa7a7499da7a4577b263137d839",
+        "reference": "c205cbd32dc5f1153f954806508af7eac9b95ddd8e04d912c79c45ef193b330a"
+      },
+      "nlco_MCP_M_039": {
+        "initial": "b31435da8cf722badc5351eecbf9cd270715c08ea3cdd40ac6ba7e87abeaa932",
+        "reference": "65e7b4de94ba1ae4a54ac2122b0dca457e0f2e1e05d5b723e088a892272cb769"
+      },
+      "nlco_MDS_M_021": {
+        "initial": "5e2a69421f2f91bae857b7769d2a4ac0641c217e74a26bc427011c174d55c4f7",
+        "reference": "67dbddac05105230edc74a996a32ee1decc81c3a2b3d8d0df1e9801a4794665a"
+      },
+      "nlco_MIS_M_045": {
+        "initial": "496b9bcd3b85f36176bcca1e0f1828516b111a5792bbff6f2c77f3412ae09ad7",
+        "reference": "d8e06159932f772dfa69cc8ae046e43a74dfe4342e356edbc293fff31efafcd3"
+      },
+      "nlco_MVC_M_019": {
+        "initial": "a3fd189d3a8129ea168d4c826a2995e16f00a41f444e478ba581c37b4e84f21d",
+        "reference": "d1ced9db029ff2f0885fda0390bf22e16fd929daf6dd9bd18fd86fd571bb9e91"
+      },
+      "nlco_KP_L_033": {
+        "initial": "adefc446ad6166a7a073a4a3167b450e7e6fdab876d0d11ae43e44cbdd62e017",
+        "reference": "19b5c2d4e378f86bc7545ed017975e9384999eb985fa1b969adfcbc25674dde1"
+      },
+      "nlco_MAXCUT_L_038": {
+        "initial": "6b6ab9169bd8708ab51174d852b6fe87991c22dc90011ad6310fea5f31890c43",
+        "reference": "fa489cc0db4d532403979585f5572bb8a88ac87b0a0a1df3b035304e3404a404"
+      },
+      "nlco_MCP_L_037": {
+        "initial": "4aee5a3a174b8e4a68a8d9a5a8a55f97a6695d3aa23e42cc0c4eade952cb29cb",
+        "reference": "ef37e00158187cea83fc72ee4603a4b940ab65f7e64279116e5726d6f3986081"
+      },
+      "nlco_MDS_L_014": {
+        "initial": "fda8a0d85d465cbe174b6ca1b0cc990fa0d5ba0c437421ed24596ea6716e67da",
+        "reference": "4084c26767dad94e4b68fd79c477ff1dea595080c262e33ef4e19c9969bcd425"
+      },
+      "nlco_MIS_L_013": {
+        "initial": "42078470c23f3e426b81576ffe50a116bbd8dcddf0abe7397b06c4739f2de0f4",
+        "reference": "8b307d3fa9c812370f707d92e8ceae7df566d340269445db7c948b9cf763ccc7"
+      },
+      "nlco_MVC_L_011": {
+        "initial": "3e2f900b155387a5df52863d2b4cce406b19bd32191af475d17498cb4026c213",
+        "reference": "6977451e6bb819422580d5c2a8a131b2dc0db4130a22fd752d9820a31df43602"
+      }
+    },
+    "scope": "Exploratory pilot; no formal acceptance bypass or algorithm superiority claim",
+    "public_digest": "a94bafd7a8ce587a20e3cc1bb9badbff5e548ff4681ae27e5b4f82803954e48d",
+    "evaluation_digest": "24f5d5161be1bca034a5583e958bb1cb07c0a98c1e0c0ee3bbb72725015da78d",
+    "baselines_digest": "ba5612ed6580bf5e8ffd8c16f4ade77f8497109364d918558179e7a62d2ea6bf"
+  },
+  "status": {
+    "status": "complete",
+    "requested_phase": "pilot",
+    "time": 1793626167.3628466,
+    "seconds_this_launch": 2140.0333601520397
+  },
+  "response_counts": {
+    "generated": 201,
+    "incomplete_output": 15
+  },
+  "same_final_model_across_C1_U2_B2": 8,
+  "metric_reference_and_summary_checks": "72 score metrics and all method aggregate counts match; reference gold hashes verified"
+}

@@ -1,0 +1,102 @@
+{
+  "experiment_id": "E004-1.4",
+  "status": "capacity_check_passed",
+  "runner_implemented": false,
+  "assumptions": [
+    "four dedicated replicas and 24 single-thread CPU workers",
+    "bounded subprocess/request cleanup and phase barriers",
+    "no retries or additional validation",
+    "historical E003 baselines are read-only; no baseline rerun",
+    "an unfinished or timed-out task is not a successful result",
+    "this estimate is not an enforced deadline or a hardware guarantee"
+  ],
+  "case_ids": [
+    "nlco_KP_S_001",
+    "nlco_MAXCUT_S_035",
+    "nlco_MCP_S_023",
+    "nlco_MDS_S_006",
+    "nlco_MIS_S_009",
+    "nlco_MVC_S_020",
+    "nlco_KP_M_026",
+    "nlco_MAXCUT_M_023",
+    "nlco_MCP_M_039",
+    "nlco_MDS_M_021",
+    "nlco_MIS_M_045",
+    "nlco_MVC_M_019",
+    "nlco_KP_L_033",
+    "nlco_MAXCUT_L_038",
+    "nlco_MCP_L_037",
+    "nlco_MDS_L_014",
+    "nlco_MIS_L_013",
+    "nlco_MVC_L_011"
+  ],
+  "counts": {
+    "trajectories": 108,
+    "contract_calls": 18,
+    "patch_calls": 216,
+    "llm_calls": 234,
+    "cross_solver_jobs_max": 756,
+    "semantic_jobs_max": 252
+  },
+  "output_token_cap": 921600,
+  "gpu_waves": {
+    "contract": 5,
+    "patch": 54
+  },
+  "seconds": {
+    "gpu_request_envelope": 17985,
+    "feedback_cpu_calculated": 348,
+    "cross_solver_calculated": 960,
+    "semantic_calculated": 385,
+    "scoring_calculated": 64,
+    "offline_calculated": 1409,
+    "reserved_stages": {
+      "prepare": 900,
+      "model_load": 1800,
+      "feedback_cpu": 900,
+      "offline_evaluation": 1800,
+      "report_and_pack": 1200
+    },
+    "planned_total": 24585,
+    "spare": 4215,
+    "wall_limit": 28800
+  },
+  "checks": {
+    "feedback_cpu_fits_reservation": true,
+    "offline_fits_reservation": true,
+    "one_hour_spare": true,
+    "work_and_pack_fit": true,
+    "planned_work_fits_work_deadline": true
+  },
+  "config_sha256": "1b1289df8838dfec83c4530d082b83c92116fc31a94dd6c4e38d5b26020662af",
+  "selection_sha256": "fb4aa02621989ffd1dbffe664645f22967eef77eb7287627b65ef2a4f231e29f",
+  "historical_timing": {
+    "experiment_id": "E004-1.2",
+    "cache_sha256": "d1139c28a1f8785e1591b5fb70560708997667d0e51ec3ff150f808869d4de47",
+    "wall_seconds": 2140.0333601520397,
+    "calls": 216,
+    "groups_by_output_cap": {
+      "2048": {
+        "calls": 108,
+        "mean_seconds": 25.840067991866142,
+        "p95_seconds": 99.34682689979672,
+        "max_seconds": 106.48231211979873
+      },
+      "4096": {
+        "calls": 108,
+        "mean_seconds": 25.124889463304836,
+        "p95_seconds": 57.06517422804609,
+        "max_seconds": 220.76559324306436
+      }
+    },
+    "note": "Old prompts only; no measured E004-1.4 throughput."
+  },
+  "verification": {
+    "capacity_formula_and_counts": "passed",
+    "one_gpu_rejected": "passed",
+    "one_cpu_worker_rejected": "passed",
+    "failure_filter_rejected": "passed",
+    "extra_retries_rejected": "passed",
+    "actual_new_protocol_runtime": "not_implemented_not_run"
+  }
+}

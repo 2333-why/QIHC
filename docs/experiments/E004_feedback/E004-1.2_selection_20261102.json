@@ -1,0 +1,99 @@
+{
+  "experiment_id": "E004-1.2",
+  "source_archive": "E:\\E004-1.1_analysis_20261102T113500.tar.gz",
+  "source_E003_manifest_sha256": "58462b4ac5e5525e07cf2a23217ad55a3e4d5546b30075d0cb38d5bcc1f6c032",
+  "selection_seed": 20261102,
+  "selection_fields": "case_id,dataset only; no scores, models or validity used",
+  "cases": [
+    {
+      "id": "nlco_KP_S_001",
+      "dataset": "nlco_KP_S",
+      "size": 5
+    },
+    {
+      "id": "nlco_MAXCUT_S_035",
+      "dataset": "nlco_MAXCUT_S",
+      "size": 9
+    },
+    {
+      "id": "nlco_MCP_S_023",
+      "dataset": "nlco_MCP_S",
+      "size": 11
+    },
+    {
+      "id": "nlco_MDS_S_006",
+      "dataset": "nlco_MDS_S",
+      "size": 11
+    },
+    {
+      "id": "nlco_MIS_S_009",
+      "dataset": "nlco_MIS_S",
+      "size": 8
+    },
+    {
+      "id": "nlco_MVC_S_020",
+      "dataset": "nlco_MVC_S",
+      "size": 8
+    },
+    {
+      "id": "nlco_KP_M_026",
+      "dataset": "nlco_KP_M",
+      "size": 20
+    },
+    {
+      "id": "nlco_MAXCUT_M_023",
+      "dataset": "nlco_MAXCUT_M",
+      "size": 18
+    },
+    {
+      "id": "nlco_MCP_M_039",
+      "dataset": "nlco_MCP_M",
+      "size": 15
+    },
+    {
+      "id": "nlco_MDS_M_021",
+      "dataset": "nlco_MDS_M",
+      "size": 18
+    },
+    {
+      "id": "nlco_MIS_M_045",
+      "dataset": "nlco_MIS_M",
+      "size": 13
+    },
+    {
+      "id": "nlco_MVC_M_019",
+      "dataset": "nlco_MVC_M",
+      "size": 16
+    },
+    {
+      "id": "nlco_KP_L_033",
+      "dataset": "nlco_KP_L",
+      "size": 21
+    },
+    {
+      "id": "nlco_MAXCUT_L_038",
+      "dataset": "nlco_MAXCUT_L",
+      "size": 22
+    },
+    {
+      "id": "nlco_MCP_L_037",
+      "dataset": "nlco_MCP_L",
+      "size": 25
+    },
+    {
+      "id": "nlco_MDS_L_014",
+      "dataset": "nlco_MDS_L",
+      "size": 25
+    },
+    {
+      "id": "nlco_MIS_L_013",
+      "dataset": "nlco_MIS_L",
+      "size": 23
+    },
+    {
+      "id": "nlco_MVC_L_011",
+      "dataset": "nlco_MVC_L",
+      "size": 20
+    }
+  ]
+}

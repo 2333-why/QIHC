@@ -4,6 +4,8 @@
 
 - [prompt_efficiency_v1](prompt_efficiency_v1/README.md)：五组提示词，固定编译与求解后端，评估建模质量和实际成本。
 - [prompt_efficiency_v2](prompt_efficiency_v2/README.md)：保留原版一次建模，比较审计分离、类型明确的数据引用、显式编号映射和局部字段纠错。
+- [feedback_pilot_v1](feedback_pilot_v1/README.md)：E004-1.2，18 题、四组、两轮反馈的快速筛查，复用 E003 同题七求解器评分；独立结果目录，不改变历史 runtime。
+- [feedback_witness_v1](feedback_witness_v1/README.md)：E004-1.4，18 题六组两轮的主动语义反例反馈、原子规则替换、八小时运行监督与七后端交叉评价；本地测试通过，真实服务器结果待返回。
 
 通用建模位于 `qihc/modeling/`，共享实验基础组件位于 `qihc/experiment_runtime/`，
 搜索算法继续位于 `qihc/generic/`。实验设置不得通过修改这些组件的模块全局变量临时注入。

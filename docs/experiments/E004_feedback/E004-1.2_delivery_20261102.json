@@ -1,0 +1,36 @@
+{
+  "experiment_id": "E004-1.2",
+  "base_commit": "5a813cd4610e5d3e3e2e5350da4fab194aeb71a1",
+  "source_hash": "8ca99dc09f31cfab03716dcfc5da3f6c4b4b71e4181bea2730065a483c5c1b10",
+  "legacy_source_hash": "a3c2197a83d1ffbf25ecb42e333bd92a9042b840811a0a8047171827c0a5db51",
+  "files": {
+    "experiments/feedback_pilot_v1/00_prepare_cpu.sh": "b1a5fed43a1e9129e579fc75b5e54d2dee40922c7c9ac37f979040045e3a0ff9",
+    "experiments/feedback_pilot_v1/01_run_4gpu.sh": "41cb0e2e5a17692e5d8debbe035107aa5767fa7501d76c90ae38bf1838574fb8",
+    "experiments/feedback_pilot_v1/02_report.sh": "cc1a62c488973061ffb20067228bae01e0b63a93d41b2c638f4d6fd816ce2e96",
+    "experiments/feedback_pilot_v1/03_pack.sh": "1f7db753bc5a11b27939d2f822b6764c094798d7121b53b688eaf25acd6435f7",
+    "experiments/feedback_pilot_v1/__init__.py": "f1efb95d74bb477ea1b58dacfdacd7ebe2f8378b9e7b1f2672128b887061c319",
+    "experiments/feedback_pilot_v1/adapter.py": "44df60c9c8fcb2478b5bace69c30b678529b9f870d285d6508e83dd754e714fe",
+    "experiments/feedback_pilot_v1/cpu.py": "e1b20ea4414326bbf5e28350af215e0502f6c6cfc3c31053cdfb6464df0f10bd",
+    "experiments/feedback_pilot_v1/env.sh": "1ab99914d324aa5db0f66640168ea9004adba083ab2c323d5b62ad3b4c2f2a96",
+    "experiments/feedback_pilot_v1/gpu.py": "1b5116748f2763cf345852ff1b06024cdbb0f7460643d4681186ced5f78d370d",
+    "experiments/feedback_pilot_v1/prepare.py": "b99e50041b2bc41651b7e001eb93ea3ecc883069d20d84df14041ec467892496",
+    "experiments/feedback_pilot_v1/README.md": "f1f03d07ddf52e12d011f43ee1a38bc68fb6dc7a635cacd45a1326c3ad455d2e",
+    "experiments/feedback_pilot_v1/report.py": "7fff71c0a5f858dd52d6ca4dc07fd52abe1bf27c64a62dffedc86142a664a903",
+    "experiments/feedback_pilot_v1/runtime.py": "37a4355e193c6c4a7b6578323dd880f1edfbfdc05c2688aa069f46f9efad6def",
+    "tests/test_feedback_pilot_v1.py": "ebce753086389a90f776180cfa24b7e66493abdbe26862908089b635bd8666c8",
+    "docs/experiments/E004_feedback/E004-1.2_record.md": "ccfca273a4baafef645b53233d3037173803a4e20de29b87d97f22023fe97f26",
+    "docs/experiments/E004_feedback/E004-1.2_selection_20261102.json": "1760b541a205bc49770ce6c1aa254c2901406328dd1e6a972b10291bfa911322"
+  },
+  "validation": "39 regression checks passed; 4 pilot checks passed after supplemental GPU isolation test (overlapping counts); real CPU/SCIP and LMFE, mocked LLM/GPU; no H100 validation",
+  "server_started": false,
+  "archive": "F:\\p-bit\\QIHC\\deployment\\E004-1.2_pilot_code_20261102.tar.gz",
+  "archive_sha256": "c66580898c152b10cdd58865128ed6988754e0088fd149e9a0fcd469956ff4c1",
+  "archive_bytes": 20368,
+  "clean_base_overlay_verification": {
+    "base_commit": "5a813cd4610e5d3e3e2e5350da4fab194aeb71a1",
+    "source_hash_matches": true,
+    "legacy_hash_matches": true,
+    "no_tracked_files_overwritten": true,
+    "verified_worktree": "F:\\p-bit\\QIHC\\deployment\\e004-pilot-release-verify"
+  }
+}
