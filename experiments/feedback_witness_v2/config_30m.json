@@ -54,7 +54,7 @@
   "semantic_job_overhead_seconds": 3,
   "score_job_seconds": 1,
   "stage_reservations_seconds": {
-    "prepare": 90,
+    "prepare": 210,
     "model_load": 240,
     "feedback_cpu": 60,
     "offline_evaluation": 180,

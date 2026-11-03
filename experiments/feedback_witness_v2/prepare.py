@@ -9,6 +9,34 @@ from .common import HERE, ROOT, BASE, s, immutable, fingerprint, validate, confi
 from .budget import assess
 
 
+def progress(root, stage, **fields):
+    row={'stage':stage,'time':time.time(),**fields}
+    s.save(root/'prepare_progress.json',row)
+    print('PREPARE',stage,fields,flush=True)
+
+
+def solver_preflight(root, config):
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+    from .common import cpu_job
+    tiny={'schema':'bounded-integer-v2','variables':[{'name':'x0','lower':0,'upper':1}],
+          'objective':{'sense':'max','linear':[1],'quadratic':[]},'constraints':[],'logic':[]}
+    trial=dict(config,cross_solver_seconds=.1)
+    deadline=time.time()+30
+    # Native libraries remain in separate processes, never mixed in this parent.
+    with ThreadPoolExecutor(max_workers=min(7,config['cpu_workers'])) as pool:
+        futures={pool.submit(cpu_job,root,{'stage':'cross','config':trial,'model':tiny,
+                                         'backend':backend,'seed':0},30,deadline):backend
+                 for backend in config['cross_backends']}
+        results={}
+        for future in as_completed(futures):
+            backend=futures[future];answer=future.result();results[backend]=answer
+            progress(root,'solver_preflight_completed',backend=backend,status=answer.get('status'))
+    s.save(root/'preflight_results.json',results)
+    failed=[backend for backend,row in results.items() if not row.get('feasible')]
+    if failed:raise ValueError('Solver preflight failed; inspect preflight_results.json and jobs/*.log: '+','.join(failed))
+    return results
+
+
 def prepare(root, source, model, smoke=False, config=None):
     from qihc.generic.bounded import validate as validate_model
     from qihc.experiment_runtime.identity import model_identity
@@ -21,6 +49,7 @@ def prepare(root, source, model, smoke=False, config=None):
             raise ValueError('Resume arguments differ from frozen manifest')
         return m
     start = time.monotonic()
+    progress(root,'source_manifest')
     previous = s.load(source/'manifest.json')
     if previous['experiment_id'] != 'E004-1.2':
         raise ValueError('Expected prepared E004-1.2 run as frozen data source')
@@ -32,6 +61,7 @@ def prepare(root, source, model, smoke=False, config=None):
     for name, field in [('cases.public.json', 'public_digest'),
                         ('evaluation/cases.CPU_ONLY.json', 'evaluation_digest'),
                         ('evaluation/e003_baselines.json', 'baselines_digest')]:
+        progress(root,'verify_source_file',file=name)
         if s.digest(source/name) != previous[field]:
             raise ValueError('Source identity mismatch: '+name)
         value=s.load(source/name)
@@ -45,6 +75,7 @@ def prepare(root, source, model, smoke=False, config=None):
     if not smoke and [c['id'] for c in cases] != [c['id'] for c in selection['cases']]:
         raise ValueError('Frozen 18-case selection differs')
     for c in cases:
+        progress(root,'copy_case',case_id=c['id'])
         gold=gold_cases[c['id']]
         if gold['question']!=c['question'] or [v['name'] for v in gold['gold']['variables']]!=c['variable_names']:
             raise ValueError('Public/evaluator source mapping differs')
@@ -62,25 +93,25 @@ def prepare(root, source, model, smoke=False, config=None):
         from experiments.feedback_study_v1.common import versions
         from qihc.modeling.formatting import check_runtime
         import importlib.metadata
+        progress(root,'format_and_torch_imports')
         check_runtime()
+        progress(root,'dependency_versions')
         dependencies = versions()
         dependencies['highspy'] = importlib.metadata.version('highspy')
-        from .common import cpu_job
-        tiny = {'schema':'bounded-integer-v2', 'variables':[{'name':'x0','lower':0,'upper':1}],
-                'objective':{'sense':'max','linear':[1],'quadratic':[]}, 'constraints':[], 'logic':[]}
-        for backend in config['cross_backends']:
-            trial=dict(config,cross_solver_seconds=.1)
-            answer = cpu_job(root,{'stage':'cross','config':trial,'model':tiny,'backend':backend,'seed':0},30,time.time()+30)
-            if not answer.get('feasible'):
-                raise ValueError('Solver preflight failed: '+backend)
+        progress(root,'parallel_solver_preflight')
+        solver_preflight(root,config)
+    progress(root,'model_file_identity')
+    model_files=[] if smoke else model_identity(model)
+    progress(root,'source_fingerprint')
     m = {'experiment_id':config['experiment_id'], 'source_hash':fingerprint(), 'config':config,
          'config_digest':s.value_digest(config), 'source_run':str(source),
          'source_manifest_sha256':s.digest(source/'manifest.json'), 'model':str(model),
-         'model_files':[] if smoke else model_identity(model), 'smoke':smoke,
+         'model_files':model_files, 'smoke':smoke,
          'files':files, 'dependencies':dependencies, 'python':sys.version, 'platform':platform.platform(),
          'code_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
          'prepare_seconds':time.monotonic()-start}
     immutable(root/'manifest.json',m)
+    progress(root,'complete',elapsed_seconds=time.monotonic()-start)
     return m
 
 

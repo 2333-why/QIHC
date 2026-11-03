@@ -196,7 +196,7 @@ def test_quick_budget_and_source_subset(tmp_path,monkeypatch):
     from experiments.feedback_witness_v2.common import configuration
     cfg=s.load(HERE/'config_30m.json');selection=s.load(ROOT/cfg['selection_file'])
     audit=assess(cfg,selection)
-    assert audit['status']=='capacity_check_passed' and audit['seconds']['planned_total']==1540
+    assert audit['status']=='capacity_check_passed' and audit['seconds']['planned_total']==1660
     assert audit['counts']['llm_calls']==42 and audit['counts']['cross_solver_jobs_max']==336
     monkeypatch.setenv('QIHC_WITNESS_CONFIG','config_30m.json')
     assert configuration()['experiment_id']=='E004-1.6'
@@ -222,3 +222,34 @@ def test_local_schema_checker_rejects_malformed_models():
                    lambda x:x['model'].pop('domain')]:
         value=json.loads(response('contract')['response']);mutate(value)
         with pytest.raises(ValueError):protocol.parse_model({'status':'generated','response':json.dumps(value)},case)
+
+
+def test_parallel_preflight_has_shared_deadline_and_preserves_failures(tmp_path,monkeypatch):
+    from threading import Barrier
+    from experiments.feedback_witness_v2 import common
+    from experiments.feedback_witness_v2.prepare import solver_preflight
+    cfg=s.load(HERE/'config_30m.json');barrier=Barrier(7);deadlines=[]
+    def fake(root,job,timeout,deadline):
+        deadlines.append(deadline)
+        barrier.wait(timeout=5)  # Sequential preflight cannot pass this check.
+        return {'status':'fixture_ok','feasible':job['backend']!='scip'}
+    monkeypatch.setattr(common,'cpu_job',fake)
+    with pytest.raises(ValueError,match='scip'):solver_preflight(tmp_path,cfg)
+    assert len(deadlines)==7 and len(set(deadlines))==1
+    rows=s.load(tmp_path/'preflight_results.json')
+    assert len(rows)==7 and not rows['scip']['feasible']
+
+
+def test_preparation_timeout_kills_child_and_reports_stage(tmp_path,monkeypatch,capsys):
+    import subprocess
+    import sys
+    from experiments.feedback_witness_v2 import runtime
+    original=subprocess.Popen;children=[]
+    def launch(cmd,**kwargs):
+        child=original([sys.executable,'-c','import time; time.sleep(60)'],**kwargs)
+        children.append(child);return child
+    monkeypatch.setattr(runtime.subprocess,'Popen',launch)
+    s.save(tmp_path/'prepare_progress.json',{'stage':'fixture_import'})
+    with pytest.raises(subprocess.TimeoutExpired):runtime.prepare_process(tmp_path,tmp_path,tmp_path,.15)
+    assert children[0].poll() is not None
+    assert 'fixture_import' in capsys.readouterr().out

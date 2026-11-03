@@ -1,0 +1,1 @@
+{"experiment_id": "E004-1.6", "commit": "0b7a9d2c3e3072d270b2990585d35caa904d65c9", "branch": "codex/e004-1.6-quick-30m", "remote_verified": true, "release_worktree_clean": true, "tests": "11 passed in 40.78s", "source_fingerprint": "75dcdf11e6e702cd06295f1e77989d3eef1caecfafb2cc8a26a912c5746241da", "server_gpu_results": "pending"}

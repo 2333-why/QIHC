@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 export QIHC_WITNESS_CONFIG=config_30m.json
-export QIHC_WITNESS_RUN="${QIHC_QUICK_RUN:-${QIHC_BASE:-/inspire/hdd/global_user/czxs25210022/why}/results/E004-1.6_feedback_quick_30m}"
+export QIHC_WITNESS_RUN="${QIHC_QUICK_RUN:-${QIHC_BASE:-/inspire/hdd/global_user/czxs25210022/why}/results/E004-1.6_feedback_quick_30m_fix2}"
 source "$(dirname -- "${BASH_SOURCE[0]}")/env.sh"
 "$PY" -c 'from experiments.feedback_witness_v2 import runtime, protocol, cpu, report; print("Actual runtime imports passed; jsonschema is not required")'
 "$PY" -m experiments.feedback_witness_v2.budget

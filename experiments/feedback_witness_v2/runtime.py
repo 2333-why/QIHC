@@ -16,6 +16,24 @@ from .protocol import request
 from experiments.feedback_witness_v1.runtime import GPUWorkers
 
 
+def prepare_process(root, source, model, timeout):
+    # A timed-out preparation must not leave its native-solver descendants running.
+    cmd=[sys.executable,'-u','-m',ENTRY+'.prepare','--run',str(root),'--source',str(source),'--model',str(model)]
+    proc=subprocess.Popen(cmd,start_new_session=os.name!='nt')
+    try:
+        code=proc.wait(timeout=timeout)
+        if code:raise subprocess.CalledProcessError(code,cmd)
+    except BaseException:
+        if os.name!='nt':
+            try:os.killpg(proc.pid,signal.SIGKILL)
+            except ProcessLookupError:pass
+        elif proc.poll() is None:proc.kill()
+        proc.wait(timeout=5)
+        p=root/'prepare_progress.json'
+        print('PREPARATION FAILED; last stage:',s.load(p) if p.exists() else 'before progress initialization',flush=True)
+        raise
+
+
 def process_jobs(root,jobs,timeout,deadline,workers,inline=False):
     unique={};aliases={}
     for key,job in jobs:
@@ -175,9 +193,8 @@ def main():
             if min(available,allocated)<cfg['cpu_workers']:raise ValueError('Need 24 allocated CPU cores')
             # Preparation runs in a child so dependency checks cannot consume the whole job.
             if not (root/'manifest.json').exists():
-                subprocess.run([sys.executable,'-m',ENTRY+'.prepare','--run',str(root),'--source',str(a.source),
-                                '--model',str(a.model)],check=True,
-                               timeout=min(cfg['stage_reservations_seconds']['prepare'],max(.01,clock['work_deadline']-time.time())))
+                prepare_process(root,a.source,a.model,
+                                min(cfg['stage_reservations_seconds']['prepare'],max(.01,clock['work_deadline']-time.time())))
             m=validate(root)
             if m['source_run']!=str(a.source.resolve()) or m['model']!=str(a.model.resolve()):
                 raise ValueError('Resume source/model arguments differ')
