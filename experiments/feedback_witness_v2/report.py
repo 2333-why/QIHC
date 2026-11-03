@@ -26,6 +26,9 @@ def report(root):
     states={};groups=[];details=[];stages=Counter()
     for arm in cfg['arms']:
         counts=Counter();before=Counter();after=Counter();transitions=Counter()
+        # These counters otherwise do not exist until the first saved round.
+        counts.update({key:0 for key in ('probe_rounds','compatible_probe_rounds','rounds_with_cards',
+                                         'evidence_cards','accepted_hypothesis_conflicts')})
         for cid,c in byid.items():
             tid=s.key(cid,arm,'0');p=root/'states'/(tid+'.json')
             st=s.load(p) if p.exists() else {'round':0,'model':initial[cid],'x':None,'rounds':[]}

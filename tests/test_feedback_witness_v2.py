@@ -107,6 +107,19 @@ def test_pipeline_full_denominators_cross_controls_resume_and_fixed_duration(tmp
                 'semantic_check_seconds','cpu_workers','chains','cross_backends'):cfg[key]=fixture_cfg[key]
     cfg['stage_reservations_seconds']['offline_evaluation']=10
     m=prepare(root,source,tmp_path/'weights',smoke=True,config=cfg)
+    # Report before any trajectory is saved and while round zero is in progress.
+    for initialized in (False,True):
+        if initialized:
+            for c in s.load(root/'cases.public.json'):
+                for arm in cfg['arms']:
+                    tid=s.key(c['id'],arm,'0')
+                    initial=s.load(root/'initial'/(s.key(c['id'])+'.json'))
+                    s.save(root/'states'/(tid+'.json'),{'id':tid,'case_id':c['id'],'arm':arm,'seed':0,
+                           'round':0,'model':initial['model'],'input_tokens':0,'rounds':[],'x':None})
+        partial=report(root)
+        assert partial['status']=='partial' and partial['rounds_processed_trajectories']==0
+        assert partial['cross_rows_terminal']==0 and (root/'report.md').exists()
+        assert all(g['counts']['rounds_with_cards']==0 and g['expected']==2 for g in partial['groups'])
     class MockGPU:
         calls=0
         def batch(self,requests):
