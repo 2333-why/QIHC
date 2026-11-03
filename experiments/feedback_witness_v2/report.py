@@ -108,8 +108,8 @@ def report(root):
     stopped=status.get('time') if status.get('stage')=='stopped' else None
     computation=s.load(root/'computation_stopped.json').get('time') if (root/'computation_stopped.json').exists() else None
     processed=sum(g['counts']['rounds_processed'] for g in groups);terminal=sum(r['status']!='not_completed' for r in cross)
-    result={'experiment_id':'E004-1.5','smoke':m['smoke'],
-            'scope':'18 observed development cases; paired diagnostics, not held-out superiority evidence',
+    result={'experiment_id':m['experiment_id'],'smoke':m['smoke'],
+            'scope':str(n)+' observed development cases; paired diagnostics, not held-out superiority evidence',
             'status':'all_stages_processed' if processed==n*len(cfg['arms']) and terminal==len(cross) and sum(semstatuses.values())==len(index['semantic']) else 'partial',
             'expected_trajectories':n*len(cfg['arms']),'rounds_processed_trajectories':processed,
             'cross_rows_expected':len(cross),'cross_rows_terminal':terminal,'groups':groups,'per_case':details,
@@ -126,13 +126,13 @@ def report(root):
             'unique_valid_model_hashes':len({r['model_sha256'] for r in cross if r['semantic']!='invalid'}),
             'historical_baselines':s.load(root/'evaluation/e003_baselines.json')}
     s.save(root/'summary.json',result);s.save(root/'cross_matrix.json',cross)
-    lines=['# E004-1.5 六小时对比（开发诊断集）','',f'状态：{result["status"]}；轨迹 {processed}/{n*len(cfg["arms"])}；交叉行 {terminal}/{len(cross)}。','',
+    lines=['# '+m['experiment_id']+' 对比（开发诊断集）','',f'状态：{result["status"]}；轨迹 {processed}/{n*len(cfg["arms"])}；交叉行 {terminal}/{len(cross)}。','',
            '| 组 | 可编译 | 核验正确 | 未判定 | 原题可行 | 最优命中 | 有反馈卡轮数 |',
            '|---|---:|---:|---:|---:|---:|---:|']
     for g in groups:
         a=g['counts'];b=g['final_semantic']
-        lines.append(f'| {g["arm"]} | {a["final_compiled"]}/{n} | {b.get("verified_correct",0)}/{n} | {b.get("unknown",0)} | {a["original_feasible"]}/{n} | {a["optimal_hit"]}/{n} | {a["rounds_with_cards"]}/{2*n} |')
-    lines+=['','此表末次 p-bit 搜索为 6 秒。公平的同模型七后端比较均为 20 秒，见 cross_matrix.json / summary.cross_groups。',
+        lines.append(f'| {g["arm"]} | {a["final_compiled"]}/{n} | {b.get("verified_correct",0)}/{n} | {b.get("unknown",0)} | {a["original_feasible"]}/{n} | {a["optimal_hit"]}/{n} | {a["rounds_with_cards"]}/{cfg["rounds"]*n} |')
+    lines+=['',f'此表末次 p-bit 搜索为 {cfg["final_seconds"]} 秒。同模型七后端比较均为 {cfg["cross_solver_seconds"]} 秒，见 cross_matrix.json / summary.cross_groups。',
             'C0 是同一冻结初稿，GOLD 是标准模型；两者只在反馈冻结后求解。模型失败始终留在端到端分母中。',
             '同一模型的缓存复用不是独立重复；语义修复、未知、回归、反馈覆盖和配对胜负另列于 summary.json。',
             'all_stages_processed 包含失败，不能当作全成功。独立约定只是可错的模型假设，不能替代隐藏标准核验。']

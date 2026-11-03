@@ -1,0 +1,70 @@
+{
+  "experiment_id": "E004-1.6",
+  "predecessor": "E004-1.5",
+  "status": "implemented_pending_server_validation",
+  "selection_file": "docs/experiments/E004_feedback/E004-1.6_selection_20261103.json",
+  "case_count": 6,
+  "arms": [
+    "S",
+    "R",
+    "P",
+    "X",
+    "A",
+    "M"
+  ],
+  "seeds": [
+    0
+  ],
+  "rounds": 1,
+  "chains": 32,
+  "gpu_replicas": 4,
+  "gpu_batch_size": 1,
+  "cpu_workers": 24,
+  "threads_per_cpu_worker": 1,
+  "contract_output_tokens": 4096,
+  "patch_output_tokens": 4096,
+  "request_input_tokens": 32768,
+  "trajectory_input_tokens": 131072,
+  "feedback_tokens": 4096,
+  "contract_timeout_seconds": 90,
+  "patch_timeout_seconds": 75,
+  "gpu_request_cleanup_seconds": 5,
+  "max_generation_attempts": 1,
+  "max_gpu_restarts": 0,
+  "base_seconds": 1,
+  "probe_seconds": 2,
+  "final_seconds": 1,
+  "guard_seconds": 6,
+  "cpu_stage_cleanup_seconds": 2,
+  "cross_backends": [
+    "cp_sat",
+    "scip",
+    "highs",
+    "sa",
+    "pt",
+    "penalty_pt",
+    "pbit"
+  ],
+  "cross_seeds": [
+    0
+  ],
+  "cross_solver_seconds": 2,
+  "cross_job_overhead_seconds": 5,
+  "semantic_check_seconds": 5,
+  "semantic_job_overhead_seconds": 3,
+  "score_job_seconds": 1,
+  "stage_reservations_seconds": {
+    "prepare": 90,
+    "model_load": 240,
+    "feedback_cpu": 60,
+    "offline_evaluation": 180,
+    "report_and_pack": 60
+  },
+  "work_deadline_seconds": 1680,
+  "wall_limit_seconds": 1800,
+  "minimum_reserve_seconds": 120,
+  "retain_invalid_initial_models": true,
+  "allow_outcome_adaptive_case_or_arm_drop": false,
+  "continuation_preserves_original_deadline": true,
+  "include_36_case_multiseed_validation": false
+}

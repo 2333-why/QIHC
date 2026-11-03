@@ -1,16 +1,18 @@
 """Conservative phase bounds without any cache-speedup assumption."""
 import json
 import math
-from .common import HERE, ROOT, s
+from .common import HERE, ROOT, s, configuration
 
 
 def assess(c, selection):
     n = c['case_count']; a = len(c['arms']); w = c['cpu_workers']; g = c['gpu_replicas']
-    if n != 18 or len(selection['cases']) != n or len({r['dataset'] for r in selection['cases']}) != 18:
+    quick=c['experiment_id']=='E004-1.6'
+    expected=6 if quick else 18
+    if n != expected or len(selection['cases']) != n or len({r['dataset'] for r in selection['cases']}) != expected:
         raise ValueError('Freeze the existing 18-stratum development selection')
     if set(c['arms']) != {'S', 'R', 'P', 'X', 'A', 'M'} or a != 6:
         raise ValueError('All six prespecified arms required')
-    if c['rounds'] != 2 or c['seeds'] != [0] or c['cross_seeds'] != [0]:
+    if c['rounds'] != (1 if quick else 2) or c['seeds'] != [0] or c['cross_seeds'] != [0]:
         raise ValueError('Only the fixed two-round, single-seed design is budgeted')
     if c['gpu_batch_size'] != 1 or c['max_generation_attempts'] != 1 or c['max_gpu_restarts'] != 0:
         raise ValueError('No retries, restarts or batching budgeted')
@@ -31,7 +33,7 @@ def assess(c, selection):
               'work_fits': total-reserves['report_and_pack'] <= c['work_deadline_seconds'],
               'pack_fits': c['work_deadline_seconds']+reserves['report_and_pack'] <= c['wall_limit_seconds'],
               'reserve_fits': c['wall_limit_seconds']-total >= c['minimum_reserve_seconds'],
-              'six_hours': c['wall_limit_seconds'] <= 21600}
+              'wall_cap': c['wall_limit_seconds'] <= (1800 if quick else 21600)}
     return {'experiment_id': c['experiment_id'], 'status': 'capacity_check_passed' if all(checks.values()) else 'capacity_check_failed',
             'checks': checks, 'counts': {'trajectories': count, 'contract_calls': n, 'patch_calls': patches,
                                       'llm_calls': n+patches, 'cross_solver_jobs_max': cross, 'semantic_jobs_max': semantic},
@@ -45,7 +47,7 @@ def assess(c, selection):
 
 
 if __name__ == '__main__':
-    c = s.load(HERE/'config_6h.json'); result = assess(c, s.load(ROOT/c['selection_file']))
+    c = configuration(); result = assess(c, s.load(ROOT/c['selection_file']))
     print(json.dumps(result, indent=2))
     if result['status'] != 'capacity_check_passed':
         raise SystemExit(2)

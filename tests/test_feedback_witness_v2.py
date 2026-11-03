@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import time
 import pytest
-from jsonschema import ValidationError
+ValidationError = ValueError
 from qihc.experiment_runtime import resilient_storage as s
 from experiments.feedback_witness_v2 import protocol
 from experiments.feedback_witness_v2.common import HERE, ROOT, cpu_job, immutable, job_paths
@@ -172,3 +172,53 @@ def test_supervisor_uses_original_deadline_and_terminates_child(tmp_path,monkeyp
         for sig,handler in handlers.items():signal.signal(sig,handler)
         for child in children:
             if child.poll() is None:child.kill();child.wait(timeout=5)
+
+
+def test_runtime_imports_without_jsonschema():
+    import subprocess
+    import sys
+    code='''
+import sys
+class Block:
+    def find_spec(self,fullname,path=None,target=None):
+        if fullname.split('.')[0]=='jsonschema':
+            raise ModuleNotFoundError('jsonschema intentionally absent')
+sys.meta_path.insert(0,Block())
+from experiments.feedback_witness_v2 import runtime,protocol,cpu,report
+assert 'jsonschema' not in sys.modules
+'''
+    subprocess.run([sys.executable,'-c',code],check=True,timeout=30)
+
+
+def test_quick_budget_and_source_subset(tmp_path,monkeypatch):
+    from experiments.feedback_witness_v2.budget import assess
+    from experiments.feedback_witness_v2.prepare import prepare
+    from experiments.feedback_witness_v2.common import configuration
+    cfg=s.load(HERE/'config_30m.json');selection=s.load(ROOT/cfg['selection_file'])
+    audit=assess(cfg,selection)
+    assert audit['status']=='capacity_check_passed' and audit['seconds']['planned_total']==1540
+    assert audit['counts']['llm_calls']==42 and audit['counts']['cross_solver_jobs_max']==336
+    monkeypatch.setenv('QIHC_WITNESS_CONFIG','config_30m.json')
+    assert configuration()['experiment_id']=='E004-1.6'
+    source=tmp_path/'source';_,model,_=fixture_source(source)
+    cases=s.load(source/'cases.public.json');gold=s.load(source/'evaluation/cases.CPU_ONLY.json')
+    oldid=cases[0]['id'];newid=selection['cases'][0]['id'];cases[0]['id']=newid;gold[0]['id']=newid
+    s.save(source/'cases.public.json',cases);s.save(source/'evaluation/cases.CPU_ONLY.json',gold)
+    for folder in ['initial','evaluation/references']:
+        s.save(source/folder/(s.key(newid)+'.json'),s.load(source/folder/(s.key(oldid)+'.json')))
+    manifest=s.load(source/'manifest.json');manifest.update(public_digest=s.digest(source/'cases.public.json'),evaluation_digest=s.digest(source/'evaluation/cases.CPU_ONLY.json'))
+    s.save(source/'manifest.json',manifest)
+    root=tmp_path/'run';m=prepare(root,source,tmp_path/'weights',smoke=True,config=cfg)
+    assert m['experiment_id']=='E004-1.6'
+    assert [c['id'] for c in s.load(root/'cases.public.json')]==[newid]
+    assert len(s.load(root/'evaluation/cases.CPU_ONLY.json'))==1
+
+
+def test_local_schema_checker_rejects_malformed_models():
+    case,_,_=problem()
+    for mutate in [lambda x:x['model']['objective'].update(linear={'fill':True}),
+                   lambda x:x['model'].update(unexpected=1),
+                   lambda x:x['model']['constraints'][0].update(rows=[[0,99]]),
+                   lambda x:x['model'].pop('domain')]:
+        value=json.loads(response('contract')['response']);mutate(value)
+        with pytest.raises(ValueError):protocol.parse_model({'status':'generated','response':json.dumps(value)},case)

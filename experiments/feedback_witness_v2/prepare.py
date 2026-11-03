@@ -5,7 +5,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from .common import HERE, ROOT, BASE, s, immutable, fingerprint, validate
+from .common import HERE, ROOT, BASE, s, immutable, fingerprint, validate, configuration
 from .budget import assess
 
 
@@ -24,7 +24,7 @@ def prepare(root, source, model, smoke=False, config=None):
     previous = s.load(source/'manifest.json')
     if previous['experiment_id'] != 'E004-1.2':
         raise ValueError('Expected prepared E004-1.2 run as frozen data source')
-    config = config or s.load(HERE/'config_6h.json')
+    config = config or configuration()
     selection = s.load(ROOT/config['selection_file'])
     if not smoke and assess(config, selection)['status'] != 'capacity_check_passed':
         raise ValueError('6-hour capacity check failed')
@@ -34,7 +34,11 @@ def prepare(root, source, model, smoke=False, config=None):
                         ('evaluation/e003_baselines.json', 'baselines_digest')]:
         if s.digest(source/name) != previous[field]:
             raise ValueError('Source identity mismatch: '+name)
-        immutable(root/name, s.load(source/name))
+        value=s.load(source/name)
+        if config['experiment_id']=='E004-1.6' and name in ('cases.public.json','evaluation/cases.CPU_ONLY.json'):
+            ids={c['id'] for c in selection['cases']}
+            value=[c for c in value if c['id'] in ids]
+        immutable(root/name, value)
         files[name] = s.digest(root/name)
     cases = s.load(root/'cases.public.json')
     gold_cases={c['id']:c for c in s.load(root/'evaluation/cases.CPU_ONLY.json')}
@@ -69,7 +73,7 @@ def prepare(root, source, model, smoke=False, config=None):
             answer = cpu_job(root,{'stage':'cross','config':trial,'model':tiny,'backend':backend,'seed':0},30,time.time()+30)
             if not answer.get('feasible'):
                 raise ValueError('Solver preflight failed: '+backend)
-    m = {'experiment_id':'E004-1.5', 'source_hash':fingerprint(), 'config':config,
+    m = {'experiment_id':config['experiment_id'], 'source_hash':fingerprint(), 'config':config,
          'config_digest':s.value_digest(config), 'source_run':str(source),
          'source_manifest_sha256':s.digest(source/'manifest.json'), 'model':str(model),
          'model_files':[] if smoke else model_identity(model), 'smoke':smoke,

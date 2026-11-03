@@ -2,7 +2,7 @@
 import copy
 import hashlib
 import json
-from jsonschema import Draft202012Validator
+from .schema_check import validate as validate_schema
 from qihc.modeling.typed_schema import obj, array, union, INT
 from qihc.modeling import typed_sources
 from experiments.feedback_witness_v1.protocol import holdouts, relation_failures
@@ -112,7 +112,7 @@ def parse_model(response, case, stage='contract'):
     if response.get('status') != 'generated':
         raise ValueError('No complete generated object: '+str(response.get('status')))
     value = json.loads(response['response'])
-    Draft202012Validator(syntax(case, stage)).validate(value)
+    validate_schema(value, syntax(case, stage))
     if value.get('action') == 'retain':
         return value, None
     n = len(case['variable_names']); raw = value['model']; domain = raw['domain']

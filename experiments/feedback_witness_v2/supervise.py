@@ -6,7 +6,7 @@ import signal
 import subprocess
 import sys
 import time
-from .common import BASE,HERE,ENTRY,s
+from .common import BASE,HERE,ENTRY,s,configuration
 
 
 def main():
@@ -15,7 +15,7 @@ def main():
     p.add_argument('--model',type=Path,default=BASE/'models/Qwen3-32B');a=p.parse_args();root=a.run.resolve()
     root.mkdir(parents=True,exist_ok=True)
     with s.worker_lock(root/'supervisor.lock'):
-        clock=root/'clock.json';cfg=s.load(HERE/'config_6h.json')
+        clock=root/'clock.json';cfg=configuration()
         if not clock.exists():
             now=time.time();s.save(clock,{'started_at':now,'work_deadline':now+cfg['work_deadline_seconds'],'hard_deadline':now+cfg['wall_limit_seconds']})
         deadline=s.load(clock)['hard_deadline'];remaining=deadline-time.time()

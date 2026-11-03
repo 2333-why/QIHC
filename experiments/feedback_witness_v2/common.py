@@ -16,6 +16,12 @@ ENTRY = 'experiments.feedback_witness_v2'
 BASE = Path(os.environ.get('QIHC_BASE', '/inspire/hdd/global_user/czxs25210022/why'))
 
 
+def configuration():
+    name=os.environ.get('QIHC_WITNESS_CONFIG','config_6h.json')
+    if name not in ('config_6h.json','config_30m.json'):raise ValueError('Unknown frozen configuration')
+    return s.load(HERE/name)
+
+
 def fingerprint():
     h = hashlib.sha256(prior_fingerprint().encode())
     for p in sorted(HERE.iterdir()):
@@ -27,7 +33,7 @@ def fingerprint():
 
 def validate(root):
     m = s.load(root/'manifest.json')
-    if m['experiment_id'] != 'E004-1.5' or m['source_hash'] != fingerprint():
+    if m['experiment_id'] not in ('E004-1.5','E004-1.6') or m['experiment_id']!=m['config']['experiment_id'] or m['source_hash'] != fingerprint():
         raise ValueError('Wrong experiment or changed source; use frozen worktree')
     if s.value_digest(m['config']) != m['config_digest']:
         raise ValueError('Configuration changed')

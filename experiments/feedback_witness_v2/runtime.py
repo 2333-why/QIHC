@@ -8,7 +8,7 @@ import signal
 import subprocess
 import sys
 import time
-from .common import BASE, HERE, ENTRY, s, immutable, validate, public_case, cpu_job, job_paths
+from .common import BASE, HERE, ENTRY, s, immutable, validate, public_case, cpu_job, job_paths, configuration
 from .prepare import prepare
 from .protocol import request
 
@@ -162,7 +162,7 @@ def main():
     def interrupted(*_):raise KeyboardInterrupt('Termination requested')
     signal.signal(signal.SIGTERM,interrupted);signal.signal(signal.SIGINT,interrupted)
     with s.worker_lock(root/'coordinator.lock'):
-        cfg=s.load(HERE/'config_6h.json');clock=root/'clock.json'
+        cfg=configuration();clock=root/'clock.json'
         if not clock.exists():
             now=time.time();s.save(clock,{'started_at':now,'work_deadline':now+cfg['work_deadline_seconds'],
                                         'hard_deadline':now+cfg['wall_limit_seconds']})
