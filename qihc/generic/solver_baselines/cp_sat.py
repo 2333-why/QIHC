@@ -5,7 +5,7 @@ import time
 from ..bounded import validate, objective, violations
 
 
-def solve(spec, seconds=5., *, seed=0, include_build=False):
+def solve(spec, seconds=5., *, seed=0, include_build=False, collect_trace=False):
     validate(spec)
     if not math.isfinite(seconds) or seconds <= 0:
         raise ValueError('Positive finite reference timeout required')
@@ -55,11 +55,18 @@ def solve(spec, seconds=5., *, seed=0, include_build=False):
     solver.parameters.max_time_in_seconds = remaining
     solver.parameters.num_search_workers = 1
     solver.parameters.random_seed = seed
-    status = solver.Solve(model)
+    trace = []
+    class Observer(cp_model.CpSolverSolutionCallback):
+        def on_solution_callback(self):
+            values = [self.Value(v) for v in x]
+            trace.append({'seconds': time.perf_counter()-started, 'x': values,
+                          'objective': float(objective(spec, values)), 'feasible': True})
+    status = solver.Solve(model, Observer()) if collect_trace else solver.Solve(model)
     candidate = [solver.Value(v) for v in x] if status in (cp_model.OPTIMAL, cp_model.FEASIBLE) else None
     return {'status': solver.StatusName(status), 'x': candidate,
             'feasible': candidate is not None and bool(violations(spec, candidate).sum() == 0),
             'objective': float(objective(spec, candidate)) if candidate is not None else None,
             'optimality_proven': status == cp_model.OPTIMAL,
             'bound': float(solver.BestObjectiveBound()) if candidate is not None else None,
-            'seconds': time.perf_counter()-started, 'scope': 'predicted_model_only'}
+            'seconds': time.perf_counter()-started, 'scope': 'predicted_model_only',
+            **({'trace': trace} if collect_trace else {})}

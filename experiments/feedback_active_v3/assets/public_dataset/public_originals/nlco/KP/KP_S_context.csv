@@ -1,0 +1,1824 @@
+id,task_id,difficulty_tier,example_index,prompt,surface_format,indexing_scheme,instance_canonical_json,reference_solution_canonical_json,reference_objective_value,instance_surface_json,reference_solution_surface_json
+KP_S_001,KP,S,1,"I'm squeezing into a tiny apartment and have only one carload to get there, so it's down to choosing which boxes to bring. Each box has a little ""sentimental value"" number and a weight, and the idea is to pick a set of boxes whose sentimental numbers add up to as much as possible while the combined weight stays under the car's limit. Boxes can't be split or duplicated - each box is either in the car or left behind - and the exact list of boxes, their weights and sentimental values are shown below.
+
+# car_load_capacity=159
+box_id,box_weight,sentimental_value
+A,78,9
+B,66,70
+C,44,21
+D,44,10
+E,86,53
+
+If you want to tell me which boxes to load, just give it in this simple JSON layout so I can parse it easily:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+That ""solution"" array is just a checklist in the same order as the boxes listed above: a 1 means pack that box, a 0 means leave it behind. Think of it as a quick form - this block is only a sketch of the shape I expect, not the actual packing list.
+
+Please use the exact identifiers from the problem input when you refer to boxes - don't rename anything or invent new labels. Valid identifiers look like:
+- plain numbers such as ""1"" or ""23""
+- single capital letters like ""A"" or ""B""
+- a capital letter followed by digits like ""A1"" or ""X7""",csv,names,"{""problem_type"":""KP"",""weights"":[78,66,44,44,86],""profits"":[9,70,21,10,53],""capacity"":159,""solution"":[0,1,0,0,1],""objective"":123,""solve_time"":0.0065538883209228516,""n_items"":5,""R"":100,""alpha"":0.5,""instance_idx"":0,""alpha_idx"":0}","[0,1,0,0,1]",123,"{""problem_type"":""KP"",""capacity"":159,""n_items"":5,""items"":[{""item_id"":""A"",""weight"":78,""profit"":9},{""item_id"":""B"",""weight"":66,""profit"":70},{""item_id"":""C"",""weight"":44,""profit"":21},{""item_id"":""D"",""weight"":44,""profit"":10},{""item_id"":""E"",""weight"":86,""profit"":53}]}","{""A"":0,""B"":1,""C"":0,""D"":0,""E"":1}"
+KP_S_002,KP,S,2,"Someone at the gallery is juggling a stack of prints and a scarce amount of wall, deciding which ones will make the best impression. The selection rule is straightforward in practice: choose a subset of works whose appeal values add up to the biggest number possible, provided their total width stays within the wall that's available. Every piece can only appear once on the wall, and the concrete list of pieces with their sizes and appeal ratings is listed below.
+
+They have 293 of wall to work with.
+Print 0 occupies 74 of wall and scores 19 in visitor appeal.
+Print 1 occupies 77 of wall and scores 93 in visitor appeal.
+Print 2 occupies 72 of wall and scores 79 in visitor appeal.
+Print 3 occupies 79 of wall and scores 65 in visitor appeal.
+Print 4 occupies 52 of wall and scores 41 in visitor appeal.
+Print 5 occupies 13 of wall and scores 83 in visitor appeal.
+Print 6 occupies 84 of wall and scores 55 in visitor appeal.
+Print 7 occupies 46 of wall and scores 45 in visitor appeal.
+Print 8 occupies 51 of wall and scores 46 in visitor appeal.
+Print 9 occupies 38 of wall and scores 23 in visitor appeal.
+They will select the combination that fits within 293 and maximizes total visitor appeal.
+
+If you want to give the final selection in a tidy, machine-friendly way, just drop it into a small JSON snippet like this:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here ""solution"" is just a list that matches the order of the pieces above - a 1 means ""hang this print"" and a 0 means ""leave it off the wall."" Think of the JSON as a simple form: the key tells me this is the selection and the array shows which works make the cut. It's just a sketch of the shape I expect, not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,zero_based,"{""problem_type"":""KP"",""weights"":[74,77,72,79,52,13,84,46,51,38],""profits"":[19,93,79,65,41,83,55,45,46,23],""capacity"":293,""solution"":[0,1,1,1,0,1,0,0,1,0],""objective"":366,""solve_time"":0.000484466552734375,""n_items"":10,""R"":100,""alpha"":0.5,""instance_idx"":1,""alpha_idx"":0}","[0,1,1,1,0,1,0,0,1,0]",366,"{""problem_type"":""KP"",""capacity"":293,""n_items"":10,""items"":[{""item_id"":0,""weight"":74,""profit"":19},{""item_id"":1,""weight"":77,""profit"":93},{""item_id"":2,""weight"":72,""profit"":79},{""item_id"":3,""weight"":79,""profit"":65},{""item_id"":4,""weight"":52,""profit"":41},{""item_id"":5,""weight"":13,""profit"":83},{""item_id"":6,""weight"":84,""profit"":55},{""item_id"":7,""weight"":46,""profit"":45},{""item_id"":8,""weight"":51,""profit"":46},{""item_id"":9,""weight"":38,""profit"":23}]}","{""0"":0,""1"":1,""2"":1,""3"":1,""4"":0,""5"":1,""6"":0,""7"":0,""8"":1,""9"":0}"
+KP_S_003,KP,S,3,"On this outing the shared rucksack is limited, so as the leader the decision is which gear to include to give everyone the most benefit without exceeding the carrying limit. The way to compare choices is to add the usefulness values of whatever items are selected to get a total usefulness score, and choose the selection with the highest total that doesn't push the combined weight over the allowance; no item can be picked more than once. The concrete weights and usefulness ratings are shown below.
+
+# rucksack_capacity=160
+gear_id,gear_weight,usefulness_score
+A,56,28
+B,89,64
+C,7,17
+D,86,76
+E,83,71
+
+If you want, just send back the chosen items in a tiny JSON like this - quick and tidy so it's easy to check and reuse.
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here ""solution"" is an array where each entry corresponds to one item from the list above: a 1 means you pack that item, a 0 means you leave it behind. Think of it like ticking boxes on a checklist - that's all this JSON is showing. It's just a sketch of the shape I'm expecting, not the actual final choice.
+
+Please use the exact identifiers from the instance input when you refer to items - don't rename them or introduce new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""KP"",""weights"":[56,89,7,86,83],""profits"":[28,64,17,76,71],""capacity"":160,""solution"":[1,0,1,1,0],""objective"":121,""solve_time"":0.0002620220184326172,""n_items"":5,""R"":100,""alpha"":0.5,""instance_idx"":2,""alpha_idx"":0}","[1,0,1,1,0]",121,"{""problem_type"":""KP"",""capacity"":160,""n_items"":5,""items"":[{""item_id"":""A"",""weight"":56,""profit"":28},{""item_id"":""B"",""weight"":89,""profit"":64},{""item_id"":""C"",""weight"":7,""profit"":17},{""item_id"":""D"",""weight"":86,""profit"":76},{""item_id"":""E"",""weight"":83,""profit"":71}]}","{""A"":1,""B"":0,""C"":1,""D"":1,""E"":0}"
+KP_S_004,KP,S,4,"I run a little street food stall and today I have to pick which menu items to prep so the stall brings in the most cash. The plan is to choose a group of dishes, add up the expected earnings from each chosen dish to get the total money for the day, and make the combination that gives the highest total. The catch is the fridge is small, so the combined ingredient volume of everything prepared has to fit inside it, and each menu item can only be made once. The exact menu items, their ingredient volumes and their estimated earnings are listed below.
+
+I have 231 total refrigerated ingredient volume for the day.
+I'll prep A - it uses 7 units of ingredient volume and should earn 20.
+I'll prep B - it uses 98 units of ingredient volume and should earn 37.
+I'll prep C - it uses 45 units of ingredient volume and should earn 47.
+I'll prep D - it uses 90 units of ingredient volume and should earn 50.
+I'll prep E - it uses 68 units of ingredient volume and should earn 5.
+I'll prep F - it uses 78 units of ingredient volume and should earn 55.
+I'll prep G - it uses 76 units of ingredient volume and should earn 16.
+I'll pick the combination that fits within 231 and brings in the most cash.
+
+Oh, and when you reply, could you put the chosen dishes into a tiny JSON snip like this so it's easy to parse?
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+""solution"" is just a list that lines up with the menu items above - a 1 means make that dish, a 0 means skip it. Think of it like ticking boxes on a prep list; this block is just the shape I want, not the actual final picks.
+
+Please use the exact identifiers from the instance input - don't rename anything or add new labels. For example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,names,"{""problem_type"":""KP"",""weights"":[7,98,45,90,68,78,76],""profits"":[20,37,47,50,5,55,16],""capacity"":231,""solution"":[1,0,1,1,0,1,0],""objective"":172,""solve_time"":0.00030493736267089844,""n_items"":7,""R"":100,""alpha"":0.5,""instance_idx"":3,""alpha_idx"":0}","[1,0,1,1,0,1,0]",172,"{""problem_type"":""KP"",""capacity"":231,""n_items"":7,""items"":[{""item_id"":""A"",""weight"":7,""profit"":20},{""item_id"":""B"",""weight"":98,""profit"":37},{""item_id"":""C"",""weight"":45,""profit"":47},{""item_id"":""D"",""weight"":90,""profit"":50},{""item_id"":""E"",""weight"":68,""profit"":5},{""item_id"":""F"",""weight"":78,""profit"":55},{""item_id"":""G"",""weight"":76,""profit"":16}]}","{""A"":1,""B"":0,""C"":1,""D"":1,""E"":0,""F"":1,""G"":0}"
+KP_S_005,KP,S,5,"Someone set up a raised bed and a pile of different vegetable starters; now they need to pick which ones to plant so the projected harvest is as valuable as possible. The plan is to choose a selection of distinct seedlings, compute the garden's projected haul by adding each chosen seedling's expected value, and keep the combined soil volume of those seedlings under the bed's capacity - no duplicates and no half-plants. The concrete data about varieties, volumes, and expected yields follows below.
+
+{
+  ""raised_bed_soil_volume"": 288,
+  ""items"": [
+    {
+      ""seedling_id"": ""A"",
+      ""soil_volume_per_seedling"": 69,
+      ""expected_harvest_value"": 8
+    },
+    {
+      ""seedling_id"": ""B"",
+      ""soil_volume_per_seedling"": 93,
+      ""expected_harvest_value"": 47
+    },
+    {
+      ""seedling_id"": ""C"",
+      ""soil_volume_per_seedling"": 75,
+      ""expected_harvest_value"": 80
+    },
+    {
+      ""seedling_id"": ""D"",
+      ""soil_volume_per_seedling"": 37,
+      ""expected_harvest_value"": 19
+    },
+    {
+      ""seedling_id"": ""E"",
+      ""soil_volume_per_seedling"": 97,
+      ""expected_harvest_value"": 47
+    },
+    {
+      ""seedling_id"": ""F"",
+      ""soil_volume_per_seedling"": 42,
+      ""expected_harvest_value"": 13
+    },
+    {
+      ""seedling_id"": ""G"",
+      ""soil_volume_per_seedling"": 33,
+      ""expected_harvest_value"": 69
+    },
+    {
+      ""seedling_id"": ""H"",
+      ""soil_volume_per_seedling"": 91,
+      ""expected_harvest_value"": 48
+    },
+    {
+      ""seedling_id"": ""I"",
+      ""soil_volume_per_seedling"": 38,
+      ""expected_harvest_value"": 34
+    }
+  ]
+}
+
+Oh, and when you reply with which seedlings to plant, please follow this little shape so it's easy to read by both people and machines:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Think of ""solution"" as a simple on/off checklist for the varieties listed in the instance: a 1 means ""yes, plant this one,"" a 0 means ""no, skip it."" The positions in the list line up with the order the varieties were given earlier. This JSON is just a sketch of the shape I want - not your final pick.
+
+Please make sure to use the exact identifiers from the instance input when naming varieties - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"". """,json,names,"{""problem_type"":""KP"",""weights"":[69,93,75,37,97,42,33,91,38],""profits"":[8,47,80,19,47,13,69,48,34],""capacity"":288,""solution"":[0,0,1,1,0,0,1,1,1],""objective"":250,""solve_time"":0.0003795623779296875,""n_items"":9,""R"":100,""alpha"":0.5,""instance_idx"":4,""alpha_idx"":0}","[0,0,1,1,0,0,1,1,1]",250,"{""problem_type"":""KP"",""capacity"":288,""n_items"":9,""items"":[{""item_id"":""A"",""weight"":69,""profit"":8},{""item_id"":""B"",""weight"":93,""profit"":47},{""item_id"":""C"",""weight"":75,""profit"":80},{""item_id"":""D"",""weight"":37,""profit"":19},{""item_id"":""E"",""weight"":97,""profit"":47},{""item_id"":""F"",""weight"":42,""profit"":13},{""item_id"":""G"",""weight"":33,""profit"":69},{""item_id"":""H"",""weight"":91,""profit"":48},{""item_id"":""I"",""weight"":38,""profit"":34}]}","{""A"":0,""B"":0,""C"":1,""D"":1,""E"":0,""F"":0,""G"":1,""H"":1,""I"":1}"
+KP_S_006,KP,S,6,"On my commute I sort through what fits in my pockets and what actually helps during the day. The winning mix is the set that gives the biggest total convenience when adding up each chosen item's usefulness, without the total size exceeding the pocket space I've got. Nothing can be split or doubled - each item can be picked at most once. The exact items and their size/usefulness numbers are below.
+
+I've got 182 total pocket space to work with.
+I can take 0: it uses 57 pocket space and provides 63 usefulness on my commute.
+I can take 1: it uses 67 pocket space and provides 71 usefulness on my commute.
+I can take 2: it uses 95 pocket space and provides 10 usefulness on my commute.
+I can take 3: it uses 44 pocket space and provides 32 usefulness on my commute.
+I can take 4: it uses 17 pocket space and provides 77 usefulness on my commute.
+I can take 5: it uses 84 pocket space and provides 84 usefulness on my commute.
+I'll pick the set that fits within 182 and gives me the highest total convenience.
+
+If you want to tell me which items you'd pick from the list, a tiny JSON sketch like this is perfect - simple and tidy:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here ""solution"" is just a list where each position matches one of the items I described above: a 1 means you tuck that item into your pocket, a 0 means you leave it out. Think of it like a quick answersheet rather than a full explanation.
+
+This is only the expected shape of the reply, not the final choice - just the format to use.
+
+Also, please make sure you use the exact identifiers from the instance input - don't rename or invent labels.
+- for example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,zero_based,"{""problem_type"":""KP"",""weights"":[57,67,95,44,17,84],""profits"":[63,71,10,32,77,84],""capacity"":182,""solution"":[0,1,0,0,1,1],""objective"":232,""solve_time"":0.0003211498260498047,""n_items"":6,""R"":100,""alpha"":0.5,""instance_idx"":5,""alpha_idx"":0}","[0,1,0,0,1,1]",232,"{""problem_type"":""KP"",""capacity"":182,""n_items"":6,""items"":[{""item_id"":0,""weight"":57,""profit"":63},{""item_id"":1,""weight"":67,""profit"":71},{""item_id"":2,""weight"":95,""profit"":10},{""item_id"":3,""weight"":44,""profit"":32},{""item_id"":4,""weight"":17,""profit"":77},{""item_id"":5,""weight"":84,""profit"":84}]}","{""0"":0,""1"":1,""2"":0,""3"":0,""4"":1,""5"":1}"
+KP_S_007,KP,S,7,"At the school library's front table there's room for only a few face-out books, so the challenge is choosing which titles will bring in the most readers without overflowing the space. Each book has a space cost and a projected number of readers; judge any selection by adding up those projected readers to get its total appeal. The selection must fit within the table's space limit and each book can only be used once - nothing partial and no duplicates. The concrete details are included below.
+
+- **display_space_capacity**: 208
+
+| book_id | space_cost | projected_readers |
+|---|---|---|
+| 0 | 81 | 64 |
+| 1 | 85 | 14 |
+| 2 | 39 | 84 |
+| 3 | 90 | 20 |
+| 4 | 29 | 81 |
+| 5 | 24 | 1 |
+| 6 | 69 | 80 |
+
+If you want to reply with a chosen set of books, slip it into this simple JSON shape so it's easy to read and check:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Think of ""solution"" as a checklist that matches the list of books in the instance: a 1 means ""put this book on the front table,"" a 0 means ""leave it off."" That's all the structure I need here - just a sketch of the shape, not the final selection itself.
+
+Please use the exact identifiers from the instance input - don't rename anything or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,zero_based,"{""problem_type"":""KP"",""weights"":[81,85,39,90,29,24,69],""profits"":[64,14,84,20,81,1,80],""capacity"":208,""solution"":[0,0,1,0,1,1,1],""objective"":246,""solve_time"":0.0003006458282470703,""n_items"":7,""R"":100,""alpha"":0.5,""instance_idx"":6,""alpha_idx"":0}","[0,0,1,0,1,1,1]",246,"{""problem_type"":""KP"",""capacity"":208,""n_items"":7,""items"":[{""item_id"":0,""weight"":81,""profit"":64},{""item_id"":1,""weight"":85,""profit"":14},{""item_id"":2,""weight"":39,""profit"":84},{""item_id"":3,""weight"":90,""profit"":20},{""item_id"":4,""weight"":29,""profit"":81},{""item_id"":5,""weight"":24,""profit"":1},{""item_id"":6,""weight"":69,""profit"":80}]}","{""0"":0,""1"":0,""2"":1,""3"":0,""4"":1,""5"":1,""6"":1}"
+KP_S_008,KP,S,8,"Recently a travel photographer faced the usual packing puzzle: which lenses and accessories will cover the most ground without blowing the bag's weight allowance? Each piece has a usefulness rating and a weight, and the photographer will total the usefulness points for whatever gets packed - the higher that total, the better - provided the total weight of those chosen items stays within the bag's capacity. No repeats or fractional items are allowed; each one is either packed or left behind. All of the item specifics and the bag's capacity are shown below.
+
+# bag_weight_capacity=262
+gear_id,item_weight,usefulness_score
+1,79,57
+2,67,4
+3,48,14
+4,71,25
+5,28,12
+6,79,44
+7,56,67
+8,46,66
+9,51,48
+
+If you want the answer in a compact, machine-friendly form, just return a JSON object that looks like this:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here ""solution"" is an array where each entry corresponds to one of the pieces in the list above: 1 means you pack that item, 0 means you leave it behind. Think of it as a simple checked/unchecked list - just a sketch of the shape I expect, not the final packing decision itself.
+
+Please use the exact identifiers from the instance input - no renaming and no new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,one_based,"{""problem_type"":""KP"",""weights"":[79,67,48,71,28,79,56,46,51],""profits"":[57,4,14,25,12,44,67,66,48],""capacity"":262,""solution"":[1,0,0,0,1,0,1,1,1],""objective"":250,""solve_time"":0.0003364086151123047,""n_items"":9,""R"":100,""alpha"":0.5,""instance_idx"":7,""alpha_idx"":0}","[1,0,0,0,1,0,1,1,1]",250,"{""problem_type"":""KP"",""capacity"":262,""n_items"":9,""items"":[{""item_id"":1,""weight"":79,""profit"":57},{""item_id"":2,""weight"":67,""profit"":4},{""item_id"":3,""weight"":48,""profit"":14},{""item_id"":4,""weight"":71,""profit"":25},{""item_id"":5,""weight"":28,""profit"":12},{""item_id"":6,""weight"":79,""profit"":44},{""item_id"":7,""weight"":56,""profit"":67},{""item_id"":8,""weight"":46,""profit"":66},{""item_id"":9,""weight"":51,""profit"":48}]}","{""1"":1,""2"":0,""3"":0,""4"":0,""5"":1,""6"":0,""7"":1,""8"":1,""9"":1}"
+KP_S_009,KP,S,9,"There's a tiny team and a two-week sprint ahead, and the question on the table is which prototypes to actually build to bring in the most user interest. Success is measured by adding up each prototype's projected engagement to get a single expected-impact number, but that has to be balanced against the sum of the development hours those prototypes require, which can't exceed the sprint's time budget. No duplicating prototypes and no partial builds - each idea is either included or left out. The concrete choices and numbers follow below.
+
+{
+  ""sprint_hours_budget"": 262,
+  ""items"": [
+    {
+      ""prototype_id"": ""A"",
+      ""dev_hours_required"": 57,
+      ""projected_engagement_score"": 31
+    },
+    {
+      ""prototype_id"": ""B"",
+      ""dev_hours_required"": 8,
+      ""projected_engagement_score"": 61
+    },
+    {
+      ""prototype_id"": ""C"",
+      ""dev_hours_required"": 77,
+      ""projected_engagement_score"": 4
+    },
+    {
+      ""prototype_id"": ""D"",
+      ""dev_hours_required"": 58,
+      ""projected_engagement_score"": 35
+    },
+    {
+      ""prototype_id"": ""E"",
+      ""dev_hours_required"": 64,
+      ""projected_engagement_score"": 44
+    },
+    {
+      ""prototype_id"": ""F"",
+      ""dev_hours_required"": 57,
+      ""projected_engagement_score"": 99
+    },
+    {
+      ""prototype_id"": ""G"",
+      ""dev_hours_required"": 56,
+      ""projected_engagement_score"": 22
+    },
+    {
+      ""prototype_id"": ""H"",
+      ""dev_hours_required"": 10,
+      ""projected_engagement_score"": 28
+    },
+    {
+      ""prototype_id"": ""I"",
+      ""dev_hours_required"": 56,
+      ""projected_engagement_score"": 41
+    },
+    {
+      ""prototype_id"": ""J"",
+      ""dev_hours_required"": 80,
+      ""projected_engagement_score"": 100
+    }
+  ]
+}
+
+Also, when you reply with which prototypes to build, please use this simple JSON layout so I can read it straight away:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Pretty casual: the ""solution"" array just lists a 0 or 1 for each prototype in the same order as the instance - 1 means go ahead and build that prototype this sprint, 0 means skip it. Think of it like ticking boxes on a checklist; replace the ... with the full sequence of choices for every idea.
+
+This JSON is just a sketch of the shape I expect, not the final answer itself. Also, make sure all identifiers in your reply match exactly what's in the instance input - no renaming or inventing new labels. For example:
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,names,"{""problem_type"":""KP"",""weights"":[57,8,77,58,64,57,56,10,56,80],""profits"":[31,61,4,35,44,99,22,28,41,100],""capacity"":262,""solution"":[0,1,0,1,0,1,0,0,1,1],""objective"":336,""solve_time"":0.0003056526184082031,""n_items"":10,""R"":100,""alpha"":0.5,""instance_idx"":8,""alpha_idx"":0}","[0,1,0,1,0,1,0,0,1,1]",336,"{""problem_type"":""KP"",""capacity"":262,""n_items"":10,""items"":[{""item_id"":""A"",""weight"":57,""profit"":31},{""item_id"":""B"",""weight"":8,""profit"":61},{""item_id"":""C"",""weight"":77,""profit"":4},{""item_id"":""D"",""weight"":58,""profit"":35},{""item_id"":""E"",""weight"":64,""profit"":44},{""item_id"":""F"",""weight"":57,""profit"":99},{""item_id"":""G"",""weight"":56,""profit"":22},{""item_id"":""H"",""weight"":10,""profit"":28},{""item_id"":""I"",""weight"":56,""profit"":41},{""item_id"":""J"",""weight"":80,""profit"":100}]}","{""A"":0,""B"":1,""C"":0,""D"":1,""E"":0,""F"":1,""G"":0,""H"":0,""I"":1,""J"":1}"
+KP_S_010,KP,S,10,"Many people face the same little puzzle each morning: pick which notes, textbooks, and tools to carry so class prep is maximized. The measure of a good pick is simple - sum up the usefulness points of the chosen items to see how ready the bag makes someone - while making sure the combined weight doesn't exceed the backpack limit. Items are indivisible and unique, meaning each one is either taken once or left. The detailed list of materials and their weights and usefulness scores follows below.
+
+{
+  ""backpack_capacity"": 232,
+  ""items"": [
+    {
+      ""material_id"": 0,
+      ""material_weight"": 4,
+      ""usefulness_score"": 13
+    },
+    {
+      ""material_id"": 1,
+      ""material_weight"": 24,
+      ""usefulness_score"": 56
+    },
+    {
+      ""material_id"": 2,
+      ""material_weight"": 83,
+      ""usefulness_score"": 51
+    },
+    {
+      ""material_id"": 3,
+      ""material_weight"": 6,
+      ""usefulness_score"": 79
+    },
+    {
+      ""material_id"": 4,
+      ""material_weight"": 86,
+      ""usefulness_score"": 100
+    },
+    {
+      ""material_id"": 5,
+      ""material_weight"": 29,
+      ""usefulness_score"": 67
+    },
+    {
+      ""material_id"": 6,
+      ""material_weight"": 92,
+      ""usefulness_score"": 41
+    },
+    {
+      ""material_id"": 7,
+      ""material_weight"": 30,
+      ""usefulness_score"": 41
+    },
+    {
+      ""material_id"": 8,
+      ""material_weight"": 44,
+      ""usefulness_score"": 42
+    },
+    {
+      ""material_id"": 9,
+      ""material_weight"": 67,
+      ""usefulness_score"": 82
+    }
+  ]
+}
+
+If you want to hand me your pick in a compact, machine-friendly way, just use a tiny JSON like this as a sketch of the shape I expect:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Think of ""solution"" as a checklist that lines up with the item list above - each slot in the array corresponds to one item: 1 means you packed it, 0 means you left it. This JSON is just a simple template showing the format, not the actual selection you should submit.
+
+Please make sure any identifiers in your real input are used exactly as given in the instance - no renaming and no new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",json,zero_based,"{""problem_type"":""KP"",""weights"":[4,24,83,6,86,29,92,30,44,67],""profits"":[13,56,51,79,100,67,41,41,42,82],""capacity"":232,""solution"":[1,1,0,1,1,1,0,1,1,0],""objective"":398,""solve_time"":0.0003037452697753906,""n_items"":10,""R"":100,""alpha"":0.5,""instance_idx"":9,""alpha_idx"":0}","[1,1,0,1,1,1,0,1,1,0]",398,"{""problem_type"":""KP"",""capacity"":232,""n_items"":10,""items"":[{""item_id"":0,""weight"":4,""profit"":13},{""item_id"":1,""weight"":24,""profit"":56},{""item_id"":2,""weight"":83,""profit"":51},{""item_id"":3,""weight"":6,""profit"":79},{""item_id"":4,""weight"":86,""profit"":100},{""item_id"":5,""weight"":29,""profit"":67},{""item_id"":6,""weight"":92,""profit"":41},{""item_id"":7,""weight"":30,""profit"":41},{""item_id"":8,""weight"":44,""profit"":42},{""item_id"":9,""weight"":67,""profit"":82}]}","{""0"":1,""1"":1,""2"":0,""3"":1,""4"":1,""5"":1,""6"":0,""7"":1,""8"":1,""9"":0}"
+KP_S_011,KP,S,11,"At the museum, the registrar faces a classic packing puzzle: from a list of loaned pieces, pick those that together produce the highest cultural impact - just add up each chosen item's impact score to get that total - while ensuring the combined weight stays under the shipping limit, and recognizing that each artifact is unique and can only go into the crate once. The exact list of artifacts, their weights, and impact scores are shown below.
+
+Total allowed shipping weight: 76.
+Artifact 0 weighs 17 kg and has a cultural impact score of 73.
+Artifact 1 weighs 34 kg and has a cultural impact score of 70.
+Artifact 2 weighs 3 kg and has a cultural impact score of 47.
+Artifact 3 weighs 11 kg and has a cultural impact score of 72.
+Artifact 4 weighs 10 kg and has a cultural impact score of 17.
+Artifact 5 weighs 78 kg and has a cultural impact score of 91.
+The registrar will choose artifacts to maximize total cultural impact while keeping the shipment at or below 76.
+
+If you want to send back your selection, just use this little JSON shape so I can read which pieces you chose:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Think of ""solution"" as a simple checklist that lines up with the artifact list above: each entry is either 1 (put this piece in the crate) or 0 (leave it behind). This JSON is just a sketch of the shape I expect - not the final, definitive pick.
+
+Please make sure any identifiers you use in your reply match the instance exactly - no renaming, no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,zero_based,"{""problem_type"":""KP"",""weights"":[17,34,3,11,10,78],""profits"":[73,70,47,72,17,91],""capacity"":76,""solution"":[1,1,1,1,1,0],""objective"":279,""solve_time"":0.00023984909057617188,""n_items"":6,""R"":100,""alpha"":0.5,""instance_idx"":10,""alpha_idx"":0}","[1,1,1,1,1,0]",279,"{""problem_type"":""KP"",""capacity"":76,""n_items"":6,""items"":[{""item_id"":0,""weight"":17,""profit"":73},{""item_id"":1,""weight"":34,""profit"":70},{""item_id"":2,""weight"":3,""profit"":47},{""item_id"":3,""weight"":11,""profit"":72},{""item_id"":4,""weight"":10,""profit"":17},{""item_id"":5,""weight"":78,""profit"":91}]}","{""0"":1,""1"":1,""2"":1,""3"":1,""4"":1,""5"":0}"
+KP_S_012,KP,S,12,"Someone dropped off a bunch of donations and the team needed to sort them into care boxes that help people the most. The job is to pick which items go into a box so the sum of their benefit values is as high as possible. Simple rules apply: the box has a maximum volume it won't accept beyond, and each donated item is one-of-a-kind in the pile, so it can't be put in twice. The specific volumes and benefit numbers appear below.
+
+# box_max_volume=190
+donation_id,item_volume,benefit_value
+A,94,24
+B,16,31
+C,50,69
+D,70,64
+E,50,61
+F,45,37
+G,17,96
+H,39,9
+
+If you want to tell me which items to toss in the care box, just send it back in a tiny JSON snippet like this - super simple and easy to read:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here, ""solution"" is just a list that lines up with the items above: a 1 means ""tuck this item into the box"" and a 0 means ""leave it out."" Think of it like checking boxes on a short form.
+
+This JSON is only a sketch of the shape I expect, not the actual answer - just follow that layout when you send your real picks. Also, please use the exact identifiers from the instance input for any item labels - don't rename or invent new ones.
+
+- for example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,names,"{""problem_type"":""KP"",""weights"":[94,16,50,70,50,45,17,39],""profits"":[24,31,69,64,61,37,96,9],""capacity"":190,""solution"":[0,1,1,0,1,1,1,0],""objective"":294,""solve_time"":0.0003838539123535156,""n_items"":8,""R"":100,""alpha"":0.5,""instance_idx"":11,""alpha_idx"":0}","[0,1,1,0,1,1,1,0]",294,"{""problem_type"":""KP"",""capacity"":190,""n_items"":8,""items"":[{""item_id"":""A"",""weight"":94,""profit"":24},{""item_id"":""B"",""weight"":16,""profit"":31},{""item_id"":""C"",""weight"":50,""profit"":69},{""item_id"":""D"",""weight"":70,""profit"":64},{""item_id"":""E"",""weight"":50,""profit"":61},{""item_id"":""F"",""weight"":45,""profit"":37},{""item_id"":""G"",""weight"":17,""profit"":96},{""item_id"":""H"",""weight"":39,""profit"":9}]}","{""A"":0,""B"":1,""C"":1,""D"":0,""E"":1,""F"":1,""G"":1,""H"":0}"
+KP_S_013,KP,S,13,"We've planned a picnic and now the job is to pick which homemade sweets and snacks go into the cooler. The point is to make people happiest by selecting goodies whose enjoyment scores add up to the biggest total, while making sure the combined size/weight of the chosen items doesn't exceed the cooler's limit. Each recipe is unique, so each item can only be chosen once. The concrete item details and numbers are listed below.
+
+- **cooler_capacity**: 196
+
+| treat_id | treat_size | enjoyment_score |
+|---|---|---|
+| 1 | 12 | 46 |
+| 2 | 34 | 27 |
+| 3 | 97 | 77 |
+| 4 | 37 | 97 |
+| 5 | 91 | 27 |
+| 6 | 50 | 78 |
+| 7 | 70 | 27 |
+
+Also, when you tell me which treats make the cut, please use this simple JSON layout so it's easy for whoever's packing to read:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+The ""solution"" array is just a sequence of zeros and ones that correspond to the items listed above - 1 means put that recipe in the cooler, 0 means leave it behind. Think of it like ticking boxes on a shopping list; this block is only a sketch of the expected shape, not the actual packing decision.
+
+Also a quick note: use the exact identifiers from the instance input when you refer to items - no renaming and don't invent new labels.
+For example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,one_based,"{""problem_type"":""KP"",""weights"":[12,34,97,37,91,50,70],""profits"":[46,27,77,97,27,78,27],""capacity"":196,""solution"":[1,0,1,1,0,1,0],""objective"":298,""solve_time"":0.0003261566162109375,""n_items"":7,""R"":100,""alpha"":0.5,""instance_idx"":12,""alpha_idx"":0}","[1,0,1,1,0,1,0]",298,"{""problem_type"":""KP"",""capacity"":196,""n_items"":7,""items"":[{""item_id"":1,""weight"":12,""profit"":46},{""item_id"":2,""weight"":34,""profit"":27},{""item_id"":3,""weight"":97,""profit"":77},{""item_id"":4,""weight"":37,""profit"":97},{""item_id"":5,""weight"":91,""profit"":27},{""item_id"":6,""weight"":50,""profit"":78},{""item_id"":7,""weight"":70,""profit"":27}]}","{""1"":1,""2"":0,""3"":1,""4"":1,""5"":0,""6"":1,""7"":0}"
+KP_S_014,KP,S,14,"There's a tiny flash player on the table and a pile of songs to pick from - the goal is simple: get the biggest total listening pleasure onto the device without overflowing its storage. To check any selection, just sum up the enjoyment scores of the songs you put on and sum their file sizes to confirm the total stays within the available space. Keep in mind a song is either on the player or not (no duplicates, no half-tracks). The full details for each track are shown below.
+
+Storage capacity available: 196.
+Track 1: enjoyment 46, file size 79.
+Track 2: enjoyment 71, file size 45.
+Track 3: enjoyment 21, file size 74.
+Track 4: enjoyment 73, file size 28.
+Track 5: enjoyment 31, file size 8.
+Track 6: enjoyment 81, file size 10.
+Track 7: enjoyment 58, file size 45.
+Track 8: enjoyment 55, file size 91.
+Track 9: enjoyment 18, file size 13.
+Pick tracks so the combined file sizes stay within 196.
+
+If you want to hand me a final pick, just use this simple JSON layout so it's easy to read and check:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+""solution"" is just a list that follows the track listing order: use 1 for a song you put on the player and 0 for one you leave off. Think of the JSON above as a little form showing the shape I expect - replace that example array with your actual selection of zeros and ones.
+
+Please make sure any identifiers you use match the instance input exactly - don't rename tracks or invent new labels.
+- Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,one_based,"{""problem_type"":""KP"",""weights"":[79,45,74,28,8,10,45,91,13],""profits"":[46,71,21,73,31,81,58,55,18],""capacity"":196,""solution"":[0,1,0,1,1,1,1,0,1],""objective"":332,""solve_time"":0.0003733634948730469,""n_items"":9,""R"":100,""alpha"":0.5,""instance_idx"":13,""alpha_idx"":0}","[0,1,0,1,1,1,1,0,1]",332,"{""problem_type"":""KP"",""capacity"":196,""n_items"":9,""items"":[{""item_id"":1,""weight"":79,""profit"":46},{""item_id"":2,""weight"":45,""profit"":71},{""item_id"":3,""weight"":74,""profit"":21},{""item_id"":4,""weight"":28,""profit"":73},{""item_id"":5,""weight"":8,""profit"":31},{""item_id"":6,""weight"":10,""profit"":81},{""item_id"":7,""weight"":45,""profit"":58},{""item_id"":8,""weight"":91,""profit"":55},{""item_id"":9,""weight"":13,""profit"":18}]}","{""1"":0,""2"":1,""3"":0,""4"":1,""5"":1,""6"":1,""7"":1,""8"":0,""9"":1}"
+KP_S_015,KP,S,15,"In a small group chat everyone was trying to figure out what to buy with a shared budget: the idea is to select a set of gadgets so that when their usefulness points are added together the total beats other selections, but the total spending on those gadgets must stay within the preset limit. Items can't be split and only one of each is available, so the comparison is made by summing usefulness and summing prices for each possible set and picking the best set that stays inside the budget. The exact item details and numbers are shown below.
+
+{
+  ""budget_limit"": 198,
+  ""items"": [
+    {
+      ""gadget_id"": 0,
+      ""price"": 86,
+      ""usefulness"": 31
+    },
+    {
+      ""gadget_id"": 1,
+      ""price"": 2,
+      ""usefulness"": 63
+    },
+    {
+      ""gadget_id"": 2,
+      ""price"": 76,
+      ""usefulness"": 15
+    },
+    {
+      ""gadget_id"": 3,
+      ""price"": 50,
+      ""usefulness"": 59
+    },
+    {
+      ""gadget_id"": 4,
+      ""price"": 72,
+      ""usefulness"": 10
+    },
+    {
+      ""gadget_id"": 5,
+      ""price"": 67,
+      ""usefulness"": 65
+    },
+    {
+      ""gadget_id"": 6,
+      ""price"": 44,
+      ""usefulness"": 63
+    }
+  ]
+}
+
+Oh, and one more thing - when you send back your pick, a little JSON snippet like this is perfect:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here ""solution"" is just a list with one entry per gadget in the same order as the instance lists them: 1 means you pick that gadget, 0 means you leave it. Think of it like ticking boxes on a shared shopping list. This JSON is only a sketch of the shape I want, not the actual final answer - just follow the layout.
+
+Please make sure to use the exact identifiers from the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,zero_based,"{""problem_type"":""KP"",""weights"":[86,2,76,50,72,67,44],""profits"":[31,63,15,59,10,65,63],""capacity"":198,""solution"":[0,1,0,1,0,1,1],""objective"":250,""solve_time"":0.0004088878631591797,""n_items"":7,""R"":100,""alpha"":0.5,""instance_idx"":14,""alpha_idx"":0}","[0,1,0,1,0,1,1]",250,"{""problem_type"":""KP"",""capacity"":198,""n_items"":7,""items"":[{""item_id"":0,""weight"":86,""profit"":31},{""item_id"":1,""weight"":2,""profit"":63},{""item_id"":2,""weight"":76,""profit"":15},{""item_id"":3,""weight"":50,""profit"":59},{""item_id"":4,""weight"":72,""profit"":10},{""item_id"":5,""weight"":67,""profit"":65},{""item_id"":6,""weight"":44,""profit"":63}]}","{""0"":0,""1"":1,""2"":0,""3"":1,""4"":0,""5"":1,""6"":1}"
+KP_S_016,KP,S,16,"Many people slimming down their portfolios treat it like a game: which combination of drawings will make the folder read richest? Each sketch brings a certain amount of visual weight and a certain amount of impression - the folder's overall impression is just the total of those impression values for whatever is chosen. The sleeve only holds so much paper, and you can't put the same drawing in twice, so choices are mutually exclusive. The exact sizes and impression values are listed below.
+
+{
+  ""sleeve_capacity"": 110,
+  ""items"": [
+    {
+      ""sketch_id"": ""A"",
+      ""sketch_thickness"": 76,
+      ""impression_score"": 50
+    },
+    {
+      ""sketch_id"": ""B"",
+      ""sketch_thickness"": 42,
+      ""impression_score"": 19
+    },
+    {
+      ""sketch_id"": ""C"",
+      ""sketch_thickness"": 79,
+      ""impression_score"": 33
+    },
+    {
+      ""sketch_id"": ""D"",
+      ""sketch_thickness"": 5,
+      ""impression_score"": 67
+    },
+    {
+      ""sketch_id"": ""E"",
+      ""sketch_thickness"": 18,
+      ""impression_score"": 15
+    }
+  ]
+}
+
+Oh, and when you reply with your pick, it helps to use a little JSON snippet like this so everything's easy to read and parse:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here's what that means in plain terms: the ""solution"" array is a checklist that lines up with the drawings listed above - a 1 means you tuck that drawing into the sleeve, a 0 means you leave it out. Treat the JSON as just the shape I'm expecting, not the final selection itself.
+
+Please make sure any identifiers you use match the instance input exactly - don't rename things or invent new labels.
+Valid identifiers look like:
+- plain numbers such as ""1"" or ""23""
+- single capital letters like ""A"" or ""B""
+- a capital letter followed by digits like ""A1"" or ""X7""",json,names,"{""problem_type"":""KP"",""weights"":[76,42,79,5,18],""profits"":[50,19,33,67,15],""capacity"":110,""solution"":[1,0,0,1,1],""objective"":132,""solve_time"":0.00031638145446777344,""n_items"":5,""R"":100,""alpha"":0.5,""instance_idx"":15,""alpha_idx"":0}","[1,0,0,1,1]",132,"{""problem_type"":""KP"",""capacity"":110,""n_items"":5,""items"":[{""item_id"":""A"",""weight"":76,""profit"":50},{""item_id"":""B"",""weight"":42,""profit"":19},{""item_id"":""C"",""weight"":79,""profit"":33},{""item_id"":""D"",""weight"":5,""profit"":67},{""item_id"":""E"",""weight"":18,""profit"":15}]}","{""A"":1,""B"":0,""C"":0,""D"":1,""E"":1}"
+KP_S_017,KP,S,17,"On a tight budget, a solo entrepreneur is picking advertising slots: every slot has a cost and an expected audience size, and the job is to pick the combination that yields the largest combined expected audience. That total is found by adding up the expected reaches of the chosen slots, and the sum of their costs must stay within the spending cap - each slot can only be purchased once and can be skipped. The exact placements, costs, and reach estimates follow below.
+
+Budget cap: 234.
+Slot 0: cost 11, expected audience 45.
+Slot 1: cost 18, expected audience 35.
+Slot 2: cost 59, expected audience 62.
+Slot 3: cost 80, expected audience 60.
+Slot 4: cost 18, expected audience 30.
+Slot 5: cost 30, expected audience 3.
+Slot 6: cost 93, expected audience 16.
+Slot 7: cost 99, expected audience 96.
+Slot 8: cost 59, expected audience 42.
+The entrepreneur must select placements whose combined cost stays within 234 to maximize total expected audience.
+
+If you want to send the pick as a tidy, machine-friendly snippet, just follow this little JSON shape so I know which slots you chose:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Pretty simple: ""solution"" is a list of zeros and ones where each entry lines up with a slot from the list above - 1 means you buy that slot, 0 means you skip it. Think of it like ticking boxes on a form. This JSON is just a sketch of the expected shape, not the actual answer you must submit.
+
+Please make sure any identifiers you use match the instance input exactly - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,zero_based,"{""problem_type"":""KP"",""weights"":[11,18,59,80,18,30,93,99,59],""profits"":[45,35,62,60,30,3,16,96,42],""capacity"":234,""solution"":[1,1,1,0,1,0,0,1,0],""objective"":268,""solve_time"":0.00037550926208496094,""n_items"":9,""R"":100,""alpha"":0.5,""instance_idx"":16,""alpha_idx"":0}","[1,1,1,0,1,0,0,1,0]",268,"{""problem_type"":""KP"",""capacity"":234,""n_items"":9,""items"":[{""item_id"":0,""weight"":11,""profit"":45},{""item_id"":1,""weight"":18,""profit"":35},{""item_id"":2,""weight"":59,""profit"":62},{""item_id"":3,""weight"":80,""profit"":60},{""item_id"":4,""weight"":18,""profit"":30},{""item_id"":5,""weight"":30,""profit"":3},{""item_id"":6,""weight"":93,""profit"":16},{""item_id"":7,""weight"":99,""profit"":96},{""item_id"":8,""weight"":59,""profit"":42}]}","{""0"":1,""1"":1,""2"":1,""3"":0,""4"":1,""5"":0,""6"":0,""7"":1,""8"":0}"
+KP_S_018,KP,S,18,"Many homeowners want a narrow strip outside their window to pop with color, so the landscaper must choose which shrubs and perennials to put in. The best selection will be the one whose individual seasonal color scores add up to the largest total, giving the most visual impact across the year. That total has to be achieved without overrunning the bed's area - the sum of the plants' space requirements must fit - and each plant option can only be used once; nothing can be split or repeated. The detailed plant options and the border's capacity are shown below.
+
+{
+  ""bed_area_capacity"": 144,
+  ""items"": [
+    {
+      ""plant_id"": 1,
+      ""space_required"": 47,
+      ""seasonal_color_score"": 50
+    },
+    {
+      ""plant_id"": 2,
+      ""space_required"": 79,
+      ""seasonal_color_score"": 45
+    },
+    {
+      ""plant_id"": 3,
+      ""space_required"": 7,
+      ""seasonal_color_score"": 94
+    },
+    {
+      ""plant_id"": 4,
+      ""space_required"": 9,
+      ""seasonal_color_score"": 17
+    },
+    {
+      ""plant_id"": 5,
+      ""space_required"": 28,
+      ""seasonal_color_score"": 58
+    },
+    {
+      ""plant_id"": 6,
+      ""space_required"": 49,
+      ""seasonal_color_score"": 55
+    },
+    {
+      ""plant_id"": 7,
+      ""space_required"": 68,
+      ""seasonal_color_score"": 48
+    }
+  ]
+}
+
+If you want to send back your plant picks in a neat, machine-friendly way, just follow this simple JSON shape so I can read which items you chose:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here ""solution"" is a list that lines up with the plant options shown above: each position is one plant in the same order, and a 1 means ""put it in the border"" while a 0 means ""leave it out."" Think of it as a quick yes/no checklist rather than a long paragraph - and remember, this is just the expected shape, not the final selection itself.
+
+Please use the exact identifiers from the instance input - do not rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,one_based,"{""problem_type"":""KP"",""weights"":[47,79,7,9,28,49,68],""profits"":[50,45,94,17,58,55,48],""capacity"":144,""solution"":[1,0,1,1,1,1,0],""objective"":274,""solve_time"":0.0003941059112548828,""n_items"":7,""R"":100,""alpha"":0.5,""instance_idx"":17,""alpha_idx"":0}","[1,0,1,1,1,1,0]",274,"{""problem_type"":""KP"",""capacity"":144,""n_items"":7,""items"":[{""item_id"":1,""weight"":47,""profit"":50},{""item_id"":2,""weight"":79,""profit"":45},{""item_id"":3,""weight"":7,""profit"":94},{""item_id"":4,""weight"":9,""profit"":17},{""item_id"":5,""weight"":28,""profit"":58},{""item_id"":6,""weight"":49,""profit"":55},{""item_id"":7,""weight"":68,""profit"":48}]}","{""1"":1,""2"":0,""3"":1,""4"":1,""5"":1,""6"":1,""7"":0}"
+KP_S_019,KP,S,19,"Many people who shoot in RAW face the same problem: a lovely set of high-res photos but a strict upload limit. In this case every photo has a file-size and a score for how much the client will value it, and the job is to pick the best mix so the total client value is as high as possible. Decide by summing the value scores of the photos you include, and check that the sum of their file sizes doesn't exceed the upload allowance. No photo can be picked more than once and you can't split files. The detailed file sizes and value scores appear below.
+
+# upload_size_limit=213
+photo_id,photo_file_size,client_value_score
+A,27,37
+B,96,83
+C,34,1
+D,55,90
+E,53,55
+F,85,15
+G,44,31
+H,29,56
+I,3,32
+
+When you send back which photos to upload, just stick to a tiny JSON snippet so it's easy to parse - something like this:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here the ""solution"" array is one entry per photo: 1 means include that photo, 0 means skip it - like ticking boxes on a form. This block is just a sketch of the shape I expect, not the actual answer - replace the example vector with your chosen ones and zeros.
+
+All identifiers in your reply must match the instance input exactly - no renaming, no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""KP"",""weights"":[27,96,34,55,53,85,44,29,3],""profits"":[37,83,1,90,55,15,31,56,32],""capacity"":213,""solution"":[1,0,0,1,1,0,1,1,1],""objective"":301,""solve_time"":0.0003440380096435547,""n_items"":9,""R"":100,""alpha"":0.5,""instance_idx"":18,""alpha_idx"":0}","[1,0,0,1,1,0,1,1,1]",301,"{""problem_type"":""KP"",""capacity"":213,""n_items"":9,""items"":[{""item_id"":""A"",""weight"":27,""profit"":37},{""item_id"":""B"",""weight"":96,""profit"":83},{""item_id"":""C"",""weight"":34,""profit"":1},{""item_id"":""D"",""weight"":55,""profit"":90},{""item_id"":""E"",""weight"":53,""profit"":55},{""item_id"":""F"",""weight"":85,""profit"":15},{""item_id"":""G"",""weight"":44,""profit"":31},{""item_id"":""H"",""weight"":29,""profit"":56},{""item_id"":""I"",""weight"":3,""profit"":32}]}","{""A"":1,""B"":0,""C"":0,""D"":1,""E"":1,""F"":0,""G"":1,""H"":1,""I"":1}"
+KP_S_020,KP,S,20,"Recently I've been figuring out what to take for a two-day cottage stay: pick pantry staples so the combined usefulness for meals is as high as possible, yet everything must fit into the cooler. For any selection, calculate how good it is by summing the value points of each chosen ingredient; bigger totals mean better meals, but the total space those items occupy can't be more than the cooler can hold. Ingredients are indivisible - each one can be packed at most once. The full list of items and their sizes/values is shown below.
+
+- **cooler_capacity**: 100
+
+| ingredient_id | ingredient_space | ingredient_value |
+|---|---|---|
+| A | 67 | 66 |
+| B | 68 | 74 |
+| C | 12 | 73 |
+| D | 29 | 94 |
+| E | 25 | 77 |
+
+If you want to tell me which items you're actually packing, just send it back in a little JSON snippet like this - nice and simple:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+This ""solution"" array is just a checklist that matches the item list above: each position corresponds to the item in the same order, 1 means you're packing that ingredient, 0 means you're leaving it behind. Think of it as a tiny form, not the final packing list - it just shows the shape I need to read your choice.
+
+Please use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,names,"{""problem_type"":""KP"",""weights"":[67,68,12,29,25],""profits"":[66,74,73,94,77],""capacity"":100,""solution"":[0,0,1,1,1],""objective"":244,""solve_time"":0.00028228759765625,""n_items"":5,""R"":100,""alpha"":0.5,""instance_idx"":19,""alpha_idx"":0}","[0,0,1,1,1]",244,"{""problem_type"":""KP"",""capacity"":100,""n_items"":5,""items"":[{""item_id"":""A"",""weight"":67,""profit"":66},{""item_id"":""B"",""weight"":68,""profit"":74},{""item_id"":""C"",""weight"":12,""profit"":73},{""item_id"":""D"",""weight"":29,""profit"":94},{""item_id"":""E"",""weight"":25,""profit"":77}]}","{""A"":0,""B"":0,""C"":1,""D"":1,""E"":1}"
+KP_S_021,KP,S,21,"On a rainy afternoon the decision got narrowed down to which vinyl made it into the crate: pick the combination that yields the largest total sentimental value when the chosen records' values are summed, but keep the total weight of those records beneath the crate's capacity. Records are indivisible and single-copy - either they go in or they don't. The concrete item-by-item details are shown below.
+
+- **crate_capacity**: 156
+
+| record_id | record_weight | sentimental_value |
+|---|---|---|
+| 0 | 11 | 4 |
+| 1 | 62 | 15 |
+| 2 | 92 | 56 |
+| 3 | 98 | 55 |
+| 4 | 24 | 38 |
+| 5 | 24 | 31 |
+
+If you want to send the final pick in a compact form, just use this little JSON layout so it's easy to read and process:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+The ""solution"" array is a simple on/off list that lines up with the records as they were listed - 1 means that record goes in the crate, 0 means it stays out. The ellipsis just shows the pattern continues until every record in the instance has a corresponding entry. Think of it as a short checklist, not the final answer itself.
+
+Please use the exact identifiers given in the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,zero_based,"{""problem_type"":""KP"",""weights"":[11,62,92,98,24,24],""profits"":[4,15,56,55,38,31],""capacity"":156,""solution"":[1,0,1,0,1,1],""objective"":129,""solve_time"":0.00022363662719726562,""n_items"":6,""R"":100,""alpha"":0.5,""instance_idx"":20,""alpha_idx"":0}","[1,0,1,0,1,1]",129,"{""problem_type"":""KP"",""capacity"":156,""n_items"":6,""items"":[{""item_id"":0,""weight"":11,""profit"":4},{""item_id"":1,""weight"":62,""profit"":15},{""item_id"":2,""weight"":92,""profit"":56},{""item_id"":3,""weight"":98,""profit"":55},{""item_id"":4,""weight"":24,""profit"":38},{""item_id"":5,""weight"":24,""profit"":31}]}","{""0"":1,""1"":0,""2"":1,""3"":0,""4"":1,""5"":1}"
+KP_S_022,KP,S,22,"Many people face the same packing puzzle: a limited baggage allowance but a wish-list of outfits that do different jobs. Each choice has a weight and a versatility rating, so the plan is to pick a combination of outfits and add up their versatility ratings to see how flexible the whole suitcase will be, keeping the combined weight beneath the allowed maximum. Each outfit can only be selected once, and the particular outfits, weights, and versatility values follow below.
+
+{
+  ""luggage_weight_allowance"": 266,
+  ""items"": [
+    {
+      ""outfit_id"": 0,
+      ""outfit_weight"": 47,
+      ""versatility_score"": 52
+    },
+    {
+      ""outfit_id"": 1,
+      ""outfit_weight"": 81,
+      ""versatility_score"": 91
+    },
+    {
+      ""outfit_id"": 2,
+      ""outfit_weight"": 97,
+      ""versatility_score"": 26
+    },
+    {
+      ""outfit_id"": 3,
+      ""outfit_weight"": 32,
+      ""versatility_score"": 100
+    },
+    {
+      ""outfit_id"": 4,
+      ""outfit_weight"": 21,
+      ""versatility_score"": 94
+    },
+    {
+      ""outfit_id"": 5,
+      ""outfit_weight"": 96,
+      ""versatility_score"": 19
+    },
+    {
+      ""outfit_id"": 6,
+      ""outfit_weight"": 64,
+      ""versatility_score"": 17
+    },
+    {
+      ""outfit_id"": 7,
+      ""outfit_weight"": 30,
+      ""versatility_score"": 54
+    },
+    {
+      ""outfit_id"": 8,
+      ""outfit_weight"": 63,
+      ""versatility_score"": 5
+    }
+  ]
+}
+
+If you want to send me the answer in a neat, machine-friendly way, a simple JSON object like this is perfect-just one key with a list showing which outfits you pick:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Think of ""solution"" as a checklist that runs down the outfit list from top to bottom: a 1 means that outfit goes in the suitcase, a 0 means it stays home. This JSON is just a sketch of the shape I expect, not the real answer - you'll fill in the actual 0/1 choices for your instance.
+
+Please use the exact identifiers from the instance input when referring to items - no renaming and no extra labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",json,zero_based,"{""problem_type"":""KP"",""weights"":[47,81,97,32,21,96,64,30,63],""profits"":[52,91,26,100,94,19,17,54,5],""capacity"":266,""solution"":[1,1,0,1,1,0,0,1,0],""objective"":391,""solve_time"":0.0001976490020751953,""n_items"":9,""R"":100,""alpha"":0.5,""instance_idx"":21,""alpha_idx"":0}","[1,1,0,1,1,0,0,1,0]",391,"{""problem_type"":""KP"",""capacity"":266,""n_items"":9,""items"":[{""item_id"":0,""weight"":47,""profit"":52},{""item_id"":1,""weight"":81,""profit"":91},{""item_id"":2,""weight"":97,""profit"":26},{""item_id"":3,""weight"":32,""profit"":100},{""item_id"":4,""weight"":21,""profit"":94},{""item_id"":5,""weight"":96,""profit"":19},{""item_id"":6,""weight"":64,""profit"":17},{""item_id"":7,""weight"":30,""profit"":54},{""item_id"":8,""weight"":63,""profit"":5}]}","{""0"":1,""1"":1,""2"":0,""3"":1,""4"":1,""5"":0,""6"":0,""7"":1,""8"":0}"
+KP_S_023,KP,S,23,"We're imagining a busy morning where a contractor needs to decide what power tools to toss into the van before hitting multiple sites. The trick is to pack the combination of tools that gives the most total usefulness on the job - computed by adding up each chosen tool's usefulness score - while making sure the van's weight limit isn't exceeded by the sum of their weights. Each tool exists only once, so a tool can be loaded or left at home, but can't be taken twice or taken in pieces. The concrete tool names, weights, and usefulness numbers are given below.
+
+- **van_payload_capacity**: 178
+
+| tool_name | tool_weight | usefulness_score |
+|---|---|---|
+| A | 44 | 75 |
+| B | 97 | 85 |
+| C | 100 | 90 |
+| D | 16 | 23 |
+| E | 90 | 90 |
+| F | 10 | 12 |
+
+Just so we're on the same page, when you send back which tools to take, please use a simple JSON layout like this:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Think of ""solution"" as a checklist: each position in the list matches a tool in the order shown above, with 1 meaning ""yep, load this tool in the van"" and 0 meaning ""leave it behind."" This JSON is just a template to show the shape I expect - it's not your final packed list.
+
+Also: use the exact identifiers from the instance input when referring to tools - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,names,"{""problem_type"":""KP"",""weights"":[44,97,100,16,90,10],""profits"":[75,85,90,23,90,12],""capacity"":178,""solution"":[1,0,1,1,0,1],""objective"":200,""solve_time"":0.00018310546875,""n_items"":6,""R"":100,""alpha"":0.5,""instance_idx"":22,""alpha_idx"":0}","[1,0,1,1,0,1]",200,"{""problem_type"":""KP"",""capacity"":178,""n_items"":6,""items"":[{""item_id"":""A"",""weight"":44,""profit"":75},{""item_id"":""B"",""weight"":97,""profit"":85},{""item_id"":""C"",""weight"":100,""profit"":90},{""item_id"":""D"",""weight"":16,""profit"":23},{""item_id"":""E"",""weight"":90,""profit"":90},{""item_id"":""F"",""weight"":10,""profit"":12}]}","{""A"":1,""B"":0,""C"":1,""D"":1,""E"":0,""F"":1}"
+KP_S_024,KP,S,24,"I'm planning a small garden bed and need to decide which plants to pot so the whole plot looks as lovely as possible. Each candidate plant comes with a little ""beauty"" score and a required amount of planting space, and the way to judge any lineup is simple: add up the beauty numbers of the chosen plants to see how pretty the bed will be, and add up their space needs to make sure everything actually fits in the bed. No plant can be used more than once and it's not allowed to split a plant into pieces - each choice is either planted or not. The exact list of plants, their beauty ratings, and space requirements are shown below.
+
+{
+  ""bed_capacity"": 170,
+  ""items"": [
+    {
+      ""plant_id"": 0,
+      ""space_required"": 47,
+      ""beauty_score"": 89
+    },
+    {
+      ""plant_id"": 1,
+      ""space_required"": 32,
+      ""beauty_score"": 10
+    },
+    {
+      ""plant_id"": 2,
+      ""space_required"": 3,
+      ""beauty_score"": 74
+    },
+    {
+      ""plant_id"": 3,
+      ""space_required"": 78,
+      ""beauty_score"": 75
+    },
+    {
+      ""plant_id"": 4,
+      ""space_required"": 34,
+      ""beauty_score"": 38
+    },
+    {
+      ""plant_id"": 5,
+      ""space_required"": 67,
+      ""beauty_score"": 27
+    },
+    {
+      ""plant_id"": 6,
+      ""space_required"": 42,
+      ""beauty_score"": 1
+    },
+    {
+      ""plant_id"": 7,
+      ""space_required"": 38,
+      ""beauty_score"": 94
+    }
+  ]
+}
+
+If you want to send me your plant picks, a simple JSON reply like this works fine - nothing fancy, just that one field with a little list of zeros and ones to say which plants to pot:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Think of ""solution"" as a quick form: a list of 0s and 1s in the same order as the plant list above. A 1 means ""pot this plant"", a 0 means ""leave it out."" It's just a sketch of the shape I expect, not the actual final selection - I'll need the real instance details to pick the best lineup.
+
+Please make sure any identifiers you use match the instance input exactly - no renaming and no new labels.
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",json,zero_based,"{""problem_type"":""KP"",""weights"":[47,32,3,78,34,67,42,38],""profits"":[89,10,74,75,38,27,1,94],""capacity"":170,""solution"":[1,0,1,1,0,0,0,1],""objective"":332,""solve_time"":0.00018310546875,""n_items"":8,""R"":100,""alpha"":0.5,""instance_idx"":23,""alpha_idx"":0}","[1,0,1,1,0,0,0,1]",332,"{""problem_type"":""KP"",""capacity"":170,""n_items"":8,""items"":[{""item_id"":0,""weight"":47,""profit"":89},{""item_id"":1,""weight"":32,""profit"":10},{""item_id"":2,""weight"":3,""profit"":74},{""item_id"":3,""weight"":78,""profit"":75},{""item_id"":4,""weight"":34,""profit"":38},{""item_id"":5,""weight"":67,""profit"":27},{""item_id"":6,""weight"":42,""profit"":1},{""item_id"":7,""weight"":38,""profit"":94}]}","{""0"":1,""1"":0,""2"":1,""3"":1,""4"":0,""5"":0,""6"":0,""7"":1}"
+KP_S_025,KP,S,25,"Many people face the same little dilemma before a potluck: which dishes to carry so the guests are happiest and everything still fits into a single tote. Every dish takes up some space and contributes a particular satisfaction value, and the total satisfaction is simply the sum of those values for whatever gets packed. Because the tote has limited room and each dish can only be brought once (no halves or clones allowed), the best pick is the one with the highest combined satisfaction that stays within the tote's capacity. The specific dish details and their space and satisfaction numbers follow below.
+
+Tote capacity: 184.
+0: takes 25 space in the tote and contributes 60 satisfaction.
+1: takes 4 space in the tote and contributes 72 satisfaction.
+2: takes 13 space in the tote and contributes 88 satisfaction.
+3: takes 7 space in the tote and contributes 5 satisfaction.
+4: takes 84 space in the tote and contributes 20 satisfaction.
+5: takes 90 space in the tote and contributes 29 satisfaction.
+6: takes 16 space in the tote and contributes 32 satisfaction.
+7: takes 75 space in the tote and contributes 100 satisfaction.
+8: takes 18 space in the tote and contributes 78 satisfaction.
+9: takes 37 space in the tote and contributes 33 satisfaction.
+Chosen dishes must keep their combined space within the tote capacity 184.
+
+If you'd like the result in a compact, machine-friendly form, I usually return a tiny JSON sketch like this:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here ""solution"" is just a list that lines up with the dishes above - a 1 means ""bring this dish"" and a 0 means ""leave it behind."" Think of it as a simple checklist you can read or feed into another tool. This block is only a sketch of the shape I'll use, not the actual packing decision.
+
+Please make sure to use all identifiers exactly as they appear in the instance input - no renaming and no new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,zero_based,"{""problem_type"":""KP"",""weights"":[25,4,13,7,84,90,16,75,18,37],""profits"":[60,72,88,5,20,29,32,100,78,33],""capacity"":184,""solution"":[1,1,1,1,0,0,0,1,1,1],""objective"":436,""solve_time"":0.00020956993103027344,""n_items"":10,""R"":100,""alpha"":0.5,""instance_idx"":24,""alpha_idx"":0}","[1,1,1,1,0,0,0,1,1,1]",436,"{""problem_type"":""KP"",""capacity"":184,""n_items"":10,""items"":[{""item_id"":0,""weight"":25,""profit"":60},{""item_id"":1,""weight"":4,""profit"":72},{""item_id"":2,""weight"":13,""profit"":88},{""item_id"":3,""weight"":7,""profit"":5},{""item_id"":4,""weight"":84,""profit"":20},{""item_id"":5,""weight"":90,""profit"":29},{""item_id"":6,""weight"":16,""profit"":32},{""item_id"":7,""weight"":75,""profit"":100},{""item_id"":8,""weight"":18,""profit"":78},{""item_id"":9,""weight"":37,""profit"":33}]}","{""0"":1,""1"":1,""2"":1,""3"":1,""4"":0,""5"":0,""6"":0,""7"":1,""8"":1,""9"":1}"
+KP_S_026,KP,S,26,"We're sorting through a pile of textbooks, figuring out which ones to bring to campus so the bag stays comfortable on long walks. The better choice is the one that gives the highest combined usefulness - just sum the usefulness values of the books picked - while keeping the total weight below the backpack's comfort threshold; each book can only be brought once. The concrete weights and usefulness ratings are listed below.
+
+{
+  ""backpack_comfort_capacity"": 170,
+  ""items"": [
+    {
+      ""book_id"": 1,
+      ""book_weight"": 50,
+      ""usefulness_score"": 2
+    },
+    {
+      ""book_id"": 2,
+      ""book_weight"": 51,
+      ""usefulness_score"": 68
+    },
+    {
+      ""book_id"": 3,
+      ""book_weight"": 44,
+      ""usefulness_score"": 97
+    },
+    {
+      ""book_id"": 4,
+      ""book_weight"": 15,
+      ""usefulness_score"": 13
+    },
+    {
+      ""book_id"": 5,
+      ""book_weight"": 94,
+      ""usefulness_score"": 30
+    },
+    {
+      ""book_id"": 6,
+      ""book_weight"": 2,
+      ""usefulness_score"": 51
+    },
+    {
+      ""book_id"": 7,
+      ""book_weight"": 18,
+      ""usefulness_score"": 93
+    },
+    {
+      ""book_id"": 8,
+      ""book_weight"": 23,
+      ""usefulness_score"": 70
+    },
+    {
+      ""book_id"": 9,
+      ""book_weight"": 28,
+      ""usefulness_score"": 77
+    },
+    {
+      ""book_id"": 10,
+      ""book_weight"": 14,
+      ""usefulness_score"": 59
+    }
+  ]
+}
+
+If you want to hand me your pick in a machine-friendly way, just drop it in a little JSON sketch like this - nothing fancy, just the shape I expect:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here ""solution"" is an array that corresponds to the list of books: a 1 means you decide to bring that book, a 0 means you leave it at home. Think of this as a simple form to fill out, not the final call - just the expected layout.
+
+Please remember to use the exact identifiers from the problem instance when you refer to items - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,one_based,"{""problem_type"":""KP"",""weights"":[50,51,44,15,94,2,18,23,28,14],""profits"":[2,68,97,13,30,51,93,70,77,59],""capacity"":170,""solution"":[0,0,1,1,0,1,1,1,1,1],""objective"":460,""solve_time"":0.00019288063049316406,""n_items"":10,""R"":100,""alpha"":0.5,""instance_idx"":25,""alpha_idx"":0}","[0,0,1,1,0,1,1,1,1,1]",460,"{""problem_type"":""KP"",""capacity"":170,""n_items"":10,""items"":[{""item_id"":1,""weight"":50,""profit"":2},{""item_id"":2,""weight"":51,""profit"":68},{""item_id"":3,""weight"":44,""profit"":97},{""item_id"":4,""weight"":15,""profit"":13},{""item_id"":5,""weight"":94,""profit"":30},{""item_id"":6,""weight"":2,""profit"":51},{""item_id"":7,""weight"":18,""profit"":93},{""item_id"":8,""weight"":23,""profit"":70},{""item_id"":9,""weight"":28,""profit"":77},{""item_id"":10,""weight"":14,""profit"":59}]}","{""1"":0,""2"":0,""3"":1,""4"":1,""5"":0,""6"":1,""7"":1,""8"":1,""9"":1,""10"":1}"
+KP_S_027,KP,S,27,"Recently a parent was staring at a pile of toys and a cramped storage bin, trying to decide what to bring on a long drive to keep the little ones entertained. The trick is to pick a mix that fits in the bin and gives the kids the most overall amusement - simply sum each toy's enjoyment value to measure how good a selection is. No repeats of the same toy are allowed, and the total packed volume/weight has to be under the bin's capacity. The specific toys, their space requirements, and their fun ratings are shown below.
+
+# storage_bin_capacity=173
+toy_id,toy_volume,enjoyment_score
+A,20,83
+B,87,14
+C,81,44
+D,3,13
+E,72,57
+F,9,93
+G,74,9
+
+If you want the final pick in a simple, machine-friendly form, just hand it back in a tiny JSON object like this:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here ""solution"" is a list that lines up with the toys above - each position is one toy, and a 1 means ""toss this toy in the bin"" while a 0 means ""leave it behind."" Think of it as a yes/no checklist that follows the same order the toys were listed. This JSON is just a sketch of the shape I expect, not the actual answer.
+
+Please make sure to use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""KP"",""weights"":[20,87,81,3,72,9,74],""profits"":[83,14,44,13,57,93,9],""capacity"":173,""solution"":[1,0,0,1,1,1,0],""objective"":246,""solve_time"":0.00019359588623046875,""n_items"":7,""R"":100,""alpha"":0.5,""instance_idx"":26,""alpha_idx"":0}","[1,0,0,1,1,1,0]",246,"{""problem_type"":""KP"",""capacity"":173,""n_items"":7,""items"":[{""item_id"":""A"",""weight"":20,""profit"":83},{""item_id"":""B"",""weight"":87,""profit"":14},{""item_id"":""C"",""weight"":81,""profit"":44},{""item_id"":""D"",""weight"":3,""profit"":13},{""item_id"":""E"",""weight"":72,""profit"":57},{""item_id"":""F"",""weight"":9,""profit"":93},{""item_id"":""G"",""weight"":74,""profit"":9}]}","{""A"":1,""B"":0,""C"":0,""D"":1,""E"":1,""F"":1,""G"":0}"
+KP_S_028,KP,S,28,"A caterer has a list of potential dishes, each with a known serving-table footprint and an anticipated guest-pleasure number, and needs to decide which ones to set out. The smartest selection is the one with the highest combined enjoyment, computed by summing the enjoyment values of the dishes that get included. Every dish is a yes-or-no decision (no duplicates, no halves), and the total space those chosen dishes occupy must not be larger than the available buffet surface. The full breakdown of sizes and enjoyment scores appears below.
+
+Total usable buffet surface area available for placing dishes: 171.
+Dish 1 has a serving-table footprint of 98 and an anticipated guest-pleasure of 96.
+Dish 2 has a serving-table footprint of 31 and an anticipated guest-pleasure of 53.
+Dish 3 has a serving-table footprint of 14 and an anticipated guest-pleasure of 29.
+Dish 4 has a serving-table footprint of 49 and an anticipated guest-pleasure of 97.
+Dish 5 has a serving-table footprint of 51 and an anticipated guest-pleasure of 93.
+Dish 6 has a serving-table footprint of 67 and an anticipated guest-pleasure of 50.
+Dish 7 has a serving-table footprint of 32 and an anticipated guest-pleasure of 3.
+The caterer should choose dishes that maximize total anticipated guest-pleasure without letting the sum of footprints exceed 171.
+
+When you're ready to tell me which dishes to include, just send it back in a tiny JSON package like this:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+""solution"" is an ordered list of 0s and 1s that lines up with the dish list above - 1 means ""put it out"", 0 means ""skip it"". Think of this JSON as a simple form template, not the final selection itself.
+
+Also, please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,one_based,"{""problem_type"":""KP"",""weights"":[98,31,14,49,51,67,32],""profits"":[96,53,29,97,93,50,3],""capacity"":171,""solution"":[0,1,1,1,1,0,0],""objective"":272,""solve_time"":0.00020384788513183594,""n_items"":7,""R"":100,""alpha"":0.5,""instance_idx"":27,""alpha_idx"":0}","[0,1,1,1,1,0,0]",272,"{""problem_type"":""KP"",""capacity"":171,""n_items"":7,""items"":[{""item_id"":1,""weight"":98,""profit"":96},{""item_id"":2,""weight"":31,""profit"":53},{""item_id"":3,""weight"":14,""profit"":29},{""item_id"":4,""weight"":49,""profit"":97},{""item_id"":5,""weight"":51,""profit"":93},{""item_id"":6,""weight"":67,""profit"":50},{""item_id"":7,""weight"":32,""profit"":3}]}","{""1"":0,""2"":1,""3"":1,""4"":1,""5"":1,""6"":0,""7"":0}"
+KP_S_029,KP,S,29,"There's a flash drive with limited space and a big list of potential party tracks; the job is to decide which ones to load. The aim is to maximize the combined crowd energy by summing each chosen song's energy rating, but at the same time keep the combined file sizes of those chosen songs at or below the drive's available capacity. Each song can only appear once on the drive, so duplicates aren't allowed and some tracks will be left off. The concrete details for each track and the drive's free space are shown below.
+
+- **flash_drive_free_space**: 197
+
+| track_id | file_size_mb | energy_rating |
+|---|---|---|
+| 1 | 56 | 42 |
+| 2 | 15 | 1 |
+| 3 | 64 | 97 |
+| 4 | 85 | 17 |
+| 5 | 11 | 60 |
+| 6 | 73 | 19 |
+| 7 | 15 | 94 |
+| 8 | 75 | 74 |
+
+If you want to hand me the choices in a tidy, machine-friendly way, just follow this little JSON layout:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Think of ""solution"" like a checklist that lines up with the track list: each position is one track, 1 means ""put it on the flash drive"" and 0 means ""skip it."" It's just a template showing the shape I expect - not your actual final answer.
+
+Please use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,one_based,"{""problem_type"":""KP"",""weights"":[56,15,64,85,11,73,15,75],""profits"":[42,1,97,17,60,19,94,74],""capacity"":197,""solution"":[0,1,1,0,1,0,1,1],""objective"":326,""solve_time"":0.0001838207244873047,""n_items"":8,""R"":100,""alpha"":0.5,""instance_idx"":28,""alpha_idx"":0}","[0,1,1,0,1,0,1,1]",326,"{""problem_type"":""KP"",""capacity"":197,""n_items"":8,""items"":[{""item_id"":1,""weight"":56,""profit"":42},{""item_id"":2,""weight"":15,""profit"":1},{""item_id"":3,""weight"":64,""profit"":97},{""item_id"":4,""weight"":85,""profit"":17},{""item_id"":5,""weight"":11,""profit"":60},{""item_id"":6,""weight"":73,""profit"":19},{""item_id"":7,""weight"":15,""profit"":94},{""item_id"":8,""weight"":75,""profit"":74}]}","{""1"":0,""2"":1,""3"":1,""4"":0,""5"":1,""6"":0,""7"":1,""8"":1}"
+KP_S_030,KP,S,30,"There's a friend moving into a shoe-box apartment who has to choose which kitchen items to keep on hand. The trick is to pick the mix that gives the highest overall daily convenience - just add up the convenience points for whichever appliances are chosen - but the packed volume can't exceed the cupboard's space. Everything must be taken whole (no splitting) and each item only once; the concrete details are shown below.
+
+Their cupboard's total available volume is 214.
+Appliance 1 occupies 44 volume and provides 83 convenience points.
+Appliance 2 occupies 47 volume and provides 26 convenience points.
+Appliance 3 occupies 64 volume and provides 80 convenience points.
+Appliance 4 occupies 79 volume and provides 47 convenience points.
+Appliance 5 occupies 85 volume and provides 24 convenience points.
+Appliance 6 occupies 2 volume and provides 34 convenience points.
+Appliance 7 occupies 67 volume and provides 54 convenience points.
+Appliance 8 occupies 11 volume and provides 77 convenience points.
+Appliance 9 occupies 29 volume and provides 61 convenience points.
+They should pick the set of appliances that maximizes total convenience without exceeding the 214.
+
+Also, when you send your final pick, just use a tiny JSON like this so it's easy to read and machine-friendly:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+""solution"" is a list with one entry per item in the same order they appear in the instance. A 1 means you keep that item in the cupboard, a 0 means you leave it behind. This JSON is only a sketch of the shape I expect - replace the example vector with your actual choices when you're ready.
+
+Please make sure all identifiers in your reply match the instance input exactly - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,one_based,"{""problem_type"":""KP"",""weights"":[44,47,64,79,85,2,67,11,29],""profits"":[83,26,80,47,24,34,54,77,61],""capacity"":214,""solution"":[1,1,1,0,0,1,0,1,1],""objective"":361,""solve_time"":0.00028514862060546875,""n_items"":9,""R"":100,""alpha"":0.5,""instance_idx"":29,""alpha_idx"":0}","[1,1,1,0,0,1,0,1,1]",361,"{""problem_type"":""KP"",""capacity"":214,""n_items"":9,""items"":[{""item_id"":1,""weight"":44,""profit"":83},{""item_id"":2,""weight"":47,""profit"":26},{""item_id"":3,""weight"":64,""profit"":80},{""item_id"":4,""weight"":79,""profit"":47},{""item_id"":5,""weight"":85,""profit"":24},{""item_id"":6,""weight"":2,""profit"":34},{""item_id"":7,""weight"":67,""profit"":54},{""item_id"":8,""weight"":11,""profit"":77},{""item_id"":9,""weight"":29,""profit"":61}]}","{""1"":1,""2"":1,""3"":1,""4"":0,""5"":0,""6"":1,""7"":0,""8"":1,""9"":1}"
+KP_S_031,KP,S,31,"We've got a crowded supply room and a stack of goodies to choose from-paper reams, coffee, pens-each with how much shelf space it uses and a usefulness score for the office. The task is to decide which of those items to stock so that, if the usefulness scores of the chosen items are added together, that total is as high as it can be without the sum of their shelf space going over the closet's capacity; nothing can be duplicated or split. The exact items, their space requirements, and the closet capacity are listed below.
+
+# closet_capacity=246
+supply_id,shelf_space_units,usefulness_score
+0,87,66
+1,76,97
+2,61,87
+3,29,28
+4,42,46
+5,12,54
+6,38,25
+7,93,27
+8,43,24
+9,12,100
+
+Oh, and when you send your pick, please use this simple JSON layout so it's easy to check programmatically:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Think of ""solution"" as a checklist with one entry per item on the supply list: a 1 means ""grab this"" and a 0 means ""leave it for now."" The snippet above is just the shape I need-please return the same key and array format with the actual 0/1 choices for the instance.
+
+Also, please use any item identifiers exactly as they appear in the instance input-no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,zero_based,"{""problem_type"":""KP"",""weights"":[87,76,61,29,42,12,38,93,43,12],""profits"":[66,97,87,28,46,54,25,27,24,100],""capacity"":246,""solution"":[0,1,1,1,1,1,0,0,0,1],""objective"":412,""solve_time"":0.0004558563232421875,""n_items"":10,""R"":100,""alpha"":0.5,""instance_idx"":30,""alpha_idx"":0}","[0,1,1,1,1,1,0,0,0,1]",412,"{""problem_type"":""KP"",""capacity"":246,""n_items"":10,""items"":[{""item_id"":0,""weight"":87,""profit"":66},{""item_id"":1,""weight"":76,""profit"":97},{""item_id"":2,""weight"":61,""profit"":87},{""item_id"":3,""weight"":29,""profit"":28},{""item_id"":4,""weight"":42,""profit"":46},{""item_id"":5,""weight"":12,""profit"":54},{""item_id"":6,""weight"":38,""profit"":25},{""item_id"":7,""weight"":93,""profit"":27},{""item_id"":8,""weight"":43,""profit"":24},{""item_id"":9,""weight"":12,""profit"":100}]}","{""0"":0,""1"":1,""2"":1,""3"":1,""4"":1,""5"":1,""6"":0,""7"":0,""8"":0,""9"":1}"
+KP_S_032,KP,S,32,"I was loading up a rental truck with a stack of couches, tables, and dressers and had to pick which pieces to take so the trip would bring in the most cash - either from resale or from renting them out later. The trick was to add up the price for each chosen item to see how much money the load would make, but keep the total weight of everything on the truck at or below its safe limit. Each piece was one-of-a-kind, so nothing could be loaded twice and every choice was either in the truck or left behind. The exact list of items, their weights and their values appears below.
+
+{
+  ""truck_safe_load_capacity"": 257,
+  ""items"": [
+    {
+      ""piece_id"": 0,
+      ""piece_weight"": 85,
+      ""piece_value"": 15
+    },
+    {
+      ""piece_id"": 1,
+      ""piece_weight"": 82,
+      ""piece_value"": 20
+    },
+    {
+      ""piece_id"": 2,
+      ""piece_weight"": 96,
+      ""piece_value"": 83
+    },
+    {
+      ""piece_id"": 3,
+      ""piece_weight"": 11,
+      ""piece_value"": 32
+    },
+    {
+      ""piece_id"": 4,
+      ""piece_weight"": 89,
+      ""piece_value"": 32
+    },
+    {
+      ""piece_id"": 5,
+      ""piece_weight"": 7,
+      ""piece_value"": 93
+    },
+    {
+      ""piece_id"": 6,
+      ""piece_weight"": 48,
+      ""piece_value"": 15
+    },
+    {
+      ""piece_id"": 7,
+      ""piece_weight"": 60,
+      ""piece_value"": 92
+    },
+    {
+      ""piece_id"": 8,
+      ""piece_weight"": 36,
+      ""piece_value"": 93
+    }
+  ]
+}
+
+If you want to hand me your pick, just send it in a tiny JSON snippet like this so it's easy to parse:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Think of ""solution"" as a checklist that lines up with the furniture list above - a 1 means ""load this piece on the truck"" and a 0 means ""leave it behind."" This little block is just a sketch of the shape I expect, not the final answer itself.
+
+Also, please make sure all identifiers are used exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,zero_based,"{""problem_type"":""KP"",""weights"":[85,82,96,11,89,7,48,60,36],""profits"":[15,20,83,32,32,93,15,92,93],""capacity"":257,""solution"":[0,0,1,1,0,1,0,1,1],""objective"":393,""solve_time"":0.00035953521728515625,""n_items"":9,""R"":100,""alpha"":0.5,""instance_idx"":31,""alpha_idx"":0}","[0,0,1,1,0,1,0,1,1]",393,"{""problem_type"":""KP"",""capacity"":257,""n_items"":9,""items"":[{""item_id"":0,""weight"":85,""profit"":15},{""item_id"":1,""weight"":82,""profit"":20},{""item_id"":2,""weight"":96,""profit"":83},{""item_id"":3,""weight"":11,""profit"":32},{""item_id"":4,""weight"":89,""profit"":32},{""item_id"":5,""weight"":7,""profit"":93},{""item_id"":6,""weight"":48,""profit"":15},{""item_id"":7,""weight"":60,""profit"":92},{""item_id"":8,""weight"":36,""profit"":93}]}","{""0"":0,""1"":0,""2"":1,""3"":1,""4"":0,""5"":1,""6"":0,""7"":1,""8"":1}"
+KP_S_033,KP,S,33,"I run a tiny corner shop and I've been picking which bits from different market stalls to put on a single display shelf. The choice is simple: put some stall items up and leave others out, but the better choice is the one that brings in the most total sales value - calculated by adding the expected sales numbers of every item placed on that shelf. The catch is the shelf can only hold so much weight, and each item is either placed as a whole or not at all, never split or doubled. The exact weights and sales numbers are listed below.
+
+{
+  ""shelf_max_hold_weight"": 124,
+  ""items"": [
+    {
+      ""stall_item_id"": 0,
+      ""stall_item_weight"": 17,
+      ""stall_item_expected_sales"": 3
+    },
+    {
+      ""stall_item_id"": 1,
+      ""stall_item_weight"": 16,
+      ""stall_item_expected_sales"": 71
+    },
+    {
+      ""stall_item_id"": 2,
+      ""stall_item_weight"": 29,
+      ""stall_item_expected_sales"": 6
+    },
+    {
+      ""stall_item_id"": 3,
+      ""stall_item_weight"": 58,
+      ""stall_item_expected_sales"": 20
+    },
+    {
+      ""stall_item_id"": 4,
+      ""stall_item_weight"": 16,
+      ""stall_item_expected_sales"": 18
+    },
+    {
+      ""stall_item_id"": 5,
+      ""stall_item_weight"": 46,
+      ""stall_item_expected_sales"": 84
+    },
+    {
+      ""stall_item_id"": 6,
+      ""stall_item_weight"": 12,
+      ""stall_item_expected_sales"": 6
+    },
+    {
+      ""stall_item_id"": 7,
+      ""stall_item_weight"": 55,
+      ""stall_item_expected_sales"": 43
+    }
+  ]
+}
+
+If you want the result in a little machine-friendly package, here's the shape I'd use:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+It's a simple sketch: ""solution"" is an array that lines up with the list of items above - a 1 means I put that stall item on the shelf, a 0 means I left it out. Think of it like ticking boxes on a form; this JSON just shows the expected layout, not the final choices.
+
+Also, please use the exact identifiers from the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,zero_based,"{""problem_type"":""KP"",""weights"":[17,16,29,58,16,46,12,55],""profits"":[3,71,6,20,18,84,6,43],""capacity"":124,""solution"":[0,1,0,0,0,1,0,1],""objective"":198,""solve_time"":0.0003314018249511719,""n_items"":8,""R"":100,""alpha"":0.5,""instance_idx"":32,""alpha_idx"":0}","[0,1,0,0,0,1,0,1]",198,"{""problem_type"":""KP"",""capacity"":124,""n_items"":8,""items"":[{""item_id"":0,""weight"":17,""profit"":3},{""item_id"":1,""weight"":16,""profit"":71},{""item_id"":2,""weight"":29,""profit"":6},{""item_id"":3,""weight"":58,""profit"":20},{""item_id"":4,""weight"":16,""profit"":18},{""item_id"":5,""weight"":46,""profit"":84},{""item_id"":6,""weight"":12,""profit"":6},{""item_id"":7,""weight"":55,""profit"":43}]}","{""0"":0,""1"":1,""2"":0,""3"":0,""4"":0,""5"":1,""6"":0,""7"":1}"
+KP_S_034,KP,S,34,"We've got a sunny afternoon planned and only one small basket to carry the spread. The decision is which foods to include so the meal ends up tasting and feeling the best overall - total satisfaction comes from summing the happiness each chosen item brings - but the catch is the basket can only hold so much, so the total bulk must stay under that cap. Every dish can be taken once or left behind (no splitting or grabbing two of the same), and the specific items, their sizes, and satisfaction values are listed below.
+
+We only have 254 bulk in the basket, so keep the chosen items' total under 254.
+1: occupies 52 bulk and brings 74 satisfaction.
+2: occupies 69 bulk and brings 88 satisfaction.
+3: occupies 81 bulk and brings 80 satisfaction.
+4: occupies 40 bulk and brings 86 satisfaction.
+5: occupies 83 bulk and brings 54 satisfaction.
+6: occupies 32 bulk and brings 5 satisfaction.
+7: occupies 99 bulk and brings 50 satisfaction.
+8: occupies 51 bulk and brings 19 satisfaction.
+We'll aim to pack the tastiest mix while staying within the 254 limit.
+
+If you want to send back your pick, just toss it into a tiny JSON sketch like this so it's easy to read by whatever's checking the picnic list:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here ""solution"" is the checklist: each entry lines up with an item from the list above, and each number is a simple yes/no - 1 means you put that item in the basket, 0 means you leave it behind. Think of it like ticking boxes on a shopping list; this block is just the shape I need, not the final choices.
+
+Also, please use any item identifiers exactly as they appear in the instance input - no renaming and no new labels.
+For example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,one_based,"{""problem_type"":""KP"",""weights"":[52,69,81,40,83,32,99,51],""profits"":[74,88,80,86,54,5,50,19],""capacity"":254,""solution"":[1,1,1,1,0,0,0,0],""objective"":328,""solve_time"":0.0003368854522705078,""n_items"":8,""R"":100,""alpha"":0.5,""instance_idx"":33,""alpha_idx"":0}","[1,1,1,1,0,0,0,0]",328,"{""problem_type"":""KP"",""capacity"":254,""n_items"":8,""items"":[{""item_id"":1,""weight"":52,""profit"":74},{""item_id"":2,""weight"":69,""profit"":88},{""item_id"":3,""weight"":81,""profit"":80},{""item_id"":4,""weight"":40,""profit"":86},{""item_id"":5,""weight"":83,""profit"":54},{""item_id"":6,""weight"":32,""profit"":5},{""item_id"":7,""weight"":99,""profit"":50},{""item_id"":8,""weight"":51,""profit"":19}]}","{""1"":1,""2"":1,""3"":1,""4"":1,""5"":0,""6"":0,""7"":0,""8"":0}"
+KP_S_035,KP,S,35,"On a rainy afternoon the book club organizer is packing a tote and has to choose which novels to bring to maximize how much members will enjoy the meeting. To compare options, add up the enjoyment score for each book that's included - that total is what matters, and selections with higher totals are preferred. The tote has a fixed capacity, so the combined weight of the picked books can't exceed that limit, and no novel can be included more than once. The concrete book-by-book details are shown below.
+
+The organizer's tote can hold up to 184 total weight.
+Novel A weighs 24 and has an enjoyment score of 38.
+Novel B weighs 23 and has an enjoyment score of 93.
+Novel C weighs 25 and has an enjoyment score of 53.
+Novel D weighs 65 and has an enjoyment score of 90.
+Novel E weighs 58 and has an enjoyment score of 11.
+Novel F weighs 95 and has an enjoyment score of 10.
+Novel G weighs 42 and has an enjoyment score of 84.
+Novel H weighs 29 and has an enjoyment score of 11.
+Novel I weighs 5 and has an enjoyment score of 6.
+Novel J weighs 1 and has an enjoyment score of 41.
+The organizer will pick novels to maximize total enjoyment without exceeding the tote's 184 limit.
+
+If you want to tell me which novels you decide to pack, just send it back in this simple JSON shape:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here, ""solution"" is just a list of zeros and ones-each position matches a book in the same order the list above gives. A 1 means ""toss this book in the tote,"" and a 0 means ""leave it behind."" Think of it like ticking boxes on a quick checklist rather than filling out a complicated form. This JSON is just a sketch of the shape I expect, not the actual answer itself.
+
+Please make sure any identifiers you use match the instance input exactly - no renaming and no new labels.
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,names,"{""problem_type"":""KP"",""weights"":[24,23,25,65,58,95,42,29,5,1],""profits"":[38,93,53,90,11,10,84,11,6,41],""capacity"":184,""solution"":[1,1,1,1,0,0,1,0,0,1],""objective"":399,""solve_time"":0.00048232078552246094,""n_items"":10,""R"":100,""alpha"":0.5,""instance_idx"":34,""alpha_idx"":0}","[1,1,1,1,0,0,1,0,0,1]",399,"{""problem_type"":""KP"",""capacity"":184,""n_items"":10,""items"":[{""item_id"":""A"",""weight"":24,""profit"":38},{""item_id"":""B"",""weight"":23,""profit"":93},{""item_id"":""C"",""weight"":25,""profit"":53},{""item_id"":""D"",""weight"":65,""profit"":90},{""item_id"":""E"",""weight"":58,""profit"":11},{""item_id"":""F"",""weight"":95,""profit"":10},{""item_id"":""G"",""weight"":42,""profit"":84},{""item_id"":""H"",""weight"":29,""profit"":11},{""item_id"":""I"",""weight"":5,""profit"":6},{""item_id"":""J"",""weight"":1,""profit"":41}]}","{""A"":1,""B"":1,""C"":1,""D"":1,""E"":0,""F"":0,""G"":1,""H"":0,""I"":0,""J"":1}"
+KP_S_036,KP,S,36,"There's a limited amount of space on my flash drive and a big folder of great tracks; now comes the tough call about which ones to keep. The winning playlist is the one with the highest total enjoyment, which you get by adding up the enjoyment rating for every song picked, but the total runtime - the sum of the individual song lengths - must stay under the drive's capacity. Each song can be included only once. Concrete details follow below.
+
+{
+  ""flash_drive_capacity"": 328,
+  ""items"": [
+    {
+      ""track_id"": 0,
+      ""track_runtime"": 69,
+      ""enjoyment_score"": 58
+    },
+    {
+      ""track_id"": 1,
+      ""track_runtime"": 10,
+      ""enjoyment_score"": 78
+    },
+    {
+      ""track_id"": 2,
+      ""track_runtime"": 84,
+      ""enjoyment_score"": 63
+    },
+    {
+      ""track_id"": 3,
+      ""track_runtime"": 85,
+      ""enjoyment_score"": 65
+    },
+    {
+      ""track_id"": 4,
+      ""track_runtime"": 81,
+      ""enjoyment_score"": 62
+    },
+    {
+      ""track_id"": 5,
+      ""track_runtime"": 91,
+      ""enjoyment_score"": 78
+    },
+    {
+      ""track_id"": 6,
+      ""track_runtime"": 24,
+      ""enjoyment_score"": 74
+    },
+    {
+      ""track_id"": 7,
+      ""track_runtime"": 98,
+      ""enjoyment_score"": 14
+    },
+    {
+      ""track_id"": 8,
+      ""track_runtime"": 33,
+      ""enjoyment_score"": 83
+    },
+    {
+      ""track_id"": 9,
+      ""track_runtime"": 81,
+      ""enjoyment_score"": 54
+    }
+  ]
+}
+
+When you send back which songs to keep, just stick to this simple JSON shape so I can read it automatically:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Think of ""solution"" as a checklist that lines up with the song list: a 1 means ""keep this track"" and a 0 means ""skip it."" The order should match the order of songs in the instance you were given. This JSON is just a sketch of the shape I expect - not the actual answer.
+
+Please use the exact identifiers from the instance input, with no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,zero_based,"{""problem_type"":""KP"",""weights"":[69,10,84,85,81,91,24,98,33,81],""profits"":[58,78,63,65,62,78,74,14,83,54],""capacity"":328,""solution"":[0,1,1,1,0,1,1,0,1,0],""objective"":441,""solve_time"":0.0003809928894042969,""n_items"":10,""R"":100,""alpha"":0.5,""instance_idx"":35,""alpha_idx"":0}","[0,1,1,1,0,1,1,0,1,0]",441,"{""problem_type"":""KP"",""capacity"":328,""n_items"":10,""items"":[{""item_id"":0,""weight"":69,""profit"":58},{""item_id"":1,""weight"":10,""profit"":78},{""item_id"":2,""weight"":84,""profit"":63},{""item_id"":3,""weight"":85,""profit"":65},{""item_id"":4,""weight"":81,""profit"":62},{""item_id"":5,""weight"":91,""profit"":78},{""item_id"":6,""weight"":24,""profit"":74},{""item_id"":7,""weight"":98,""profit"":14},{""item_id"":8,""weight"":33,""profit"":83},{""item_id"":9,""weight"":81,""profit"":54}]}","{""0"":0,""1"":1,""2"":1,""3"":1,""4"":0,""5"":1,""6"":1,""7"":0,""8"":1,""9"":0}"
+KP_S_037,KP,S,37,"I was planning a picnic and needed to pick groceries so everything that goes in the cooler gives the most nutrition without overflowing it. The choice is about which individual items to buy so the combined nutritional value is as high as possible, and that total is just the sum of the nutrition numbers on each package. Everything packed together must physically fit inside the cooler (total bulk/volume can't exceed the cooler's space), and only one package of each product can be bought - no duplicates. The concrete details are shown below.
+
+{
+  ""cooler_capacity"": 222,
+  ""items"": [
+    {
+      ""product_id"": ""A"",
+      ""package_volume"": 52,
+      ""nutritional_value"": 39
+    },
+    {
+      ""product_id"": ""B"",
+      ""package_volume"": 97,
+      ""nutritional_value"": 69
+    },
+    {
+      ""product_id"": ""C"",
+      ""package_volume"": 86,
+      ""nutritional_value"": 64
+    },
+    {
+      ""product_id"": ""D"",
+      ""package_volume"": 84,
+      ""nutritional_value"": 25
+    },
+    {
+      ""product_id"": ""E"",
+      ""package_volume"": 47,
+      ""nutritional_value"": 27
+    },
+    {
+      ""product_id"": ""F"",
+      ""package_volume"": 79,
+      ""nutritional_value"": 7
+    }
+  ]
+}
+
+If you'd like the answer sent back in a neat format, I can use a tiny JSON snippet like this to show which packages get packed:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+""solution"" is just a list that lines up with the items on the grocery list - a 1 means I pack that item, a 0 means I leave it behind. Think of it as a simple checklist form; this block is just the shape I'll use, not the final filled-in pick.
+
+Please also make sure any item identifiers you refer to are used exactly as they appear in the instance input - don't rename them or invent new labels.
+
+for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,names,"{""problem_type"":""KP"",""weights"":[52,97,86,84,47,79],""profits"":[39,69,64,25,27,7],""capacity"":222,""solution"":[1,1,0,0,1,0],""objective"":135,""solve_time"":0.00033545494079589844,""n_items"":6,""R"":100,""alpha"":0.5,""instance_idx"":36,""alpha_idx"":0}","[1,1,0,0,1,0]",135,"{""problem_type"":""KP"",""capacity"":222,""n_items"":6,""items"":[{""item_id"":""A"",""weight"":52,""profit"":39},{""item_id"":""B"",""weight"":97,""profit"":69},{""item_id"":""C"",""weight"":86,""profit"":64},{""item_id"":""D"",""weight"":84,""profit"":25},{""item_id"":""E"",""weight"":47,""profit"":27},{""item_id"":""F"",""weight"":79,""profit"":7}]}","{""A"":1,""B"":1,""C"":0,""D"":0,""E"":1,""F"":0}"
+KP_S_038,KP,S,38,"A friend has to decide which apps to keep on a phone that doesn't have much space. The plan is to pick the combination that delivers the highest combined benefit - add up the benefit numbers of whatever apps are chosen to find the total - but the sum of their storage sizes must stay within the phone's capacity, and each app can only be installed once. The exact apps, their sizes, and usefulness ratings are listed below.
+
+- **phone_storage_capacity**: 106
+
+| app_id | app_storage_size | app_usefulness_score |
+|---|---|---|
+| 1 | 44 | 24 |
+| 2 | 48 | 34 |
+| 3 | 17 | 37 |
+| 4 | 42 | 51 |
+| 5 | 61 | 37 |
+
+Oh, and when you send the pick, please use this simple JSON layout so it's easy to check:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here ""solution"" is just a list that matches the apps in the order they're listed above - a 1 means keep that app on the phone, a 0 means remove it. Think of it as ticking boxes next to each app name; this block is just a sketch of the shape I need, not your final selection.
+
+Also, please use the exact identifiers from the instance input - don't rename them or invent new labels. For example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,one_based,"{""problem_type"":""KP"",""weights"":[44,48,17,42,61],""profits"":[24,34,37,51,37],""capacity"":106,""solution"":[1,0,1,1,0],""objective"":112,""solve_time"":0.00030803680419921875,""n_items"":5,""R"":100,""alpha"":0.5,""instance_idx"":37,""alpha_idx"":0}","[1,0,1,1,0]",112,"{""problem_type"":""KP"",""capacity"":106,""n_items"":5,""items"":[{""item_id"":1,""weight"":44,""profit"":24},{""item_id"":2,""weight"":48,""profit"":34},{""item_id"":3,""weight"":17,""profit"":37},{""item_id"":4,""weight"":42,""profit"":51},{""item_id"":5,""weight"":61,""profit"":37}]}","{""1"":1,""2"":0,""3"":1,""4"":1,""5"":0}"
+KP_S_039,KP,S,39,"There's a donation drive going on and the plan is to fill a single box with the best combination of toys. The idea is simple: choose toys that, when their happiness points are added together, give the biggest overall happiness, yet the sum of their physical volumes must remain under the box's limit. No toy can be thrown in twice, and the exact toy list, volumes, and happiness scores are detailed below.
+
+# box_volume_limit=216
+toy_id,toy_volume,happiness_points
+1,33,68
+2,44,92
+3,38,86
+4,19,49
+5,69,78
+6,24,33
+7,30,47
+8,80,54
+9,95,97
+
+Oh, and when you send the final pick, just use this simple JSON layout so it's easy to check automatically:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+This is just the shape I want - ""solution"" is an array where each entry corresponds to a toy in the same order they're listed in the instance: 1 means include that toy in the box, 0 means skip it. Think of it like ticking boxes on a checklist. It's only a sketch of the expected format, not the actual answer.
+
+Also, please use the exact identifiers as they appear in the instance input - don't rename items or invent new labels.
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,one_based,"{""problem_type"":""KP"",""weights"":[33,44,38,19,69,24,30,80,95],""profits"":[68,92,86,49,78,33,47,54,97],""capacity"":216,""solution"":[1,1,1,1,0,1,1,0,0],""objective"":375,""solve_time"":0.00033926963806152344,""n_items"":9,""R"":100,""alpha"":0.5,""instance_idx"":38,""alpha_idx"":0}","[1,1,1,1,0,1,1,0,0]",375,"{""problem_type"":""KP"",""capacity"":216,""n_items"":9,""items"":[{""item_id"":1,""weight"":33,""profit"":68},{""item_id"":2,""weight"":44,""profit"":92},{""item_id"":3,""weight"":38,""profit"":86},{""item_id"":4,""weight"":19,""profit"":49},{""item_id"":5,""weight"":69,""profit"":78},{""item_id"":6,""weight"":24,""profit"":33},{""item_id"":7,""weight"":30,""profit"":47},{""item_id"":8,""weight"":80,""profit"":54},{""item_id"":9,""weight"":95,""profit"":97}]}","{""1"":1,""2"":1,""3"":1,""4"":1,""5"":0,""6"":1,""7"":1,""8"":0,""9"":0}"
+KP_S_040,KP,S,40,"On a sunny afternoon someone decided to style a balcony planter and needed to pick a handful of different plants that together look the best. The winning selection is the one with the greatest combined appeal - just add the appeal numbers of the chosen plants - while the total root-ball space they occupy (the sum of their root-space needs) can't exceed what the planter holds. No plant type can be used more than once, and each picked plant affects both the total appeal and the total space used. The detailed list of plant sizes and appeal scores is shown below.
+
+- **available_root_space**: 252
+
+| plant_id | root_space | appeal_score |
+|---|---|---|
+| 0 | 49 | 18 |
+| 1 | 66 | 74 |
+| 2 | 21 | 4 |
+| 3 | 81 | 21 |
+| 4 | 56 | 60 |
+| 5 | 54 | 70 |
+| 6 | 77 | 51 |
+| 7 | 64 | 87 |
+| 8 | 8 | 92 |
+| 9 | 29 | 14 |
+
+If you want to send your final pick it's easiest for me to read if you stick to a tiny JSON layout like this:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+In this sketch, ""solution"" is a list with one entry for each plant in the list above: a 1 means you're putting that plant in the planter, a 0 means you're skipping it. Very much like ticking boxes on a checklist. This is just the shape I expect - a template, not the actual filled-in answer.
+
+Please be sure to use the exact identifiers from the instance input; don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",markdown_table,zero_based,"{""problem_type"":""KP"",""weights"":[49,66,21,81,56,54,77,64,8,29],""profits"":[18,74,4,21,60,70,51,87,92,14],""capacity"":252,""solution"":[0,1,0,0,1,1,0,1,1,0],""objective"":383,""solve_time"":0.00037598609924316406,""n_items"":10,""R"":100,""alpha"":0.5,""instance_idx"":39,""alpha_idx"":0}","[0,1,0,0,1,1,0,1,1,0]",383,"{""problem_type"":""KP"",""capacity"":252,""n_items"":10,""items"":[{""item_id"":0,""weight"":49,""profit"":18},{""item_id"":1,""weight"":66,""profit"":74},{""item_id"":2,""weight"":21,""profit"":4},{""item_id"":3,""weight"":81,""profit"":21},{""item_id"":4,""weight"":56,""profit"":60},{""item_id"":5,""weight"":54,""profit"":70},{""item_id"":6,""weight"":77,""profit"":51},{""item_id"":7,""weight"":64,""profit"":87},{""item_id"":8,""weight"":8,""profit"":92},{""item_id"":9,""weight"":29,""profit"":14}]}","{""0"":0,""1"":1,""2"":0,""3"":0,""4"":1,""5"":1,""6"":0,""7"":1,""8"":1,""9"":0}"
+KP_S_041,KP,S,41,"On a tight copier quota, the TA needs to assemble a course packet from a list of chapters, each with a page count and a usefulness rating; the goal is to get as much total usefulness into the packet as possible without the pages exceeding the copier limit. Each chapter is either put in or left out (no duplicates), and you measure how good a selection is by totaling the usefulness ratings of the chosen chapters and ensuring the sum of their pages fits under the allowed limit. The exact numbers for pages and usefulness are shown below.
+
+{
+  ""copier_page_limit"": 280,
+  ""items"": [
+    {
+      ""chapter_id"": 0,
+      ""page_count"": 62,
+      ""usefulness_rating"": 14
+    },
+    {
+      ""chapter_id"": 1,
+      ""page_count"": 64,
+      ""usefulness_rating"": 96
+    },
+    {
+      ""chapter_id"": 2,
+      ""page_count"": 10,
+      ""usefulness_rating"": 96
+    },
+    {
+      ""chapter_id"": 3,
+      ""page_count"": 63,
+      ""usefulness_rating"": 17
+    },
+    {
+      ""chapter_id"": 4,
+      ""page_count"": 73,
+      ""usefulness_rating"": 81
+    },
+    {
+      ""chapter_id"": 5,
+      ""page_count"": 59,
+      ""usefulness_rating"": 41
+    },
+    {
+      ""chapter_id"": 6,
+      ""page_count"": 9,
+      ""usefulness_rating"": 60
+    },
+    {
+      ""chapter_id"": 7,
+      ""page_count"": 53,
+      ""usefulness_rating"": 45
+    },
+    {
+      ""chapter_id"": 8,
+      ""page_count"": 94,
+      ""usefulness_rating"": 79
+    },
+    {
+      ""chapter_id"": 9,
+      ""page_count"": 73,
+      ""usefulness_rating"": 100
+    }
+  ]
+}
+
+Oh, and when you send the selection, you can just use this simple JSON layout:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here ""solution"" is a list where each position matches a chapter in the order shown above - 1 means put that chapter in the packet, 0 means leave it out. Think of it as a quick form to fill in, not the final answer itself.
+
+Also make sure you use identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,zero_based,"{""problem_type"":""KP"",""weights"":[62,64,10,63,73,59,9,53,94,73],""profits"":[14,96,96,17,81,41,60,45,79,100],""capacity"":280,""solution"":[0,1,1,0,0,1,1,1,0,1],""objective"":438,""solve_time"":0.0003483295440673828,""n_items"":10,""R"":100,""alpha"":0.5,""instance_idx"":40,""alpha_idx"":0}","[0,1,1,0,0,1,1,1,0,1]",438,"{""problem_type"":""KP"",""capacity"":280,""n_items"":10,""items"":[{""item_id"":0,""weight"":62,""profit"":14},{""item_id"":1,""weight"":64,""profit"":96},{""item_id"":2,""weight"":10,""profit"":96},{""item_id"":3,""weight"":63,""profit"":17},{""item_id"":4,""weight"":73,""profit"":81},{""item_id"":5,""weight"":59,""profit"":41},{""item_id"":6,""weight"":9,""profit"":60},{""item_id"":7,""weight"":53,""profit"":45},{""item_id"":8,""weight"":94,""profit"":79},{""item_id"":9,""weight"":73,""profit"":100}]}","{""0"":0,""1"":1,""2"":1,""3"":0,""4"":0,""5"":1,""6"":1,""7"":1,""8"":0,""9"":1}"
+KP_S_042,KP,S,42,"Recently I had to downsize a home bar and choose which bottles would make the best signature cocktails. The plan was to pick a set of distinct bottles that maximize overall guest enjoyment - you get that overall number by adding each selected bottle's satisfaction rating - but their total space can't overflow the cabinet. Nothing repeats, and the specific bottles and their numbers are shown below.
+
+{
+  ""cabinet_capacity"": 214,
+  ""items"": [
+    {
+      ""bottle_id"": 0,
+      ""bottle_space"": 94,
+      ""satisfaction_rating"": 62
+    },
+    {
+      ""bottle_id"": 1,
+      ""bottle_space"": 95,
+      ""satisfaction_rating"": 17
+    },
+    {
+      ""bottle_id"": 2,
+      ""bottle_space"": 10,
+      ""satisfaction_rating"": 18
+    },
+    {
+      ""bottle_id"": 3,
+      ""bottle_space"": 26,
+      ""satisfaction_rating"": 13
+    },
+    {
+      ""bottle_id"": 4,
+      ""bottle_space"": 73,
+      ""satisfaction_rating"": 57
+    },
+    {
+      ""bottle_id"": 5,
+      ""bottle_space"": 60,
+      ""satisfaction_rating"": 1
+    },
+    {
+      ""bottle_id"": 6,
+      ""bottle_space"": 6,
+      ""satisfaction_rating"": 58
+    },
+    {
+      ""bottle_id"": 7,
+      ""bottle_space"": 10,
+      ""satisfaction_rating"": 48
+    },
+    {
+      ""bottle_id"": 8,
+      ""bottle_space"": 53,
+      ""satisfaction_rating"": 47
+    }
+  ]
+}
+
+Also, when I send the final picks I'll drop them into a tiny JSON sketch so it's clear which bottles I'm keeping - something simple like this:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Pretty straightforward: ""solution"" is an array with one entry per bottle in the order they were listed; a 1 means I keep that bottle, a 0 means I leave it. This JSON is just a sketch of the expected shape, not the actual answer.
+
+Please make sure to use the exact identifiers from the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,zero_based,"{""problem_type"":""KP"",""weights"":[94,95,10,26,73,60,6,10,53],""profits"":[62,17,18,13,57,1,58,48,47],""capacity"":214,""solution"":[1,0,1,1,0,0,1,1,1],""objective"":246,""solve_time"":0.0005331039428710938,""n_items"":9,""R"":100,""alpha"":0.5,""instance_idx"":41,""alpha_idx"":0}","[1,0,1,1,0,0,1,1,1]",246,"{""problem_type"":""KP"",""capacity"":214,""n_items"":9,""items"":[{""item_id"":0,""weight"":94,""profit"":62},{""item_id"":1,""weight"":95,""profit"":17},{""item_id"":2,""weight"":10,""profit"":18},{""item_id"":3,""weight"":26,""profit"":13},{""item_id"":4,""weight"":73,""profit"":57},{""item_id"":5,""weight"":60,""profit"":1},{""item_id"":6,""weight"":6,""profit"":58},{""item_id"":7,""weight"":10,""profit"":48},{""item_id"":8,""weight"":53,""profit"":47}]}","{""0"":1,""1"":0,""2"":1,""3"":1,""4"":0,""5"":0,""6"":1,""7"":1,""8"":1}"
+KP_S_043,KP,S,43,"Someone at the store needs to decide which new gadgets get pride of place on the counter. The way to tell if a layout is good is by adding up the expected sales numbers of the chosen items - higher total means a better setup - while ensuring the combined footprint of those items stays within the available shelf space and each product is used only once. The full list of gadgets and the shelf size follow below.
+
+Available countertop display space: 281.
+Gadget A: display footprint 53, expected sales 14.
+Gadget B: display footprint 73, expected sales 94.
+Gadget C: display footprint 77, expected sales 85.
+Gadget D: display footprint 93, expected sales 12.
+Gadget E: display footprint 80, expected sales 79.
+Gadget F: display footprint 52, expected sales 12.
+Gadget G: display footprint 50, expected sales 73.
+Gadget H: display footprint 24, expected sales 9.
+Gadget I: display footprint 60, expected sales 49.
+Ensure the chosen gadgets' combined footprint does not exceed 281.
+
+Oh, and when you send back your pick, just use this simple JSON shape so it's easy to check:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+""solution"" is just a list that lines up with the gadget list above - each position matches one gadget in that same order. A 1 means put that gadget on the counter, a 0 means leave it off. This JSON is only a sketch of the expected shape, not the actual answer.
+
+Please use the exact identifiers from the instance input - do not rename items or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,names,"{""problem_type"":""KP"",""weights"":[53,73,77,93,80,52,50,24,60],""profits"":[14,94,85,12,79,12,73,9,49],""capacity"":281,""solution"":[0,1,1,0,1,0,1,0,0],""objective"":331,""solve_time"":0.00026226043701171875,""n_items"":9,""R"":100,""alpha"":0.5,""instance_idx"":42,""alpha_idx"":0}","[0,1,1,0,1,0,1,0,0]",331,"{""problem_type"":""KP"",""capacity"":281,""n_items"":9,""items"":[{""item_id"":""A"",""weight"":53,""profit"":14},{""item_id"":""B"",""weight"":73,""profit"":94},{""item_id"":""C"",""weight"":77,""profit"":85},{""item_id"":""D"",""weight"":93,""profit"":12},{""item_id"":""E"",""weight"":80,""profit"":79},{""item_id"":""F"",""weight"":52,""profit"":12},{""item_id"":""G"",""weight"":50,""profit"":73},{""item_id"":""H"",""weight"":24,""profit"":9},{""item_id"":""I"",""weight"":60,""profit"":49}]}","{""A"":0,""B"":1,""C"":1,""D"":0,""E"":1,""F"":0,""G"":1,""H"":0,""I"":0}"
+KP_S_044,KP,S,44,"There's a sewing getaway coming up and only one small suitcase to fill, so the question becomes: which bolts should go in the bag to maximize how many different outfits can be created once cutting and pairing are done, while keeping the bag under the airline's weight allowance? Each bolt counts only once - no duplicate bolts - and the best selection is the one that yields the most distinct garment combinations you can make from those fabrics; count each unique outfit when judging a pack. The concrete details appear below.
+
+# suitcase_capacity_kg=242
+bolt_id,bolt_weight_kg,bolt_outfit_value
+0,73,74
+1,42,90
+2,93,82
+3,78,77
+4,21,64
+5,68,28
+6,74,80
+7,34,37
+
+Oh, and to keep things machine-friendly, please send your final pick in this simple JSON shape so it's easy to read:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Think of ""solution"" as a checklist that goes bolt-by-bolt: a 1 means tuck that bolt into the suitcase, a 0 means leave it behind. This block is just a sketch of the shape I expect - not the real answer yet - so you'll replace that array with the actual 0/1 choices for the instance.
+
+One more thing: use the exact identifiers from the instance input when you refer to items - no renaming, no made-up labels. For example:
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,zero_based,"{""problem_type"":""KP"",""weights"":[73,42,93,78,21,68,74,34],""profits"":[74,90,82,77,64,28,80,37],""capacity"":242,""solution"":[0,1,1,0,1,0,1,0],""objective"":316,""solve_time"":0.0002105236053466797,""n_items"":8,""R"":100,""alpha"":0.5,""instance_idx"":43,""alpha_idx"":0}","[0,1,1,0,1,0,1,0]",316,"{""problem_type"":""KP"",""capacity"":242,""n_items"":8,""items"":[{""item_id"":0,""weight"":73,""profit"":74},{""item_id"":1,""weight"":42,""profit"":90},{""item_id"":2,""weight"":93,""profit"":82},{""item_id"":3,""weight"":78,""profit"":77},{""item_id"":4,""weight"":21,""profit"":64},{""item_id"":5,""weight"":68,""profit"":28},{""item_id"":6,""weight"":74,""profit"":80},{""item_id"":7,""weight"":34,""profit"":37}]}","{""0"":0,""1"":1,""2"":1,""3"":0,""4"":1,""5"":0,""6"":1,""7"":0}"
+KP_S_045,KP,S,45,"On my commute I want the most bang for the buck from whatever I can fit in the slim pocket, so I pick titles whose combined reading value is highest. That's done by totaling the value points of the chosen books and making sure the sum of their thicknesses doesn't exceed the pocket's space. Each book is either in or out and can't be duplicated, and the exact measurements and value ratings follow below.
+
+- **pocket_capacity**: 176
+
+| book_id | book_thickness | reading_value_points |
+|---|---|---|
+| A | 32 | 44 |
+| B | 32 | 74 |
+| C | 16 | 39 |
+| D | 97 | 13 |
+| E | 15 | 73 |
+| F | 9 | 18 |
+| G | 94 | 56 |
+| H | 56 | 95 |
+
+Oh, and when you send back which books I actually tuck into the pocket, please use this little JSON layout so it's easy to read:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+The ""solution"" array is one entry per book in the same order as the instance: a 1 means I slip that book into the pocket, a 0 means I leave it on the shelf. This block is just a sketch of the shape I want - not the final answer itself.
+
+Please use the exact identifiers from the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,names,"{""problem_type"":""KP"",""weights"":[32,32,16,97,15,9,94,56],""profits"":[44,74,39,13,73,18,56,95],""capacity"":176,""solution"":[1,1,1,0,1,1,0,1],""objective"":343,""solve_time"":0.0001952648162841797,""n_items"":8,""R"":100,""alpha"":0.5,""instance_idx"":44,""alpha_idx"":0}","[1,1,1,0,1,1,0,1]",343,"{""problem_type"":""KP"",""capacity"":176,""n_items"":8,""items"":[{""item_id"":""A"",""weight"":32,""profit"":44},{""item_id"":""B"",""weight"":32,""profit"":74},{""item_id"":""C"",""weight"":16,""profit"":39},{""item_id"":""D"",""weight"":97,""profit"":13},{""item_id"":""E"",""weight"":15,""profit"":73},{""item_id"":""F"",""weight"":9,""profit"":18},{""item_id"":""G"",""weight"":94,""profit"":56},{""item_id"":""H"",""weight"":56,""profit"":95}]}","{""A"":1,""B"":1,""C"":1,""D"":0,""E"":1,""F"":1,""G"":0,""H"":1}"
+KP_S_046,KP,S,46,"A friend asked for help deciding which lenses to take in a single shoulder bag for a wedding - the aim was to get the broadest creative coverage possible without busting the weight limit. The best selection is the one that yields the highest sum of each lens's creative contribution (just add those numbers), while the total weight of those lenses stays under the bag's capacity, and you cannot include the same lens more than once. The specific lens weights and values come next below.
+
+{
+  ""shoulder_bag_capacity"": 258,
+  ""items"": [
+    {
+      ""lens_id"": ""A"",
+      ""lens_weight"": 37,
+      ""lens_creative_value"": 85
+    },
+    {
+      ""lens_id"": ""B"",
+      ""lens_weight"": 79,
+      ""lens_creative_value"": 96
+    },
+    {
+      ""lens_id"": ""C"",
+      ""lens_weight"": 62,
+      ""lens_creative_value"": 43
+    },
+    {
+      ""lens_id"": ""D"",
+      ""lens_weight"": 48,
+      ""lens_creative_value"": 12
+    },
+    {
+      ""lens_id"": ""E"",
+      ""lens_weight"": 14,
+      ""lens_creative_value"": 28
+    },
+    {
+      ""lens_id"": ""F"",
+      ""lens_weight"": 38,
+      ""lens_creative_value"": 86
+    },
+    {
+      ""lens_id"": ""G"",
+      ""lens_weight"": 66,
+      ""lens_creative_value"": 88
+    },
+    {
+      ""lens_id"": ""H"",
+      ""lens_weight"": 99,
+      ""lens_creative_value"": 64
+    },
+    {
+      ""lens_id"": ""I"",
+      ""lens_weight"": 1,
+      ""lens_creative_value"": 13
+    },
+    {
+      ""lens_id"": ""J"",
+      ""lens_weight"": 72,
+      ""lens_creative_value"": 13
+    }
+  ]
+}
+
+If you want to hand the answer back in a tidy, machine-friendly way, just follow this little JSON sketch so it's easy to parse:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+The ""solution"" array is meant to list one entry per lens: 1 meaning ""pack this lens"" and 0 meaning ""leave it behind."" It's just the shape I expect - a lightweight sketch, not the final selection itself.
+
+Also make sure to use the exact lens identifiers from the instance input - no renaming and no extra labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""
+
+Once you fill that array with the actual picks, send it back and we'll be good to go.",json,names,"{""problem_type"":""KP"",""weights"":[37,79,62,48,14,38,66,99,1,72],""profits"":[85,96,43,12,28,86,88,64,13,13],""capacity"":258,""solution"":[1,1,0,0,1,1,1,0,1,0],""objective"":396,""solve_time"":0.00019693374633789062,""n_items"":10,""R"":100,""alpha"":0.5,""instance_idx"":45,""alpha_idx"":0}","[1,1,0,0,1,1,1,0,1,0]",396,"{""problem_type"":""KP"",""capacity"":258,""n_items"":10,""items"":[{""item_id"":""A"",""weight"":37,""profit"":85},{""item_id"":""B"",""weight"":79,""profit"":96},{""item_id"":""C"",""weight"":62,""profit"":43},{""item_id"":""D"",""weight"":48,""profit"":12},{""item_id"":""E"",""weight"":14,""profit"":28},{""item_id"":""F"",""weight"":38,""profit"":86},{""item_id"":""G"",""weight"":66,""profit"":88},{""item_id"":""H"",""weight"":99,""profit"":64},{""item_id"":""I"",""weight"":1,""profit"":13},{""item_id"":""J"",""weight"":72,""profit"":13}]}","{""A"":1,""B"":1,""C"":0,""D"":0,""E"":1,""F"":1,""G"":1,""H"":0,""I"":1,""J"":0}"
+KP_S_047,KP,S,47,"There's a small pickup, a pile of renovation gear, and a deadline - the question was which items to toss in so the job gets as far along as possible on that trip. The ""how good"" of a choice is just the total of each chosen item's contribution to progress (just add them up), and the ""how heavy"" is the total of their weights (also add those up); the total weight must sit under the truck bed's capacity, and each kind of material can only be included once. The concrete details will be shown below.
+
+- **truck_bed_capacity**: 122
+
+| material_id | material_weight | progress_contribution |
+|---|---|---|
+| 1 | 59 | 73 |
+| 2 | 4 | 83 |
+| 3 | 69 | 44 |
+| 4 | 55 | 30 |
+| 5 | 2 | 97 |
+| 6 | 10 | 46 |
+| 7 | 46 | 32 |
+
+If you want to send back which items you'd load, just follow this simple JSON layout:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here ""solution"" is a list that lines up with the items in the story - 1 means you packed that item for the trip, 0 means you left it behind. Think of it as a quick checklist matching the order the instance gives. This is only a sketch of the expected shape, not the actual answer.
+
+When the instance uses identifiers, use them exactly as shown in the input - no renaming and no new labels:
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,one_based,"{""problem_type"":""KP"",""weights"":[59,4,69,55,2,10,46],""profits"":[73,83,44,30,97,46,32],""capacity"":122,""solution"":[1,1,0,0,1,1,1],""objective"":331,""solve_time"":0.00017714500427246094,""n_items"":7,""R"":100,""alpha"":0.5,""instance_idx"":46,""alpha_idx"":0}","[1,1,0,0,1,1,1]",331,"{""problem_type"":""KP"",""capacity"":122,""n_items"":7,""items"":[{""item_id"":1,""weight"":59,""profit"":73},{""item_id"":2,""weight"":4,""profit"":83},{""item_id"":3,""weight"":69,""profit"":44},{""item_id"":4,""weight"":55,""profit"":30},{""item_id"":5,""weight"":2,""profit"":97},{""item_id"":6,""weight"":10,""profit"":46},{""item_id"":7,""weight"":46,""profit"":32}]}","{""1"":1,""2"":1,""3"":0,""4"":0,""5"":1,""6"":1,""7"":1}"
+KP_S_048,KP,S,48,"Someone organized a drop-off and left a stack of potential donations; the volunteers must choose carefully what to accept. The aim is to end up with the highest possible total benefit for the community by summing the benefit of every accepted piece, but the pile we accept can't exceed the room's capacity in size or weight. Each item is a one-time decision: accept it or not, so nothing's counted more than once. The exact list and figures are shown below.
+
+{
+  ""storage_room_capacity"": 192,
+  ""items"": [
+    {
+      ""donation_id"": 1,
+      ""item_size_or_weight"": 2,
+      ""community_benefit_score"": 12
+    },
+    {
+      ""donation_id"": 2,
+      ""item_size_or_weight"": 31,
+      ""community_benefit_score"": 40
+    },
+    {
+      ""donation_id"": 3,
+      ""item_size_or_weight"": 52,
+      ""community_benefit_score"": 100
+    },
+    {
+      ""donation_id"": 4,
+      ""item_size_or_weight"": 92,
+      ""community_benefit_score"": 5
+    },
+    {
+      ""donation_id"": 5,
+      ""item_size_or_weight"": 74,
+      ""community_benefit_score"": 88
+    },
+    {
+      ""donation_id"": 6,
+      ""item_size_or_weight"": 79,
+      ""community_benefit_score"": 69
+    },
+    {
+      ""donation_id"": 7,
+      ""item_size_or_weight"": 55,
+      ""community_benefit_score"": 29
+    }
+  ]
+}
+
+If you'd like to indicate which pieces to accept, just send your choice in this simple JSON shape:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+""solution"" is just a checklist: each position corresponds to an item in the pile in the same order they were listed earlier, with 1 meaning ""take this"" and 0 meaning ""leave it."" This is only a sketch of the shape I expect-fill in the actual 0/1 choices for the instance.
+
+Also, please use any identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,one_based,"{""problem_type"":""KP"",""weights"":[2,31,52,92,74,79,55],""profits"":[12,40,100,5,88,69,29],""capacity"":192,""solution"":[1,1,1,0,1,0,0],""objective"":240,""solve_time"":0.00017642974853515625,""n_items"":7,""R"":100,""alpha"":0.5,""instance_idx"":47,""alpha_idx"":0}","[1,1,1,0,1,0,0]",240,"{""problem_type"":""KP"",""capacity"":192,""n_items"":7,""items"":[{""item_id"":1,""weight"":2,""profit"":12},{""item_id"":2,""weight"":31,""profit"":40},{""item_id"":3,""weight"":52,""profit"":100},{""item_id"":4,""weight"":92,""profit"":5},{""item_id"":5,""weight"":74,""profit"":88},{""item_id"":6,""weight"":79,""profit"":69},{""item_id"":7,""weight"":55,""profit"":29}]}","{""1"":1,""2"":1,""3"":1,""4"":0,""5"":1,""6"":0,""7"":0}"
+KP_S_049,KP,S,49,"Someone at the store has to decide which seasonal pieces to put out so the window looks irresistible without spilling over the allotted space. The best choice is the one that yields the greatest total appeal (add up the appeal values of the chosen items), provided the total space they occupy stays within the display limit and no single decoration is repeated. The exact item details are shown below.
+
+Each option below lists a decoration's identifier, the space it occupies, and its appeal value; the chosen decorations' combined space must not exceed 208.
+Decoration A occupies 84 space units and contributes 63 appeal.
+Decoration B occupies 5 space units and contributes 10 appeal.
+Decoration C occupies 11 space units and contributes 69 appeal.
+Decoration D occupies 67 space units and contributes 90 appeal.
+Decoration E occupies 100 space units and contributes 87 appeal.
+Decoration F occupies 3 space units and contributes 3 appeal.
+Decoration G occupies 67 space units and contributes 25 appeal.
+Decoration H occupies 14 space units and contributes 25 appeal.
+Decoration I occupies 66 space units and contributes 46 appeal.
+They should pick the combination that maximizes total appeal while keeping the total space at or below 208.
+
+Oh, and when you send back the chosen set, keep it in a tiny, predictable JSON shape so it's easy to read and check. Something like this:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+Here ""solution"" is just a list that lines up with the items shown above - a 1 means ""put this decoration in the window"" and a 0 means ""leave it out."" Super simple, like ticking boxes on a checklist. This JSON is only a sketch of the shape I expect, not the actual selection you should send.
+
+Please also make sure to use the exact identifiers from the instance input - no renaming and no new labels. For example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,names,"{""problem_type"":""KP"",""weights"":[84,5,11,67,100,3,67,14,66],""profits"":[63,10,69,90,87,3,25,25,46],""capacity"":208,""solution"":[0,1,1,1,1,1,0,1,0],""objective"":284,""solve_time"":0.00018978118896484375,""n_items"":9,""R"":100,""alpha"":0.5,""instance_idx"":48,""alpha_idx"":0}","[0,1,1,1,1,1,0,1,0]",284,"{""problem_type"":""KP"",""capacity"":208,""n_items"":9,""items"":[{""item_id"":""A"",""weight"":84,""profit"":63},{""item_id"":""B"",""weight"":5,""profit"":10},{""item_id"":""C"",""weight"":11,""profit"":69},{""item_id"":""D"",""weight"":67,""profit"":90},{""item_id"":""E"",""weight"":100,""profit"":87},{""item_id"":""F"",""weight"":3,""profit"":3},{""item_id"":""G"",""weight"":67,""profit"":25},{""item_id"":""H"",""weight"":14,""profit"":25},{""item_id"":""I"",""weight"":66,""profit"":46}]}","{""A"":0,""B"":1,""C"":1,""D"":1,""E"":1,""F"":1,""G"":0,""H"":1,""I"":0}"
+KP_S_050,KP,S,50,"Many people forget how tight stall storage can be, so this time the vendor is carefully choosing recipes so the stall earns the most it can - total earnings equal the sum of chosen recipes' profits - while the summed ingredient bulk of those recipes stays within the storage limit. Each recipe may be prepared at most once. The full list of recipe bulks and profits appears below.
+
+{
+  ""stall_storage_capacity"": 134,
+  ""items"": [
+    {
+      ""recipe_id"": 1,
+      ""ingredient_bulk"": 86,
+      ""recipe_profit"": 92
+    },
+    {
+      ""recipe_id"": 2,
+      ""ingredient_bulk"": 78,
+      ""recipe_profit"": 29
+    },
+    {
+      ""recipe_id"": 3,
+      ""ingredient_bulk"": 81,
+      ""recipe_profit"": 66
+    },
+    {
+      ""recipe_id"": 4,
+      ""ingredient_bulk"": 20,
+      ""recipe_profit"": 91
+    },
+    {
+      ""recipe_id"": 5,
+      ""ingredient_bulk"": 2,
+      ""recipe_profit"": 4
+    }
+  ]
+}
+
+Also, when you're ready to share which recipes the stall will actually make, just drop it in a tiny JSON blob like this so it's clear and easy to parse:
+
+{
+  ""solution"": [0, 1, 0, 1, ...]
+}
+
+The ""solution"" array is a simple row of 0s and 1s that correspond to the recipes listed above - 1 means ""make this recipe,"" 0 means ""skip it."" Think of it like ticking boxes on a shopping list. This JSON is just a sketch of the shape I expect, not the final selection.
+
+Please use the item identifiers exactly as they appear in the instance input - don't rename them or add new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,one_based,"{""problem_type"":""KP"",""weights"":[86,78,81,20,2],""profits"":[92,29,66,91,4],""capacity"":134,""solution"":[1,0,0,1,1],""objective"":187,""solve_time"":0.00016689300537109375,""n_items"":5,""R"":100,""alpha"":0.5,""instance_idx"":49,""alpha_idx"":0}","[1,0,0,1,1]",187,"{""problem_type"":""KP"",""capacity"":134,""n_items"":5,""items"":[{""item_id"":1,""weight"":86,""profit"":92},{""item_id"":2,""weight"":78,""profit"":29},{""item_id"":3,""weight"":81,""profit"":66},{""item_id"":4,""weight"":20,""profit"":91},{""item_id"":5,""weight"":2,""profit"":4}]}","{""1"":1,""2"":0,""3"":0,""4"":1,""5"":1}"

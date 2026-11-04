@@ -1,0 +1,2545 @@
+id,task_id,difficulty_tier,example_index,prompt,surface_format,indexing_scheme,instance_canonical_json,reference_solution_canonical_json,reference_objective_value,instance_surface_json,reference_solution_surface_json
+MAXCUT_S_001,MAXCUT,S,1,"Someone is organizing a reunion and wants to seat people left versus right so that friends are separated across the table as much as possible - the stronger the plan, the more friendship pairs will be across the left-right split. Every attendee must be assigned to one side only, with no repeats or omissions. The success of a seating is simply the count of friend-pairs that sit on opposite sides; more counted pairs means a better seating. The detailed guest list and their friendships follow below.
+
+There are 11 guests and 19 friendship pairs listed below.
+Guests 7 and 1 are friends.
+Guests 7 and 2 are friends.
+Guests 7 and 9 are friends.
+Guests 5 and 8 are friends.
+Guests 5 and 10 are friends.
+Guests 5 and 11 are friends.
+Guests 9 and 3 are friends.
+Guests 9 and 4 are friends.
+Guests 3 and 4 are friends.
+Guests 3 and 8 are friends.
+Guests 3 and 10 are friends.
+Guests 2 and 1 are friends.
+Guests 2 and 4 are friends.
+Guests 2 and 10 are friends.
+Guests 2 and 11 are friends.
+Guests 4 and 10 are friends.
+Guests 1 and 6 are friends.
+Guests 1 and 11 are friends.
+Guests 11 and 6 are friends.
+Assign each of the 11 guests to left or right to maximize how many of the 19 friendships sit across the split.
+
+Also, when you send back a seating plan, please use this simple JSON shape so it's easy to read and check automatically:
+
+{
+  ""solution"": [
+    [""guest_id"", ""guest_id"", ...],
+    [""guest_id"", ""guest_id"", ...]
+  ]
+}
+
+This just means ""solution"" contains two lists: the first list is everyone seated on the left side, the second list is everyone seated on the right side. Think of each ""guest_id"" as the exact label for a person from the guest list - it's just a placeholder here to show the shape. This JSON is only a sketch of the expected shape, not the actual seating.
+
+Please make sure to use the exact identifiers from the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,one_based,"{""problem_type"":""MAXCUT"",""num_nodes"":11,""num_edges"":19,""edges"":[{""u"":7,""v"":1},{""u"":7,""v"":2},{""u"":7,""v"":9},{""u"":5,""v"":8},{""u"":5,""v"":10},{""u"":5,""v"":11},{""u"":9,""v"":3},{""u"":9,""v"":4},{""u"":3,""v"":4},{""u"":3,""v"":8},{""u"":3,""v"":10},{""u"":2,""v"":1},{""u"":2,""v"":4},{""u"":2,""v"":10},{""u"":2,""v"":11},{""u"":4,""v"":10},{""u"":1,""v"":6},{""u"":1,""v"":11},{""u"":11,""v"":6}],""source_file"":""wv2010.mtx"",""density"":0.34545454545454546,""edge_connectivity"":2}","[[1,2,3,5,6,9],[4,7,8,10,11]]",15.0,"{""num_nodes"":11,""num_edges"":19,""edges"":[{""u"":7,""v"":1},{""u"":7,""v"":2},{""u"":7,""v"":9},{""u"":5,""v"":8},{""u"":5,""v"":10},{""u"":5,""v"":11},{""u"":9,""v"":3},{""u"":9,""v"":4},{""u"":3,""v"":4},{""u"":3,""v"":8},{""u"":3,""v"":10},{""u"":2,""v"":1},{""u"":2,""v"":4},{""u"":2,""v"":10},{""u"":2,""v"":11},{""u"":4,""v"":10},{""u"":1,""v"":6},{""u"":1,""v"":11},{""u"":11,""v"":6}]}","[[1,2,3,5,6,9],[4,7,8,10,11]]"
+MAXCUT_S_002,MAXCUT,S,2,"I have a stack of books that need to go on either the left shelf or the right shelf, and the trick is to place every single title on exactly one shelf so nothing is left out or duplicated. The goal is to arrange them so as many citation links as possible run from a book on one shelf to a book on the other shelf - count those cross-shelf links and try to make that count as big as possible. The exact list of books and which ones cite which will be shown below.
+
+Here are the 9 books and the 12 citation links:
+A citation link connects book 1 and book 3.
+A citation link connects book 1 and book 4.
+A citation link connects book 1 and book 5.
+A citation link connects book 3 and book 7.
+A citation link connects book 6 and book 0.
+A citation link connects book 6 and book 4.
+A citation link connects book 6 and book 8.
+A citation link connects book 7 and book 0.
+A citation link connects book 7 and book 4.
+A citation link connects book 8 and book 2.
+A citation link connects book 2 and book 4.
+A citation link connects book 2 and book 5.
+Each book must be placed on exactly one shelf so as many of these citation links as possible run between shelves.
+
+Also, when you send back your placement, it'd be great if you follow a tiny JSON layout so it's easy to check. Something simple like this will do:
+
+{
+  ""solution"": [
+    [""book_id"", ""book_id"", ...],
+    [""book_id"", ""book_id"", ...]
+  ]
+}
+
+Think of the first inner list as the left shelf and the second inner list as the right shelf, and each ""book_id"" is just a placeholder where you'll put the actual book identifier from the instance. This is just the shape I expect - not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".
+
+Make sure every book appears exactly once, in one of the two lists.",nl,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":9,""num_edges"":12,""edges"":[{""u"":2,""v"":4},{""u"":2,""v"":5},{""u"":2,""v"":6},{""u"":4,""v"":8},{""u"":7,""v"":1},{""u"":7,""v"":5},{""u"":7,""v"":9},{""u"":8,""v"":1},{""u"":8,""v"":5},{""u"":9,""v"":3},{""u"":3,""v"":5},{""u"":3,""v"":6}],""source_file"":""wi2010.mtx"",""density"":0.3333333333333333,""edge_connectivity"":2}","[[1,4,5,6,9],[2,3,7,8]]",12.0,"{""num_nodes"":9,""num_edges"":12,""edges"":[{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":1,""v"":5},{""u"":3,""v"":7},{""u"":6,""v"":0},{""u"":6,""v"":4},{""u"":6,""v"":8},{""u"":7,""v"":0},{""u"":7,""v"":4},{""u"":8,""v"":2},{""u"":2,""v"":4},{""u"":2,""v"":5}]}","[[0,3,4,5,8],[1,2,6,7]]"
+MAXCUT_S_003,MAXCUT,S,3,"Someone in the club suggested dividing members into a pro-debate group and a con-debate group, and they wanted the split to separate as many acquainted pairs as possible. For every pair of people who know each other, it counts as a ""crossed"" pair if they end up on different sides; the aim is to get as many of those crossed pairs as possible. Each person must go to either the pro side or the con side and can't be in both or left out. The full details of the class and the relationships are shown below.
+
+There are 11 students and 20 acquaintance relationships.
+Student 2 and student 7 know each other.
+Student 2 and student 8 know each other.
+Student 2 and student 9 know each other.
+Student 2 and student 10 know each other.
+Student 2 and student 11 know each other.
+Student 10 and student 1 know each other.
+Student 10 and student 4 know each other.
+Student 10 and student 8 know each other.
+Student 9 and student 4 know each other.
+Student 9 and student 5 know each other.
+Student 9 and student 8 know each other.
+Student 11 and student 8 know each other.
+Student 8 and student 1 know each other.
+Student 8 and student 3 know each other.
+Student 8 and student 5 know each other.
+Student 8 and student 6 know each other.
+Student 8 and student 7 know each other.
+Student 6 and student 1 know each other.
+Student 6 and student 3 know each other.
+Student 5 and student 3 know each other.
+Each student must be assigned to either the pro side or the con side to maximize crossed acquainted pairs.
+
+Oh, and when you send back the split, please stick to this little JSON layout so it's easy to check:
+
+{
+  ""solution"": [
+    [""member_id"", ""member_id"", ...],
+    [""member_id"", ""member_id"", ...]
+  ]
+}
+
+Think of it like a simple form: ""solution"" holds two lists - the first list is everyone on the pro-debate side, the second list is everyone on the con-debate side. Each item should be the exact person identifier from the instance. This JSON is just a sketch of the shape I want, not the actual answer.
+
+Please make sure to use the identifiers exactly as they appear in the problem input - no renaming and no new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,one_based,"{""problem_type"":""MAXCUT"",""num_nodes"":11,""num_edges"":20,""edges"":[{""u"":2,""v"":7},{""u"":2,""v"":8},{""u"":2,""v"":9},{""u"":2,""v"":10},{""u"":2,""v"":11},{""u"":10,""v"":1},{""u"":10,""v"":4},{""u"":10,""v"":8},{""u"":9,""v"":4},{""u"":9,""v"":5},{""u"":9,""v"":8},{""u"":11,""v"":8},{""u"":8,""v"":1},{""u"":8,""v"":3},{""u"":8,""v"":5},{""u"":8,""v"":6},{""u"":8,""v"":7},{""u"":6,""v"":1},{""u"":6,""v"":3},{""u"":5,""v"":3}],""source_file"":""wv2010.mtx"",""density"":0.36363636363636365,""edge_connectivity"":2}","[[5,6,7,9,10,11],[1,2,3,4,8]]",16.0,"{""num_nodes"":11,""num_edges"":20,""edges"":[{""u"":2,""v"":7},{""u"":2,""v"":8},{""u"":2,""v"":9},{""u"":2,""v"":10},{""u"":2,""v"":11},{""u"":10,""v"":1},{""u"":10,""v"":4},{""u"":10,""v"":8},{""u"":9,""v"":4},{""u"":9,""v"":5},{""u"":9,""v"":8},{""u"":11,""v"":8},{""u"":8,""v"":1},{""u"":8,""v"":3},{""u"":8,""v"":5},{""u"":8,""v"":6},{""u"":8,""v"":7},{""u"":6,""v"":1},{""u"":6,""v"":3},{""u"":5,""v"":3}]}","[[5,6,7,9,10,11],[1,2,3,4,8]]"
+MAXCUT_S_004,MAXCUT,S,4,"Someone needed to rearrange equipment so that half the gear went into the left rack and the rest into the right rack, with the rule that every server must be placed in one of the two racks and none duplicated. The simple takeaway was to try to make as many cables as possible span the gap between racks - each time a cable connects a server in the left to a server in the right, it gets counted toward how good the arrangement is. The specific details of the case are shown below.
+
+# total_servers=10
+# total_cables=21
+server_endpoint_u,server_endpoint_v
+7,1
+7,3
+7,6
+7,8
+7,9
+2,4
+2,5
+2,8
+8,1
+8,3
+8,5
+8,9
+0,1
+0,3
+0,6
+9,3
+3,4
+3,5
+3,6
+4,5
+6,1
+
+I'll just say up front how I'd like the answer packaged - a tiny JSON object with two lists: the servers that go in the left rack and the ones that go in the right rack. Something that looks like this:
+
+{
+  ""solution"": [
+    [""server_id"", ""server_id"", ...],
+    [""server_id"", ""server_id"", ...]
+  ]
+}
+
+The first inner list is the set of server IDs you'd put in the left rack, and the second list is the servers for the right rack. It's just a sketch of the shape I expect, not the actual placement - the real reply should fill those lists with the exact server identifiers from the instance.
+
+Please be sure to use the identifiers exactly as they appear in the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":10,""num_edges"":21,""edges"":[{""u"":8,""v"":2},{""u"":8,""v"":4},{""u"":8,""v"":7},{""u"":8,""v"":9},{""u"":8,""v"":10},{""u"":3,""v"":5},{""u"":3,""v"":6},{""u"":3,""v"":9},{""u"":9,""v"":2},{""u"":9,""v"":4},{""u"":9,""v"":6},{""u"":9,""v"":10},{""u"":1,""v"":2},{""u"":1,""v"":4},{""u"":1,""v"":7},{""u"":10,""v"":4},{""u"":4,""v"":5},{""u"":4,""v"":6},{""u"":4,""v"":7},{""u"":5,""v"":6},{""u"":7,""v"":2}],""source_file"":""vt2010.mtx"",""density"":0.4666666666666667,""edge_connectivity"":3}","[[2,3,4,7,10],[1,5,6,8,9]]",15.0,"{""num_nodes"":10,""num_edges"":21,""edges"":[{""u"":7,""v"":1},{""u"":7,""v"":3},{""u"":7,""v"":6},{""u"":7,""v"":8},{""u"":7,""v"":9},{""u"":2,""v"":4},{""u"":2,""v"":5},{""u"":2,""v"":8},{""u"":8,""v"":1},{""u"":8,""v"":3},{""u"":8,""v"":5},{""u"":8,""v"":9},{""u"":0,""v"":1},{""u"":0,""v"":3},{""u"":0,""v"":6},{""u"":9,""v"":3},{""u"":3,""v"":4},{""u"":3,""v"":5},{""u"":3,""v"":6},{""u"":4,""v"":5},{""u"":6,""v"":1}]}","[[1,2,3,6,9],[0,4,5,7,8]]"
+MAXCUT_S_005,MAXCUT,S,5,"At the garden club meeting someone sketched a plan: take every plant and put it in either the front bed or the back bed, making sure each plant is assigned once and only once, and try to arrange them so the most pollination pairs have their members on different beds. To judge any layout, go down the pairing list and count how many pairs are split between front and back; a higher count means a better split. The concrete list of plants and the pollination pairs follows below.
+
+# total_plants=12
+# total_pollination_pairs=20
+plant_a,plant_b
+K,G
+K,H
+K,J
+A,C
+A,D
+A,L
+H,J
+I,D
+I,F
+I,G
+G,B
+G,E
+D,B
+D,L
+F,B
+E,J
+L,C
+B,C
+B,J
+C,J
+
+If you want to hand me a layout, just follow this little JSON sketch so I can read it easily-two lists, one for each bed.
+
+{
+  ""solution"": [
+    [""plant_id"", ""plant_id"", ...],
+    [""plant_id"", ""plant_id"", ...]
+  ]
+}
+
+The first inner list is the plants you put in the front bed, the second inner list is the plants you put in the back bed. Each ""plant_id"" is a placeholder for a plant identifier from the instance (so put the actual IDs there, separated by commas). This is just the expected shape of the answer-not your final filled-in layout.
+
+Please use the exact identifiers as they appear in the instance input - do not rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MAXCUT"",""num_nodes"":12,""num_edges"":20,""edges"":[{""u"":11,""v"":7},{""u"":11,""v"":8},{""u"":11,""v"":10},{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":1,""v"":12},{""u"":8,""v"":10},{""u"":9,""v"":4},{""u"":9,""v"":6},{""u"":9,""v"":7},{""u"":7,""v"":2},{""u"":7,""v"":5},{""u"":4,""v"":2},{""u"":4,""v"":12},{""u"":6,""v"":2},{""u"":5,""v"":10},{""u"":12,""v"":3},{""u"":2,""v"":3},{""u"":2,""v"":10},{""u"":3,""v"":10}],""source_file"":""wy2010.mtx"",""density"":0.30303030303030304,""edge_connectivity"":2}","[[3,4,6,7,10],[1,2,5,8,9,11,12]]",17.0,"{""num_nodes"":12,""num_edges"":20,""edges"":[{""u"":""K"",""v"":""G""},{""u"":""K"",""v"":""H""},{""u"":""K"",""v"":""J""},{""u"":""A"",""v"":""C""},{""u"":""A"",""v"":""D""},{""u"":""A"",""v"":""L""},{""u"":""H"",""v"":""J""},{""u"":""I"",""v"":""D""},{""u"":""I"",""v"":""F""},{""u"":""I"",""v"":""G""},{""u"":""G"",""v"":""B""},{""u"":""G"",""v"":""E""},{""u"":""D"",""v"":""B""},{""u"":""D"",""v"":""L""},{""u"":""F"",""v"":""B""},{""u"":""E"",""v"":""J""},{""u"":""L"",""v"":""C""},{""u"":""B"",""v"":""C""},{""u"":""B"",""v"":""J""},{""u"":""C"",""v"":""J""}]}","[[""C"",""D"",""F"",""G"",""J""],[""A"",""B"",""E"",""H"",""I"",""K"",""L""]]"
+MAXCUT_S_006,MAXCUT,S,6,"We've got a two-sided display to set up: every photograph gets mounted either on the inner ring or the outer ring, exactly once. Some photos belong together in pairs, and the goal is to get as many of those pairs separated between the inner and outer walls as possible. A layout's quality is simply the number of related pairs that end up on opposite walls - tally those split pairs to compare layouts. The exact list of photos and their pairings appears below.
+
+{
+  ""total_photos"": 11,
+  ""total_related_pairs"": 19,
+  ""edges"": [
+    {
+      ""photo_a"": 9,
+      ""photo_b"": 5
+    },
+    {
+      ""photo_a"": 9,
+      ""photo_b"": 8
+    },
+    {
+      ""photo_a"": 1,
+      ""photo_b"": 8
+    },
+    {
+      ""photo_a"": 2,
+      ""photo_b"": 0
+    },
+    {
+      ""photo_a"": 2,
+      ""photo_b"": 7
+    },
+    {
+      ""photo_a"": 2,
+      ""photo_b"": 10
+    },
+    {
+      ""photo_a"": 6,
+      ""photo_b"": 7
+    },
+    {
+      ""photo_a"": 7,
+      ""photo_b"": 0
+    },
+    {
+      ""photo_a"": 7,
+      ""photo_b"": 3
+    },
+    {
+      ""photo_a"": 7,
+      ""photo_b"": 4
+    },
+    {
+      ""photo_a"": 7,
+      ""photo_b"": 5
+    },
+    {
+      ""photo_a"": 7,
+      ""photo_b"": 8
+    },
+    {
+      ""photo_a"": 7,
+      ""photo_b"": 10
+    },
+    {
+      ""photo_a"": 10,
+      ""photo_b"": 0
+    },
+    {
+      ""photo_a"": 10,
+      ""photo_b"": 8
+    },
+    {
+      ""photo_a"": 8,
+      ""photo_b"": 0
+    },
+    {
+      ""photo_a"": 8,
+      ""photo_b"": 3
+    },
+    {
+      ""photo_a"": 5,
+      ""photo_b"": 3
+    },
+    {
+      ""photo_a"": 4,
+      ""photo_b"": 0
+    }
+  ]
+}
+
+When you send back a layout, just use a simple JSON object in that same shape so it's easy to parse. Something like this:
+
+{
+  ""solution"": [
+    [""photo_id"", ""photo_id"", ...],
+    [""photo_id"", ""photo_id"", ...]
+  ]
+}
+
+The first inner list is the photos you put on the inner ring, the second is the photos on the outer ring - each string is a photo identifier. Think of it as a little form: list the inner ones, then the outer ones. This JSON is only a sketch of the shape I expect, not the actual answer.
+
+Please make sure to use the exact identifiers from the instance input - no renaming and no new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",json,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":11,""num_edges"":19,""edges"":[{""u"":10,""v"":6},{""u"":10,""v"":9},{""u"":2,""v"":9},{""u"":3,""v"":1},{""u"":3,""v"":8},{""u"":3,""v"":11},{""u"":7,""v"":8},{""u"":8,""v"":1},{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":8,""v"":6},{""u"":8,""v"":9},{""u"":8,""v"":11},{""u"":11,""v"":1},{""u"":11,""v"":9},{""u"":9,""v"":1},{""u"":9,""v"":4},{""u"":6,""v"":4},{""u"":5,""v"":1}],""source_file"":""wa2010.mtx"",""density"":0.34545454545454546,""edge_connectivity"":1}","[[1,2,4,8,10,11],[3,5,6,7,9]]",15.0,"{""num_nodes"":11,""num_edges"":19,""edges"":[{""u"":9,""v"":5},{""u"":9,""v"":8},{""u"":1,""v"":8},{""u"":2,""v"":0},{""u"":2,""v"":7},{""u"":2,""v"":10},{""u"":6,""v"":7},{""u"":7,""v"":0},{""u"":7,""v"":3},{""u"":7,""v"":4},{""u"":7,""v"":5},{""u"":7,""v"":8},{""u"":7,""v"":10},{""u"":10,""v"":0},{""u"":10,""v"":8},{""u"":8,""v"":0},{""u"":8,""v"":3},{""u"":5,""v"":3},{""u"":4,""v"":0}]}","[[0,1,3,7,9,10],[2,4,5,6,8]]"
+MAXCUT_S_007,MAXCUT,S,7,"Back at the kitchen bench, the line cooks were assigning every ingredient to either table A or table B, trying to set things up so recipe pairings ended up on opposite tables as often as possible. A better setup is the one that separates more pairings, and its score comes from counting each pairing whose members sit on different tables. Each ingredient has to be placed on one of the two tables and cannot be placed twice or left out. The concrete ingredients and pairing details follow below.
+
+{
+  ""total_ingredients"": 12,
+  ""total_pairings"": 23,
+  ""edges"": [
+    {
+      ""ingredient_a"": ""G"",
+      ""ingredient_b"": ""F""
+    },
+    {
+      ""ingredient_a"": ""G"",
+      ""ingredient_b"": ""K""
+    },
+    {
+      ""ingredient_a"": ""J"",
+      ""ingredient_b"": ""C""
+    },
+    {
+      ""ingredient_a"": ""J"",
+      ""ingredient_b"": ""K""
+    },
+    {
+      ""ingredient_a"": ""E"",
+      ""ingredient_b"": ""A""
+    },
+    {
+      ""ingredient_a"": ""E"",
+      ""ingredient_b"": ""B""
+    },
+    {
+      ""ingredient_a"": ""E"",
+      ""ingredient_b"": ""D""
+    },
+    {
+      ""ingredient_a"": ""E"",
+      ""ingredient_b"": ""H""
+    },
+    {
+      ""ingredient_a"": ""B"",
+      ""ingredient_b"": ""A""
+    },
+    {
+      ""ingredient_a"": ""B"",
+      ""ingredient_b"": ""D""
+    },
+    {
+      ""ingredient_a"": ""B"",
+      ""ingredient_b"": ""F""
+    },
+    {
+      ""ingredient_a"": ""B"",
+      ""ingredient_b"": ""I""
+    },
+    {
+      ""ingredient_a"": ""L"",
+      ""ingredient_b"": ""A""
+    },
+    {
+      ""ingredient_a"": ""L"",
+      ""ingredient_b"": ""C""
+    },
+    {
+      ""ingredient_a"": ""L"",
+      ""ingredient_b"": ""F""
+    },
+    {
+      ""ingredient_a"": ""L"",
+      ""ingredient_b"": ""I""
+    },
+    {
+      ""ingredient_a"": ""L"",
+      ""ingredient_b"": ""K""
+    },
+    {
+      ""ingredient_a"": ""C"",
+      ""ingredient_b"": ""A""
+    },
+    {
+      ""ingredient_a"": ""C"",
+      ""ingredient_b"": ""H""
+    },
+    {
+      ""ingredient_a"": ""K"",
+      ""ingredient_b"": ""F""
+    },
+    {
+      ""ingredient_a"": ""F"",
+      ""ingredient_b"": ""I""
+    },
+    {
+      ""ingredient_a"": ""I"",
+      ""ingredient_b"": ""A""
+    },
+    {
+      ""ingredient_a"": ""A"",
+      ""ingredient_b"": ""H""
+    }
+  ]
+}
+
+Oh, and when you're ready to hand me the seating plan, just drop it in this little JSON shape so I can read it easily:
+
+{
+  ""solution"": [
+    [""ingredient_id"", ""ingredient_id"", ...],
+    [""ingredient_id"", ""ingredient_id"", ...]
+  ]
+}
+
+Think of it like a simple form: ""solution"" holds two lists - the first list is whatever ingredients you put on table A, and the second list is the ingredients on table B. Each entry should be the ingredient identifier exactly as given in the instance. This is just a sketch of the expected shape, not the actual answer.
+
+Please use the same identifiers exactly as they appear in the instance input - do not rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,names,"{""problem_type"":""MAXCUT"",""num_nodes"":12,""num_edges"":23,""edges"":[{""u"":7,""v"":6},{""u"":7,""v"":11},{""u"":10,""v"":3},{""u"":10,""v"":11},{""u"":5,""v"":1},{""u"":5,""v"":2},{""u"":5,""v"":4},{""u"":5,""v"":8},{""u"":2,""v"":1},{""u"":2,""v"":4},{""u"":2,""v"":6},{""u"":2,""v"":9},{""u"":12,""v"":1},{""u"":12,""v"":3},{""u"":12,""v"":6},{""u"":12,""v"":9},{""u"":12,""v"":11},{""u"":3,""v"":1},{""u"":3,""v"":8},{""u"":11,""v"":6},{""u"":6,""v"":9},{""u"":9,""v"":1},{""u"":1,""v"":8}],""source_file"":""wy2010.mtx"",""density"":0.3484848484848485,""edge_connectivity"":2}","[[1,2,7,8,10,12],[3,4,5,6,9,11]]",17.0,"{""num_nodes"":12,""num_edges"":23,""edges"":[{""u"":""G"",""v"":""F""},{""u"":""G"",""v"":""K""},{""u"":""J"",""v"":""C""},{""u"":""J"",""v"":""K""},{""u"":""E"",""v"":""A""},{""u"":""E"",""v"":""B""},{""u"":""E"",""v"":""D""},{""u"":""E"",""v"":""H""},{""u"":""B"",""v"":""A""},{""u"":""B"",""v"":""D""},{""u"":""B"",""v"":""F""},{""u"":""B"",""v"":""I""},{""u"":""L"",""v"":""A""},{""u"":""L"",""v"":""C""},{""u"":""L"",""v"":""F""},{""u"":""L"",""v"":""I""},{""u"":""L"",""v"":""K""},{""u"":""C"",""v"":""A""},{""u"":""C"",""v"":""H""},{""u"":""K"",""v"":""F""},{""u"":""F"",""v"":""I""},{""u"":""I"",""v"":""A""},{""u"":""A"",""v"":""H""}]}","[[""A"",""B"",""G"",""H"",""J"",""L""],[""C"",""D"",""E"",""F"",""I"",""K""]]"
+MAXCUT_S_008,MAXCUT,S,8,"At my place I imagined moving each household appliance into either the kitchen side or the living side, aiming to have as many utility links as possible go from one room to the other. You judge a layout by counting how many of those connections cross the room divide - higher counts mean a preferable setup. Every appliance must be placed in one of the two rooms and none can be duplicated or skipped. The detailed list of appliances and which ones are connected is shown below.
+
+# num_appliances=12
+# num_utility_links=24
+appliance_a,appliance_b
+11,3
+11,4
+11,6
+8,4
+8,5
+8,9
+8,10
+5,2
+5,4
+9,2
+9,4
+9,6
+9,7
+9,10
+2,0
+2,3
+7,1
+7,6
+6,1
+6,3
+6,4
+10,4
+1,4
+3,0
+
+You can hand me the placement in a tiny JSON shape like this - nothing fancy, just two lists inside a ""solution"" field:
+
+{
+  ""solution"": [
+    [""appliance_id"", ""appliance_id"", ...],
+    [""appliance_id"", ""appliance_id"", ...]
+  ]
+}
+
+Think of it like a quick form: the first list is everything you drop on the kitchen side, the second list is everything you drop on the living side. Each item is an appliance identifier (just use the same exact labels from the instance). This JSON is only a sketch of the shape I expect, not the final answer.
+
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"""".
+
+Please be sure to use the identifiers exactly as they appear in the instance input - no renaming and no new labels.",csv,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":12,""num_edges"":24,""edges"":[{""u"":12,""v"":4},{""u"":12,""v"":5},{""u"":12,""v"":7},{""u"":9,""v"":5},{""u"":9,""v"":6},{""u"":9,""v"":10},{""u"":9,""v"":11},{""u"":6,""v"":3},{""u"":6,""v"":5},{""u"":10,""v"":3},{""u"":10,""v"":5},{""u"":10,""v"":7},{""u"":10,""v"":8},{""u"":10,""v"":11},{""u"":3,""v"":1},{""u"":3,""v"":4},{""u"":8,""v"":2},{""u"":8,""v"":7},{""u"":7,""v"":2},{""u"":7,""v"":4},{""u"":7,""v"":5},{""u"":11,""v"":5},{""u"":2,""v"":5},{""u"":4,""v"":1}],""source_file"":""wa2010.mtx"",""density"":0.36363636363636365,""edge_connectivity"":2}","[[1,3,5,7,8,9],[2,4,6,10,11,12]]",18.0,"{""num_nodes"":12,""num_edges"":24,""edges"":[{""u"":11,""v"":3},{""u"":11,""v"":4},{""u"":11,""v"":6},{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":8,""v"":9},{""u"":8,""v"":10},{""u"":5,""v"":2},{""u"":5,""v"":4},{""u"":9,""v"":2},{""u"":9,""v"":4},{""u"":9,""v"":6},{""u"":9,""v"":7},{""u"":9,""v"":10},{""u"":2,""v"":0},{""u"":2,""v"":3},{""u"":7,""v"":1},{""u"":7,""v"":6},{""u"":6,""v"":1},{""u"":6,""v"":3},{""u"":6,""v"":4},{""u"":10,""v"":4},{""u"":1,""v"":4},{""u"":3,""v"":0}]}","[[0,2,4,6,7,8],[1,3,5,9,10,11]]"
+MAXCUT_S_009,MAXCUT,S,9,"In a small theater the stage manager needs to assign every musician to either the left or right wing of the stage. What makes one assignment better than another is how many known collaboration pairs get separated by that split - simply count the pairs where one person is left and the other is right; the higher that number, the more successful the placement. Everyone must be placed once and only once, and the specific musicians and their collaborating partners are listed below.
+
+{
+  ""total_musicians"": 11,
+  ""total_collaborations"": 23,
+  ""edges"": [
+    {
+      ""musician_id_a"": 9,
+      ""musician_id_b"": 0
+    },
+    {
+      ""musician_id_a"": 9,
+      ""musician_id_b"": 1
+    },
+    {
+      ""musician_id_a"": 9,
+      ""musician_id_b"": 3
+    },
+    {
+      ""musician_id_a"": 9,
+      ""musician_id_b"": 4
+    },
+    {
+      ""musician_id_a"": 9,
+      ""musician_id_b"": 6
+    },
+    {
+      ""musician_id_a"": 9,
+      ""musician_id_b"": 7
+    },
+    {
+      ""musician_id_a"": 9,
+      ""musician_id_b"": 8
+    },
+    {
+      ""musician_id_a"": 9,
+      ""musician_id_b"": 10
+    },
+    {
+      ""musician_id_a"": 3,
+      ""musician_id_b"": 2
+    },
+    {
+      ""musician_id_a"": 3,
+      ""musician_id_b"": 4
+    },
+    {
+      ""musician_id_a"": 3,
+      ""musician_id_b"": 5
+    },
+    {
+      ""musician_id_a"": 3,
+      ""musician_id_b"": 10
+    },
+    {
+      ""musician_id_a"": 0,
+      ""musician_id_b"": 1
+    },
+    {
+      ""musician_id_a"": 0,
+      ""musician_id_b"": 2
+    },
+    {
+      ""musician_id_a"": 0,
+      ""musician_id_b"": 8
+    },
+    {
+      ""musician_id_a"": 4,
+      ""musician_id_b"": 2
+    },
+    {
+      ""musician_id_a"": 4,
+      ""musician_id_b"": 5
+    },
+    {
+      ""musician_id_a"": 4,
+      ""musician_id_b"": 8
+    },
+    {
+      ""musician_id_a"": 1,
+      ""musician_id_b"": 2
+    },
+    {
+      ""musician_id_a"": 2,
+      ""musician_id_b"": 5
+    },
+    {
+      ""musician_id_a"": 2,
+      ""musician_id_b"": 7
+    },
+    {
+      ""musician_id_a"": 2,
+      ""musician_id_b"": 8
+    },
+    {
+      ""musician_id_a"": 2,
+      ""musician_id_b"": 10
+    }
+  ]
+}
+
+Oh - when you send back the placement, please use this simple JSON shape so it's easy to read and check:
+
+{
+  ""solution"": [
+    [""musician_id"", ""musician_id"", ...],
+    [""musician_id"", ""musician_id"", ...]
+  ]
+}
+
+Here ""solution"" holds two lists: the first list is the musicians assigned to the left wing, the second list is the musicians assigned to the right wing. The ""musician_id"" entries are just placeholders showing where each musician's exact identifier from the input should go. This is only a sketch of the shape I expect - not the actual assignment.
+
+Please make sure to use the identifiers exactly as they appear in the instance input - do not rename them or invent new labels. For example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",json,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":11,""num_edges"":23,""edges"":[{""u"":10,""v"":1},{""u"":10,""v"":2},{""u"":10,""v"":4},{""u"":10,""v"":5},{""u"":10,""v"":7},{""u"":10,""v"":8},{""u"":10,""v"":9},{""u"":10,""v"":11},{""u"":4,""v"":3},{""u"":4,""v"":5},{""u"":4,""v"":6},{""u"":4,""v"":11},{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":1,""v"":9},{""u"":5,""v"":3},{""u"":5,""v"":6},{""u"":5,""v"":9},{""u"":2,""v"":3},{""u"":3,""v"":6},{""u"":3,""v"":8},{""u"":3,""v"":9},{""u"":3,""v"":11}],""source_file"":""wv2010.mtx"",""density"":0.41818181818181815,""edge_connectivity"":1}","[[2,5,6,7,8,9,11],[1,3,4,10]]",17.0,"{""num_nodes"":11,""num_edges"":23,""edges"":[{""u"":9,""v"":0},{""u"":9,""v"":1},{""u"":9,""v"":3},{""u"":9,""v"":4},{""u"":9,""v"":6},{""u"":9,""v"":7},{""u"":9,""v"":8},{""u"":9,""v"":10},{""u"":3,""v"":2},{""u"":3,""v"":4},{""u"":3,""v"":5},{""u"":3,""v"":10},{""u"":0,""v"":1},{""u"":0,""v"":2},{""u"":0,""v"":8},{""u"":4,""v"":2},{""u"":4,""v"":5},{""u"":4,""v"":8},{""u"":1,""v"":2},{""u"":2,""v"":5},{""u"":2,""v"":7},{""u"":2,""v"":8},{""u"":2,""v"":10}]}","[[1,4,5,6,7,8,10],[0,2,3,9]]"
+MAXCUT_S_010,MAXCUT,S,10,"I set up a little office challenge: everyone gets put on either Team Red or Team Blue, and the idea is to arrange people so as many working pairs as possible end up split across the two teams. The way to judge a setup is simple - count every working relationship where one person is on Red and the other is on Blue, and try to make that count as big as possible. Make sure every staff member is on one team or the other - nobody left unassigned and nobody on both. The concrete list of who works with whom is shown below.
+
+I've listed 8 staff and 14 working relationships below:
+Working pair: A - C.
+Working pair: A - F.
+Working pair: D - C.
+Working pair: D - G.
+Working pair: B - C.
+Working pair: B - H.
+Working pair: E - C.
+Working pair: E - G.
+Working pair: E - H.
+Working pair: C - F.
+Working pair: C - G.
+Working pair: C - H.
+Working pair: H - G.
+Working pair: G - F.
+Arrange everyone so as many of these 14 working pairs as possible end up split between Team Red and Team Blue.
+
+Also, when you send the team assignment back, please use this simple JSON layout so it's easy to check - two lists inside ""solution"", one list per team.
+
+{
+  ""solution"": [
+    [""staff_id"", ""staff_id"", ...],
+    [""staff_id"", ""staff_id"", ...]
+  ]
+}
+
+This just shows the shape I expect: the first inner list is the people on Team Red, the second is Team Blue. Put each person's identifier (exactly as it appears in the instance) as a string in one of the lists - everyone should appear once and only once. The JSON above is just a sketch of the format, not the actual answer.
+
+Please make sure to use the identifiers exactly as given in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,names,"{""problem_type"":""MAXCUT"",""num_nodes"":8,""num_edges"":14,""edges"":[{""u"":1,""v"":3},{""u"":1,""v"":6},{""u"":4,""v"":3},{""u"":4,""v"":7},{""u"":2,""v"":3},{""u"":2,""v"":8},{""u"":5,""v"":3},{""u"":5,""v"":7},{""u"":5,""v"":8},{""u"":3,""v"":6},{""u"":3,""v"":7},{""u"":3,""v"":8},{""u"":8,""v"":7},{""u"":7,""v"":6}],""source_file"":""wv2010.mtx"",""density"":0.5,""edge_connectivity"":2}","[[1,4,5,6,8],[2,3,7]]",10.0,"{""num_nodes"":8,""num_edges"":14,""edges"":[{""u"":""A"",""v"":""C""},{""u"":""A"",""v"":""F""},{""u"":""D"",""v"":""C""},{""u"":""D"",""v"":""G""},{""u"":""B"",""v"":""C""},{""u"":""B"",""v"":""H""},{""u"":""E"",""v"":""C""},{""u"":""E"",""v"":""G""},{""u"":""E"",""v"":""H""},{""u"":""C"",""v"":""F""},{""u"":""C"",""v"":""G""},{""u"":""C"",""v"":""H""},{""u"":""H"",""v"":""G""},{""u"":""G"",""v"":""F""}]}","[[""A"",""D"",""E"",""F"",""H""],[""B"",""C"",""G""]]"
+MAXCUT_S_011,MAXCUT,S,11,"Someone in the production office wants the cast split into leads and supporting players in a way that maximizes the number of scenes where a lead is paired with a support. To compare different splits, just tally up how many scenes involve actors from different sides - the bigger that tally, the better the split. Each actor must be assigned to exactly one side; nobody can be left out or duplicated. The exact roster and scene map are listed below.
+
+# total_actors=12
+# total_scenes=17
+actor_a,actor_b
+6,1
+6,8
+6,10
+7,2
+9,1
+9,2
+9,3
+5,1
+5,2
+5,10
+5,11
+10,0
+10,11
+11,0
+11,4
+1,3
+2,4
+
+If you want to send me a proposed split, just drop it in a little JSON blob like this:
+
+{
+  ""solution"": [
+    [""actor_id"", ""actor_id"", ...],
+    [""actor_id"", ""actor_id"", ...]
+  ]
+}
+
+Think of that as: the ""solution"" field holds two lists - the first list is the actors you'd call the leads, the second list is the supporting players. Each entry is an actor identifier from the instance (I put ""actor_id"" as a placeholder here). This is just the shape I need, not the actual assignment - fill in the real actor IDs from the scene map when you reply.
+
+Please use the exact identifiers given in the instance input - no renaming, no new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":12,""num_edges"":17,""edges"":[{""u"":7,""v"":2},{""u"":7,""v"":9},{""u"":7,""v"":11},{""u"":8,""v"":3},{""u"":10,""v"":2},{""u"":10,""v"":3},{""u"":10,""v"":4},{""u"":6,""v"":2},{""u"":6,""v"":3},{""u"":6,""v"":11},{""u"":6,""v"":12},{""u"":11,""v"":1},{""u"":11,""v"":12},{""u"":12,""v"":1},{""u"":12,""v"":5},{""u"":2,""v"":4},{""u"":3,""v"":5}],""source_file"":""wi2010.mtx"",""density"":0.25757575757575757,""edge_connectivity"":1}","[[1,4,5,6,7,8,10],[2,3,9,11,12]]",15.0,"{""num_nodes"":12,""num_edges"":17,""edges"":[{""u"":6,""v"":1},{""u"":6,""v"":8},{""u"":6,""v"":10},{""u"":7,""v"":2},{""u"":9,""v"":1},{""u"":9,""v"":2},{""u"":9,""v"":3},{""u"":5,""v"":1},{""u"":5,""v"":2},{""u"":5,""v"":10},{""u"":5,""v"":11},{""u"":10,""v"":0},{""u"":10,""v"":11},{""u"":11,""v"":0},{""u"":11,""v"":4},{""u"":1,""v"":3},{""u"":2,""v"":4}]}","[[0,3,4,5,6,7,9],[1,2,8,10,11]]"
+MAXCUT_S_012,MAXCUT,S,12,"We gathered a bunch of variable icons on a canvas and need to split them into two groups, left and right, so that the strongest relationships fall across the divide instead of sitting inside the same group. That means making a choice for every variable (each one goes in exactly one group), then tallying up the number of strong correlations that connect a variable on the left with a variable on the right - the goal is to make that tally as large as possible. The concrete details will be shown below.
+
+# total_variables=11
+# total_strong_correlations=22
+variable_a_id,variable_b_id
+D,I
+D,J
+K,A
+K,I
+I,A
+I,C
+I,E
+I,F
+I,H
+I,J
+J,A
+J,B
+J,C
+J,G
+J,H
+F,A
+A,B
+A,E
+A,G
+E,B
+C,B
+G,H
+
+You can just drop the two groups into this simple JSON shape when you reply - keeps things tidy and easy to read:
+
+{
+  ""solution"": [
+    [""variable_id"", ""variable_id"", ...],
+    [""variable_id"", ""variable_id"", ...]
+  ]
+}
+
+Each of the two inner lists is one side of the split (left and right), and each placeholder is where you'd put a variable's identifier. Think of it like a form: first list = left group, second list = right group. This is just the expected shape - not the actual solution itself.
+
+Please use the exact identifiers given in the instance input - do not rename them or invent new ones.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MAXCUT"",""num_nodes"":11,""num_edges"":22,""edges"":[{""u"":4,""v"":9},{""u"":4,""v"":10},{""u"":11,""v"":1},{""u"":11,""v"":9},{""u"":9,""v"":1},{""u"":9,""v"":3},{""u"":9,""v"":5},{""u"":9,""v"":6},{""u"":9,""v"":8},{""u"":9,""v"":10},{""u"":10,""v"":1},{""u"":10,""v"":2},{""u"":10,""v"":3},{""u"":10,""v"":7},{""u"":10,""v"":8},{""u"":6,""v"":1},{""u"":1,""v"":2},{""u"":1,""v"":5},{""u"":1,""v"":7},{""u"":5,""v"":2},{""u"":3,""v"":2},{""u"":7,""v"":8}],""source_file"":""wv2010.mtx"",""density"":0.4,""edge_connectivity"":2}","[[2,6,7,9,10,11],[1,3,4,5,8]]",16.0,"{""num_nodes"":11,""num_edges"":22,""edges"":[{""u"":""D"",""v"":""I""},{""u"":""D"",""v"":""J""},{""u"":""K"",""v"":""A""},{""u"":""K"",""v"":""I""},{""u"":""I"",""v"":""A""},{""u"":""I"",""v"":""C""},{""u"":""I"",""v"":""E""},{""u"":""I"",""v"":""F""},{""u"":""I"",""v"":""H""},{""u"":""I"",""v"":""J""},{""u"":""J"",""v"":""A""},{""u"":""J"",""v"":""B""},{""u"":""J"",""v"":""C""},{""u"":""J"",""v"":""G""},{""u"":""J"",""v"":""H""},{""u"":""F"",""v"":""A""},{""u"":""A"",""v"":""B""},{""u"":""A"",""v"":""E""},{""u"":""A"",""v"":""G""},{""u"":""E"",""v"":""B""},{""u"":""C"",""v"":""B""},{""u"":""G"",""v"":""H""}]}","[[""B"",""F"",""G"",""I"",""J"",""K""],[""A"",""C"",""D"",""E"",""H""]]"
+MAXCUT_S_013,MAXCUT,S,13,"I live on a long street with buildings on both sides, and the town wants to label each building as either part of the north block or the south block. The job is to decide, for every single building, whether it belongs to the north side or the south side - no building can be skipped or put in both places. What makes one assignment better than another is how many utility lines end up running between a north building and a south building: count every line that links a building on the north block to one on the south block, and try to make that count as big as possible. Concrete details of the street layout are shown below.
+
+# num_buildings=9
+# num_utility_lines=15
+building_u_id,building_v_id
+8,1
+8,2
+8,4
+8,9
+3,2
+3,4
+3,9
+2,9
+7,4
+7,5
+7,9
+4,5
+5,9
+6,9
+1,9
+
+Oh, and when you send back the assignment, it helps a lot if you stick to a tiny JSON shape like this so it's easy to read:
+
+{
+  ""solution"": [
+    [""building_id"", ""building_id"", ...],
+    [""building_id"", ""building_id"", ...]
+  ]
+}
+
+The two inner lists are the two sides of the street (one list for the north block, one for the south block). Each quoted placeholder is just showing where a building identifier goes - in your real reply, swap those placeholders for the actual building IDs from the instance. This is just a sketch of the format I expect, not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - do not rename them or invent new labels.
+- for example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,one_based,"{""problem_type"":""MAXCUT"",""num_nodes"":9,""num_edges"":15,""edges"":[{""u"":8,""v"":1},{""u"":8,""v"":2},{""u"":8,""v"":4},{""u"":8,""v"":9},{""u"":3,""v"":2},{""u"":3,""v"":4},{""u"":3,""v"":9},{""u"":2,""v"":9},{""u"":7,""v"":4},{""u"":7,""v"":5},{""u"":7,""v"":9},{""u"":4,""v"":5},{""u"":5,""v"":9},{""u"":6,""v"":9},{""u"":1,""v"":9}],""source_file"":""wv2010.mtx"",""density"":0.4166666666666667,""edge_connectivity"":1}","[[1,2,4,9],[3,5,6,7,8]]",12.0,"{""num_nodes"":9,""num_edges"":15,""edges"":[{""u"":8,""v"":1},{""u"":8,""v"":2},{""u"":8,""v"":4},{""u"":8,""v"":9},{""u"":3,""v"":2},{""u"":3,""v"":4},{""u"":3,""v"":9},{""u"":2,""v"":9},{""u"":7,""v"":4},{""u"":7,""v"":5},{""u"":7,""v"":9},{""u"":4,""v"":5},{""u"":5,""v"":9},{""u"":6,""v"":9},{""u"":1,""v"":9}]}","[[1,2,4,9],[3,5,6,7,8]]"
+MAXCUT_S_014,MAXCUT,S,14,"I run the small dog room at a daycare and the task is simple-sounding: every dog has to live either in the indoor run or the outdoor run, and certain pairs of dogs are marked as compatible. The aim is to split the pack so that as many of those compatible pairs as possible end up in different runs - the ""score"" for any arrangement is just the count of compatible pairs that are separated between indoor and outdoor. Every dog has to be placed in exactly one of the two runs (no dog left out and none put in both). The exact list of dogs and their compatibility pairs is shown below.
+
+# num_dogs=12
+# num_compatibility_pairs=23
+dog_u_id,dog_v_id
+D,C
+D,I
+D,J
+A,E
+A,F
+A,J
+A,K
+A,L
+G,B
+G,E
+G,H
+F,L
+J,C
+J,I
+J,L
+I,C
+I,E
+I,K
+K,E
+E,B
+E,C
+E,H
+C,B
+
+If you want to hand me the final split in a computer-friendly way, just drop it in a tiny JSON like this:
+
+{
+  ""solution"": [
+    [""dog_id"", ""dog_id"", ...],
+    [""dog_id"", ""dog_id"", ...]
+  ]
+}
+
+Think of the first list as the dogs you put in the indoor run and the second list as the dogs in the outdoor run. Each entry should be the exact dog identifier from the instance (this JSON is just the shape I need, not the actual assignment).
+
+Please make sure you use the identifiers exactly as they appear in the input - no renaming and no invented labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MAXCUT"",""num_nodes"":12,""num_edges"":23,""edges"":[{""u"":4,""v"":3},{""u"":4,""v"":9},{""u"":4,""v"":10},{""u"":1,""v"":5},{""u"":1,""v"":6},{""u"":1,""v"":10},{""u"":1,""v"":11},{""u"":1,""v"":12},{""u"":7,""v"":2},{""u"":7,""v"":5},{""u"":7,""v"":8},{""u"":6,""v"":12},{""u"":10,""v"":3},{""u"":10,""v"":9},{""u"":10,""v"":12},{""u"":9,""v"":3},{""u"":9,""v"":5},{""u"":9,""v"":11},{""u"":11,""v"":5},{""u"":5,""v"":2},{""u"":5,""v"":3},{""u"":5,""v"":8},{""u"":3,""v"":2}],""source_file"":""wa2010.mtx"",""density"":0.3484848484848485,""edge_connectivity"":2}","[[2,4,5,6,10,11],[1,3,7,8,9,12]]",17.0,"{""num_nodes"":12,""num_edges"":23,""edges"":[{""u"":""D"",""v"":""C""},{""u"":""D"",""v"":""I""},{""u"":""D"",""v"":""J""},{""u"":""A"",""v"":""E""},{""u"":""A"",""v"":""F""},{""u"":""A"",""v"":""J""},{""u"":""A"",""v"":""K""},{""u"":""A"",""v"":""L""},{""u"":""G"",""v"":""B""},{""u"":""G"",""v"":""E""},{""u"":""G"",""v"":""H""},{""u"":""F"",""v"":""L""},{""u"":""J"",""v"":""C""},{""u"":""J"",""v"":""I""},{""u"":""J"",""v"":""L""},{""u"":""I"",""v"":""C""},{""u"":""I"",""v"":""E""},{""u"":""I"",""v"":""K""},{""u"":""K"",""v"":""E""},{""u"":""E"",""v"":""B""},{""u"":""E"",""v"":""C""},{""u"":""E"",""v"":""H""},{""u"":""C"",""v"":""B""}]}","[[""B"",""D"",""E"",""F"",""J"",""K""],[""A"",""C"",""G"",""H"",""I"",""L""]]"
+MAXCUT_S_015,MAXCUT,S,15,"Recently the curator asked for a simple plan: every painting must live on either the east gallery wall or the west gallery wall (no skipping or repeating), and certain works are connected in pairs. The goal was to split as many of those connected pairs across the two walls as possible. Evaluate any arrangement by counting how many pairs are split between east and west - the count is the measure of success. The detailed inventory and pairings are provided below.
+
+There are 12 paintings and 24 thematic pairs to place.
+Painting 4 is thematically linked with painting 0.
+Painting 4 is thematically linked with painting 1.
+Painting 4 is thematically linked with painting 5.
+Painting 4 is thematically linked with painting 7.
+Painting 4 is thematically linked with painting 10.
+Painting 4 is thematically linked with painting 11.
+Painting 6 is thematically linked with painting 3.
+Painting 6 is thematically linked with painting 5.
+Painting 0 is thematically linked with painting 5.
+Painting 0 is thematically linked with painting 11.
+Painting 8 is thematically linked with painting 2.
+Painting 8 is thematically linked with painting 5.
+Painting 8 is thematically linked with painting 10.
+Painting 1 is thematically linked with painting 5.
+Painting 1 is thematically linked with painting 7.
+Painting 5 is thematically linked with painting 2.
+Painting 5 is thematically linked with painting 3.
+Painting 5 is thematically linked with painting 7.
+Painting 5 is thematically linked with painting 10.
+Painting 5 is thematically linked with painting 11.
+Painting 7 is thematically linked with painting 10.
+Painting 9 is thematically linked with painting 10.
+Painting 10 is thematically linked with painting 2.
+Painting 10 is thematically linked with painting 3.
+Score an arrangement by counting how many of these 24 pairs are assigned to opposite walls.
+
+Oh, and when you reply with an arrangement, please follow this simple JSON layout:
+
+{
+  ""solution"": [
+    [""painting_id"", ""painting_id"", ...],
+    [""painting_id"", ""painting_id"", ...]
+  ]
+}
+
+This just sketches the shape I need: ""solution"" contains two lists - the first list is the paintings assigned to the east wall, the second list is the paintings assigned to the west wall. Each entry is a painting identifier (just the IDs from the instance).
+
+This JSON is only a sketch of the expected shape, not the actual answer.
+
+Also, please make sure all identifiers are used exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":12,""num_edges"":24,""edges"":[{""u"":5,""v"":1},{""u"":5,""v"":2},{""u"":5,""v"":6},{""u"":5,""v"":8},{""u"":5,""v"":11},{""u"":5,""v"":12},{""u"":7,""v"":4},{""u"":7,""v"":6},{""u"":1,""v"":6},{""u"":1,""v"":12},{""u"":9,""v"":3},{""u"":9,""v"":6},{""u"":9,""v"":11},{""u"":2,""v"":6},{""u"":2,""v"":8},{""u"":6,""v"":3},{""u"":6,""v"":4},{""u"":6,""v"":8},{""u"":6,""v"":11},{""u"":6,""v"":12},{""u"":8,""v"":11},{""u"":10,""v"":11},{""u"":11,""v"":3},{""u"":11,""v"":4}],""source_file"":""wi2010.mtx"",""density"":0.36363636363636365,""edge_connectivity"":1}","[[4,5,6,9,10],[1,2,3,7,8,11,12]]",17.0,"{""num_nodes"":12,""num_edges"":24,""edges"":[{""u"":4,""v"":0},{""u"":4,""v"":1},{""u"":4,""v"":5},{""u"":4,""v"":7},{""u"":4,""v"":10},{""u"":4,""v"":11},{""u"":6,""v"":3},{""u"":6,""v"":5},{""u"":0,""v"":5},{""u"":0,""v"":11},{""u"":8,""v"":2},{""u"":8,""v"":5},{""u"":8,""v"":10},{""u"":1,""v"":5},{""u"":1,""v"":7},{""u"":5,""v"":2},{""u"":5,""v"":3},{""u"":5,""v"":7},{""u"":5,""v"":10},{""u"":5,""v"":11},{""u"":7,""v"":10},{""u"":9,""v"":10},{""u"":10,""v"":2},{""u"":10,""v"":3}]}","[[3,4,5,8,9],[0,1,2,6,7,10,11]]"
+MAXCUT_S_016,MAXCUT,S,16,"We have a stack of exam items and a list of question pairs that are related, and the job is to divide the questions between a morning booklet and an afternoon booklet. A layout is better the more of those related pairs are separated between the two booklets; to tell which layout is better you just count how many related pairs end up with one question in each booklet. All questions need to be assigned to one booklet only - none can be skipped or duplicated. The exact questions and their links are given below.
+
+# num_questions=11
+# num_related_pairs=22
+question_a_id,question_b_id
+A,B
+A,E
+A,J
+K,F
+K,G
+K,H
+K,J
+J,C
+J,D
+J,E
+J,F
+J,G
+J,I
+C,E
+C,F
+H,G
+H,I
+D,B
+D,I
+I,B
+I,G
+E,B
+
+If you'd like to give the layout in a neat machine-friendly way, you can use this simple JSON shape - nothing fancy, just two lists inside ""solution"":
+
+{
+  ""solution"": [
+    [""question_id"", ""question_id"", ...],
+    [""question_id"", ""question_id"", ...]
+  ]
+}
+
+Think of it like a little form: the first inner list is the set of questions that go into the morning booklet, the second inner list is the afternoon booklet, and each entry is the identifier for a question. The ""question_id"" strings above are just placeholders showing the format - you'll replace them with the actual IDs from the instance.
+
+This JSON is only a sketch of the expected shape, not the actual assignment.
+
+Please make sure to use the exact identifiers from the instance input - do not rename them or invent new ones.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MAXCUT"",""num_nodes"":11,""num_edges"":22,""edges"":[{""u"":1,""v"":2},{""u"":1,""v"":5},{""u"":1,""v"":10},{""u"":11,""v"":6},{""u"":11,""v"":7},{""u"":11,""v"":8},{""u"":11,""v"":10},{""u"":10,""v"":3},{""u"":10,""v"":4},{""u"":10,""v"":5},{""u"":10,""v"":6},{""u"":10,""v"":7},{""u"":10,""v"":9},{""u"":3,""v"":5},{""u"":3,""v"":6},{""u"":8,""v"":7},{""u"":8,""v"":9},{""u"":4,""v"":2},{""u"":4,""v"":9},{""u"":9,""v"":2},{""u"":9,""v"":7},{""u"":5,""v"":2}],""source_file"":""vt2010.mtx"",""density"":0.4,""edge_connectivity"":3}","[[2,5,6,7,8,10],[1,3,4,9,11]]",16.0,"{""num_nodes"":11,""num_edges"":22,""edges"":[{""u"":""A"",""v"":""B""},{""u"":""A"",""v"":""E""},{""u"":""A"",""v"":""J""},{""u"":""K"",""v"":""F""},{""u"":""K"",""v"":""G""},{""u"":""K"",""v"":""H""},{""u"":""K"",""v"":""J""},{""u"":""J"",""v"":""C""},{""u"":""J"",""v"":""D""},{""u"":""J"",""v"":""E""},{""u"":""J"",""v"":""F""},{""u"":""J"",""v"":""G""},{""u"":""J"",""v"":""I""},{""u"":""C"",""v"":""E""},{""u"":""C"",""v"":""F""},{""u"":""H"",""v"":""G""},{""u"":""H"",""v"":""I""},{""u"":""D"",""v"":""B""},{""u"":""D"",""v"":""I""},{""u"":""I"",""v"":""B""},{""u"":""I"",""v"":""G""},{""u"":""E"",""v"":""B""}]}","[[""B"",""E"",""F"",""G"",""H"",""J""],[""A"",""C"",""D"",""I"",""K""]]"
+MAXCUT_S_017,MAXCUT,S,17,"Recently the network team needed to divide client devices into VLAN A versus VLAN B so the network would have as many active peer links as possible running between the two VLANs. To evaluate any division, just count the active links that land on different VLANs; the division with the larger count is preferred. Be sure every device is assigned to one VLAN only; no device can be left out or duplicated. The full list of devices and links is shown below.
+
+{
+  ""total_devices"": 12,
+  ""total_active_peer_links"": 22,
+  ""edges"": [
+    {
+      ""endpoint_device_u"": 8,
+      ""endpoint_device_v"": 3
+    },
+    {
+      ""endpoint_device_u"": 8,
+      ""endpoint_device_v"": 5
+    },
+    {
+      ""endpoint_device_u"": 8,
+      ""endpoint_device_v"": 6
+    },
+    {
+      ""endpoint_device_u"": 8,
+      ""endpoint_device_v"": 10
+    },
+    {
+      ""endpoint_device_u"": 6,
+      ""endpoint_device_v"": 2
+    },
+    {
+      ""endpoint_device_u"": 6,
+      ""endpoint_device_v"": 5
+    },
+    {
+      ""endpoint_device_u"": 6,
+      ""endpoint_device_v"": 10
+    },
+    {
+      ""endpoint_device_u"": 9,
+      ""endpoint_device_v"": 0
+    },
+    {
+      ""endpoint_device_u"": 9,
+      ""endpoint_device_v"": 2
+    },
+    {
+      ""endpoint_device_u"": 9,
+      ""endpoint_device_v"": 4
+    },
+    {
+      ""endpoint_device_u"": 0,
+      ""endpoint_device_v"": 2
+    },
+    {
+      ""endpoint_device_u"": 5,
+      ""endpoint_device_v"": 2
+    },
+    {
+      ""endpoint_device_u"": 2,
+      ""endpoint_device_v"": 1
+    },
+    {
+      ""endpoint_device_u"": 2,
+      ""endpoint_device_v"": 4
+    },
+    {
+      ""endpoint_device_u"": 2,
+      ""endpoint_device_v"": 10
+    },
+    {
+      ""endpoint_device_u"": 2,
+      ""endpoint_device_v"": 11
+    },
+    {
+      ""endpoint_device_u"": 10,
+      ""endpoint_device_v"": 1
+    },
+    {
+      ""endpoint_device_u"": 10,
+      ""endpoint_device_v"": 3
+    },
+    {
+      ""endpoint_device_u"": 10,
+      ""endpoint_device_v"": 7
+    },
+    {
+      ""endpoint_device_u"": 10,
+      ""endpoint_device_v"": 11
+    },
+    {
+      ""endpoint_device_u"": 3,
+      ""endpoint_device_v"": 7
+    },
+    {
+      ""endpoint_device_u"": 1,
+      ""endpoint_device_v"": 7
+    }
+  ]
+}
+
+If you want to send over a candidate division, just use this simple JSON shape - makes it easy for me to read and for whatever tooling you might have to pick up:
+
+{
+  ""solution"": [
+    [""device_id"", ""device_id"", ...],
+    [""device_id"", ""device_id"", ...]
+  ]
+}
+
+Friendly note: the first list is the devices you want in VLAN A, the second list is the devices for VLAN B. Each ""device_id"" is a placeholder for one exact device identifier from the instance. This is just a sketch of the shape I expect, not the actual answer itself.
+
+Please be sure to use the identifiers exactly as they appear in the instance input - do not rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",json,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":12,""num_edges"":22,""edges"":[{""u"":9,""v"":4},{""u"":9,""v"":6},{""u"":9,""v"":7},{""u"":9,""v"":11},{""u"":7,""v"":3},{""u"":7,""v"":6},{""u"":7,""v"":11},{""u"":10,""v"":1},{""u"":10,""v"":3},{""u"":10,""v"":5},{""u"":1,""v"":3},{""u"":6,""v"":3},{""u"":3,""v"":2},{""u"":3,""v"":5},{""u"":3,""v"":11},{""u"":3,""v"":12},{""u"":11,""v"":2},{""u"":11,""v"":4},{""u"":11,""v"":8},{""u"":11,""v"":12},{""u"":4,""v"":8},{""u"":2,""v"":8}],""source_file"":""wy2010.mtx"",""density"":0.3333333333333333,""edge_connectivity"":2}","[[1,2,4,5,6,7,12],[3,8,9,10,11]]",17.0,"{""num_nodes"":12,""num_edges"":22,""edges"":[{""u"":8,""v"":3},{""u"":8,""v"":5},{""u"":8,""v"":6},{""u"":8,""v"":10},{""u"":6,""v"":2},{""u"":6,""v"":5},{""u"":6,""v"":10},{""u"":9,""v"":0},{""u"":9,""v"":2},{""u"":9,""v"":4},{""u"":0,""v"":2},{""u"":5,""v"":2},{""u"":2,""v"":1},{""u"":2,""v"":4},{""u"":2,""v"":10},{""u"":2,""v"":11},{""u"":10,""v"":1},{""u"":10,""v"":3},{""u"":10,""v"":7},{""u"":10,""v"":11},{""u"":3,""v"":7},{""u"":1,""v"":7}]}","[[0,1,3,4,5,6,11],[2,7,8,9,10]]"
+MAXCUT_S_018,MAXCUT,S,18,"There's a simple challenge at practice: divide the players into two groups - offense and defense - and choose where each person stands so as many passing relationships as possible end up bridging the two groups. Every player must belong to one side only and get a spot on the layout, and the way to tell which arrangement wins is to tally how many passes connect someone on one side with someone on the other. The full lineup and the passing relationships are shown below.
+
+{
+  ""total_players"": 9,
+  ""total_pass_relationships"": 12,
+  ""edges"": [
+    {
+      ""player_a"": 1,
+      ""player_b"": 0
+    },
+    {
+      ""player_a"": 1,
+      ""player_b"": 7
+    },
+    {
+      ""player_a"": 8,
+      ""player_b"": 0
+    },
+    {
+      ""player_a"": 8,
+      ""player_b"": 5
+    },
+    {
+      ""player_a"": 8,
+      ""player_b"": 6
+    },
+    {
+      ""player_a"": 6,
+      ""player_b"": 0
+    },
+    {
+      ""player_a"": 3,
+      ""player_b"": 0
+    },
+    {
+      ""player_a"": 3,
+      ""player_b"": 4
+    },
+    {
+      ""player_a"": 4,
+      ""player_b"": 0
+    },
+    {
+      ""player_a"": 7,
+      ""player_b"": 0
+    },
+    {
+      ""player_a"": 0,
+      ""player_b"": 2
+    },
+    {
+      ""player_a"": 0,
+      ""player_b"": 5
+    }
+  ]
+}
+
+Oh, and if you want to send the answer back in a compact machine-friendly way, a little JSON sketch like this works fine:
+
+{
+  ""solution"": [
+    [""player_id"", ""player_id"", ...],
+    [""player_id"", ""player_id"", ...]
+  ]
+}
+
+The idea here is simple: the top array is one side (say offense), the bottom array is the other side (defense), and each string is a player identifier to place on that side. It's just a template for the shape I expect - not the actual assignment.
+
+Please make sure to use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":9,""num_edges"":12,""edges"":[{""u"":2,""v"":1},{""u"":2,""v"":8},{""u"":9,""v"":1},{""u"":9,""v"":6},{""u"":9,""v"":7},{""u"":7,""v"":1},{""u"":4,""v"":1},{""u"":4,""v"":5},{""u"":5,""v"":1},{""u"":8,""v"":1},{""u"":1,""v"":3},{""u"":1,""v"":6}],""source_file"":""vt2010.mtx"",""density"":0.3333333333333333,""edge_connectivity"":1}","[[1,4,8,9],[2,3,5,6,7]]",9.0,"{""num_nodes"":9,""num_edges"":12,""edges"":[{""u"":1,""v"":0},{""u"":1,""v"":7},{""u"":8,""v"":0},{""u"":8,""v"":5},{""u"":8,""v"":6},{""u"":6,""v"":0},{""u"":3,""v"":0},{""u"":3,""v"":4},{""u"":4,""v"":0},{""u"":7,""v"":0},{""u"":0,""v"":2},{""u"":0,""v"":5}]}","[[0,3,7,8],[1,2,4,5,6]]"
+MAXCUT_S_019,MAXCUT,S,19,"I was tidying up a mock social network in my head: every user needs to go on either the public roster or the private roster, and the fun part is trying to put people on opposite lists whenever they're friends. The better the split, the more friendship pairs end up linking someone on public with someone on private - you just count how many friend connections cross between the two lists to see how well it worked. Every account has to be assigned to one of the two lists and can't be left out or duplicated. The exact list of accounts and who's friends with whom is shown below.
+
+There are 9 accounts in total and 15 friendships.
+
+| account_a | account_b |
+|---|---|
+| F | C |
+| F | E |
+| F | G |
+| F | H |
+| C | D |
+| C | H |
+| C | I |
+| I | A |
+| I | D |
+| E | A |
+| E | B |
+| E | G |
+| E | H |
+| H | A |
+| B | A |
+
+If you want to pass the split back in a neat format, here's a little JSON sketch you can follow:
+
+{
+  ""solution"": [
+    [""user_id"", ""user_id"", ...],
+    [""user_id"", ""user_id"", ...]
+  ]
+}
+
+Think of ""solution"" as the two rosters: the first inner list is everyone on the public roster, the second is everyone on the private roster. Each placeholder like ""user_id"" stands in for an account identifier - just list each account once, in whichever roster it belongs. This is just the shape I expect, not the actual answer.
+
+Please use the identifiers exactly as they appear in the problem input - no renaming, no new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",markdown_table,names,"{""problem_type"":""MAXCUT"",""num_nodes"":9,""num_edges"":15,""edges"":[{""u"":6,""v"":3},{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":6,""v"":8},{""u"":3,""v"":4},{""u"":3,""v"":8},{""u"":3,""v"":9},{""u"":9,""v"":1},{""u"":9,""v"":4},{""u"":5,""v"":1},{""u"":5,""v"":2},{""u"":5,""v"":7},{""u"":5,""v"":8},{""u"":8,""v"":1},{""u"":2,""v"":1}],""source_file"":""wa2010.mtx"",""density"":0.4166666666666667,""edge_connectivity"":2}","[[1,4,5,6],[2,3,7,8,9]]",11.0,"{""num_nodes"":9,""num_edges"":15,""edges"":[{""u"":""F"",""v"":""C""},{""u"":""F"",""v"":""E""},{""u"":""F"",""v"":""G""},{""u"":""F"",""v"":""H""},{""u"":""C"",""v"":""D""},{""u"":""C"",""v"":""H""},{""u"":""C"",""v"":""I""},{""u"":""I"",""v"":""A""},{""u"":""I"",""v"":""D""},{""u"":""E"",""v"":""A""},{""u"":""E"",""v"":""B""},{""u"":""E"",""v"":""G""},{""u"":""E"",""v"":""H""},{""u"":""H"",""v"":""A""},{""u"":""B"",""v"":""A""}]}","[[""A"",""D"",""E"",""F""],[""B"",""C"",""G"",""H"",""I""]]"
+MAXCUT_S_020,MAXCUT,S,20,"Someone set up two boxes - one labeled bedroom, one playroom - and dumped out a bunch of toys that are connected in pairs. The task is to pick which box each toy goes into so that most paired toys end up apart; you can compare arrangements by counting how many pairs are across the two boxes. Every toy has to go into one box only; nothing should be left out or copied. The exact toys and which ones are paired appear below.
+
+# total_toys=11
+# total_pairs=18
+toy_one,toy_two
+I,E
+I,G
+G,C
+G,E
+G,F
+G,K
+E,B
+E,H
+E,J
+E,K
+H,D
+F,C
+F,D
+F,J
+F,K
+J,D
+J,K
+A,K
+
+You can give the final arrangement in a simple JSON shape like this - just two lists inside ""solution"", one for each box:
+
+{
+  ""solution"": [
+    [""toy_id"", ""toy_id"", ...],
+    [""toy_id"", ""toy_id"", ...]
+  ]
+}
+
+Think of the first inner list as the toys that go in the bedroom box and the second inner list as the toys that go in the playroom box. This JSON is just a little template showing the shape I expect, not the actual placement - fill in the exact toy identifiers from the instance.
+
+Please use the identifiers exactly as they appear in the instance input - do not rename them or invent new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,names,"{""problem_type"":""MAXCUT"",""num_nodes"":11,""num_edges"":18,""edges"":[{""u"":9,""v"":5},{""u"":9,""v"":7},{""u"":7,""v"":3},{""u"":7,""v"":5},{""u"":7,""v"":6},{""u"":7,""v"":11},{""u"":5,""v"":2},{""u"":5,""v"":8},{""u"":5,""v"":10},{""u"":5,""v"":11},{""u"":8,""v"":4},{""u"":6,""v"":3},{""u"":6,""v"":4},{""u"":6,""v"":10},{""u"":6,""v"":11},{""u"":10,""v"":4},{""u"":10,""v"":11},{""u"":1,""v"":11}],""source_file"":""vt2010.mtx"",""density"":0.32727272727272727,""edge_connectivity"":1}","[[2,3,8,9,10,11],[1,4,5,6,7]]",14.0,"{""num_nodes"":11,""num_edges"":18,""edges"":[{""u"":""I"",""v"":""E""},{""u"":""I"",""v"":""G""},{""u"":""G"",""v"":""C""},{""u"":""G"",""v"":""E""},{""u"":""G"",""v"":""F""},{""u"":""G"",""v"":""K""},{""u"":""E"",""v"":""B""},{""u"":""E"",""v"":""H""},{""u"":""E"",""v"":""J""},{""u"":""E"",""v"":""K""},{""u"":""H"",""v"":""D""},{""u"":""F"",""v"":""C""},{""u"":""F"",""v"":""D""},{""u"":""F"",""v"":""J""},{""u"":""F"",""v"":""K""},{""u"":""J"",""v"":""D""},{""u"":""J"",""v"":""K""},{""u"":""A"",""v"":""K""}]}","[[""B"",""C"",""H"",""I"",""J"",""K""],[""A"",""D"",""E"",""F"",""G""]]"
+MAXCUT_S_021,MAXCUT,S,21,"There's a little puzzle behind the counter: every product has to go either on the front shelf or the back shelf, only one spot per item. What makes one arrangement better than another is how many complementary product pairs end up divided between the two shelves-each pair that's split counts as a win. So judging a setup is straightforward: tally up all the complementary pairs that end up with one on the front and one on the back, and more is better. The exact products and their complementary links will be shown below.
+
+There are 12 products in total and 16 complementary pairs.
+
+| product_a_id | product_b_id |
+|---|---|
+| 1 | 5 |
+| 1 | 6 |
+| 2 | 4 |
+| 2 | 5 |
+| 6 | 5 |
+| 6 | 9 |
+| 9 | 3 |
+| 9 | 7 |
+| 9 | 8 |
+| 3 | 0 |
+| 3 | 4 |
+| 3 | 5 |
+| 4 | 10 |
+| 10 | 0 |
+| 8 | 0 |
+| 11 | 0 |
+
+If you want to reply with a layout, a small JSON sketch like the one below is easiest to work with - nothing fancy, just two lists showing which products go on each shelf.
+
+{
+  ""solution"": [
+    [""product_id"", ""product_id"", ...],
+    [""product_id"", ""product_id"", ...]
+  ]
+}
+
+Think of the first list as the front shelf and the second list as the back shelf - drop each product's id into one of the lists. This is just the shape I expect, not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":12,""num_edges"":16,""edges"":[{""u"":2,""v"":6},{""u"":2,""v"":7},{""u"":3,""v"":5},{""u"":3,""v"":6},{""u"":7,""v"":6},{""u"":7,""v"":10},{""u"":10,""v"":4},{""u"":10,""v"":8},{""u"":10,""v"":9},{""u"":4,""v"":1},{""u"":4,""v"":5},{""u"":4,""v"":6},{""u"":5,""v"":11},{""u"":11,""v"":1},{""u"":9,""v"":1},{""u"":12,""v"":1}],""source_file"":""wa2010.mtx"",""density"":0.24242424242424243,""edge_connectivity"":1}","[[2,3,4,7,8,9,11,12],[1,5,6,10]]",15.0,"{""num_nodes"":12,""num_edges"":16,""edges"":[{""u"":1,""v"":5},{""u"":1,""v"":6},{""u"":2,""v"":4},{""u"":2,""v"":5},{""u"":6,""v"":5},{""u"":6,""v"":9},{""u"":9,""v"":3},{""u"":9,""v"":7},{""u"":9,""v"":8},{""u"":3,""v"":0},{""u"":3,""v"":4},{""u"":3,""v"":5},{""u"":4,""v"":10},{""u"":10,""v"":0},{""u"":8,""v"":0},{""u"":11,""v"":0}]}","[[1,2,3,6,7,8,10,11],[0,4,5,9]]"
+MAXCUT_S_022,MAXCUT,S,22,"Many people on the crew are sorting tracks into two playlists called Alpha and Beta, and the rule is each track goes to exactly one playlist - nothing's left out or repeated. The point is to separate collaborators across the two lists as often as possible; measure how well that works by counting how many collaboration pairs are split between Alpha and Beta, with larger counts indicating a better arrangement. The detailed track and collaboration info is shown below.
+
+{
+  ""total_tracks"": 11,
+  ""total_collaboration_links"": 17,
+  ""edges"": [
+    {
+      ""track_u_id"": ""J"",
+      ""track_v_id"": ""B""
+    },
+    {
+      ""track_u_id"": ""J"",
+      ""track_v_id"": ""D""
+    },
+    {
+      ""track_u_id"": ""J"",
+      ""track_v_id"": ""K""
+    },
+    {
+      ""track_u_id"": ""K"",
+      ""track_v_id"": ""A""
+    },
+    {
+      ""track_u_id"": ""K"",
+      ""track_v_id"": ""D""
+    },
+    {
+      ""track_u_id"": ""K"",
+      ""track_v_id"": ""I""
+    },
+    {
+      ""track_u_id"": ""E"",
+      ""track_v_id"": ""C""
+    },
+    {
+      ""track_u_id"": ""E"",
+      ""track_v_id"": ""D""
+    },
+    {
+      ""track_u_id"": ""E"",
+      ""track_v_id"": ""H""
+    },
+    {
+      ""track_u_id"": ""E"",
+      ""track_v_id"": ""I""
+    },
+    {
+      ""track_u_id"": ""B"",
+      ""track_v_id"": ""D""
+    },
+    {
+      ""track_u_id"": ""C"",
+      ""track_v_id"": ""H""
+    },
+    {
+      ""track_u_id"": ""H"",
+      ""track_v_id"": ""D""
+    },
+    {
+      ""track_u_id"": ""I"",
+      ""track_v_id"": ""D""
+    },
+    {
+      ""track_u_id"": ""D"",
+      ""track_v_id"": ""A""
+    },
+    {
+      ""track_u_id"": ""D"",
+      ""track_v_id"": ""F""
+    },
+    {
+      ""track_u_id"": ""D"",
+      ""track_v_id"": ""G""
+    }
+  ]
+}
+
+If you want to return the final split, just drop it into this simple JSON layout so it's easy to parse:
+
+{
+  ""solution"": [
+    [""vertex_id"", ""vertex_id"", ...],
+    [""vertex_id"", ""vertex_id"", ...]
+  ]
+}
+
+Think of the first inner list as the tracks that go into the Alpha playlist and the second inner list as the tracks that go into Beta - each track appears in exactly one of the two lists. This JSON is just a sketch of the shape I need, not the actual answer.
+
+Please make sure you use the exact identifiers from the instance input - no renaming, no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,names,"{""problem_type"":""MAXCUT"",""num_nodes"":11,""num_edges"":17,""edges"":[{""u"":10,""v"":2},{""u"":10,""v"":4},{""u"":10,""v"":11},{""u"":11,""v"":1},{""u"":11,""v"":4},{""u"":11,""v"":9},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":8},{""u"":5,""v"":9},{""u"":2,""v"":4},{""u"":3,""v"":8},{""u"":8,""v"":4},{""u"":9,""v"":4},{""u"":4,""v"":1},{""u"":4,""v"":6},{""u"":4,""v"":7}],""source_file"":""wv2010.mtx"",""density"":0.3090909090909091,""edge_connectivity"":1}","[[3,4,9,10],[1,2,5,6,7,8,11]]",13.0,"{""num_nodes"":11,""num_edges"":17,""edges"":[{""u"":""J"",""v"":""B""},{""u"":""J"",""v"":""D""},{""u"":""J"",""v"":""K""},{""u"":""K"",""v"":""A""},{""u"":""K"",""v"":""D""},{""u"":""K"",""v"":""I""},{""u"":""E"",""v"":""C""},{""u"":""E"",""v"":""D""},{""u"":""E"",""v"":""H""},{""u"":""E"",""v"":""I""},{""u"":""B"",""v"":""D""},{""u"":""C"",""v"":""H""},{""u"":""H"",""v"":""D""},{""u"":""I"",""v"":""D""},{""u"":""D"",""v"":""A""},{""u"":""D"",""v"":""F""},{""u"":""D"",""v"":""G""}]}","[[""C"",""D"",""I"",""J""],[""A"",""B"",""E"",""F"",""G"",""H"",""K""]]"
+MAXCUT_S_023,MAXCUT,S,23,"Recently the ops team wanted a quick way to separate machines into two camps: tag each server as Segment X or Segment Y, making sure each server has exactly one tag, and pick the tagging that makes the greatest number of links run from one camp to the other. A tagging wins when it produces more cross-camp connections; you can judge it by counting how many links connect different tags. The full list of servers and their links follows below.
+
+There are 8 servers in total and 11 links.
+
+| server_a | server_b |
+|---|---|
+| C | A |
+| C | B |
+| C | E |
+| C | F |
+| C | G |
+| C | H |
+| F | A |
+| F | B |
+| E | D |
+| H | B |
+| G | D |
+
+Also, if you want to hand me the tagging in a machine-friendly way, just follow this little JSON sketch for the shape of the reply:
+
+{
+  ""solution"": [
+    [""server_id"", ""server_id"", ...],
+    [""server_id"", ""server_id"", ...]
+  ]
+}
+
+Think of it like a simple form: ""solution"" contains two lists - the first list is all the servers you tag as Segment X, the second list is all the servers you tag as Segment Y. Keep it light and just drop the server identifiers into the appropriate list. This JSON is only a sketch of the expected shape, not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,names,"{""problem_type"":""MAXCUT"",""num_nodes"":8,""num_edges"":11,""edges"":[{""u"":3,""v"":1},{""u"":3,""v"":2},{""u"":3,""v"":5},{""u"":3,""v"":6},{""u"":3,""v"":7},{""u"":3,""v"":8},{""u"":6,""v"":1},{""u"":6,""v"":2},{""u"":5,""v"":4},{""u"":8,""v"":2},{""u"":7,""v"":4}],""source_file"":""wv2010.mtx"",""density"":0.39285714285714285,""edge_connectivity"":2}","[[1,5,6,7,8],[2,3,4]]",9.0,"{""num_nodes"":8,""num_edges"":11,""edges"":[{""u"":""C"",""v"":""A""},{""u"":""C"",""v"":""B""},{""u"":""C"",""v"":""E""},{""u"":""C"",""v"":""F""},{""u"":""C"",""v"":""G""},{""u"":""C"",""v"":""H""},{""u"":""F"",""v"":""A""},{""u"":""F"",""v"":""B""},{""u"":""E"",""v"":""D""},{""u"":""H"",""v"":""B""},{""u"":""G"",""v"":""D""}]}","[[""A"",""E"",""F"",""G"",""H""],[""B"",""C"",""D""]]"
+MAXCUT_S_024,MAXCUT,S,24,"Recently the school tried a fun exercise: assign each student to either House Red or House Blue (no overlaps, nobody left unassigned) and set it up so as many friend pairs as possible end up on opposite sides. To evaluate any assignment, simply tally all friendships that connect a Red student with a Blue student - that tally tells you how well the split did. The exact list of students and who's friends with whom appears below.
+
+{
+  ""num_students"": 11,
+  ""num_friendships"": 22,
+  ""edges"": [
+    {
+      ""student_a"": 1,
+      ""student_b"": 7
+    },
+    {
+      ""student_a"": 1,
+      ""student_b"": 9
+    },
+    {
+      ""student_a"": 1,
+      ""student_b"": 10
+    },
+    {
+      ""student_a"": 10,
+      ""student_b"": 3
+    },
+    {
+      ""student_a"": 10,
+      ""student_b"": 4
+    },
+    {
+      ""student_a"": 10,
+      ""student_b"": 5
+    },
+    {
+      ""student_a"": 10,
+      ""student_b"": 6
+    },
+    {
+      ""student_a"": 10,
+      ""student_b"": 8
+    },
+    {
+      ""student_a"": 10,
+      ""student_b"": 9
+    },
+    {
+      ""student_a"": 10,
+      ""student_b"": 11
+    },
+    {
+      ""student_a"": 7,
+      ""student_b"": 3
+    },
+    {
+      ""student_a"": 7,
+      ""student_b"": 6
+    },
+    {
+      ""student_a"": 4,
+      ""student_b"": 2
+    },
+    {
+      ""student_a"": 4,
+      ""student_b"": 8
+    },
+    {
+      ""student_a"": 6,
+      ""student_b"": 2
+    },
+    {
+      ""student_a"": 6,
+      ""student_b"": 3
+    },
+    {
+      ""student_a"": 6,
+      ""student_b"": 5
+    },
+    {
+      ""student_a"": 6,
+      ""student_b"": 8
+    },
+    {
+      ""student_a"": 6,
+      ""student_b"": 11
+    },
+    {
+      ""student_a"": 2,
+      ""student_b"": 3
+    },
+    {
+      ""student_a"": 9,
+      ""student_b"": 5
+    },
+    {
+      ""student_a"": 11,
+      ""student_b"": 5
+    }
+  ]
+}
+
+If you want to hand me a proposed split, just put it in this simple JSON shape:
+
+{
+  ""solution"": [
+    [""student_id"", ""student_id"", ...],
+    [""student_id"", ""student_id"", ...]
+  ]
+}
+
+Pretty straightforward: ""solution"" holds two lists - the first list is everyone you put in House Red, the second list is everyone you put in House Blue. Each entry should be the exact student identifier from the instance (this is just the shape/example, not the actual answer).
+
+Please make sure to use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,one_based,"{""problem_type"":""MAXCUT"",""num_nodes"":11,""num_edges"":22,""edges"":[{""u"":1,""v"":7},{""u"":1,""v"":9},{""u"":1,""v"":10},{""u"":10,""v"":3},{""u"":10,""v"":4},{""u"":10,""v"":5},{""u"":10,""v"":6},{""u"":10,""v"":8},{""u"":10,""v"":9},{""u"":10,""v"":11},{""u"":7,""v"":3},{""u"":7,""v"":6},{""u"":4,""v"":2},{""u"":4,""v"":8},{""u"":6,""v"":2},{""u"":6,""v"":3},{""u"":6,""v"":5},{""u"":6,""v"":8},{""u"":6,""v"":11},{""u"":2,""v"":3},{""u"":9,""v"":5},{""u"":11,""v"":5}],""source_file"":""wa2010.mtx"",""density"":0.4,""edge_connectivity"":3}","[[1,3,4,5,6],[2,7,8,9,10,11]]",17.0,"{""num_nodes"":11,""num_edges"":22,""edges"":[{""u"":1,""v"":7},{""u"":1,""v"":9},{""u"":1,""v"":10},{""u"":10,""v"":3},{""u"":10,""v"":4},{""u"":10,""v"":5},{""u"":10,""v"":6},{""u"":10,""v"":8},{""u"":10,""v"":9},{""u"":10,""v"":11},{""u"":7,""v"":3},{""u"":7,""v"":6},{""u"":4,""v"":2},{""u"":4,""v"":8},{""u"":6,""v"":2},{""u"":6,""v"":3},{""u"":6,""v"":5},{""u"":6,""v"":8},{""u"":6,""v"":11},{""u"":2,""v"":3},{""u"":9,""v"":5},{""u"":11,""v"":5}]}","[[1,3,4,5,6],[2,7,8,9,10,11]]"
+MAXCUT_S_025,MAXCUT,S,25,"I was helping the museum team figure out which pieces should go in Room North and which in Room South. Every exhibit has to sit in exactly one room - nothing can be left out or put in both - and the fun part is arranging them so the most thematic links run between the two rooms. To see which arrangement is better, just count how many pairs of exhibits that are connected by theme end up in different rooms; the higher that count, the better the layout. The concrete list of exhibits and their links is shown below.
+
+There are 8 exhibits in total and 11 thematic connections.
+
+| exhibit_a | exhibit_b |
+|---|---|
+| 4 | 0 |
+| 4 | 6 |
+| 3 | 0 |
+| 2 | 0 |
+| 2 | 1 |
+| 2 | 6 |
+| 6 | 0 |
+| 6 | 1 |
+| 6 | 5 |
+| 6 | 7 |
+| 1 | 0 |
+
+Oh, and if you want to reply with a layout, just put it in this simple JSON shape so it's easy to read:
+
+{
+  ""solution"": [
+    [""exhibit_id"", ""exhibit_id"", ...],
+    [""exhibit_id"", ""exhibit_id"", ...]
+  ]
+}
+
+Here the first list is the exhibits that go in Room North and the second list is the exhibits that go in Room South - each entry is just the exhibit identifier from the instance. This is just a sketch of the shape I expect, not the actual answer.
+
+Please use the exact identifiers from the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".
+
+(Also: I used the placeholder ""exhibit_id"" above to match the story, but in your real response use the identifiers exactly as they appear in the instance.)",markdown_table,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":8,""num_edges"":11,""edges"":[{""u"":5,""v"":1},{""u"":5,""v"":7},{""u"":4,""v"":1},{""u"":3,""v"":1},{""u"":3,""v"":2},{""u"":3,""v"":7},{""u"":7,""v"":1},{""u"":7,""v"":2},{""u"":7,""v"":6},{""u"":7,""v"":8},{""u"":2,""v"":1}],""source_file"":""wy2010.mtx"",""density"":0.39285714285714285,""edge_connectivity"":1}","[[2,3,4,5,6,8],[1,7]]",9.0,"{""num_nodes"":8,""num_edges"":11,""edges"":[{""u"":4,""v"":0},{""u"":4,""v"":6},{""u"":3,""v"":0},{""u"":2,""v"":0},{""u"":2,""v"":1},{""u"":2,""v"":6},{""u"":6,""v"":0},{""u"":6,""v"":1},{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":1,""v"":0}]}","[[1,2,3,4,5,7],[0,6]]"
+MAXCUT_S_026,MAXCUT,S,26,"We set up two rectangular beds and a stack of plant labels: every species gets assigned to either Bed A or Bed B. The decision is which bed each label goes on, and the ""better"" layouts are the ones where as many interacting species as possible are separated between the two beds. To see how well a placement does, count how many interacting pairs fall into different beds - that's the number to maximize. No species is skipped or placed in both beds; each one belongs to a single bed. The concrete planting details are given below.
+
+We have 10 species and 13 interacting pairs to place across the two beds.
+We note an interaction between species J and A.
+We note an interaction between species J and I.
+We note an interaction between species I and A.
+We note an interaction between species E and A.
+We note an interaction between species E and B.
+We note an interaction between species F and A.
+We note an interaction between species F and B.
+We note an interaction between species A and B.
+We note an interaction between species A and C.
+We note an interaction between species A and D.
+We note an interaction between species A and G.
+We note an interaction between species A and H.
+We note an interaction between species H and C.
+We aim to maximize how many of these 13 pairs end up separated between Bed A and Bed B.
+
+If you want the answer in a machine-friendly format, just put the two beds as two lists in a little JSON object like this - nothing fancy, just a sketch of the shape I expect:
+
+{
+  ""solution"": [
+    [""plant_id"", ""plant_id"", ...],
+    [""plant_id"", ""plant_id"", ...]
+  ]
+}
+
+Think of the first inner list as the labels that go in Bed A and the second inner list as the labels that go in Bed B. Each entry is a plant label (use the exact label text from the instance), and the ""..."" just means you can list as many as you need. This is just the expected shape - not the actual planting plan.
+
+Please use the identifiers exactly as they appear in the instance input - do not rename them or invent new ones.
+
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"". """,nl,names,"{""problem_type"":""MAXCUT"",""num_nodes"":10,""num_edges"":13,""edges"":[{""u"":10,""v"":1},{""u"":10,""v"":9},{""u"":9,""v"":1},{""u"":5,""v"":1},{""u"":5,""v"":2},{""u"":6,""v"":1},{""u"":6,""v"":2},{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":1,""v"":7},{""u"":1,""v"":8},{""u"":8,""v"":3}],""source_file"":""wa2010.mtx"",""density"":0.28888888888888886,""edge_connectivity"":1}","[[1,2,8,9],[3,4,5,6,7,10]]",10.0,"{""num_nodes"":10,""num_edges"":13,""edges"":[{""u"":""J"",""v"":""A""},{""u"":""J"",""v"":""I""},{""u"":""I"",""v"":""A""},{""u"":""E"",""v"":""A""},{""u"":""E"",""v"":""B""},{""u"":""F"",""v"":""A""},{""u"":""F"",""v"":""B""},{""u"":""A"",""v"":""B""},{""u"":""A"",""v"":""C""},{""u"":""A"",""v"":""D""},{""u"":""A"",""v"":""G""},{""u"":""A"",""v"":""H""},{""u"":""H"",""v"":""C""}]}","[[""A"",""B"",""H"",""I""],[""C"",""D"",""E"",""F"",""G"",""J""]]"
+MAXCUT_S_027,MAXCUT,S,27,"Many people on the team want to see a layout that highlights cross-section collaborations: assign every article to either Opinion or Features, but not both and not neither. What we're aiming for is as many shared-author links as possible to land with one article in Opinion and the other in Features; to evaluate any assignment, go through each pair of articles that share an author and count it if they're in opposite sections - the total number is the measure of success. The detailed article and contributor info comes next below.
+
+{
+  ""total_articles"": 10,
+  ""total_shared_author_pairs"": 15,
+  ""edges"": [
+    {
+      ""article_a_id"": 2,
+      ""article_b_id"": 1
+    },
+    {
+      ""article_a_id"": 2,
+      ""article_b_id"": 10
+    },
+    {
+      ""article_a_id"": 5,
+      ""article_b_id"": 6
+    },
+    {
+      ""article_a_id"": 5,
+      ""article_b_id"": 7
+    },
+    {
+      ""article_a_id"": 5,
+      ""article_b_id"": 9
+    },
+    {
+      ""article_a_id"": 5,
+      ""article_b_id"": 10
+    },
+    {
+      ""article_a_id"": 6,
+      ""article_b_id"": 4
+    },
+    {
+      ""article_a_id"": 6,
+      ""article_b_id"": 9
+    },
+    {
+      ""article_a_id"": 9,
+      ""article_b_id"": 7
+    },
+    {
+      ""article_a_id"": 9,
+      ""article_b_id"": 8
+    },
+    {
+      ""article_a_id"": 3,
+      ""article_b_id"": 1
+    },
+    {
+      ""article_a_id"": 8,
+      ""article_b_id"": 1
+    },
+    {
+      ""article_a_id"": 8,
+      ""article_b_id"": 4
+    },
+    {
+      ""article_a_id"": 1,
+      ""article_b_id"": 4
+    },
+    {
+      ""article_a_id"": 10,
+      ""article_b_id"": 4
+    }
+  ]
+}
+
+Also, when you hand me the final split, please stick to this simple JSON layout:
+
+{
+  ""solution"": [
+    [""article_id"", ""article_id"", ...],
+    [""article_id"", ""article_id"", ...]
+  ]
+}
+
+Think of it like a tiny form: the first list is the set of articles you want in Opinion, the second list is the set you want in Features, and each quoted placeholder is where an article identifier goes. I used the placeholder article_id here to match the story (replace each with the actual article IDs). This is just the shape I need - not the real assignment itself.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,one_based,"{""problem_type"":""MAXCUT"",""num_nodes"":10,""num_edges"":15,""edges"":[{""u"":2,""v"":1},{""u"":2,""v"":10},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":5,""v"":9},{""u"":5,""v"":10},{""u"":6,""v"":4},{""u"":6,""v"":9},{""u"":9,""v"":7},{""u"":9,""v"":8},{""u"":3,""v"":1},{""u"":8,""v"":1},{""u"":8,""v"":4},{""u"":1,""v"":4},{""u"":10,""v"":4}],""source_file"":""vt2010.mtx"",""density"":0.3333333333333333,""edge_connectivity"":1}","[[1,6,7,8,10],[2,3,4,5,9]]",13.0,"{""num_nodes"":10,""num_edges"":15,""edges"":[{""u"":2,""v"":1},{""u"":2,""v"":10},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":5,""v"":9},{""u"":5,""v"":10},{""u"":6,""v"":4},{""u"":6,""v"":9},{""u"":9,""v"":7},{""u"":9,""v"":8},{""u"":3,""v"":1},{""u"":8,""v"":1},{""u"":8,""v"":4},{""u"":1,""v"":4},{""u"":10,""v"":4}]}","[[1,6,7,8,10],[2,3,4,5,9]]"
+MAXCUT_S_028,MAXCUT,S,28,"At a meetup the organizer set up two sides, Alpha and Beta, and the task is to place every attendee into one of them so that as many acquaintance pairs as possible are separated. To evaluate any placement, go down the list of known pairs and count those where the two people are in different groups - that count tells how successful the split is. Everyone must be on one side only; no one gets left out or put in both. The detailed list of attendees and their acquaintances is shown below.
+
+There are 12 num attendees in total and 24 num acquaintance pairs.
+
+| attendee_u | attendee_v |
+|---|---|
+| 5 | 0 |
+| 5 | 1 |
+| 5 | 2 |
+| 5 | 3 |
+| 5 | 4 |
+| 5 | 6 |
+| 5 | 7 |
+| 5 | 9 |
+| 5 | 10 |
+| 5 | 11 |
+| 6 | 2 |
+| 6 | 3 |
+| 6 | 8 |
+| 2 | 3 |
+| 3 | 8 |
+| 3 | 11 |
+| 8 | 1 |
+| 8 | 11 |
+| 1 | 11 |
+| 11 | 4 |
+| 11 | 10 |
+| 0 | 7 |
+| 10 | 4 |
+| 9 | 7 |
+
+If you want to send me a proposed split, just use this simple JSON layout so I can pick out who goes on each side:
+
+{
+  ""solution"": [
+    [""vertex_id"", ""vertex_id"", ...],
+    [""vertex_id"", ""vertex_id"", ...]
+  ]
+}
+
+Think of that as two lists: the first inner list is everyone you put on Alpha, the second inner list is everyone you put on Beta. Each item is just the attendee identifier from the instance.
+
+This is just a sketch of the shape I expect, not the actual answer - fill the lists with the real IDs from the instance when you reply.
+
+Please make sure to use the identifiers exactly as they appear in the input - no renaming and no new labels.
+For example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"""".",markdown_table,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":12,""num_edges"":24,""edges"":[{""u"":6,""v"":1},{""u"":6,""v"":2},{""u"":6,""v"":3},{""u"":6,""v"":4},{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":6,""v"":8},{""u"":6,""v"":10},{""u"":6,""v"":11},{""u"":6,""v"":12},{""u"":7,""v"":3},{""u"":7,""v"":4},{""u"":7,""v"":9},{""u"":3,""v"":4},{""u"":4,""v"":9},{""u"":4,""v"":12},{""u"":9,""v"":2},{""u"":9,""v"":12},{""u"":2,""v"":12},{""u"":12,""v"":5},{""u"":12,""v"":11},{""u"":1,""v"":8},{""u"":11,""v"":5},{""u"":10,""v"":8}],""source_file"":""wy2010.mtx"",""density"":0.36363636363636365,""edge_connectivity"":2}","[[3,6,8,9,12],[1,2,4,5,7,10,11]]",18.0,"{""num_nodes"":12,""num_edges"":24,""edges"":[{""u"":5,""v"":0},{""u"":5,""v"":1},{""u"":5,""v"":2},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":5,""v"":9},{""u"":5,""v"":10},{""u"":5,""v"":11},{""u"":6,""v"":2},{""u"":6,""v"":3},{""u"":6,""v"":8},{""u"":2,""v"":3},{""u"":3,""v"":8},{""u"":3,""v"":11},{""u"":8,""v"":1},{""u"":8,""v"":11},{""u"":1,""v"":11},{""u"":11,""v"":4},{""u"":11,""v"":10},{""u"":0,""v"":7},{""u"":10,""v"":4},{""u"":9,""v"":7}]}","[[2,5,7,8,11],[0,1,3,4,6,9,10]]"
+MAXCUT_S_029,MAXCUT,S,29,"I'm coaching a session where the plan is to split the roster into Squad A and Squad B. The trick is to put every player on one and only one squad, then try to arrange the teams so that as many regular passing pairs as possible end up on opposite squads. To see how well a split works, just count each passing partnership that ends up split between the two squads - the bigger that count, the better the lineup. The exact list of players and who usually passes to whom is shown below.
+
+I'm working with 9 players and 16 passing partnerships.
+I note that 4 and 3 form a regular passing partnership.
+I note that 4 and 6 form a regular passing partnership.
+I note that 4 and 7 form a regular passing partnership.
+I note that 4 and 8 form a regular passing partnership.
+I note that 6 and 0 form a regular passing partnership.
+I note that 6 and 3 form a regular passing partnership.
+I note that 6 and 5 form a regular passing partnership.
+I note that 2 and 3 form a regular passing partnership.
+I note that 2 and 5 form a regular passing partnership.
+I note that 7 and 3 form a regular passing partnership.
+I note that 7 and 8 form a regular passing partnership.
+I note that 8 and 0 form a regular passing partnership.
+I note that 8 and 3 form a regular passing partnership.
+I note that 1 and 3 form a regular passing partnership.
+I note that 0 and 3 form a regular passing partnership.
+I note that 5 and 3 form a regular passing partnership.
+I'll use this list to evaluate splits and try to maximize how many of the 16 partnerships fall across Squad A and Squad B.
+
+If you want to propose a split, just send it in this simple JSON shape so I can read it easily.
+
+{
+  ""solution"": [
+    [""player_id"", ""player_id"", ...],
+    [""player_id"", ""player_id"", ...]
+  ]
+}
+
+Pretty straightforward: ""solution"" holds two lists - the first list is Squad A, the second is Squad B - and each entry is a player identifier from the instance. This is just a sketch of the expected shape, not the actual lineup.
+
+Please make sure you use the exact identifiers as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":9,""num_edges"":16,""edges"":[{""u"":5,""v"":4},{""u"":5,""v"":7},{""u"":5,""v"":8},{""u"":5,""v"":9},{""u"":7,""v"":1},{""u"":7,""v"":4},{""u"":7,""v"":6},{""u"":3,""v"":4},{""u"":3,""v"":6},{""u"":8,""v"":4},{""u"":8,""v"":9},{""u"":9,""v"":1},{""u"":9,""v"":4},{""u"":2,""v"":4},{""u"":1,""v"":4},{""u"":6,""v"":4}],""source_file"":""wy2010.mtx"",""density"":0.4444444444444444,""edge_connectivity"":1}","[[2,3,7,8,9],[1,4,5,6]]",12.0,"{""num_nodes"":9,""num_edges"":16,""edges"":[{""u"":4,""v"":3},{""u"":4,""v"":6},{""u"":4,""v"":7},{""u"":4,""v"":8},{""u"":6,""v"":0},{""u"":6,""v"":3},{""u"":6,""v"":5},{""u"":2,""v"":3},{""u"":2,""v"":5},{""u"":7,""v"":3},{""u"":7,""v"":8},{""u"":8,""v"":0},{""u"":8,""v"":3},{""u"":1,""v"":3},{""u"":0,""v"":3},{""u"":5,""v"":3}]}","[[1,2,6,7,8],[0,3,4,5]]"
+MAXCUT_S_030,MAXCUT,S,30,"Someone in town suggested a quirky challenge: every block must be given a single color, green or yellow, and then tally up every street that runs between a green and a yellow block. You can't leave any block without a color or color it twice, and the goal is to end up with the largest possible number of those cross-color streets. The concrete block map and connections are shown below.
+
+There are 11 blocks in total and 20 street links.
+
+| block_u_id | block_v_id |
+|---|---|
+| 1 | 5 |
+| 1 | 6 |
+| 1 | 11 |
+| 10 | 7 |
+| 10 | 9 |
+| 10 | 11 |
+| 11 | 2 |
+| 11 | 4 |
+| 11 | 5 |
+| 11 | 6 |
+| 11 | 8 |
+| 11 | 9 |
+| 2 | 7 |
+| 2 | 8 |
+| 2 | 9 |
+| 9 | 7 |
+| 3 | 4 |
+| 3 | 6 |
+| 3 | 8 |
+| 4 | 8 |
+
+If you'd like to hand in a coloring, just pop it into a tiny JSON snippet like this:
+
+{
+  ""solution"": [
+    [""block_id"", ""block_id"", ...],
+    [""block_id"", ""block_id"", ...]
+  ]
+}
+
+Think of the two inner lists as the two color groups - the first list might be all the green blocks, the second all the yellow ones. Each entry is a block identifier from the map. This is just a sketch of the shape I expect, not your actual answer.
+
+Please make sure to use the exact identifiers shown in the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,one_based,"{""problem_type"":""MAXCUT"",""num_nodes"":11,""num_edges"":20,""edges"":[{""u"":1,""v"":5},{""u"":1,""v"":6},{""u"":1,""v"":11},{""u"":10,""v"":7},{""u"":10,""v"":9},{""u"":10,""v"":11},{""u"":11,""v"":2},{""u"":11,""v"":4},{""u"":11,""v"":5},{""u"":11,""v"":6},{""u"":11,""v"":8},{""u"":11,""v"":9},{""u"":2,""v"":7},{""u"":2,""v"":8},{""u"":2,""v"":9},{""u"":9,""v"":7},{""u"":3,""v"":4},{""u"":3,""v"":6},{""u"":3,""v"":8},{""u"":4,""v"":8}],""source_file"":""wi2010.mtx"",""density"":0.36363636363636365,""edge_connectivity"":2}","[[2,4,5,6,10],[1,3,7,8,9,11]]",15.0,"{""num_nodes"":11,""num_edges"":20,""edges"":[{""u"":1,""v"":5},{""u"":1,""v"":6},{""u"":1,""v"":11},{""u"":10,""v"":7},{""u"":10,""v"":9},{""u"":10,""v"":11},{""u"":11,""v"":2},{""u"":11,""v"":4},{""u"":11,""v"":5},{""u"":11,""v"":6},{""u"":11,""v"":8},{""u"":11,""v"":9},{""u"":2,""v"":7},{""u"":2,""v"":8},{""u"":2,""v"":9},{""u"":9,""v"":7},{""u"":3,""v"":4},{""u"":3,""v"":6},{""u"":3,""v"":8},{""u"":4,""v"":8}]}","[[2,4,5,6,10],[1,3,7,8,9,11]]"
+MAXCUT_S_031,MAXCUT,S,31,"We set up two stations for prepping and every single ingredient must be put at exactly one station, never at both and never skipped. The aim is to place them so that as many pairs of ingredients as possible end up separated - to measure that, go through all possible ingredient pairs and add one for each pair that sits at different stations; the higher the sum, the better the split. The concrete details of which ingredients and which pairs matter are shown below.
+
+There are 10 ingredients and 17 relevant ingredient pairs listed below.
+Ingredients 4 and 1 form a pair that contributes 1 if we place them at different stations.
+Ingredients 4 and 5 form a pair that contributes 1 if we place them at different stations.
+Ingredients 4 and 9 form a pair that contributes 1 if we place them at different stations.
+Ingredients 7 and 2 form a pair that contributes 1 if we place them at different stations.
+Ingredients 7 and 3 form a pair that contributes 1 if we place them at different stations.
+Ingredients 7 and 8 form a pair that contributes 1 if we place them at different stations.
+Ingredients 7 and 9 form a pair that contributes 1 if we place them at different stations.
+Ingredients 3 and 9 form a pair that contributes 1 if we place them at different stations.
+Ingredients 9 and 1 form a pair that contributes 1 if we place them at different stations.
+Ingredients 9 and 2 form a pair that contributes 1 if we place them at different stations.
+Ingredients 9 and 5 form a pair that contributes 1 if we place them at different stations.
+Ingredients 9 and 6 form a pair that contributes 1 if we place them at different stations.
+Ingredients 9 and 8 form a pair that contributes 1 if we place them at different stations.
+Ingredients 9 and 10 form a pair that contributes 1 if we place them at different stations.
+Ingredients 8 and 2 form a pair that contributes 1 if we place them at different stations.
+Ingredients 8 and 10 form a pair that contributes 1 if we place them at different stations.
+Ingredients 6 and 2 form a pair that contributes 1 if we place them at different stations.
+We will sum the contributions from the 17 listed pairs to obtain the final separation score.
+
+When you send back the solution, stick it into a tiny JSON snippet so it's easy to read and parse. Here's the shape I expect:
+
+{
+  ""solution"": [
+    [""ingredient_id"", ""ingredient_id"", ...],
+    [""ingredient_id"", ""ingredient_id"", ...]
+  ]
+}
+
+Think of the two inner lists as the two prep stations - just list which ingredient IDs go to station one and which go to station two. This is just a sketch of the expected shape, not the actual answer.
+
+Please make sure to use the exact identifiers from the instance input - don't rename them and don't invent new labels.
+
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,one_based,"{""problem_type"":""MAXCUT"",""num_nodes"":10,""num_edges"":17,""edges"":[{""u"":4,""v"":1},{""u"":4,""v"":5},{""u"":4,""v"":9},{""u"":7,""v"":2},{""u"":7,""v"":3},{""u"":7,""v"":8},{""u"":7,""v"":9},{""u"":3,""v"":9},{""u"":9,""v"":1},{""u"":9,""v"":2},{""u"":9,""v"":5},{""u"":9,""v"":6},{""u"":9,""v"":8},{""u"":9,""v"":10},{""u"":8,""v"":2},{""u"":8,""v"":10},{""u"":6,""v"":2}],""source_file"":""wa2010.mtx"",""density"":0.37777777777777777,""edge_connectivity"":2}","[[1,3,5,6,8],[2,4,7,9,10]]",12.0,"{""num_nodes"":10,""num_edges"":17,""edges"":[{""u"":4,""v"":1},{""u"":4,""v"":5},{""u"":4,""v"":9},{""u"":7,""v"":2},{""u"":7,""v"":3},{""u"":7,""v"":8},{""u"":7,""v"":9},{""u"":3,""v"":9},{""u"":9,""v"":1},{""u"":9,""v"":2},{""u"":9,""v"":5},{""u"":9,""v"":6},{""u"":9,""v"":8},{""u"":9,""v"":10},{""u"":8,""v"":2},{""u"":8,""v"":10},{""u"":6,""v"":2}]}","[[1,3,5,6,8],[2,4,7,9,10]]"
+MAXCUT_S_032,MAXCUT,S,32,"Recently the gallery decided to use only two walls - East and West - and every portrait must be assigned to one of them, with each portrait appearing on just a single wall and none repeated. The fun part is trying to separate collaborators: for every pair of photographers who worked together, see whether their portraits end up on opposite walls and count those instances; the arrangement with the largest count of separated pairs is the one that stands out. The full list of portraits and who collaborated with whom is shown below.
+
+# total_portraits=11
+# total_collaboration_pairs=20
+portrait_a,portrait_b
+7,1
+7,2
+7,8
+7,9
+6,2
+6,4
+6,10
+4,8
+4,9
+4,10
+5,1
+5,3
+1,2
+1,8
+2,3
+2,9
+2,10
+2,11
+9,10
+11,3
+
+Oh, and when you send back the arrangement, please use this simple JSON shape so it's easy to read:
+
+{
+  ""solution"": [
+    [""portrait_id"", ""portrait_id"", ...],
+    [""portrait_id"", ""portrait_id"", ...]
+  ]
+}
+
+Think of it like a little form: the first list inside ""solution"" is the East wall, the second list is the West wall, and each ""portrait_id"" is just the exact identifier for a portrait from the instance. This is just a sketch of the expected shape - not the actual answer.
+
+Please make sure to use the identifiers exactly as they appear in the instance input - no renaming and no new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,one_based,"{""problem_type"":""MAXCUT"",""num_nodes"":11,""num_edges"":20,""edges"":[{""u"":7,""v"":1},{""u"":7,""v"":2},{""u"":7,""v"":8},{""u"":7,""v"":9},{""u"":6,""v"":2},{""u"":6,""v"":4},{""u"":6,""v"":10},{""u"":4,""v"":8},{""u"":4,""v"":9},{""u"":4,""v"":10},{""u"":5,""v"":1},{""u"":5,""v"":3},{""u"":1,""v"":2},{""u"":1,""v"":8},{""u"":2,""v"":3},{""u"":2,""v"":9},{""u"":2,""v"":10},{""u"":2,""v"":11},{""u"":9,""v"":10},{""u"":11,""v"":3}],""source_file"":""wy2010.mtx"",""density"":0.36363636363636365,""edge_connectivity"":2}","[[1,3,6,8,9],[2,4,5,7,10,11]]",15.0,"{""num_nodes"":11,""num_edges"":20,""edges"":[{""u"":7,""v"":1},{""u"":7,""v"":2},{""u"":7,""v"":8},{""u"":7,""v"":9},{""u"":6,""v"":2},{""u"":6,""v"":4},{""u"":6,""v"":10},{""u"":4,""v"":8},{""u"":4,""v"":9},{""u"":4,""v"":10},{""u"":5,""v"":1},{""u"":5,""v"":3},{""u"":1,""v"":2},{""u"":1,""v"":8},{""u"":2,""v"":3},{""u"":2,""v"":9},{""u"":2,""v"":10},{""u"":2,""v"":11},{""u"":9,""v"":10},{""u"":11,""v"":3}]}","[[1,3,6,8,9],[2,4,5,7,10,11]]"
+MAXCUT_S_033,MAXCUT,S,33,"Someone in charge of bench layout had to put every experiment on either Bench Alpha or Bench Beta, making sure nothing was left out or cloned across benches. There were many interdependent experiment pairs, and each time a linked pair ended up on different benches it helped the setup, so the task became finding an assignment that separates as many linked pairs as possible. To judge any layout, tally up how many linked pairs are split across the two benches - the higher the tally, the better the placement. The detailed list of experiments and their dependencies appears below.
+
+The list enumerates 11 distinct experiments and 17 interdependent pairs.
+A dependency pair links experiment 8 and experiment 2.
+A dependency pair links experiment 8 and experiment 6.
+A dependency pair links experiment 8 and experiment 7.
+A dependency pair links experiment 8 and experiment 10.
+A dependency pair links experiment 1 and experiment 5.
+A dependency pair links experiment 1 and experiment 9.
+A dependency pair links experiment 10 and experiment 2.
+A dependency pair links experiment 10 and experiment 3.
+A dependency pair links experiment 10 and experiment 7.
+A dependency pair links experiment 9 and experiment 2.
+A dependency pair links experiment 9 and experiment 3.
+A dependency pair links experiment 9 and experiment 5.
+A dependency pair links experiment 5 and experiment 0.
+A dependency pair links experiment 2 and experiment 0.
+A dependency pair links experiment 3 and experiment 4.
+A dependency pair links experiment 4 and experiment 7.
+A dependency pair links experiment 0 and experiment 6.
+The goal remains to maximize how many of the 17 pairs are split across the two benches.
+
+If you want to give a proposed layout, just drop it in a tiny JSON like this so it's easy to read and check:
+
+{
+  ""solution"": [
+    [""experiment_id"", ""experiment_id"", ...],
+    [""experiment_id"", ""experiment_id"", ...]
+  ]
+}
+
+Think of it as two lists: the first inner list is the experiments on one bench, the second inner list is the experiments on the other bench. Keep it simple - just list the experiment identifiers you picked for each bench. This is only a sketch of the shape I expect, not the actual answer.
+
+Please make sure to use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":11,""num_edges"":17,""edges"":[{""u"":9,""v"":3},{""u"":9,""v"":7},{""u"":9,""v"":8},{""u"":9,""v"":11},{""u"":2,""v"":6},{""u"":2,""v"":10},{""u"":11,""v"":3},{""u"":11,""v"":4},{""u"":11,""v"":8},{""u"":10,""v"":3},{""u"":10,""v"":4},{""u"":10,""v"":6},{""u"":6,""v"":1},{""u"":3,""v"":1},{""u"":4,""v"":5},{""u"":5,""v"":8},{""u"":1,""v"":7}],""source_file"":""vt2010.mtx"",""density"":0.3090909090909091,""edge_connectivity"":2}","[[3,4,6,7,8],[1,2,5,9,10,11]]",15.0,"{""num_nodes"":11,""num_edges"":17,""edges"":[{""u"":8,""v"":2},{""u"":8,""v"":6},{""u"":8,""v"":7},{""u"":8,""v"":10},{""u"":1,""v"":5},{""u"":1,""v"":9},{""u"":10,""v"":2},{""u"":10,""v"":3},{""u"":10,""v"":7},{""u"":9,""v"":2},{""u"":9,""v"":3},{""u"":9,""v"":5},{""u"":5,""v"":0},{""u"":2,""v"":0},{""u"":3,""v"":4},{""u"":4,""v"":7},{""u"":0,""v"":6}]}","[[2,3,5,6,7],[0,1,4,8,9,10]]"
+MAXCUT_S_034,MAXCUT,S,34,"We're trying to organize two walking patrols, Red and Blue, and every household has to be assigned to exactly one of them - nothing gets skipped and no house can belong to both teams. A strong arrangement is one where lots of the ""watch links"" between neighboring houses run between the two teams, so measure a plan by counting how many adjacent house pairs are on different patrols; the higher that number, the more effective the split. The concrete map and list of houses are shown below.
+
+There are 9 houses in total and 15 watch links.
+
+| house_one | house_two |
+|---|---|
+| 6 | 4 |
+| 6 | 7 |
+| 1 | 3 |
+| 1 | 4 |
+| 1 | 5 |
+| 1 | 7 |
+| 4 | 0 |
+| 4 | 5 |
+| 4 | 7 |
+| 5 | 0 |
+| 5 | 2 |
+| 5 | 3 |
+| 3 | 2 |
+| 3 | 8 |
+| 8 | 7 |
+
+You can just hand the final partition back in a tiny JSON object like this so it's easy to parse:
+
+{
+  ""solution"": [
+    [""house_id"", ""house_id"", ...],
+    [""house_id"", ""house_id"", ...]
+  ]
+}
+
+The two inner lists are the two patrols - first list = Red, second list = Blue - and each entry is a house identifier that gets assigned to that patrol. This is just the expected shape (a sketch), not the actual assignment.
+
+Please make sure you use the exact identifiers from the instance input - don't rename them or invent new ones.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":9,""num_edges"":15,""edges"":[{""u"":7,""v"":5},{""u"":7,""v"":8},{""u"":2,""v"":4},{""u"":2,""v"":5},{""u"":2,""v"":6},{""u"":2,""v"":8},{""u"":5,""v"":1},{""u"":5,""v"":6},{""u"":5,""v"":8},{""u"":6,""v"":1},{""u"":6,""v"":3},{""u"":6,""v"":4},{""u"":4,""v"":3},{""u"":4,""v"":9},{""u"":9,""v"":8}],""source_file"":""vt2010.mtx"",""density"":0.4166666666666667,""edge_connectivity"":2}","[[4,5,6,8],[1,2,3,7,9]]",12.0,"{""num_nodes"":9,""num_edges"":15,""edges"":[{""u"":6,""v"":4},{""u"":6,""v"":7},{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":1,""v"":5},{""u"":1,""v"":7},{""u"":4,""v"":0},{""u"":4,""v"":5},{""u"":4,""v"":7},{""u"":5,""v"":0},{""u"":5,""v"":2},{""u"":5,""v"":3},{""u"":3,""v"":2},{""u"":3,""v"":8},{""u"":8,""v"":7}]}","[[3,4,5,7],[0,1,2,6,8]]"
+MAXCUT_S_035,MAXCUT,S,35,"Many people walk past the shop and notice when pairs of outfits are displayed across the two mannequins, so the plan is to put each outfit on either Mannequin Left or Mannequin Right, once apiece. There are known pairwise style connections between specific outfits, and the aim is to maximize how many of those connections end up straddling the mannequins; that's determined by counting how many pair connections have their two outfits on different mannequins. No outfit is omitted or duplicated. The full list of outfits and pairings is shown below.
+
+There are 9 outfits in total and 15 style pairings.
+
+| outfit_u | outfit_v |
+|---|---|
+| 4 | 2 |
+| 4 | 3 |
+| 4 | 8 |
+| 5 | 2 |
+| 5 | 6 |
+| 5 | 8 |
+| 6 | 2 |
+| 6 | 8 |
+| 7 | 0 |
+| 7 | 8 |
+| 1 | 8 |
+| 3 | 2 |
+| 3 | 8 |
+| 0 | 8 |
+| 8 | 2 |
+
+Oh, and when you send the placement back, a simple JSON like this works - two lists inside ""solution"", one list per mannequin:
+
+{
+  ""solution"": [
+    [""outfit_id"", ""outfit_id"", ...],
+    [""outfit_id"", ""outfit_id"", ...]
+  ]
+}
+
+The first inner list would be the outfits you put on Mannequin Left, and the second list is the outfits for Mannequin Right. Think of it like filling out a short form: each quoted placeholder is where an outfit identifier goes. This is just the expected shape - not the actual answer.
+
+Please use the exact outfit identifiers from the instance input - do not rename them or add new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",markdown_table,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":9,""num_edges"":15,""edges"":[{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":9},{""u"":6,""v"":3},{""u"":6,""v"":7},{""u"":6,""v"":9},{""u"":7,""v"":3},{""u"":7,""v"":9},{""u"":8,""v"":1},{""u"":8,""v"":9},{""u"":2,""v"":9},{""u"":4,""v"":3},{""u"":4,""v"":9},{""u"":1,""v"":9},{""u"":9,""v"":3}],""source_file"":""wv2010.mtx"",""density"":0.4166666666666667,""edge_connectivity"":1}","[[1,3,9],[2,4,5,6,7,8]]",11.0,"{""num_nodes"":9,""num_edges"":15,""edges"":[{""u"":4,""v"":2},{""u"":4,""v"":3},{""u"":4,""v"":8},{""u"":5,""v"":2},{""u"":5,""v"":6},{""u"":5,""v"":8},{""u"":6,""v"":2},{""u"":6,""v"":8},{""u"":7,""v"":0},{""u"":7,""v"":8},{""u"":1,""v"":8},{""u"":3,""v"":2},{""u"":3,""v"":8},{""u"":0,""v"":8},{""u"":8,""v"":2}]}","[[0,2,8],[1,3,4,5,6,7]]"
+MAXCUT_S_036,MAXCUT,S,36,"Many people joked that Oak and Pine should be like rival teams, so the plan became: put everyone into one of the two rooms (no double-booking, everyone somewhere) and arrange it so as many habitual collaboration pairs are split between the rooms. Score each arrangement by counting collaborator pairs that land in different rooms - more such cross-room pairs means the split is doing its job. Concrete details are given below.
+
+{
+  ""total_employees"": 12,
+  ""total_collaboration_pairs"": 22,
+  ""edges"": [
+    {
+      ""employee_a_id"": 11,
+      ""employee_b_id"": 1
+    },
+    {
+      ""employee_a_id"": 11,
+      ""employee_b_id"": 6
+    },
+    {
+      ""employee_a_id"": 11,
+      ""employee_b_id"": 8
+    },
+    {
+      ""employee_a_id"": 11,
+      ""employee_b_id"": 10
+    },
+    {
+      ""employee_a_id"": 3,
+      ""employee_b_id"": 2
+    },
+    {
+      ""employee_a_id"": 3,
+      ""employee_b_id"": 6
+    },
+    {
+      ""employee_a_id"": 3,
+      ""employee_b_id"": 7
+    },
+    {
+      ""employee_a_id"": 3,
+      ""employee_b_id"": 9
+    },
+    {
+      ""employee_a_id"": 9,
+      ""employee_b_id"": 6
+    },
+    {
+      ""employee_a_id"": 9,
+      ""employee_b_id"": 7
+    },
+    {
+      ""employee_a_id"": 9,
+      ""employee_b_id"": 10
+    },
+    {
+      ""employee_a_id"": 10,
+      ""employee_b_id"": 1
+    },
+    {
+      ""employee_a_id"": 10,
+      ""employee_b_id"": 2
+    },
+    {
+      ""employee_a_id"": 10,
+      ""employee_b_id"": 5
+    },
+    {
+      ""employee_a_id"": 10,
+      ""employee_b_id"": 6
+    },
+    {
+      ""employee_a_id"": 4,
+      ""employee_b_id"": 6
+    },
+    {
+      ""employee_a_id"": 4,
+      ""employee_b_id"": 12
+    },
+    {
+      ""employee_a_id"": 5,
+      ""employee_b_id"": 2
+    },
+    {
+      ""employee_a_id"": 12,
+      ""employee_b_id"": 6
+    },
+    {
+      ""employee_a_id"": 8,
+      ""employee_b_id"": 6
+    },
+    {
+      ""employee_a_id"": 6,
+      ""employee_b_id"": 2
+    },
+    {
+      ""employee_a_id"": 6,
+      ""employee_b_id"": 7
+    }
+  ]
+}
+
+Oh, and when you send the split back, it'd be easiest if you drop it into a tiny JSON snippet like this:
+
+{
+  ""solution"": [
+    [""person_id"", ""person_id"", ...],
+    [""person_id"", ""person_id"", ...]
+  ]
+}
+
+Think of ""solution"" as just two lists: the first list is everyone who goes in one room, the second list is everyone who goes in the other room. It's just a sketch of the shape I need - not the final content itself.
+
+Please make sure to use the exact identifiers from the instance input - don't rename them or invent new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",json,one_based,"{""problem_type"":""MAXCUT"",""num_nodes"":12,""num_edges"":22,""edges"":[{""u"":11,""v"":1},{""u"":11,""v"":6},{""u"":11,""v"":8},{""u"":11,""v"":10},{""u"":3,""v"":2},{""u"":3,""v"":6},{""u"":3,""v"":7},{""u"":3,""v"":9},{""u"":9,""v"":6},{""u"":9,""v"":7},{""u"":9,""v"":10},{""u"":10,""v"":1},{""u"":10,""v"":2},{""u"":10,""v"":5},{""u"":10,""v"":6},{""u"":4,""v"":6},{""u"":4,""v"":12},{""u"":5,""v"":2},{""u"":12,""v"":6},{""u"":8,""v"":6},{""u"":6,""v"":2},{""u"":6,""v"":7}],""source_file"":""wv2010.mtx"",""density"":0.3333333333333333,""edge_connectivity"":2}","[[2,4,7,8,9,10,11],[1,3,5,6,12]]",15.0,"{""num_nodes"":12,""num_edges"":22,""edges"":[{""u"":11,""v"":1},{""u"":11,""v"":6},{""u"":11,""v"":8},{""u"":11,""v"":10},{""u"":3,""v"":2},{""u"":3,""v"":6},{""u"":3,""v"":7},{""u"":3,""v"":9},{""u"":9,""v"":6},{""u"":9,""v"":7},{""u"":9,""v"":10},{""u"":10,""v"":1},{""u"":10,""v"":2},{""u"":10,""v"":5},{""u"":10,""v"":6},{""u"":4,""v"":6},{""u"":4,""v"":12},{""u"":5,""v"":2},{""u"":12,""v"":6},{""u"":8,""v"":6},{""u"":6,""v"":2},{""u"":6,""v"":7}]}","[[2,4,7,8,9,10,11],[1,3,5,6,12]]"
+MAXCUT_S_037,MAXCUT,S,37,"I work at a small office where we need to split everyone into two opposing shifts. The idea is to decide, for each person, which of the two shifts they'll be on so that as many pairs of coworkers as possible end up on different shifts. You can tell how good a split is by going through every pair of colleagues and counting one point for each pair that lands on opposite shifts - the higher that count, the better. Everyone has to be on exactly one of the two shifts (no one left unassigned or put on both). The concrete list of people and who interacts with whom is shown below.
+
+# total_people=11
+# total_interactions=16
+person_a,person_b
+E,F
+E,G
+E,H
+J,C
+J,I
+A,B
+A,C
+A,F
+D,B
+B,F
+B,G
+B,K
+H,C
+H,I
+F,C
+I,C
+
+Oh, and if you want to send the split back in a tidy form, you can just follow this little JSON sketch for the layout:
+
+{
+  ""solution"": [
+    [""employee_id"", ""employee_id"", ...],
+    [""employee_id"", ""employee_id"", ...]
+  ]
+}
+
+The first inner list is one shift, the second inner list is the opposing shift - just put each person's identifier in one of the lists. This is just a shape guide, not the final answer; replace the placeholders with the actual identifiers from the instance.
+
+Please use the exact identifiers as they appear in the instance input - do not rename them or invent new labels. For example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MAXCUT"",""num_nodes"":11,""num_edges"":16,""edges"":[{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":5,""v"":8},{""u"":10,""v"":3},{""u"":10,""v"":9},{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":1,""v"":6},{""u"":4,""v"":2},{""u"":2,""v"":6},{""u"":2,""v"":7},{""u"":2,""v"":11},{""u"":8,""v"":3},{""u"":8,""v"":9},{""u"":6,""v"":3},{""u"":9,""v"":3}],""source_file"":""wv2010.mtx"",""density"":0.2909090909090909,""edge_connectivity"":1}","[[1,4,6,7,8,10,11],[2,3,5,9]]",14.0,"{""num_nodes"":11,""num_edges"":16,""edges"":[{""u"":""E"",""v"":""F""},{""u"":""E"",""v"":""G""},{""u"":""E"",""v"":""H""},{""u"":""J"",""v"":""C""},{""u"":""J"",""v"":""I""},{""u"":""A"",""v"":""B""},{""u"":""A"",""v"":""C""},{""u"":""A"",""v"":""F""},{""u"":""D"",""v"":""B""},{""u"":""B"",""v"":""F""},{""u"":""B"",""v"":""G""},{""u"":""B"",""v"":""K""},{""u"":""H"",""v"":""C""},{""u"":""H"",""v"":""I""},{""u"":""F"",""v"":""C""},{""u"":""I"",""v"":""C""}]}","[[""A"",""D"",""F"",""G"",""H"",""J"",""K""],[""B"",""C"",""E"",""I""]]"
+MAXCUT_S_038,MAXCUT,S,38,"Imagine arranging a wedding where every guest must be put on either the north or south side of the hall, and the aim is to have as many pairs of people who know each other as possible sitting on different sides. The choice to make is the side assignment for each guest, and a seating is better when it yields a larger number of acquaintance pairs separated across the room. You determine how good any arrangement is by counting all acquaintance pairs that end up with one person on each side - higher counts are better. Everyone gets exactly one seat; nobody can be left out or assigned twice. The concrete seating details follow below.
+
+There are 10 num guests in total and 19 num acquaintance pairs.
+
+| guest_id_a | guest_id_b |
+|---|---|
+| J | A |
+| J | H |
+| I | B |
+| I | D |
+| I | G |
+| I | H |
+| E | A |
+| E | F |
+| E | G |
+| E | H |
+| F | B |
+| F | G |
+| F | H |
+| C | D |
+| C | H |
+| D | A |
+| D | G |
+| A | H |
+| B | H |
+
+You can just send the seating as a small JSON snippet - nothing fancy - that shows which guests go on each side. Here's the little shape I expect:
+
+{
+  ""solution"": [
+    [""guest_id"", ""guest_id"", ...],
+    [""guest_id"", ""guest_id"", ...]
+  ]
+}
+
+Think of the first inner list as the north side of the hall and the second inner list as the south side. Each ""guest_id"" placeholder stands for one guest (you'd replace those placeholders with the actual IDs from the instance). This is just a sketch of the shape I want, not the actual seating plan.
+
+Please use the exact identifiers given in the instance input - don't rename them or make up new ones. For example:
+- Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",markdown_table,names,"{""problem_type"":""MAXCUT"",""num_nodes"":10,""num_edges"":19,""edges"":[{""u"":10,""v"":1},{""u"":10,""v"":8},{""u"":9,""v"":2},{""u"":9,""v"":4},{""u"":9,""v"":7},{""u"":9,""v"":8},{""u"":5,""v"":1},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":5,""v"":8},{""u"":6,""v"":2},{""u"":6,""v"":7},{""u"":6,""v"":8},{""u"":3,""v"":4},{""u"":3,""v"":8},{""u"":4,""v"":1},{""u"":4,""v"":7},{""u"":1,""v"":8},{""u"":2,""v"":8}],""source_file"":""wv2010.mtx"",""density"":0.4222222222222222,""edge_connectivity"":2}","[[1,2,4,7,8],[3,5,6,9,10]]",14.0,"{""num_nodes"":10,""num_edges"":19,""edges"":[{""u"":""J"",""v"":""A""},{""u"":""J"",""v"":""H""},{""u"":""I"",""v"":""B""},{""u"":""I"",""v"":""D""},{""u"":""I"",""v"":""G""},{""u"":""I"",""v"":""H""},{""u"":""E"",""v"":""A""},{""u"":""E"",""v"":""F""},{""u"":""E"",""v"":""G""},{""u"":""E"",""v"":""H""},{""u"":""F"",""v"":""B""},{""u"":""F"",""v"":""G""},{""u"":""F"",""v"":""H""},{""u"":""C"",""v"":""D""},{""u"":""C"",""v"":""H""},{""u"":""D"",""v"":""A""},{""u"":""D"",""v"":""G""},{""u"":""A"",""v"":""H""},{""u"":""B"",""v"":""H""}]}","[[""A"",""B"",""D"",""G"",""H""],[""C"",""E"",""F"",""I"",""J""]]"
+MAXCUT_S_039,MAXCUT,S,39,"The class organizer is arranging two opposing debate squads and aims to split up as many study buddies as they can. The decision is who goes into Squad 1 and who goes into Squad 2 for every single student, and the quality of a given split is just how many study-pair links land on opposite squads - you get that number by counting the split pairs. Everyone must be assigned to one squad only; no one gets left off or duplicated. The specific roster and study-pair information are shown below.
+
+# total_students=8
+# total_study_pairs=8
+student_a,student_b
+3,7
+6,0
+6,1
+6,2
+6,4
+6,5
+6,7
+0,2
+
+Oh, and when you send back the actual split, please follow this little JSON layout so it's easy to read and parse:
+
+{
+  ""solution"": [
+    [""student_id"", ""student_id"", ...],
+    [""student_id"", ""student_id"", ...]
+  ]
+}
+
+The first inner list is who goes into Squad 1, the second inner list is Squad 2. Think of those ""student_id"" placeholders as just showing the shape - you'll replace them with the real student identifiers from the instance.
+
+This JSON is only a sketch of the expected shape, not the actual answer. Also, make sure you use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":8,""num_edges"":8,""edges"":[{""u"":4,""v"":8},{""u"":7,""v"":1},{""u"":7,""v"":2},{""u"":7,""v"":3},{""u"":7,""v"":5},{""u"":7,""v"":6},{""u"":7,""v"":8},{""u"":1,""v"":3}],""source_file"":""wi2010.mtx"",""density"":0.2857142857142857,""edge_connectivity"":1}","[[1,2,3,5,6,8],[4,7]]",7.0,"{""num_nodes"":8,""num_edges"":8,""edges"":[{""u"":3,""v"":7},{""u"":6,""v"":0},{""u"":6,""v"":1},{""u"":6,""v"":2},{""u"":6,""v"":4},{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":0,""v"":2}]}","[[0,1,2,4,5,7],[3,6]]"
+MAXCUT_S_040,MAXCUT,S,40,"Many people on the program committee want two opposing panels that separate collaborators, so the job is to split the speakers into two groups with that in mind. The decision is who goes in Group 1 and who goes in Group 2; the only practical constraint is that every speaker must belong to one and only one group. A split is better if it leaves more collaborating pairs on opposite sides; to see which split is best, count how many pairs of collaborators are on different panels - higher count wins. The concrete speaker list and collaboration pairs are shown below.
+
+# total_speakers=11
+# total_collaboration_pairs=17
+speaker_a,speaker_b
+A,C
+A,E
+A,F
+A,J
+H,G
+B,D
+B,K
+G,F
+G,I
+G,J
+D,E
+D,K
+C,E
+E,J
+E,K
+I,K
+J,K
+
+If you want to hand me the split in a machine-friendly way, just follow this little JSON shape:
+
+{
+  ""solution"": [
+    [""speaker_id"", ""speaker_id"", ...],
+    [""speaker_id"", ""speaker_id"", ...]
+  ]
+}
+
+The ""solution"" field holds two lists: the first list is everyone you put in Group 1, the second is everyone in Group 2. Each entry is a speaker identifier (just paste the exact ID from the instance). This is just a sketch of the expected shape - not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MAXCUT"",""num_nodes"":11,""num_edges"":17,""edges"":[{""u"":1,""v"":3},{""u"":1,""v"":5},{""u"":1,""v"":6},{""u"":1,""v"":10},{""u"":8,""v"":7},{""u"":2,""v"":4},{""u"":2,""v"":11},{""u"":7,""v"":6},{""u"":7,""v"":9},{""u"":7,""v"":10},{""u"":4,""v"":5},{""u"":4,""v"":11},{""u"":3,""v"":5},{""u"":5,""v"":10},{""u"":5,""v"":11},{""u"":9,""v"":11},{""u"":10,""v"":11}],""source_file"":""wi2010.mtx"",""density"":0.3090909090909091,""edge_connectivity"":1}","[[2,3,4,6,8,9,10],[1,5,7,11]]",14.0,"{""num_nodes"":11,""num_edges"":17,""edges"":[{""u"":""A"",""v"":""C""},{""u"":""A"",""v"":""E""},{""u"":""A"",""v"":""F""},{""u"":""A"",""v"":""J""},{""u"":""H"",""v"":""G""},{""u"":""B"",""v"":""D""},{""u"":""B"",""v"":""K""},{""u"":""G"",""v"":""F""},{""u"":""G"",""v"":""I""},{""u"":""G"",""v"":""J""},{""u"":""D"",""v"":""E""},{""u"":""D"",""v"":""K""},{""u"":""C"",""v"":""E""},{""u"":""E"",""v"":""J""},{""u"":""E"",""v"":""K""},{""u"":""I"",""v"":""K""},{""u"":""J"",""v"":""K""}]}","[[""B"",""C"",""D"",""F"",""H"",""I"",""J""],[""A"",""E"",""G"",""K""]]"
+MAXCUT_S_041,MAXCUT,S,41,"There's a seating challenge at the reunion: two benches, a pile of relatives, and a decision to make for each person about which bench they take. The goal is to have as many pairs of relatives as possible sitting on different benches - judge any seating by counting how many related pairs are split. Everyone must be seated exactly once, with no repeats or omissions. The specific names and relationships are shown below.
+
+{
+  ""total_relatives"": 8,
+  ""total_related_pairs"": 12,
+  ""edges"": [
+    {
+      ""relative_a"": ""C"",
+      ""relative_b"": ""A""
+    },
+    {
+      ""relative_a"": ""C"",
+      ""relative_b"": ""B""
+    },
+    {
+      ""relative_a"": ""C"",
+      ""relative_b"": ""E""
+    },
+    {
+      ""relative_a"": ""C"",
+      ""relative_b"": ""F""
+    },
+    {
+      ""relative_a"": ""C"",
+      ""relative_b"": ""G""
+    },
+    {
+      ""relative_a"": ""G"",
+      ""relative_b"": ""E""
+    },
+    {
+      ""relative_a"": ""G"",
+      ""relative_b"": ""H""
+    },
+    {
+      ""relative_a"": ""H"",
+      ""relative_b"": ""D""
+    },
+    {
+      ""relative_a"": ""F"",
+      ""relative_b"": ""B""
+    },
+    {
+      ""relative_a"": ""E"",
+      ""relative_b"": ""D""
+    },
+    {
+      ""relative_a"": ""B"",
+      ""relative_b"": ""A""
+    },
+    {
+      ""relative_a"": ""A"",
+      ""relative_b"": ""D""
+    }
+  ]
+}
+
+If you want to give the seating as a quick snippet, here's the simple JSON shape I'm expecting - two lists (one per bench) under the solution key.
+
+{
+  ""solution"": [
+    [""person_id"", ""person_id"", ...],
+    [""person_id"", ""person_id"", ...]
+  ]
+}
+
+The first inner list is everyone sitting on the first bench, the second inner list is everyone on the other bench. The ""person_id"" items are just placeholders showing where each person's identifier goes - replace them with the exact IDs from the instance when you send the actual seating. This JSON is just a sketch of the shape I need, not the real answer.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+
+For example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",json,names,"{""problem_type"":""MAXCUT"",""num_nodes"":8,""num_edges"":12,""edges"":[{""u"":3,""v"":1},{""u"":3,""v"":2},{""u"":3,""v"":5},{""u"":3,""v"":6},{""u"":3,""v"":7},{""u"":7,""v"":5},{""u"":7,""v"":8},{""u"":8,""v"":4},{""u"":6,""v"":2},{""u"":5,""v"":4},{""u"":2,""v"":1},{""u"":1,""v"":4}],""source_file"":""wa2010.mtx"",""density"":0.42857142857142855,""edge_connectivity"":2}","[[1,5,6,8],[2,3,4,7]]",10.0,"{""num_nodes"":8,""num_edges"":12,""edges"":[{""u"":""C"",""v"":""A""},{""u"":""C"",""v"":""B""},{""u"":""C"",""v"":""E""},{""u"":""C"",""v"":""F""},{""u"":""C"",""v"":""G""},{""u"":""G"",""v"":""E""},{""u"":""G"",""v"":""H""},{""u"":""H"",""v"":""D""},{""u"":""F"",""v"":""B""},{""u"":""E"",""v"":""D""},{""u"":""B"",""v"":""A""},{""u"":""A"",""v"":""D""}]}","[[""A"",""E"",""F"",""H""],[""B"",""C"",""D"",""G""]]"
+MAXCUT_S_042,MAXCUT,S,42,"Out on the block there's a team of volunteers and the plan is to run two opposing canvass routes; now someone has to sort everyone into one route or the other. Each volunteer needs to be placed on exactly one route (no omissions and no duplicate placements), and the aim is to arrange things so friends often end up on different routes. To judge any arrangement, count the number of friendly neighbor pairs that end up split between the two routes - the larger that count, the stronger the split. The exact roster and friendship connections follow below.
+
+# num_volunteers=12
+# num_friendly_pairs=20
+volunteer_a_id,volunteer_b_id
+4,1
+4,7
+4,9
+2,7
+2,10
+9,1
+9,6
+9,7
+10,7
+10,8
+11,3
+11,7
+11,12
+7,3
+7,5
+7,6
+7,8
+7,12
+1,6
+12,6
+
+Also, when you send the grouping back, keep it in this little JSON layout so it's easy to check:
+
+{
+  ""solution"": [
+    [""volunteer_id"", ""volunteer_id"", ...],
+    [""volunteer_id"", ""volunteer_id"", ...]
+  ]
+}
+
+The first inner list is the folks assigned to one canvass route, the second list is the other route. Each string is a volunteer identifier - just list everyone once, and that's your proposed split. This is just the shape I need you to follow, not the actual final assignment.
+
+Please make sure to use the exact identifiers as they appear in the instance input - no renaming and no new labels.
+
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,one_based,"{""problem_type"":""MAXCUT"",""num_nodes"":12,""num_edges"":20,""edges"":[{""u"":4,""v"":1},{""u"":4,""v"":7},{""u"":4,""v"":9},{""u"":2,""v"":7},{""u"":2,""v"":10},{""u"":9,""v"":1},{""u"":9,""v"":6},{""u"":9,""v"":7},{""u"":10,""v"":7},{""u"":10,""v"":8},{""u"":11,""v"":3},{""u"":11,""v"":7},{""u"":11,""v"":12},{""u"":7,""v"":3},{""u"":7,""v"":5},{""u"":7,""v"":6},{""u"":7,""v"":8},{""u"":7,""v"":12},{""u"":1,""v"":6},{""u"":12,""v"":6}],""source_file"":""wa2010.mtx"",""density"":0.30303030303030304,""edge_connectivity"":1}","[[1,7,10,11],[2,3,4,5,6,8,9,12]]",15.0,"{""num_nodes"":12,""num_edges"":20,""edges"":[{""u"":4,""v"":1},{""u"":4,""v"":7},{""u"":4,""v"":9},{""u"":2,""v"":7},{""u"":2,""v"":10},{""u"":9,""v"":1},{""u"":9,""v"":6},{""u"":9,""v"":7},{""u"":10,""v"":7},{""u"":10,""v"":8},{""u"":11,""v"":3},{""u"":11,""v"":7},{""u"":11,""v"":12},{""u"":7,""v"":3},{""u"":7,""v"":5},{""u"":7,""v"":6},{""u"":7,""v"":8},{""u"":7,""v"":12},{""u"":1,""v"":6},{""u"":12,""v"":6}]}","[[1,7,10,11],[2,3,4,5,6,8,9,12]]"
+MAXCUT_S_043,MAXCUT,S,43,"At the study site the coordinator has to divide the entire roster into two opposing cohorts using a list of who has been in contact with whom. The point is to separate as many known-contact pairs as possible between the two cohorts - measure a split by counting how many contact-pairs fall on opposite sides, and the split with the larger count wins. Every single participant must be assigned to one cohort only, with no repeats or omissions. The concrete participant list and contact pairs are provided below.
+
+# total_participants=12
+# contact_pairs_count=20
+participant_a_id,participant_b_id
+10,1
+10,7
+10,9
+11,6
+11,7
+3,7
+6,0
+6,5
+6,7
+0,5
+0,9
+1,7
+1,9
+9,5
+9,7
+5,7
+7,2
+7,4
+7,8
+8,4
+
+Also, when you send back the split, please use this simple JSON shape so it's easy to check automatically:
+
+{
+  ""solution"": [
+    [""vertex_id"", ""vertex_id"", ...],
+    [""vertex_id"", ""vertex_id"", ...]
+  ]
+}
+
+Think of it like a form: ""solution"" holds two lists - the first list is everyone assigned to cohort A, the second list is everyone assigned to cohort B. Each entry is just the participant identifier exactly as given in the instance. This is just a sketch of the expected shape, not the actual answer.
+
+All identifiers must be used exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":12,""num_edges"":20,""edges"":[{""u"":11,""v"":2},{""u"":11,""v"":8},{""u"":11,""v"":10},{""u"":12,""v"":7},{""u"":12,""v"":8},{""u"":4,""v"":8},{""u"":7,""v"":1},{""u"":7,""v"":6},{""u"":7,""v"":8},{""u"":1,""v"":6},{""u"":1,""v"":10},{""u"":2,""v"":8},{""u"":2,""v"":10},{""u"":10,""v"":6},{""u"":10,""v"":8},{""u"":6,""v"":8},{""u"":8,""v"":3},{""u"":8,""v"":5},{""u"":8,""v"":9},{""u"":9,""v"":5}],""source_file"":""wi2010.mtx"",""density"":0.30303030303030304,""edge_connectivity"":1}","[[1,2,3,4,6,9,11,12],[5,7,8,10]]",15.0,"{""num_nodes"":12,""num_edges"":20,""edges"":[{""u"":10,""v"":1},{""u"":10,""v"":7},{""u"":10,""v"":9},{""u"":11,""v"":6},{""u"":11,""v"":7},{""u"":3,""v"":7},{""u"":6,""v"":0},{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":0,""v"":5},{""u"":0,""v"":9},{""u"":1,""v"":7},{""u"":1,""v"":9},{""u"":9,""v"":5},{""u"":9,""v"":7},{""u"":5,""v"":7},{""u"":7,""v"":2},{""u"":7,""v"":4},{""u"":7,""v"":8},{""u"":8,""v"":4}]}","[[0,1,2,3,5,8,10,11],[4,6,7,9]]"
+MAXCUT_S_044,MAXCUT,S,44,"Someone on the planning team wants the acts split between two stages so that connected duos and groups are mostly performing on opposite stages - the task is to decide which stage each performer will get. The way to judge any arrangement is simple: count the performer pairs from the list that end up on different stages; the higher that number, the better the split. Each performer needs to be placed exactly once, with no duplicates or omissions. The concrete performer list and pairings follow below.
+
+{
+  ""num_performers"": 9,
+  ""num_performer_pairs"": 13,
+  ""edges"": [
+    {
+      ""performer_a"": ""A"",
+      ""performer_b"": ""B""
+    },
+    {
+      ""performer_a"": ""A"",
+      ""performer_b"": ""C""
+    },
+    {
+      ""performer_a"": ""A"",
+      ""performer_b"": ""D""
+    },
+    {
+      ""performer_a"": ""A"",
+      ""performer_b"": ""F""
+    },
+    {
+      ""performer_a"": ""H"",
+      ""performer_b"": ""D""
+    },
+    {
+      ""performer_a"": ""H"",
+      ""performer_b"": ""F""
+    },
+    {
+      ""performer_a"": ""H"",
+      ""performer_b"": ""I""
+    },
+    {
+      ""performer_a"": ""E"",
+      ""performer_b"": ""B""
+    },
+    {
+      ""performer_a"": ""E"",
+      ""performer_b"": ""C""
+    },
+    {
+      ""performer_a"": ""E"",
+      ""performer_b"": ""G""
+    },
+    {
+      ""performer_a"": ""E"",
+      ""performer_b"": ""I""
+    },
+    {
+      ""performer_a"": ""F"",
+      ""performer_b"": ""C""
+    },
+    {
+      ""performer_a"": ""I"",
+      ""performer_b"": ""C""
+    }
+  ]
+}
+
+You can just reply with a small JSON object showing which performers go on each stage. Something like this is the shape I expect:
+
+{
+  ""solution"": [
+    [""performer_id"", ""performer_id"", ...],
+    [""performer_id"", ""performer_id"", ...]
+  ]
+}
+
+The first inner list is everyone assigned to one stage, and the second inner list is everyone assigned to the other stage. Think of it like a simple sign-up sheet - each performer appears exactly once, and the two lists together are the full lineup. This JSON is just a sketch of the format I need, not the actual assignment.
+
+Please make sure to use the performer identifiers exactly as they appear in the instance input - do not rename them or invent new labels.
+
+For example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,names,"{""problem_type"":""MAXCUT"",""num_nodes"":9,""num_edges"":13,""edges"":[{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":1,""v"":6},{""u"":8,""v"":4},{""u"":8,""v"":6},{""u"":8,""v"":9},{""u"":5,""v"":2},{""u"":5,""v"":3},{""u"":5,""v"":7},{""u"":5,""v"":9},{""u"":6,""v"":3},{""u"":9,""v"":3}],""source_file"":""wy2010.mtx"",""density"":0.3611111111111111,""edge_connectivity"":1}","[[2,4,6,7,9],[1,3,5,8]]",11.0,"{""num_nodes"":9,""num_edges"":13,""edges"":[{""u"":""A"",""v"":""B""},{""u"":""A"",""v"":""C""},{""u"":""A"",""v"":""D""},{""u"":""A"",""v"":""F""},{""u"":""H"",""v"":""D""},{""u"":""H"",""v"":""F""},{""u"":""H"",""v"":""I""},{""u"":""E"",""v"":""B""},{""u"":""E"",""v"":""C""},{""u"":""E"",""v"":""G""},{""u"":""E"",""v"":""I""},{""u"":""F"",""v"":""C""},{""u"":""I"",""v"":""C""}]}","[[""B"",""D"",""F"",""G"",""I""],[""A"",""C"",""E"",""H""]]"
+MAXCUT_S_045,MAXCUT,S,45,"Recently the team set up two review groups and needed to figure out who goes where: everyone has to be assigned to one of the two groups, and the point is to arrange the split so that the greatest number of known collaborator pairs end up separated between the groups. The decision is purely who joins which group, and what makes one arrangement superior is that it splits more of those pairs. To judge any arrangement, count the number of pairs that ended up on opposite sides - a bigger count means a better split. No contributor should be omitted or put into both groups. The detailed list of contributors and their pairings is shown below.
+
+{
+  ""total_contributors"": 8,
+  ""total_collaboration_pairs"": 13,
+  ""edges"": [
+    {
+      ""contributor_a"": ""E"",
+      ""contributor_b"": ""A""
+    },
+    {
+      ""contributor_a"": ""E"",
+      ""contributor_b"": ""F""
+    },
+    {
+      ""contributor_a"": ""B"",
+      ""contributor_b"": ""D""
+    },
+    {
+      ""contributor_a"": ""B"",
+      ""contributor_b"": ""F""
+    },
+    {
+      ""contributor_a"": ""D"",
+      ""contributor_b"": ""F""
+    },
+    {
+      ""contributor_a"": ""D"",
+      ""contributor_b"": ""G""
+    },
+    {
+      ""contributor_a"": ""D"",
+      ""contributor_b"": ""H""
+    },
+    {
+      ""contributor_a"": ""H"",
+      ""contributor_b"": ""C""
+    },
+    {
+      ""contributor_a"": ""H"",
+      ""contributor_b"": ""G""
+    },
+    {
+      ""contributor_a"": ""A"",
+      ""contributor_b"": ""C""
+    },
+    {
+      ""contributor_a"": ""G"",
+      ""contributor_b"": ""C""
+    },
+    {
+      ""contributor_a"": ""G"",
+      ""contributor_b"": ""F""
+    },
+    {
+      ""contributor_a"": ""F"",
+      ""contributor_b"": ""C""
+    }
+  ]
+}
+
+Oh - and when you send back the split, please use this simple JSON layout so it's easy to check automatically. Something like:
+
+{
+  ""solution"": [
+    [""contributor_id"", ""contributor_id"", ...],
+    [""contributor_id"", ""contributor_id"", ...]
+  ]
+}
+
+Here the two inner lists are the two review groups, and each placeholder like ""contributor_id"" stands for one person's identifier from the instance. Think of it like a little form: list who goes in group one, then list who goes in group two. This is just the shape I need, not the actual grouping - you'll fill in the real IDs.
+
+Please make sure to use the exact identifiers from the instance input - do not rename them or introduce new labels.
+
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",json,names,"{""problem_type"":""MAXCUT"",""num_nodes"":8,""num_edges"":13,""edges"":[{""u"":5,""v"":1},{""u"":5,""v"":6},{""u"":2,""v"":4},{""u"":2,""v"":6},{""u"":4,""v"":6},{""u"":4,""v"":7},{""u"":4,""v"":8},{""u"":8,""v"":3},{""u"":8,""v"":7},{""u"":1,""v"":3},{""u"":7,""v"":3},{""u"":7,""v"":6},{""u"":6,""v"":3}],""source_file"":""wi2010.mtx"",""density"":0.4642857142857143,""edge_connectivity"":2}","[[2,3,5,7],[1,4,6,8]]",10.0,"{""num_nodes"":8,""num_edges"":13,""edges"":[{""u"":""E"",""v"":""A""},{""u"":""E"",""v"":""F""},{""u"":""B"",""v"":""D""},{""u"":""B"",""v"":""F""},{""u"":""D"",""v"":""F""},{""u"":""D"",""v"":""G""},{""u"":""D"",""v"":""H""},{""u"":""H"",""v"":""C""},{""u"":""H"",""v"":""G""},{""u"":""A"",""v"":""C""},{""u"":""G"",""v"":""C""},{""u"":""G"",""v"":""F""},{""u"":""F"",""v"":""C""}]}","[[""B"",""C"",""E"",""G""],[""A"",""D"",""F"",""H""]]"
+MAXCUT_S_046,MAXCUT,S,46,"I was thinking about a little retail puzzle: a bunch of products need to be split between the left and right sides of a shop, and some products are known to be paired together (people often buy them together). The task is to decide which side each product goes on so that as many of those paired items as possible end up on opposite sides. The way to tell if one layout is better than another is straightforward - count how many of the known pairs sit on different sides - higher counts are better. Every product has to be placed on one side or the other, nothing gets skipped or copied. The concrete list of products and pairings is shown below.
+
+# total_products=11
+# total_product_pairs=17
+product_a_id,product_b_id
+1,3
+1,6
+4,5
+4,6
+4,8
+4,9
+6,3
+6,5
+6,7
+6,10
+2,5
+2,10
+0,5
+0,10
+10,3
+8,3
+8,9
+
+If you want to send the layout back, just use a tiny JSON snippet with the two sides listed. Something like this:
+
+{
+  ""solution"": [
+    [""product_id"", ""product_id"", ...],
+    [""product_id"", ""product_id"", ...]
+  ]
+}
+
+Pretty simple: the outer ""solution"" is a pair of lists - the first inner list is everything you put on the left side, the second inner list is everything on the right side. Put each product's identifier (exactly as it appears in the instance) into one of the lists. This JSON is just a sketch of the shape I expect, not the actual placement.
+
+Please make sure to use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":11,""num_edges"":17,""edges"":[{""u"":2,""v"":4},{""u"":2,""v"":7},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":5,""v"":9},{""u"":5,""v"":10},{""u"":7,""v"":4},{""u"":7,""v"":6},{""u"":7,""v"":8},{""u"":7,""v"":11},{""u"":3,""v"":6},{""u"":3,""v"":11},{""u"":1,""v"":6},{""u"":1,""v"":11},{""u"":11,""v"":4},{""u"":9,""v"":4},{""u"":9,""v"":10}],""source_file"":""wa2010.mtx"",""density"":0.3090909090909091,""edge_connectivity"":1}","[[1,3,4,7,10],[2,5,6,8,9,11]]",14.0,"{""num_nodes"":11,""num_edges"":17,""edges"":[{""u"":1,""v"":3},{""u"":1,""v"":6},{""u"":4,""v"":5},{""u"":4,""v"":6},{""u"":4,""v"":8},{""u"":4,""v"":9},{""u"":6,""v"":3},{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":6,""v"":10},{""u"":2,""v"":5},{""u"":2,""v"":10},{""u"":0,""v"":5},{""u"":0,""v"":10},{""u"":10,""v"":3},{""u"":8,""v"":3},{""u"":8,""v"":9}]}","[[0,2,3,6,9],[1,4,5,7,8,10]]"
+MAXCUT_S_047,MAXCUT,S,47,"I'm helping organize a book club exercise where everyone splits into two opposite discussion circles, and the fun is in trying to separate as many friend-pairs as possible - you pick which circle each reader goes to, making sure every person is in exactly one circle and nobody is duplicated or left out, and the score is just how many pairs of readers end up in different circles; the exact list of members and their pairings is shown below.
+
+Below are the 9 readers and the 15 friend-pairs:
+5 and 0 are friends - you can try to place them in opposite circles.
+5 and 2 are friends - you can try to place them in opposite circles.
+5 and 7 are friends - you can try to place them in opposite circles.
+5 and 8 are friends - you can try to place them in opposite circles.
+2 and 4 are friends - you can try to place them in opposite circles.
+2 and 7 are friends - you can try to place them in opposite circles.
+8 and 1 are friends - you can try to place them in opposite circles.
+8 and 6 are friends - you can try to place them in opposite circles.
+8 and 7 are friends - you can try to place them in opposite circles.
+0 and 1 are friends - you can try to place them in opposite circles.
+0 and 6 are friends - you can try to place them in opposite circles.
+7 and 4 are friends - you can try to place them in opposite circles.
+7 and 6 are friends - you can try to place them in opposite circles.
+3 and 6 are friends - you can try to place them in opposite circles.
+6 and 4 are friends - you can try to place them in opposite circles.
+Assign every one of the 9 readers to exactly one circle; the score is how many of the 15 pairs you successfully separate.
+
+If you want to hand back a proposed split, just use this small JSON layout so it's easy to read and check:
+
+{
+  ""solution"": [
+    [""reader_id"", ""reader_id"", ...],
+    [""reader_id"", ""reader_id"", ...]
+  ]
+}
+
+Think of it like a simple form: ""solution"" holds two lists - the first list is everyone you put in one circle, the second list is everyone in the opposite circle. Each entry is a reader identifier (leave them as they appear in the instance).
+
+This is just a sketch of the shape I need, not the actual answer - please fill in the real identifiers from the instance.
+
+Please make sure you use the identifiers exactly as they appear in the input - no renaming, no new labels.
+- for example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":9,""num_edges"":15,""edges"":[{""u"":6,""v"":1},{""u"":6,""v"":3},{""u"":6,""v"":8},{""u"":6,""v"":9},{""u"":3,""v"":5},{""u"":3,""v"":8},{""u"":9,""v"":2},{""u"":9,""v"":7},{""u"":9,""v"":8},{""u"":1,""v"":2},{""u"":1,""v"":7},{""u"":8,""v"":5},{""u"":8,""v"":7},{""u"":4,""v"":7},{""u"":7,""v"":5}],""source_file"":""wy2010.mtx"",""density"":0.4166666666666667,""edge_connectivity"":1}","[[1,3,4,8,9],[2,5,6,7]]",12.0,"{""num_nodes"":9,""num_edges"":15,""edges"":[{""u"":5,""v"":0},{""u"":5,""v"":2},{""u"":5,""v"":7},{""u"":5,""v"":8},{""u"":2,""v"":4},{""u"":2,""v"":7},{""u"":8,""v"":1},{""u"":8,""v"":6},{""u"":8,""v"":7},{""u"":0,""v"":1},{""u"":0,""v"":6},{""u"":7,""v"":4},{""u"":7,""v"":6},{""u"":3,""v"":6},{""u"":6,""v"":4}]}","[[0,2,3,7,8],[1,4,5,6]]"
+MAXCUT_S_048,MAXCUT,S,48,"The organizers sketched out a plan to put fans into two opposing stands so that a maximum number of specified fan-pairs would be separated across the field. For any seating plan, you count how many of the listed pairs end up on opposite stands - that count is the measure of how good the plan is. It's important that each fan is assigned to exactly one stand, with nobody assigned twice or forgotten. The exact list of fans and which pairs matter will be shown below.
+
+# total_fans=8
+# total_specified_pairs=8
+fan_id_one,fan_id_two
+A,F
+A,G
+E,G
+F,G
+D,G
+C,G
+G,B
+G,H
+
+Oh, and when you send me the seating plan, please stick to this simple JSON shape so I can read it easily:
+
+{
+  ""solution"": [
+    [""fan_id"", ""fan_id"", ...],
+    [""fan_id"", ""fan_id"", ...]
+  ]
+}
+
+Think of the two inner lists as the two stands - just list which fan IDs sit in the left stand and which sit in the right stand. This is just a sketch of the expected shape, not the actual answer itself.
+
+Please make sure you use the exact identifiers from the instance input - don't rename them or invent new ones.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MAXCUT"",""num_nodes"":8,""num_edges"":8,""edges"":[{""u"":1,""v"":6},{""u"":1,""v"":7},{""u"":5,""v"":7},{""u"":6,""v"":7},{""u"":4,""v"":7},{""u"":3,""v"":7},{""u"":7,""v"":2},{""u"":7,""v"":8}],""source_file"":""wy2010.mtx"",""density"":0.2857142857142857,""edge_connectivity"":1}","[[6,7],[1,2,3,4,5,8]]",7.0,"{""num_nodes"":8,""num_edges"":8,""edges"":[{""u"":""A"",""v"":""F""},{""u"":""A"",""v"":""G""},{""u"":""E"",""v"":""G""},{""u"":""F"",""v"":""G""},{""u"":""D"",""v"":""G""},{""u"":""C"",""v"":""G""},{""u"":""G"",""v"":""B""},{""u"":""G"",""v"":""H""}]}","[[""F"",""G""],[""A"",""B"",""C"",""D"",""E"",""H""]]"
+MAXCUT_S_049,MAXCUT,S,49,"We had to divide the dorm into two opposing cleaning teams and try to make roommates work on different shifts whenever possible. The decision is which half of the residents are on shift A and which are on shift B, and a smarter split is the one that ends up separating the most roommate pairs. To check any split, just count the number of roommate-pairs that land on different teams. Every resident must belong to one of the two shifts and cannot be on both or omitted. The specific roster and roommate pairings are listed below.
+
+There are 10 residents in total and 15 roommate pairs.
+
+| resident_u | resident_v |
+|---|---|
+| 4 | 2 |
+| 4 | 7 |
+| 4 | 9 |
+| 9 | 5 |
+| 1 | 0 |
+| 1 | 3 |
+| 1 | 5 |
+| 2 | 3 |
+| 2 | 5 |
+| 2 | 8 |
+| 0 | 5 |
+| 7 | 8 |
+| 3 | 5 |
+| 3 | 6 |
+| 6 | 8 |
+
+You can just hand me a proposed split in a little JSON form like this so I know which people go on shift A and which go on shift B.
+
+{
+  ""solution"": [
+    [""resident_id"", ""resident_id"", ...],
+    [""resident_id"", ""resident_id"", ...]
+  ]
+}
+
+Think of the first list as everyone on shift A and the second list as everyone on shift B - just put each resident's identifier in the appropriate list. This JSON is only a sketch of the shape I need, not the actual answer itself.
+
+Please use the exact identifiers from the instance input - don't rename them or make up new ones.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,zero_based,"{""problem_type"":""MAXCUT"",""num_nodes"":10,""num_edges"":15,""edges"":[{""u"":5,""v"":3},{""u"":5,""v"":8},{""u"":5,""v"":10},{""u"":10,""v"":6},{""u"":2,""v"":1},{""u"":2,""v"":4},{""u"":2,""v"":6},{""u"":3,""v"":4},{""u"":3,""v"":6},{""u"":3,""v"":9},{""u"":1,""v"":6},{""u"":8,""v"":9},{""u"":4,""v"":6},{""u"":4,""v"":7},{""u"":7,""v"":9}],""source_file"":""wy2010.mtx"",""density"":0.3333333333333333,""edge_connectivity"":2}","[[1,2,3,7,8,10],[4,5,6,9]]",13.0,"{""num_nodes"":10,""num_edges"":15,""edges"":[{""u"":4,""v"":2},{""u"":4,""v"":7},{""u"":4,""v"":9},{""u"":9,""v"":5},{""u"":1,""v"":0},{""u"":1,""v"":3},{""u"":1,""v"":5},{""u"":2,""v"":3},{""u"":2,""v"":5},{""u"":2,""v"":8},{""u"":0,""v"":5},{""u"":7,""v"":8},{""u"":3,""v"":5},{""u"":3,""v"":6},{""u"":6,""v"":8}]}","[[0,1,2,6,7,9],[3,4,5,8]]"
+MAXCUT_S_050,MAXCUT,S,50,"We're trying to organize a mailing setup where the whole address book gets split into two opposing lists. The decision is simply assigning each contact to either List 1 or List 2, and the aim is to maximize the number of connections that cross between the lists - in other words, the better arrangement is the one that results in more linked pairs sitting in different lists. To measure success, just count how many connected pairs span the two groups. Every person must appear on one list only, with no duplicates or omissions. The specific contacts and their ties are listed below.
+
+{
+  ""total_contacts"": 11,
+  ""total_connections"": 14,
+  ""edges"": [
+    {
+      ""contact_u"": 5,
+      ""contact_v"": 3
+    },
+    {
+      ""contact_u"": 5,
+      ""contact_v"": 4
+    },
+    {
+      ""contact_u"": 5,
+      ""contact_v"": 6
+    },
+    {
+      ""contact_u"": 5,
+      ""contact_v"": 11
+    },
+    {
+      ""contact_u"": 11,
+      ""contact_v"": 9
+    },
+    {
+      ""contact_u"": 2,
+      ""contact_v"": 7
+    },
+    {
+      ""contact_u"": 2,
+      ""contact_v"": 10
+    },
+    {
+      ""contact_u"": 8,
+      ""contact_v"": 7
+    },
+    {
+      ""contact_u"": 9,
+      ""contact_v"": 1
+    },
+    {
+      ""contact_u"": 9,
+      ""contact_v"": 6
+    },
+    {
+      ""contact_u"": 6,
+      ""contact_v"": 7
+    },
+    {
+      ""contact_u"": 6,
+      ""contact_v"": 10
+    },
+    {
+      ""contact_u"": 4,
+      ""contact_v"": 7
+    },
+    {
+      ""contact_u"": 10,
+      ""contact_v"": 1
+    }
+  ]
+}
+
+Oh, and when you send back your assignment, please use a simple JSON layout like this so it's easy to read and check:
+
+{
+  ""solution"": [
+    [""contact_id"", ""contact_id"", ...],
+    [""contact_id"", ""contact_id"", ...]
+  ]
+}
+
+The idea is straightforward: ""solution"" holds two lists - the first inner list is everyone you put on List 1, the second inner list is everyone you put on List 2. Each item is a contact identifier (just the exact ID from the instance), and every contact should appear once and only once. This JSON is just a sketch of the shape I expect, not the actual answer.
+
+Also, please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,one_based,"{""problem_type"":""MAXCUT"",""num_nodes"":11,""num_edges"":14,""edges"":[{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":5,""v"":11},{""u"":11,""v"":9},{""u"":2,""v"":7},{""u"":2,""v"":10},{""u"":8,""v"":7},{""u"":9,""v"":1},{""u"":9,""v"":6},{""u"":6,""v"":7},{""u"":6,""v"":10},{""u"":4,""v"":7},{""u"":10,""v"":1}],""source_file"":""wa2010.mtx"",""density"":0.2545454545454545,""edge_connectivity"":1}","[[1,2,3,4,6,8,11],[5,7,9,10]]",14.0,"{""num_nodes"":11,""num_edges"":14,""edges"":[{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":5,""v"":11},{""u"":11,""v"":9},{""u"":2,""v"":7},{""u"":2,""v"":10},{""u"":8,""v"":7},{""u"":9,""v"":1},{""u"":9,""v"":6},{""u"":6,""v"":7},{""u"":6,""v"":10},{""u"":4,""v"":7},{""u"":10,""v"":1}]}","[[1,2,3,4,6,8,11],[5,7,9,10]]"

@@ -1,0 +1,1677 @@
+id,task_id,difficulty_tier,example_index,prompt,surface_format,indexing_scheme,instance_canonical_json,reference_solution_canonical_json,reference_objective_value,instance_surface_json,reference_solution_surface_json
+MDS_S_001,MDS,S,1,"Recently the city asked for an efficient kiosk layout: pick the minimum number of intersections to host kiosks so that every intersection either has one or connects to one. Efficiency is measured by the kiosk count - just add up how many kiosks are placed and prefer the plan with the lowest total - and each kiosk is tied to one intersection only, so it can't be counted more than once. The rule is strict: every intersection must be covered by being a kiosk location or adjacent to one, and the exact instance details are shown below.
+
+There are 9 intersections in total and 9 streets.
+
+| intersection_a | intersection_b |
+|---|---|
+| D | A |
+| D | E |
+| E | B |
+| E | F |
+| F | G |
+| G | H |
+| H | I |
+| A | B |
+| B | C |
+
+Also, when you send back the actual plan, a tiny JSON snippet like this keeps things simple and easy to check:
+
+{
+  ""solution"": [""intersection_id"", ""intersection_id"", ...]
+}
+
+Here ""solution"" is just the list of intersections (the spots where you'd place kiosks). Think of it like filling in a form: list the intersection IDs you choose in that array. This JSON is only a sketch of the shape I expect - not the real answer itself.
+
+Please use the identifiers exactly as they appear in the instance input - do not rename them or introduce new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,names,"{""problem_type"":""MDS"",""num_nodes"":9,""num_edges"":9,""edges"":[{""u"":4,""v"":1},{""u"":4,""v"":5},{""u"":5,""v"":2},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":1,""v"":2},{""u"":2,""v"":3}],""source_file"":""great-britain_osm.mtx"",""density"":0.25,""edge_connectivity"":1}","[2,5,8]",3.0,"{""num_nodes"":9,""num_edges"":9,""edges"":[{""u"":""D"",""v"":""A""},{""u"":""D"",""v"":""E""},{""u"":""E"",""v"":""B""},{""u"":""E"",""v"":""F""},{""u"":""F"",""v"":""G""},{""u"":""G"",""v"":""H""},{""u"":""H"",""v"":""I""},{""u"":""A"",""v"":""B""},{""u"":""B"",""v"":""C""}]}","[""B"",""E"",""H""]"
+MDS_S_002,MDS,S,2,"A friend is planning detector placement and the idea is to choose a small set of rooms to equip so every room either has an alarm or shares a wall with a room that does. The task is to pick which rooms get detectors; better plans use fewer detectors, so compare plans by counting how many detectors each requires and choose the smallest count. It's essential that no room be left uncovered, and putting more than one detector in a single room instead of covering an uncovered neighbor is wasteful. The specific layout and numbers are shown below.
+
+There are 12 rooms in total and 12 shared walls.
+
+| room_a | room_b |
+|---|---|
+| 1 | 2 |
+| 1 | 9 |
+| 4 | 5 |
+| 4 | 6 |
+| 6 | 7 |
+| 6 | 10 |
+| 6 | 11 |
+| 7 | 8 |
+| 8 | 9 |
+| 10 | 3 |
+| 5 | 3 |
+| 12 | 11 |
+
+Also, when you reply, please put the chosen rooms into a tiny JSON snippet so it's easy to read and check. Something like this:
+
+{
+  ""solution"": [""room_id"", ""room_id"", ...]
+}
+
+This just shows the shape I want: ""solution"" is a list of the rooms where you'll place detectors - one entry per room. The values shown are placeholders, not the actual answer.
+
+All identifiers must be used exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,one_based,"{""problem_type"":""MDS"",""num_nodes"":12,""num_edges"":12,""edges"":[{""u"":1,""v"":2},{""u"":1,""v"":9},{""u"":4,""v"":5},{""u"":4,""v"":6},{""u"":6,""v"":7},{""u"":6,""v"":10},{""u"":6,""v"":11},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":10,""v"":3},{""u"":5,""v"":3},{""u"":12,""v"":11}],""source_file"":""netherlands_osm.mtx"",""density"":0.18181818181818182,""edge_connectivity"":1}","[1,3,5,7,11]",5.0,"{""num_nodes"":12,""num_edges"":12,""edges"":[{""u"":1,""v"":2},{""u"":1,""v"":9},{""u"":4,""v"":5},{""u"":4,""v"":6},{""u"":6,""v"":7},{""u"":6,""v"":10},{""u"":6,""v"":11},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":10,""v"":3},{""u"":5,""v"":3},{""u"":12,""v"":11}]}","[1,3,5,7,11]"
+MDS_S_003,MDS,S,3,"There's a neighborhood fair coming up and the organizer wants to post the smallest number of volunteers at booths so that every booth either has someone or sits beside a booth that does. The decision is which specific booths get people; a good decision is the one that uses the least number of volunteers while still making sure every booth is covered. One can judge a plan by counting assigned volunteers and checking that no booth gets skipped or double-booked. The full booth map and specifics are shown below.
+
+# total_booths=8
+# adjacent_booth_pairs=8
+booth_a,booth_b
+5,6
+5,7
+0,1
+1,2
+1,7
+2,3
+2,6
+3,4
+
+Just so it's easy to hand back to the organizer or a parsing script, here's the shape I expect the reply to take - nothing fancy, just plain JSON with the list of chosen booths.
+
+{
+  ""solution"": [""booth_id"", ""booth_id"", ...]
+}
+
+Think of ""solution"" as the form field where you list the booths you want to staff. Each entry in that array is one booth identifier from the map. This is just a sketch of the shape I want, not the actual set of booths for the fair.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,zero_based,"{""problem_type"":""MDS"",""num_nodes"":8,""num_edges"":8,""edges"":[{""u"":6,""v"":7},{""u"":6,""v"":8},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":2,""v"":8},{""u"":3,""v"":4},{""u"":3,""v"":7},{""u"":4,""v"":5}],""source_file"":""belgium_osm.mtx"",""density"":0.2857142857142857,""edge_connectivity"":1}","[2,4,6]",3.0,"{""num_nodes"":8,""num_edges"":8,""edges"":[{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":0,""v"":1},{""u"":1,""v"":2},{""u"":1,""v"":7},{""u"":2,""v"":3},{""u"":2,""v"":6},{""u"":3,""v"":4}]}","[1,3,5]"
+MDS_S_004,MDS,S,4,"At school there's a neat challenge: build a tiny team of class representatives so every student is either on that team or sits beside someone who is. What makes one plan better than another is simply that it uses fewer students, so test arrangements and keep the one with the smallest number that still leaves no one uncovered. Every student must be reached and reps should be distinct individuals. The specific instance and seating info are shown below.
+
+There are 9 students in total and 8 adjacent pairs.
+
+| student_u_id | student_v_id |
+|---|---|
+| 5 | 2 |
+| 5 | 6 |
+| 6 | 7 |
+| 7 | 8 |
+| 0 | 1 |
+| 1 | 2 |
+| 2 | 3 |
+| 3 | 4 |
+
+Oh, and when you send back the tiny team, just use this simple JSON layout so it's easy to parse:
+
+{
+  ""solution"": [""seat_id"", ""seat_id"", ...]
+}
+
+Think of ""solution"" as the list of chosen seats (one entry per class rep). The placeholders in the array just show the shape I need - they're not the real answers, just a sketch of what to put.
+
+Please make sure you use the identifiers exactly as they appear in the instance input - no renaming, no made-up labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,zero_based,"{""problem_type"":""MDS"",""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":6,""v"":3},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5}],""source_file"":""belgium_osm.mtx"",""density"":0.2222222222222222,""edge_connectivity"":1}","[2,3,4,8]",4.0,"{""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":5,""v"":2},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":0,""v"":1},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4}]}","[1,2,3,7]"
+MDS_S_005,MDS,S,5,"In a small library the job is to choose a handful of shelves to display wayfinding panels so every shelf is either displaying a panel itself or sits next to a shelf that does. What counts as a ""better"" choice is straightforward: the fewer panels used the better, and the count of panels is the simple measure to compare plans. Ensure every shelf is covered by that rule, and don't waste panels by duplicating them on the same shelf. The specific shelf map appears below.
+
+{
+  ""total_shelves"": 8,
+  ""total_adjacency_pairs"": 7,
+  ""edges"": [
+    {
+      ""shelf_a_id"": 1,
+      ""shelf_b_id"": 2
+    },
+    {
+      ""shelf_a_id"": 1,
+      ""shelf_b_id"": 3
+    },
+    {
+      ""shelf_a_id"": 6,
+      ""shelf_b_id"": 3
+    },
+    {
+      ""shelf_a_id"": 6,
+      ""shelf_b_id"": 7
+    },
+    {
+      ""shelf_a_id"": 7,
+      ""shelf_b_id"": 8
+    },
+    {
+      ""shelf_a_id"": 3,
+      ""shelf_b_id"": 4
+    },
+    {
+      ""shelf_a_id"": 4,
+      ""shelf_b_id"": 5
+    }
+  ]
+}
+
+When you're ready, just send back the chosen shelves in a tiny JSON snippet like this:
+
+{
+  ""solution"": [""shelf_id"", ""shelf_id"", ...]
+}
+
+Think of ""solution"" as the list of shelf labels where you'd put panels - one entry per shelf. The JSON above is just the shape I'm expecting, not the actual answer.
+
+Please use the exact identifiers from the instance input - don't rename them or invent new ones.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,one_based,"{""problem_type"":""MDS"",""num_nodes"":8,""num_edges"":7,""edges"":[{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":6,""v"":3},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":3,""v"":4},{""u"":4,""v"":5}],""source_file"":""great-britain_osm.mtx"",""density"":0.25,""edge_connectivity"":1}","[1,4,7]",3.0,"{""num_nodes"":8,""num_edges"":7,""edges"":[{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":6,""v"":3},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":3,""v"":4},{""u"":4,""v"":5}]}","[1,4,7]"
+MDS_S_006,MDS,S,6,"Recently the team was tasked with deciding where to place monitoring agents across a set of interconnected servers so every machine ends up observed. The practical rule is to install agents on as few servers as possible - evaluate each option by counting the agent hosts and pick the smallest count - while making sure no server is left without an agent or a direct neighbor with one, and without installing agents in places that don't add coverage. The detailed server map appears below.
+
+The network has 11 servers and 10 direct connections, listed below for the team to evaluate.
+Connection between 0 and 1: placing an agent on 0 or on 1 covers the other.
+Connection between 1 and 2: placing an agent on 1 or on 2 covers the other.
+Connection between 2 and 3: placing an agent on 2 or on 3 covers the other.
+Connection between 3 and 4: placing an agent on 3 or on 4 covers the other.
+Connection between 4 and 5: placing an agent on 4 or on 5 covers the other.
+Connection between 5 and 6: placing an agent on 5 or on 6 covers the other.
+Connection between 6 and 7: placing an agent on 6 or on 7 covers the other.
+Connection between 7 and 8: placing an agent on 7 or on 8 covers the other.
+Connection between 8 and 9: placing an agent on 8 or on 9 covers the other.
+Connection between 9 and 10: placing an agent on 9 or on 10 covers the other.
+The team will choose the smallest number of agent hosts that ensures all 11 servers are observed.
+
+When you're ready, just send back the selected hosts using this simple JSON shape:
+
+{
+  ""solution"": [""server_id"", ""server_id"", ...]
+}
+
+This just means ""solution"" is a list of the server IDs where we'll put agents. The server_id entries above are just placeholders showing the format - replace them with the exact IDs from the instance when you answer. Think of it like filling in a short form: one array, a bunch of server names.
+
+This JSON is only a sketch of the shape I expect, not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,zero_based,"{""problem_type"":""MDS"",""num_nodes"":11,""num_edges"":10,""edges"":[{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10},{""u"":10,""v"":11}],""source_file"":""great-britain_osm.mtx"",""density"":0.18181818181818182,""edge_connectivity"":1}","[2,5,7,10]",4.0,"{""num_nodes"":11,""num_edges"":10,""edges"":[{""u"":0,""v"":1},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10}]}","[1,4,6,9]"
+MDS_S_007,MDS,S,7,"I'm coordinating camera placement across a patchwork of forest clearings and the idea is simple: pick a handful of clearings to install traps so that every clearing either has a camera or is visible from one that does. The choice to make is which clearings get cameras; a plan that uses fewer cameras is better - just count how many are installed and prefer the smaller number. Practically, every clearing must be covered (either host a camera or be next to a clearing with one) and each camera sits in one clearing and only counts once, so nothing can be left uncovered or double-counted. The exact map and clearing list are shown below.
+
+There are 8 clearings in total and 7 visibility links.
+
+| clearing_u_id | clearing_v_id |
+|---|---|
+| 2 | 1 |
+| 2 | 3 |
+| 3 | 4 |
+| 4 | 5 |
+| 5 | 6 |
+| 6 | 7 |
+| 7 | 8 |
+
+When you send the plan back, just use a tiny JSON snippet so it's easy for me (and any tools) to read. A relaxed example of the shape I want is below.
+
+{
+  ""solution"": [""clearing_id"", ""clearing_id"", ...]
+}
+
+Pretty straightforward: ""solution"" is the list of clearings where we'll put cameras - each entry should be the ID of a clearing from the instance. This JSON is just a sketch of the shape I expect, not the actual answer - replace the placeholder strings with the real clearing IDs.
+
+All identifiers must match the instance exactly - no renaming and no new labels.
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",markdown_table,one_based,"{""problem_type"":""MDS"",""num_nodes"":8,""num_edges"":7,""edges"":[{""u"":2,""v"":1},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8}],""source_file"":""italy_osm.mtx"",""density"":0.25,""edge_connectivity"":1}","[2,5,7]",3.0,"{""num_nodes"":8,""num_edges"":7,""edges"":[{""u"":2,""v"":1},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8}]}","[2,5,7]"
+MDS_S_008,MDS,S,8,"I'm the marketing manager trying to put together a small promo that reaches every shop in our network by placing displays in just a few spots - each store should either host a display or be right next to a store that does. The better plan is the one that uses fewer hosting stores, which you can tell simply by counting how many stores end up chosen; nothing can be left uncovered and picking the same store twice doesn't change anything. The exact store map and numbers are shown below.
+
+There are 10 stores in total and 9 store connections.
+
+| store_a | store_b |
+|---|---|
+| 1 | 3 |
+| 2 | 3 |
+| 3 | 10 |
+| 4 | 5 |
+| 5 | 6 |
+| 6 | 7 |
+| 7 | 8 |
+| 8 | 9 |
+| 9 | 10 |
+
+Oh, and when you send the solution back, just use a tiny JSON snippet like this so it's easy to check:
+
+{
+  ""solution"": [""store_id"", ""store_id"", ...]
+}
+
+Think of ""solution"" as the list of stores where we'll put the displays - one entry per chosen store. This is just a sketch of the shape I need, not the actual plan itself.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+For example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,one_based,"{""problem_type"":""MDS"",""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":1,""v"":3},{""u"":2,""v"":3},{""u"":3,""v"":10},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10}],""source_file"":""netherlands_osm.mtx"",""density"":0.2,""edge_connectivity"":1}","[3,5,8]",3.0,"{""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":1,""v"":3},{""u"":2,""v"":3},{""u"":3,""v"":10},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10}]}","[3,5,8]"
+MDS_S_009,MDS,S,9,"Recently a decision came up about placing water troughs across neighboring fields so every field either contains a trough or borders a field with one, and the goal is to do that with the least number of troughs. You rate any placement by the total number of troughs used - fewer troughs means a better solution. Make sure every field is covered by that choice and don't waste resources by putting multiple troughs in the same field. The exact instance details are shown below.
+
+There are 10 fields in total and 9 borders.
+
+| field_a_id | field_b_id |
+|---|---|
+| 2 | 3 |
+| 3 | 4 |
+| 4 | 5 |
+| 5 | 0 |
+| 5 | 8 |
+| 8 | 9 |
+| 6 | 1 |
+| 6 | 7 |
+| 0 | 1 |
+
+Oh, and when you send the placement back, please use this simple JSON shape so it's easy to read and parse:
+
+{
+  ""solution"": [""field_id"", ""field_id"", ...]
+}
+
+Think of ""solution"" as just a list of the fields where you put troughs - each placeholder like ""field_id"" stands in for one of the actual field identifiers from the instance. This is just a sketch of the shape I expect, not the real answer itself.
+
+Please make sure to use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,zero_based,"{""problem_type"":""MDS"",""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":1},{""u"":6,""v"":9},{""u"":9,""v"":10},{""u"":7,""v"":2},{""u"":7,""v"":8},{""u"":1,""v"":2}],""source_file"":""great-britain_osm.mtx"",""density"":0.2,""edge_connectivity"":1}","[2,4,7,9]",4.0,"{""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":0},{""u"":5,""v"":8},{""u"":8,""v"":9},{""u"":6,""v"":1},{""u"":6,""v"":7},{""u"":0,""v"":1}]}","[1,3,6,8]"
+MDS_S_010,MDS,S,10,"Back in the office, the superintendent sketched the hallways and asked: which apartments should store the extinguishers so that every unit either contains one or is connected by a hallway to a unit that does? The winning plan is simply the one with the fewest apartments actually storing extinguishers - judge any placement by that count - while making sure every apartment gets covered and avoiding putting extras where they don't help. The exact building sketch is shown below.
+
+# total_apartments=9
+# total_hallway_connections=8
+apartment_endpoint_u,apartment_endpoint_v
+7,0
+7,8
+1,2
+2,3
+3,4
+4,5
+5,6
+6,8
+
+Oh - and when you give the final answer, please use a tiny JSON sketch like this so it's easy to check:
+
+{
+  ""solution"": [""apartment_id"", ""apartment_id"", ...]
+}
+
+Think of ""solution"" as the list of apartment identifiers where the extinguishers should go - just the labels, nothing else. This block is just the expected shape (a simple list), not the actual placement.
+
+Please be careful to use the identifiers exactly as they appear in the instance input - no renaming, no made-up labels.
+for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,zero_based,"{""problem_type"":""MDS"",""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":8,""v"":1},{""u"":8,""v"":9},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":9}],""source_file"":""great-britain_osm.mtx"",""density"":0.2222222222222222,""edge_connectivity"":1}","[3,6,8]",3.0,"{""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":7,""v"":0},{""u"":7,""v"":8},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":8}]}","[2,5,7]"
+MDS_S_011,MDS,S,11,"Someone in the control room needs to decide where to sit relays across the substations so every station either has one installed or is connected to a station that does. The goal is obvious: use as few relays as you can get away with - place them, count them, and make sure every substation ends up covered by a relay at its own site or at an adjacent site. Everything must be covered, and there's no point in duplicating relays where a single one already serves the neighborhood. The concrete network details are listed below.
+
+# total_substations=9
+# total_transmission_lines=8
+endpoint_substation,adjacent_substation
+9,4
+9,8
+1,2
+2,3
+3,5
+3,6
+6,7
+8,7
+
+Oh, and when you send the answer back, please stick to this simple JSON layout so the control room can read it automatically:
+
+{
+  ""solution"": [""substation_id"", ""substation_id"", ...]
+}
+
+Pretty straightforward: ""solution"" is the list of substations where you put relays, and each entry in that array is the exact substation identifier from the instance (one per relay location). Think of it like filling out a short checklist - just the IDs of the places you chose.
+
+This is just the shape I expect, not the actual answer - replace those placeholders with the real IDs from the instance. All identifiers must be used exactly as they appear in the input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,one_based,"{""problem_type"":""MDS"",""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":9,""v"":4},{""u"":9,""v"":8},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":5},{""u"":3,""v"":6},{""u"":6,""v"":7},{""u"":8,""v"":7}],""source_file"":""belgium_osm.mtx"",""density"":0.2222222222222222,""edge_connectivity"":1}","[2,3,7,9]",4.0,"{""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":9,""v"":4},{""u"":9,""v"":8},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":5},{""u"":3,""v"":6},{""u"":6,""v"":7},{""u"":8,""v"":7}]}","[2,3,7,9]"
+MDS_S_012,MDS,S,12,"Someone in charge of station duty must decide which stops should have attendants so every stop is either staffed or next door to a staffed stop, and the aim is to keep the total number of attendants as low as possible. Plans are compared by tallying the attendants required; fewer attendants means a better plan. Practical rule: every station needs at least one nearby attendant, and nothing can be ignored when checking coverage. The specific instance and map follow below.
+
+{
+  ""total_stations"": 8,
+  ""total_adjacent_pairs"": 10,
+  ""edges"": [
+    {
+      ""station_endpoint_1"": 1,
+      ""station_endpoint_2"": 2
+    },
+    {
+      ""station_endpoint_1"": 1,
+      ""station_endpoint_2"": 8
+    },
+    {
+      ""station_endpoint_1"": 2,
+      ""station_endpoint_2"": 3
+    },
+    {
+      ""station_endpoint_1"": 2,
+      ""station_endpoint_2"": 5
+    },
+    {
+      ""station_endpoint_1"": 3,
+      ""station_endpoint_2"": 7
+    },
+    {
+      ""station_endpoint_1"": 4,
+      ""station_endpoint_2"": 5
+    },
+    {
+      ""station_endpoint_1"": 4,
+      ""station_endpoint_2"": 6
+    },
+    {
+      ""station_endpoint_1"": 4,
+      ""station_endpoint_2"": 7
+    },
+    {
+      ""station_endpoint_1"": 5,
+      ""station_endpoint_2"": 8
+    },
+    {
+      ""station_endpoint_1"": 6,
+      ""station_endpoint_2"": 8
+    }
+  ]
+}
+
+When you're ready, just give me the chosen stops in a tiny JSON object like this:
+
+{
+  ""solution"": [""stop_id"", ""stop_id"", ...]
+}
+
+Pretty simple: ""solution"" is the list of stops where attendants will be placed. Each string in that array is the identifier of a stop (one entry per staffed stop). This is just the expected shape - a sketch of the format, not the actual plan itself.
+
+Please make sure to use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,one_based,"{""problem_type"":""MDS"",""num_nodes"":8,""num_edges"":10,""edges"":[{""u"":1,""v"":2},{""u"":1,""v"":8},{""u"":2,""v"":3},{""u"":2,""v"":5},{""u"":3,""v"":7},{""u"":4,""v"":5},{""u"":4,""v"":6},{""u"":4,""v"":7},{""u"":5,""v"":8},{""u"":6,""v"":8}],""source_file"":""luxembourg_osm.mtx"",""density"":0.35714285714285715,""edge_connectivity"":2}","[5,7,8]",3.0,"{""num_nodes"":8,""num_edges"":10,""edges"":[{""u"":1,""v"":2},{""u"":1,""v"":8},{""u"":2,""v"":3},{""u"":2,""v"":5},{""u"":3,""v"":7},{""u"":4,""v"":5},{""u"":4,""v"":6},{""u"":4,""v"":7},{""u"":5,""v"":8},{""u"":6,""v"":8}]}","[5,7,8]"
+MDS_S_013,MDS,S,13,"There's a grid of stops across town, and the job is to mark a few of them as central drop-off hubs so every stop is either a hub or has a hub right next to it. What's at stake is choosing which stops become hubs; a smarter choice is simply the one that uses the smallest number of hubs - you measure that by counting how many hubs you picked. No stop can be left out, and a hub shouldn't be counted twice. The detailed layout is shown below.
+
+{
+  ""total_stops"": 10,
+  ""adjacency_count"": 9,
+  ""edges"": [
+    {
+      ""stop_u"": ""A"",
+      ""stop_v"": ""B""
+    },
+    {
+      ""stop_u"": ""B"",
+      ""stop_v"": ""C""
+    },
+    {
+      ""stop_u"": ""C"",
+      ""stop_v"": ""D""
+    },
+    {
+      ""stop_u"": ""D"",
+      ""stop_v"": ""E""
+    },
+    {
+      ""stop_u"": ""E"",
+      ""stop_v"": ""F""
+    },
+    {
+      ""stop_u"": ""F"",
+      ""stop_v"": ""G""
+    },
+    {
+      ""stop_u"": ""G"",
+      ""stop_v"": ""H""
+    },
+    {
+      ""stop_u"": ""H"",
+      ""stop_v"": ""I""
+    },
+    {
+      ""stop_u"": ""I"",
+      ""stop_v"": ""J""
+    }
+  ]
+}
+
+Oh, and when you send the picks back, please use this little JSON shape so it's easy to check:
+
+{
+  ""solution"": [""stop_id"", ""stop_id"", ...]
+}
+
+Think of it like a simple form: ""solution"" is the list of stops you've marked as hubs (the placeholders above just show the shape). Fill that array with the exact stop identifiers from the instance - don't invent new names or change them.
+
+Also, please use the identifiers exactly as they appear in the input - no renaming.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".
+
+The JSON above is just a sketch of the expected shape, not the actual answer.",json,names,"{""problem_type"":""MDS"",""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10}],""source_file"":""great-britain_osm.mtx"",""density"":0.2,""edge_connectivity"":1}","[2,5,6,9]",4.0,"{""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":""A"",""v"":""B""},{""u"":""B"",""v"":""C""},{""u"":""C"",""v"":""D""},{""u"":""D"",""v"":""E""},{""u"":""E"",""v"":""F""},{""u"":""F"",""v"":""G""},{""u"":""G"",""v"":""H""},{""u"":""H"",""v"":""I""},{""u"":""I"",""v"":""J""}]}","[""B"",""E"",""F"",""I""]"
+MDS_S_014,MDS,S,14,"Many people in the community want a lean, efficient set of neighborhood leads so resources aren't wasted, meaning each neighborhood must either have a lead or be adjacent to one. The choice is which neighborhoods get the leads; better choices cover the whole community using the fewest leads possible. To evaluate options, simply count how many leads a setup uses and make sure no neighborhood is left out or assigned twice - choose the setup with the smallest number that still provides full coverage. The concrete details will be shown below.
+
+{
+  ""num_neighborhoods"": 9,
+  ""num_bordering_pairs"": 8,
+  ""edges"": [
+    {
+      ""neighborhood_u"": 3,
+      ""neighborhood_v"": 1
+    },
+    {
+      ""neighborhood_u"": 3,
+      ""neighborhood_v"": 4
+    },
+    {
+      ""neighborhood_u"": 4,
+      ""neighborhood_v"": 5
+    },
+    {
+      ""neighborhood_u"": 5,
+      ""neighborhood_v"": 6
+    },
+    {
+      ""neighborhood_u"": 6,
+      ""neighborhood_v"": 7
+    },
+    {
+      ""neighborhood_u"": 7,
+      ""neighborhood_v"": 8
+    },
+    {
+      ""neighborhood_u"": 8,
+      ""neighborhood_v"": 9
+    },
+    {
+      ""neighborhood_u"": 9,
+      ""neighborhood_v"": 2
+    }
+  ]
+}
+
+When you're ready to reply, just drop the chosen neighborhoods into a tiny JSON object like this:
+
+{
+  ""solution"": [""neighborhood_id"", ""neighborhood_id"", ...]
+}
+
+""solution"" is just a list of the neighborhood IDs you want to assign leads to - nothing fancy. Think of it like a short form: each item is a neighborhood label from the instance input, listed one after another. This JSON is only a sketch of the expected shape, not the actual answer - replace those placeholders with the real IDs from the instance.
+
+All identifiers must be used exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,one_based,"{""problem_type"":""MDS"",""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":3,""v"":1},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":2}],""source_file"":""italy_osm.mtx"",""density"":0.2222222222222222,""edge_connectivity"":1}","[3,6,9]",3.0,"{""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":3,""v"":1},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":2}]}","[3,6,9]"
+MDS_S_015,MDS,S,15,"Recently the committee talked about cutting down on tent clutter: pick tent locations so every area either hosts an information tent or is adjacent to one. The cleanest solution is the one with the fewest tents - simply count how many tents are used and prefer the lower total. No area can be ignored, and tents shouldn't be duplicated in the same spot. The detailed map and area list are provided below.
+
+{
+  ""total_areas"": 11,
+  ""total_adjacency_links"": 12,
+  ""edges"": [
+    {
+      ""area_a_id"": 1,
+      ""area_b_id"": 0
+    },
+    {
+      ""area_a_id"": 1,
+      ""area_b_id"": 2
+    },
+    {
+      ""area_a_id"": 2,
+      ""area_b_id"": 3
+    },
+    {
+      ""area_a_id"": 3,
+      ""area_b_id"": 6
+    },
+    {
+      ""area_a_id"": 3,
+      ""area_b_id"": 9
+    },
+    {
+      ""area_a_id"": 4,
+      ""area_b_id"": 5
+    },
+    {
+      ""area_a_id"": 4,
+      ""area_b_id"": 8
+    },
+    {
+      ""area_a_id"": 5,
+      ""area_b_id"": 6
+    },
+    {
+      ""area_a_id"": 6,
+      ""area_b_id"": 7
+    },
+    {
+      ""area_a_id"": 7,
+      ""area_b_id"": 8
+    },
+    {
+      ""area_a_id"": 10,
+      ""area_b_id"": 0
+    },
+    {
+      ""area_a_id"": 10,
+      ""area_b_id"": 9
+    }
+  ]
+}
+
+Also, when you send the final pick, please stick to this little JSON layout so it's easy to read and use.
+
+{
+  ""solution"": [""area_id"", ""area_id"", ...]
+}
+
+Here ""solution"" is just the list of areas where we'll put tents - each string is an area identifier from the map. Think of it like copying the spot labels into a form: nothing fancy, just the IDs. This JSON is only a sketch of the shape I expect, not the actual answer.
+
+Please make sure to use the identifiers exactly as they appear in the instance input - no renaming and no inventing new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,zero_based,"{""problem_type"":""MDS"",""num_nodes"":11,""num_edges"":12,""edges"":[{""u"":2,""v"":1},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":7},{""u"":4,""v"":10},{""u"":5,""v"":6},{""u"":5,""v"":9},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":11,""v"":1},{""u"":11,""v"":10}],""source_file"":""netherlands_osm.mtx"",""density"":0.21818181818181817,""edge_connectivity"":1}","[1,4,7,9]",4.0,"{""num_nodes"":11,""num_edges"":12,""edges"":[{""u"":1,""v"":0},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":6},{""u"":3,""v"":9},{""u"":4,""v"":5},{""u"":4,""v"":8},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":10,""v"":0},{""u"":10,""v"":9}]}","[0,3,6,8]"
+MDS_S_016,MDS,S,16,"Recently the IT team decided to limit installs and only put antivirus where it's really needed, so every workstation either has protection or is on the same subnet/connection to one that does. The decision is figuring out which few machines get the software - the best pick is the one with the smallest number of installs that still reaches every device. To check any choice, simply add up the installed machines and verify each remaining machine is directly linked to at least one of them; fewer installations are better, and nothing can be missed or installed multiple times for no reason. The office diagram and exact device links are shown below.
+
+# total_workstations=12
+# total_network_connections=11
+computer_endpoint_u,computer_endpoint_v
+I,H
+I,J
+J,K
+K,L
+A,B
+B,C
+C,D
+D,E
+E,F
+F,G
+G,H
+
+Oh, and when you give the final pick, please use this simple JSON layout so it's easy to check programmatically - nothing fancy, just a list of the machines you choose:
+
+{
+  ""solution"": [""machine_id"", ""machine_id"", ...]
+}
+
+Here ""solution"" should be filled with the identifiers of the workstations that will get the antivirus installed - just a plain list of those machine IDs. Think of it like a short form: put each machine's exact label in the array, and that's your answer. This JSON is just a sketch of the shape I expect, not the actual solution.
+
+Please make sure you use the identifiers exactly as they appear in the instance input - do not rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MDS"",""num_nodes"":12,""num_edges"":11,""edges"":[{""u"":9,""v"":8},{""u"":9,""v"":10},{""u"":10,""v"":11},{""u"":11,""v"":12},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8}],""source_file"":""italy_osm.mtx"",""density"":0.16666666666666666,""edge_connectivity"":1}","[2,5,8,11]",4.0,"{""num_nodes"":12,""num_edges"":11,""edges"":[{""u"":""I"",""v"":""H""},{""u"":""I"",""v"":""J""},{""u"":""J"",""v"":""K""},{""u"":""K"",""v"":""L""},{""u"":""A"",""v"":""B""},{""u"":""B"",""v"":""C""},{""u"":""C"",""v"":""D""},{""u"":""D"",""v"":""E""},{""u"":""E"",""v"":""F""},{""u"":""F"",""v"":""G""},{""u"":""G"",""v"":""H""}]}","[""B"",""E"",""H"",""K""]"
+MDS_S_017,MDS,S,17,"I'm helping coordinate a small patrol network where the trick is to name as few houses as possible as bases, with the rule that every house must either be a base or have a base next door. A better selection is the one that uses the fewest bases while still touching every house; to check it, count the bases and walk the map to ensure each home is covered. No house can be left out and bases should be distinct. The concrete layout and house numbers come next below.
+
+# total_houses=10
+# adjacency_pairs=9
+house_one,house_two
+A,B
+B,C
+C,D
+D,E
+E,F
+F,G
+G,H
+H,I
+I,J
+
+When you're ready, just send back a tiny JSON snippet in this shape so I can read which houses you picked as bases:
+
+{
+  ""solution"": [""house_id"", ""house_id"", ...]
+}
+
+Think of ""solution"" as the list of house IDs you want to name as bases - one entry per chosen house. This is just a sketch of the shape I need, not the actual answer.
+
+Please be careful to use the identifiers exactly as they appear in the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MDS"",""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10}],""source_file"":""luxembourg_osm.mtx"",""density"":0.2,""edge_connectivity"":1}","[2,5,6,9]",4.0,"{""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":""A"",""v"":""B""},{""u"":""B"",""v"":""C""},{""u"":""C"",""v"":""D""},{""u"":""D"",""v"":""E""},{""u"":""E"",""v"":""F""},{""u"":""F"",""v"":""G""},{""u"":""G"",""v"":""H""},{""u"":""H"",""v"":""I""},{""u"":""I"",""v"":""J""}]}","[""B"",""E"",""F"",""I""]"
+MDS_S_018,MDS,S,18,"Many people on the team keep asking the same question: which few stores should host demos so that every location is either a host or right next to a host, while keeping the total number of hosts as low as possible. You compare options by the total number of chosen stores - the lower that number, the better - and it's required that every store is covered and none are selected more than once. The specific details follow below.
+
+# total_stores=9
+# total_store_adjacencies=8
+store_a_id,store_b_id
+E,D
+E,F
+F,G
+G,H
+H,I
+A,B
+B,C
+C,D
+
+Also, when you send back the chosen stores, please use a tiny JSON layout so it's easy to read and parse. For this demo-hosting question, something like this is what I expect:
+
+{
+  ""solution"": [""store_id"", ""store_id"", ...]
+}
+
+""solution"" is just the list of stores you've picked to host demos - one identifier per entry. That JSON is only a template showing the shape I want; don't treat ""store_id"" as a real ID.
+
+All identifiers must be used exactly as they appear in the instance input - no renaming and no invented labels. Valid identifiers look like:
+- plain numbers such as ""1"" or ""23""
+- single capital letters like ""A"" or ""B""
+- a capital letter followed by digits like ""A1"" or ""X7""",csv,names,"{""problem_type"":""MDS"",""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4}],""source_file"":""great-britain_osm.mtx"",""density"":0.2222222222222222,""edge_connectivity"":1}","[2,5,8]",3.0,"{""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":""E"",""v"":""D""},{""u"":""E"",""v"":""F""},{""u"":""F"",""v"":""G""},{""u"":""G"",""v"":""H""},{""u"":""H"",""v"":""I""},{""u"":""A"",""v"":""B""},{""u"":""B"",""v"":""C""},{""u"":""C"",""v"":""D""}]}","[""B"",""E"",""H""]"
+MDS_S_019,MDS,S,19,"On a busy afternoon the admin team realized the hospital could improve infection control by placing sanitizer stations so that every ward is either fitted with one or directly next to a ward that is. The aim is to cover every ward but do it with the fewest dispensers possible - fewer dispensers that still reach every ward is the preferred setup. To validate a layout, count the dispensers and ensure every ward has coverage; duplicating dispensers in the same ward without covering new wards should be avoided. The specific layout and numbers are shown below.
+
+# total_wards_count=9
+# adjacent_ward_pairs_count=8
+ward_endpoint_a,ward_endpoint_b
+B,A
+B,C
+C,D
+D,E
+E,F
+F,G
+G,H
+H,I
+
+Also, just so everything is machine-friendly, please send the proposed dispenser locations using this simple JSON shape:
+
+{
+  ""solution"": [""ward_id"", ""ward_id"", ...]
+}
+
+Here ""solution"" is just a list of the ward identifiers where you'd place sanitizer stations - think of each entry as the label for a ward (it's a sketch of the shape I expect, not the actual answer). Use the identifiers exactly as they appear in the instance input - don't rename them or invent new labels.
+
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,names,"{""problem_type"":""MDS"",""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":2,""v"":1},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9}],""source_file"":""great-britain_osm.mtx"",""density"":0.2222222222222222,""edge_connectivity"":1}","[2,5,8]",3.0,"{""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":""B"",""v"":""A""},{""u"":""B"",""v"":""C""},{""u"":""C"",""v"":""D""},{""u"":""D"",""v"":""E""},{""u"":""E"",""v"":""F""},{""u"":""F"",""v"":""G""},{""u"":""G"",""v"":""H""},{""u"":""H"",""v"":""I""}]}","[""B"",""E"",""H""]"
+MDS_S_020,MDS,S,20,"We're figuring out where to place a handful of information signs around the park so that every crossroads is either fitted with a sign or touches a crossroads that has one. The trick is to pick spots so the total number of signs is as small as it can be while still making sure every junction is covered. To evaluate any layout, tally the signs and make sure every junction is either hosting a sign or next to one - don't leave any junction without coverage and avoid redundant double-signs at the same place. The specific map and details are shown below.
+
+We have 12 junctions connected by 12 trail segments:
+Trail segment connecting crossroads 8 and 1: if we place a sign at one crossroads it covers the other.
+Trail segment connecting crossroads 9 and 1: if we place a sign at one crossroads it covers the other.
+Trail segment connecting crossroads 10 and 4: if we place a sign at one crossroads it covers the other.
+Trail segment connecting crossroads 10 and 11: if we place a sign at one crossroads it covers the other.
+Trail segment connecting crossroads 11 and 3: if we place a sign at one crossroads it covers the other.
+Trail segment connecting crossroads 0 and 1: if we place a sign at one crossroads it covers the other.
+Trail segment connecting crossroads 0 and 4: if we place a sign at one crossroads it covers the other.
+Trail segment connecting crossroads 0 and 5: if we place a sign at one crossroads it covers the other.
+Trail segment connecting crossroads 1 and 2: if we place a sign at one crossroads it covers the other.
+Trail segment connecting crossroads 4 and 3: if we place a sign at one crossroads it covers the other.
+Trail segment connecting crossroads 5 and 6: if we place a sign at one crossroads it covers the other.
+Trail segment connecting crossroads 5 and 7: if we place a sign at one crossroads it covers the other.
+List the segments below so we can count signs and verify every one of the 12 junctions is covered.
+
+When you send the layout back, please keep it in a tiny JSON shape so it's easy to check. Just like this:
+
+{
+  ""solution"": [""junction_id"", ""junction_id"", ...]
+}
+
+Pretty simple: the ""solution"" array lists the crossroads (junctions) where you'd put the signs. Think of it like filling out a short form - each entry is the exact junction identifier you choose. The snippet above is just a sketch of the shape I expect, not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,zero_based,"{""problem_type"":""MDS"",""num_nodes"":12,""num_edges"":12,""edges"":[{""u"":9,""v"":2},{""u"":10,""v"":2},{""u"":11,""v"":5},{""u"":11,""v"":12},{""u"":12,""v"":4},{""u"":1,""v"":2},{""u"":1,""v"":5},{""u"":1,""v"":6},{""u"":2,""v"":3},{""u"":5,""v"":4},{""u"":6,""v"":7},{""u"":6,""v"":8}],""source_file"":""italy_osm.mtx"",""density"":0.18181818181818182,""edge_connectivity"":1}","[2,4,5,6]",4.0,"{""num_nodes"":12,""num_edges"":12,""edges"":[{""u"":8,""v"":1},{""u"":9,""v"":1},{""u"":10,""v"":4},{""u"":10,""v"":11},{""u"":11,""v"":3},{""u"":0,""v"":1},{""u"":0,""v"":4},{""u"":0,""v"":5},{""u"":1,""v"":2},{""u"":4,""v"":3},{""u"":5,""v"":6},{""u"":5,""v"":7}]}","[1,3,4,5]"
+MDS_S_021,MDS,S,21,"Someone in charge needs to name a few volunteer homes so that every residence either has a volunteer living there or sits beside one that does. A smarter choice uses fewer host households - count the hosts to see which plan is better. It's mandatory that every house be covered by hosting or adjacency, and there's no duplicating a host entry. The specific neighborhood layout appears below.
+
+There are 9 houses and 8 adjacent pairs listed below:
+House 1 sits beside house 2.
+House 2 sits beside house 3.
+House 3 sits beside house 4.
+House 4 sits beside house 5.
+House 5 sits beside house 6.
+House 6 sits beside house 7.
+House 7 sits beside house 8.
+House 8 sits beside house 9.
+Choose hosts so every one of the 9 houses is covered; do not duplicate any host entry.
+
+Also, when you send the pick of volunteer homes, it helps if you put it in a tiny JSON snippet like this so it's easy to read and check.
+
+{
+  ""solution"": [""house_id"", ""house_id"", ...]
+}
+
+Here that ""solution"" list is just the set of homes you'll ask to host - a simple list of the house labels you choose. It's just a sketch of the format I want, not the actual answer itself.
+
+Please make sure to use the exact identifiers given in the instance input - don't rename them or invent new ones.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,one_based,"{""problem_type"":""MDS"",""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9}],""source_file"":""italy_osm.mtx"",""density"":0.2222222222222222,""edge_connectivity"":1}","[2,5,8]",3.0,"{""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9}]}","[2,5,8]"
+MDS_S_022,MDS,S,22,"Many warehouses face the same puzzle: decide which bays get monitoring so every bay is either watched directly or has a watched neighbor on its aisle. The better the solution, the fewer monitored bays it uses - the count of chosen bays is the simple measure of success. Every bay must be covered in one of those two ways, and picking one bay more than once doesn't change the count. The exact layout and data are shown below.
+
+There are 12 storage bays in total and 11 aisle connections.
+
+| bay_a | bay_b |
+|---|---|
+| 1 | 2 |
+| 2 | 3 |
+| 3 | 4 |
+| 4 | 5 |
+| 5 | 6 |
+| 6 | 7 |
+| 7 | 8 |
+| 8 | 9 |
+| 9 | 10 |
+| 10 | 11 |
+| 11 | 12 |
+
+Also, when you send your chosen bays, it's easiest if you put them in a small JSON snippet like this:
+
+{
+  ""solution"": [""bay_id"", ""bay_id"", ...]
+}
+
+Here, ""solution"" is just the list of bay identifiers you'd pick to monitor - think of each entry as the label of a bay you'd mark for watching. This block is just a sketch of the shape I want the answer in, not the actual solution.
+
+Please use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,one_based,"{""problem_type"":""MDS"",""num_nodes"":12,""num_edges"":11,""edges"":[{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10},{""u"":10,""v"":11},{""u"":11,""v"":12}],""source_file"":""great-britain_osm.mtx"",""density"":0.16666666666666666,""edge_connectivity"":1}","[2,5,8,11]",4.0,"{""num_nodes"":12,""num_edges"":11,""edges"":[{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10},{""u"":10,""v"":11},{""u"":11,""v"":12}]}","[2,5,8,11]"
+MDS_S_023,MDS,S,23,"Back when the principal was reorganizing supervision, the task was to pick some classrooms to act as the leads so every classroom is either one of those leads or right next to one. The better arrangement uses the fewest lead classrooms - you just add up the chosen leads to see how well it did, aiming for the lowest total. Every classroom must be covered, and no classroom should be picked more than once. The detailed list of classrooms is shown below.
+
+There were 8 classrooms and 7 distinct adjacency pairs listed:
+Classroom A was adjacent to classroom B.
+Classroom B was adjacent to classroom C.
+Classroom C was adjacent to classroom D.
+Classroom D was adjacent to classroom E.
+Classroom E was adjacent to classroom F.
+Classroom E was adjacent to classroom G.
+Classroom F was adjacent to classroom H.
+That completed the list of 7 adjacency pairs among the 8 classrooms.
+
+If you're going to give the answer, just stick to a tiny JSON snippet like this - keeps things tidy and machine-friendly, but nothing fussy:
+
+{
+  ""solution"": [""classroom_id"", ""classroom_id"", ...]
+}
+
+Here ""solution"" is the list of chosen lead classrooms (the ones you picked so every classroom is either a lead or right next to one). The items in the array are the classroom identifiers - just list each one exactly as shown in the instance. This is only a sketch of the shape I expect, not the actual answer.
+
+Please use the exact identifiers from the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,names,"{""problem_type"":""MDS"",""num_nodes"":8,""num_edges"":7,""edges"":[{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":6,""v"":8}],""source_file"":""belgium_osm.mtx"",""density"":0.25,""edge_connectivity"":1}","[2,5,6]",3.0,"{""num_nodes"":8,""num_edges"":7,""edges"":[{""u"":""A"",""v"":""B""},{""u"":""B"",""v"":""C""},{""u"":""C"",""v"":""D""},{""u"":""D"",""v"":""E""},{""u"":""E"",""v"":""F""},{""u"":""E"",""v"":""G""},{""u"":""F"",""v"":""H""}]}","[""B"",""E"",""F""]"
+MDS_S_024,MDS,S,24,"Recently the ops crew needed to schedule maintenance with minimal impact, so the plan was to pick a small set of hosts to run maintenance and let their direct neighbors ride on that coverage. The decision is which hosts to pick; the preferred plan is the one that covers every server while using as few maintenance hosts as possible. To evaluate any plan, count how many hosts were put into maintenance - that number should be as low as it can go - and double-check that every server is either in maintenance or directly connected to one, with no servers overlooked or duplicated. The detailed instance follows below.
+
+There are 12 servers in total and 11 links.
+
+| server_u | server_v |
+|---|---|
+| 7 | 6 |
+| 7 | 8 |
+| 9 | 1 |
+| 9 | 10 |
+| 10 | 11 |
+| 11 | 12 |
+| 1 | 2 |
+| 2 | 3 |
+| 3 | 4 |
+| 4 | 5 |
+| 5 | 6 |
+
+Also, when you send the plan back, just use a tiny JSON snippet like this so it's easy to read and machine-friendly:
+
+{
+  ""solution"": [""host_id"", ""host_id"", ...]
+}
+
+Think of ""solution"" as the short checklist of hosts you picked for maintenance - just drop each host's identifier into that array. This JSON is only a sketch of the shape I expect, not the actual answer itself.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,one_based,"{""problem_type"":""MDS"",""num_nodes"":12,""num_edges"":11,""edges"":[{""u"":7,""v"":6},{""u"":7,""v"":8},{""u"":9,""v"":1},{""u"":9,""v"":10},{""u"":10,""v"":11},{""u"":11,""v"":12},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6}],""source_file"":""luxembourg_osm.mtx"",""density"":0.16666666666666666,""edge_connectivity"":1}","[1,4,7,11]",4.0,"{""num_nodes"":12,""num_edges"":11,""edges"":[{""u"":7,""v"":6},{""u"":7,""v"":8},{""u"":9,""v"":1},{""u"":9,""v"":10},{""u"":10,""v"":11},{""u"":11,""v"":12},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6}]}","[1,4,7,11]"
+MDS_S_025,MDS,S,25,"Recently a neighbor described a lazy farmer's puzzle: put scarecrows on some plots so every plot either contains one or touches a plot with one. The aim is to manage complete coverage while minimizing how many scarecrows go up - fewer is better. To verify a plan, simply tally the scarecrows and ensure every plot either has one or is adjacent to one. Every plot must be covered, and extra scarecrows on the same plot don't change anything. The specific instance is listed below.
+
+# total_plots=11
+# adjacency_count=11
+plot_id_1,plot_id_2
+A,B
+A,H
+A,I
+A,J
+B,C
+C,D
+D,E
+E,F
+F,G
+I,K
+H,K
+
+If you'd like to propose a plan, you can just give it in a tiny JSON object - nothing fancy. Here's the shape I expect:
+
+{
+  ""solution"": [""plot_id"", ""plot_id"", ...]
+}
+
+Think of ""solution"" as the list of plots where you'd put scarecrows - each item is one plot identifier from the instance. This is just a sketch of the form I want, not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - do not rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MDS"",""num_nodes"":11,""num_edges"":11,""edges"":[{""u"":1,""v"":2},{""u"":1,""v"":8},{""u"":1,""v"":9},{""u"":1,""v"":10},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":9,""v"":11},{""u"":8,""v"":11}],""source_file"":""belgium_osm.mtx"",""density"":0.2,""edge_connectivity"":1}","[1,3,6,8]",4.0,"{""num_nodes"":11,""num_edges"":11,""edges"":[{""u"":""A"",""v"":""B""},{""u"":""A"",""v"":""H""},{""u"":""A"",""v"":""I""},{""u"":""A"",""v"":""J""},{""u"":""B"",""v"":""C""},{""u"":""C"",""v"":""D""},{""u"":""D"",""v"":""E""},{""u"":""E"",""v"":""F""},{""u"":""F"",""v"":""G""},{""u"":""I"",""v"":""K""},{""u"":""H"",""v"":""K""}]}","[""A"",""C"",""F"",""H""]"
+MDS_S_026,MDS,S,26,"Someone in charge of staffing has to decide where to post on-call doctors across the wards tonight. Each posted doctor handles their own ward and can support neighboring wards, so the aim is to post as few doctors as possible while ensuring every ward is either the one with a doctor or sits next to one. Compare plans by looking at how many doctors are assigned - the lower that number, the better - but never at the cost of leaving a ward without coverage. Assigning multiple doctors to cover the same ward is unnecessary; cover every ward exactly by being next to or on a staffed ward. The specific map and numbers are listed below.
+
+There are 9 wards and 8 adjacencies listed below.
+Wards G and D are adjacent; posting a doctor in either ward covers both.
+Wards G and H are adjacent; posting a doctor in either ward covers both.
+Wards H and I are adjacent; posting a doctor in either ward covers both.
+Wards B and A are adjacent; posting a doctor in either ward covers both.
+Wards B and C are adjacent; posting a doctor in either ward covers both.
+Wards C and D are adjacent; posting a doctor in either ward covers both.
+Wards D and E are adjacent; posting a doctor in either ward covers both.
+Wards E and F are adjacent; posting a doctor in either ward covers both.
+The goal is to staff every ward or an adjacent ward while minimizing the number of doctors posted.
+
+When you're ready, just drop your plan into this little JSON shape so it's easy to check:
+
+{
+  ""solution"": [""ward_id"", ""ward_id"", ...]
+}
+
+Pretty simple: ""solution"" should be a list of the ward identifiers where you'd post doctors. Each entry is the exact ward ID from the map (the ""... "" just means you can list as many wards as needed). This is just a sketch of the expected shape - not the final staffing plan.
+
+Please be sure to use the identifiers exactly as they appear in the instance input - don't rename or invent labels. For example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,names,"{""problem_type"":""MDS"",""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":7,""v"":4},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":2,""v"":1},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6}],""source_file"":""belgium_osm.mtx"",""density"":0.2222222222222222,""edge_connectivity"":1}","[2,5,8]",3.0,"{""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":""G"",""v"":""D""},{""u"":""G"",""v"":""H""},{""u"":""H"",""v"":""I""},{""u"":""B"",""v"":""A""},{""u"":""B"",""v"":""C""},{""u"":""C"",""v"":""D""},{""u"":""D"",""v"":""E""},{""u"":""E"",""v"":""F""}]}","[""B"",""E"",""H""]"
+MDS_S_027,MDS,S,27,"Many people imagine a delivery planner staring at a map and deciding which spots should be depots so that every drop point is either itself a depot or immediately beside one, but with as few depots as possible. The decision is which drop points to convert into depots; the better decision uses fewer depots while still reaching every drop point. To check whether a setup works, count the depots chosen and make sure every drop point ends up covered by being a depot or adjacent to one - nothing can be omitted and duplicates don't change anything. The precise map follows below.
+
+{
+  ""total_drop_points"": 9,
+  ""total_adjacent_pairs"": 8,
+  ""edges"": [
+    {
+      ""drop_point_a"": ""B"",
+      ""drop_point_b"": ""C""
+    },
+    {
+      ""drop_point_a"": ""B"",
+      ""drop_point_b"": ""G""
+    },
+    {
+      ""drop_point_a"": ""C"",
+      ""drop_point_b"": ""D""
+    },
+    {
+      ""drop_point_a"": ""D"",
+      ""drop_point_b"": ""E""
+    },
+    {
+      ""drop_point_a"": ""E"",
+      ""drop_point_b"": ""F""
+    },
+    {
+      ""drop_point_a"": ""G"",
+      ""drop_point_b"": ""H""
+    },
+    {
+      ""drop_point_a"": ""H"",
+      ""drop_point_b"": ""I""
+    },
+    {
+      ""drop_point_a"": ""I"",
+      ""drop_point_b"": ""A""
+    }
+  ]
+}
+
+When you send your answer back, just use this simple JSON shape so I can read it easily.
+
+{
+  ""solution"": [""depot_id"", ""depot_id"", ...]
+}
+
+Think of ""solution"" as the list of drop points you decided to turn into depots - each entry is the identifier for a location you picked. This block is just a sketch of the shape I expect, not the actual answer.
+
+Please use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,names,"{""problem_type"":""MDS"",""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":2,""v"":3},{""u"":2,""v"":7},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":1}],""source_file"":""luxembourg_osm.mtx"",""density"":0.2222222222222222,""edge_connectivity"":1}","[2,5,9]",3.0,"{""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":""B"",""v"":""C""},{""u"":""B"",""v"":""G""},{""u"":""C"",""v"":""D""},{""u"":""D"",""v"":""E""},{""u"":""E"",""v"":""F""},{""u"":""G"",""v"":""H""},{""u"":""H"",""v"":""I""},{""u"":""I"",""v"":""A""}]}","[""B"",""E"",""I""]"
+MDS_S_028,MDS,S,28,"Out in the field the operations crew needs a simple rule: pick a compact set of base stations to power so every antenna site either is powered itself or sits right next to a powered site. Nothing can be left uncovered, and there's no benefit to powering extra nearby stations unless required. The deciding factor is the number of powered stations - the plan with the lowest count is preferable; you compute that by tallying the active sites. Concrete details are shown below.
+
+{
+  ""total_sites"": 12,
+  ""total_direct_links"": 11,
+  ""edges"": [
+    {
+      ""site_endpoint_u"": 0,
+      ""site_endpoint_v"": 1
+    },
+    {
+      ""site_endpoint_u"": 1,
+      ""site_endpoint_v"": 2
+    },
+    {
+      ""site_endpoint_u"": 2,
+      ""site_endpoint_v"": 3
+    },
+    {
+      ""site_endpoint_u"": 3,
+      ""site_endpoint_v"": 4
+    },
+    {
+      ""site_endpoint_u"": 4,
+      ""site_endpoint_v"": 5
+    },
+    {
+      ""site_endpoint_u"": 5,
+      ""site_endpoint_v"": 6
+    },
+    {
+      ""site_endpoint_u"": 6,
+      ""site_endpoint_v"": 7
+    },
+    {
+      ""site_endpoint_u"": 7,
+      ""site_endpoint_v"": 8
+    },
+    {
+      ""site_endpoint_u"": 8,
+      ""site_endpoint_v"": 9
+    },
+    {
+      ""site_endpoint_u"": 9,
+      ""site_endpoint_v"": 10
+    },
+    {
+      ""site_endpoint_u"": 10,
+      ""site_endpoint_v"": 11
+    }
+  ]
+}
+
+And when you send the plan back, just use this tiny JSON shape so it's easy to parse:
+
+{
+  ""solution"": [""site_id"", ""site_id"", ...]
+}
+
+Here ""solution"" is simply the list of base stations you'll power - one site ID per powered station. It's just a sketch of the shape I expect, not the actual answer.
+
+Please use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,zero_based,"{""problem_type"":""MDS"",""num_nodes"":12,""num_edges"":11,""edges"":[{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10},{""u"":10,""v"":11},{""u"":11,""v"":12}],""source_file"":""belgium_osm.mtx"",""density"":0.16666666666666666,""edge_connectivity"":1}","[2,5,8,11]",4.0,"{""num_nodes"":12,""num_edges"":11,""edges"":[{""u"":0,""v"":1},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10},{""u"":10,""v"":11}]}","[1,4,7,10]"
+MDS_S_029,MDS,S,29,"Someone on the conservation team is trying to cover an entire chain of habitats with camera traps, but they want the fewest traps that still leave no habitat without coverage - meaning every habitat either has a trap or is next to one. A better setup uses fewer traps, and that can be checked by counting the selected trap sites and verifying each habitat is either hosting a trap or adjacent to one. Nothing should be left uncovered, and placing multiple traps on the exact same habitat is pointless. The specific map and data are listed below.
+
+The map shows 10 distinct habitats and 9 bordering pairs to consider.
+Habitat 4 is adjacent to habitat 5; a trap in either would cover both.
+Habitat 5 is adjacent to habitat 6; a trap in either would cover both.
+Habitat 6 is adjacent to habitat 7; a trap in either would cover both.
+Habitat 6 is adjacent to habitat 9; a trap in either would cover both.
+Habitat 7 is adjacent to habitat 2; a trap in either would cover both.
+Habitat 1 is adjacent to habitat 0; a trap in either would cover both.
+Habitat 1 is adjacent to habitat 2; a trap in either would cover both.
+Habitat 2 is adjacent to habitat 3; a trap in either would cover both.
+Habitat 9 is adjacent to habitat 8; a trap in either would cover both.
+Count selected trap sites and confirm coverage for all 10 habitats so none are left uncovered.
+
+Also, please return your chosen sites in this relaxed JSON shape so it's easy to check programmatically:
+
+{
+  ""solution"": [""habitat_id"", ""habitat_id"", ...]
+}
+
+Here ""solution"" is just the list of habitat identifiers where you'd place camera traps - one entry per habitat. Think of it like a simple form: put each habitat's exact ID in the array. This is only a sketch of the shape I need, not the actual final selection.
+
+Please make sure to use the identifiers exactly as they appear in the instance input - do not rename them or invent new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,zero_based,"{""problem_type"":""MDS"",""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":7,""v"":10},{""u"":8,""v"":3},{""u"":2,""v"":1},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":10,""v"":9}],""source_file"":""great-britain_osm.mtx"",""density"":0.2,""edge_connectivity"":1}","[2,3,6,10]",4.0,"{""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":6,""v"":9},{""u"":7,""v"":2},{""u"":1,""v"":0},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":9,""v"":8}]}","[1,2,5,9]"
+MDS_S_030,MDS,S,30,"There's a building that needs its wall extinguishers installed, and the challenge is choosing which rooms get them so no office is left unprotected: each office must either have an extinguisher on its wall or be adjacent to an office that does. A good setup uses the smallest number of extinguishers possible - the score is simply the number of units put up - and nothing can be skipped or double-counted. The concrete room map and details are shown below.
+
+There are 10 offices in total and 9 adjacency pairs.
+
+| office_a_id | office_b_id |
+|---|---|
+| 3 | 2 |
+| 3 | 4 |
+| 3 | 9 |
+| 5 | 1 |
+| 6 | 7 |
+| 7 | 2 |
+| 7 | 8 |
+| 0 | 1 |
+| 1 | 2 |
+
+I'll keep the answer ready in a simple JSON layout so it's easy to paste into whatever tool you're using. Just fill in the room IDs for where the extinguishers go.
+
+{
+  ""solution"": [""room_id"", ""room_id"", ...]
+}
+
+""solution"" is just the list of room IDs where we'll put extinguishers - one entry per room. Think of it like a checklist: list each room exactly as shown in the building map. This JSON is only a sketch of the shape I expect, not the final filled-in list.
+
+All identifiers must be used exactly as they appear in the instance input - no renaming and no new labels.
+- for example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",markdown_table,zero_based,"{""problem_type"":""MDS"",""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":4,""v"":3},{""u"":4,""v"":5},{""u"":4,""v"":10},{""u"":6,""v"":2},{""u"":7,""v"":8},{""u"":8,""v"":3},{""u"":8,""v"":9},{""u"":1,""v"":2},{""u"":2,""v"":3}],""source_file"":""great-britain_osm.mtx"",""density"":0.2,""edge_connectivity"":1}","[2,4,8]",3.0,"{""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":3,""v"":2},{""u"":3,""v"":4},{""u"":3,""v"":9},{""u"":5,""v"":1},{""u"":6,""v"":7},{""u"":7,""v"":2},{""u"":7,""v"":8},{""u"":0,""v"":1},{""u"":1,""v"":2}]}","[1,3,7]"
+MDS_S_031,MDS,S,31,"On a quiet night the curator mulls over where to place the overnight guards so that every exhibit room either has someone inside it or is connected by a doorway to a guarded room. The decision is about which rooms to occupy; a better layout uses as few guards as possible while still leaving zero rooms unobserved. The simplest way to pick between layouts is to count the guards - the plan with the smallest count that still reaches every room is preferred - and to ensure nothing is left unwatched and guards aren't redundantly clustered. The detailed map and door links are shown below.
+
+There are 10 exhibit rooms in total and 9 doorways.
+
+| room_a | room_b |
+|---|---|
+| 0 | 1 |
+| 0 | 8 |
+| 0 | 9 |
+| 1 | 2 |
+| 2 | 3 |
+| 3 | 4 |
+| 4 | 5 |
+| 5 | 6 |
+| 6 | 7 |
+
+Oh, and when you send back the guard plan, please use this simple JSON shape so it's easy to read by both people and the system:
+
+{
+  ""solution"": [""room_id"", ""room_id"", ...]
+}
+
+""solution"" should be a list of the room identifiers where you'll place the overnight guards. The placeholders show the format - replace each ""room_id"" with the actual room label from the map. This is just a sketch of the expected shape, not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - do not rename them or make up new labels. For example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",markdown_table,zero_based,"{""problem_type"":""MDS"",""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":1,""v"":2},{""u"":1,""v"":9},{""u"":1,""v"":10},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8}],""source_file"":""luxembourg_osm.mtx"",""density"":0.2,""edge_connectivity"":1}","[1,4,7]",3.0,"{""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":0,""v"":1},{""u"":0,""v"":8},{""u"":0,""v"":9},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7}]}","[0,3,6]"
+MDS_S_032,MDS,S,32,"We've got a cluster of gates and a tight crew budget, so the task is to station the fewest possible ground-crew posts so every gate either has someone there or is right next door to one. The decision is which gates get the posts; to pick the best setup, compare how many posts each layout needs and pick the layout with the smallest total that still keeps every gate covered. Every gate must be covered, and duplicate or pointless posts that don't extend coverage should be avoided. The specific layout details are shown below.
+
+Here are the 10 gates and their 9 adjacencies:
+Gate 6 sits next to gate 5, so we can cover both with a post at either one.
+Gate 6 sits next to gate 7, so we can cover both with a post at either one.
+Gate 7 sits next to gate 8, so we can cover both with a post at either one.
+Gate 8 sits next to gate 9, so we can cover both with a post at either one.
+Gate 0 sits next to gate 1, so we can cover both with a post at either one.
+Gate 1 sits next to gate 2, so we can cover both with a post at either one.
+Gate 2 sits next to gate 3, so we can cover both with a post at either one.
+Gate 3 sits next to gate 4, so we can cover both with a post at either one.
+Gate 4 sits next to gate 5, so we can cover both with a post at either one.
+Choose the layout that keeps all 10 gates covered with the fewest posts and avoid duplicate or pointless posts.
+
+Also, when you hand in the final gate picks, keep it simple and use this JSON layout so whoever reads it knows exactly where the posts go:
+
+{
+  ""solution"": [""vertex_id"", ""vertex_id"", ...]
+}
+
+""solution"" is just the list of gates where you put crew posts - think of it like ticking off the gate labels you chose. This JSON is only a sketch of the shape I want, not the actual answer itself.
+
+Please make sure to use the exact gate identifiers as they appear in the instance input - don't rename them or invent new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,zero_based,"{""problem_type"":""MDS"",""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":7,""v"":6},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6}],""source_file"":""italy_osm.mtx"",""density"":0.2,""edge_connectivity"":1}","[2,5,6,9]",4.0,"{""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":0,""v"":1},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5}]}","[1,4,5,8]"
+MDS_S_033,MDS,S,33,"On a busy weekend the ops team has to decide which rides get people posted so that every attraction either has staff or is next to one that does. The clear goal is to keep the total number of staffed attractions as low as possible - evaluate each proposal by counting staffed rides and pick the smallest count. Every ride must be covered under those rules, and repeats (staffing the same ride more than once) aren't part of a good plan. The concrete details will be shown below.
+
+# total_attractions=12
+# total_adjacencies=13
+ride_a_id,ride_b_id
+1,0
+1,2
+1,8
+2,3
+2,4
+3,11
+4,5
+5,6
+5,10
+5,11
+6,7
+8,9
+9,10
+
+Also, when you send back the staffing plan, please use this simple JSON layout so it's easy to read and check:
+
+{
+  ""solution"": [""ride_id"", ""ride_id"", ...]
+}
+
+This ""solution"" array should list the rides you'll staff - one identifier per ride, no duplicates. Think of it like filling out a short form: put the exact ride IDs you pick into that list. The JSON above is just a sketch of the shape I expect, not the actual answer itself.
+
+Please use the identifiers exactly as they appear in the instance input - do not rename them or invent new labels.
+
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,zero_based,"{""problem_type"":""MDS"",""num_nodes"":12,""num_edges"":13,""edges"":[{""u"":2,""v"":1},{""u"":2,""v"":3},{""u"":2,""v"":9},{""u"":3,""v"":4},{""u"":3,""v"":5},{""u"":4,""v"":12},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":6,""v"":11},{""u"":6,""v"":12},{""u"":7,""v"":8},{""u"":9,""v"":10},{""u"":10,""v"":11}],""source_file"":""netherlands_osm.mtx"",""density"":0.19696969696969696,""edge_connectivity"":1}","[2,6,7,10,12]",5.0,"{""num_nodes"":12,""num_edges"":13,""edges"":[{""u"":1,""v"":0},{""u"":1,""v"":2},{""u"":1,""v"":8},{""u"":2,""v"":3},{""u"":2,""v"":4},{""u"":3,""v"":11},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":5,""v"":10},{""u"":5,""v"":11},{""u"":6,""v"":7},{""u"":8,""v"":9},{""u"":9,""v"":10}]}","[1,5,6,9,11]"
+MDS_S_034,MDS,S,34,"In the control room the assignment is to select a handful of substations to energize so that every substation is either powered or directly connected to a powered one. The decision is which locations to activate; the better the selection, the fewer substations need to be energized while still reaching every substation. Evaluate options by counting how many are turned on - the plan with the lowest count that still covers everything is preferred - and ensure that every substation is covered (powered itself or next to a powered one), without leaving gaps. The precise layout is shown below.
+
+There are 11 substations and 10 direct links in this layout:
+Direct link between substation 1 and substation 2.
+Direct link between substation 2 and substation 3.
+Direct link between substation 3 and substation 4.
+Direct link between substation 4 and substation 5.
+Direct link between substation 5 and substation 6.
+Direct link between substation 6 and substation 7.
+Direct link between substation 7 and substation 8.
+Direct link between substation 8 and substation 9.
+Direct link between substation 9 and substation 10.
+Direct link between substation 10 and substation 11.
+Aim for the fewest activations that still cover all 11 substations.
+
+When you send back your pick, please use this simple JSON shape so I can read it automatically:
+
+{
+  ""solution"": [""substation_id"", ""substation_id"", ...]
+}
+
+""solution"" is just the list of substations you'll energize. Replace each ""substation_id"" with the exact ID from the instance (it's just a placeholder here), and put all chosen IDs in that array. Think of this as a little form template - it's the shape I need, not the final choices.
+
+All identifiers must be used exactly as they appear in the instance input - no renaming and no new labels.
+For example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,one_based,"{""problem_type"":""MDS"",""num_nodes"":11,""num_edges"":10,""edges"":[{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10},{""u"":10,""v"":11}],""source_file"":""great-britain_osm.mtx"",""density"":0.18181818181818182,""edge_connectivity"":1}","[2,5,7,10]",4.0,"{""num_nodes"":11,""num_edges"":10,""edges"":[{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10},{""u"":10,""v"":11}]}","[2,5,7,10]"
+MDS_S_035,MDS,S,35,"My friend is coordinating club hosts and needs to pick a compact crew of hosts so every group either hosts someone or is connected to a group that does. The better the crew, the fewer people on it - you can compare options by counting the hosts - and it's essential that every group is covered and nobody is double-booked. The full list of groups and how they link up is below.
+
+{
+  ""total_groups"": 11,
+  ""total_connections"": 10,
+  ""edges"": [
+    {
+      ""group_a"": ""A"",
+      ""group_b"": ""B""
+    },
+    {
+      ""group_a"": ""A"",
+      ""group_b"": ""K""
+    },
+    {
+      ""group_a"": ""B"",
+      ""group_b"": ""C""
+    },
+    {
+      ""group_a"": ""C"",
+      ""group_b"": ""D""
+    },
+    {
+      ""group_a"": ""D"",
+      ""group_b"": ""E""
+    },
+    {
+      ""group_a"": ""E"",
+      ""group_b"": ""F""
+    },
+    {
+      ""group_a"": ""F"",
+      ""group_b"": ""G""
+    },
+    {
+      ""group_a"": ""G"",
+      ""group_b"": ""H""
+    },
+    {
+      ""group_a"": ""H"",
+      ""group_b"": ""I""
+    },
+    {
+      ""group_a"": ""I"",
+      ""group_b"": ""J""
+    }
+  ]
+}
+
+Also, when you send the final pick, please use this simple JSON layout so it's easy to parse:
+
+{
+  ""solution"": [""host_id"", ""host_id"", ...]
+}
+
+This just means ""solution"" is a list of the chosen hosts (your compact crew). Each entry should be the exact identifier for a group from the instance - think of it like filling in names on a sign-up sheet. The JSON above is only a sketch of the expected shape, not the actual answer.
+
+All identifiers must be used exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,names,"{""problem_type"":""MDS"",""num_nodes"":11,""num_edges"":10,""edges"":[{""u"":1,""v"":2},{""u"":1,""v"":11},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10}],""source_file"":""luxembourg_osm.mtx"",""density"":0.18181818181818182,""edge_connectivity"":1}","[1,4,6,9]",4.0,"{""num_nodes"":11,""num_edges"":10,""edges"":[{""u"":""A"",""v"":""B""},{""u"":""A"",""v"":""K""},{""u"":""B"",""v"":""C""},{""u"":""C"",""v"":""D""},{""u"":""D"",""v"":""E""},{""u"":""E"",""v"":""F""},{""u"":""F"",""v"":""G""},{""u"":""G"",""v"":""H""},{""u"":""H"",""v"":""I""},{""u"":""I"",""v"":""J""}]}","[""A"",""D"",""F"",""I""]"
+MDS_S_036,MDS,S,36,"Someone at the box office sketched a plan to put preview screens in some theaters so that every room either contains a screen or touches a room that does. The idea is to pick the arrangement that uses the fewest screens possible - compare candidate layouts by the total number of screens and pick the smallest - and make sure every theater is covered while avoiding needless duplicates. The detailed seating/layout info follows below.
+
+There are 10 theaters in total and 9 shared walls.
+
+| theater_a_id | theater_b_id |
+|---|---|
+| 1 | 2 |
+| 2 | 3 |
+| 3 | 4 |
+| 4 | 5 |
+| 5 | 6 |
+| 6 | 7 |
+| 7 | 8 |
+| 8 | 9 |
+| 9 | 10 |
+
+If you want to send back the final pick, just drop it into a tiny JSON snippet like this so it's easy to read and parse:
+
+{
+  ""solution"": [""room_id"", ""room_id"", ...]
+}
+
+Think of that as a simple form: ""solution"" is the list of room IDs where we put the preview screens - one entry per room. This is just the shape I expect, not the actual answer itself.
+
+Please make sure you use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,one_based,"{""problem_type"":""MDS"",""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10}],""source_file"":""belgium_osm.mtx"",""density"":0.2,""edge_connectivity"":1}","[2,5,6,9]",4.0,"{""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10}]}","[2,5,6,9]"
+MDS_S_037,MDS,S,37,"Someone on the operations crew suggested spreading a few repair kiosks around the stations so every dock has access within one hop - either it has the kiosk or its neighbor does. The best plan is the one that uses the least kiosks; evaluating plans is just a matter of counting kiosks and picking the smallest count. Every dock must be covered under that rule, and kiosks are assigned to individual docks only. The concrete instance is shown below.
+
+{
+  ""total_docks"": 11,
+  ""total_adjacent_pairs"": 10,
+  ""edges"": [
+    {
+      ""dock_u"": 1,
+      ""dock_v"": 2
+    },
+    {
+      ""dock_u"": 2,
+      ""dock_v"": 3
+    },
+    {
+      ""dock_u"": 2,
+      ""dock_v"": 10
+    },
+    {
+      ""dock_u"": 3,
+      ""dock_v"": 4
+    },
+    {
+      ""dock_u"": 4,
+      ""dock_v"": 5
+    },
+    {
+      ""dock_u"": 5,
+      ""dock_v"": 6
+    },
+    {
+      ""dock_u"": 6,
+      ""dock_v"": 7
+    },
+    {
+      ""dock_u"": 7,
+      ""dock_v"": 8
+    },
+    {
+      ""dock_u"": 8,
+      ""dock_v"": 9
+    },
+    {
+      ""dock_u"": 9,
+      ""dock_v"": 0
+    }
+  ]
+}
+
+Also, when you give the final plan, just stick to this simple JSON shape so it's easy to check:
+
+{
+  ""solution"": [""dock_id"", ""dock_id"", ...]
+}
+
+Here ""solution"" is just a list of the docks where we'll put kiosks - one identifier per kiosk. Think of it like filling out a short form: list the exact dock IDs you choose, and that's it. This block is only a sketch of the expected shape, not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - do not rename them or invent new labels. For example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",json,zero_based,"{""problem_type"":""MDS"",""num_nodes"":11,""num_edges"":10,""edges"":[{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":3,""v"":11},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10},{""u"":10,""v"":1}],""source_file"":""belgium_osm.mtx"",""density"":0.18181818181818182,""edge_connectivity"":1}","[3,6,7,10]",4.0,"{""num_nodes"":11,""num_edges"":10,""edges"":[{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":2,""v"":10},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":0}]}","[2,5,6,9]"
+MDS_S_038,MDS,S,38,"I manage a cluster of neighborhood library branches and I've got to decide which ones actually need a librarian posted so that every branch either has someone on-site or is right next door to a branch that does. The better plan is the one that uses the fewest librarians overall - just tally how many librarians are placed, and the smallest tally that still leaves no branch unserved wins. Every branch must be covered (either staffed or beside a staffed branch) and avoid putting extra, unnecessary librarians where they don't help. The exact map of branches and who's next to whom is listed below.
+
+There are 8 branches in total and 7 adjacent branch pairs.
+
+| branch_a_id | branch_b_id |
+|---|---|
+| 1 | 2 |
+| 6 | 5 |
+| 6 | 7 |
+| 2 | 3 |
+| 2 | 8 |
+| 3 | 4 |
+| 4 | 5 |
+
+Also, when you send back the final list, please use this simple JSON layout so it's easy to read and plug into the system:
+
+{
+  ""solution"": [""branch_id"", ""branch_id"", ...]
+}
+
+Think of that as a tiny form: ""solution"" is the list of branches where you'll place librarians, and each ""branch_id"" is a placeholder for an actual branch label from the instance. This is just a sketch of the shape I want - when you submit the real answer, replace those placeholders with the exact identifiers from the input.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,one_based,"{""problem_type"":""MDS"",""num_nodes"":8,""num_edges"":7,""edges"":[{""u"":1,""v"":2},{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":2,""v"":3},{""u"":2,""v"":8},{""u"":3,""v"":4},{""u"":4,""v"":5}],""source_file"":""italy_osm.mtx"",""density"":0.25,""edge_connectivity"":1}","[2,5,6]",3.0,"{""num_nodes"":8,""num_edges"":7,""edges"":[{""u"":1,""v"":2},{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":2,""v"":3},{""u"":2,""v"":8},{""u"":3,""v"":4},{""u"":4,""v"":5}]}","[2,5,6]"
+MDS_S_039,MDS,S,39,"On a busy weekend the coordinator wants to station attendants in just enough places that every parking bay either has someone there or is adjacent to a bay that does. The decision is where to stand people so that there aren't unnecessary duplicates but also no unmonitored areas. The way to tell which arrangement is best is to count how many attendants are placed - smaller counts are preferable - while making sure every bay is covered either directly or by a neighbor. The exact lot plan is shown below.
+
+{
+  ""total_parking_bays"": 9,
+  ""total_abutting_pairs"": 8,
+  ""edges"": [
+    {
+      ""bay_endpoint_a"": 6,
+      ""bay_endpoint_b"": 7
+    },
+    {
+      ""bay_endpoint_a"": 7,
+      ""bay_endpoint_b"": 8
+    },
+    {
+      ""bay_endpoint_a"": 8,
+      ""bay_endpoint_b"": 9
+    },
+    {
+      ""bay_endpoint_a"": 9,
+      ""bay_endpoint_b"": 1
+    },
+    {
+      ""bay_endpoint_a"": 1,
+      ""bay_endpoint_b"": 2
+    },
+    {
+      ""bay_endpoint_a"": 1,
+      ""bay_endpoint_b"": 4
+    },
+    {
+      ""bay_endpoint_a"": 2,
+      ""bay_endpoint_b"": 3
+    },
+    {
+      ""bay_endpoint_a"": 4,
+      ""bay_endpoint_b"": 5
+    }
+  ]
+}
+
+Also, when you send the placement back, just stick to this simple JSON shape so it's easy to read and check:
+
+{
+  ""solution"": [""bay_id"", ""bay_id"", ...]
+}
+
+The ""solution"" array is where you list the bay identifiers where attendants will stand - think of each placeholder as a spot name on the lot plan. This block is only a sketch of the shape I need, not the actual final answer.
+
+Please make sure to use the exact identifiers from the instance input - don't rename them or create new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,one_based,"{""problem_type"":""MDS"",""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":1},{""u"":1,""v"":2},{""u"":1,""v"":4},{""u"":2,""v"":3},{""u"":4,""v"":5}],""source_file"":""luxembourg_osm.mtx"",""density"":0.2222222222222222,""edge_connectivity"":1}","[1,2,4,7]",4.0,"{""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":1},{""u"":1,""v"":2},{""u"":1,""v"":4},{""u"":2,""v"":3},{""u"":4,""v"":5}]}","[1,2,4,7]"
+MDS_S_040,MDS,S,40,"A building manager needs to choose which corridors get surveillance so that every corridor is either equipped with a camera or directly beside one that is. What counts as a smarter choice is clear: use fewer cameras - tally the cameras to judge - while guaranteeing no corridor is left unwatched and no placement is counted more than once. The concrete layout and other details follow below.
+
+# total_corridors=9
+# total_adjacencies=8
+corridor_u,corridor_v
+2,1
+2,3
+2,7
+7,4
+7,8
+8,9
+4,5
+5,6
+
+Also, when you send back the actual selection, please use this simple JSON shape - just a quick form to fill out:
+
+{
+  ""solution"": [""corridor_id"", ""corridor_id"", ...]
+}
+
+Pretty straightforward: ""solution"" is the list of corridor identifiers where you'd place cameras so every corridor is either watched or adjacent to a watched one. Think of it like ticking boxes on a short form - this block is just the shape I expect, not the real answer.
+
+Please make sure to use the exact identifiers from the instance input - do not rename them or invent new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,one_based,"{""problem_type"":""MDS"",""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":2,""v"":1},{""u"":2,""v"":3},{""u"":2,""v"":7},{""u"":7,""v"":4},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":4,""v"":5},{""u"":5,""v"":6}],""source_file"":""luxembourg_osm.mtx"",""density"":0.2222222222222222,""edge_connectivity"":1}","[2,5,8]",3.0,"{""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":2,""v"":1},{""u"":2,""v"":3},{""u"":2,""v"":7},{""u"":7,""v"":4},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":4,""v"":5},{""u"":5,""v"":6}]}","[2,5,8]"
+MDS_S_041,MDS,S,41,"I live on a little block where some houses share fences and porches, and the question is which mailboxes to lock so every house is covered - either its own box is locked or one of its neighbors' is. The aim is to lock as few mailboxes as possible: count the locked boxes and pick the plan with the smallest count that still leaves no house unprotected. Nothing should be skipped - every house must be protected by at least one locked mailbox, and locking the same box twice doesn't help. The exact street map and mailbox list are shown below.
+
+{
+  ""total_houses"": 11,
+  ""total_adjacent_pairs"": 10,
+  ""edges"": [
+    {
+      ""house_id_one"": 11,
+      ""house_id_two"": 9
+    },
+    {
+      ""house_id_one"": 1,
+      ""house_id_two"": 2
+    },
+    {
+      ""house_id_one"": 1,
+      ""house_id_two"": 10
+    },
+    {
+      ""house_id_one"": 2,
+      ""house_id_two"": 3
+    },
+    {
+      ""house_id_one"": 3,
+      ""house_id_two"": 4
+    },
+    {
+      ""house_id_one"": 4,
+      ""house_id_two"": 5
+    },
+    {
+      ""house_id_one"": 5,
+      ""house_id_two"": 6
+    },
+    {
+      ""house_id_one"": 6,
+      ""house_id_two"": 7
+    },
+    {
+      ""house_id_one"": 8,
+      ""house_id_two"": 9
+    },
+    {
+      ""house_id_one"": 9,
+      ""house_id_two"": 10
+    }
+  ]
+}
+
+Oh, and to keep things tidy, please give the final plan in this simple JSON shape so it's easy for me (or a program) to read:
+
+{
+  ""solution"": [""mailbox_id"", ""mailbox_id"", ...]
+}
+
+Think of ""solution"" as the list of mailbox IDs you plan to lock - each item should be the exact ID of a house/mailbox from the street map. This JSON is just a sketch of the shape I expect, not the actual answer.
+
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""
+
+Use the identifiers exactly as they appear in the instance input - no renaming and no new labels.",json,one_based,"{""problem_type"":""MDS"",""num_nodes"":11,""num_edges"":10,""edges"":[{""u"":11,""v"":9},{""u"":1,""v"":2},{""u"":1,""v"":10},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":8,""v"":9},{""u"":9,""v"":10}],""source_file"":""belgium_osm.mtx"",""density"":0.18181818181818182,""edge_connectivity"":1}","[2,3,6,9]",4.0,"{""num_nodes"":11,""num_edges"":10,""edges"":[{""u"":11,""v"":9},{""u"":1,""v"":2},{""u"":1,""v"":10},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":8,""v"":9},{""u"":9,""v"":10}]}","[2,3,6,9]"
+MDS_S_042,MDS,S,42,"Recently the planning office asked for a lighting sketch: pick a handful of intersections to host streetlights so that every intersection is either one of those lit spots or directly next to one. What makes one sketch better than another is straightforward - fewer lights is better, and that's measured by adding up how many lights are placed. Every junction must be covered; leaving a junction without a light or an adjacent light isn't allowed, and putting extra lights that don't cover new spots is just wasteful. The exact instance details are listed below.
+
+# total_intersections=10
+# total_streets=10
+intersection_u,intersection_v
+C,J
+D,E
+H,E
+H,I
+I,J
+J,F
+E,F
+F,B
+B,G
+G,A
+
+If you want the answer in a tidy, machine-friendly form, just use this simple JSON shape - nothing fancy, just a small list of the intersections you chose to light:
+
+{
+  ""solution"": [""intersection_id"", ""intersection_id"", ...]
+}
+
+Think of this as a little form: ""solution"" holds an array of the intersections that will get lights. The placeholder entries above are just showing the shape - replace them with the actual intersection identifiers from the instance when you give the real answer.
+
+Please be sure to use the identifiers exactly as they appear in the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MDS"",""num_nodes"":10,""num_edges"":10,""edges"":[{""u"":3,""v"":10},{""u"":4,""v"":5},{""u"":8,""v"":5},{""u"":8,""v"":9},{""u"":9,""v"":10},{""u"":10,""v"":6},{""u"":5,""v"":6},{""u"":6,""v"":2},{""u"":2,""v"":7},{""u"":7,""v"":1}],""source_file"":""italy_osm.mtx"",""density"":0.2222222222222222,""edge_connectivity"":1}","[5,7,10]",3.0,"{""num_nodes"":10,""num_edges"":10,""edges"":[{""u"":""C"",""v"":""J""},{""u"":""D"",""v"":""E""},{""u"":""H"",""v"":""E""},{""u"":""H"",""v"":""I""},{""u"":""I"",""v"":""J""},{""u"":""J"",""v"":""F""},{""u"":""E"",""v"":""F""},{""u"":""F"",""v"":""B""},{""u"":""B"",""v"":""G""},{""u"":""G"",""v"":""A""}]}","[""E"",""G"",""J""]"
+MDS_S_043,MDS,S,43,"Many people on the floor have been wondering who the official points of contact should be, so HR needs to pick a small set of team leads such that everyone is either a lead themselves or works directly with a lead. Better plans are simply those that use fewer leads while still reaching every employee - for any proposed set, mark the staff it reaches (including the leads themselves), count how many leads are in that set, and choose the smallest count that still covers everyone. No one can be left off the list. The detailed team relationships are shown below.
+
+# total_employees=12
+# total_working_pairs=13
+employee_a,employee_b
+5,4
+5,8
+1,2
+1,12
+2,3
+2,9
+3,4
+9,7
+9,10
+10,11
+11,12
+8,7
+6,7
+
+Also, when you send back which people should be leads, a tiny bit of JSON like this makes it easy to read and reuse:
+
+{
+  ""solution"": [""staff_id"", ""staff_id"", ...]
+}
+
+Pretty simple: ""solution"" is the list of staff IDs you pick as leads - each entry should be the exact identifier for a person from the instance (the person you want as a point of contact). Think of it like filling in a short form: replace the placeholders with the real IDs for the chosen leads. This is just the shape I expect, not the actual answer yet.
+
+All identifiers must be used exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,one_based,"{""problem_type"":""MDS"",""num_nodes"":12,""num_edges"":13,""edges"":[{""u"":5,""v"":4},{""u"":5,""v"":8},{""u"":1,""v"":2},{""u"":1,""v"":12},{""u"":2,""v"":3},{""u"":2,""v"":9},{""u"":3,""v"":4},{""u"":9,""v"":7},{""u"":9,""v"":10},{""u"":10,""v"":11},{""u"":11,""v"":12},{""u"":8,""v"":7},{""u"":6,""v"":7}],""source_file"":""great-britain_osm.mtx"",""density"":0.19696969696969696,""edge_connectivity"":1}","[4,7,9,12]",4.0,"{""num_nodes"":12,""num_edges"":13,""edges"":[{""u"":5,""v"":4},{""u"":5,""v"":8},{""u"":1,""v"":2},{""u"":1,""v"":12},{""u"":2,""v"":3},{""u"":2,""v"":9},{""u"":3,""v"":4},{""u"":9,""v"":7},{""u"":9,""v"":10},{""u"":10,""v"":11},{""u"":11,""v"":12},{""u"":8,""v"":7},{""u"":6,""v"":7}]}","[4,7,9,12]"
+MDS_S_044,MDS,S,44,"I'm handling the regional health schedule and the trick is this: pick a handful of clinics to put a specialist in so that every village either has that specialist on site or sits next to a village that does. The better plan is simply the one with the fewest staffed clinics while still making sure no village is left without a nearby specialist. Figure out how many clinics each plan uses (just count the staffed clinics) and the plan with the smallest count that covers every village wins. Don't leave any village uncovered and don't count the same clinic twice - the map and exact village-to-clinic links are shown below.
+
+I see 10 villages and 9 bordering pairs on the map below.
+If I staff the clinic at 0, it will also cover 1 since they share a border.
+If I staff the clinic at 1, it will also cover 4 since they share a border.
+If I staff the clinic at 4, it will also cover 3 since they share a border.
+If I staff the clinic at 5, it will also cover 2 since they share a border.
+If I staff the clinic at 2, it will also cover 3 since they share a border.
+If I staff the clinic at 2, it will also cover 7 since they share a border.
+If I staff the clinic at 3, it will also cover 9 since they share a border.
+If I staff the clinic at 6, it will also cover 8 since they share a border.
+If I staff the clinic at 8, it will also cover 9 since they share a border.
+I'll count the staffed clinics for each plan and pick the plan with the smallest count that still covers all 10 villages.
+
+Also, when you send back the selected clinics, please put them in a tiny JSON snippet so it's easy to parse, like this:
+
+{
+  ""solution"": [""clinic_id"", ""clinic_id"", ...]
+}
+
+Pretty simple: ""solution"" is the list of clinic IDs you plan to staff so every village is covered (either at that clinic or next door). Think of it like the short answer on a form - just list the clinics you chose in that array. This is just a template showing the shape I expect, not the actual final selection.
+
+Please make sure you use the exact identifiers from the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,zero_based,"{""problem_type"":""MDS"",""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":1,""v"":2},{""u"":2,""v"":5},{""u"":5,""v"":4},{""u"":6,""v"":3},{""u"":3,""v"":4},{""u"":3,""v"":8},{""u"":4,""v"":10},{""u"":7,""v"":9},{""u"":9,""v"":10}],""source_file"":""netherlands_osm.mtx"",""density"":0.2,""edge_connectivity"":1}","[2,3,9]",3.0,"{""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":0,""v"":1},{""u"":1,""v"":4},{""u"":4,""v"":3},{""u"":5,""v"":2},{""u"":2,""v"":3},{""u"":2,""v"":7},{""u"":3,""v"":9},{""u"":6,""v"":8},{""u"":8,""v"":9}]}","[1,2,8]"
+MDS_S_045,MDS,S,45,"There's this building with a maze of hallways and rooms, and the job is to put routers in some rooms so that every room either contains one or is directly linked by a hallway to a room that does. What needs deciding is which specific rooms get the gear; a smarter choice is simply one that covers all rooms but uses fewer routers. To evaluate options, add up how many routers are placed - the lower the total, the better - and make sure every office is accounted for, with nothing left out. The detailed map of offices and hallways is given below.
+
+{
+  ""total_offices"": 12,
+  ""total_hallways"": 11,
+  ""edges"": [
+    {
+      ""office_a"": 5,
+      ""office_b"": 4
+    },
+    {
+      ""office_a"": 5,
+      ""office_b"": 6
+    },
+    {
+      ""office_a"": 6,
+      ""office_b"": 7
+    },
+    {
+      ""office_a"": 7,
+      ""office_b"": 8
+    },
+    {
+      ""office_a"": 8,
+      ""office_b"": 9
+    },
+    {
+      ""office_a"": 9,
+      ""office_b"": 10
+    },
+    {
+      ""office_a"": 10,
+      ""office_b"": 11
+    },
+    {
+      ""office_a"": 11,
+      ""office_b"": 12
+    },
+    {
+      ""office_a"": 1,
+      ""office_b"": 2
+    },
+    {
+      ""office_a"": 2,
+      ""office_b"": 3
+    },
+    {
+      ""office_a"": 3,
+      ""office_b"": 4
+    }
+  ]
+}
+
+Oh, and to keep things tidy, when you send the answer just drop it into this little JSON shape so it's easy to check:
+
+{
+  ""solution"": [""room_id"", ""room_id"", ...]
+}
+
+The ""solution"" array should list the rooms where you want to put routers - each entry is a room identifier (placeholder shown above). Think of it like filling out a short form: list the room ids that cover the building. This block is just the expected shape, not the actual set you need to pick.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,one_based,"{""problem_type"":""MDS"",""num_nodes"":12,""num_edges"":11,""edges"":[{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10},{""u"":10,""v"":11},{""u"":11,""v"":12},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4}],""source_file"":""netherlands_osm.mtx"",""density"":0.16666666666666666,""edge_connectivity"":1}","[2,5,8,11]",4.0,"{""num_nodes"":12,""num_edges"":11,""edges"":[{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9},{""u"":9,""v"":10},{""u"":10,""v"":11},{""u"":11,""v"":12},{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4}]}","[2,5,8,11]"
+MDS_S_046,MDS,S,46,"On a typical shift the goal is to assign rangers to trailheads so every trailhead is either occupied or next to an occupied one, and to accomplish that with as small a team as possible. In practice that means choosing which trailheads get rangers, summing how many rangers that plan needs, and picking the plan with the lowest headcount that still makes sure every trailhead is covered. Each stationed ranger covers their own trailhead and any directly connected ones; no trailhead can be left uncovered and rangers can't double up on distant spots. The concrete trail map and specifics are shown below.
+
+# total_trailheads=9
+# total_trail_connections=11
+trailhead_a,trailhead_b
+F,H
+A,B
+A,E
+G,B
+G,E
+G,H
+B,C
+H,D
+H,I
+D,E
+I,C
+
+Oh, and when you send back the chosen trailheads, please stick to this simple JSON layout so it's easy to read and use:
+
+{
+  ""solution"": [""trailhead_id"", ""trailhead_id"", ...]
+}
+
+Here that means the ""solution"" entry should be an array listing the trailhead IDs where we station rangers. Think of it like filling in a short form: each entry is one trailhead to staff. This JSON is just a sketch of the shape I want - not the final plan itself.
+
+Make sure to use the identifiers exactly as they appear in the instance input - do not rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MDS"",""num_nodes"":9,""num_edges"":11,""edges"":[{""u"":6,""v"":8},{""u"":1,""v"":2},{""u"":1,""v"":5},{""u"":7,""v"":2},{""u"":7,""v"":5},{""u"":7,""v"":8},{""u"":2,""v"":3},{""u"":8,""v"":4},{""u"":8,""v"":9},{""u"":4,""v"":5},{""u"":9,""v"":3}],""source_file"":""italy_osm.mtx"",""density"":0.3055555555555556,""edge_connectivity"":1}","[1,2,8]",3.0,"{""num_nodes"":9,""num_edges"":11,""edges"":[{""u"":""F"",""v"":""H""},{""u"":""A"",""v"":""B""},{""u"":""A"",""v"":""E""},{""u"":""G"",""v"":""B""},{""u"":""G"",""v"":""E""},{""u"":""G"",""v"":""H""},{""u"":""B"",""v"":""C""},{""u"":""H"",""v"":""D""},{""u"":""H"",""v"":""I""},{""u"":""D"",""v"":""E""},{""u"":""I"",""v"":""C""}]}","[""A"",""B"",""H""]"
+MDS_S_047,MDS,S,47,"In the strip mall layout the marketing lead needs to choose which doors get the poster. The condition is that every store must be covered, meaning it either displays the poster itself or is adjacent to a store that does. The optimal choice is simply the one with the least number of poster locations - evaluate options by the count of chosen storefronts - and make sure no shop is uncovered and that posters aren't duplicated in the same storefront. The full layout is shown below.
+
+There are 9 storefronts in total and 8 adjacent pairs.
+
+| storefront_a | storefront_b |
+|---|---|
+| C | B |
+| C | D |
+| D | E |
+| D | H |
+| E | F |
+| F | G |
+| I | H |
+| A | B |
+
+Also, please send the final choice in this simple JSON layout so it's easy to parse:
+
+{
+  ""solution"": [""store_id"", ""store_id"", ...]
+}
+
+""solution"" should be a list of the storefront identifiers where we'll put posters - one identifier per chosen door. Think of it like filling out a short form: the array lists which shops get posters. This snippet is just a sketch of the shape I need, not the actual answer.
+
+Quick note: use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,names,"{""problem_type"":""MDS"",""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":3,""v"":2},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":4,""v"":8},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":9,""v"":8},{""u"":1,""v"":2}],""source_file"":""italy_osm.mtx"",""density"":0.2222222222222222,""edge_connectivity"":1}","[2,6,8]",3.0,"{""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":""C"",""v"":""B""},{""u"":""C"",""v"":""D""},{""u"":""D"",""v"":""E""},{""u"":""D"",""v"":""H""},{""u"":""E"",""v"":""F""},{""u"":""F"",""v"":""G""},{""u"":""I"",""v"":""H""},{""u"":""A"",""v"":""B""}]}","[""B"",""F"",""H""]"
+MDS_S_048,MDS,S,48,"We've got a school map on the table and a limited supply of student monitors to spread around; the job is to assign monitors to as few classrooms as possible so every room either has a monitor or sits beside a room that does. What matters when judging a plan is how many monitors are used - total them up, and the plan with the lowest total that still covers every classroom wins - and every classroom must be covered, there's no skipping or ignoring rooms. The specific map and room adjacencies are listed below.
+
+There are 9 classrooms in total and 8 adjacency pairs.
+
+| room_u | room_v |
+|---|---|
+| 1 | 2 |
+| 2 | 3 |
+| 3 | 4 |
+| 4 | 5 |
+| 5 | 6 |
+| 6 | 7 |
+| 7 | 8 |
+| 8 | 9 |
+
+Also, when you hand in your monitor plan, please use this little JSON layout so it's easy to parse automatically - super simple and tidy:
+
+{
+  ""solution"": [""room_id"", ""room_id"", ...]
+}
+
+""solution"" should be a list of the room identifiers where you place monitors. Think of it as a short form: just the rooms that will have a monitor, nothing else. This block is only a sketch of the shape we expect, not the actual answer - fill it with the exact room IDs from the instance when you submit.
+
+Please use the identifiers exactly as they appear in the input - do not rename them or make up new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,one_based,"{""problem_type"":""MDS"",""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9}],""source_file"":""luxembourg_osm.mtx"",""density"":0.2222222222222222,""edge_connectivity"":1}","[2,5,8]",3.0,"{""num_nodes"":9,""num_edges"":8,""edges"":[{""u"":1,""v"":2},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":6},{""u"":6,""v"":7},{""u"":7,""v"":8},{""u"":8,""v"":9}]}","[2,5,8]"
+MDS_S_049,MDS,S,49,"There's this stretch of campsites that needs a handful of signal posts, and the coordinator's note is simple: pick campsites to place posts so every site either hosts one or sits beside one that does. The better setup is the one with the smallest number of posts that still leaves no campsite uncovered - you verify a plan by counting its posts and checking that each campsite either has a post or is adjacent to one. Don't leave any spot out, and don't add posts that don't improve coverage. The exact campsite details follow below.
+
+There are 10 campsites in total and 9 adjacency pairs count.
+
+| campsite_a | campsite_b |
+|---|---|
+| 7 | 0 |
+| 7 | 6 |
+| 7 | 9 |
+| 4 | 5 |
+| 0 | 1 |
+| 0 | 3 |
+| 1 | 2 |
+| 8 | 9 |
+| 5 | 6 |
+
+When you're ready to send the picks back, just use this little JSON shape so it's easy to read and check:
+
+{
+  ""solution"": [""vertex_id"", ""vertex_id"", ...]
+}
+
+Think of ""solution"" as the list of campsites where you'd put signal posts, and each ""vertex_id"" is just a placeholder for a campsite identifier from the instance. Super casual: the JSON shows the expected layout, not the real answer - replace the placeholders with the actual IDs.
+
+Please make sure to use the exact identifiers from the instance input - don't rename them or invent new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",markdown_table,zero_based,"{""problem_type"":""MDS"",""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":8,""v"":1},{""u"":8,""v"":7},{""u"":8,""v"":10},{""u"":5,""v"":6},{""u"":1,""v"":2},{""u"":1,""v"":4},{""u"":2,""v"":3},{""u"":9,""v"":10},{""u"":6,""v"":7}],""source_file"":""netherlands_osm.mtx"",""density"":0.2,""edge_connectivity"":1}","[1,2,6,10]",4.0,"{""num_nodes"":10,""num_edges"":9,""edges"":[{""u"":7,""v"":0},{""u"":7,""v"":6},{""u"":7,""v"":9},{""u"":4,""v"":5},{""u"":0,""v"":1},{""u"":0,""v"":3},{""u"":1,""v"":2},{""u"":8,""v"":9},{""u"":5,""v"":6}]}","[0,1,5,9]"
+MDS_S_050,MDS,S,50,"We've been asked to mark a handful of bike-rack spots as service hubs so that no rack is left isolated: each rack should either be a hub itself or be beside one. What makes one setup better than another is simply the total number of hubs used - tally them up and pick the plan with the lowest count that still keeps every rack covered. The full map of racks and connections appears below.
+
+{
+  ""total_bike_racks"": 8,
+  ""total_adjacencies"": 8,
+  ""edges"": [
+    {
+      ""rack_u_id"": ""A"",
+      ""rack_v_id"": ""B""
+    },
+    {
+      ""rack_u_id"": ""A"",
+      ""rack_v_id"": ""G""
+    },
+    {
+      ""rack_u_id"": ""B"",
+      ""rack_v_id"": ""C""
+    },
+    {
+      ""rack_u_id"": ""B"",
+      ""rack_v_id"": ""E""
+    },
+    {
+      ""rack_u_id"": ""C"",
+      ""rack_v_id"": ""D""
+    },
+    {
+      ""rack_u_id"": ""E"",
+      ""rack_v_id"": ""F""
+    },
+    {
+      ""rack_u_id"": ""E"",
+      ""rack_v_id"": ""H""
+    },
+    {
+      ""rack_u_id"": ""G"",
+      ""rack_v_id"": ""H""
+    }
+  ]
+}
+
+Also, when you send back the chosen hubs, just follow this simple JSON shape so it's easy to read automatically:
+
+{
+  ""solution"": [""rack_id"", ""rack_id"", ...]
+}
+
+Here ""solution"" is the list of bike-rack hubs you'd mark - each entry is a single rack identifier (I used ""rack_id"" as a placeholder). Think of it like filling in a short form: put each rack label you choose inside the list. This block is just a sketch of the shape I need, not the actual answer.
+
+Please make sure to use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,names,"{""problem_type"":""MDS"",""num_nodes"":8,""num_edges"":8,""edges"":[{""u"":1,""v"":2},{""u"":1,""v"":7},{""u"":2,""v"":3},{""u"":2,""v"":5},{""u"":3,""v"":4},{""u"":5,""v"":6},{""u"":5,""v"":8},{""u"":7,""v"":8}],""source_file"":""italy_osm.mtx"",""density"":0.2857142857142857,""edge_connectivity"":1}","[1,3,5]",3.0,"{""num_nodes"":8,""num_edges"":8,""edges"":[{""u"":""A"",""v"":""B""},{""u"":""A"",""v"":""G""},{""u"":""B"",""v"":""C""},{""u"":""B"",""v"":""E""},{""u"":""C"",""v"":""D""},{""u"":""E"",""v"":""F""},{""u"":""E"",""v"":""H""},{""u"":""G"",""v"":""H""}]}","[""A"",""C"",""E""]"

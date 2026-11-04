@@ -1,0 +1,2173 @@
+id,task_id,difficulty_tier,example_index,prompt,surface_format,indexing_scheme,instance_canonical_json,reference_solution_canonical_json,reference_objective_value,instance_surface_json,reference_solution_surface_json
+MVC_S_001,MVC,S,1,"Back at the office the building manager sketched a plan to place extinguishers without overdoing it: choose the fewest rooms so every corridor touches at least one stocked room. Performance is measured by the number of rooms chosen (count them), and the practical rule is that every corridor must be accounted for and each room is either stocked or not - duplicates don't lower the count. The exact room-to-room connections are given below.
+
+In that plan there are 9 rooms and 14 corridors:
+Corridor between room 7 and room 2.
+Corridor between room 7 and room 3.
+Corridor between room 7 and room 4.
+Corridor between room 1 and room 2.
+Corridor between room 1 and room 4.
+Corridor between room 1 and room 8.
+Corridor between room 1 and room 9.
+Corridor between room 3 and room 4.
+Corridor between room 6 and room 5.
+Corridor between room 6 and room 9.
+Corridor between room 8 and room 9.
+Corridor between room 9 and room 2.
+Corridor between room 9 and room 5.
+Corridor between room 2 and room 5.
+Each listed corridor must have at least one end stocked.
+
+Oh, and when you give the answer, please stick to this little JSON shape so it's easy to parse:
+
+{
+  ""solution"": [""room_id"", ""room_id"", ...]
+}
+
+Think of ""solution"" as just the list of rooms you picked to stock with extinguishers - each entry is a room identifier from the instance. This JSON is just a sketch of the shape I expect, not the actual answer itself.
+
+Please use the identifiers exactly as they appear in the instance input - do not rename them or invent new labels.
+For example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,one_based,"{""problem_type"":""MVC"",""num_nodes"":9,""num_edges"":14,""edges"":[{""u"":7,""v"":2},{""u"":7,""v"":3},{""u"":7,""v"":4},{""u"":1,""v"":2},{""u"":1,""v"":4},{""u"":1,""v"":8},{""u"":1,""v"":9},{""u"":3,""v"":4},{""u"":6,""v"":5},{""u"":6,""v"":9},{""u"":8,""v"":9},{""u"":9,""v"":2},{""u"":9,""v"":5},{""u"":2,""v"":5}],""source_file"":""wa2010.mtx"",""density"":0.3888888888888889,""edge_connectivity"":2}","[1,4,5,7,9]",5.0,"{""num_nodes"":9,""num_edges"":14,""edges"":[{""u"":7,""v"":2},{""u"":7,""v"":3},{""u"":7,""v"":4},{""u"":1,""v"":2},{""u"":1,""v"":4},{""u"":1,""v"":8},{""u"":1,""v"":9},{""u"":3,""v"":4},{""u"":6,""v"":5},{""u"":6,""v"":9},{""u"":8,""v"":9},{""u"":9,""v"":2},{""u"":9,""v"":5},{""u"":2,""v"":5}]}","[1,4,5,7,9]"
+MVC_S_002,MVC,S,2,"There's a block where volunteers are needed at certain homes so that for every two houses next to each other, one of them has a watcher. The aim is simple: use the least number of people necessary, so after choosing who stands watch the total number of volunteers should be as small as it can be while still leaving no adjacent pair unguarded. Each volunteer is attached to a single household and every neighboring link must be covered. The concrete map and details appear below.
+
+# num_houses_on_block=9
+# num_adjacent_house_pairs=14
+adjacent_house_1,adjacent_house_2
+D,A
+D,C
+D,H
+D,I
+C,I
+G,A
+G,E
+H,A
+H,B
+H,E
+A,B
+A,F
+A,I
+B,E
+
+Also, when you send back the chosen watchers, please use this simple JSON layout so it's easy to read and parse:
+
+{
+  ""solution"": [""house_id"", ""house_id"", ...]
+}
+
+Here ""solution"" is just an array listing the houses where volunteers will stand watch - one entry per house. Think of the placeholders like blank fields on a form: replace each ""house_id"" with the actual house identifier from the instance when you answer. This JSON is only a sketch of the shape I expect, not the real answer itself.
+
+All identifiers must be used exactly as they appear in the instance input - no renaming and no new labels.
+
+For example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MVC"",""num_nodes"":9,""num_edges"":14,""edges"":[{""u"":4,""v"":1},{""u"":4,""v"":3},{""u"":4,""v"":8},{""u"":4,""v"":9},{""u"":3,""v"":9},{""u"":7,""v"":1},{""u"":7,""v"":5},{""u"":8,""v"":1},{""u"":8,""v"":2},{""u"":8,""v"":5},{""u"":1,""v"":2},{""u"":1,""v"":6},{""u"":1,""v"":9},{""u"":2,""v"":5}],""source_file"":""vt2010.mtx"",""density"":0.3888888888888889,""edge_connectivity"":1}","[1,3,4,5,8]",5.0,"{""num_nodes"":9,""num_edges"":14,""edges"":[{""u"":""D"",""v"":""A""},{""u"":""D"",""v"":""C""},{""u"":""D"",""v"":""H""},{""u"":""D"",""v"":""I""},{""u"":""C"",""v"":""I""},{""u"":""G"",""v"":""A""},{""u"":""G"",""v"":""E""},{""u"":""H"",""v"":""A""},{""u"":""H"",""v"":""B""},{""u"":""H"",""v"":""E""},{""u"":""A"",""v"":""B""},{""u"":""A"",""v"":""F""},{""u"":""A"",""v"":""I""},{""u"":""B"",""v"":""E""}]}","[""A"",""C"",""D"",""E"",""H""]"
+MVC_S_003,MVC,S,3,"Someone asked the head librarian to be clever about staffing: assign people to a handful of shelving zones so every seam between neighboring sections is next to a staffed area. The decision is simply which zones to staff, and better is defined by using as few staffed zones as possible while still covering every border. To see which plan wins, count how many zones are staffed and make sure each shared border has one of its two sides staffed. The exact layout and numbers are included below.
+
+{
+  ""total_shelving_zones"": 10,
+  ""total_shared_borders"": 18,
+  ""edges"": [
+    {
+      ""zone_a_id"": 8,
+      ""zone_b_id"": 1
+    },
+    {
+      ""zone_a_id"": 8,
+      ""zone_b_id"": 3
+    },
+    {
+      ""zone_a_id"": 8,
+      ""zone_b_id"": 4
+    },
+    {
+      ""zone_a_id"": 9,
+      ""zone_b_id"": 1
+    },
+    {
+      ""zone_a_id"": 9,
+      ""zone_b_id"": 2
+    },
+    {
+      ""zone_a_id"": 9,
+      ""zone_b_id"": 3
+    },
+    {
+      ""zone_a_id"": 10,
+      ""zone_b_id"": 1
+    },
+    {
+      ""zone_a_id"": 10,
+      ""zone_b_id"": 5
+    },
+    {
+      ""zone_a_id"": 10,
+      ""zone_b_id"": 6
+    },
+    {
+      ""zone_a_id"": 1,
+      ""zone_b_id"": 2
+    },
+    {
+      ""zone_a_id"": 1,
+      ""zone_b_id"": 3
+    },
+    {
+      ""zone_a_id"": 1,
+      ""zone_b_id"": 4
+    },
+    {
+      ""zone_a_id"": 1,
+      ""zone_b_id"": 5
+    },
+    {
+      ""zone_a_id"": 1,
+      ""zone_b_id"": 6
+    },
+    {
+      ""zone_a_id"": 1,
+      ""zone_b_id"": 7
+    },
+    {
+      ""zone_a_id"": 5,
+      ""zone_b_id"": 2
+    },
+    {
+      ""zone_a_id"": 5,
+      ""zone_b_id"": 7
+    },
+    {
+      ""zone_a_id"": 6,
+      ""zone_b_id"": 7
+    }
+  ]
+}
+
+Just so we're on the same page, please give the plan in this simple JSON shape - a list of the staffed zones.
+
+{
+  ""solution"": [""zone_id"", ""zone_id"", ...]
+}
+
+""solution"" is the array of zone IDs you plan to staff; each string is one staffed zone. Think of it like ticking boxes on a short form - which zones get a person. This block is just a sketch of the shape I want, not the actual answer.
+
+All identifiers must be used exactly as they appear in the instance input - no renaming and no new labels.
+- For example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",json,one_based,"{""problem_type"":""MVC"",""num_nodes"":10,""num_edges"":18,""edges"":[{""u"":8,""v"":1},{""u"":8,""v"":3},{""u"":8,""v"":4},{""u"":9,""v"":1},{""u"":9,""v"":2},{""u"":9,""v"":3},{""u"":10,""v"":1},{""u"":10,""v"":5},{""u"":10,""v"":6},{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":1,""v"":5},{""u"":1,""v"":6},{""u"":1,""v"":7},{""u"":5,""v"":2},{""u"":5,""v"":7},{""u"":6,""v"":7}],""source_file"":""wi2010.mtx"",""density"":0.4,""edge_connectivity"":2}","[1,5,6,8,9]",5.0,"{""num_nodes"":10,""num_edges"":18,""edges"":[{""u"":8,""v"":1},{""u"":8,""v"":3},{""u"":8,""v"":4},{""u"":9,""v"":1},{""u"":9,""v"":2},{""u"":9,""v"":3},{""u"":10,""v"":1},{""u"":10,""v"":5},{""u"":10,""v"":6},{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":1,""v"":5},{""u"":1,""v"":6},{""u"":1,""v"":7},{""u"":5,""v"":2},{""u"":5,""v"":7},{""u"":6,""v"":7}]}","[1,5,6,8,9]"
+MVC_S_004,MVC,S,4,"I'm the network guy trying to keep tabs on a messy rack of routers and cables, and the task is to pick which routers to watch so that every physical cable has at least one end under surveillance. The better choice is the one that uses the fewest watched routers - measure that by simply counting how many routers are marked - and it has to be done so no cable is left unmonitored and marking the same router twice doesn't add anything. The exact network layout and connections are shown below.
+
+# total_routers=8
+# total_cables=12
+cable_endpoint_u,cable_endpoint_v
+7,1
+7,2
+7,4
+7,5
+6,0
+6,3
+4,0
+4,3
+4,5
+0,1
+0,3
+2,5
+
+Throw your final pick into a tiny JSON snippet like this - nothing fancy, just the shape I expect:
+
+{
+  ""solution"": [""router_id"", ""router_id"", ...]
+}
+
+Here ""solution"" is the list of router IDs you want to watch so every cable has at least one watched endpoint. Think of each ""router_id"" as a placeholder for whatever exact label the instance uses; the array is just the set of routers you mark (order doesn't matter). This JSON is only a sketch of the shape I want, not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no invented labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,zero_based,"{""problem_type"":""MVC"",""num_nodes"":8,""num_edges"":12,""edges"":[{""u"":8,""v"":2},{""u"":8,""v"":3},{""u"":8,""v"":5},{""u"":8,""v"":6},{""u"":7,""v"":1},{""u"":7,""v"":4},{""u"":5,""v"":1},{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":1,""v"":2},{""u"":1,""v"":4},{""u"":3,""v"":6}],""source_file"":""wi2010.mtx"",""density"":0.42857142857142855,""edge_connectivity"":2}","[1,4,6,8]",4.0,"{""num_nodes"":8,""num_edges"":12,""edges"":[{""u"":7,""v"":1},{""u"":7,""v"":2},{""u"":7,""v"":4},{""u"":7,""v"":5},{""u"":6,""v"":0},{""u"":6,""v"":3},{""u"":4,""v"":0},{""u"":4,""v"":3},{""u"":4,""v"":5},{""u"":0,""v"":1},{""u"":0,""v"":3},{""u"":2,""v"":5}]}","[0,3,5,7]"
+MVC_S_005,MVC,S,5,"I'm the head chef juggling a crowded prep line and need to decide which stations get someone standing at them so every adjacent pair of worktops has at least one cook nearby. The whole point is to pick as few cooks as necessary - a better plan uses fewer people - and goodness of a plan is simply the number of cooks assigned, counted up. Nothing can be left uncovered: for every pair of neighboring stations at least one of those two must have a cook. The exact kitchen layout and numbers will be shown below.
+
+{
+  ""total_workstations"": 10,
+  ""total_adjacent_station_pairs"": 16,
+  ""edges"": [
+    {
+      ""station_endpoint_a"": ""E"",
+      ""station_endpoint_b"": ""F""
+    },
+    {
+      ""station_endpoint_a"": ""E"",
+      ""station_endpoint_b"": ""J""
+    },
+    {
+      ""station_endpoint_a"": ""F"",
+      ""station_endpoint_b"": ""A""
+    },
+    {
+      ""station_endpoint_a"": ""F"",
+      ""station_endpoint_b"": ""C""
+    },
+    {
+      ""station_endpoint_a"": ""G"",
+      ""station_endpoint_b"": ""B""
+    },
+    {
+      ""station_endpoint_a"": ""G"",
+      ""station_endpoint_b"": ""D""
+    },
+    {
+      ""station_endpoint_a"": ""G"",
+      ""station_endpoint_b"": ""H""
+    },
+    {
+      ""station_endpoint_a"": ""G"",
+      ""station_endpoint_b"": ""J""
+    },
+    {
+      ""station_endpoint_a"": ""H"",
+      ""station_endpoint_b"": ""A""
+    },
+    {
+      ""station_endpoint_a"": ""H"",
+      ""station_endpoint_b"": ""I""
+    },
+    {
+      ""station_endpoint_a"": ""H"",
+      ""station_endpoint_b"": ""J""
+    },
+    {
+      ""station_endpoint_a"": ""J"",
+      ""station_endpoint_b"": ""A""
+    },
+    {
+      ""station_endpoint_a"": ""D"",
+      ""station_endpoint_b"": ""B""
+    },
+    {
+      ""station_endpoint_a"": ""I"",
+      ""station_endpoint_b"": ""B""
+    },
+    {
+      ""station_endpoint_a"": ""I"",
+      ""station_endpoint_b"": ""C""
+    },
+    {
+      ""station_endpoint_a"": ""A"",
+      ""station_endpoint_b"": ""C""
+    }
+  ]
+}
+
+When you send the answer back, just drop a tiny JSON sketch like this into your reply so I can read it programmatically:
+
+{
+  ""solution"": [""station_id"", ""station_id"", ...]
+}
+
+Here ""solution"" is just the list of stations where we'll stand a cook - each entry is a station identifier. This is only the shape I need (a simple list), not the actual assignment - fill it in with the real station labels from the instance.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,names,"{""problem_type"":""MVC"",""num_nodes"":10,""num_edges"":16,""edges"":[{""u"":5,""v"":6},{""u"":5,""v"":10},{""u"":6,""v"":1},{""u"":6,""v"":3},{""u"":7,""v"":2},{""u"":7,""v"":4},{""u"":7,""v"":8},{""u"":7,""v"":10},{""u"":8,""v"":1},{""u"":8,""v"":9},{""u"":8,""v"":10},{""u"":10,""v"":1},{""u"":4,""v"":2},{""u"":9,""v"":2},{""u"":9,""v"":3},{""u"":1,""v"":3}],""source_file"":""wv2010.mtx"",""density"":0.35555555555555557,""edge_connectivity"":2}","[1,2,3,5,7,8]",6.0,"{""num_nodes"":10,""num_edges"":16,""edges"":[{""u"":""E"",""v"":""F""},{""u"":""E"",""v"":""J""},{""u"":""F"",""v"":""A""},{""u"":""F"",""v"":""C""},{""u"":""G"",""v"":""B""},{""u"":""G"",""v"":""D""},{""u"":""G"",""v"":""H""},{""u"":""G"",""v"":""J""},{""u"":""H"",""v"":""A""},{""u"":""H"",""v"":""I""},{""u"":""H"",""v"":""J""},{""u"":""J"",""v"":""A""},{""u"":""D"",""v"":""B""},{""u"":""I"",""v"":""B""},{""u"":""I"",""v"":""C""},{""u"":""A"",""v"":""C""}]}","[""A"",""B"",""C"",""E"",""G"",""H""]"
+MVC_S_006,MVC,S,6,"Many people organizing supervision rounds face the same question: which rooms should host teachers so every hallway has at least one watched end? The winning arrangement is simply the one that uses the fewest staffed classrooms - evaluate options by the number of rooms chosen. Make sure no hallway is left without a supervised room, and don't duplicate effort by putting multiple teachers in one room. The specific layout details are given below.
+
+{
+  ""total_classrooms"": 10,
+  ""total_hallways"": 16,
+  ""edges"": [
+    {
+      ""classroom_endpoint_a"": 6,
+      ""classroom_endpoint_b"": 2
+    },
+    {
+      ""classroom_endpoint_a"": 6,
+      ""classroom_endpoint_b"": 5
+    },
+    {
+      ""classroom_endpoint_a"": 6,
+      ""classroom_endpoint_b"": 8
+    },
+    {
+      ""classroom_endpoint_a"": 7,
+      ""classroom_endpoint_b"": 1
+    },
+    {
+      ""classroom_endpoint_a"": 7,
+      ""classroom_endpoint_b"": 2
+    },
+    {
+      ""classroom_endpoint_a"": 7,
+      ""classroom_endpoint_b"": 3
+    },
+    {
+      ""classroom_endpoint_a"": 7,
+      ""classroom_endpoint_b"": 9
+    },
+    {
+      ""classroom_endpoint_a"": 5,
+      ""classroom_endpoint_b"": 2
+    },
+    {
+      ""classroom_endpoint_a"": 5,
+      ""classroom_endpoint_b"": 9
+    },
+    {
+      ""classroom_endpoint_a"": 9,
+      ""classroom_endpoint_b"": 2
+    },
+    {
+      ""classroom_endpoint_a"": 8,
+      ""classroom_endpoint_b"": 2
+    },
+    {
+      ""classroom_endpoint_a"": 8,
+      ""classroom_endpoint_b"": 4
+    },
+    {
+      ""classroom_endpoint_a"": 10,
+      ""classroom_endpoint_b"": 2
+    },
+    {
+      ""classroom_endpoint_a"": 3,
+      ""classroom_endpoint_b"": 2
+    },
+    {
+      ""classroom_endpoint_a"": 4,
+      ""classroom_endpoint_b"": 2
+    },
+    {
+      ""classroom_endpoint_a"": 2,
+      ""classroom_endpoint_b"": 1
+    }
+  ]
+}
+
+If you want to send back the chosen rooms, a tiny JSON snippet is perfect - just a simple list of the room identifiers you picked. For this story I'll show the placeholder name as room_id so it reads naturally:
+
+{
+  ""solution"": [""room_id"", ""room_id"", ...]
+}
+
+Pretty straightforward: ""solution"" is the list of rooms where you'll place teachers so every hallway has a watched end. The entries in that array are placeholders showing the shape - replace each ""room_id"" with the actual room identifier from the instance.
+
+This JSON is just a sketch of the expected shape, not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - don't rename them or invent new labels. Valid identifiers look like:
+- ""1"" or ""23""
+- ""A"" or ""B""
+- ""A1"" or ""X7""",json,one_based,"{""problem_type"":""MVC"",""num_nodes"":10,""num_edges"":16,""edges"":[{""u"":6,""v"":2},{""u"":6,""v"":5},{""u"":6,""v"":8},{""u"":7,""v"":1},{""u"":7,""v"":2},{""u"":7,""v"":3},{""u"":7,""v"":9},{""u"":5,""v"":2},{""u"":5,""v"":9},{""u"":9,""v"":2},{""u"":8,""v"":2},{""u"":8,""v"":4},{""u"":10,""v"":2},{""u"":3,""v"":2},{""u"":4,""v"":2},{""u"":2,""v"":1}],""source_file"":""wi2010.mtx"",""density"":0.35555555555555557,""edge_connectivity"":1}","[2,5,7,8]",4.0,"{""num_nodes"":10,""num_edges"":16,""edges"":[{""u"":6,""v"":2},{""u"":6,""v"":5},{""u"":6,""v"":8},{""u"":7,""v"":1},{""u"":7,""v"":2},{""u"":7,""v"":3},{""u"":7,""v"":9},{""u"":5,""v"":2},{""u"":5,""v"":9},{""u"":9,""v"":2},{""u"":8,""v"":2},{""u"":8,""v"":4},{""u"":10,""v"":2},{""u"":3,""v"":2},{""u"":4,""v"":2},{""u"":2,""v"":1}]}","[2,5,7,8]"
+MVC_S_007,MVC,S,7,"Backstage at the expo, the security lead's job is to pick which vendor booths get checkpoints so every aisle that runs between two booths is covered by having a checkpoint at one of those booths. The goal is straightforward - cover all the aisles but do it with the least number of checkpoints; compute that by counting checkpoints and verifying every aisle has at least one endpoint with one, and don't leave any aisle uncovered or install pointless duplicates. The full booth map and instance details are shown below.
+
+{
+  ""total_booths"": 11,
+  ""total_aisles"": 17,
+  ""edges"": [
+    {
+      ""aisle_booth_u"": 6,
+      ""aisle_booth_v"": 5
+    },
+    {
+      ""aisle_booth_u"": 8,
+      ""aisle_booth_v"": 0
+    },
+    {
+      ""aisle_booth_u"": 8,
+      ""aisle_booth_v"": 2
+    },
+    {
+      ""aisle_booth_u"": 8,
+      ""aisle_booth_v"": 5
+    },
+    {
+      ""aisle_booth_u"": 4,
+      ""aisle_booth_v"": 0
+    },
+    {
+      ""aisle_booth_u"": 4,
+      ""aisle_booth_v"": 5
+    },
+    {
+      ""aisle_booth_u"": 2,
+      ""aisle_booth_v"": 1
+    },
+    {
+      ""aisle_booth_u"": 2,
+      ""aisle_booth_v"": 5
+    },
+    {
+      ""aisle_booth_u"": 3,
+      ""aisle_booth_v"": 1
+    },
+    {
+      ""aisle_booth_u"": 3,
+      ""aisle_booth_v"": 5
+    },
+    {
+      ""aisle_booth_u"": 3,
+      ""aisle_booth_v"": 9
+    },
+    {
+      ""aisle_booth_u"": 10,
+      ""aisle_booth_v"": 0
+    },
+    {
+      ""aisle_booth_u"": 10,
+      ""aisle_booth_v"": 5
+    },
+    {
+      ""aisle_booth_u"": 9,
+      ""aisle_booth_v"": 5
+    },
+    {
+      ""aisle_booth_u"": 0,
+      ""aisle_booth_v"": 5
+    },
+    {
+      ""aisle_booth_u"": 1,
+      ""aisle_booth_v"": 5
+    },
+    {
+      ""aisle_booth_u"": 5,
+      ""aisle_booth_v"": 7
+    }
+  ]
+}
+
+Oh, and when you send the checkpoint list back, please keep it in this simple JSON shape so whoever's checking can parse it automatically:
+
+{
+  ""solution"": [""booth_id"", ""booth_id"", ...]
+}
+
+This means ""solution"" is just the list of booth IDs where you'll place checkpoints. Think of it as filling out a short form: each entry is a booth identifier from the map. The JSON above is only a sketch of the expected shape - not the actual answer.
+
+Please make sure to use the exact identifiers from the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,zero_based,"{""problem_type"":""MVC"",""num_nodes"":11,""num_edges"":17,""edges"":[{""u"":7,""v"":6},{""u"":9,""v"":1},{""u"":9,""v"":3},{""u"":9,""v"":6},{""u"":5,""v"":1},{""u"":5,""v"":6},{""u"":3,""v"":2},{""u"":3,""v"":6},{""u"":4,""v"":2},{""u"":4,""v"":6},{""u"":4,""v"":10},{""u"":11,""v"":1},{""u"":11,""v"":6},{""u"":10,""v"":6},{""u"":1,""v"":6},{""u"":2,""v"":6},{""u"":6,""v"":8}],""source_file"":""wy2010.mtx"",""density"":0.3090909090909091,""edge_connectivity"":1}","[1,3,4,6]",4.0,"{""num_nodes"":11,""num_edges"":17,""edges"":[{""u"":6,""v"":5},{""u"":8,""v"":0},{""u"":8,""v"":2},{""u"":8,""v"":5},{""u"":4,""v"":0},{""u"":4,""v"":5},{""u"":2,""v"":1},{""u"":2,""v"":5},{""u"":3,""v"":1},{""u"":3,""v"":5},{""u"":3,""v"":9},{""u"":10,""v"":0},{""u"":10,""v"":5},{""u"":9,""v"":5},{""u"":0,""v"":5},{""u"":1,""v"":5},{""u"":5,""v"":7}]}","[0,2,3,5]"
+MVC_S_008,MVC,S,8,"I heard about a small office where the network admin needs to patch some servers, but wants to do it smart: pick a handful of machines to update so that for every cable between any two machines at least one end is patched. The choice to make is which servers to update; the better choices are the ones that use fewer updates while still touching every connection. Success is measured simply by counting how many servers got updated - fewer is better - and every link must be covered (no connection can be left without an updated endpoint). Each server is either updated once or not at all, and the exact layout of machines and links will be shown below.
+
+Below is the layout: 11 servers and 21 links.
+A cable connects servers 8 and 0.
+A cable connects servers 8 and 5.
+A cable connects servers 8 and 7.
+A cable connects servers 8 and 9.
+A cable connects servers 10 and 1.
+A cable connects servers 10 and 4.
+A cable connects servers 10 and 5.
+A cable connects servers 10 and 9.
+A cable connects servers 0 and 7.
+A cable connects servers 0 and 9.
+A cable connects servers 2 and 1.
+A cable connects servers 2 and 9.
+A cable connects servers 1 and 9.
+A cable connects servers 6 and 5.
+A cable connects servers 4 and 5.
+A cable connects servers 4 and 9.
+A cable connects servers 9 and 3.
+A cable connects servers 9 and 5.
+A cable connects servers 9 and 7.
+A cable connects servers 3 and 5.
+A cable connects servers 5 and 7.
+Success is measured by the number of servers updated - fewer is better; every link must have at least one updated endpoint.
+
+When you send back the list of servers to patch, just drop them into a tiny JSON snippet like this:
+
+{
+  ""solution"": [""server_id"", ""server_id"", ...]
+}
+
+Here ""solution"" is the array where you list the servers you'll update - one identifier per entry. Think of it like filling out a simple form: put the exact server IDs in that list. This JSON is just a sketch of the shape I expect, not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,zero_based,"{""problem_type"":""MVC"",""num_nodes"":11,""num_edges"":21,""edges"":[{""u"":9,""v"":1},{""u"":9,""v"":6},{""u"":9,""v"":8},{""u"":9,""v"":10},{""u"":11,""v"":2},{""u"":11,""v"":5},{""u"":11,""v"":6},{""u"":11,""v"":10},{""u"":1,""v"":8},{""u"":1,""v"":10},{""u"":3,""v"":2},{""u"":3,""v"":10},{""u"":2,""v"":10},{""u"":7,""v"":6},{""u"":5,""v"":6},{""u"":5,""v"":10},{""u"":10,""v"":4},{""u"":10,""v"":6},{""u"":10,""v"":8},{""u"":4,""v"":6},{""u"":6,""v"":8}],""source_file"":""wi2010.mtx"",""density"":0.38181818181818183,""edge_connectivity"":1}","[2,6,8,9,10,11]",6.0,"{""num_nodes"":11,""num_edges"":21,""edges"":[{""u"":8,""v"":0},{""u"":8,""v"":5},{""u"":8,""v"":7},{""u"":8,""v"":9},{""u"":10,""v"":1},{""u"":10,""v"":4},{""u"":10,""v"":5},{""u"":10,""v"":9},{""u"":0,""v"":7},{""u"":0,""v"":9},{""u"":2,""v"":1},{""u"":2,""v"":9},{""u"":1,""v"":9},{""u"":6,""v"":5},{""u"":4,""v"":5},{""u"":4,""v"":9},{""u"":9,""v"":3},{""u"":9,""v"":5},{""u"":9,""v"":7},{""u"":3,""v"":5},{""u"":5,""v"":7}]}","[1,5,7,8,9,10]"
+MVC_S_009,MVC,S,9,"There's a small team trying to minimize the number of trash cans around the hiking routes, by choosing which trailheads to outfit so every segment connects to at least one equipped head. The idea is to make the number of installed bins as small as possible - the way to tell which idea is better is to count how many bins it needs. Every trail segment must have one of its two trailheads fitted with a bin (no segment may be skipped), and a trailhead either has one bin or none. The specific park map and details are shown below.
+
+There are 10 num trailheads in total and 18 num trail segments.
+
+| trailhead_one | trailhead_two |
+|---|---|
+| 8 | 1 |
+| 8 | 4 |
+| 8 | 7 |
+| 8 | 9 |
+| 0 | 1 |
+| 0 | 4 |
+| 0 | 6 |
+| 1 | 2 |
+| 1 | 6 |
+| 1 | 9 |
+| 5 | 3 |
+| 5 | 6 |
+| 5 | 7 |
+| 9 | 2 |
+| 9 | 3 |
+| 6 | 2 |
+| 6 | 7 |
+| 7 | 4 |
+
+Also, to keep things machine-friendly, please send the chosen trailheads in a tiny JSON shape like this:
+
+{
+  ""solution"": [""trailhead_id"", ""trailhead_id"", ...]
+}
+
+This just means ""solution"" should be a list of the trailhead identifiers where we'll put bins. It's a sketch of the expected shape - not the actual answer itself - and each entry should be the identifier for a trailhead from the map.
+
+Please make sure to use the exact identifiers from the instance input - don't rename them or invent new labels.
+To be clear, valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",markdown_table,zero_based,"{""problem_type"":""MVC"",""num_nodes"":10,""num_edges"":18,""edges"":[{""u"":9,""v"":2},{""u"":9,""v"":5},{""u"":9,""v"":8},{""u"":9,""v"":10},{""u"":1,""v"":2},{""u"":1,""v"":5},{""u"":1,""v"":7},{""u"":2,""v"":3},{""u"":2,""v"":7},{""u"":2,""v"":10},{""u"":6,""v"":4},{""u"":6,""v"":7},{""u"":6,""v"":8},{""u"":10,""v"":3},{""u"":10,""v"":4},{""u"":7,""v"":3},{""u"":7,""v"":8},{""u"":8,""v"":5}],""source_file"":""vt2010.mtx"",""density"":0.4,""edge_connectivity"":2}","[2,4,5,7,8,10]",6.0,"{""num_nodes"":10,""num_edges"":18,""edges"":[{""u"":8,""v"":1},{""u"":8,""v"":4},{""u"":8,""v"":7},{""u"":8,""v"":9},{""u"":0,""v"":1},{""u"":0,""v"":4},{""u"":0,""v"":6},{""u"":1,""v"":2},{""u"":1,""v"":6},{""u"":1,""v"":9},{""u"":5,""v"":3},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":9,""v"":2},{""u"":9,""v"":3},{""u"":6,""v"":2},{""u"":6,""v"":7},{""u"":7,""v"":4}]}","[1,3,4,6,7,9]"
+MVC_S_010,MVC,S,10,"Someone in charge of student mentoring needs to decide which students should be mentors so that every collaboration pairing has a mentor on at least one side. The practical test is to count how many students were chosen and pick the arrangement that uses the fewest people but still checks every pair. Every collaboration must be covered, and each mentor is a single person - duplicates are unnecessary. The full breakdown of students and their connections appears below.
+
+# total_students=9
+# total_collaboration_pairs=14
+student_a_id,student_b_id
+D,B
+D,F
+D,G
+D,H
+C,E
+C,F
+F,A
+F,G
+H,B
+H,G
+H,I
+E,G
+A,B
+B,I
+
+Also, when you send the final list of mentors, please put it in this simple JSON shape so it's easy to parse:
+
+{
+  ""solution"": [""mentor_id"", ""mentor_id"", ...]
+}
+
+Think of it like a little form: ""solution"" is the list of chosen mentors (one entry per selected student). The placeholder mentor_id just means ""put a student identifier here"" - it's a sketch of the expected shape, not the actual answer.
+
+Please make sure every identifier you use matches exactly how it appears in the instance input - no renaming and no new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,names,"{""problem_type"":""MVC"",""num_nodes"":9,""num_edges"":14,""edges"":[{""u"":4,""v"":2},{""u"":4,""v"":6},{""u"":4,""v"":7},{""u"":4,""v"":8},{""u"":3,""v"":5},{""u"":3,""v"":6},{""u"":6,""v"":1},{""u"":6,""v"":7},{""u"":8,""v"":2},{""u"":8,""v"":7},{""u"":8,""v"":9},{""u"":5,""v"":7},{""u"":1,""v"":2},{""u"":2,""v"":9}],""source_file"":""wv2010.mtx"",""density"":0.3888888888888889,""edge_connectivity"":2}","[2,5,6,7,8]",5.0,"{""num_nodes"":9,""num_edges"":14,""edges"":[{""u"":""D"",""v"":""B""},{""u"":""D"",""v"":""F""},{""u"":""D"",""v"":""G""},{""u"":""D"",""v"":""H""},{""u"":""C"",""v"":""E""},{""u"":""C"",""v"":""F""},{""u"":""F"",""v"":""A""},{""u"":""F"",""v"":""G""},{""u"":""H"",""v"":""B""},{""u"":""H"",""v"":""G""},{""u"":""H"",""v"":""I""},{""u"":""E"",""v"":""G""},{""u"":""A"",""v"":""B""},{""u"":""B"",""v"":""I""}]}","[""B"",""E"",""F"",""G"",""H""]"
+MVC_S_011,MVC,S,11,"Recently the crew decided to trim down how many repair techs patrol the plant, so the supervisor is choosing rooms to station them in, making sure every pipe linking two rooms has at least one of those rooms covered. The metric is simple: the fewer technicians used while still ensuring every pipe has a staffed endpoint, the better - count the technicians and aim for the smallest possible number that keeps all pipes covered. A tech in a room automatically handles all pipes that touch that room, and no pipe can be left uncovered or ignored; stuffing multiple techs into the same room is unnecessary. The particular room-and-pipe details follow below.
+
+There are 11 rooms and 18 pipes:
+Pipe between room 0 and room 3.
+Pipe between room 0 and room 5.
+Pipe between room 0 and room 10.
+Pipe between room 1 and room 6.
+Pipe between room 1 and room 10.
+Pipe between room 8 and room 3.
+Pipe between room 8 and room 4.
+Pipe between room 8 and room 10.
+Pipe between room 7 and room 10.
+Pipe between room 4 and room 2.
+Pipe between room 4 and room 3.
+Pipe between room 4 and room 10.
+Pipe between room 5 and room 3.
+Pipe between room 5 and room 10.
+Pipe between room 9 and room 2.
+Pipe between room 9 and room 10.
+Pipe between room 6 and room 10.
+Pipe between room 2 and room 10.
+Aim to staff the smallest possible number of rooms so all 18 pipes among the 11 rooms remain covered.
+
+If you want to hand the answer back to me in a predictable way, just use this little JSON shape so I can read it easily:
+
+{
+  ""solution"": [""room_id"", ""room_id"", ...]
+}
+
+Think of ""solution"" as the list of room IDs where you'll station the technicians - one entry per selected room. The example above is just a sketch of the shape I expect, not the actual set of rooms.
+
+Please make sure to use the exact identifiers from the instance input - no renaming and no new labels.
+
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,zero_based,"{""problem_type"":""MVC"",""num_nodes"":11,""num_edges"":18,""edges"":[{""u"":1,""v"":4},{""u"":1,""v"":6},{""u"":1,""v"":11},{""u"":2,""v"":7},{""u"":2,""v"":11},{""u"":9,""v"":4},{""u"":9,""v"":5},{""u"":9,""v"":11},{""u"":8,""v"":11},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":11},{""u"":6,""v"":4},{""u"":6,""v"":11},{""u"":10,""v"":3},{""u"":10,""v"":11},{""u"":7,""v"":11},{""u"":3,""v"":11}],""source_file"":""wy2010.mtx"",""density"":0.32727272727272727,""edge_connectivity"":1}","[3,4,5,6,7,11]",6.0,"{""num_nodes"":11,""num_edges"":18,""edges"":[{""u"":0,""v"":3},{""u"":0,""v"":5},{""u"":0,""v"":10},{""u"":1,""v"":6},{""u"":1,""v"":10},{""u"":8,""v"":3},{""u"":8,""v"":4},{""u"":8,""v"":10},{""u"":7,""v"":10},{""u"":4,""v"":2},{""u"":4,""v"":3},{""u"":4,""v"":10},{""u"":5,""v"":3},{""u"":5,""v"":10},{""u"":9,""v"":2},{""u"":9,""v"":10},{""u"":6,""v"":10},{""u"":2,""v"":10}]}","[2,3,4,5,6,10]"
+MVC_S_012,MVC,S,12,"Someone at the journal has to pick an oversight crew: choose a handful of advisors so that for every pair of coauthors there's at least one author who's covered. Better choices are the ones that use fewer people, and that's checked by counting the invited advisors. Every coauthorship link must be covered by at least one invited author, duplicate invites don't add extra credit, and nothing can be skipped. The full details appear below.
+
+There are 11 authors in total and 17 coauthorship links.
+
+| author_one | author_two |
+|---|---|
+| H | A |
+| H | J |
+| H | K |
+| F | A |
+| F | I |
+| F | J |
+| B | A |
+| B | J |
+| J | A |
+| J | D |
+| A | C |
+| A | G |
+| A | K |
+| C | E |
+| C | G |
+| E | G |
+| E | K |
+
+When you send back the chosen crew, just drop them into this little JSON shape so it's easy to parse:
+
+{
+  ""solution"": [""advisor_id"", ""advisor_id"", ...]
+}
+
+Pretty straightforward: ""solution"" is the list of invited advisors (one identifier per person). Think of it like filling a short form - each entry is the exact ID of an author you're picking to cover coauthorship links. This JSON is just a sketch of the expected shape, not the actual answer.
+
+Please make sure to use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,names,"{""problem_type"":""MVC"",""num_nodes"":11,""num_edges"":17,""edges"":[{""u"":8,""v"":1},{""u"":8,""v"":10},{""u"":8,""v"":11},{""u"":6,""v"":1},{""u"":6,""v"":9},{""u"":6,""v"":10},{""u"":2,""v"":1},{""u"":2,""v"":10},{""u"":10,""v"":1},{""u"":10,""v"":4},{""u"":1,""v"":3},{""u"":1,""v"":7},{""u"":1,""v"":11},{""u"":3,""v"":5},{""u"":3,""v"":7},{""u"":5,""v"":7},{""u"":5,""v"":11}],""source_file"":""wa2010.mtx"",""density"":0.3090909090909091,""edge_connectivity"":1}","[1,5,6,7,10,11]",6.0,"{""num_nodes"":11,""num_edges"":17,""edges"":[{""u"":""H"",""v"":""A""},{""u"":""H"",""v"":""J""},{""u"":""H"",""v"":""K""},{""u"":""F"",""v"":""A""},{""u"":""F"",""v"":""I""},{""u"":""F"",""v"":""J""},{""u"":""B"",""v"":""A""},{""u"":""B"",""v"":""J""},{""u"":""J"",""v"":""A""},{""u"":""J"",""v"":""D""},{""u"":""A"",""v"":""C""},{""u"":""A"",""v"":""G""},{""u"":""A"",""v"":""K""},{""u"":""C"",""v"":""E""},{""u"":""C"",""v"":""G""},{""u"":""E"",""v"":""G""},{""u"":""E"",""v"":""K""}]}","[""A"",""E"",""F"",""G"",""J"",""K""]"
+MVC_S_013,MVC,S,13,"Recently the shop got tighter on budget, so the goal became choosing a minimal set of display stands to stock so that every pair of items that share a shelf has at least one item stocked. A good choice is the one with the lowest number of stocked stands - simply count them to see how good a choice is - but it must still leave no shared-shelf pair without a stocked product. The details of which items sit together are listed below.
+
+{
+  ""total_products"": 9,
+  ""shared_shelf_pairs"": 13,
+  ""edges"": [
+    {
+      ""product_u"": 6,
+      ""product_v"": 1
+    },
+    {
+      ""product_u"": 6,
+      ""product_v"": 3
+    },
+    {
+      ""product_u"": 7,
+      ""product_v"": 3
+    },
+    {
+      ""product_u"": 7,
+      ""product_v"": 8
+    },
+    {
+      ""product_u"": 5,
+      ""product_v"": 2
+    },
+    {
+      ""product_u"": 5,
+      ""product_v"": 3
+    },
+    {
+      ""product_u"": 5,
+      ""product_v"": 4
+    },
+    {
+      ""product_u"": 5,
+      ""product_v"": 8
+    },
+    {
+      ""product_u"": 5,
+      ""product_v"": 9
+    },
+    {
+      ""product_u"": 1,
+      ""product_v"": 4
+    },
+    {
+      ""product_u"": 3,
+      ""product_v"": 4
+    },
+    {
+      ""product_u"": 2,
+      ""product_v"": 4
+    },
+    {
+      ""product_u"": 2,
+      ""product_v"": 9
+    }
+  ]
+}
+
+You can just give the chosen stands in a tiny JSON snippet like this so it's quick to read and machine-friendly:
+
+{
+  ""solution"": [""stand_id"", ""stand_id"", ...]
+}
+
+Here ""solution"" is the list of display stands you'll stock - each entry is one stand identifier from the instance. This little example is just the shape I expect, not the actual answer to the instance.
+
+Please use the identifiers exactly as they appear in the input - no renaming or new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,one_based,"{""problem_type"":""MVC"",""num_nodes"":9,""num_edges"":13,""edges"":[{""u"":6,""v"":1},{""u"":6,""v"":3},{""u"":7,""v"":3},{""u"":7,""v"":8},{""u"":5,""v"":2},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":8},{""u"":5,""v"":9},{""u"":1,""v"":4},{""u"":3,""v"":4},{""u"":2,""v"":4},{""u"":2,""v"":9}],""source_file"":""wa2010.mtx"",""density"":0.3611111111111111,""edge_connectivity"":2}","[1,2,3,5,7]",5.0,"{""num_nodes"":9,""num_edges"":13,""edges"":[{""u"":6,""v"":1},{""u"":6,""v"":3},{""u"":7,""v"":3},{""u"":7,""v"":8},{""u"":5,""v"":2},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":8},{""u"":5,""v"":9},{""u"":1,""v"":4},{""u"":3,""v"":4},{""u"":2,""v"":4},{""u"":2,""v"":9}]}","[1,2,3,5,7]"
+MVC_S_014,MVC,S,14,"We've got a strip of market stalls for the weekend, and the job is to decide where to place volunteers so that for every two stalls that touch, at least one has a helper standing there. The decision is which specific stalls to staff; a good plan is one that covers every touching pair while using as few volunteers as possible. To see which plan wins, simply tally the volunteers in that plan - fewer volunteers means a better plan - and make sure every neighboring pair is covered and no stall-status is counted twice. The concrete stall map and counts follow below.
+
+# total_stalls=10
+# total_touching_pairs=15
+stall_a,stall_b
+9,5
+1,5
+5,0
+5,2
+5,3
+5,4
+5,6
+5,7
+5,8
+6,4
+8,4
+8,7
+0,2
+0,3
+7,4
+
+If you'd like to give the staffing plan in a predictable format, you can just drop it in a tiny JSON snippet like this:
+
+{
+  ""solution"": [""stall_id"", ""stall_id"", ...]
+}
+
+This just means ""solution"" is a list of the stalls where volunteers will stand - one identifier per staffed stall. It's an example of the shape I expect, not the actual answer itself.
+
+Please be sure to use the exact stall identifiers as they appear in the instance input - do not rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,zero_based,"{""problem_type"":""MVC"",""num_nodes"":10,""num_edges"":15,""edges"":[{""u"":10,""v"":6},{""u"":2,""v"":6},{""u"":6,""v"":1},{""u"":6,""v"":3},{""u"":6,""v"":4},{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":6,""v"":8},{""u"":6,""v"":9},{""u"":7,""v"":5},{""u"":9,""v"":5},{""u"":9,""v"":8},{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":8,""v"":5}],""source_file"":""wy2010.mtx"",""density"":0.3333333333333333,""edge_connectivity"":1}","[1,5,6,8]",4.0,"{""num_nodes"":10,""num_edges"":15,""edges"":[{""u"":9,""v"":5},{""u"":1,""v"":5},{""u"":5,""v"":0},{""u"":5,""v"":2},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":5,""v"":8},{""u"":6,""v"":4},{""u"":8,""v"":4},{""u"":8,""v"":7},{""u"":0,""v"":2},{""u"":0,""v"":3},{""u"":7,""v"":4}]}","[0,4,5,7]"
+MVC_S_015,MVC,S,15,"Someone in the house suggested making a lean chore team-pick the minimum number of relatives to cover rooms so that any appliance located between a pair of rooms has at least one of those rooms covered by an assigned person. The way to tell which suggestion is better is simple: count how many family members are used, and make sure every appliance sitting between two rooms is adjacent to at least one assigned room. No shared appliance can be left without coverage, and doubling up on the same room is unnecessary. The detailed scenario follows below.
+
+There are 9 rooms and 14 shared appliances to consider.
+Appliance sitting between rooms F and C must be adjacent to at least one assigned room.
+Appliance sitting between rooms F and G must be adjacent to at least one assigned room.
+Appliance sitting between rooms F and H must be adjacent to at least one assigned room.
+Appliance sitting between rooms G and C must be adjacent to at least one assigned room.
+Appliance sitting between rooms G and E must be adjacent to at least one assigned room.
+Appliance sitting between rooms C and I must be adjacent to at least one assigned room.
+Appliance sitting between rooms H and B must be adjacent to at least one assigned room.
+Appliance sitting between rooms H and D must be adjacent to at least one assigned room.
+Appliance sitting between rooms H and E must be adjacent to at least one assigned room.
+Appliance sitting between rooms H and I must be adjacent to at least one assigned room.
+Appliance sitting between rooms B and D must be adjacent to at least one assigned room.
+Appliance sitting between rooms B and I must be adjacent to at least one assigned room.
+Appliance sitting between rooms E and I must be adjacent to at least one assigned room.
+Appliance sitting between rooms A and I must be adjacent to at least one assigned room.
+Minimize the number of relatives while ensuring all 14 appliances are covered.
+
+If you want to hand me the result, just drop it in a tiny JSON snippet like this so it's easy to parse:
+
+{
+  ""solution"": [""room_id"", ""room_id"", ...]
+}
+
+Think of that as a little form: ""solution"" is the list of rooms (one entry per family member you pick to cover appliances). Each string in the array should be a single room identifier from the problem - nothing fancy, just the exact label used in the input. This JSON is just a sketch of the shape I expect, not the actual answer itself.
+
+Please be sure to use the identifiers exactly as they appear in the instance input - do not rename them or invent new labels. For example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,names,"{""problem_type"":""MVC"",""num_nodes"":9,""num_edges"":14,""edges"":[{""u"":6,""v"":3},{""u"":6,""v"":7},{""u"":6,""v"":8},{""u"":7,""v"":3},{""u"":7,""v"":5},{""u"":3,""v"":9},{""u"":8,""v"":2},{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":8,""v"":9},{""u"":2,""v"":4},{""u"":2,""v"":9},{""u"":5,""v"":9},{""u"":1,""v"":9}],""source_file"":""wy2010.mtx"",""density"":0.3888888888888889,""edge_connectivity"":1}","[4,6,7,8,9]",5.0,"{""num_nodes"":9,""num_edges"":14,""edges"":[{""u"":""F"",""v"":""C""},{""u"":""F"",""v"":""G""},{""u"":""F"",""v"":""H""},{""u"":""G"",""v"":""C""},{""u"":""G"",""v"":""E""},{""u"":""C"",""v"":""I""},{""u"":""H"",""v"":""B""},{""u"":""H"",""v"":""D""},{""u"":""H"",""v"":""E""},{""u"":""H"",""v"":""I""},{""u"":""B"",""v"":""D""},{""u"":""B"",""v"":""I""},{""u"":""E"",""v"":""I""},{""u"":""A"",""v"":""I""}]}","[""D"",""F"",""G"",""H"",""I""]"
+MVC_S_016,MVC,S,16,"Many people on the crew are talking about which substations to upgrade so every stretch of transmission line touches a modernized site. The matter at hand is choosing a small group of substations - fewer upgrades is better - but the catch is every line must have at least one upgraded endpoint. To judge choices, simply total the upgraded substations; the valid choice with the lowest total is the one to go with, and every line must be covered with upgrades counted once per station. The exact network details are listed below.
+
+There are 12 substations in total and 20 transmission lines.
+
+| substation_endpoint_u | substation_endpoint_v |
+|---|---|
+| I | C |
+| I | D |
+| I | F |
+| E | A |
+| E | G |
+| E | J |
+| J | F |
+| J | G |
+| J | L |
+| F | C |
+| F | D |
+| F | G |
+| F | H |
+| F | K |
+| F | L |
+| A | G |
+| G | B |
+| G | D |
+| G | H |
+| C | D |
+
+Also, when you're ready to hand me a choice, just drop it in this simple JSON layout so I can read it programmatically:
+
+{
+  ""solution"": [""substation_id"", ""substation_id"", ...]
+}
+
+Think of ""solution"" as the list of substations you want upgraded - just list each substation's identifier once. This is just a sketch of the shape I expect, not the actual answer; replace the placeholders with the real IDs from the instance.
+
+Please be sure to use the identifiers exactly as they appear in the instance input - no renaming and no new labels. For example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,names,"{""problem_type"":""MVC"",""num_nodes"":12,""num_edges"":20,""edges"":[{""u"":9,""v"":3},{""u"":9,""v"":4},{""u"":9,""v"":6},{""u"":5,""v"":1},{""u"":5,""v"":7},{""u"":5,""v"":10},{""u"":10,""v"":6},{""u"":10,""v"":7},{""u"":10,""v"":12},{""u"":6,""v"":3},{""u"":6,""v"":4},{""u"":6,""v"":7},{""u"":6,""v"":8},{""u"":6,""v"":11},{""u"":6,""v"":12},{""u"":1,""v"":7},{""u"":7,""v"":2},{""u"":7,""v"":4},{""u"":7,""v"":8},{""u"":3,""v"":4}],""source_file"":""wi2010.mtx"",""density"":0.30303030303030304,""edge_connectivity"":1}","[3,4,5,6,7,10]",6.0,"{""num_nodes"":12,""num_edges"":20,""edges"":[{""u"":""I"",""v"":""C""},{""u"":""I"",""v"":""D""},{""u"":""I"",""v"":""F""},{""u"":""E"",""v"":""A""},{""u"":""E"",""v"":""G""},{""u"":""E"",""v"":""J""},{""u"":""J"",""v"":""F""},{""u"":""J"",""v"":""G""},{""u"":""J"",""v"":""L""},{""u"":""F"",""v"":""C""},{""u"":""F"",""v"":""D""},{""u"":""F"",""v"":""G""},{""u"":""F"",""v"":""H""},{""u"":""F"",""v"":""K""},{""u"":""F"",""v"":""L""},{""u"":""A"",""v"":""G""},{""u"":""G"",""v"":""B""},{""u"":""G"",""v"":""D""},{""u"":""G"",""v"":""H""},{""u"":""C"",""v"":""D""}]}","[""C"",""D"",""E"",""F"",""G"",""J""]"
+MVC_S_017,MVC,S,17,"I'm in charge of a small patch of beds and my job is to choose which ones to water by hand so that every pair of neighboring beds has at least one bed that gets a watering can. The point is to pick as few beds as possible - the fewer beds on the hand-water list, the better - and the way to check that is simple: count how many unique beds were hand-watered. Nothing can be ignored: every adjacent pair has to have at least one bed from that list, and each bed only counts once when tallying. The exact garden layout and details are shown below.
+
+There are 11 beds and 17 adjacent pairs listed below.
+Beds 1 and 0 are adjacent, so I need to hand-water at least one of them.
+Beds 1 and 2 are adjacent, so I need to hand-water at least one of them.
+Beds 1 and 5 are adjacent, so I need to hand-water at least one of them.
+Beds 1 and 8 are adjacent, so I need to hand-water at least one of them.
+Beds 6 and 9 are adjacent, so I need to hand-water at least one of them.
+Beds 6 and 10 are adjacent, so I need to hand-water at least one of them.
+Beds 4 and 0 are adjacent, so I need to hand-water at least one of them.
+Beds 4 and 2 are adjacent, so I need to hand-water at least one of them.
+Beds 4 and 3 are adjacent, so I need to hand-water at least one of them.
+Beds 4 and 10 are adjacent, so I need to hand-water at least one of them.
+Beds 0 and 7 are adjacent, so I need to hand-water at least one of them.
+Beds 7 and 8 are adjacent, so I need to hand-water at least one of them.
+Beds 9 and 10 are adjacent, so I need to hand-water at least one of them.
+Beds 8 and 10 are adjacent, so I need to hand-water at least one of them.
+Beds 2 and 5 are adjacent, so I need to hand-water at least one of them.
+Beds 2 and 10 are adjacent, so I need to hand-water at least one of them.
+Beds 10 and 5 are adjacent, so I need to hand-water at least one of them.
+I'll try to hand-water the fewest unique beds that cover all 17 pairs among the 11 beds.
+
+If you want to give me the hand-water list, just drop it in a tiny JSON object like this:
+
+{
+  ""solution"": [""bed_id"", ""bed_id"", ...]
+}
+
+This just means ""solution"" is the list of beds you'll water by hand so every neighboring pair has at least one watered bed. The strings inside the array are the bed identifiers (one per entry); the ... means you can add more as needed. It's just a sketch of the shape I expect - not the actual answer.
+
+Please use the exact identifiers from the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,zero_based,"{""problem_type"":""MVC"",""num_nodes"":11,""num_edges"":17,""edges"":[{""u"":2,""v"":1},{""u"":2,""v"":3},{""u"":2,""v"":6},{""u"":2,""v"":9},{""u"":7,""v"":10},{""u"":7,""v"":11},{""u"":5,""v"":1},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":11},{""u"":1,""v"":8},{""u"":8,""v"":9},{""u"":10,""v"":11},{""u"":9,""v"":11},{""u"":3,""v"":6},{""u"":3,""v"":11},{""u"":11,""v"":6}],""source_file"":""wv2010.mtx"",""density"":0.3090909090909091,""edge_connectivity"":1}","[2,5,6,7,8,11]",6.0,"{""num_nodes"":11,""num_edges"":17,""edges"":[{""u"":1,""v"":0},{""u"":1,""v"":2},{""u"":1,""v"":5},{""u"":1,""v"":8},{""u"":6,""v"":9},{""u"":6,""v"":10},{""u"":4,""v"":0},{""u"":4,""v"":2},{""u"":4,""v"":3},{""u"":4,""v"":10},{""u"":0,""v"":7},{""u"":7,""v"":8},{""u"":9,""v"":10},{""u"":8,""v"":10},{""u"":2,""v"":5},{""u"":2,""v"":10},{""u"":10,""v"":5}]}","[1,4,5,6,7,10]"
+MVC_S_018,MVC,S,18,"Recently the museum's night team had to work out where to place guards so that every corridor between two exhibits had at least one monitored end. The job is to choose a set of exhibits to guard, and a good plan is simply the one with the smallest number of guards - count them and the lower total wins. It's required that no passageway be left without a guarded endpoint, and duplicate staffing at the same exhibit should be avoided. The detailed plan and data appear below.
+
+There are 10 exhibits and 16 passageways in the layout.
+Corridor between exhibits 6 and 2 - at least one end must be guarded.
+Corridor between exhibits 6 and 5 - at least one end must be guarded.
+Corridor between exhibits 8 and 2 - at least one end must be guarded.
+Corridor between exhibits 8 and 5 - at least one end must be guarded.
+Corridor between exhibits 8 and 9 - at least one end must be guarded.
+Corridor between exhibits 8 and 10 - at least one end must be guarded.
+Corridor between exhibits 3 and 1 - at least one end must be guarded.
+Corridor between exhibits 3 and 7 - at least one end must be guarded.
+Corridor between exhibits 3 and 9 - at least one end must be guarded.
+Corridor between exhibits 9 and 4 - at least one end must be guarded.
+Corridor between exhibits 9 and 7 - at least one end must be guarded.
+Corridor between exhibits 7 and 2 - at least one end must be guarded.
+Corridor between exhibits 4 and 1 - at least one end must be guarded.
+Corridor between exhibits 4 and 10 - at least one end must be guarded.
+Corridor between exhibits 10 and 1 - at least one end must be guarded.
+Corridor between exhibits 10 and 5 - at least one end must be guarded.
+The team aims to minimize the number of guarded exhibits while ensuring all 16 passageways are covered.
+
+Also, when you send back the plan, please stick to a simple JSON layout like this so it's easy to read and check:
+
+{
+  ""solution"": [""exhibit_id"", ""exhibit_id"", ...]
+}
+
+Here I'm just using ""exhibit_id"" in place of the original placeholder to fit the museum story - ""solution"" should be a list of the exhibits where you'll station guards. Think of it like filling out a short form: each entry is the label of an exhibit that will be staffed. This block is only a sketch of the expected shape, not the actual answer.
+
+All identifiers in your actual reply must be used exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,one_based,"{""problem_type"":""MVC"",""num_nodes"":10,""num_edges"":16,""edges"":[{""u"":6,""v"":2},{""u"":6,""v"":5},{""u"":8,""v"":2},{""u"":8,""v"":5},{""u"":8,""v"":9},{""u"":8,""v"":10},{""u"":3,""v"":1},{""u"":3,""v"":7},{""u"":3,""v"":9},{""u"":9,""v"":4},{""u"":9,""v"":7},{""u"":7,""v"":2},{""u"":4,""v"":1},{""u"":4,""v"":10},{""u"":10,""v"":1},{""u"":10,""v"":5}],""source_file"":""vt2010.mtx"",""density"":0.35555555555555557,""edge_connectivity"":2}","[1,2,5,7,9,10]",6.0,"{""num_nodes"":10,""num_edges"":16,""edges"":[{""u"":6,""v"":2},{""u"":6,""v"":5},{""u"":8,""v"":2},{""u"":8,""v"":5},{""u"":8,""v"":9},{""u"":8,""v"":10},{""u"":3,""v"":1},{""u"":3,""v"":7},{""u"":3,""v"":9},{""u"":9,""v"":4},{""u"":9,""v"":7},{""u"":7,""v"":2},{""u"":4,""v"":1},{""u"":4,""v"":10},{""u"":10,""v"":1},{""u"":10,""v"":5}]}","[1,2,5,7,9,10]"
+MVC_S_019,MVC,S,19,"Back when scheduling inspections, the trick was to choose which flats to visit so that for every wall two neighbors share, at least one neighbor's alarm gets inspected. A better schedule uses fewer apartment visits; the score is just the number of units inspected. It's mandatory that each shared wall be covered by at least one checked apartment, and repeating inspections on the same unit is pointless. The specific apartment connections and details are presented below.
+
+# total_apartments=8
+# total_shared_walls=11
+apartment_a,apartment_b
+7,1
+7,2
+7,5
+8,1
+8,4
+2,6
+3,4
+3,6
+4,5
+5,1
+5,6
+
+If you want to hand me the picks in a neat, machine-friendly way, just follow this little JSON shape:
+
+{
+  ""solution"": [""apartment_id"", ""apartment_id"", ...]
+}
+
+Think of ""solution"" as the list of apartments you'll visit to cover every shared wall - each item is one apartment identifier from the input. The fewer entries, the better the schedule. This is just a sketch of the shape I expect, not the actual answer.
+
+Please use the identifiers exactly as they're given in the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,one_based,"{""problem_type"":""MVC"",""num_nodes"":8,""num_edges"":11,""edges"":[{""u"":7,""v"":1},{""u"":7,""v"":2},{""u"":7,""v"":5},{""u"":8,""v"":1},{""u"":8,""v"":4},{""u"":2,""v"":6},{""u"":3,""v"":4},{""u"":3,""v"":6},{""u"":4,""v"":5},{""u"":5,""v"":1},{""u"":5,""v"":6}],""source_file"":""wi2010.mtx"",""density"":0.39285714285714285,""edge_connectivity"":2}","[1,4,6,7]",4.0,"{""num_nodes"":8,""num_edges"":11,""edges"":[{""u"":7,""v"":1},{""u"":7,""v"":2},{""u"":7,""v"":5},{""u"":8,""v"":1},{""u"":8,""v"":4},{""u"":2,""v"":6},{""u"":3,""v"":4},{""u"":3,""v"":6},{""u"":4,""v"":5},{""u"":5,""v"":1},{""u"":5,""v"":6}]}","[1,4,6,7]"
+MVC_S_020,MVC,S,20,"In the office a coordinator has to choose which tasks to personally oversee so that no dependency between two tasks is left without at least one supervised endpoint. The decision is which tasks end up on that oversight roster; the better roster is the one with fewer personally monitored tasks that still touches every dependency. Evaluate a roster by tallying the distinct tasks being monitored - that tally is the score to minimize - and verify that every dependency has at least one watched task and that tasks aren't double-counted. The detailed task list and dependencies are shown below.
+
+There are 8 tasks in total and 10 dependencies.
+
+| dependency_task_a | dependency_task_b |
+|---|---|
+| 8 | 2 |
+| 8 | 5 |
+| 1 | 2 |
+| 1 | 4 |
+| 6 | 2 |
+| 2 | 3 |
+| 2 | 4 |
+| 2 | 5 |
+| 2 | 7 |
+| 5 | 7 |
+
+Also, when you tell me which tasks end up on the oversight roster, please use this simple JSON layout so it's easy to read and check:
+
+{
+  ""solution"": [""task_id"", ""task_id"", ...]
+}
+
+Think of this as a little form: ""solution"" is the list of task identifiers you're choosing to personally monitor. The ""task_id"" entries are placeholders showing the shape - don't send that literal text as your answer, it's just an example.
+
+This JSON is only a sketch of the expected shape, not the actual answer. Use the exact identifiers from the instance input - no renaming and no new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",markdown_table,one_based,"{""problem_type"":""MVC"",""num_nodes"":8,""num_edges"":10,""edges"":[{""u"":8,""v"":2},{""u"":8,""v"":5},{""u"":1,""v"":2},{""u"":1,""v"":4},{""u"":6,""v"":2},{""u"":2,""v"":3},{""u"":2,""v"":4},{""u"":2,""v"":5},{""u"":2,""v"":7},{""u"":5,""v"":7}],""source_file"":""wa2010.mtx"",""density"":0.35714285714285715,""edge_connectivity"":1}","[2,4,5]",3.0,"{""num_nodes"":8,""num_edges"":10,""edges"":[{""u"":8,""v"":2},{""u"":8,""v"":5},{""u"":1,""v"":2},{""u"":1,""v"":4},{""u"":6,""v"":2},{""u"":2,""v"":3},{""u"":2,""v"":4},{""u"":2,""v"":5},{""u"":2,""v"":7},{""u"":5,""v"":7}]}","[2,4,5]"
+MVC_S_021,MVC,S,21,"Many people on the ops team prefer to keep logging tight, so the admin was asked to pick a small set of servers to monitor more closely; the rule is that for every pair that exchanges data directly, at least one of those two machines must have enhanced logging. A selection is judged by how small it is - total the unique servers with logging and aim to minimize that number. Every direct connection needs to be covered, and a server only counts once even if it covers several links. The concrete details of which servers connect to which are listed below.
+
+There are 10 servers in total and 19 direct data links.
+
+| server_a | server_b |
+|---|---|
+| 3 | 1 |
+| 3 | 5 |
+| 3 | 7 |
+| 3 | 9 |
+| 3 | 10 |
+| 10 | 1 |
+| 10 | 4 |
+| 10 | 6 |
+| 10 | 7 |
+| 5 | 2 |
+| 5 | 7 |
+| 5 | 9 |
+| 2 | 6 |
+| 9 | 1 |
+| 9 | 8 |
+| 8 | 1 |
+| 8 | 4 |
+| 6 | 7 |
+| 4 | 1 |
+
+If you want to hand the answer to me, just drop it in this little JSON shape so I can read it easily:
+
+{
+  ""solution"": [""server_id"", ""server_id"", ...]
+}
+
+That's just a sketch: ""solution"" should be an array listing the servers you picked for enhanced logging. Put each server identifier inside the array (one entry per server). Think of it like filling out a short form - the array is where you list the selected machines.
+
+This JSON is only the expected shape, not the real answer - fill it with the actual identifiers from the instance when you send the final selection. Please use the exact identifiers given in the input, with no renaming and no new labels.
+
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,one_based,"{""problem_type"":""MVC"",""num_nodes"":10,""num_edges"":19,""edges"":[{""u"":3,""v"":1},{""u"":3,""v"":5},{""u"":3,""v"":7},{""u"":3,""v"":9},{""u"":3,""v"":10},{""u"":10,""v"":1},{""u"":10,""v"":4},{""u"":10,""v"":6},{""u"":10,""v"":7},{""u"":5,""v"":2},{""u"":5,""v"":7},{""u"":5,""v"":9},{""u"":2,""v"":6},{""u"":9,""v"":1},{""u"":9,""v"":8},{""u"":8,""v"":1},{""u"":8,""v"":4},{""u"":6,""v"":7},{""u"":4,""v"":1}],""source_file"":""vt2010.mtx"",""density"":0.4222222222222222,""edge_connectivity"":2}","[1,3,5,6,8,10]",6.0,"{""num_nodes"":10,""num_edges"":19,""edges"":[{""u"":3,""v"":1},{""u"":3,""v"":5},{""u"":3,""v"":7},{""u"":3,""v"":9},{""u"":3,""v"":10},{""u"":10,""v"":1},{""u"":10,""v"":4},{""u"":10,""v"":6},{""u"":10,""v"":7},{""u"":5,""v"":2},{""u"":5,""v"":7},{""u"":5,""v"":9},{""u"":2,""v"":6},{""u"":9,""v"":1},{""u"":9,""v"":8},{""u"":8,""v"":1},{""u"":8,""v"":4},{""u"":6,""v"":7},{""u"":4,""v"":1}]}","[1,3,5,6,8,10]"
+MVC_S_022,MVC,S,22,"Many people would tackle this by marking certain rooms with pet gates so that no doorway between two rooms is left unchecked. The requirement is: every doorway must have at least one of its two rooms gated. The preferred choice is the one that uses the least number of gated rooms - the objective is just the total number of rooms with gates, and lower totals are better. Ensure every doorway has coverage and don't double-count any room. The exact plan for the rooms appears below.
+
+# total_rooms=10
+# total_doorways=17
+room_endpoint_one,room_endpoint_two
+E,C
+E,G
+E,J
+D,C
+D,I
+H,B
+H,C
+C,A
+C,B
+C,F
+C,G
+C,I
+C,J
+I,A
+F,B
+G,A
+J,B
+
+If you want to hand me the plan in a tidy, machine-friendly way, just use a small JSON snippet like this:
+
+{
+  ""solution"": [""room_id"", ""room_id"", ...]
+}
+
+""solution"" is the list of rooms you plan to put gates on - one identifier per gated room. Think of it like a short form: put each room label from the instance in the array, and that's your plan. This JSON is just a sketch of the shape I expect, not the actual answer.
+
+All identifiers must be used exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MVC"",""num_nodes"":10,""num_edges"":17,""edges"":[{""u"":5,""v"":3},{""u"":5,""v"":7},{""u"":5,""v"":10},{""u"":4,""v"":3},{""u"":4,""v"":9},{""u"":8,""v"":2},{""u"":8,""v"":3},{""u"":3,""v"":1},{""u"":3,""v"":2},{""u"":3,""v"":6},{""u"":3,""v"":7},{""u"":3,""v"":9},{""u"":3,""v"":10},{""u"":9,""v"":1},{""u"":6,""v"":2},{""u"":7,""v"":1},{""u"":10,""v"":2}],""source_file"":""wa2010.mtx"",""density"":0.37777777777777777,""edge_connectivity"":2}","[2,3,5,7,9]",5.0,"{""num_nodes"":10,""num_edges"":17,""edges"":[{""u"":""E"",""v"":""C""},{""u"":""E"",""v"":""G""},{""u"":""E"",""v"":""J""},{""u"":""D"",""v"":""C""},{""u"":""D"",""v"":""I""},{""u"":""H"",""v"":""B""},{""u"":""H"",""v"":""C""},{""u"":""C"",""v"":""A""},{""u"":""C"",""v"":""B""},{""u"":""C"",""v"":""F""},{""u"":""C"",""v"":""G""},{""u"":""C"",""v"":""I""},{""u"":""C"",""v"":""J""},{""u"":""I"",""v"":""A""},{""u"":""F"",""v"":""B""},{""u"":""G"",""v"":""A""},{""u"":""J"",""v"":""B""}]}","[""B"",""C"",""E"",""G"",""I""]"
+MVC_S_023,MVC,S,23,"Back at the museum, the goal is to secure the exhibits while keeping installations minimal: pick a small group of cases to fit with vibration sensors so that any two neighboring cases have a sensor on at least one of them. The practical choice is which cases to equip so every side-by-side connection is monitored, and the plan's score is simply the total number of sensors deployed - lower is better. No adjacent pair can be left uncovered, and adding sensors where they don't help just raises the total count. The exact layout and which cases are next to one another will be shown below.
+
+# total_display_cases=11
+# total_side_by_side_pairs=19
+case_one_id,case_two_id
+3,7
+2,0
+2,7
+9,4
+9,8
+9,10
+7,0
+7,1
+7,6
+7,8
+7,10
+5,0
+5,6
+6,0
+6,1
+0,4
+0,8
+10,8
+8,4
+
+Oh, and when you send the chosen set of cases, please use a tiny JSON snippet like this so it's easy to read and parse:
+
+{
+  ""solution"": [""case_id"", ""case_id"", ...]
+}
+
+""solution"" should be the list of display cases where you want to put sensors - those string placeholders above are just that, placeholders. This JSON is only a sketch of the shape I expect, not the actual answer.
+
+Please use the exact identifiers from the instance input - do not rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,zero_based,"{""problem_type"":""MVC"",""num_nodes"":11,""num_edges"":19,""edges"":[{""u"":4,""v"":8},{""u"":3,""v"":1},{""u"":3,""v"":8},{""u"":10,""v"":5},{""u"":10,""v"":9},{""u"":10,""v"":11},{""u"":8,""v"":1},{""u"":8,""v"":2},{""u"":8,""v"":7},{""u"":8,""v"":9},{""u"":8,""v"":11},{""u"":6,""v"":1},{""u"":6,""v"":7},{""u"":7,""v"":1},{""u"":7,""v"":2},{""u"":1,""v"":5},{""u"":1,""v"":9},{""u"":11,""v"":9},{""u"":9,""v"":5}],""source_file"":""wa2010.mtx"",""density"":0.34545454545454546,""edge_connectivity"":1}","[1,7,8,9,10]",5.0,"{""num_nodes"":11,""num_edges"":19,""edges"":[{""u"":3,""v"":7},{""u"":2,""v"":0},{""u"":2,""v"":7},{""u"":9,""v"":4},{""u"":9,""v"":8},{""u"":9,""v"":10},{""u"":7,""v"":0},{""u"":7,""v"":1},{""u"":7,""v"":6},{""u"":7,""v"":8},{""u"":7,""v"":10},{""u"":5,""v"":0},{""u"":5,""v"":6},{""u"":6,""v"":0},{""u"":6,""v"":1},{""u"":0,""v"":4},{""u"":0,""v"":8},{""u"":10,""v"":8},{""u"":8,""v"":4}]}","[0,6,7,8,9]"
+MVC_S_024,MVC,S,24,"There's a lab group where kids pair up over certain pieces of equipment, and the teacher's job is to put the fewest students on duty possible so every sharing pair has a responsible student on shift. The measure of success is straightforward: how many students end up on duty - the lower the number, the better - but every pair that shares gear must have at least one person on duty, and each student is either chosen or not. The specific student-pairings and gear map are listed below.
+
+{
+  ""total_students"": 12,
+  ""total_sharing_pairs"": 19,
+  ""edges"": [
+    {
+      ""student_a"": 7,
+      ""student_b"": 0
+    },
+    {
+      ""student_a"": 7,
+      ""student_b"": 1
+    },
+    {
+      ""student_a"": 7,
+      ""student_b"": 2
+    },
+    {
+      ""student_a"": 7,
+      ""student_b"": 8
+    },
+    {
+      ""student_a"": 7,
+      ""student_b"": 9
+    },
+    {
+      ""student_a"": 7,
+      ""student_b"": 10
+    },
+    {
+      ""student_a"": 3,
+      ""student_b"": 2
+    },
+    {
+      ""student_a"": 3,
+      ""student_b"": 4
+    },
+    {
+      ""student_a"": 3,
+      ""student_b"": 5
+    },
+    {
+      ""student_a"": 3,
+      ""student_b"": 6
+    },
+    {
+      ""student_a"": 3,
+      ""student_b"": 8
+    },
+    {
+      ""student_a"": 4,
+      ""student_b"": 2
+    },
+    {
+      ""student_a"": 4,
+      ""student_b"": 6
+    },
+    {
+      ""student_a"": 11,
+      ""student_b"": 0
+    },
+    {
+      ""student_a"": 11,
+      ""student_b"": 8
+    },
+    {
+      ""student_a"": 1,
+      ""student_b"": 2
+    },
+    {
+      ""student_a"": 1,
+      ""student_b"": 9
+    },
+    {
+      ""student_a"": 1,
+      ""student_b"": 10
+    },
+    {
+      ""student_a"": 8,
+      ""student_b"": 2
+    }
+  ]
+}
+
+If you want to hand the answer back in a tidy, machine-friendly way, just follow this little JSON sketch - nothing fancy needed:
+
+{
+  ""solution"": [""student_id"", ""student_id"", ...]
+}
+
+Here ""solution"" is the list of students you put on duty (one entry per chosen student). The ""student_id"" strings are just placeholders showing the format - replace them with the actual IDs from the instance when you give the real answer. This block is just a template of the shape I expect, not the final selection.
+
+Please use the exact identifiers that appear in the instance input - do not rename them or invent new labels. Valid identifiers look like:
+- plain numbers such as ""1"" or ""23""
+- single capital letters like ""A"" or ""B""
+- a capital letter followed by digits like ""A1"" or ""X7""",json,zero_based,"{""problem_type"":""MVC"",""num_nodes"":12,""num_edges"":19,""edges"":[{""u"":8,""v"":1},{""u"":8,""v"":2},{""u"":8,""v"":3},{""u"":8,""v"":9},{""u"":8,""v"":10},{""u"":8,""v"":11},{""u"":4,""v"":3},{""u"":4,""v"":5},{""u"":4,""v"":6},{""u"":4,""v"":7},{""u"":4,""v"":9},{""u"":5,""v"":3},{""u"":5,""v"":7},{""u"":12,""v"":1},{""u"":12,""v"":9},{""u"":2,""v"":3},{""u"":2,""v"":10},{""u"":2,""v"":11},{""u"":9,""v"":3}],""source_file"":""wi2010.mtx"",""density"":0.2878787878787879,""edge_connectivity"":1}","[2,4,5,8,9,12]",6.0,"{""num_nodes"":12,""num_edges"":19,""edges"":[{""u"":7,""v"":0},{""u"":7,""v"":1},{""u"":7,""v"":2},{""u"":7,""v"":8},{""u"":7,""v"":9},{""u"":7,""v"":10},{""u"":3,""v"":2},{""u"":3,""v"":4},{""u"":3,""v"":5},{""u"":3,""v"":6},{""u"":3,""v"":8},{""u"":4,""v"":2},{""u"":4,""v"":6},{""u"":11,""v"":0},{""u"":11,""v"":8},{""u"":1,""v"":2},{""u"":1,""v"":9},{""u"":1,""v"":10},{""u"":8,""v"":2}]}","[1,3,4,7,8,11]"
+MVC_S_025,MVC,S,25,"Many people assume more drop points make coverage easier, but here the task is to label as few official drop points as possible while still making sure every direct link between two locations has at least one labeled end. To compare choices, simply count how many spots were labeled - smaller counts win - and confirm that every direct connection has at least one labeled endpoint. Leave no connection uncovered and don't count any spot twice. The concrete locations and routes are listed below.
+
+# total_locations=11
+# total_direct_routes=17
+route_endpoint_u,route_endpoint_v
+9,1
+9,5
+9,10
+10,1
+10,2
+10,3
+10,4
+10,5
+4,11
+8,5
+5,2
+11,1
+11,6
+7,1
+7,6
+1,6
+2,3
+
+When you're ready to reply, please stick to a tiny, predictable shape so I can parse it without guessing. Something like this will do:
+
+{
+  ""solution"": [""drop_id"", ""drop_id"", ...]
+}
+
+Here ""solution"" is just the list of drop points you chose to label. Each item is the identifier for a location from the instance (one entry per chosen spot). Think of it like filling out a short form - the array lists the places you picked. This JSON is just a sketch of the shape I expect, not the actual answer.
+
+Please make sure to use the exact identifiers shown in the instance input - don't rename them or invent new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,one_based,"{""problem_type"":""MVC"",""num_nodes"":11,""num_edges"":17,""edges"":[{""u"":9,""v"":1},{""u"":9,""v"":5},{""u"":9,""v"":10},{""u"":10,""v"":1},{""u"":10,""v"":2},{""u"":10,""v"":3},{""u"":10,""v"":4},{""u"":10,""v"":5},{""u"":4,""v"":11},{""u"":8,""v"":5},{""u"":5,""v"":2},{""u"":11,""v"":1},{""u"":11,""v"":6},{""u"":7,""v"":1},{""u"":7,""v"":6},{""u"":1,""v"":6},{""u"":2,""v"":3}],""source_file"":""wa2010.mtx"",""density"":0.3090909090909091,""edge_connectivity"":1}","[1,3,4,5,6,10]",6.0,"{""num_nodes"":11,""num_edges"":17,""edges"":[{""u"":9,""v"":1},{""u"":9,""v"":5},{""u"":9,""v"":10},{""u"":10,""v"":1},{""u"":10,""v"":2},{""u"":10,""v"":3},{""u"":10,""v"":4},{""u"":10,""v"":5},{""u"":4,""v"":11},{""u"":8,""v"":5},{""u"":5,""v"":2},{""u"":11,""v"":1},{""u"":11,""v"":6},{""u"":7,""v"":1},{""u"":7,""v"":6},{""u"":1,""v"":6},{""u"":2,""v"":3}]}","[1,3,4,5,6,10]"
+MVC_S_026,MVC,S,26,"There's a row of mailboxes in the lobby and the owner wants to be careful with the budget on locks. The plan is to lock only some boxes so that whenever two mailboxes are neighbors, one of the two has a lock on it. The way to tell if a plan is better is by counting locked boxes - fewer locks is better - and nothing can be left unprotected or redundantly locked. The exact mailbox map is shown below.
+
+There are 12 mailboxes and 27 neighboring pairs in the map shown.
+Mailbox J is adjacent to mailbox B, so at least one of the two must have a lock.
+Mailbox J is adjacent to mailbox D, so at least one of the two must have a lock.
+Mailbox J is adjacent to mailbox E, so at least one of the two must have a lock.
+Mailbox J is adjacent to mailbox G, so at least one of the two must have a lock.
+Mailbox E is adjacent to mailbox A, so at least one of the two must have a lock.
+Mailbox E is adjacent to mailbox D, so at least one of the two must have a lock.
+Mailbox E is adjacent to mailbox F, so at least one of the two must have a lock.
+Mailbox E is adjacent to mailbox G, so at least one of the two must have a lock.
+Mailbox E is adjacent to mailbox L, so at least one of the two must have a lock.
+Mailbox A is adjacent to mailbox B, so at least one of the two must have a lock.
+Mailbox A is adjacent to mailbox D, so at least one of the two must have a lock.
+Mailbox A is adjacent to mailbox K, so at least one of the two must have a lock.
+Mailbox A is adjacent to mailbox L, so at least one of the two must have a lock.
+Mailbox B is adjacent to mailbox D, so at least one of the two must have a lock.
+Mailbox B is adjacent to mailbox G, so at least one of the two must have a lock.
+Mailbox B is adjacent to mailbox H, so at least one of the two must have a lock.
+Mailbox B is adjacent to mailbox K, so at least one of the two must have a lock.
+Mailbox C is adjacent to mailbox F, so at least one of the two must have a lock.
+Mailbox C is adjacent to mailbox H, so at least one of the two must have a lock.
+Mailbox F is adjacent to mailbox H, so at least one of the two must have a lock.
+Mailbox F is adjacent to mailbox I, so at least one of the two must have a lock.
+Mailbox F is adjacent to mailbox L, so at least one of the two must have a lock.
+Mailbox I is adjacent to mailbox H, so at least one of the two must have a lock.
+Mailbox I is adjacent to mailbox L, so at least one of the two must have a lock.
+Mailbox H is adjacent to mailbox K, so at least one of the two must have a lock.
+Mailbox H is adjacent to mailbox L, so at least one of the two must have a lock.
+Mailbox K is adjacent to mailbox L, so at least one of the two must have a lock.
+The owner will choose locks to minimize the number of locked boxes while covering all 27 adjacent pairs among the 12 mailboxes.
+
+You can just send the plan back in this little JSON shape so it's easy to check:
+
+{
+  ""solution"": [""mailbox_id"", ""mailbox_id"", ...]
+}
+
+Pretty simple: ""solution"" is an array listing the mailboxes you want to lock. Each string in the array is the identifier of a mailbox to put a lock on. This block is just a sketch of the expected shape - don't treat the placeholder values as the real answer.
+
+Please make sure you use the exact identifiers from the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,names,"{""problem_type"":""MVC"",""num_nodes"":12,""num_edges"":27,""edges"":[{""u"":10,""v"":2},{""u"":10,""v"":4},{""u"":10,""v"":5},{""u"":10,""v"":7},{""u"":5,""v"":1},{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":5,""v"":12},{""u"":1,""v"":2},{""u"":1,""v"":4},{""u"":1,""v"":11},{""u"":1,""v"":12},{""u"":2,""v"":4},{""u"":2,""v"":7},{""u"":2,""v"":8},{""u"":2,""v"":11},{""u"":3,""v"":6},{""u"":3,""v"":8},{""u"":6,""v"":8},{""u"":6,""v"":9},{""u"":6,""v"":12},{""u"":9,""v"":8},{""u"":9,""v"":12},{""u"":8,""v"":11},{""u"":8,""v"":12},{""u"":11,""v"":12}],""source_file"":""wv2010.mtx"",""density"":0.4090909090909091,""edge_connectivity"":2}","[1,2,5,6,8,10,12]",7.0,"{""num_nodes"":12,""num_edges"":27,""edges"":[{""u"":""J"",""v"":""B""},{""u"":""J"",""v"":""D""},{""u"":""J"",""v"":""E""},{""u"":""J"",""v"":""G""},{""u"":""E"",""v"":""A""},{""u"":""E"",""v"":""D""},{""u"":""E"",""v"":""F""},{""u"":""E"",""v"":""G""},{""u"":""E"",""v"":""L""},{""u"":""A"",""v"":""B""},{""u"":""A"",""v"":""D""},{""u"":""A"",""v"":""K""},{""u"":""A"",""v"":""L""},{""u"":""B"",""v"":""D""},{""u"":""B"",""v"":""G""},{""u"":""B"",""v"":""H""},{""u"":""B"",""v"":""K""},{""u"":""C"",""v"":""F""},{""u"":""C"",""v"":""H""},{""u"":""F"",""v"":""H""},{""u"":""F"",""v"":""I""},{""u"":""F"",""v"":""L""},{""u"":""I"",""v"":""H""},{""u"":""I"",""v"":""L""},{""u"":""H"",""v"":""K""},{""u"":""H"",""v"":""L""},{""u"":""K"",""v"":""L""}]}","[""A"",""B"",""E"",""F"",""H"",""J"",""L""]"
+MVC_S_027,MVC,S,27,"Back at the office the editor sketched a simple rule on the whiteboard: for every two papers that cite each other, assign a reviewer to at least one of them, and do it with the fewest reviewers you can manage. The way to judge a plan is straightforward - count the reviewers used, the smaller that number the better - while ensuring no pair of mutual citations is left uncovered. Assignments are single entries in the total, so nothing gets double-counted or ignored. The concrete details will be shown below.
+
+Concretely, there are 9 distinct submissions and 13 mutual-citation pairs to cover.
+Mutual citation between F and E: assign a reviewer to F or E.
+Mutual citation between F and G: assign a reviewer to F or G.
+Mutual citation between F and H: assign a reviewer to F or H.
+Mutual citation between F and I: assign a reviewer to F or I.
+Mutual citation between A and B: assign a reviewer to A or B.
+Mutual citation between A and C: assign a reviewer to A or C.
+Mutual citation between A and D: assign a reviewer to A or D.
+Mutual citation between A and G: assign a reviewer to A or G.
+Mutual citation between A and H: assign a reviewer to A or H.
+Mutual citation between A and I: assign a reviewer to A or I.
+Mutual citation between B and D: assign a reviewer to B or D.
+Mutual citation between H and D: assign a reviewer to H or D.
+Mutual citation between G and C: assign a reviewer to G or C.
+Judge plans by counting reviewers; minimize that number while covering all 13 pairs.
+
+Oh, and when you send the assignment back, just stick to this little JSON shape so it's easy to parse:
+
+{
+  ""solution"": [""paper_id"", ""paper_id"", ...]
+}
+
+Think of ""solution"" as the list of papers that get a reviewer assigned - one entry per paper, no duplicates, nothing fancy. This block is just a sketch of the shape I need, not the actual answer.
+
+Please use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,names,"{""problem_type"":""MVC"",""num_nodes"":9,""num_edges"":13,""edges"":[{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":6,""v"":8},{""u"":6,""v"":9},{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":1,""v"":7},{""u"":1,""v"":8},{""u"":1,""v"":9},{""u"":2,""v"":4},{""u"":8,""v"":4},{""u"":7,""v"":3}],""source_file"":""wa2010.mtx"",""density"":0.3611111111111111,""edge_connectivity"":1}","[1,3,4,6]",4.0,"{""num_nodes"":9,""num_edges"":13,""edges"":[{""u"":""F"",""v"":""E""},{""u"":""F"",""v"":""G""},{""u"":""F"",""v"":""H""},{""u"":""F"",""v"":""I""},{""u"":""A"",""v"":""B""},{""u"":""A"",""v"":""C""},{""u"":""A"",""v"":""D""},{""u"":""A"",""v"":""G""},{""u"":""A"",""v"":""H""},{""u"":""A"",""v"":""I""},{""u"":""B"",""v"":""D""},{""u"":""H"",""v"":""D""},{""u"":""G"",""v"":""C""}]}","[""A"",""C"",""D"",""F""]"
+MVC_S_028,MVC,S,28,"Back at the ranger station the plan is to mark only the most useful trails with signs so that no intersection is left confusing. The decision is picking which trails to sign so that at each place where two trails join, at least one of those trails has a sign; the better plan is the one with the smallest number of signs, and that's decided by adding up how many signs are placed. It's mandatory that every intersection be covered by a sign on one of its two paths, and duplicate signs on the same trail are redundant. The full trail diagram and intersection data are shown below.
+
+There are 9 num trails in total and 13 num intersections.
+
+| trail_id_u | trail_id_v |
+|---|---|
+| 6 | 9 |
+| 8 | 4 |
+| 8 | 5 |
+| 8 | 9 |
+| 7 | 5 |
+| 7 | 9 |
+| 4 | 5 |
+| 5 | 1 |
+| 5 | 2 |
+| 5 | 9 |
+| 2 | 3 |
+| 2 | 9 |
+| 9 | 3 |
+
+Also, when you send the answer back, please keep it in a tiny JSON snippet so it's easy to read and process. Something like this:
+
+{
+  ""solution"": [""trail_id"", ""trail_id"", ...]
+}
+
+Here the ""solution"" array should list the trails that get signs (one id per trail). The ""trail_id"" entries above are just placeholders showing the shape - replace them with the actual trail identifiers from the instance when you give the real plan.
+
+Please use the identifiers exactly as they appear in the instance input - do not rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,one_based,"{""problem_type"":""MVC"",""num_nodes"":9,""num_edges"":13,""edges"":[{""u"":6,""v"":9},{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":8,""v"":9},{""u"":7,""v"":5},{""u"":7,""v"":9},{""u"":4,""v"":5},{""u"":5,""v"":1},{""u"":5,""v"":2},{""u"":5,""v"":9},{""u"":2,""v"":3},{""u"":2,""v"":9},{""u"":9,""v"":3}],""source_file"":""vt2010.mtx"",""density"":0.3611111111111111,""edge_connectivity"":1}","[3,4,5,9]",4.0,"{""num_nodes"":9,""num_edges"":13,""edges"":[{""u"":6,""v"":9},{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":8,""v"":9},{""u"":7,""v"":5},{""u"":7,""v"":9},{""u"":4,""v"":5},{""u"":5,""v"":1},{""u"":5,""v"":2},{""u"":5,""v"":9},{""u"":2,""v"":3},{""u"":2,""v"":9},{""u"":9,""v"":3}]}","[3,4,5,9]"
+MVC_S_029,MVC,S,29,"At home there are several cupboards that meet in shared spaces, and someone has to decide where to put latches. The pick is which doors to fit so that for every pair that opens into the same space, at least one door in that pair has a latch - every pair must be protected. The goal is to keep the purchase list tiny: success is just the number of latches bought, and lower numbers are better. Don't leave any pair unlatched and don't duplicate latches where one will do. The concrete cabinets and options will be shown below.
+
+There are 11 cabinet doors under consideration and 16 shared pairs to cover.
+Cabinet 3 and cabinet 2 open into the same space; at least one of these two must have a latch.
+Cabinet 3 and cabinet 4 open into the same space; at least one of these two must have a latch.
+Cabinet 3 and cabinet 7 open into the same space; at least one of these two must have a latch.
+Cabinet 9 and cabinet 2 open into the same space; at least one of these two must have a latch.
+Cabinet 9 and cabinet 6 open into the same space; at least one of these two must have a latch.
+Cabinet 10 and cabinet 2 open into the same space; at least one of these two must have a latch.
+Cabinet 10 and cabinet 6 open into the same space; at least one of these two must have a latch.
+Cabinet 7 and cabinet 2 open into the same space; at least one of these two must have a latch.
+Cabinet 7 and cabinet 4 open into the same space; at least one of these two must have a latch.
+Cabinet 1 and cabinet 2 open into the same space; at least one of these two must have a latch.
+Cabinet 1 and cabinet 5 open into the same space; at least one of these two must have a latch.
+Cabinet 8 and cabinet 2 open into the same space; at least one of these two must have a latch.
+Cabinet 5 and cabinet 2 open into the same space; at least one of these two must have a latch.
+Cabinet 5 and cabinet 6 open into the same space; at least one of these two must have a latch.
+Cabinet 2 and cabinet 6 open into the same space; at least one of these two must have a latch.
+Cabinet 2 and cabinet 11 open into the same space; at least one of these two must have a latch.
+Don't leave any of the 16 pairs unlatched; pick the fewest latches that still protects every pair.
+
+Also, when you send back which doors get latches, a tiny JSON snippet like this keeps things clear and simple:
+
+{
+  ""solution"": [""door_id"", ""door_id"", ...]
+}
+
+""solution"" is just the list of door identifiers where you'll put latches - one entry per door. Think of it like filling out a short form: list the exact door labels from the instance, and that's your shopping list. This JSON is only a sketch of the shape I want, not the actual answer.
+
+Please make sure you use the identifiers exactly as they appear in the instance input - no renaming and no new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,one_based,"{""problem_type"":""MVC"",""num_nodes"":11,""num_edges"":16,""edges"":[{""u"":3,""v"":2},{""u"":3,""v"":4},{""u"":3,""v"":7},{""u"":9,""v"":2},{""u"":9,""v"":6},{""u"":10,""v"":2},{""u"":10,""v"":6},{""u"":7,""v"":2},{""u"":7,""v"":4},{""u"":1,""v"":2},{""u"":1,""v"":5},{""u"":8,""v"":2},{""u"":5,""v"":2},{""u"":5,""v"":6},{""u"":2,""v"":6},{""u"":2,""v"":11}],""source_file"":""wv2010.mtx"",""density"":0.2909090909090909,""edge_connectivity"":1}","[2,4,5,6,7]",5.0,"{""num_nodes"":11,""num_edges"":16,""edges"":[{""u"":3,""v"":2},{""u"":3,""v"":4},{""u"":3,""v"":7},{""u"":9,""v"":2},{""u"":9,""v"":6},{""u"":10,""v"":2},{""u"":10,""v"":6},{""u"":7,""v"":2},{""u"":7,""v"":4},{""u"":1,""v"":2},{""u"":1,""v"":5},{""u"":8,""v"":2},{""u"":5,""v"":2},{""u"":5,""v"":6},{""u"":2,""v"":6},{""u"":2,""v"":11}]}","[2,4,5,6,7]"
+MVC_S_030,MVC,S,30,"Many people think of it as placing guards in a building: here the ""guards"" are firewalls on machines, and the rule is every direct connection between two machines must have a guard at one end. The job is to place as few guards as possible - judged by counting how many machines end up with firewalls turned on - while ensuring no connection is left without a guarded endpoint. Duplicating a guard on the same machine doesn't help. The exact connections and nodes are listed below.
+
+# total_machines=8
+# total_direct_connections=14
+endpoint_machine_u,endpoint_machine_v
+E,G
+E,H
+G,C
+G,D
+G,H
+H,D
+H,F
+A,B
+A,C
+A,D
+A,F
+B,C
+C,D
+F,D
+
+Oh, and when you send back which machines get the firewalls, please use this simple JSON shape so it's easy to parse:
+
+{
+  ""solution"": [""machine_id"", ""machine_id"", ...]
+}
+
+This just means: put a JSON object with a single key ""solution"" whose value is a list of the machine identifiers where you turn the firewall on. Keep it casual - it's just a little form to tell me which machines are guarded. The block above is only a sketch of the expected shape, not the actual answer.
+
+Please use the exact identifiers from the instance input - do not rename them or invent new ones. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,names,"{""problem_type"":""MVC"",""num_nodes"":8,""num_edges"":14,""edges"":[{""u"":5,""v"":7},{""u"":5,""v"":8},{""u"":7,""v"":3},{""u"":7,""v"":4},{""u"":7,""v"":8},{""u"":8,""v"":4},{""u"":8,""v"":6},{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":1,""v"":6},{""u"":2,""v"":3},{""u"":3,""v"":4},{""u"":6,""v"":4}],""source_file"":""wi2010.mtx"",""density"":0.5,""edge_connectivity"":2}","[1,3,4,7,8]",5.0,"{""num_nodes"":8,""num_edges"":14,""edges"":[{""u"":""E"",""v"":""G""},{""u"":""E"",""v"":""H""},{""u"":""G"",""v"":""C""},{""u"":""G"",""v"":""D""},{""u"":""G"",""v"":""H""},{""u"":""H"",""v"":""D""},{""u"":""H"",""v"":""F""},{""u"":""A"",""v"":""B""},{""u"":""A"",""v"":""C""},{""u"":""A"",""v"":""D""},{""u"":""A"",""v"":""F""},{""u"":""B"",""v"":""C""},{""u"":""C"",""v"":""D""},{""u"":""F"",""v"":""D""}]}","[""A"",""C"",""D"",""G"",""H""]"
+MVC_S_031,MVC,S,31,"Imagine running the logistics for a pop-up market and deciding which booths get trash cans. The basic rule: for every walkway between two booths, at least one of the booths beside that walkway must have a trash can; the better layouts are the ones with the least number of cans, counted by how many booths are assigned cans, yet no walkway can be left without a neighboring can and there's no reason to put duplicate cans that don't help. The actual booth-and-path details follow below.
+
+There are 9 booths and 18 walkways to cover:
+Walkway between booths 8 and 4: at least one of these booths must have a trash can.
+Walkway between booths 8 and 5: at least one of these booths must have a trash can.
+Walkway between booths 4 and 2: at least one of these booths must have a trash can.
+Walkway between booths 4 and 3: at least one of these booths must have a trash can.
+Walkway between booths 4 and 5: at least one of these booths must have a trash can.
+Walkway between booths 4 and 7: at least one of these booths must have a trash can.
+Walkway between booths 3 and 0: at least one of these booths must have a trash can.
+Walkway between booths 3 and 2: at least one of these booths must have a trash can.
+Walkway between booths 3 and 5: at least one of these booths must have a trash can.
+Walkway between booths 3 and 7: at least one of these booths must have a trash can.
+Walkway between booths 0 and 1: at least one of these booths must have a trash can.
+Walkway between booths 0 and 2: at least one of these booths must have a trash can.
+Walkway between booths 0 and 5: at least one of these booths must have a trash can.
+Walkway between booths 1 and 2: at least one of these booths must have a trash can.
+Walkway between booths 1 and 5: at least one of these booths must have a trash can.
+Walkway between booths 1 and 6: at least one of these booths must have a trash can.
+Walkway between booths 5 and 6: at least one of these booths must have a trash can.
+Walkway between booths 5 and 7: at least one of these booths must have a trash can.
+Choose the minimal set of booths so all 18 walkways are adjacent to a trash can.
+
+If you want to hand me the selection in a tidy, machine-friendly way, just drop it in this little JSON shape:
+
+{
+  ""solution"": [""booth_id"", ""booth_id"", ...]
+}
+
+Think of ""solution"" as the list of booths that get trash cans - one entry per booth. Keep it simple: each item is the exact booth identifier from the instance (still a placeholder here), and the list shows which booths you chose. This JSON is only a sketch of the shape I expect, not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+
+For example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,zero_based,"{""problem_type"":""MVC"",""num_nodes"":9,""num_edges"":18,""edges"":[{""u"":9,""v"":5},{""u"":9,""v"":6},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":5,""v"":8},{""u"":4,""v"":1},{""u"":4,""v"":3},{""u"":4,""v"":6},{""u"":4,""v"":8},{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":1,""v"":6},{""u"":2,""v"":3},{""u"":2,""v"":6},{""u"":2,""v"":7},{""u"":6,""v"":7},{""u"":6,""v"":8}],""source_file"":""wy2010.mtx"",""density"":0.5,""edge_connectivity"":2}","[2,3,4,5,6]",5.0,"{""num_nodes"":9,""num_edges"":18,""edges"":[{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":4,""v"":2},{""u"":4,""v"":3},{""u"":4,""v"":5},{""u"":4,""v"":7},{""u"":3,""v"":0},{""u"":3,""v"":2},{""u"":3,""v"":5},{""u"":3,""v"":7},{""u"":0,""v"":1},{""u"":0,""v"":2},{""u"":0,""v"":5},{""u"":1,""v"":2},{""u"":1,""v"":5},{""u"":1,""v"":6},{""u"":5,""v"":6},{""u"":5,""v"":7}]}","[1,2,3,4,5]"
+MVC_S_032,MVC,S,32,"On a busy morning the ground supervisor's role becomes a routing question: decide which gates get ground crew so that every neighboring pair has someone on duty. The decision is which specific gates to cover, and the aim is to keep the count of staffed gates as low as possible - any plan can be checked by counting staffed gates and preferring the smallest count. It's mandatory that for every pair of adjacent gates at least one is staffed; leaving both empty is not allowed, and staffing both is allowed but raises the total. The particular gate list and relations are shown below.
+
+Listed below are the 8 gates and the 13 adjacent pairs to cover.
+Adjacent pair: gate 5 adjacent to gate 0 - at least one of the two must be staffed.
+Adjacent pair: gate 5 adjacent to gate 1 - at least one of the two must be staffed.
+Adjacent pair: gate 5 adjacent to gate 2 - at least one of the two must be staffed.
+Adjacent pair: gate 5 adjacent to gate 3 - at least one of the two must be staffed.
+Adjacent pair: gate 7 adjacent to gate 0 - at least one of the two must be staffed.
+Adjacent pair: gate 7 adjacent to gate 1 - at least one of the two must be staffed.
+Adjacent pair: gate 7 adjacent to gate 4 - at least one of the two must be staffed.
+Adjacent pair: gate 7 adjacent to gate 6 - at least one of the two must be staffed.
+Adjacent pair: gate 6 adjacent to gate 0 - at least one of the two must be staffed.
+Adjacent pair: gate 6 adjacent to gate 4 - at least one of the two must be staffed.
+Adjacent pair: gate 2 adjacent to gate 1 - at least one of the two must be staffed.
+Adjacent pair: gate 2 adjacent to gate 3 - at least one of the two must be staffed.
+Adjacent pair: gate 0 adjacent to gate 3 - at least one of the two must be staffed.
+Find the staffing choice that covers all 13 pairs while minimizing the total staffed gates among the 8 gates.
+
+Also, just so everything's easy to read and machine-friendly, please shape your reply like a small JSON snippet that lists the staffed gates.
+
+{
+  ""solution"": [""gate_id"", ""gate_id"", ...]
+}
+
+The ""solution"" array is where you put the IDs of the gates you choose to staff - one ID per staffed gate. Think of this block like a simple form: the key says what the list is for, and the entries in the list are the gate labels from the instance. This is only a sketch of the expected shape, not the actual answer - replace those placeholders with the real gate IDs.
+
+Please be careful to use the identifiers exactly as they appear in the instance input - do not rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,zero_based,"{""problem_type"":""MVC"",""num_nodes"":8,""num_edges"":13,""edges"":[{""u"":6,""v"":1},{""u"":6,""v"":2},{""u"":6,""v"":3},{""u"":6,""v"":4},{""u"":8,""v"":1},{""u"":8,""v"":2},{""u"":8,""v"":5},{""u"":8,""v"":7},{""u"":7,""v"":1},{""u"":7,""v"":5},{""u"":3,""v"":2},{""u"":3,""v"":4},{""u"":1,""v"":4}],""source_file"":""wy2010.mtx"",""density"":0.4642857142857143,""edge_connectivity"":2}","[3,4,6,7,8]",5.0,"{""num_nodes"":8,""num_edges"":13,""edges"":[{""u"":5,""v"":0},{""u"":5,""v"":1},{""u"":5,""v"":2},{""u"":5,""v"":3},{""u"":7,""v"":0},{""u"":7,""v"":1},{""u"":7,""v"":4},{""u"":7,""v"":6},{""u"":6,""v"":0},{""u"":6,""v"":4},{""u"":2,""v"":1},{""u"":2,""v"":3},{""u"":0,""v"":3}]}","[2,3,5,6,7]"
+MVC_S_033,MVC,S,33,"On campus there are clusters of short connecting paths, and the plan is to place a minimal number of emergency phones so that for each neighboring pair of paths, at least one path in that pair has a phone. The task is to pick the set of walkways to equip, and the way to compare options is by counting phones - smaller counts are preferable. It's mandatory that no adjacent pair be left uncovered, and adding extra phones to a single walkway that already covers its neighboring pairs simply wastes units. The map and full details are provided below.
+
+There are 10 walkways and 17 adjacent pairs on the map.
+Walkways G and C form an adjacent pair that must be covered by at least one phone.
+Walkways G and F form an adjacent pair that must be covered by at least one phone.
+Walkways G and H form an adjacent pair that must be covered by at least one phone.
+Walkways G and J form an adjacent pair that must be covered by at least one phone.
+Walkways I and B form an adjacent pair that must be covered by at least one phone.
+Walkways I and F form an adjacent pair that must be covered by at least one phone.
+Walkways I and J form an adjacent pair that must be covered by at least one phone.
+Walkways B and A form an adjacent pair that must be covered by at least one phone.
+Walkways B and J form an adjacent pair that must be covered by at least one phone.
+Walkways J and A form an adjacent pair that must be covered by at least one phone.
+Walkways J and F form an adjacent pair that must be covered by at least one phone.
+Walkways H and D form an adjacent pair that must be covered by at least one phone.
+Walkways H and F form an adjacent pair that must be covered by at least one phone.
+Walkways C and A form an adjacent pair that must be covered by at least one phone.
+Walkways D and E form an adjacent pair that must be covered by at least one phone.
+Walkways D and F form an adjacent pair that must be covered by at least one phone.
+Walkways F and E form an adjacent pair that must be covered by at least one phone.
+Choose the minimal set of walkways that covers all 17 adjacent pairs without redundant phones.
+
+When you send back the chosen walkways, a small JSON object like the one below works nicely - keeps things neat and machine-friendly without getting fussy.
+
+{
+  ""solution"": [""walkway_id"", ""walkway_id"", ...]
+}
+
+Here ""solution"" is just the list of walkway identifiers where we'll install phones. Think of it as a simple form field: list the walkways you picked, and that's it. The JSON above is only a sketch of the expected shape, not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,names,"{""problem_type"":""MVC"",""num_nodes"":10,""num_edges"":17,""edges"":[{""u"":7,""v"":3},{""u"":7,""v"":6},{""u"":7,""v"":8},{""u"":7,""v"":10},{""u"":9,""v"":2},{""u"":9,""v"":6},{""u"":9,""v"":10},{""u"":2,""v"":1},{""u"":2,""v"":10},{""u"":10,""v"":1},{""u"":10,""v"":6},{""u"":8,""v"":4},{""u"":8,""v"":6},{""u"":3,""v"":1},{""u"":4,""v"":5},{""u"":4,""v"":6},{""u"":6,""v"":5}],""source_file"":""wv2010.mtx"",""density"":0.37777777777777777,""edge_connectivity"":2}","[1,2,4,6,7,10]",6.0,"{""num_nodes"":10,""num_edges"":17,""edges"":[{""u"":""G"",""v"":""C""},{""u"":""G"",""v"":""F""},{""u"":""G"",""v"":""H""},{""u"":""G"",""v"":""J""},{""u"":""I"",""v"":""B""},{""u"":""I"",""v"":""F""},{""u"":""I"",""v"":""J""},{""u"":""B"",""v"":""A""},{""u"":""B"",""v"":""J""},{""u"":""J"",""v"":""A""},{""u"":""J"",""v"":""F""},{""u"":""H"",""v"":""D""},{""u"":""H"",""v"":""F""},{""u"":""C"",""v"":""A""},{""u"":""D"",""v"":""E""},{""u"":""D"",""v"":""F""},{""u"":""F"",""v"":""E""}]}","[""A"",""B"",""D"",""F"",""G"",""J""]"
+MVC_S_034,MVC,S,34,"We've got a bunch of floor displays that bump up against each other, and the task is to pick the smallest crew of attendants so that for every pair of touching displays at least one of them has someone standing there. The decision is which displays to staff, and the better plan is simply the one with fewer attendants assigned. The way to check is straightforward: count the attendants chosen. Every touching pair must be covered by at least one staffed display, and a display doesn't need more than one person. The concrete details of the setup are shown below.
+
+{
+  ""total_displays"": 12,
+  ""total_touching_pairs"": 25,
+  ""edges"": [
+    {
+      ""display_id_u"": 6,
+      ""display_id_v"": 0
+    },
+    {
+      ""display_id_u"": 6,
+      ""display_id_v"": 9
+    },
+    {
+      ""display_id_u"": 6,
+      ""display_id_v"": 11
+    },
+    {
+      ""display_id_u"": 2,
+      ""display_id_v"": 1
+    },
+    {
+      ""display_id_u"": 2,
+      ""display_id_v"": 3
+    },
+    {
+      ""display_id_u"": 2,
+      ""display_id_v"": 7
+    },
+    {
+      ""display_id_u"": 2,
+      ""display_id_v"": 9
+    },
+    {
+      ""display_id_u"": 2,
+      ""display_id_v"": 11
+    },
+    {
+      ""display_id_u"": 7,
+      ""display_id_v"": 3
+    },
+    {
+      ""display_id_u"": 7,
+      ""display_id_v"": 4
+    },
+    {
+      ""display_id_u"": 7,
+      ""display_id_v"": 9
+    },
+    {
+      ""display_id_u"": 1,
+      ""display_id_v"": 3
+    },
+    {
+      ""display_id_u"": 1,
+      ""display_id_v"": 8
+    },
+    {
+      ""display_id_u"": 1,
+      ""display_id_v"": 10
+    },
+    {
+      ""display_id_u"": 1,
+      ""display_id_v"": 11
+    },
+    {
+      ""display_id_u"": 3,
+      ""display_id_v"": 8
+    },
+    {
+      ""display_id_u"": 3,
+      ""display_id_v"": 10
+    },
+    {
+      ""display_id_u"": 8,
+      ""display_id_v"": 10
+    },
+    {
+      ""display_id_u"": 4,
+      ""display_id_v"": 5
+    },
+    {
+      ""display_id_u"": 4,
+      ""display_id_v"": 9
+    },
+    {
+      ""display_id_u"": 4,
+      ""display_id_v"": 10
+    },
+    {
+      ""display_id_u"": 5,
+      ""display_id_v"": 0
+    },
+    {
+      ""display_id_u"": 5,
+      ""display_id_v"": 9
+    },
+    {
+      ""display_id_u"": 11,
+      ""display_id_v"": 9
+    },
+    {
+      ""display_id_u"": 9,
+      ""display_id_v"": 0
+    }
+  ]
+}
+
+You can just send the final plan in a tiny JSON snippet like this - makes it easy to check automatically.
+
+{
+  ""solution"": [""vertex_id"", ""vertex_id"", ...]
+}
+
+Here ""solution"" is just the list of displays where you station attendants (one entry per staffed display). Think of the entries in the array as the exact labels of the displays you pick. This is just the shape I expect - a sketch, not the actual staffing plan.
+
+Please use the identifiers exactly as they appear in the instance input - don't rename them or invent new labels. For example: ""1"" or ""23"", ""A"" or ""B"", ""A1"" or ""X7"".",json,zero_based,"{""problem_type"":""MVC"",""num_nodes"":12,""num_edges"":25,""edges"":[{""u"":7,""v"":1},{""u"":7,""v"":10},{""u"":7,""v"":12},{""u"":3,""v"":2},{""u"":3,""v"":4},{""u"":3,""v"":8},{""u"":3,""v"":10},{""u"":3,""v"":12},{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":8,""v"":10},{""u"":2,""v"":4},{""u"":2,""v"":9},{""u"":2,""v"":11},{""u"":2,""v"":12},{""u"":4,""v"":9},{""u"":4,""v"":11},{""u"":9,""v"":11},{""u"":5,""v"":6},{""u"":5,""v"":10},{""u"":5,""v"":11},{""u"":6,""v"":1},{""u"":6,""v"":10},{""u"":12,""v"":10},{""u"":10,""v"":1}],""source_file"":""wa2010.mtx"",""density"":0.3787878787878788,""edge_connectivity"":3}","[1,2,4,6,8,10,11,12]",8.0,"{""num_nodes"":12,""num_edges"":25,""edges"":[{""u"":6,""v"":0},{""u"":6,""v"":9},{""u"":6,""v"":11},{""u"":2,""v"":1},{""u"":2,""v"":3},{""u"":2,""v"":7},{""u"":2,""v"":9},{""u"":2,""v"":11},{""u"":7,""v"":3},{""u"":7,""v"":4},{""u"":7,""v"":9},{""u"":1,""v"":3},{""u"":1,""v"":8},{""u"":1,""v"":10},{""u"":1,""v"":11},{""u"":3,""v"":8},{""u"":3,""v"":10},{""u"":8,""v"":10},{""u"":4,""v"":5},{""u"":4,""v"":9},{""u"":4,""v"":10},{""u"":5,""v"":0},{""u"":5,""v"":9},{""u"":11,""v"":9},{""u"":9,""v"":0}]}","[0,1,3,5,7,9,10,11]"
+MVC_S_035,MVC,S,35,"There's a house with lots of wall pieces joined together, and the job is to spray just enough of those pieces to stop pests at every joint. A better decision uses fewer treated sections overall - you just tally up how many sections are treated to compare plans - while ensuring that for each pair of pieces that meet, at least one of them has been treated. You can't ignore any seam, and the concrete room layout and seams are shown below.
+
+There are 12 wall sections in total and 17 seams.
+
+| section_one | section_two |
+|---|---|
+| 8 | 0 |
+| 8 | 2 |
+| 8 | 4 |
+| 8 | 5 |
+| 6 | 1 |
+| 6 | 3 |
+| 6 | 4 |
+| 6 | 5 |
+| 6 | 11 |
+| 11 | 9 |
+| 11 | 10 |
+| 4 | 7 |
+| 4 | 10 |
+| 2 | 7 |
+| 10 | 9 |
+| 7 | 9 |
+| 3 | 1 |
+
+And hey - when you give me the final pick, please use this simple JSON layout so I can read it easily:
+
+{
+  ""solution"": [""wall_id"", ""wall_id"", ...]
+}
+
+""solution"" is just a list of the wall pieces you plan to treat so every seam is covered. The placeholder items above show the shape I need - each entry should be the exact label used in the problem input for a wall piece. This JSON is only a sketch of the expected format, not the actual answer.
+
+All identifiers must be used exactly as they appear in the instance input - no renaming and no new labels.
+
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",markdown_table,zero_based,"{""problem_type"":""MVC"",""num_nodes"":12,""num_edges"":17,""edges"":[{""u"":9,""v"":1},{""u"":9,""v"":3},{""u"":9,""v"":5},{""u"":9,""v"":6},{""u"":7,""v"":2},{""u"":7,""v"":4},{""u"":7,""v"":5},{""u"":7,""v"":6},{""u"":7,""v"":12},{""u"":12,""v"":10},{""u"":12,""v"":11},{""u"":5,""v"":8},{""u"":5,""v"":11},{""u"":3,""v"":8},{""u"":11,""v"":10},{""u"":8,""v"":10},{""u"":4,""v"":2}],""source_file"":""wi2010.mtx"",""density"":0.25757575757575757,""edge_connectivity"":1}","[4,7,8,9,10,11]",6.0,"{""num_nodes"":12,""num_edges"":17,""edges"":[{""u"":8,""v"":0},{""u"":8,""v"":2},{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":6,""v"":1},{""u"":6,""v"":3},{""u"":6,""v"":4},{""u"":6,""v"":5},{""u"":6,""v"":11},{""u"":11,""v"":9},{""u"":11,""v"":10},{""u"":4,""v"":7},{""u"":4,""v"":10},{""u"":2,""v"":7},{""u"":10,""v"":9},{""u"":7,""v"":9},{""u"":3,""v"":1}]}","[3,6,7,8,9,10]"
+MVC_S_036,MVC,S,36,"We run the morning staffing for a subway line and need to choose a small set of platform areas to station staff so that for every adjacent pair of areas, at least one has someone there. The choice is about which areas to staff; one plan is better than another if it uses fewer staffed areas but still leaves no adjacent pair unprotected. You can check any plan by counting how many areas are staffed - aim for the lowest possible number - and don't forget every connection must be addressed and doubling up on a single area is pointless. The concrete layout of zones and their links is listed below.
+
+There are 11 platform zones in total and 18 adjacent zone pairs.
+
+| zone_u | zone_v |
+|---|---|
+| 1 | 2 |
+| 1 | 3 |
+| 1 | 5 |
+| 10 | 2 |
+| 10 | 7 |
+| 10 | 8 |
+| 0 | 3 |
+| 0 | 4 |
+| 0 | 6 |
+| 8 | 3 |
+| 8 | 7 |
+| 8 | 9 |
+| 6 | 3 |
+| 6 | 4 |
+| 6 | 5 |
+| 2 | 3 |
+| 7 | 3 |
+| 3 | 5 |
+
+Also, when you reply, please put the chosen areas into a tiny JSON object like this so it's easy to read and check:
+
+{
+  ""solution"": [""area_id"", ""area_id"", ...]
+}
+
+Here ""solution"" is just the list of platform areas you'd staff - each entry is the exact identifier for an area from the layout above. Think of it like filling out a short form: list the area IDs you plan to staff. This JSON is just a sketch of the expected shape, not the actual answer.
+
+Make sure to use the identifiers exactly as they appear in the instance input - no renaming, no made-up labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",markdown_table,zero_based,"{""problem_type"":""MVC"",""num_nodes"":11,""num_edges"":18,""edges"":[{""u"":2,""v"":3},{""u"":2,""v"":4},{""u"":2,""v"":6},{""u"":11,""v"":3},{""u"":11,""v"":8},{""u"":11,""v"":9},{""u"":1,""v"":4},{""u"":1,""v"":5},{""u"":1,""v"":7},{""u"":9,""v"":4},{""u"":9,""v"":8},{""u"":9,""v"":10},{""u"":7,""v"":4},{""u"":7,""v"":5},{""u"":7,""v"":6},{""u"":3,""v"":4},{""u"":8,""v"":4},{""u"":4,""v"":6}],""source_file"":""wv2010.mtx"",""density"":0.32727272727272727,""edge_connectivity"":1}","[1,2,4,7,9,11]",6.0,"{""num_nodes"":11,""num_edges"":18,""edges"":[{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":1,""v"":5},{""u"":10,""v"":2},{""u"":10,""v"":7},{""u"":10,""v"":8},{""u"":0,""v"":3},{""u"":0,""v"":4},{""u"":0,""v"":6},{""u"":8,""v"":3},{""u"":8,""v"":7},{""u"":8,""v"":9},{""u"":6,""v"":3},{""u"":6,""v"":4},{""u"":6,""v"":5},{""u"":2,""v"":3},{""u"":7,""v"":3},{""u"":3,""v"":5}]}","[0,1,3,6,8,10]"
+MVC_S_037,MVC,S,37,"Many people think securing a scaffold means anchoring every post, but the real job is to choose just enough anchored posts so that every brace still touches one. The preferred setup is the one that uses the fewest anchors; compare options by tallying how many posts end up anchored. Don't forget: every brace must have at least one anchored endpoint, and each post is either anchored once or not at all. The concrete layout of posts and braces will be shown below.
+
+There are 12 posts in total and 21 braces.
+
+| post_u | post_v |
+|---|---|
+| D | A |
+| D | L |
+| J | C |
+| J | E |
+| J | F |
+| L | A |
+| L | E |
+| L | I |
+| K | C |
+| K | E |
+| K | I |
+| A | I |
+| E | C |
+| E | F |
+| E | I |
+| I | G |
+| I | H |
+| C | B |
+| C | G |
+| G | B |
+| G | H |
+
+Also, when you give the final answer, please follow this simple JSON shape so I can pick it up automatically and check which posts you decided to anchor:
+
+{
+  ""solution"": [""post_id"", ""post_id"", ...]
+}
+
+Think of it as a little form: the ""solution"" field holds a list of the posts you'll anchor so every brace touches at least one anchored post. The entries should be the exact post identifiers from the instance (this block is just an example of the shape, not the real answer).
+
+Please make sure you use the identifiers exactly as they appear in the input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",markdown_table,names,"{""problem_type"":""MVC"",""num_nodes"":12,""num_edges"":21,""edges"":[{""u"":4,""v"":1},{""u"":4,""v"":12},{""u"":10,""v"":3},{""u"":10,""v"":5},{""u"":10,""v"":6},{""u"":12,""v"":1},{""u"":12,""v"":5},{""u"":12,""v"":9},{""u"":11,""v"":3},{""u"":11,""v"":5},{""u"":11,""v"":9},{""u"":1,""v"":9},{""u"":5,""v"":3},{""u"":5,""v"":6},{""u"":5,""v"":9},{""u"":9,""v"":7},{""u"":9,""v"":8},{""u"":3,""v"":2},{""u"":3,""v"":7},{""u"":7,""v"":2},{""u"":7,""v"":8}],""source_file"":""wa2010.mtx"",""density"":0.3181818181818182,""edge_connectivity"":2}","[1,3,5,7,9,10,12]",7.0,"{""num_nodes"":12,""num_edges"":21,""edges"":[{""u"":""D"",""v"":""A""},{""u"":""D"",""v"":""L""},{""u"":""J"",""v"":""C""},{""u"":""J"",""v"":""E""},{""u"":""J"",""v"":""F""},{""u"":""L"",""v"":""A""},{""u"":""L"",""v"":""E""},{""u"":""L"",""v"":""I""},{""u"":""K"",""v"":""C""},{""u"":""K"",""v"":""E""},{""u"":""K"",""v"":""I""},{""u"":""A"",""v"":""I""},{""u"":""E"",""v"":""C""},{""u"":""E"",""v"":""F""},{""u"":""E"",""v"":""I""},{""u"":""I"",""v"":""G""},{""u"":""I"",""v"":""H""},{""u"":""C"",""v"":""B""},{""u"":""C"",""v"":""G""},{""u"":""G"",""v"":""B""},{""u"":""G"",""v"":""H""}]}","[""A"",""C"",""E"",""G"",""I"",""J"",""L""]"
+MVC_S_038,MVC,S,38,"There's a property with a bunch of short corridors between junctions, and the building manager is trying to decide where to install lights so no corridor is left without a light at one of its ends. The trick is to cover all the corridor pieces while installing as few fixtures as possible - the better plan is the one with the lower light count, simply tallied. Every single corridor must have at least one of its two ends lit, and each light is placed at an intersection (no double-counting). The exact layout appears below.
+
+{
+  ""total_junctions"": 8,
+  ""total_corridor_segments"": 13,
+  ""edges"": [
+    {
+      ""corridor_end_u"": 1,
+      ""corridor_end_v"": 3
+    },
+    {
+      ""corridor_end_u"": 1,
+      ""corridor_end_v"": 7
+    },
+    {
+      ""corridor_end_u"": 1,
+      ""corridor_end_v"": 8
+    },
+    {
+      ""corridor_end_u"": 6,
+      ""corridor_end_v"": 7
+    },
+    {
+      ""corridor_end_u"": 6,
+      ""corridor_end_v"": 8
+    },
+    {
+      ""corridor_end_u"": 7,
+      ""corridor_end_v"": 8
+    },
+    {
+      ""corridor_end_u"": 2,
+      ""corridor_end_v"": 4
+    },
+    {
+      ""corridor_end_u"": 2,
+      ""corridor_end_v"": 5
+    },
+    {
+      ""corridor_end_u"": 8,
+      ""corridor_end_v"": 3
+    },
+    {
+      ""corridor_end_u"": 8,
+      ""corridor_end_v"": 4
+    },
+    {
+      ""corridor_end_u"": 8,
+      ""corridor_end_v"": 5
+    },
+    {
+      ""corridor_end_u"": 4,
+      ""corridor_end_v"": 3
+    },
+    {
+      ""corridor_end_u"": 4,
+      ""corridor_end_v"": 5
+    }
+  ]
+}
+
+If you want to send me the final plan, just drop it in this little JSON shape so it's easy to read and parse:
+
+{
+  ""solution"": [""junction_id"", ""junction_id"", ...]
+}
+
+Here ""solution"" is just the list of intersections where you'd put lights - each entry is the identifier for a junction (one identifier per light). Think of it like filling out a short form: the array lists which junctions get fixtures. This JSON is just a sketch of the shape I expect, not the actual answer itself.
+
+Please use the identifiers exactly as they appear in the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,one_based,"{""problem_type"":""MVC"",""num_nodes"":8,""num_edges"":13,""edges"":[{""u"":1,""v"":3},{""u"":1,""v"":7},{""u"":1,""v"":8},{""u"":6,""v"":7},{""u"":6,""v"":8},{""u"":7,""v"":8},{""u"":2,""v"":4},{""u"":2,""v"":5},{""u"":8,""v"":3},{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":4,""v"":3},{""u"":4,""v"":5}],""source_file"":""vt2010.mtx"",""density"":0.4642857142857143,""edge_connectivity"":2}","[3,4,5,7,8]",5.0,"{""num_nodes"":8,""num_edges"":13,""edges"":[{""u"":1,""v"":3},{""u"":1,""v"":7},{""u"":1,""v"":8},{""u"":6,""v"":7},{""u"":6,""v"":8},{""u"":7,""v"":8},{""u"":2,""v"":4},{""u"":2,""v"":5},{""u"":8,""v"":3},{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":4,""v"":3},{""u"":4,""v"":5}]}","[3,4,5,7,8]"
+MVC_S_039,MVC,S,39,"Many people on the night shift have been sketching camera layouts, trying to pick mounts so every link between cases has at least one camera watching it; the layouts that use fewer cameras are preferred (just tally the cameras), and every link must be covered with no redundant, wasteful double-coverage. The precise connection list and mount positions are shown below.
+
+There are 9 mounts and 14 links to cover:
+Link between mount D and mount B: place a camera on either mount to cover it without redundant double-coverage.
+Link between mount D and mount F: place a camera on either mount to cover it without redundant double-coverage.
+Link between mount B and mount A: place a camera on either mount to cover it without redundant double-coverage.
+Link between mount B and mount G: place a camera on either mount to cover it without redundant double-coverage.
+Link between mount H and mount E: place a camera on either mount to cover it without redundant double-coverage.
+Link between mount H and mount I: place a camera on either mount to cover it without redundant double-coverage.
+Link between mount F and mount C: place a camera on either mount to cover it without redundant double-coverage.
+Link between mount F and mount E: place a camera on either mount to cover it without redundant double-coverage.
+Link between mount F and mount G: place a camera on either mount to cover it without redundant double-coverage.
+Link between mount G and mount A: place a camera on either mount to cover it without redundant double-coverage.
+Link between mount G and mount E: place a camera on either mount to cover it without redundant double-coverage.
+Link between mount G and mount I: place a camera on either mount to cover it without redundant double-coverage.
+Link between mount I and mount A: place a camera on either mount to cover it without redundant double-coverage.
+Link between mount E and mount C: place a camera on either mount to cover it without redundant double-coverage.
+Prefer layouts with the fewest cameras covering all 14 links across the 9 mounts.
+
+If you'd like to hand me the selected mounts, just toss them into this little JSON shape so I know what to expect:
+
+{
+  ""solution"": [""camera_id"", ""camera_id"", ...]
+}
+
+Pretty straightforward: ""solution"" is the list of camera IDs (one per chosen mount) that cover every connection. Think of it like filling out a short form - the array lists the mounts you'll use. This block is just a sketch of the shape I expect, not the actual answer.
+
+Also, please use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,names,"{""problem_type"":""MVC"",""num_nodes"":9,""num_edges"":14,""edges"":[{""u"":4,""v"":2},{""u"":4,""v"":6},{""u"":2,""v"":1},{""u"":2,""v"":7},{""u"":8,""v"":5},{""u"":8,""v"":9},{""u"":6,""v"":3},{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":7,""v"":1},{""u"":7,""v"":5},{""u"":7,""v"":9},{""u"":9,""v"":1},{""u"":5,""v"":3}],""source_file"":""wv2010.mtx"",""density"":0.3888888888888889,""edge_connectivity"":2}","[2,5,6,7,9]",5.0,"{""num_nodes"":9,""num_edges"":14,""edges"":[{""u"":""D"",""v"":""B""},{""u"":""D"",""v"":""F""},{""u"":""B"",""v"":""A""},{""u"":""B"",""v"":""G""},{""u"":""H"",""v"":""E""},{""u"":""H"",""v"":""I""},{""u"":""F"",""v"":""C""},{""u"":""F"",""v"":""E""},{""u"":""F"",""v"":""G""},{""u"":""G"",""v"":""A""},{""u"":""G"",""v"":""E""},{""u"":""G"",""v"":""I""},{""u"":""I"",""v"":""A""},{""u"":""E"",""v"":""C""}]}","[""B"",""E"",""F"",""G"",""I""]"
+MVC_S_040,MVC,S,40,"We need to staff supervision for all the student pairings in a way that keeps the supervising crew really small: pick a handful of students to be monitored so that for every interaction between two kids, at least one of them is on the monitored list. The whole point is to use the least people possible - measure that by counting how many supervisors are on the list. No interaction can be left unmonitored, and assigning someone more than once doesn't reduce the headcount. The specific setup is shown below.
+
+{
+  ""total_students"": 10,
+  ""total_interactions"": 16,
+  ""edges"": [
+    {
+      ""student_a"": ""F"",
+      ""student_b"": ""A""
+    },
+    {
+      ""student_a"": ""F"",
+      ""student_b"": ""E""
+    },
+    {
+      ""student_a"": ""F"",
+      ""student_b"": ""J""
+    },
+    {
+      ""student_a"": ""B"",
+      ""student_b"": ""D""
+    },
+    {
+      ""student_a"": ""B"",
+      ""student_b"": ""E""
+    },
+    {
+      ""student_a"": ""B"",
+      ""student_b"": ""G""
+    },
+    {
+      ""student_a"": ""B"",
+      ""student_b"": ""I""
+    },
+    {
+      ""student_a"": ""B"",
+      ""student_b"": ""J""
+    },
+    {
+      ""student_a"": ""C"",
+      ""student_b"": ""G""
+    },
+    {
+      ""student_a"": ""H"",
+      ""student_b"": ""G""
+    },
+    {
+      ""student_a"": ""H"",
+      ""student_b"": ""J""
+    },
+    {
+      ""student_a"": ""I"",
+      ""student_b"": ""D""
+    },
+    {
+      ""student_a"": ""I"",
+      ""student_b"": ""G""
+    },
+    {
+      ""student_a"": ""D"",
+      ""student_b"": ""A""
+    },
+    {
+      ""student_a"": ""D"",
+      ""student_b"": ""E""
+    },
+    {
+      ""student_a"": ""A"",
+      ""student_b"": ""E""
+    }
+  ]
+}
+
+Also, when you give the answer, please lay it out in a tiny JSON snippet like this - just a simple, machine-friendly checklist of who's being monitored:
+
+{
+  ""solution"": [""student_id"", ""student_id"", ...]
+}
+
+Think of ""solution"" as the list of student IDs to keep an eye on so every pairing has at least one monitored student. This block is just the expected shape - a sketch, not the actual assignment; when you produce the real answer, put the exact IDs from the instance into that array.
+
+One more thing: use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,names,"{""problem_type"":""MVC"",""num_nodes"":10,""num_edges"":16,""edges"":[{""u"":6,""v"":1},{""u"":6,""v"":5},{""u"":6,""v"":10},{""u"":2,""v"":4},{""u"":2,""v"":5},{""u"":2,""v"":7},{""u"":2,""v"":9},{""u"":2,""v"":10},{""u"":3,""v"":7},{""u"":8,""v"":7},{""u"":8,""v"":10},{""u"":9,""v"":4},{""u"":9,""v"":7},{""u"":4,""v"":1},{""u"":4,""v"":5},{""u"":1,""v"":5}],""source_file"":""wy2010.mtx"",""density"":0.35555555555555557,""edge_connectivity"":1}","[1,2,4,5,7,10]",6.0,"{""num_nodes"":10,""num_edges"":16,""edges"":[{""u"":""F"",""v"":""A""},{""u"":""F"",""v"":""E""},{""u"":""F"",""v"":""J""},{""u"":""B"",""v"":""D""},{""u"":""B"",""v"":""E""},{""u"":""B"",""v"":""G""},{""u"":""B"",""v"":""I""},{""u"":""B"",""v"":""J""},{""u"":""C"",""v"":""G""},{""u"":""H"",""v"":""G""},{""u"":""H"",""v"":""J""},{""u"":""I"",""v"":""D""},{""u"":""I"",""v"":""G""},{""u"":""D"",""v"":""A""},{""u"":""D"",""v"":""E""},{""u"":""A"",""v"":""E""}]}","[""A"",""B"",""D"",""E"",""G"",""J""]"
+MVC_S_041,MVC,S,41,"There's a campus network with servers linked by cables, and the task is to choose a handful of servers to update so that every cable touches at least one updated server. Success is measured by how many servers were updated - fewer updates means a smarter plan - so just tally the servers you change to compare options. Be sure every cable has at least one updated endpoint, and don't double-count the same server. The concrete details of the setup are listed below.
+
+# total_servers=12
+# total_cables=23
+cable_endpoint_u,cable_endpoint_v
+6,3
+0,9
+0,10
+7,3
+7,4
+7,5
+7,8
+7,11
+8,3
+8,10
+8,11
+9,2
+9,10
+1,2
+1,5
+1,11
+2,10
+2,11
+4,3
+3,5
+3,10
+11,5
+11,10
+
+When you send the plan back, just use a tiny JSON snippet like this so it's quick to parse:
+
+{
+  ""solution"": [""server_id"", ""server_id"", ...]
+}
+
+Here ""solution"" is the list of servers you'll update - just put each server's identifier in the array (no duplicates). It's just a sketch of the shape I expect, not the actual answer.
+
+Please make sure to use the exact identifiers from the instance input - don't rename them or invent new labels.
+for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,zero_based,"{""problem_type"":""MVC"",""num_nodes"":12,""num_edges"":23,""edges"":[{""u"":7,""v"":4},{""u"":1,""v"":10},{""u"":1,""v"":11},{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":8,""v"":6},{""u"":8,""v"":9},{""u"":8,""v"":12},{""u"":9,""v"":4},{""u"":9,""v"":11},{""u"":9,""v"":12},{""u"":10,""v"":3},{""u"":10,""v"":11},{""u"":2,""v"":3},{""u"":2,""v"":6},{""u"":2,""v"":12},{""u"":3,""v"":11},{""u"":3,""v"":12},{""u"":5,""v"":4},{""u"":4,""v"":6},{""u"":4,""v"":11},{""u"":12,""v"":6},{""u"":12,""v"":11}],""source_file"":""wa2010.mtx"",""density"":0.3484848484848485,""edge_connectivity"":1}","[2,4,8,10,11,12]",6.0,"{""num_nodes"":12,""num_edges"":23,""edges"":[{""u"":6,""v"":3},{""u"":0,""v"":9},{""u"":0,""v"":10},{""u"":7,""v"":3},{""u"":7,""v"":4},{""u"":7,""v"":5},{""u"":7,""v"":8},{""u"":7,""v"":11},{""u"":8,""v"":3},{""u"":8,""v"":10},{""u"":8,""v"":11},{""u"":9,""v"":2},{""u"":9,""v"":10},{""u"":1,""v"":2},{""u"":1,""v"":5},{""u"":1,""v"":11},{""u"":2,""v"":10},{""u"":2,""v"":11},{""u"":4,""v"":3},{""u"":3,""v"":5},{""u"":3,""v"":10},{""u"":11,""v"":5},{""u"":11,""v"":10}]}","[1,3,7,9,10,11]"
+MVC_S_042,MVC,S,42,"On a quiet evening the planner jotted down a rule: only put lamp posts on some corners so that every street segment has at least one illuminated end. The task is picking those corners, aiming to finish with as few lamp posts as possible but with no dark streets left behind - to compare options, simply count the posts in each plan and confirm every segment touches a lit corner. Each post lights every adjacent segment, every segment must be covered, and each post is counted once. The exact map and intersection details follow below.
+
+There are 11 intersections and 21 street segments on the map.
+Street segment between corner 3 and corner 4.
+Street segment between corner 3 and corner 9.
+Street segment between corner 3 and corner 10.
+Street segment between corner 3 and corner 11.
+Street segment between corner 2 and corner 4.
+Street segment between corner 2 and corner 6.
+Street segment between corner 2 and corner 7.
+Street segment between corner 2 and corner 8.
+Street segment between corner 2 and corner 10.
+Street segment between corner 11 and corner 1.
+Street segment between corner 11 and corner 6.
+Street segment between corner 11 and corner 8.
+Street segment between corner 11 and corner 9.
+Street segment between corner 11 and corner 10.
+Street segment between corner 6 and corner 8.
+Street segment between corner 6 and corner 10.
+Street segment between corner 4 and corner 5.
+Street segment between corner 4 and corner 7.
+Street segment between corner 7 and corner 5.
+Street segment between corner 5 and corner 9.
+Street segment between corner 9 and corner 1.
+The planner will count the lamp posts for each plan and verify every one of the 21 segments touches a lit corner.
+
+If you want to tell me which corners get lamp posts, just drop it in this simple little JSON shape so I can read it automatically:
+
+{
+  ""solution"": [""corner_id"", ""corner_id"", ...]
+}
+
+Think of ""solution"" as the list of corners where you place posts - just put each corner's identifier in that array. This block is only a sketch of the shape I expect, not the actual plan for the map.
+
+Please make sure to use the exact identifiers from the instance input - don't rename them or invent new ones.
+
+for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,one_based,"{""problem_type"":""MVC"",""num_nodes"":11,""num_edges"":21,""edges"":[{""u"":3,""v"":4},{""u"":3,""v"":9},{""u"":3,""v"":10},{""u"":3,""v"":11},{""u"":2,""v"":4},{""u"":2,""v"":6},{""u"":2,""v"":7},{""u"":2,""v"":8},{""u"":2,""v"":10},{""u"":11,""v"":1},{""u"":11,""v"":6},{""u"":11,""v"":8},{""u"":11,""v"":9},{""u"":11,""v"":10},{""u"":6,""v"":8},{""u"":6,""v"":10},{""u"":4,""v"":5},{""u"":4,""v"":7},{""u"":7,""v"":5},{""u"":5,""v"":9},{""u"":9,""v"":1}],""source_file"":""wy2010.mtx"",""density"":0.38181818181818183,""edge_connectivity"":2}","[2,4,6,7,9,10,11]",7.0,"{""num_nodes"":11,""num_edges"":21,""edges"":[{""u"":3,""v"":4},{""u"":3,""v"":9},{""u"":3,""v"":10},{""u"":3,""v"":11},{""u"":2,""v"":4},{""u"":2,""v"":6},{""u"":2,""v"":7},{""u"":2,""v"":8},{""u"":2,""v"":10},{""u"":11,""v"":1},{""u"":11,""v"":6},{""u"":11,""v"":8},{""u"":11,""v"":9},{""u"":11,""v"":10},{""u"":6,""v"":8},{""u"":6,""v"":10},{""u"":4,""v"":5},{""u"":4,""v"":7},{""u"":7,""v"":5},{""u"":5,""v"":9},{""u"":9,""v"":1}]}","[2,4,6,7,9,10,11]"
+MVC_S_043,MVC,S,43,"There's a little puzzle: install smart sensors in some rooms so that every doorway is covered by a sensor in one of the rooms it links. The task is deciding which rooms to equip, aiming to minimize how many sensors are bought - success is measured simply by the total number purchased. Every doorway must be covered by at least one adjacent-room sensor (nothing left out), and putting sensors in both rooms serving the same door is allowed but usually wastes devices. The full room-and-door list appears below.
+
+It lists 8 rooms and 14 doorways.
+Doorway between room 7 and room 1 - install a sensor in at least one of these rooms to cover it.
+Doorway between room 7 and room 4 - install a sensor in at least one of these rooms to cover it.
+Doorway between room 7 and room 5 - install a sensor in at least one of these rooms to cover it.
+Doorway between room 2 and room 0 - install a sensor in at least one of these rooms to cover it.
+Doorway between room 2 and room 3 - install a sensor in at least one of these rooms to cover it.
+Doorway between room 2 and room 4 - install a sensor in at least one of these rooms to cover it.
+Doorway between room 2 and room 5 - install a sensor in at least one of these rooms to cover it.
+Doorway between room 2 and room 6 - install a sensor in at least one of these rooms to cover it.
+Doorway between room 3 and room 0 - install a sensor in at least one of these rooms to cover it.
+Doorway between room 3 and room 6 - install a sensor in at least one of these rooms to cover it.
+Doorway between room 4 and room 0 - install a sensor in at least one of these rooms to cover it.
+Doorway between room 4 and room 5 - install a sensor in at least one of these rooms to cover it.
+Doorway between room 1 and room 5 - install a sensor in at least one of these rooms to cover it.
+Doorway between room 1 and room 6 - install a sensor in at least one of these rooms to cover it.
+Cover every doorway while minimizing the total sensors purchased.
+
+Also, when you send back the choice of rooms, please use this simple JSON layout so it's easy to read and process. For this story it might look like:
+
+{
+  ""solution"": [""room_id"", ""room_id"", ...]
+}
+
+This just means: ""solution"" is the list of rooms where we install sensors, and each entry should be a room identifier taken straight from the instance. The JSON above is only a sketch of the expected shape - not the actual answer.
+
+Please be sure to use the exact identifiers from the instance input - do not rename them or invent new labels.
+- for example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,zero_based,"{""problem_type"":""MVC"",""num_nodes"":8,""num_edges"":14,""edges"":[{""u"":8,""v"":2},{""u"":8,""v"":5},{""u"":8,""v"":6},{""u"":3,""v"":1},{""u"":3,""v"":4},{""u"":3,""v"":5},{""u"":3,""v"":6},{""u"":3,""v"":7},{""u"":4,""v"":1},{""u"":4,""v"":7},{""u"":5,""v"":1},{""u"":5,""v"":6},{""u"":2,""v"":6},{""u"":2,""v"":7}],""source_file"":""vt2010.mtx"",""density"":0.5,""edge_connectivity"":3}","[1,3,6,7,8]",5.0,"{""num_nodes"":8,""num_edges"":14,""edges"":[{""u"":7,""v"":1},{""u"":7,""v"":4},{""u"":7,""v"":5},{""u"":2,""v"":0},{""u"":2,""v"":3},{""u"":2,""v"":4},{""u"":2,""v"":5},{""u"":2,""v"":6},{""u"":3,""v"":0},{""u"":3,""v"":6},{""u"":4,""v"":0},{""u"":4,""v"":5},{""u"":1,""v"":5},{""u"":1,""v"":6}]}","[0,2,5,6,7]"
+MVC_S_044,MVC,S,44,"Someone on the floor sketched a map and now the challenge is to place the smallest possible crew so that any two stations that touch have at least one person at one of those stations. The winning strategy is the one with the lowest total number of people - that total is just the count of assigned staff - and any plan that leaves an adjacent pair with nobody nearby is unacceptable. Each staffer covers exactly one station, so nothing gets duplicated. The specific layout and figures are shown below.
+
+The floor map shows 8 workstations and 13 touching pairs that must be covered:
+Stations 8 and 3 touch; at least one of them must have a staffer.
+Stations 8 and 4 touch; at least one of them must have a staffer.
+Stations 8 and 5 touch; at least one of them must have a staffer.
+Stations 1 and 2 touch; at least one of them must have a staffer.
+Stations 1 and 3 touch; at least one of them must have a staffer.
+Stations 1 and 4 touch; at least one of them must have a staffer.
+Stations 6 and 2 touch; at least one of them must have a staffer.
+Stations 6 and 4 touch; at least one of them must have a staffer.
+Stations 4 and 2 touch; at least one of them must have a staffer.
+Stations 4 and 3 touch; at least one of them must have a staffer.
+Stations 4 and 5 touch; at least one of them must have a staffer.
+Stations 4 and 7 touch; at least one of them must have a staffer.
+Stations 7 and 5 touch; at least one of them must have a staffer.
+Choose the fewest staffers so every one of the 13 touching pairs is covered across the 8 stations.
+
+Also, when you send back the plan, keep it in a tiny JSON shape so it's easy to check automatically. Something like this will do:
+
+{
+  ""solution"": [""station_id"", ""station_id"", ...]
+}
+
+Think of ""solution"" as the list of stations where you put people - one identifier per staffer. This is just a sketch of the expected shape, not the actual placement.
+
+Please use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,one_based,"{""problem_type"":""MVC"",""num_nodes"":8,""num_edges"":13,""edges"":[{""u"":8,""v"":3},{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":6,""v"":2},{""u"":6,""v"":4},{""u"":4,""v"":2},{""u"":4,""v"":3},{""u"":4,""v"":5},{""u"":4,""v"":7},{""u"":7,""v"":5}],""source_file"":""wa2010.mtx"",""density"":0.4642857142857143,""edge_connectivity"":2}","[2,3,4,5]",4.0,"{""num_nodes"":8,""num_edges"":13,""edges"":[{""u"":8,""v"":3},{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":6,""v"":2},{""u"":6,""v"":4},{""u"":4,""v"":2},{""u"":4,""v"":3},{""u"":4,""v"":5},{""u"":4,""v"":7},{""u"":7,""v"":5}]}","[2,3,4,5]"
+MVC_S_045,MVC,S,45,"I was organizing a small concert and had to figure out where to put ushers so every junction between seat rows has someone standing at a nearby aisle. The idea is to pick as few ushers as possible while still making sure no junction is left without an usher at one of its bordering aisles - the better plan is simply the one that uses fewer people. To compare plans, count how many ushers are assigned; a valid plan is one where every junction has at least one adjacent usher and nobody is expected to be in two places at once. The exact seating layout and aisle locations are shown below.
+
+{
+  ""num_aisles"": 12,
+  ""num_seat_row_junctions"": 18,
+  ""edges"": [
+    {
+      ""aisle_a"": 11,
+      ""aisle_b"": 5
+    },
+    {
+      ""aisle_a"": 11,
+      ""aisle_b"": 10
+    },
+    {
+      ""aisle_a"": 2,
+      ""aisle_b"": 3
+    },
+    {
+      ""aisle_a"": 2,
+      ""aisle_b"": 4
+    },
+    {
+      ""aisle_a"": 2,
+      ""aisle_b"": 8
+    },
+    {
+      ""aisle_a"": 2,
+      ""aisle_b"": 10
+    },
+    {
+      ""aisle_a"": 2,
+      ""aisle_b"": 12
+    },
+    {
+      ""aisle_a"": 7,
+      ""aisle_b"": 6
+    },
+    {
+      ""aisle_a"": 8,
+      ""aisle_b"": 6
+    },
+    {
+      ""aisle_a"": 8,
+      ""aisle_b"": 9
+    },
+    {
+      ""aisle_a"": 8,
+      ""aisle_b"": 10
+    },
+    {
+      ""aisle_a"": 9,
+      ""aisle_b"": 6
+    },
+    {
+      ""aisle_a"": 9,
+      ""aisle_b"": 12
+    },
+    {
+      ""aisle_a"": 1,
+      ""aisle_b"": 12
+    },
+    {
+      ""aisle_a"": 5,
+      ""aisle_b"": 3
+    },
+    {
+      ""aisle_a"": 5,
+      ""aisle_b"": 4
+    },
+    {
+      ""aisle_a"": 12,
+      ""aisle_b"": 6
+    },
+    {
+      ""aisle_a"": 3,
+      ""aisle_b"": 10
+    }
+  ]
+}
+
+If you want to pass the plan along in a compact form (or have me return it that way), something like this little JSON sketch is handy and easy to read:
+
+{
+  ""solution"": [""seat_id"", ""seat_id"", ...]
+}
+
+This just shows the shape I expect: ""solution"" is the list of seat identifiers where ushers would stand (one string per seat). Think of it like filling in a short form - which seats get an usher - not the final seating map itself.
+
+This JSON is only a sketch of the expected shape, not the actual answer. Please make sure that all identifiers in your real solution are used exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,one_based,"{""problem_type"":""MVC"",""num_nodes"":12,""num_edges"":18,""edges"":[{""u"":11,""v"":5},{""u"":11,""v"":10},{""u"":2,""v"":3},{""u"":2,""v"":4},{""u"":2,""v"":8},{""u"":2,""v"":10},{""u"":2,""v"":12},{""u"":7,""v"":6},{""u"":8,""v"":6},{""u"":8,""v"":9},{""u"":8,""v"":10},{""u"":9,""v"":6},{""u"":9,""v"":12},{""u"":1,""v"":12},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":12,""v"":6},{""u"":3,""v"":10}],""source_file"":""wy2010.mtx"",""density"":0.2727272727272727,""edge_connectivity"":1}","[2,5,6,8,10,12]",6.0,"{""num_nodes"":12,""num_edges"":18,""edges"":[{""u"":11,""v"":5},{""u"":11,""v"":10},{""u"":2,""v"":3},{""u"":2,""v"":4},{""u"":2,""v"":8},{""u"":2,""v"":10},{""u"":2,""v"":12},{""u"":7,""v"":6},{""u"":8,""v"":6},{""u"":8,""v"":9},{""u"":8,""v"":10},{""u"":9,""v"":6},{""u"":9,""v"":12},{""u"":1,""v"":12},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":12,""v"":6},{""u"":3,""v"":10}]}","[2,5,6,8,10,12]"
+MVC_S_046,MVC,S,46,"There's a small restaurant puzzle: choose a handful of tables to station floor hosts so that whenever two tables are adjacent, one of those tables has someone assigned. The goal is to cover all those adjacency links while using as few hosts as possible - judge any solution by counting its hosts, and the lower count wins. Nothing can be left uncovered (every adjacent pair must be looked after) and each table either has a host or it doesn't. The specific table map is shown below.
+
+# total_tables=10
+# total_adjacent_pairs=17
+adjacent_table_1,adjacent_table_2
+5,0
+5,2
+5,3
+5,4
+5,6
+5,8
+5,9
+7,0
+7,8
+8,0
+8,2
+1,6
+1,9
+0,3
+0,9
+2,9
+9,6
+
+If you want to hand in a candidate assignment, just use this simple JSON layout:
+
+{
+  ""solution"": [""table_id"", ""table_id"", ...]
+}
+
+This is just a sketch of the shape I expect - ""solution"" should be a list of the table identifiers where you'd station hosts. Replace each ""table_id"" with the exact table ID from the instance input (don't invent or rename labels).
+
+- for example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,zero_based,"{""problem_type"":""MVC"",""num_nodes"":10,""num_edges"":17,""edges"":[{""u"":6,""v"":1},{""u"":6,""v"":3},{""u"":6,""v"":4},{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":6,""v"":9},{""u"":6,""v"":10},{""u"":8,""v"":1},{""u"":8,""v"":9},{""u"":9,""v"":1},{""u"":9,""v"":3},{""u"":2,""v"":7},{""u"":2,""v"":10},{""u"":1,""v"":4},{""u"":1,""v"":10},{""u"":3,""v"":10},{""u"":10,""v"":7}],""source_file"":""wa2010.mtx"",""density"":0.37777777777777777,""edge_connectivity"":1}","[1,2,6,9,10]",5.0,"{""num_nodes"":10,""num_edges"":17,""edges"":[{""u"":5,""v"":0},{""u"":5,""v"":2},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":5,""v"":8},{""u"":5,""v"":9},{""u"":7,""v"":0},{""u"":7,""v"":8},{""u"":8,""v"":0},{""u"":8,""v"":2},{""u"":1,""v"":6},{""u"":1,""v"":9},{""u"":0,""v"":3},{""u"":0,""v"":9},{""u"":2,""v"":9},{""u"":9,""v"":6}]}","[0,1,5,8,9]"
+MVC_S_047,MVC,S,47,"Many people who organize shows run into the same question: which set pieces should get a stagehand so that every time pieces touch, one of them has coverage, and how can that be done with the smallest possible crew? The task is to pick positions so every touching relationship has someone at one of its pieces; to judge different choices, just count how many stagehands each uses - fewer is better. Every connection between pieces must be covered, and each person can only stand at a single piece. The detailed diagram is shown below.
+
+# total_set_pieces=12
+# total_adjacencies=23
+piece_endpoint_a,piece_endpoint_b
+L,A
+L,B
+L,K
+A,C
+A,G
+A,H
+A,I
+A,K
+H,F
+H,J
+H,K
+F,C
+F,D
+F,E
+F,J
+K,B
+K,J
+C,E
+C,I
+E,I
+B,J
+J,D
+G,I
+
+Oh, and if you want to send the answer back, keep it in a tiny JSON sketch like this so it's easy to read:
+
+{
+  ""solution"": [""piece_id"", ""piece_id"", ...]
+}
+
+Here ""solution"" is just the list of set pieces where you'd place a stagehand - each entry is the ID of a piece. It's just a template for the shape of the reply, not the final crew list.
+
+Please use the exact identifiers from the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MVC"",""num_nodes"":12,""num_edges"":23,""edges"":[{""u"":12,""v"":1},{""u"":12,""v"":2},{""u"":12,""v"":11},{""u"":1,""v"":3},{""u"":1,""v"":7},{""u"":1,""v"":8},{""u"":1,""v"":9},{""u"":1,""v"":11},{""u"":8,""v"":6},{""u"":8,""v"":10},{""u"":8,""v"":11},{""u"":6,""v"":3},{""u"":6,""v"":4},{""u"":6,""v"":5},{""u"":6,""v"":10},{""u"":11,""v"":2},{""u"":11,""v"":10},{""u"":3,""v"":5},{""u"":3,""v"":9},{""u"":5,""v"":9},{""u"":2,""v"":10},{""u"":10,""v"":4},{""u"":7,""v"":9}],""source_file"":""wv2010.mtx"",""density"":0.3484848484848485,""edge_connectivity"":2}","[1,2,3,6,9,10,11]",7.0,"{""num_nodes"":12,""num_edges"":23,""edges"":[{""u"":""L"",""v"":""A""},{""u"":""L"",""v"":""B""},{""u"":""L"",""v"":""K""},{""u"":""A"",""v"":""C""},{""u"":""A"",""v"":""G""},{""u"":""A"",""v"":""H""},{""u"":""A"",""v"":""I""},{""u"":""A"",""v"":""K""},{""u"":""H"",""v"":""F""},{""u"":""H"",""v"":""J""},{""u"":""H"",""v"":""K""},{""u"":""F"",""v"":""C""},{""u"":""F"",""v"":""D""},{""u"":""F"",""v"":""E""},{""u"":""F"",""v"":""J""},{""u"":""K"",""v"":""B""},{""u"":""K"",""v"":""J""},{""u"":""C"",""v"":""E""},{""u"":""C"",""v"":""I""},{""u"":""E"",""v"":""I""},{""u"":""B"",""v"":""J""},{""u"":""J"",""v"":""D""},{""u"":""G"",""v"":""I""}]}","[""A"",""B"",""C"",""F"",""I"",""J"",""K""]"
+MVC_S_048,MVC,S,48,"On a busy day the clinic needed a tight schedule: choose which nurses to assign so that for every linked pair of patients, at least one of the two has a nurse. The goal is to keep the staff list as short as possible - measure each plan by counting assigned nurses and choose the plan with the smallest total that still covers all pairs. Every pairing has to be covered; nothing can be skipped, and you can't game the system by counting the same nurse twice. The specific patient pairings and options are provided below.
+
+There are 12 patients and 22 patient pairs listed below:
+Patient pair (D, C): at least one of these patients must have an assigned nurse.
+Patient pair (D, J): at least one of these patients must have an assigned nurse.
+Patient pair (A, G): at least one of these patients must have an assigned nurse.
+Patient pair (A, H): at least one of these patients must have an assigned nurse.
+Patient pair (E, G): at least one of these patients must have an assigned nurse.
+Patient pair (E, H): at least one of these patients must have an assigned nurse.
+Patient pair (E, I): at least one of these patients must have an assigned nurse.
+Patient pair (E, K): at least one of these patients must have an assigned nurse.
+Patient pair (G, B): at least one of these patients must have an assigned nurse.
+Patient pair (G, C): at least one of these patients must have an assigned nurse.
+Patient pair (G, H): at least one of these patients must have an assigned nurse.
+Patient pair (G, I): at least one of these patients must have an assigned nurse.
+Patient pair (G, J): at least one of these patients must have an assigned nurse.
+Patient pair (G, K): at least one of these patients must have an assigned nurse.
+Patient pair (G, L): at least one of these patients must have an assigned nurse.
+Patient pair (H, I): at least one of these patients must have an assigned nurse.
+Patient pair (H, K): at least one of these patients must have an assigned nurse.
+Patient pair (H, L): at least one of these patients must have an assigned nurse.
+Patient pair (I, F): at least one of these patients must have an assigned nurse.
+Patient pair (J, C): at least one of these patients must have an assigned nurse.
+Patient pair (B, C): at least one of these patients must have an assigned nurse.
+Patient pair (K, L): at least one of these patients must have an assigned nurse.
+Assign nurses to cover all 22 pairs using the smallest possible staff; do not double-count any nurse.
+
+If you want to send the chosen roster back in a neat, machine-friendly way, just use a tiny JSON object like this - nothing fancy:
+
+{
+  ""solution"": [""nurse_id"", ""nurse_id"", ...]
+}
+
+Pretty simple: ""solution"" is the list of nurses you pick to cover every paired patient. The ""nurse_id"" entries are just placeholders showing where the real nurse identifiers go; think of it like filling out a short form with the exact labels from the instance. This is just the expected shape of the reply, not the actual answer.
+
+Please make sure to use the identifiers exactly as they appear in the instance input - no renaming, no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,names,"{""problem_type"":""MVC"",""num_nodes"":12,""num_edges"":22,""edges"":[{""u"":4,""v"":3},{""u"":4,""v"":10},{""u"":1,""v"":7},{""u"":1,""v"":8},{""u"":5,""v"":7},{""u"":5,""v"":8},{""u"":5,""v"":9},{""u"":5,""v"":11},{""u"":7,""v"":2},{""u"":7,""v"":3},{""u"":7,""v"":8},{""u"":7,""v"":9},{""u"":7,""v"":10},{""u"":7,""v"":11},{""u"":7,""v"":12},{""u"":8,""v"":9},{""u"":8,""v"":11},{""u"":8,""v"":12},{""u"":9,""v"":6},{""u"":10,""v"":3},{""u"":2,""v"":3},{""u"":11,""v"":12}],""source_file"":""wv2010.mtx"",""density"":0.3333333333333333,""edge_connectivity"":1}","[3,7,8,9,10,11]",6.0,"{""num_nodes"":12,""num_edges"":22,""edges"":[{""u"":""D"",""v"":""C""},{""u"":""D"",""v"":""J""},{""u"":""A"",""v"":""G""},{""u"":""A"",""v"":""H""},{""u"":""E"",""v"":""G""},{""u"":""E"",""v"":""H""},{""u"":""E"",""v"":""I""},{""u"":""E"",""v"":""K""},{""u"":""G"",""v"":""B""},{""u"":""G"",""v"":""C""},{""u"":""G"",""v"":""H""},{""u"":""G"",""v"":""I""},{""u"":""G"",""v"":""J""},{""u"":""G"",""v"":""K""},{""u"":""G"",""v"":""L""},{""u"":""H"",""v"":""I""},{""u"":""H"",""v"":""K""},{""u"":""H"",""v"":""L""},{""u"":""I"",""v"":""F""},{""u"":""J"",""v"":""C""},{""u"":""B"",""v"":""C""},{""u"":""K"",""v"":""L""}]}","[""C"",""G"",""H"",""I"",""J"",""K""]"
+MVC_S_049,MVC,S,49,"In my building the goal is to secure every shared hallway by fitting locks on certain apartment doors so that each hallway between two units has at least one of those two doors locked - but do it with as few locks as possible. The practical decision is selecting which doors to lock; a better arrangement is simply one that covers all hallway links while using fewer locks. Count the locks to see which arrangement is better, and don't leave any shared corridor without a locked adjoining door. The specific floor plan and which doors share hallways are shown below.
+
+There are 9 apartment doors and 15 shared hallways in this floor plan.
+Each shared hallway between apartment 6 and apartment 1 must have at least one of those two doors locked.
+Each shared hallway between apartment 6 and apartment 5 must have at least one of those two doors locked.
+Each shared hallway between apartment 1 and apartment 2 must have at least one of those two doors locked.
+Each shared hallway between apartment 1 and apartment 5 must have at least one of those two doors locked.
+Each shared hallway between apartment 1 and apartment 7 must have at least one of those two doors locked.
+Each shared hallway between apartment 3 and apartment 4 must have at least one of those two doors locked.
+Each shared hallway between apartment 3 and apartment 8 must have at least one of those two doors locked.
+Each shared hallway between apartment 5 and apartment 2 must have at least one of those two doors locked.
+Each shared hallway between apartment 5 and apartment 7 must have at least one of those two doors locked.
+Each shared hallway between apartment 5 and apartment 9 must have at least one of those two doors locked.
+Each shared hallway between apartment 2 and apartment 7 must have at least one of those two doors locked.
+Each shared hallway between apartment 2 and apartment 8 must have at least one of those two doors locked.
+Each shared hallway between apartment 2 and apartment 9 must have at least one of those two doors locked.
+Each shared hallway between apartment 8 and apartment 4 must have at least one of those two doors locked.
+Each shared hallway between apartment 9 and apartment 4 must have at least one of those two doors locked.
+I will count locked doors to minimize the total across these 9 doors while ensuring all 15 hallways are covered.
+
+Also, when you send the final pick, please stick to this little JSON shape so it's easy to read and check:
+
+{
+  ""solution"": [""door_id"", ""door_id"", ...]
+}
+
+This just means ""solution"" is a list (an array) of the doors you want to lock - write each door using the exact identifier from the instance. Think of it like filling out a short form: put the chosen door labels in that list. The JSON above is just a sketch of the expected shape, not the actual answer.
+
+Make sure every identifier you use matches the instance input exactly - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,one_based,"{""problem_type"":""MVC"",""num_nodes"":9,""num_edges"":15,""edges"":[{""u"":6,""v"":1},{""u"":6,""v"":5},{""u"":1,""v"":2},{""u"":1,""v"":5},{""u"":1,""v"":7},{""u"":3,""v"":4},{""u"":3,""v"":8},{""u"":5,""v"":2},{""u"":5,""v"":7},{""u"":5,""v"":9},{""u"":2,""v"":7},{""u"":2,""v"":8},{""u"":2,""v"":9},{""u"":8,""v"":4},{""u"":9,""v"":4}],""source_file"":""wi2010.mtx"",""density"":0.4166666666666667,""edge_connectivity"":2}","[1,2,4,5,8]",5.0,"{""num_nodes"":9,""num_edges"":15,""edges"":[{""u"":6,""v"":1},{""u"":6,""v"":5},{""u"":1,""v"":2},{""u"":1,""v"":5},{""u"":1,""v"":7},{""u"":3,""v"":4},{""u"":3,""v"":8},{""u"":5,""v"":2},{""u"":5,""v"":7},{""u"":5,""v"":9},{""u"":2,""v"":7},{""u"":2,""v"":8},{""u"":2,""v"":9},{""u"":8,""v"":4},{""u"":9,""v"":4}]}","[1,2,4,5,8]"
+MVC_S_050,MVC,S,50,"Many people assume inspections mean patrolling every road, but here the trick is to decide which hubs get fixed checkpoints so each road is watched from one endpoint. The better setup is the one that uses fewer checkpoints but still leaves no road uninspected - success is simply the number of checkpoints used, so count them and try to make that number as small as possible while keeping coverage. Every route must be covered by at least one linked hub and redundant checkpointing that doesn't increase coverage is unnecessary. The detailed map of hubs and routes is listed below.
+
+# total_hubs=8
+# total_route_segments=12
+hub_u,hub_v
+4,6
+4,8
+8,1
+8,2
+8,3
+8,5
+8,7
+6,7
+5,3
+5,7
+1,3
+7,2
+
+Oh, and when you reply, please keep the answer in this simple JSON shape:
+
+{
+  ""solution"": [""hub_id"", ""hub_id"", ...]
+}
+
+Think of that ""solution"" list as the places where you'll put the checkpoints - just a plain list of hub IDs from the map. This JSON is just a sketch of the shape I need, not the actual final answer.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,one_based,"{""problem_type"":""MVC"",""num_nodes"":8,""num_edges"":12,""edges"":[{""u"":4,""v"":6},{""u"":4,""v"":8},{""u"":8,""v"":1},{""u"":8,""v"":2},{""u"":8,""v"":3},{""u"":8,""v"":5},{""u"":8,""v"":7},{""u"":6,""v"":7},{""u"":5,""v"":3},{""u"":5,""v"":7},{""u"":1,""v"":3},{""u"":7,""v"":2}],""source_file"":""wi2010.mtx"",""density"":0.42857142857142855,""edge_connectivity"":2}","[3,6,7,8]",4.0,"{""num_nodes"":8,""num_edges"":12,""edges"":[{""u"":4,""v"":6},{""u"":4,""v"":8},{""u"":8,""v"":1},{""u"":8,""v"":2},{""u"":8,""v"":3},{""u"":8,""v"":5},{""u"":8,""v"":7},{""u"":6,""v"":7},{""u"":5,""v"":3},{""u"":5,""v"":7},{""u"":1,""v"":3},{""u"":7,""v"":2}]}","[3,6,7,8]"

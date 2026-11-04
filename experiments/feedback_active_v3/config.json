@@ -1,0 +1,61 @@
+{
+  "experiment_id": "E004_2.1",
+  "revision": "public_only_v3",
+  "arms": [
+    "C0",
+    "S",
+    "X",
+    "M",
+    "R",
+    "D",
+    "P2"
+  ],
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "extension_seeds": [
+    17,
+    29
+  ],
+  "rounds": 2,
+  "probe_seconds": 10,
+  "solver_seconds": 20,
+  "chains": 32,
+  "temperatures": [
+    0.25,
+    0.5,
+    1.0
+  ],
+  "candidate_actions": 32,
+  "deep_actions": 4,
+  "max_cards": 4,
+  "card_tokens": 1024,
+  "max_output_tokens": 4096,
+  "max_model_len": 32768,
+  "request_timeout": 180,
+  "temperature": 0.2,
+  "gpu_ids": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "requests_per_gpu": 8,
+  "max_num_seqs": 16,
+  "max_num_batched_tokens": 8192,
+  "gpu_memory_utilization": 0.94,
+  "cpu_workers": 12,
+  "active_trajectories": 192,
+  "telemetry_seconds": 15,
+  "report_seconds": 60,
+  "data_seed": 20261107,
+  "split_seed": 20261108,
+  "primary_comparisons": [
+    "X",
+    "M",
+    "R",
+    "D"
+  ]
+}

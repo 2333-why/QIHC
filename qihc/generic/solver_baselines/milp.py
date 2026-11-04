@@ -115,10 +115,16 @@ def compile_model(spec, max_variables=20000):
     return BinaryMILP(sites, lower, [sign*v for v in costs], sign*offset, rows, sign)
 
 
-def solve(spec, backend, seconds, seed=0):
+def solve(spec, backend, seconds, seed=0, collect_trace=False):
     started = time.perf_counter()
     ir = compile_model(spec)
     compile_seconds = time.perf_counter()-started
+    trace = []
+    def observe(bits):
+        values = ir.decode(bits)
+        if violations(spec, values).sum() == 0:
+            trace.append({'seconds': time.perf_counter()-started, 'x': values,
+                          'objective': float(objective(spec, values)), 'feasible': True})
     if not ir.costs:
         x = ir.lower.astype(int).tolist()
         feasible = bool(violations(spec, x).sum() == 0)
@@ -128,6 +134,8 @@ def solve(spec, backend, seconds, seed=0):
     if backend == 'highs':
         import highspy
         m = highspy.Highs()
+        if collect_trace:
+            m.cbMipImprovingSolution.subscribe(lambda event: observe(event.data_out.mip_solution))
         def checked(status):
             if status != highspy.HighsStatus.kOk:
                 raise RuntimeError('HiGHS rejected model construction: '+str(status))
@@ -166,6 +174,15 @@ def solve(spec, backend, seconds, seed=0):
             lhs = quicksum(v*x[k] for k, v in a.items())
             m.addCons(lhs <= rhs if op == 'le' else lhs >= rhs if op == 'ge' else lhs == rhs)
         m.setObjective(quicksum(c*v for c, v in zip(ir.costs, x)), 'minimize')
+        if collect_trace:
+            from pyscipopt import Eventhdlr, SCIP_EVENTTYPE
+            class Observer(Eventhdlr):
+                def eventinit(self): self.model.catchEvent(SCIP_EVENTTYPE.BESTSOLFOUND, self)
+                def eventexit(self): self.model.dropEvent(SCIP_EVENTTYPE.BESTSOLFOUND, self)
+                def eventexec(self, event):
+                    sol = self.model.getBestSol()
+                    if sol is not None: observe([self.model.getSolVal(sol, v) for v in x])
+            m.includeEventhdlr(Observer(), 'qihc_trace', 'timestamped incumbent trace')
         remaining = seconds-(time.perf_counter()-started)
         if remaining <= 0:
             return {'x': None, 'status': 'BUILD_TIME_LIMIT', 'feasible': False,
@@ -181,4 +198,5 @@ def solve(spec, backend, seconds, seed=0):
             'optimality_proven': optimal and feasible, 'status': status,
             'bound': ir.sign*(bound+ir.offset) if math.isfinite(bound) and abs(bound) < 1e19 else None,
             'seconds': time.perf_counter()-started, 'compile_seconds': compile_seconds,
-            'binary_variables': len(ir.costs), 'linear_rows': len(ir.rows), 'scope': 'predicted_model_only'}
+            'binary_variables': len(ir.costs), 'linear_rows': len(ir.rows), 'scope': 'predicted_model_only',
+            **({'trace': trace} if collect_trace else {})}

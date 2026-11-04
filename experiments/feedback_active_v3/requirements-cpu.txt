@@ -1,0 +1,9 @@
+numpy>=1.26,<3
+httpx==0.28.1
+jsonschema>=4.23,<5
+pyscipopt==6.3.0
+highspy==1.15.1
+ortools==9.15.6755
+pytest>=8,<10
+transformers>=4.57,<5
+psutil>=5.9

@@ -1,0 +1,3 @@
+# Dedicated environment: do not upgrade a running historical experiment.
+# vLLM 0.11.0 supports Qwen3, continuous batching and the API used here.
+vllm==0.11.0

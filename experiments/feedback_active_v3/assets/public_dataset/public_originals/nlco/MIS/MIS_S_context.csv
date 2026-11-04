@@ -1,0 +1,2354 @@
+id,task_id,difficulty_tier,example_index,prompt,surface_format,indexing_scheme,instance_canonical_json,reference_solution_canonical_json,reference_objective_value,instance_surface_json,reference_solution_surface_json
+MIS_S_001,MIS,S,1,"Recently the wedding coordinator decided to make a carefully spaced display of centerpieces: pick as many tables to dress as possible but avoid picking any tables that are next to each other on the floor map. Success is just the number of dressed tables - add them up - and no table gets picked twice or left in an ambiguous state. The detailed layout is provided below.
+
+There are 8 tables and 14 adjacency pairs in the layout below.
+Tables 1 and 3 are adjacent and cannot both be dressed.
+Tables 1 and 4 are adjacent and cannot both be dressed.
+Tables 1 and 8 are adjacent and cannot both be dressed.
+Tables 3 and 6 are adjacent and cannot both be dressed.
+Tables 3 and 7 are adjacent and cannot both be dressed.
+Tables 8 and 4 are adjacent and cannot both be dressed.
+Tables 8 and 5 are adjacent and cannot both be dressed.
+Tables 8 and 6 are adjacent and cannot both be dressed.
+Tables 4 and 2 are adjacent and cannot both be dressed.
+Tables 4 and 5 are adjacent and cannot both be dressed.
+Tables 5 and 2 are adjacent and cannot both be dressed.
+Tables 5 and 6 are adjacent and cannot both be dressed.
+Tables 5 and 7 are adjacent and cannot both be dressed.
+Tables 7 and 6 are adjacent and cannot both be dressed.
+Refer to the 8 tables and 14 adjacency pairs to choose a maximal set of non-adjacent tables.
+
+Also, when you send back which tables you picked, just put them in a tiny JSON snippet like this so it's clear and easy to check:
+
+{
+  ""solution"": [""table_id"", ""table_id"", ...]
+}
+
+Quick note: ""solution"" is the list of table identifiers you chose to dress for the display. Each entry in that array should be a single table id from the floor plan (the ""table_id"" placeholders above just show the shape - replace them with the actual ids). The little ellipsis means you can list as many ids as needed.
+
+This JSON is just a sketch of the expected shape, not the actual answer itself - please return the real ids from the instance.
+
+Use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,one_based,"{""problem_type"":""MIS"",""num_nodes"":8,""num_edges"":14,""edges"":[{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":1,""v"":8},{""u"":3,""v"":6},{""u"":3,""v"":7},{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":8,""v"":6},{""u"":4,""v"":2},{""u"":4,""v"":5},{""u"":5,""v"":2},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":7,""v"":6}],""source_file"":""vt2010.mtx"",""density"":0.5,""edge_connectivity"":2}","[2,7,8]",3.0,"{""num_nodes"":8,""num_edges"":14,""edges"":[{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":1,""v"":8},{""u"":3,""v"":6},{""u"":3,""v"":7},{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":8,""v"":6},{""u"":4,""v"":2},{""u"":4,""v"":5},{""u"":5,""v"":2},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":7,""v"":6}]}","[2,7,8]"
+MIS_S_002,MIS,S,2,"I'm setting up the front display at the library and want to pick as many interesting books as I can, but I'm careful not to put two chosen books right next to each other on the shelf. The better a selection is, the more books end up on that display - so the simple way to judge a pick is to count how many distinct books are placed there. Each book can only be chosen once and every choice must respect the ""no neighbors"" rule on the shelf. The exact shelf layout and details are shown below.
+
+# total_books_on_shelf=8
+# num_adjacent_book_pairs=15
+book_id_a,book_id_b
+2,0
+2,1
+2,3
+2,5
+2,6
+2,7
+5,0
+5,1
+5,4
+6,0
+6,3
+0,4
+0,7
+7,1
+4,3
+
+If you want to pass me the selection in a neat, machine-friendly way, you can just use a little JSON like this:
+
+{
+  ""solution"": [""book_id"", ""book_id"", ...]
+}
+
+Here ""solution"" is the list of the books you put on the front display - each entry should be the exact ID for a book from the instance (so one entry per chosen book, and don't list two books that are neighbors). This JSON is just a sketch of the shape I expect, not the actual final answer.
+
+All identifiers must be used exactly as they appear in the instance input - no renaming and no new labels.
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,zero_based,"{""problem_type"":""MIS"",""num_nodes"":8,""num_edges"":15,""edges"":[{""u"":3,""v"":1},{""u"":3,""v"":2},{""u"":3,""v"":4},{""u"":3,""v"":6},{""u"":3,""v"":7},{""u"":3,""v"":8},{""u"":6,""v"":1},{""u"":6,""v"":2},{""u"":6,""v"":5},{""u"":7,""v"":1},{""u"":7,""v"":4},{""u"":1,""v"":5},{""u"":1,""v"":8},{""u"":8,""v"":2},{""u"":5,""v"":4}],""source_file"":""wi2010.mtx"",""density"":0.5357142857142857,""edge_connectivity"":3}","[5,7,8]",3.0,"{""num_nodes"":8,""num_edges"":15,""edges"":[{""u"":2,""v"":0},{""u"":2,""v"":1},{""u"":2,""v"":3},{""u"":2,""v"":5},{""u"":2,""v"":6},{""u"":2,""v"":7},{""u"":5,""v"":0},{""u"":5,""v"":1},{""u"":5,""v"":4},{""u"":6,""v"":0},{""u"":6,""v"":3},{""u"":0,""v"":4},{""u"":0,""v"":7},{""u"":7,""v"":1},{""u"":4,""v"":3}]}","[4,6,7]"
+MIS_S_003,MIS,S,3,"I'm the radio tech staring at a wall of channel knobs: each one can be switched on or left off, but some pairs clash and can't be on at the same time. The job is to flip as many knobs to ""on"" as possible without ever turning on two channels that interfere with each other. How to tell which plan is better? Just count how many channels are on - the higher the count, the better. Every channel is decided once (on or off) and can't be duplicated, and the specific interference pairs and channels are listed below.
+
+# total_channels=10
+# total_interference_pairs=15
+channel_one,channel_two
+9,2
+9,5
+9,6
+9,7
+9,8
+0,2
+7,4
+7,5
+1,3
+1,6
+3,2
+4,5
+6,2
+6,8
+2,8
+
+Oh, and when you give the answer, just put it in this little JSON shape so it's easy to read and parse:
+
+{
+  ""solution"": [""channel_id"", ""channel_id"", ...]
+}
+
+Pretty straightforward: ""solution"" is the list of channels you want switched on (one entry per channel). The example uses the placeholder ""channel_id"" to show the format - replace those placeholders with the actual channel identifiers from the instance when you answer. This JSON is just a sketch of the shape I expect, not the final selection.
+
+Please make sure to use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,zero_based,"{""problem_type"":""MIS"",""num_nodes"":10,""num_edges"":15,""edges"":[{""u"":10,""v"":3},{""u"":10,""v"":6},{""u"":10,""v"":7},{""u"":10,""v"":8},{""u"":10,""v"":9},{""u"":1,""v"":3},{""u"":8,""v"":5},{""u"":8,""v"":6},{""u"":2,""v"":4},{""u"":2,""v"":7},{""u"":4,""v"":3},{""u"":5,""v"":6},{""u"":7,""v"":3},{""u"":7,""v"":9},{""u"":3,""v"":9}],""source_file"":""wa2010.mtx"",""density"":0.3333333333333333,""edge_connectivity"":1}","[1,4,5,9]",4.0,"{""num_nodes"":10,""num_edges"":15,""edges"":[{""u"":9,""v"":2},{""u"":9,""v"":5},{""u"":9,""v"":6},{""u"":9,""v"":7},{""u"":9,""v"":8},{""u"":0,""v"":2},{""u"":7,""v"":4},{""u"":7,""v"":5},{""u"":1,""v"":3},{""u"":1,""v"":6},{""u"":3,""v"":2},{""u"":4,""v"":5},{""u"":6,""v"":2},{""u"":6,""v"":8},{""u"":2,""v"":8}]}","[0,3,4,8]"
+MIS_S_004,MIS,S,4,"We had a small exhibition to plan and the curatorial team was trying to squeeze in as many pieces as they could. The idea was simple: choose the biggest collection of paintings to display, while making sure none of the selected works are placed on panels that are next to each other. How well the team did is measured by the final count of displayed paintings - just add them up - and each piece can only be used once and must occupy its own panel. The specific panel map and the list of paintings are shown below.
+
+{
+  ""total_panels"": 9,
+  ""adjacent_panel_pairs"": 17,
+  ""edges"": [
+    {
+      ""panel_a"": ""F"",
+      ""panel_b"": ""B""
+    },
+    {
+      ""panel_a"": ""F"",
+      ""panel_b"": ""G""
+    },
+    {
+      ""panel_a"": ""F"",
+      ""panel_b"": ""I""
+    },
+    {
+      ""panel_a"": ""H"",
+      ""panel_b"": ""A""
+    },
+    {
+      ""panel_a"": ""H"",
+      ""panel_b"": ""B""
+    },
+    {
+      ""panel_a"": ""H"",
+      ""panel_b"": ""G""
+    },
+    {
+      ""panel_a"": ""A"",
+      ""panel_b"": ""B""
+    },
+    {
+      ""panel_a"": ""A"",
+      ""panel_b"": ""C""
+    },
+    {
+      ""panel_a"": ""A"",
+      ""panel_b"": ""D""
+    },
+    {
+      ""panel_a"": ""A"",
+      ""panel_b"": ""G""
+    },
+    {
+      ""panel_a"": ""B"",
+      ""panel_b"": ""D""
+    },
+    {
+      ""panel_a"": ""C"",
+      ""panel_b"": ""D""
+    },
+    {
+      ""panel_a"": ""C"",
+      ""panel_b"": ""I""
+    },
+    {
+      ""panel_a"": ""I"",
+      ""panel_b"": ""D""
+    },
+    {
+      ""panel_a"": ""I"",
+      ""panel_b"": ""E""
+    },
+    {
+      ""panel_a"": ""I"",
+      ""panel_b"": ""G""
+    },
+    {
+      ""panel_a"": ""D"",
+      ""panel_b"": ""E""
+    }
+  ]
+}
+
+If you want to hand me the chosen panels in a neat, machine-friendly way, just return them in this little JSON shape.
+
+{
+  ""solution"": [""vertex_id"", ""vertex_id"", ...]
+}
+
+Think of ""solution"" as the list of panels where the chosen paintings will hang - just put each panel's identifier in that array. It's just a sketch of the shape I expect, not the final answer itself.
+
+Please make sure you use the exact identifiers from the instance input - no renaming, no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,names,"{""problem_type"":""MIS"",""num_nodes"":9,""num_edges"":17,""edges"":[{""u"":6,""v"":2},{""u"":6,""v"":7},{""u"":6,""v"":9},{""u"":8,""v"":1},{""u"":8,""v"":2},{""u"":8,""v"":7},{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":1,""v"":7},{""u"":2,""v"":4},{""u"":3,""v"":4},{""u"":3,""v"":9},{""u"":9,""v"":4},{""u"":9,""v"":5},{""u"":9,""v"":7},{""u"":4,""v"":5}],""source_file"":""wy2010.mtx"",""density"":0.4722222222222222,""edge_connectivity"":2}","[3,5,6,8]",4.0,"{""num_nodes"":9,""num_edges"":17,""edges"":[{""u"":""F"",""v"":""B""},{""u"":""F"",""v"":""G""},{""u"":""F"",""v"":""I""},{""u"":""H"",""v"":""A""},{""u"":""H"",""v"":""B""},{""u"":""H"",""v"":""G""},{""u"":""A"",""v"":""B""},{""u"":""A"",""v"":""C""},{""u"":""A"",""v"":""D""},{""u"":""A"",""v"":""G""},{""u"":""B"",""v"":""D""},{""u"":""C"",""v"":""D""},{""u"":""C"",""v"":""I""},{""u"":""I"",""v"":""D""},{""u"":""I"",""v"":""E""},{""u"":""I"",""v"":""G""},{""u"":""D"",""v"":""E""}]}","[""C"",""E"",""F"",""H""]"
+MIS_S_005,MIS,S,5,"Recently the neighborhood organizer took on the task of assembling a guest list for a street party, aiming to invite as many households as possible but not having any invited homes be next-door neighbors. The decision involves picking which households to put on the list; a superior choice is simply the list with the most invited homes - count them to compare - and every chosen pair must avoid being adjacent. Each household must be handled once and only once, so nothing is duplicated or overlooked. The detailed map and instance info are shown below.
+
+{
+  ""total_households"": 9,
+  ""total_adjacent_pairs"": 12,
+  ""edges"": [
+    {
+      ""household_a"": ""B"",
+      ""household_b"": ""A""
+    },
+    {
+      ""household_a"": ""B"",
+      ""household_b"": ""D""
+    },
+    {
+      ""household_a"": ""B"",
+      ""household_b"": ""I""
+    },
+    {
+      ""household_a"": ""C"",
+      ""household_b"": ""E""
+    },
+    {
+      ""household_a"": ""C"",
+      ""household_b"": ""F""
+    },
+    {
+      ""household_a"": ""H"",
+      ""household_b"": ""E""
+    },
+    {
+      ""household_a"": ""H"",
+      ""household_b"": ""G""
+    },
+    {
+      ""household_a"": ""G"",
+      ""household_b"": ""D""
+    },
+    {
+      ""household_a"": ""G"",
+      ""household_b"": ""E""
+    },
+    {
+      ""household_a"": ""G"",
+      ""household_b"": ""F""
+    },
+    {
+      ""household_a"": ""G"",
+      ""household_b"": ""I""
+    },
+    {
+      ""household_a"": ""F"",
+      ""household_b"": ""A""
+    }
+  ]
+}
+
+Also, feel free to return the final guest list in this simple JSON layout so it's easy to read programmatically:
+
+{
+  ""solution"": [""household_id"", ""household_id"", ...]
+}
+
+Here ""solution"" is just the list of households you've chosen to invite - each entry should be the exact household identifier from the instance (so think of these placeholders as where the real IDs go). This JSON is just a sketch of the shape I need, not the actual answer itself.
+
+Please be sure to use the identifiers exactly as they appear in the instance input - do not rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,names,"{""problem_type"":""MIS"",""num_nodes"":9,""num_edges"":12,""edges"":[{""u"":2,""v"":1},{""u"":2,""v"":4},{""u"":2,""v"":9},{""u"":3,""v"":5},{""u"":3,""v"":6},{""u"":8,""v"":5},{""u"":8,""v"":7},{""u"":7,""v"":4},{""u"":7,""v"":5},{""u"":7,""v"":6},{""u"":7,""v"":9},{""u"":6,""v"":1}],""source_file"":""wv2010.mtx"",""density"":0.3333333333333333,""edge_connectivity"":2}","[1,3,4,8,9]",5.0,"{""num_nodes"":9,""num_edges"":12,""edges"":[{""u"":""B"",""v"":""A""},{""u"":""B"",""v"":""D""},{""u"":""B"",""v"":""I""},{""u"":""C"",""v"":""E""},{""u"":""C"",""v"":""F""},{""u"":""H"",""v"":""E""},{""u"":""H"",""v"":""G""},{""u"":""G"",""v"":""D""},{""u"":""G"",""v"":""E""},{""u"":""G"",""v"":""F""},{""u"":""G"",""v"":""I""},{""u"":""F"",""v"":""A""}]}","[""A"",""C"",""D"",""H"",""I""]"
+MIS_S_006,MIS,S,6,"There's a classroom full of kids and the teacher needs to decide who gets solo presentation slots so that no two chosen students are adjacent. The goal is to end up with as many solo presenters as possible; you judge a selection by counting the number of different students in it, and the bigger that number the better. Practical rules: pick distinct students only, and don't pick any pair that are seated next to each other. The detailed seating chart and options are shown below.
+
+{
+  ""total_students"": 9,
+  ""adjacent_pairs_count"": 16,
+  ""edges"": [
+    {
+      ""student_u_id"": 4,
+      ""student_v_id"": 0
+    },
+    {
+      ""student_u_id"": 4,
+      ""student_v_id"": 1
+    },
+    {
+      ""student_u_id"": 4,
+      ""student_v_id"": 2
+    },
+    {
+      ""student_u_id"": 4,
+      ""student_v_id"": 3
+    },
+    {
+      ""student_u_id"": 4,
+      ""student_v_id"": 5
+    },
+    {
+      ""student_u_id"": 4,
+      ""student_v_id"": 6
+    },
+    {
+      ""student_u_id"": 4,
+      ""student_v_id"": 7
+    },
+    {
+      ""student_u_id"": 4,
+      ""student_v_id"": 8
+    },
+    {
+      ""student_u_id"": 0,
+      ""student_v_id"": 2
+    },
+    {
+      ""student_u_id"": 5,
+      ""student_v_id"": 3
+    },
+    {
+      ""student_u_id"": 5,
+      ""student_v_id"": 8
+    },
+    {
+      ""student_u_id"": 6,
+      ""student_v_id"": 2
+    },
+    {
+      ""student_u_id"": 3,
+      ""student_v_id"": 1
+    },
+    {
+      ""student_u_id"": 3,
+      ""student_v_id"": 7
+    },
+    {
+      ""student_u_id"": 3,
+      ""student_v_id"": 8
+    },
+    {
+      ""student_u_id"": 8,
+      ""student_v_id"": 1
+    }
+  ]
+}
+
+If you're going to send me a selection, please use this simple JSON layout so I can pick it up reliably. Just list the chosen seats in the array - nothing fancy.
+
+{
+  ""solution"": [""seat_id"", ""seat_id"", ...]
+}
+
+Pretty straightforward: the ""solution"" field is an array with one placeholder per chosen solo presenter (replace each placeholder with the actual seat identifier from the instance). This is just a template to show the shape I expect, not your final answer.
+
+Please make sure you use the exact identifiers given in the instance input - don't rename them or invent new labels.
+
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,zero_based,"{""problem_type"":""MIS"",""num_nodes"":9,""num_edges"":16,""edges"":[{""u"":5,""v"":1},{""u"":5,""v"":2},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":5,""v"":8},{""u"":5,""v"":9},{""u"":1,""v"":3},{""u"":6,""v"":4},{""u"":6,""v"":9},{""u"":7,""v"":3},{""u"":4,""v"":2},{""u"":4,""v"":8},{""u"":4,""v"":9},{""u"":9,""v"":2}],""source_file"":""vt2010.mtx"",""density"":0.4444444444444444,""edge_connectivity"":2}","[1,2,6,7,8]",5.0,"{""num_nodes"":9,""num_edges"":16,""edges"":[{""u"":4,""v"":0},{""u"":4,""v"":1},{""u"":4,""v"":2},{""u"":4,""v"":3},{""u"":4,""v"":5},{""u"":4,""v"":6},{""u"":4,""v"":7},{""u"":4,""v"":8},{""u"":0,""v"":2},{""u"":5,""v"":3},{""u"":5,""v"":8},{""u"":6,""v"":2},{""u"":3,""v"":1},{""u"":3,""v"":7},{""u"":3,""v"":8},{""u"":8,""v"":1}]}","[0,1,5,6,7]"
+MIS_S_007,MIS,S,7,"Someone at the shop needs to power up a subset of machines so the system has maximum capacity, while making sure no two powered machines are linked by a cable. What makes one choice better than another is purely the total number of servers left running - count them and the larger total is preferable. Each server gets a single decision (on or off) and the exact connectivity details are shown below.
+
+# total_servers=8
+# total_cables=13
+server_endpoint_u,server_endpoint_v
+H,A
+H,B
+H,C
+H,D
+H,G
+D,B
+D,F
+E,B
+E,F
+G,B
+G,C
+B,F
+F,C
+
+If you want to give the answer, just use this little JSON shape so I can read it easily - nothing fancy, just a list of the machines you leave on.
+
+{
+  ""solution"": [""server_id"", ""server_id"", ...]
+}
+
+solution: an array with the IDs of the servers you decide to power up (one ID per server). Think of it as ticking boxes on a form - each entry is a machine you left running.
+
+This JSON is just a sketch of the shape I expect, not the actual solution - replace the placeholders with the exact IDs from the instance.
+
+Please use the identifiers exactly as they appear in the problem input - do not rename them or invent new labels.
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,names,"{""problem_type"":""MIS"",""num_nodes"":8,""num_edges"":13,""edges"":[{""u"":8,""v"":1},{""u"":8,""v"":2},{""u"":8,""v"":3},{""u"":8,""v"":4},{""u"":8,""v"":7},{""u"":4,""v"":2},{""u"":4,""v"":6},{""u"":5,""v"":2},{""u"":5,""v"":6},{""u"":7,""v"":2},{""u"":7,""v"":3},{""u"":2,""v"":6},{""u"":6,""v"":3}],""source_file"":""wy2010.mtx"",""density"":0.4642857142857143,""edge_connectivity"":1}","[1,4,5,7]",4.0,"{""num_nodes"":8,""num_edges"":13,""edges"":[{""u"":""H"",""v"":""A""},{""u"":""H"",""v"":""B""},{""u"":""H"",""v"":""C""},{""u"":""H"",""v"":""D""},{""u"":""H"",""v"":""G""},{""u"":""D"",""v"":""B""},{""u"":""D"",""v"":""F""},{""u"":""E"",""v"":""B""},{""u"":""E"",""v"":""F""},{""u"":""G"",""v"":""B""},{""u"":""G"",""v"":""C""},{""u"":""B"",""v"":""F""},{""u"":""F"",""v"":""C""}]}","[""A"",""D"",""E"",""G""]"
+MIS_S_008,MIS,S,8,"On a busy morning the boutique team debated which outfits to put in the window; the rule everyone agreed on was to show as many different garments as possible while avoiding any two chosen items on neighboring hangers. The way to judge a setup is straightforward: count how many garments made it into the window - higher counts are better - and follow the simple ground rules that each chosen hanger shows one unique piece and nothing is doubled. The concrete hanger-by-hanger details are shown below.
+
+# total_hangers=12
+# adjacent_hanger_pairs=22
+hanger_a,hanger_b
+11,1
+10,5
+10,9
+8,0
+8,1
+8,2
+8,4
+8,5
+8,6
+8,7
+7,0
+7,5
+6,1
+6,2
+6,4
+6,5
+6,9
+4,1
+1,9
+2,5
+9,3
+9,5
+
+If you want to send back which hangers make the window, just use this simple JSON shape so everything's predictable:
+
+{
+  ""solution"": [""hanger_id"", ""hanger_id"", ...]
+}
+
+Think of ""solution"" as the list of hangers you picked to display - one entry per hanger, in the same identifier format the instance uses. This JSON is just a sketch of the expected shape, not the actual answer; fill it with the exact hanger identifiers from the instance when you respond.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,zero_based,"{""problem_type"":""MIS"",""num_nodes"":12,""num_edges"":22,""edges"":[{""u"":12,""v"":2},{""u"":11,""v"":6},{""u"":11,""v"":10},{""u"":9,""v"":1},{""u"":9,""v"":2},{""u"":9,""v"":3},{""u"":9,""v"":5},{""u"":9,""v"":6},{""u"":9,""v"":7},{""u"":9,""v"":8},{""u"":8,""v"":1},{""u"":8,""v"":6},{""u"":7,""v"":2},{""u"":7,""v"":3},{""u"":7,""v"":5},{""u"":7,""v"":6},{""u"":7,""v"":10},{""u"":5,""v"":2},{""u"":2,""v"":10},{""u"":3,""v"":6},{""u"":10,""v"":4},{""u"":10,""v"":6}],""source_file"":""wy2010.mtx"",""density"":0.3333333333333333,""edge_connectivity"":1}","[1,3,4,5,11,12]",6.0,"{""num_nodes"":12,""num_edges"":22,""edges"":[{""u"":11,""v"":1},{""u"":10,""v"":5},{""u"":10,""v"":9},{""u"":8,""v"":0},{""u"":8,""v"":1},{""u"":8,""v"":2},{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":8,""v"":6},{""u"":8,""v"":7},{""u"":7,""v"":0},{""u"":7,""v"":5},{""u"":6,""v"":1},{""u"":6,""v"":2},{""u"":6,""v"":4},{""u"":6,""v"":5},{""u"":6,""v"":9},{""u"":4,""v"":1},{""u"":1,""v"":9},{""u"":2,""v"":5},{""u"":9,""v"":3},{""u"":9,""v"":5}]}","[0,2,3,4,10,11]"
+MIS_S_009,MIS,S,9,"We've been asked to schedule bench refurbishments along the waterfront, and the idea is to mark as many benches for work as we can. Plans are judged by how many benches get selected - simply tally the chosen benches, and more is better. One rule: don't pick a bench that sits next to another picked bench, and every bench can only be chosen once. The concrete details of the promenade are shown below.
+
+There are 8 benches in total and 14 adjacent bench pairs.
+
+| bench_a | bench_b |
+|---|---|
+| E | B |
+| E | C |
+| E | D |
+| G | A |
+| G | B |
+| G | F |
+| G | H |
+| D | A |
+| D | B |
+| C | B |
+| C | H |
+| F | H |
+| B | A |
+| B | H |
+
+When you send the plan back, just stick to this simple JSON shape so I can read it automatically:
+
+{
+  ""solution"": [""bench_id"", ""bench_id"", ...]
+}
+
+Think of it as a short form: ""solution"" is the list of benches you want refurbished. The strings in the array are the bench identifiers - in the example above I used the placeholder bench_id so it matches the bench story, but in your reply you should list the actual IDs from the instance. This block is just the expected shape, not the actual answer.
+
+Please make sure to use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7""""",markdown_table,names,"{""problem_type"":""MIS"",""num_nodes"":8,""num_edges"":14,""edges"":[{""u"":5,""v"":2},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":7,""v"":1},{""u"":7,""v"":2},{""u"":7,""v"":6},{""u"":7,""v"":8},{""u"":4,""v"":1},{""u"":4,""v"":2},{""u"":3,""v"":2},{""u"":3,""v"":8},{""u"":6,""v"":8},{""u"":2,""v"":1},{""u"":2,""v"":8}],""source_file"":""wy2010.mtx"",""density"":0.5,""edge_connectivity"":2}","[1,3,6]",3.0,"{""num_nodes"":8,""num_edges"":14,""edges"":[{""u"":""E"",""v"":""B""},{""u"":""E"",""v"":""C""},{""u"":""E"",""v"":""D""},{""u"":""G"",""v"":""A""},{""u"":""G"",""v"":""B""},{""u"":""G"",""v"":""F""},{""u"":""G"",""v"":""H""},{""u"":""D"",""v"":""A""},{""u"":""D"",""v"":""B""},{""u"":""C"",""v"":""B""},{""u"":""C"",""v"":""H""},{""u"":""F"",""v"":""H""},{""u"":""B"",""v"":""A""},{""u"":""B"",""v"":""H""}]}","[""A"",""C"",""F""]"
+MIS_S_010,MIS,S,10,"I'm the gardener looking after a narrow border of plants and trying to decide which ones to keep. The idea is simple: pick as many plants as possible to stay in the border, and the success is measured by how many plants end up being kept - just count them. The catch is that any two plants that sit next to each other can't both be kept, because their roots would interfere, and each plant must be either kept or removed (no doubles or half-choices). The exact layout and plant positions will be shown below.
+
+# border_plant_count=12
+# adjacent_plant_pairs=18
+plant_one_id,plant_two_id
+10,5
+10,6
+10,8
+10,12
+5,8
+5,11
+12,1
+12,7
+12,8
+9,2
+9,3
+9,4
+9,6
+4,1
+2,11
+7,1
+11,6
+1,6
+
+Oh, and when you reply, it helps if you stick to a simple JSON shape so I can read which plants you decided to keep. Something like this will do:
+
+{
+  ""solution"": [""plant_id"", ""plant_id"", ...]
+}
+
+""solution"" is just the list of plants to keep in the border - one identifier per plant. Think of those strings as the exact labels from the plant map you'll get with the instance; this block is just a sketch of the expected shape, not your final answer.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no inventing new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,one_based,"{""problem_type"":""MIS"",""num_nodes"":12,""num_edges"":18,""edges"":[{""u"":10,""v"":5},{""u"":10,""v"":6},{""u"":10,""v"":8},{""u"":10,""v"":12},{""u"":5,""v"":8},{""u"":5,""v"":11},{""u"":12,""v"":1},{""u"":12,""v"":7},{""u"":12,""v"":8},{""u"":9,""v"":2},{""u"":9,""v"":3},{""u"":9,""v"":4},{""u"":9,""v"":6},{""u"":4,""v"":1},{""u"":2,""v"":11},{""u"":7,""v"":1},{""u"":11,""v"":6},{""u"":1,""v"":6}],""source_file"":""wv2010.mtx"",""density"":0.2727272727272727,""edge_connectivity"":1}","[2,3,4,5,6,7]",6.0,"{""num_nodes"":12,""num_edges"":18,""edges"":[{""u"":10,""v"":5},{""u"":10,""v"":6},{""u"":10,""v"":8},{""u"":10,""v"":12},{""u"":5,""v"":8},{""u"":5,""v"":11},{""u"":12,""v"":1},{""u"":12,""v"":7},{""u"":12,""v"":8},{""u"":9,""v"":2},{""u"":9,""v"":3},{""u"":9,""v"":4},{""u"":9,""v"":6},{""u"":4,""v"":1},{""u"":2,""v"":11},{""u"":7,""v"":1},{""u"":11,""v"":6},{""u"":1,""v"":6}]}","[2,3,4,5,6,7]"
+MIS_S_011,MIS,S,11,"I'm running the festival lineup this year and need to pick which street performers get spots along the parade route so the crowd always has music without shows bumping into each other. The decision is which spots to fill so no two occupied spots sit next to one another, and the aim is to have as many performers as possible - success is just the total number of acts booked, counted by how many spots end up filled. Each spot can hold at most one act and no performer gets booked twice; the specific route and spots will be shown below.
+
+There are 11 spots on route in total and 19 adjacent spot pairs.
+
+| adjacent_spot_u | adjacent_spot_v |
+|---|---|
+| 3 | 0 |
+| 3 | 1 |
+| 3 | 5 |
+| 3 | 7 |
+| 3 | 8 |
+| 3 | 9 |
+| 3 | 10 |
+| 6 | 5 |
+| 6 | 8 |
+| 4 | 2 |
+| 4 | 7 |
+| 4 | 10 |
+| 5 | 8 |
+| 8 | 0 |
+| 9 | 1 |
+| 9 | 2 |
+| 10 | 2 |
+| 10 | 7 |
+| 2 | 1 |
+
+If you want to hand me the picks, an easy way is to return a tiny JSON snippet like this so I can parse it quickly:
+
+{
+  ""solution"": [""spot_id"", ""spot_id"", ...]
+}
+
+This just means ""solution"" should be a list of the spot identifiers you've picked for performers along the route. Think of it like filling out a short form: each entry is the exact spot ID for a booked act. This is only a sketch of the expected shape, not the actual answer you should submit.
+
+Please use the identifiers exactly as they appear in the instance input - don't rename them or invent new labels.
+for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,zero_based,"{""problem_type"":""MIS"",""num_nodes"":11,""num_edges"":19,""edges"":[{""u"":4,""v"":1},{""u"":4,""v"":2},{""u"":4,""v"":6},{""u"":4,""v"":8},{""u"":4,""v"":9},{""u"":4,""v"":10},{""u"":4,""v"":11},{""u"":7,""v"":6},{""u"":7,""v"":9},{""u"":5,""v"":3},{""u"":5,""v"":8},{""u"":5,""v"":11},{""u"":6,""v"":9},{""u"":9,""v"":1},{""u"":10,""v"":2},{""u"":10,""v"":3},{""u"":11,""v"":3},{""u"":11,""v"":8},{""u"":3,""v"":2}],""source_file"":""vt2010.mtx"",""density"":0.34545454545454546,""edge_connectivity"":2}","[1,7,8,10]",4.0,"{""num_nodes"":11,""num_edges"":19,""edges"":[{""u"":3,""v"":0},{""u"":3,""v"":1},{""u"":3,""v"":5},{""u"":3,""v"":7},{""u"":3,""v"":8},{""u"":3,""v"":9},{""u"":3,""v"":10},{""u"":6,""v"":5},{""u"":6,""v"":8},{""u"":4,""v"":2},{""u"":4,""v"":7},{""u"":4,""v"":10},{""u"":5,""v"":8},{""u"":8,""v"":0},{""u"":9,""v"":1},{""u"":9,""v"":2},{""u"":10,""v"":2},{""u"":10,""v"":7},{""u"":2,""v"":1}]}","[0,6,7,9]"
+MIS_S_012,MIS,S,12,"We're planning a private event and want to cordon off as many tables as possible, while making sure any two tables we mark off aren't side-by-side. What matters is the total number of tables held for the event - the more, the better - so each possible setup is judged by simply counting how many tables got reserved. Each table can only be in or out (no duplicates or half-reservations), and neighboring tables can't both be selected. The specific floor plan will be shown below.
+
+{
+  ""total_tables"": 8,
+  ""total_adjacent_pairs"": 14,
+  ""edges"": [
+    {
+      ""adjacent_table_1"": ""H"",
+      ""adjacent_table_2"": ""C""
+    },
+    {
+      ""adjacent_table_1"": ""C"",
+      ""adjacent_table_2"": ""A""
+    },
+    {
+      ""adjacent_table_1"": ""C"",
+      ""adjacent_table_2"": ""B""
+    },
+    {
+      ""adjacent_table_1"": ""C"",
+      ""adjacent_table_2"": ""D""
+    },
+    {
+      ""adjacent_table_1"": ""C"",
+      ""adjacent_table_2"": ""E""
+    },
+    {
+      ""adjacent_table_1"": ""C"",
+      ""adjacent_table_2"": ""G""
+    },
+    {
+      ""adjacent_table_1"": ""B"",
+      ""adjacent_table_2"": ""E""
+    },
+    {
+      ""adjacent_table_1"": ""B"",
+      ""adjacent_table_2"": ""G""
+    },
+    {
+      ""adjacent_table_1"": ""D"",
+      ""adjacent_table_2"": ""G""
+    },
+    {
+      ""adjacent_table_1"": ""F"",
+      ""adjacent_table_2"": ""A""
+    },
+    {
+      ""adjacent_table_1"": ""F"",
+      ""adjacent_table_2"": ""G""
+    },
+    {
+      ""adjacent_table_1"": ""G"",
+      ""adjacent_table_2"": ""A""
+    },
+    {
+      ""adjacent_table_1"": ""G"",
+      ""adjacent_table_2"": ""E""
+    },
+    {
+      ""adjacent_table_1"": ""E"",
+      ""adjacent_table_2"": ""A""
+    }
+  ]
+}
+
+When you send your answer back, just drop it into a tiny JSON object like this so it's easy to read and process:
+
+{
+  ""solution"": [""table_id"", ""table_id"", ...]
+}
+
+Pretty straightforward - ""solution"" is just the list of tables you're reserving for the event. Think of each ""table_id"" as a placeholder for whatever label appears on the floor plan (I'll replace those with the actual labels when I submit the final selection). This JSON is just a sketch of the shape I expect, not the final answer itself.
+
+Please make sure to use the exact identifiers from the instance input - do not rename them or invent new ones.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,names,"{""problem_type"":""MIS"",""num_nodes"":8,""num_edges"":14,""edges"":[{""u"":8,""v"":3},{""u"":3,""v"":1},{""u"":3,""v"":2},{""u"":3,""v"":4},{""u"":3,""v"":5},{""u"":3,""v"":7},{""u"":2,""v"":5},{""u"":2,""v"":7},{""u"":4,""v"":7},{""u"":6,""v"":1},{""u"":6,""v"":7},{""u"":7,""v"":1},{""u"":7,""v"":5},{""u"":5,""v"":1}],""source_file"":""wa2010.mtx"",""density"":0.5,""edge_connectivity"":1}","[2,4,6,8]",4.0,"{""num_nodes"":8,""num_edges"":14,""edges"":[{""u"":""H"",""v"":""C""},{""u"":""C"",""v"":""A""},{""u"":""C"",""v"":""B""},{""u"":""C"",""v"":""D""},{""u"":""C"",""v"":""E""},{""u"":""C"",""v"":""G""},{""u"":""B"",""v"":""E""},{""u"":""B"",""v"":""G""},{""u"":""D"",""v"":""G""},{""u"":""F"",""v"":""A""},{""u"":""F"",""v"":""G""},{""u"":""G"",""v"":""A""},{""u"":""G"",""v"":""E""},{""u"":""E"",""v"":""A""}]}","[""B"",""D"",""F"",""H""]"
+MIS_S_013,MIS,S,13,"At the museum the registrar faces a packing rule: if an artifact is taken from one compartment, items in compartments directly next to it must stay behind. The job is to choose artifacts so the traveling case ends up holding as many separate objects as possible - success is just counting how many distinct artifacts were selected - and no item can be doubled up or partially selected. The exact layout and items are shown below.
+
+There are 8 compartments in total and 11 adjacent pairs.
+
+| compartment_u | compartment_v |
+|---|---|
+| 4 | 0 |
+| 4 | 5 |
+| 0 | 1 |
+| 0 | 2 |
+| 0 | 7 |
+| 1 | 3 |
+| 5 | 2 |
+| 5 | 6 |
+| 5 | 7 |
+| 3 | 7 |
+| 2 | 7 |
+
+Oh - and when you send back which artifacts to take, please use this little JSON shape so it's easy to read:
+
+{
+  ""solution"": [""compartment_id"", ""compartment_id"", ...]
+}
+
+Think of ""solution"" as just a list of the compartment IDs you picked - one entry for each artifact that goes into the traveling case. This is just a sketch of the shape I expect, not the actual answer itself.
+
+Please make sure to use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,zero_based,"{""problem_type"":""MIS"",""num_nodes"":8,""num_edges"":11,""edges"":[{""u"":5,""v"":1},{""u"":5,""v"":6},{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":1,""v"":8},{""u"":2,""v"":4},{""u"":6,""v"":3},{""u"":6,""v"":7},{""u"":6,""v"":8},{""u"":4,""v"":8},{""u"":3,""v"":8}],""source_file"":""wi2010.mtx"",""density"":0.39285714285714285,""edge_connectivity"":1}","[2,3,5,7]",4.0,"{""num_nodes"":8,""num_edges"":11,""edges"":[{""u"":4,""v"":0},{""u"":4,""v"":5},{""u"":0,""v"":1},{""u"":0,""v"":2},{""u"":0,""v"":7},{""u"":1,""v"":3},{""u"":5,""v"":2},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":3,""v"":7},{""u"":2,""v"":7}]}","[1,2,4,6]"
+MIS_S_014,MIS,S,14,"Recently the venue switched consoles and the new rule is to light up as many microphones as possible for a show, but never two that have direct crosstalk between them. The goal is to maximize the number of mics in use - you measure this by simply counting active channels - while making sure no interfering pair is turned on together. Every channel is a single, indivisible choice (on or off) and can't be counted twice. The detailed diagram of channel interference is provided below.
+
+{
+  ""total_mic_channels"": 8,
+  ""total_crosstalk_pairs"": 12,
+  ""edges"": [
+    {
+      ""mic_channel_u"": ""H"",
+      ""mic_channel_v"": ""A""
+    },
+    {
+      ""mic_channel_u"": ""H"",
+      ""mic_channel_v"": ""B""
+    },
+    {
+      ""mic_channel_u"": ""H"",
+      ""mic_channel_v"": ""C""
+    },
+    {
+      ""mic_channel_u"": ""H"",
+      ""mic_channel_v"": ""D""
+    },
+    {
+      ""mic_channel_u"": ""H"",
+      ""mic_channel_v"": ""E""
+    },
+    {
+      ""mic_channel_u"": ""H"",
+      ""mic_channel_v"": ""F""
+    },
+    {
+      ""mic_channel_u"": ""H"",
+      ""mic_channel_v"": ""G""
+    },
+    {
+      ""mic_channel_u"": ""E"",
+      ""mic_channel_v"": ""C""
+    },
+    {
+      ""mic_channel_u"": ""E"",
+      ""mic_channel_v"": ""G""
+    },
+    {
+      ""mic_channel_u"": ""F"",
+      ""mic_channel_v"": ""A""
+    },
+    {
+      ""mic_channel_u"": ""F"",
+      ""mic_channel_v"": ""B""
+    },
+    {
+      ""mic_channel_u"": ""B"",
+      ""mic_channel_v"": ""C""
+    }
+  ]
+}
+
+Oh, and when you send the final set of channels, please use this simple JSON shape so it's easy to read and parse:
+
+{
+  ""solution"": [""mic_id"", ""mic_id"", ...]
+}
+
+Think of that as a little form: ""solution"" is the list of microphones you want turned on (each entry is one channel identifier). The placeholders are just examples showing the shape - you'll replace them with the actual channel IDs from the instance when you answer.
+
+Please don't rename or invent any labels - use the identifiers exactly as they appear in the instance input, no changes.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""
+
+Again, the JSON above is just a sketch of the expected shape, not the real answer.",json,names,"{""problem_type"":""MIS"",""num_nodes"":8,""num_edges"":12,""edges"":[{""u"":8,""v"":1},{""u"":8,""v"":2},{""u"":8,""v"":3},{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":8,""v"":6},{""u"":8,""v"":7},{""u"":5,""v"":3},{""u"":5,""v"":7},{""u"":6,""v"":1},{""u"":6,""v"":2},{""u"":2,""v"":3}],""source_file"":""wa2010.mtx"",""density"":0.42857142857142855,""edge_connectivity"":1}","[1,2,4,7]",4.0,"{""num_nodes"":8,""num_edges"":12,""edges"":[{""u"":""H"",""v"":""A""},{""u"":""H"",""v"":""B""},{""u"":""H"",""v"":""C""},{""u"":""H"",""v"":""D""},{""u"":""H"",""v"":""E""},{""u"":""H"",""v"":""F""},{""u"":""H"",""v"":""G""},{""u"":""E"",""v"":""C""},{""u"":""E"",""v"":""G""},{""u"":""F"",""v"":""A""},{""u"":""F"",""v"":""B""},{""u"":""B"",""v"":""C""}]}","[""A"",""B"",""D"",""G""]"
+MIS_S_015,MIS,S,15,"Many people want to use the communal bike racks, and the person running the place has to pick a group of bikes that will actually fit without crowding. The rule we follow is that no two bikes we allow can occupy adjacent rack slots, so approvals need spacing. Better decisions are those that let the greatest number of bikes in; to figure that out, just count how many bikes would be parked under each selection. Nothing is double-booked and every slot holds at most one bike. The concrete rack layout and bike details appear below.
+
+{
+  ""total_rack_slots"": 9,
+  ""total_adjacent_pairs"": 15,
+  ""edges"": [
+    {
+      ""slot_u"": 4,
+      ""slot_v"": 8
+    },
+    {
+      ""slot_u"": 9,
+      ""slot_v"": 6
+    },
+    {
+      ""slot_u"": 9,
+      ""slot_v"": 8
+    },
+    {
+      ""slot_u"": 6,
+      ""slot_v"": 5
+    },
+    {
+      ""slot_u"": 6,
+      ""slot_v"": 7
+    },
+    {
+      ""slot_u"": 6,
+      ""slot_v"": 8
+    },
+    {
+      ""slot_u"": 7,
+      ""slot_v"": 3
+    },
+    {
+      ""slot_u"": 7,
+      ""slot_v"": 5
+    },
+    {
+      ""slot_u"": 5,
+      ""slot_v"": 2
+    },
+    {
+      ""slot_u"": 5,
+      ""slot_v"": 3
+    },
+    {
+      ""slot_u"": 5,
+      ""slot_v"": 8
+    },
+    {
+      ""slot_u"": 8,
+      ""slot_v"": 2
+    },
+    {
+      ""slot_u"": 8,
+      ""slot_v"": 3
+    },
+    {
+      ""slot_u"": 1,
+      ""slot_v"": 3
+    },
+    {
+      ""slot_u"": 3,
+      ""slot_v"": 2
+    }
+  ]
+}
+
+Also, when you hand back the chosen slots, please follow this little JSON sketch so it's easy to read by whoever's checking:
+
+{
+  ""solution"": [""slot_id"", ""slot_id"", ...]
+}
+
+This just means ""solution"" is the list of rack slots you're approving for bikes - each entry is a slot identifier from the instance (the slots that get to park). Think of it as filling out a tiny form: put each approved slot's id into that array. It's just a sketch of the expected shape, not the actual answer.
+
+Please make sure to use the exact identifiers as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,one_based,"{""problem_type"":""MIS"",""num_nodes"":9,""num_edges"":15,""edges"":[{""u"":4,""v"":8},{""u"":9,""v"":6},{""u"":9,""v"":8},{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":6,""v"":8},{""u"":7,""v"":3},{""u"":7,""v"":5},{""u"":5,""v"":2},{""u"":5,""v"":3},{""u"":5,""v"":8},{""u"":8,""v"":2},{""u"":8,""v"":3},{""u"":1,""v"":3},{""u"":3,""v"":2}],""source_file"":""vt2010.mtx"",""density"":0.4166666666666667,""edge_connectivity"":1}","[1,2,4,7,9]",5.0,"{""num_nodes"":9,""num_edges"":15,""edges"":[{""u"":4,""v"":8},{""u"":9,""v"":6},{""u"":9,""v"":8},{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":6,""v"":8},{""u"":7,""v"":3},{""u"":7,""v"":5},{""u"":5,""v"":2},{""u"":5,""v"":3},{""u"":5,""v"":8},{""u"":8,""v"":2},{""u"":8,""v"":3},{""u"":1,""v"":3},{""u"":3,""v"":2}]}","[1,2,4,7,9]"
+MIS_S_016,MIS,S,16,"On a late afternoon the ranger is figuring out which campsites to leave available; the idea is to keep as many as possible but never two that are next to each other. The quality of the plan is simply the number of sites kept open, counted at the end, and each campsite must be decided once (open or closed) with the restriction that no neighboring sites are both open. The campsite specifics and layout are shown below.
+
+There are 9 campsites and 13 adjacent pairs to consider.
+Campsites 2 and 3 are adjacent, so the ranger cannot leave both open.
+Campsites 2 and 6 are adjacent, so the ranger cannot leave both open.
+Campsites 3 and 4 are adjacent, so the ranger cannot leave both open.
+Campsites 3 and 5 are adjacent, so the ranger cannot leave both open.
+Campsites 0 and 1 are adjacent, so the ranger cannot leave both open.
+Campsites 0 and 5 are adjacent, so the ranger cannot leave both open.
+Campsites 7 and 5 are adjacent, so the ranger cannot leave both open.
+Campsites 7 and 6 are adjacent, so the ranger cannot leave both open.
+Campsites 5 and 6 are adjacent, so the ranger cannot leave both open.
+Campsites 5 and 8 are adjacent, so the ranger cannot leave both open.
+Campsites 8 and 1 are adjacent, so the ranger cannot leave both open.
+Campsites 8 and 4 are adjacent, so the ranger cannot leave both open.
+Campsites 4 and 1 are adjacent, so the ranger cannot leave both open.
+The ranger will use these 13 adjacencies when deciding which of the 9 sites to keep open.
+
+Also, just so everything is easy to parse, please return the chosen open campsites using this simple JSON shape:
+
+{
+  ""solution"": [""site_id"", ""site_id"", ...]
+}
+
+""solution"" is just a list of the campsite IDs you'd like to leave open - one string per site. Think of the placeholders above as examples of the format, not the actual choices.
+
+Please use the exact identifiers from the instance input; do not rename them or invent new ones. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,zero_based,"{""problem_type"":""MIS"",""num_nodes"":9,""num_edges"":13,""edges"":[{""u"":3,""v"":4},{""u"":3,""v"":7},{""u"":4,""v"":5},{""u"":4,""v"":6},{""u"":1,""v"":2},{""u"":1,""v"":6},{""u"":8,""v"":6},{""u"":8,""v"":7},{""u"":6,""v"":7},{""u"":6,""v"":9},{""u"":9,""v"":2},{""u"":9,""v"":5},{""u"":5,""v"":2}],""source_file"":""vt2010.mtx"",""density"":0.3611111111111111,""edge_connectivity"":2}","[1,3,8,9]",4.0,"{""num_nodes"":9,""num_edges"":13,""edges"":[{""u"":2,""v"":3},{""u"":2,""v"":6},{""u"":3,""v"":4},{""u"":3,""v"":5},{""u"":0,""v"":1},{""u"":0,""v"":5},{""u"":7,""v"":5},{""u"":7,""v"":6},{""u"":5,""v"":6},{""u"":5,""v"":8},{""u"":8,""v"":1},{""u"":8,""v"":4},{""u"":4,""v"":1}]}","[0,2,7,8]"
+MIS_S_017,MIS,S,17,"Recently the clerk noticed the aisle was cluttered and decided to bring some crates to the front for easier access, but there's a catch: crates sitting on neighboring pallets can't both be moved. The goal is to bring as many crates forward as possible, which is measured by counting how many were moved, and every plan must respect the ""no neighboring pallets"" rule and avoid picking the same crate twice. The concrete details are shown below.
+
+# total_crates=12
+# neighboring_pallet_pairs_count=23
+crate_u_id,crate_v_id
+1,2
+1,3
+1,7
+2,3
+2,4
+2,8
+6,3
+6,4
+6,5
+6,7
+6,10
+6,12
+7,3
+12,10
+11,8
+11,10
+5,4
+5,9
+5,10
+4,8
+4,10
+8,10
+10,9
+
+You can just send the chosen pallets back in this simple JSON layout so I know which crates to bring forward:
+
+{
+  ""solution"": [""pallet_id"", ""pallet_id"", ...]
+}
+
+""solution"" is just a list of the pallet identifiers for the crates you want moved (one entry per crate). Think of it like filling out a small checklist: each string is the exact label of a pallet you picked. This JSON is only a sketch of the shape I expect, not the actual answer-replace the placeholders with the real IDs from the instance.
+
+All identifiers must be used exactly as they appear in the instance input - no renaming and no new labels.
+for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,one_based,"{""problem_type"":""MIS"",""num_nodes"":12,""num_edges"":23,""edges"":[{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":1,""v"":7},{""u"":2,""v"":3},{""u"":2,""v"":4},{""u"":2,""v"":8},{""u"":6,""v"":3},{""u"":6,""v"":4},{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":6,""v"":10},{""u"":6,""v"":12},{""u"":7,""v"":3},{""u"":12,""v"":10},{""u"":11,""v"":8},{""u"":11,""v"":10},{""u"":5,""v"":4},{""u"":5,""v"":9},{""u"":5,""v"":10},{""u"":4,""v"":8},{""u"":4,""v"":10},{""u"":8,""v"":10},{""u"":10,""v"":9}],""source_file"":""wi2010.mtx"",""density"":0.3484848484848485,""edge_connectivity"":2}","[4,7,9,11,12]",5.0,"{""num_nodes"":12,""num_edges"":23,""edges"":[{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":1,""v"":7},{""u"":2,""v"":3},{""u"":2,""v"":4},{""u"":2,""v"":8},{""u"":6,""v"":3},{""u"":6,""v"":4},{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":6,""v"":10},{""u"":6,""v"":12},{""u"":7,""v"":3},{""u"":12,""v"":10},{""u"":11,""v"":8},{""u"":11,""v"":10},{""u"":5,""v"":4},{""u"":5,""v"":9},{""u"":5,""v"":10},{""u"":4,""v"":8},{""u"":4,""v"":10},{""u"":8,""v"":10},{""u"":10,""v"":9}]}","[4,7,9,11,12]"
+MIS_S_018,MIS,S,18,"There's a convention coming up and the lighting crew wants to spotlight booths, but they don't want two neighboring booths both under the same lights. The job is to mark as many booths as possible for priority lighting while making sure no two chosen booths sit next to one another. The simplest way to tell which plan is best is to count the marked booths - the plan with the biggest count wins - and every pick has to be a real booth from the plan with no repeats. The specific hall layout appears below.
+
+{
+  ""total_booths"": 12,
+  ""total_adjacency_pairs"": 22,
+  ""edges"": [
+    {
+      ""adjacent_booth_1"": 8,
+      ""adjacent_booth_2"": 2
+    },
+    {
+      ""adjacent_booth_1"": 8,
+      ""adjacent_booth_2"": 5
+    },
+    {
+      ""adjacent_booth_1"": 4,
+      ""adjacent_booth_2"": 1
+    },
+    {
+      ""adjacent_booth_1"": 4,
+      ""adjacent_booth_2"": 3
+    },
+    {
+      ""adjacent_booth_1"": 4,
+      ""adjacent_booth_2"": 5
+    },
+    {
+      ""adjacent_booth_1"": 4,
+      ""adjacent_booth_2"": 12
+    },
+    {
+      ""adjacent_booth_1"": 9,
+      ""adjacent_booth_2"": 5
+    },
+    {
+      ""adjacent_booth_1"": 1,
+      ""adjacent_booth_2"": 5
+    },
+    {
+      ""adjacent_booth_1"": 5,
+      ""adjacent_booth_2"": 2
+    },
+    {
+      ""adjacent_booth_1"": 5,
+      ""adjacent_booth_2"": 6
+    },
+    {
+      ""adjacent_booth_1"": 5,
+      ""adjacent_booth_2"": 7
+    },
+    {
+      ""adjacent_booth_1"": 5,
+      ""adjacent_booth_2"": 12
+    },
+    {
+      ""adjacent_booth_1"": 6,
+      ""adjacent_booth_2"": 2
+    },
+    {
+      ""adjacent_booth_1"": 6,
+      ""adjacent_booth_2"": 7
+    },
+    {
+      ""adjacent_booth_1"": 6,
+      ""adjacent_booth_2"": 11
+    },
+    {
+      ""adjacent_booth_1"": 7,
+      ""adjacent_booth_2"": 3
+    },
+    {
+      ""adjacent_booth_1"": 7,
+      ""adjacent_booth_2"": 10
+    },
+    {
+      ""adjacent_booth_1"": 7,
+      ""adjacent_booth_2"": 11
+    },
+    {
+      ""adjacent_booth_1"": 10,
+      ""adjacent_booth_2"": 2
+    },
+    {
+      ""adjacent_booth_1"": 10,
+      ""adjacent_booth_2"": 11
+    },
+    {
+      ""adjacent_booth_1"": 11,
+      ""adjacent_booth_2"": 2
+    },
+    {
+      ""adjacent_booth_1"": 12,
+      ""adjacent_booth_2"": 3
+    }
+  ]
+}
+
+I'll return the chosen booths in a tiny JSON snippet so it's easy to read and parse. Something like this:
+
+{
+  ""solution"": [""booth_id"", ""booth_id"", ...]
+}
+
+Here ""solution"" is just a list of the booths we're marking for priority lighting - each item is a booth identifier from the hall layout (and no repeats). This JSON is only a sketch of the shape I'll use, not the actual final selection.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,one_based,"{""problem_type"":""MIS"",""num_nodes"":12,""num_edges"":22,""edges"":[{""u"":8,""v"":2},{""u"":8,""v"":5},{""u"":4,""v"":1},{""u"":4,""v"":3},{""u"":4,""v"":5},{""u"":4,""v"":12},{""u"":9,""v"":5},{""u"":1,""v"":5},{""u"":5,""v"":2},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":5,""v"":12},{""u"":6,""v"":2},{""u"":6,""v"":7},{""u"":6,""v"":11},{""u"":7,""v"":3},{""u"":7,""v"":10},{""u"":7,""v"":11},{""u"":10,""v"":2},{""u"":10,""v"":11},{""u"":11,""v"":2},{""u"":12,""v"":3}],""source_file"":""vt2010.mtx"",""density"":0.3333333333333333,""edge_connectivity"":1}","[1,6,8,9,10,12]",6.0,"{""num_nodes"":12,""num_edges"":22,""edges"":[{""u"":8,""v"":2},{""u"":8,""v"":5},{""u"":4,""v"":1},{""u"":4,""v"":3},{""u"":4,""v"":5},{""u"":4,""v"":12},{""u"":9,""v"":5},{""u"":1,""v"":5},{""u"":5,""v"":2},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":5,""v"":12},{""u"":6,""v"":2},{""u"":6,""v"":7},{""u"":6,""v"":11},{""u"":7,""v"":3},{""u"":7,""v"":10},{""u"":7,""v"":11},{""u"":10,""v"":2},{""u"":10,""v"":11},{""u"":11,""v"":2},{""u"":12,""v"":3}]}","[1,6,8,9,10,12]"
+MIS_S_019,MIS,S,19,"There's a neighborhood parade coming and the volunteer coordinator is trying to pack the route with helpers without putting any two of them side by side. The choice is which positions along the lineup to staff so that the total number of helpers is as high as possible, and the way to judge a plan is simple: count the helpers - more counts mean a better plan. Each chosen spot is used once and nobody gets assigned to two spots; the concrete lineup info is shown below.
+
+{
+  ""total_positions"": 8,
+  ""num_adjacent_pairs"": 13,
+  ""edges"": [
+    {
+      ""position_u"": 3,
+      ""position_v"": 5
+    },
+    {
+      ""position_u"": 3,
+      ""position_v"": 7
+    },
+    {
+      ""position_u"": 3,
+      ""position_v"": 8
+    },
+    {
+      ""position_u"": 6,
+      ""position_v"": 4
+    },
+    {
+      ""position_u"": 6,
+      ""position_v"": 5
+    },
+    {
+      ""position_u"": 8,
+      ""position_v"": 5
+    },
+    {
+      ""position_u"": 8,
+      ""position_v"": 7
+    },
+    {
+      ""position_u"": 4,
+      ""position_v"": 2
+    },
+    {
+      ""position_u"": 4,
+      ""position_v"": 5
+    },
+    {
+      ""position_u"": 2,
+      ""position_v"": 5
+    },
+    {
+      ""position_u"": 2,
+      ""position_v"": 7
+    },
+    {
+      ""position_u"": 5,
+      ""position_v"": 1
+    },
+    {
+      ""position_u"": 5,
+      ""position_v"": 7
+    }
+  ]
+}
+
+If you want to send back which positions to staff, just use this little JSON shape so it's easy to read and parse:
+
+{
+  ""solution"": [""spot_id"", ""spot_id"", ...]
+}
+
+""solution"" is just the list of parade spots you picked for helpers - one entry per chosen position. Think of each string in that array as the exact label for a spot from the lineup (this JSON is just a sketch of the shape I expect, not the actual answer).
+
+Please use the identifiers exactly as they appear in the instance input - do not rename them and do not invent new labels.
+
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",json,one_based,"{""problem_type"":""MIS"",""num_nodes"":8,""num_edges"":13,""edges"":[{""u"":3,""v"":5},{""u"":3,""v"":7},{""u"":3,""v"":8},{""u"":6,""v"":4},{""u"":6,""v"":5},{""u"":8,""v"":5},{""u"":8,""v"":7},{""u"":4,""v"":2},{""u"":4,""v"":5},{""u"":2,""v"":5},{""u"":2,""v"":7},{""u"":5,""v"":1},{""u"":5,""v"":7}],""source_file"":""wy2010.mtx"",""density"":0.4642857142857143,""edge_connectivity"":1}","[1,2,6,8]",4.0,"{""num_nodes"":8,""num_edges"":13,""edges"":[{""u"":3,""v"":5},{""u"":3,""v"":7},{""u"":3,""v"":8},{""u"":6,""v"":4},{""u"":6,""v"":5},{""u"":8,""v"":5},{""u"":8,""v"":7},{""u"":4,""v"":2},{""u"":4,""v"":5},{""u"":2,""v"":5},{""u"":2,""v"":7},{""u"":5,""v"":1},{""u"":5,""v"":7}]}","[1,2,6,8]"
+MIS_S_020,MIS,S,20,"Someone at the operations desk is trying to maximize coverage tonight by switching on as many cell sites as possible, while making sure no directly interfering pair is active together. The selection is straightforward: for every pair that's directly linked, choose at most one of them to be live, and then tally up how many stations are live - the higher that tally, the better the outcome. Every station needs a definitive on/off decision (no duplicates, no ignoring entries), and the concrete network layout is shown below.
+
+The layout below lists 12 stations and 20 direct interference links:
+Interference link between station 10 and station 2: at most one of the two may be live.
+Interference link between station 10 and station 7: at most one of the two may be live.
+Interference link between station 10 and station 8: at most one of the two may be live.
+Interference link between station 11 and station 2: at most one of the two may be live.
+Interference link between station 11 and station 5: at most one of the two may be live.
+Interference link between station 11 and station 8: at most one of the two may be live.
+Interference link between station 2 and station 5: at most one of the two may be live.
+Interference link between station 2 and station 8: at most one of the two may be live.
+Interference link between station 5 and station 4: at most one of the two may be live.
+Interference link between station 5 and station 6: at most one of the two may be live.
+Interference link between station 3 and station 0: at most one of the two may be live.
+Interference link between station 3 and station 1: at most one of the two may be live.
+Interference link between station 3 and station 4: at most one of the two may be live.
+Interference link between station 3 and station 7: at most one of the two may be live.
+Interference link between station 4 and station 1: at most one of the two may be live.
+Interference link between station 4 and station 6: at most one of the two may be live.
+Interference link between station 4 and station 9: at most one of the two may be live.
+Interference link between station 1 and station 8: at most one of the two may be live.
+Interference link between station 7 and station 8: at most one of the two may be live.
+Interference link between station 6 and station 9: at most one of the two may be live.
+Every station must receive a definitive on/off decision so the operations desk can tally how many are live and maximize coverage tonight.
+
+Also, when you send the final selection back, please use this simple JSON layout so it's easy to parse:
+
+{
+  ""solution"": [""site_id"", ""site_id"", ...]
+}
+
+This just means ""solution"" should be a list of the site IDs you want switched on. Think of it like ticking boxes on a form - each quoted entry is the exact station identifier you choose to make live. The JSON above is only a sketch of the shape I expect, not the actual answer.
+
+Please make sure to use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as '1' or '23', single capital letters like 'A' or 'B', or a capital letter followed by digits like 'A1' or 'X7'.""",nl,zero_based,"{""problem_type"":""MIS"",""num_nodes"":12,""num_edges"":20,""edges"":[{""u"":11,""v"":3},{""u"":11,""v"":8},{""u"":11,""v"":9},{""u"":12,""v"":3},{""u"":12,""v"":6},{""u"":12,""v"":9},{""u"":3,""v"":6},{""u"":3,""v"":9},{""u"":6,""v"":5},{""u"":6,""v"":7},{""u"":4,""v"":1},{""u"":4,""v"":2},{""u"":4,""v"":5},{""u"":4,""v"":8},{""u"":5,""v"":2},{""u"":5,""v"":7},{""u"":5,""v"":10},{""u"":2,""v"":9},{""u"":8,""v"":9},{""u"":7,""v"":10}],""source_file"":""vt2010.mtx"",""density"":0.30303030303030304,""edge_connectivity"":1}","[1,2,8,10,12]",5.0,"{""num_nodes"":12,""num_edges"":20,""edges"":[{""u"":10,""v"":2},{""u"":10,""v"":7},{""u"":10,""v"":8},{""u"":11,""v"":2},{""u"":11,""v"":5},{""u"":11,""v"":8},{""u"":2,""v"":5},{""u"":2,""v"":8},{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":3,""v"":0},{""u"":3,""v"":1},{""u"":3,""v"":4},{""u"":3,""v"":7},{""u"":4,""v"":1},{""u"":4,""v"":6},{""u"":4,""v"":9},{""u"":1,""v"":8},{""u"":7,""v"":8},{""u"":6,""v"":9}]}","[0,1,7,9,11]"
+MIS_S_021,MIS,S,21,"I'm the club adviser trying to build the best possible presenter lineup for the school assembly: pick as many students as I can to go on stage, but never pick two who have a time clash with each other. The idea is simple - the better the lineup, the more students are speaking, so count how many presenters are chosen and aim for the highest total. No student can be picked twice, and if two students' schedules overlap, only one of them can be in the final group. The concrete list of students and their schedule conflicts is shown below.
+
+# total_students=9
+# total_schedule_conflicts=14
+conflicting_student_a,conflicting_student_b
+D,F
+D,G
+D,H
+F,C
+F,E
+F,H
+C,A
+C,H
+G,B
+G,I
+I,A
+I,B
+B,A
+B,H
+
+You can just send back the final lineup in a tiny JSON snippet like this - super simple and machine-friendly:
+
+{
+  ""solution"": [""presenter_id"", ""presenter_id"", ...]
+}
+
+Think of ""solution"" as the box where you list the student IDs you're putting on stage. Each ""presenter_id"" is a placeholder for one chosen student - replace those placeholders with the actual IDs from the instance when you give the real answer. This JSON is just a sketch of the shape I want, not the actual final lineup.
+
+Please be sure to use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MIS"",""num_nodes"":9,""num_edges"":14,""edges"":[{""u"":4,""v"":6},{""u"":4,""v"":7},{""u"":4,""v"":8},{""u"":6,""v"":3},{""u"":6,""v"":5},{""u"":6,""v"":8},{""u"":3,""v"":1},{""u"":3,""v"":8},{""u"":7,""v"":2},{""u"":7,""v"":9},{""u"":9,""v"":1},{""u"":9,""v"":2},{""u"":2,""v"":1},{""u"":2,""v"":8}],""source_file"":""wy2010.mtx"",""density"":0.3888888888888889,""edge_connectivity"":1}","[3,4,5,9]",4.0,"{""num_nodes"":9,""num_edges"":14,""edges"":[{""u"":""D"",""v"":""F""},{""u"":""D"",""v"":""G""},{""u"":""D"",""v"":""H""},{""u"":""F"",""v"":""C""},{""u"":""F"",""v"":""E""},{""u"":""F"",""v"":""H""},{""u"":""C"",""v"":""A""},{""u"":""C"",""v"":""H""},{""u"":""G"",""v"":""B""},{""u"":""G"",""v"":""I""},{""u"":""I"",""v"":""A""},{""u"":""I"",""v"":""B""},{""u"":""B"",""v"":""A""},{""u"":""B"",""v"":""H""}]}","[""C"",""D"",""E"",""I""]"
+MIS_S_022,MIS,S,22,"On a busy weekend the restaurant wants to offer a generous tasting menu, but ingredient clashes force some tough calls. The task is to select a combination of distinct dishes where no two chosen items clash, and then see how many dishes that gives you - the larger that number, the better the menu. Each dish is either included once or left off the menu. The specific dishes and the pairs that clash are provided below.
+
+{
+  ""total_dishes"": 12,
+  ""total_clashing_pairs"": 22,
+  ""edges"": [
+    {
+      ""dish_a"": ""E"",
+      ""dish_b"": ""B""
+    },
+    {
+      ""dish_a"": ""E"",
+      ""dish_b"": ""F""
+    },
+    {
+      ""dish_a"": ""E"",
+      ""dish_b"": ""L""
+    },
+    {
+      ""dish_a"": ""L"",
+      ""dish_b"": ""B""
+    },
+    {
+      ""dish_a"": ""L"",
+      ""dish_b"": ""F""
+    },
+    {
+      ""dish_a"": ""L"",
+      ""dish_b"": ""H""
+    },
+    {
+      ""dish_a"": ""L"",
+      ""dish_b"": ""I""
+    },
+    {
+      ""dish_a"": ""J"",
+      ""dish_b"": ""F""
+    },
+    {
+      ""dish_a"": ""J"",
+      ""dish_b"": ""I""
+    },
+    {
+      ""dish_a"": ""K"",
+      ""dish_b"": ""D""
+    },
+    {
+      ""dish_a"": ""K"",
+      ""dish_b"": ""F""
+    },
+    {
+      ""dish_a"": ""F"",
+      ""dish_b"": ""B""
+    },
+    {
+      ""dish_a"": ""F"",
+      ""dish_b"": ""D""
+    },
+    {
+      ""dish_a"": ""F"",
+      ""dish_b"": ""G""
+    },
+    {
+      ""dish_a"": ""F"",
+      ""dish_b"": ""I""
+    },
+    {
+      ""dish_a"": ""H"",
+      ""dish_b"": ""B""
+    },
+    {
+      ""dish_a"": ""H"",
+      ""dish_b"": ""C""
+    },
+    {
+      ""dish_a"": ""G"",
+      ""dish_b"": ""B""
+    },
+    {
+      ""dish_a"": ""D"",
+      ""dish_b"": ""A""
+    },
+    {
+      ""dish_a"": ""D"",
+      ""dish_b"": ""B""
+    },
+    {
+      ""dish_a"": ""A"",
+      ""dish_b"": ""B""
+    },
+    {
+      ""dish_a"": ""C"",
+      ""dish_b"": ""B""
+    }
+  ]
+}
+
+Also, when you send back the chosen dishes, please use this simple JSON layout so I can read it easily:
+
+{
+  ""solution"": [""dish_id"", ""dish_id"", ...]
+}
+
+This just means the value for ""solution"" should be a list of the dish identifiers you picked for the menu (one entry per dish). Think of it like filling out a short form - the JSON above is just the shape I expect, not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - don't rename them or invent new labels. Valid identifiers look like:
+- plain numbers such as ""1"" or ""23""
+- single capital letters like ""A"" or ""B""
+- a capital letter followed by digits like ""A1"" or ""X7""",json,names,"{""problem_type"":""MIS"",""num_nodes"":12,""num_edges"":22,""edges"":[{""u"":5,""v"":2},{""u"":5,""v"":6},{""u"":5,""v"":12},{""u"":12,""v"":2},{""u"":12,""v"":6},{""u"":12,""v"":8},{""u"":12,""v"":9},{""u"":10,""v"":6},{""u"":10,""v"":9},{""u"":11,""v"":4},{""u"":11,""v"":6},{""u"":6,""v"":2},{""u"":6,""v"":4},{""u"":6,""v"":7},{""u"":6,""v"":9},{""u"":8,""v"":2},{""u"":8,""v"":3},{""u"":7,""v"":2},{""u"":4,""v"":1},{""u"":4,""v"":2},{""u"":1,""v"":2},{""u"":3,""v"":2}],""source_file"":""wy2010.mtx"",""density"":0.3333333333333333,""edge_connectivity"":2}","[1,3,5,7,10,11]",6.0,"{""num_nodes"":12,""num_edges"":22,""edges"":[{""u"":""E"",""v"":""B""},{""u"":""E"",""v"":""F""},{""u"":""E"",""v"":""L""},{""u"":""L"",""v"":""B""},{""u"":""L"",""v"":""F""},{""u"":""L"",""v"":""H""},{""u"":""L"",""v"":""I""},{""u"":""J"",""v"":""F""},{""u"":""J"",""v"":""I""},{""u"":""K"",""v"":""D""},{""u"":""K"",""v"":""F""},{""u"":""F"",""v"":""B""},{""u"":""F"",""v"":""D""},{""u"":""F"",""v"":""G""},{""u"":""F"",""v"":""I""},{""u"":""H"",""v"":""B""},{""u"":""H"",""v"":""C""},{""u"":""G"",""v"":""B""},{""u"":""D"",""v"":""A""},{""u"":""D"",""v"":""B""},{""u"":""A"",""v"":""B""},{""u"":""C"",""v"":""B""}]}","[""A"",""C"",""E"",""G"",""J"",""K""]"
+MIS_S_023,MIS,S,23,"In our neighborhood, putting together the volunteer roster for the fair means trying to get the biggest team we can, but with one rule: don't sign up any two people who've got a personal conflict. The choice is who to roster - one arrangement is better than another if it ends up with a greater number of distinct helpers, so you just count the names to compare. Don't add anybody twice, only pick from the people who offered, and if two people are known to clash, they can't both be chosen. The exact details are listed below.
+
+# total_volunteers=11
+# total_conflicts=16
+volunteer_a,volunteer_b
+5,0
+5,1
+5,2
+5,4
+5,7
+5,8
+5,9
+5,10
+6,1
+6,8
+8,7
+3,1
+3,2
+10,2
+10,4
+1,2
+
+Also, when you send the final roster back, please use this simple JSON layout so it's easy to parse:
+
+{
+  ""solution"": [""volunteer_id"", ""volunteer_id"", ...]
+}
+
+Think of ""solution"" as the list of people you're choosing for the fair - each string is the identifier for one person from the problem instance (the exact label that showed up in the input). This JSON is just a sketch of the shape I expect, not the final answer itself.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,zero_based,"{""problem_type"":""MIS"",""num_nodes"":11,""num_edges"":16,""edges"":[{""u"":6,""v"":1},{""u"":6,""v"":2},{""u"":6,""v"":3},{""u"":6,""v"":5},{""u"":6,""v"":8},{""u"":6,""v"":9},{""u"":6,""v"":10},{""u"":6,""v"":11},{""u"":7,""v"":2},{""u"":7,""v"":9},{""u"":9,""v"":8},{""u"":4,""v"":2},{""u"":4,""v"":3},{""u"":11,""v"":3},{""u"":11,""v"":5},{""u"":2,""v"":3}],""source_file"":""vt2010.mtx"",""density"":0.2909090909090909,""edge_connectivity"":1}","[1,4,5,7,8,10]",6.0,"{""num_nodes"":11,""num_edges"":16,""edges"":[{""u"":5,""v"":0},{""u"":5,""v"":1},{""u"":5,""v"":2},{""u"":5,""v"":4},{""u"":5,""v"":7},{""u"":5,""v"":8},{""u"":5,""v"":9},{""u"":5,""v"":10},{""u"":6,""v"":1},{""u"":6,""v"":8},{""u"":8,""v"":7},{""u"":3,""v"":1},{""u"":3,""v"":2},{""u"":10,""v"":2},{""u"":10,""v"":4},{""u"":1,""v"":2}]}","[0,3,4,6,7,9]"
+MIS_S_024,MIS,S,24,"Someone on the programming team needs to assemble an hour-long set and must avoid putting any two policy-conflicted songs in the same playlist. The choice is which songs to include in that hour so the list contains the highest possible count of distinct tracks while steering clear of any forbidden pairings. A playlist with a higher count of songs is better - evaluate it by tallying the tracks. Repeats aren't allowed, and the full list of tracks and the station's incompatibility notes appear below.
+
+There are 9 distinct candidate tracks available and 16 station-policy incompatibility pairs listed below.
+Track E must not appear with track A in the same hour-long playlist.
+Track E must not appear with track D in the same hour-long playlist.
+Track E must not appear with track F in the same hour-long playlist.
+Track E must not appear with track G in the same hour-long playlist.
+Track B must not appear with track A in the same hour-long playlist.
+Track B must not appear with track G in the same hour-long playlist.
+Track I must not appear with track A in the same hour-long playlist.
+Track I must not appear with track C in the same hour-long playlist.
+Track I must not appear with track F in the same hour-long playlist.
+Track C must not appear with track H in the same hour-long playlist.
+Track A must not appear with track F in the same hour-long playlist.
+Track A must not appear with track G in the same hour-long playlist.
+Track G must not appear with track D in the same hour-long playlist.
+Track G must not appear with track H in the same hour-long playlist.
+Track F must not appear with track D in the same hour-long playlist.
+Track H must not appear with track D in the same hour-long playlist.
+Assemble the hour-long set to include as many distinct tracks as possible while respecting the listed conflicts.
+
+Also, when you hand the final playlist back, it'd be great if you use a tiny JSON snippet like this so it's easy to parse:
+
+{
+  ""solution"": [""song_id"", ""song_id"", ...]
+}
+
+Here ""solution"" is just the list of tracks you're picking for that hour, and each ""song_id"" is a placeholder for a song identifier from the instance (so think of it like filling in the names or IDs of the tracks you chose). This is just the shape I expect - not the real answer itself.
+
+Please make sure to use the exact identifiers from the instance input, with no renaming or extra labels. For example:
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,names,"{""problem_type"":""MIS"",""num_nodes"":9,""num_edges"":16,""edges"":[{""u"":5,""v"":1},{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":2,""v"":1},{""u"":2,""v"":7},{""u"":9,""v"":1},{""u"":9,""v"":3},{""u"":9,""v"":6},{""u"":3,""v"":8},{""u"":1,""v"":6},{""u"":1,""v"":7},{""u"":7,""v"":4},{""u"":7,""v"":8},{""u"":6,""v"":4},{""u"":8,""v"":4}],""source_file"":""wi2010.mtx"",""density"":0.4444444444444444,""edge_connectivity"":2}","[2,5,8,9]",4.0,"{""num_nodes"":9,""num_edges"":16,""edges"":[{""u"":""E"",""v"":""A""},{""u"":""E"",""v"":""D""},{""u"":""E"",""v"":""F""},{""u"":""E"",""v"":""G""},{""u"":""B"",""v"":""A""},{""u"":""B"",""v"":""G""},{""u"":""I"",""v"":""A""},{""u"":""I"",""v"":""C""},{""u"":""I"",""v"":""F""},{""u"":""C"",""v"":""H""},{""u"":""A"",""v"":""F""},{""u"":""A"",""v"":""G""},{""u"":""G"",""v"":""D""},{""u"":""G"",""v"":""H""},{""u"":""F"",""v"":""D""},{""u"":""H"",""v"":""D""}]}","[""B"",""E"",""H"",""I""]"
+MIS_S_025,MIS,S,25,"I manage a band and need to put together a live set. The trick is to pick the biggest possible group of songs that all work together - if any two songs are a bad match and can't follow each other, they can't both be in the set. The better the set, the more songs it contains, so lineups are compared by simply counting how many songs made the cut. Each song is a single, indivisible choice (no repeats allowed), and no pair that conflicts can both be included. The concrete song-by-song details are shown below.
+
+I'm considering 11 songs with 18 incompatible pairs listed below:
+Song 2 and song 1 can't follow each other, so they can't both be in the set.
+Song 2 and song 5 can't follow each other, so they can't both be in the set.
+Song 2 and song 7 can't follow each other, so they can't both be in the set.
+Song 2 and song 8 can't follow each other, so they can't both be in the set.
+Song 2 and song 10 can't follow each other, so they can't both be in the set.
+Song 5 and song 4 can't follow each other, so they can't both be in the set.
+Song 5 and song 9 can't follow each other, so they can't both be in the set.
+Song 5 and song 10 can't follow each other, so they can't both be in the set.
+Song 8 and song 0 can't follow each other, so they can't both be in the set.
+Song 8 and song 1 can't follow each other, so they can't both be in the set.
+Song 8 and song 6 can't follow each other, so they can't both be in the set.
+Song 9 and song 7 can't follow each other, so they can't both be in the set.
+Song 6 and song 7 can't follow each other, so they can't both be in the set.
+Song 3 and song 1 can't follow each other, so they can't both be in the set.
+Song 3 and song 4 can't follow each other, so they can't both be in the set.
+Song 3 and song 10 can't follow each other, so they can't both be in the set.
+Song 10 and song 1 can't follow each other, so they can't both be in the set.
+Song 10 and song 4 can't follow each other, so they can't both be in the set.
+I'll pick the largest possible lineup from these 11 songs while avoiding the 18 conflicts.
+
+Also, when you send the final lineup, please stick it into a tiny JSON snippet like this so it's easy to read and parse:
+
+{
+  ""solution"": [""song_id"", ""song_id"", ...]
+}
+
+This just means ""solution"" holds a list of the song identifiers you picked for the set - each entry should be the exact label used in the instance (it's just a sketch of the shape I want, not the actual answer). Use the real song IDs from the input; don't make up new names or change them.
+
+Use identifiers exactly as they appear in the instance input - no renaming and no new labels.
+For example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,zero_based,"{""problem_type"":""MIS"",""num_nodes"":11,""num_edges"":18,""edges"":[{""u"":3,""v"":2},{""u"":3,""v"":6},{""u"":3,""v"":8},{""u"":3,""v"":9},{""u"":3,""v"":11},{""u"":6,""v"":5},{""u"":6,""v"":10},{""u"":6,""v"":11},{""u"":9,""v"":1},{""u"":9,""v"":2},{""u"":9,""v"":7},{""u"":10,""v"":8},{""u"":7,""v"":8},{""u"":4,""v"":2},{""u"":4,""v"":5},{""u"":4,""v"":11},{""u"":11,""v"":2},{""u"":11,""v"":5}],""source_file"":""wa2010.mtx"",""density"":0.32727272727272727,""edge_connectivity"":1}","[1,3,5,7,10]",5.0,"{""num_nodes"":11,""num_edges"":18,""edges"":[{""u"":2,""v"":1},{""u"":2,""v"":5},{""u"":2,""v"":7},{""u"":2,""v"":8},{""u"":2,""v"":10},{""u"":5,""v"":4},{""u"":5,""v"":9},{""u"":5,""v"":10},{""u"":8,""v"":0},{""u"":8,""v"":1},{""u"":8,""v"":6},{""u"":9,""v"":7},{""u"":6,""v"":7},{""u"":3,""v"":1},{""u"":3,""v"":4},{""u"":3,""v"":10},{""u"":10,""v"":1},{""u"":10,""v"":4}]}","[0,2,4,6,9]"
+MIS_S_026,MIS,S,26,"There's a bit of a puzzle in the office: pick which desks to use so the most people can work on-site without ever placing two folks who clash next to each other. What makes one choice better than another is simple - it seats more people, and that's measured by tallying the occupied desks. The rules are straightforward: each desk gets at most one person and any pair marked as ""shouldn't sit together"" cannot both be chosen. The specific floorplan and the list of those pairings are shown below.
+
+{
+  ""total_desks"": 12,
+  ""num_conflict_pairs"": 20,
+  ""edges"": [
+    {
+      ""desk_a"": 8,
+      ""desk_b"": 0
+    },
+    {
+      ""desk_a"": 8,
+      ""desk_b"": 1
+    },
+    {
+      ""desk_a"": 5,
+      ""desk_b"": 2
+    },
+    {
+      ""desk_a"": 5,
+      ""desk_b"": 7
+    },
+    {
+      ""desk_a"": 5,
+      ""desk_b"": 10
+    },
+    {
+      ""desk_a"": 3,
+      ""desk_b"": 1
+    },
+    {
+      ""desk_a"": 3,
+      ""desk_b"": 6
+    },
+    {
+      ""desk_a"": 3,
+      ""desk_b"": 9
+    },
+    {
+      ""desk_a"": 3,
+      ""desk_b"": 10
+    },
+    {
+      ""desk_a"": 11,
+      ""desk_b"": 4
+    },
+    {
+      ""desk_a"": 11,
+      ""desk_b"": 7
+    },
+    {
+      ""desk_a"": 11,
+      ""desk_b"": 9
+    },
+    {
+      ""desk_a"": 9,
+      ""desk_b"": 4
+    },
+    {
+      ""desk_a"": 9,
+      ""desk_b"": 6
+    },
+    {
+      ""desk_a"": 9,
+      ""desk_b"": 7
+    },
+    {
+      ""desk_a"": 9,
+      ""desk_b"": 10
+    },
+    {
+      ""desk_a"": 10,
+      ""desk_b"": 1
+    },
+    {
+      ""desk_a"": 2,
+      ""desk_b"": 1
+    },
+    {
+      ""desk_a"": 1,
+      ""desk_b"": 0
+    },
+    {
+      ""desk_a"": 1,
+      ""desk_b"": 6
+    }
+  ]
+}
+
+If you want to give me the chosen desks, a tiny JSON snippet like this is perfect:
+
+{
+  ""solution"": [""desk_id"", ""desk_id"", ...]
+}
+
+Think of it like a simple list: ""solution"" holds the desks you picked, and each entry is the exact desk identifier from the floorplan. It's just a sketch of the shape I expect - swap those placeholders out for the real desk IDs when you send the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",json,zero_based,"{""problem_type"":""MIS"",""num_nodes"":12,""num_edges"":20,""edges"":[{""u"":9,""v"":1},{""u"":9,""v"":2},{""u"":6,""v"":3},{""u"":6,""v"":8},{""u"":6,""v"":11},{""u"":4,""v"":2},{""u"":4,""v"":7},{""u"":4,""v"":10},{""u"":4,""v"":11},{""u"":12,""v"":5},{""u"":12,""v"":8},{""u"":12,""v"":10},{""u"":10,""v"":5},{""u"":10,""v"":7},{""u"":10,""v"":8},{""u"":10,""v"":11},{""u"":11,""v"":2},{""u"":3,""v"":2},{""u"":2,""v"":1},{""u"":2,""v"":7}],""source_file"":""wv2010.mtx"",""density"":0.30303030303030304,""edge_connectivity"":2}","[1,3,5,7,8,11]",6.0,"{""num_nodes"":12,""num_edges"":20,""edges"":[{""u"":8,""v"":0},{""u"":8,""v"":1},{""u"":5,""v"":2},{""u"":5,""v"":7},{""u"":5,""v"":10},{""u"":3,""v"":1},{""u"":3,""v"":6},{""u"":3,""v"":9},{""u"":3,""v"":10},{""u"":11,""v"":4},{""u"":11,""v"":7},{""u"":11,""v"":9},{""u"":9,""v"":4},{""u"":9,""v"":6},{""u"":9,""v"":7},{""u"":9,""v"":10},{""u"":10,""v"":1},{""u"":2,""v"":1},{""u"":1,""v"":0},{""u"":1,""v"":6}]}","[0,2,4,6,7,10]"
+MIS_S_027,MIS,S,27,"Out at the lake the weekend roster needs putting together, and the brief is to pick as many different activities as possible, with the catch that certain activities conflict and can't be paired. The task is deciding which activities to slot into the program so none of the chosen ones are in conflict and the overall program is as large as it can be. You tell which plan is better by the number of activities it contains - simply count them to compare. Each activity chosen must be unique and must not clash with any other chosen activity; the concrete activity names and their conflict relationships are listed below.
+
+There are 10 activities in total and 23 conflicts.
+
+| activity_a | activity_b |
+|---|---|
+| 9 | 0 |
+| 9 | 1 |
+| 9 | 4 |
+| 9 | 6 |
+| 5 | 0 |
+| 5 | 1 |
+| 5 | 3 |
+| 5 | 7 |
+| 6 | 0 |
+| 6 | 1 |
+| 6 | 3 |
+| 0 | 2 |
+| 0 | 3 |
+| 0 | 4 |
+| 0 | 7 |
+| 0 | 8 |
+| 2 | 1 |
+| 2 | 4 |
+| 1 | 3 |
+| 1 | 4 |
+| 1 | 7 |
+| 1 | 8 |
+| 7 | 8 |
+
+If you want to hand the answer back in a tidy, machine-friendly way, just drop the chosen activities into a tiny JSON snippet like this:
+
+{
+  ""solution"": [""activity_id"", ""activity_id"", ...]
+}
+
+Think of ""solution"" as the list of activities you've picked for the weekend roster - each entry should be the exact identifier for an activity from the instance. This JSON is just a sketch of the shape I expect, not the final filled-in answer.
+
+Please use the identifiers exactly as they appear in the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",markdown_table,zero_based,"{""problem_type"":""MIS"",""num_nodes"":10,""num_edges"":23,""edges"":[{""u"":10,""v"":1},{""u"":10,""v"":2},{""u"":10,""v"":5},{""u"":10,""v"":7},{""u"":6,""v"":1},{""u"":6,""v"":2},{""u"":6,""v"":4},{""u"":6,""v"":8},{""u"":7,""v"":1},{""u"":7,""v"":2},{""u"":7,""v"":4},{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":1,""v"":5},{""u"":1,""v"":8},{""u"":1,""v"":9},{""u"":3,""v"":2},{""u"":3,""v"":5},{""u"":2,""v"":4},{""u"":2,""v"":5},{""u"":2,""v"":8},{""u"":2,""v"":9},{""u"":8,""v"":9}],""source_file"":""wi2010.mtx"",""density"":0.5111111111111111,""edge_connectivity"":3}","[3,6,9,10]",4.0,"{""num_nodes"":10,""num_edges"":23,""edges"":[{""u"":9,""v"":0},{""u"":9,""v"":1},{""u"":9,""v"":4},{""u"":9,""v"":6},{""u"":5,""v"":0},{""u"":5,""v"":1},{""u"":5,""v"":3},{""u"":5,""v"":7},{""u"":6,""v"":0},{""u"":6,""v"":1},{""u"":6,""v"":3},{""u"":0,""v"":2},{""u"":0,""v"":3},{""u"":0,""v"":4},{""u"":0,""v"":7},{""u"":0,""v"":8},{""u"":2,""v"":1},{""u"":2,""v"":4},{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":1,""v"":7},{""u"":1,""v"":8},{""u"":7,""v"":8}]}","[2,5,8,9]"
+MIS_S_028,MIS,S,28,"I'm organizing the readings for a wedding and need to pick as many pieces as possible for the ceremony, but some of those readings clash with each other and can't both be used. The job is to assemble the biggest collection of readings that don't conflict - the better the plan, the more readings it contains, so the plan is judged simply by counting how many are included. Each reading can only be used once and clashing pairs must never both be chosen. The exact list of readings and which ones clash will be shown below.
+
+Below are the 8 readings and 11 clash pairs I'll consider:
+Reading 4 clashes with reading 0 - I can't include both.
+Reading 4 clashes with reading 1 - I can't include both.
+Reading 4 clashes with reading 2 - I can't include both.
+Reading 4 clashes with reading 3 - I can't include both.
+Reading 4 clashes with reading 6 - I can't include both.
+Reading 5 clashes with reading 3 - I can't include both.
+Reading 1 clashes with reading 3 - I can't include both.
+Reading 6 clashes with reading 0 - I can't include both.
+Reading 2 clashes with reading 3 - I can't include both.
+Reading 7 clashes with reading 3 - I can't include both.
+Reading 0 clashes with reading 3 - I can't include both.
+I'll choose the largest set of non-conflicting readings from these 8 options and 11 clashes.
+
+If you could send your final plan in a tiny, predictable format, that would be great - something like this JSON sketch so I can quickly check which readings you picked:
+
+{
+  ""solution"": [""reading_id"", ""reading_id"", ...]
+}
+
+Here ""solution"" is just the list of readings you want to use - each entry should be the reading's identifier from the instance. Think of it like filling in a simple form: put each chosen reading's ID inside the array, comma-separated. This block is just a template showing the shape I expect, not the actual answer.
+
+Please make sure to use the identifiers exactly as they appear in the instance input - no renaming, no made-up labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,zero_based,"{""problem_type"":""MIS"",""num_nodes"":8,""num_edges"":11,""edges"":[{""u"":5,""v"":1},{""u"":5,""v"":2},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":7},{""u"":6,""v"":4},{""u"":2,""v"":4},{""u"":7,""v"":1},{""u"":3,""v"":4},{""u"":8,""v"":4},{""u"":1,""v"":4}],""source_file"":""wi2010.mtx"",""density"":0.39285714285714285,""edge_connectivity"":1}","[2,3,6,7,8]",5.0,"{""num_nodes"":8,""num_edges"":11,""edges"":[{""u"":4,""v"":0},{""u"":4,""v"":1},{""u"":4,""v"":2},{""u"":4,""v"":3},{""u"":4,""v"":6},{""u"":5,""v"":3},{""u"":1,""v"":3},{""u"":6,""v"":0},{""u"":2,""v"":3},{""u"":7,""v"":3},{""u"":0,""v"":3}]}","[1,2,5,6,7]"
+MIS_S_029,MIS,S,29,"Someone at the shelter has to go through the list and pick which animals can go into the communal play area; the aim is to allow as many animals as possible while never putting any pair that fights into the same session. Success is measured by how many animals get the green light - higher is better - and you get that by counting the approved animals. No animal can be approved twice and no selection may include two animals that clash. The concrete details will be shown below.
+
+There are 9 animals listed and 16 fighting pairs to evaluate.
+Animals 4 and 7 form a fighting pair and must not be approved together.
+Animals 4 and 8 form a fighting pair and must not be approved together.
+Animals 5 and 3 form a fighting pair and must not be approved together.
+Animals 5 and 6 form a fighting pair and must not be approved together.
+Animals 5 and 8 form a fighting pair and must not be approved together.
+Animals 5 and 9 form a fighting pair and must not be approved together.
+Animals 8 and 1 form a fighting pair and must not be approved together.
+Animals 8 and 3 form a fighting pair and must not be approved together.
+Animals 8 and 6 form a fighting pair and must not be approved together.
+Animals 8 and 7 form a fighting pair and must not be approved together.
+Animals 8 and 9 form a fighting pair and must not be approved together.
+Animals 2 and 1 form a fighting pair and must not be approved together.
+Animals 2 and 9 form a fighting pair and must not be approved together.
+Animals 6 and 9 form a fighting pair and must not be approved together.
+Animals 3 and 9 form a fighting pair and must not be approved together.
+Animals 1 and 9 form a fighting pair and must not be approved together.
+Approve as many of the 9 animals as possible while avoiding any of the 16 conflicts.
+
+Also, when you hand back which animals get the green light, please use this simple JSON layout so it's easy to read and validate:
+
+{
+  ""solution"": [""animal_id"", ""animal_id"", ...]
+}
+
+Think of ""solution"" as the list of animal IDs you're approving for the communal play area. Each entry in that array should be the exact identifier for an animal from the input (one per animal, no duplicates). This JSON is just a sketch of the expected shape - fill it with the actual IDs when you're ready.
+
+All identifiers must be used exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",nl,one_based,"{""problem_type"":""MIS"",""num_nodes"":9,""num_edges"":16,""edges"":[{""u"":4,""v"":7},{""u"":4,""v"":8},{""u"":5,""v"":3},{""u"":5,""v"":6},{""u"":5,""v"":8},{""u"":5,""v"":9},{""u"":8,""v"":1},{""u"":8,""v"":3},{""u"":8,""v"":6},{""u"":8,""v"":7},{""u"":8,""v"":9},{""u"":2,""v"":1},{""u"":2,""v"":9},{""u"":6,""v"":9},{""u"":3,""v"":9},{""u"":1,""v"":9}],""source_file"":""wi2010.mtx"",""density"":0.4444444444444444,""edge_connectivity"":2}","[2,3,4,6]",4.0,"{""num_nodes"":9,""num_edges"":16,""edges"":[{""u"":4,""v"":7},{""u"":4,""v"":8},{""u"":5,""v"":3},{""u"":5,""v"":6},{""u"":5,""v"":8},{""u"":5,""v"":9},{""u"":8,""v"":1},{""u"":8,""v"":3},{""u"":8,""v"":6},{""u"":8,""v"":7},{""u"":8,""v"":9},{""u"":2,""v"":1},{""u"":2,""v"":9},{""u"":6,""v"":9},{""u"":3,""v"":9},{""u"":1,""v"":9}]}","[2,3,4,6]"
+MIS_S_030,MIS,S,30,"There's a corner plot everyone loves, and the plan is to plant the most diverse collection of shrubs without sitting together any pair that emit chemicals that hurt each other. The choice is about which shrubs to include so no two conflicting types end up planted side by side. The way to tell if a plan is better is straightforward: count how many different shrubs are in the bed - the higher the count, the better the plan. Each variety can only be used once and every selected plant must actually be in the bed. The concrete details are shown below.
+
+# total_shrub_varieties=11
+# total_conflicting_pairs=15
+shrub_a_id,shrub_b_id
+G,H
+G,K
+B,I
+B,J
+I,C
+I,F
+I,J
+E,H
+E,J
+C,J
+D,A
+D,J
+J,H
+J,K
+A,H
+
+When you send the planting plan back, just stick to a tiny JSON snippet like this so I can read it easily:
+
+{
+  ""solution"": [""shrub_id"", ""shrub_id"", ...]
+}
+
+Here, ""solution"" is the list of shrubs you want in the bed - each entry is just the ID for a shrub. Think of it like filling out a short form: one ID per chosen shrub. This JSON is just the expected shape (a sketch), not the actual answer.
+
+Please use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MIS"",""num_nodes"":11,""num_edges"":15,""edges"":[{""u"":7,""v"":8},{""u"":7,""v"":11},{""u"":2,""v"":9},{""u"":2,""v"":10},{""u"":9,""v"":3},{""u"":9,""v"":6},{""u"":9,""v"":10},{""u"":5,""v"":8},{""u"":5,""v"":10},{""u"":3,""v"":10},{""u"":4,""v"":1},{""u"":4,""v"":10},{""u"":10,""v"":8},{""u"":10,""v"":11},{""u"":1,""v"":8}],""source_file"":""vt2010.mtx"",""density"":0.2727272727272727,""edge_connectivity"":1}","[1,2,3,5,6,7]",6.0,"{""num_nodes"":11,""num_edges"":15,""edges"":[{""u"":""G"",""v"":""H""},{""u"":""G"",""v"":""K""},{""u"":""B"",""v"":""I""},{""u"":""B"",""v"":""J""},{""u"":""I"",""v"":""C""},{""u"":""I"",""v"":""F""},{""u"":""I"",""v"":""J""},{""u"":""E"",""v"":""H""},{""u"":""E"",""v"":""J""},{""u"":""C"",""v"":""J""},{""u"":""D"",""v"":""A""},{""u"":""D"",""v"":""J""},{""u"":""J"",""v"":""H""},{""u"":""J"",""v"":""K""},{""u"":""A"",""v"":""H""}]}","[""A"",""B"",""C"",""E"",""F"",""G""]"
+MIS_S_031,MIS,S,31,"We've got one showy mannequin and a pile of accessories to choose from, and the job is to pick the largest possible set that looks harmonious - no two items that clash should be included side by side. Success here is measured by the total number of accessories placed in the window: just tally up the selected pieces and try to make that number as high as possible. Every item is unique (can't be used twice) and any pair that conflicts must not both be selected. The exact items and the clash notes are given below.
+
+# total_accessories=10
+# total_clashes=18
+accessory_a,accessory_b
+4,1
+4,5
+4,7
+4,9
+0,1
+0,2
+0,5
+0,8
+7,5
+7,9
+8,2
+2,3
+2,5
+2,6
+5,6
+6,3
+6,9
+3,9
+
+Oh, and when you send back the picks, please use this simple JSON layout so it's easy to check automatically:
+
+{
+  ""solution"": [""accessory_id"", ""accessory_id"", ...]
+}
+
+The ""solution"" list should contain the identifiers of the accessories you want in the window - one entry per chosen piece. Think of it like filling out a short form: put each chosen item's ID in that array. This JSON is just a sketch of the shape I need, not the actual final selection.
+
+Please be sure to use the exact identifiers from the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,zero_based,"{""problem_type"":""MIS"",""num_nodes"":10,""num_edges"":18,""edges"":[{""u"":5,""v"":2},{""u"":5,""v"":6},{""u"":5,""v"":8},{""u"":5,""v"":10},{""u"":1,""v"":2},{""u"":1,""v"":3},{""u"":1,""v"":6},{""u"":1,""v"":9},{""u"":8,""v"":6},{""u"":8,""v"":10},{""u"":9,""v"":3},{""u"":3,""v"":4},{""u"":3,""v"":6},{""u"":3,""v"":7},{""u"":6,""v"":7},{""u"":7,""v"":4},{""u"":7,""v"":10},{""u"":4,""v"":10}],""source_file"":""wa2010.mtx"",""density"":0.4,""edge_connectivity"":2}","[2,4,6,9]",4.0,"{""num_nodes"":10,""num_edges"":18,""edges"":[{""u"":4,""v"":1},{""u"":4,""v"":5},{""u"":4,""v"":7},{""u"":4,""v"":9},{""u"":0,""v"":1},{""u"":0,""v"":2},{""u"":0,""v"":5},{""u"":0,""v"":8},{""u"":7,""v"":5},{""u"":7,""v"":9},{""u"":8,""v"":2},{""u"":2,""v"":3},{""u"":2,""v"":5},{""u"":2,""v"":6},{""u"":5,""v"":6},{""u"":6,""v"":3},{""u"":6,""v"":9},{""u"":3,""v"":9}]}","[1,3,5,8]"
+MIS_S_032,MIS,S,32,"Recently the conference committee realized a simple rule would make panels smoother: try to include as many speakers as possible without seating together anyone who's publicly argued. The ""best"" panel in this sense is the one that ends up with the most individual invitees - just count them - and it can't contain any pair who have a public disagreement. Every person is either invited or not, and duplicates aren't allowed. The detailed speaker roster and conflict info are shown below.
+
+There are 10 distinct speakers on the roster and 18 unordered pairs of public disagreements.
+Speakers 3 and 1 have a public disagreement and therefore cannot both be invited.
+Speakers 3 and 2 have a public disagreement and therefore cannot both be invited.
+Speakers 3 and 5 have a public disagreement and therefore cannot both be invited.
+Speakers 3 and 6 have a public disagreement and therefore cannot both be invited.
+Speakers 3 and 7 have a public disagreement and therefore cannot both be invited.
+Speakers 3 and 8 have a public disagreement and therefore cannot both be invited.
+Speakers 8 and 0 have a public disagreement and therefore cannot both be invited.
+Speakers 8 and 1 have a public disagreement and therefore cannot both be invited.
+Speakers 8 and 5 have a public disagreement and therefore cannot both be invited.
+Speakers 8 and 6 have a public disagreement and therefore cannot both be invited.
+Speakers 8 and 9 have a public disagreement and therefore cannot both be invited.
+Speakers 7 and 6 have a public disagreement and therefore cannot both be invited.
+Speakers 0 and 4 have a public disagreement and therefore cannot both be invited.
+Speakers 0 and 6 have a public disagreement and therefore cannot both be invited.
+Speakers 1 and 6 have a public disagreement and therefore cannot both be invited.
+Speakers 9 and 4 have a public disagreement and therefore cannot both be invited.
+Speakers 4 and 6 have a public disagreement and therefore cannot both be invited.
+Speakers 5 and 2 have a public disagreement and therefore cannot both be invited.
+Form the panel that maximizes the number of invitees without including any listed conflicting pair.
+
+Oh, and when you send back the final invite list, a tiny JSON snippet like this is easiest to handle:
+
+{
+  ""solution"": [""speaker_id"", ""speaker_id"", ...]
+}
+
+Think of ""solution"" as the list of invited speaker IDs - just the IDs, nothing fancy. This JSON is just a sketch of the shape I expect, not the actual answer.
+
+Please make sure to use the exact identifiers from the instance input - no renaming and no new labels.
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,zero_based,"{""problem_type"":""MIS"",""num_nodes"":10,""num_edges"":18,""edges"":[{""u"":4,""v"":2},{""u"":4,""v"":3},{""u"":4,""v"":6},{""u"":4,""v"":7},{""u"":4,""v"":8},{""u"":4,""v"":9},{""u"":9,""v"":1},{""u"":9,""v"":2},{""u"":9,""v"":6},{""u"":9,""v"":7},{""u"":9,""v"":10},{""u"":8,""v"":7},{""u"":1,""v"":5},{""u"":1,""v"":7},{""u"":2,""v"":7},{""u"":10,""v"":5},{""u"":5,""v"":7},{""u"":6,""v"":3}],""source_file"":""wa2010.mtx"",""density"":0.4,""edge_connectivity"":2}","[1,2,3,8,10]",5.0,"{""num_nodes"":10,""num_edges"":18,""edges"":[{""u"":3,""v"":1},{""u"":3,""v"":2},{""u"":3,""v"":5},{""u"":3,""v"":6},{""u"":3,""v"":7},{""u"":3,""v"":8},{""u"":8,""v"":0},{""u"":8,""v"":1},{""u"":8,""v"":5},{""u"":8,""v"":6},{""u"":8,""v"":9},{""u"":7,""v"":6},{""u"":0,""v"":4},{""u"":0,""v"":6},{""u"":1,""v"":6},{""u"":9,""v"":4},{""u"":4,""v"":6},{""u"":5,""v"":2}]}","[0,1,2,7,9]"
+MIS_S_033,MIS,S,33,"There's a single festival slot to fill and a bunch of short films on the roster, except some titles conflict with each other because of licensing, so they can't both be programmed. The decision is which combination of films to run so the block contains as many shorts as possible; the measure of success is just the count of films actually scheduled. No title can be duplicated, and any pair that has a licensing conflict has to be kept apart. The concrete details - who's in the pool and which pairs conflict - appear below.
+
+# num_films=9
+# num_conflicts=14
+film_a_id,film_b_id
+A,B
+A,D
+A,E
+A,G
+C,B
+C,D
+C,F
+F,D
+E,B
+E,D
+D,G
+D,I
+G,H
+G,I
+
+When you tell me which films made the cut, toss the answer back in this little JSON shape so it's easy to read programmatically:
+
+{
+  ""solution"": [""film_id"", ""film_id"", ...]
+}
+
+Here ""solution"" is just the list of films you're scheduling in the slot - each entry should be the exact film identifier from the input (order doesn't matter, it's just the chosen set). This block is only a sketch of the shape I want, not the actual selection.
+
+Use the identifiers exactly as they appear in the instance input - do not rename them or invent new labels.
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,names,"{""problem_type"":""MIS"",""num_nodes"":9,""num_edges"":14,""edges"":[{""u"":1,""v"":2},{""u"":1,""v"":4},{""u"":1,""v"":5},{""u"":1,""v"":7},{""u"":3,""v"":2},{""u"":3,""v"":4},{""u"":3,""v"":6},{""u"":6,""v"":4},{""u"":5,""v"":2},{""u"":5,""v"":4},{""u"":4,""v"":7},{""u"":4,""v"":9},{""u"":7,""v"":8},{""u"":7,""v"":9}],""source_file"":""wv2010.mtx"",""density"":0.3888888888888889,""edge_connectivity"":1}","[1,6,8,9]",4.0,"{""num_nodes"":9,""num_edges"":14,""edges"":[{""u"":""A"",""v"":""B""},{""u"":""A"",""v"":""D""},{""u"":""A"",""v"":""E""},{""u"":""A"",""v"":""G""},{""u"":""C"",""v"":""B""},{""u"":""C"",""v"":""D""},{""u"":""C"",""v"":""F""},{""u"":""F"",""v"":""D""},{""u"":""E"",""v"":""B""},{""u"":""E"",""v"":""D""},{""u"":""D"",""v"":""G""},{""u"":""D"",""v"":""I""},{""u"":""G"",""v"":""H""},{""u"":""G"",""v"":""I""}]}","[""A"",""F"",""H"",""I""]"
+MIS_S_034,MIS,S,34,"We were sorting out patrol shifts at the block meeting and the job fell to me: pick the largest crew of partners for evening rounds while making sure no two people who've said they won't work together end up on the same team. The decision is which combination of folks gives the highest headcount; you judge that by counting team members, and the winning plan is the one with the most people. The must-follow rule is that any pair that refuses to collaborate can't both be chosen, and nobody is duplicated. The specific names and who can't pair with whom are listed below.
+
+# total_people=9
+# total_conflict_pairs=16
+person_a,person_b
+B,G
+B,H
+B,I
+E,A
+E,C
+E,D
+C,D
+C,G
+C,I
+D,A
+D,H
+I,F
+F,A
+F,H
+G,H
+A,H
+
+Oh, and when you send back the final pick, could you put it in this simple JSON shape so it's easy to read by my script?
+
+{
+  ""solution"": [""person_id"", ""person_id"", ...]
+}
+
+This just means ""solution"" should be an array listing the chosen people (use their IDs exactly as given). Think of it like a tiny form: the array holds the IDs of the folks you're assigning to the evening patrols.
+
+This JSON is just a sketch of the expected shape - not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - don't rename or invent any labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MIS"",""num_nodes"":9,""num_edges"":16,""edges"":[{""u"":2,""v"":7},{""u"":2,""v"":8},{""u"":2,""v"":9},{""u"":5,""v"":1},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":3,""v"":4},{""u"":3,""v"":7},{""u"":3,""v"":9},{""u"":4,""v"":1},{""u"":4,""v"":8},{""u"":9,""v"":6},{""u"":6,""v"":1},{""u"":6,""v"":8},{""u"":7,""v"":8},{""u"":1,""v"":8}],""source_file"":""wi2010.mtx"",""density"":0.4444444444444444,""edge_connectivity"":3}","[2,5,6]",3.0,"{""num_nodes"":9,""num_edges"":16,""edges"":[{""u"":""B"",""v"":""G""},{""u"":""B"",""v"":""H""},{""u"":""B"",""v"":""I""},{""u"":""E"",""v"":""A""},{""u"":""E"",""v"":""C""},{""u"":""E"",""v"":""D""},{""u"":""C"",""v"":""D""},{""u"":""C"",""v"":""G""},{""u"":""C"",""v"":""I""},{""u"":""D"",""v"":""A""},{""u"":""D"",""v"":""H""},{""u"":""I"",""v"":""F""},{""u"":""F"",""v"":""A""},{""u"":""F"",""v"":""H""},{""u"":""G"",""v"":""H""},{""u"":""A"",""v"":""H""}]}","[""B"",""E"",""F""]"
+MIS_S_035,MIS,S,35,"There's a themed chapter to fill, and the editor's challenge is to pick a collection of recipes that's as large as possible but doesn't contain any duplicates or recipes that contradict one another. A better decision is the one that results in a bigger final list of unique, non-contradictory recipes - success can be checked by counting how many recipes are included. The concrete details appear below.
+
+There are 10 recipes available in total and 17 num conflicting pairs.
+
+| recipe_a_id | recipe_b_id |
+|---|---|
+| G | A |
+| G | H |
+| B | A |
+| B | C |
+| B | J |
+| D | A |
+| F | A |
+| F | I |
+| F | J |
+| E | A |
+| E | C |
+| E | I |
+| E | J |
+| A | H |
+| A | I |
+| C | J |
+| I | J |
+
+Oh, and when you send back the chosen recipes, stick to a tiny JSON layout so it's easy for the editor to read. Something like this:
+
+{
+  ""solution"": [""recipe_id"", ""recipe_id"", ...]
+}
+
+Here ""solution"" is the list of recipe identifiers you're including in the chapter - just the IDs, nothing else. This JSON is just a sketch of the shape I expect, not the actual answer.
+
+Please use the exact identifiers from the instance input - don't rename them or invent new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",markdown_table,names,"{""problem_type"":""MIS"",""num_nodes"":10,""num_edges"":17,""edges"":[{""u"":7,""v"":1},{""u"":7,""v"":8},{""u"":2,""v"":1},{""u"":2,""v"":3},{""u"":2,""v"":10},{""u"":4,""v"":1},{""u"":6,""v"":1},{""u"":6,""v"":9},{""u"":6,""v"":10},{""u"":5,""v"":1},{""u"":5,""v"":3},{""u"":5,""v"":9},{""u"":5,""v"":10},{""u"":1,""v"":8},{""u"":1,""v"":9},{""u"":3,""v"":10},{""u"":9,""v"":10}],""source_file"":""vt2010.mtx"",""density"":0.37777777777777777,""edge_connectivity"":1}","[2,4,5,6,7]",5.0,"{""num_nodes"":10,""num_edges"":17,""edges"":[{""u"":""G"",""v"":""A""},{""u"":""G"",""v"":""H""},{""u"":""B"",""v"":""A""},{""u"":""B"",""v"":""C""},{""u"":""B"",""v"":""J""},{""u"":""D"",""v"":""A""},{""u"":""F"",""v"":""A""},{""u"":""F"",""v"":""I""},{""u"":""F"",""v"":""J""},{""u"":""E"",""v"":""A""},{""u"":""E"",""v"":""C""},{""u"":""E"",""v"":""I""},{""u"":""E"",""v"":""J""},{""u"":""A"",""v"":""H""},{""u"":""A"",""v"":""I""},{""u"":""C"",""v"":""J""},{""u"":""I"",""v"":""J""}]}","[""B"",""D"",""E"",""F"",""G""]"
+MIS_S_036,MIS,S,36,"We were putting together the vendor lineup for a craft market and discovered a few pairs of sellers that just won't tolerate each other at the same show. The task became choosing which vendors to invite into that single row so the row holds as many different booths as we can, while making sure no two incompatible vendors end up both accepted. To compare different choices, just count how many vendors are accepted in each; the choice with the highest count wins, and every vendor is considered once - no duplicates. The concrete vendor details and incompatibilities are shown below.
+
+There are 8 vendors in total and 11 num conflict pairs.
+
+| vendor_a | vendor_b |
+|---|---|
+| 4 | 3 |
+| 4 | 7 |
+| 3 | 2 |
+| 3 | 8 |
+| 1 | 5 |
+| 1 | 7 |
+| 1 | 8 |
+| 5 | 6 |
+| 5 | 8 |
+| 6 | 8 |
+| 7 | 8 |
+
+Quick note on the answer format - I'll keep it simple: give me a JSON object with a single key ""solution"" whose value is a list of the vendor identifiers you're accepting for the row.
+
+{
+  ""solution"": [""vendor_id"", ""vendor_id"", ...]
+}
+
+Here ""solution"" is just the list of accepted vendor IDs in the order you like. Treat this like filling in a form: put each chosen vendor's identifier as a string in that array. This JSON is only a sketch of the shape I need, not the actual final choices.
+
+Please use the identifiers exactly as they appear in the instance input - don't rename them or invent new labels.
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",markdown_table,one_based,"{""problem_type"":""MIS"",""num_nodes"":8,""num_edges"":11,""edges"":[{""u"":4,""v"":3},{""u"":4,""v"":7},{""u"":3,""v"":2},{""u"":3,""v"":8},{""u"":1,""v"":5},{""u"":1,""v"":7},{""u"":1,""v"":8},{""u"":5,""v"":6},{""u"":5,""v"":8},{""u"":6,""v"":8},{""u"":7,""v"":8}],""source_file"":""vt2010.mtx"",""density"":0.39285714285714285,""edge_connectivity"":1}","[1,2,4,6]",4.0,"{""num_nodes"":8,""num_edges"":11,""edges"":[{""u"":4,""v"":3},{""u"":4,""v"":7},{""u"":3,""v"":2},{""u"":3,""v"":8},{""u"":1,""v"":5},{""u"":1,""v"":7},{""u"":1,""v"":8},{""u"":5,""v"":6},{""u"":5,""v"":8},{""u"":6,""v"":8},{""u"":7,""v"":8}]}","[1,2,4,6]"
+MIS_S_037,MIS,S,37,"I'm the tech lead juggling a stack of feature ideas for the next release, and the task is to pick a pack of features that work together - as many as possible, but never two that clash. The better plan is simply the one that ends up with more features chosen, so success is just counting how many items made the cut. Every picked feature has to come from the list and can only be chosen once, and no pair that's known to conflict can be included together. The exact feature list and which features clash will be shown below.
+
+{
+  ""total_feature_ideas"": 8,
+  ""total_conflicting_pairs"": 11,
+  ""edges"": [
+    {
+      ""feature_a_id"": 6,
+      ""feature_b_id"": 2
+    },
+    {
+      ""feature_a_id"": 6,
+      ""feature_b_id"": 7
+    },
+    {
+      ""feature_a_id"": 5,
+      ""feature_b_id"": 3
+    },
+    {
+      ""feature_a_id"": 5,
+      ""feature_b_id"": 4
+    },
+    {
+      ""feature_a_id"": 5,
+      ""feature_b_id"": 7
+    },
+    {
+      ""feature_a_id"": 2,
+      ""feature_b_id"": 4
+    },
+    {
+      ""feature_a_id"": 2,
+      ""feature_b_id"": 7
+    },
+    {
+      ""feature_a_id"": 4,
+      ""feature_b_id"": 7
+    },
+    {
+      ""feature_a_id"": 0,
+      ""feature_b_id"": 1
+    },
+    {
+      ""feature_a_id"": 0,
+      ""feature_b_id"": 7
+    },
+    {
+      ""feature_a_id"": 3,
+      ""feature_b_id"": 7
+    }
+  ]
+}
+
+Also, when you send back your final pick, just drop a tiny JSON snippet in the same shape as below so it's easy to parse:
+
+{
+  ""solution"": [""feature_id"", ""feature_id"", ...]
+}
+
+This is just a sketch of the expected shape - ""solution"" is the list of features you want to include in the pack. Treat each string in the array as one chosen feature from the list shown in the instance; it's like ticking boxes on a simple form.
+
+Important: use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",json,zero_based,"{""problem_type"":""MIS"",""num_nodes"":8,""num_edges"":11,""edges"":[{""u"":7,""v"":3},{""u"":7,""v"":8},{""u"":6,""v"":4},{""u"":6,""v"":5},{""u"":6,""v"":8},{""u"":3,""v"":5},{""u"":3,""v"":8},{""u"":5,""v"":8},{""u"":1,""v"":2},{""u"":1,""v"":8},{""u"":4,""v"":8}],""source_file"":""wv2010.mtx"",""density"":0.39285714285714285,""edge_connectivity"":1}","[2,4,5,7]",4.0,"{""num_nodes"":8,""num_edges"":11,""edges"":[{""u"":6,""v"":2},{""u"":6,""v"":7},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":7},{""u"":2,""v"":4},{""u"":2,""v"":7},{""u"":4,""v"":7},{""u"":0,""v"":1},{""u"":0,""v"":7},{""u"":3,""v"":7}]}","[1,3,4,6]"
+MIS_S_038,MIS,S,38,"Someone at the venue office is juggling a long list of bands and soloists and wants to assemble the largest possible show where no two performers have any known personal or contractual beef. The task is to decide who to invite; the winning decision is the one that produces the biggest roster. Success is determined by the number of distinct performers chosen (just add them up), but it's important that no conflicting pair is included and that each musician appears only once. The specific names and relationships are shown below.
+
+# total_performers_count=11
+# total_conflict_pairs_count=19
+performer_a,performer_b
+10,2
+10,5
+10,9
+11,5
+11,6
+11,7
+9,2
+9,4
+9,6
+9,7
+8,5
+8,7
+1,4
+1,6
+6,4
+6,7
+3,5
+7,5
+5,2
+
+Oh, and when you're ready to give the answer, please use a tiny JSON snippet like this so it's easy to check:
+
+{
+  ""solution"": [""performer_id"", ""performer_id"", ...]
+}
+
+Here ""solution"" is just the list of performers you're inviting - each entry is the ID of one musician on the roster. Think of it like filling in a short form: put each performer's exact ID in the array, and that's your final pick. This is only a template showing the expected shape, not the actual lineup.
+
+All identifiers must be used exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,one_based,"{""problem_type"":""MIS"",""num_nodes"":11,""num_edges"":19,""edges"":[{""u"":10,""v"":2},{""u"":10,""v"":5},{""u"":10,""v"":9},{""u"":11,""v"":5},{""u"":11,""v"":6},{""u"":11,""v"":7},{""u"":9,""v"":2},{""u"":9,""v"":4},{""u"":9,""v"":6},{""u"":9,""v"":7},{""u"":8,""v"":5},{""u"":8,""v"":7},{""u"":1,""v"":4},{""u"":1,""v"":6},{""u"":6,""v"":4},{""u"":6,""v"":7},{""u"":3,""v"":5},{""u"":7,""v"":5},{""u"":5,""v"":2}],""source_file"":""wa2010.mtx"",""density"":0.34545454545454546,""edge_connectivity"":1}","[1,3,8,10,11]",5.0,"{""num_nodes"":11,""num_edges"":19,""edges"":[{""u"":10,""v"":2},{""u"":10,""v"":5},{""u"":10,""v"":9},{""u"":11,""v"":5},{""u"":11,""v"":6},{""u"":11,""v"":7},{""u"":9,""v"":2},{""u"":9,""v"":4},{""u"":9,""v"":6},{""u"":9,""v"":7},{""u"":8,""v"":5},{""u"":8,""v"":7},{""u"":1,""v"":4},{""u"":1,""v"":6},{""u"":6,""v"":4},{""u"":6,""v"":7},{""u"":3,""v"":5},{""u"":7,""v"":5},{""u"":5,""v"":2}]}","[1,3,8,10,11]"
+MIS_S_039,MIS,S,39,"Recently a homeowner decided to finally hang up a bunch of frames in the living room and wanted to get as many different pieces up as possible. The catch: if two pictures are known to clash in style, they can't both be on the wall at the same time. The way to tell which arrangement is best is to count the number of distinct pictures hanging - the higher the number, the better - and make sure each hung item is one of the originals, not a repeat. The exact details about which pictures exist and which pairs conflict are shown below.
+
+There are 8 pictures count in total and 10 clashing pairs count.
+
+| picture_one_id | picture_two_id |
+|---|---|
+| 2 | 3 |
+| 2 | 4 |
+| 2 | 7 |
+| 1 | 4 |
+| 1 | 8 |
+| 3 | 5 |
+| 4 | 5 |
+| 4 | 6 |
+| 4 | 7 |
+| 4 | 8 |
+
+Oh, and to keep things tidy, please give the final arrangement in this little JSON shape:
+
+{
+  ""solution"": [""picture_id"", ""picture_id"", ...]
+}
+
+Pretty simple: ""solution"" is the list of picture IDs you plan to hang (one entry per picture). Think of it as the form the answer should fill out - just the exact IDs listed in the input, nothing else. This JSON is only a sketch of the expected shape, not the actual answer.
+
+Also, please make sure to use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",markdown_table,one_based,"{""problem_type"":""MIS"",""num_nodes"":8,""num_edges"":10,""edges"":[{""u"":2,""v"":3},{""u"":2,""v"":4},{""u"":2,""v"":7},{""u"":1,""v"":4},{""u"":1,""v"":8},{""u"":3,""v"":5},{""u"":4,""v"":5},{""u"":4,""v"":6},{""u"":4,""v"":7},{""u"":4,""v"":8}],""source_file"":""wi2010.mtx"",""density"":0.35714285714285715,""edge_connectivity"":1}","[1,5,6,7]",4.0,"{""num_nodes"":8,""num_edges"":10,""edges"":[{""u"":2,""v"":3},{""u"":2,""v"":4},{""u"":2,""v"":7},{""u"":1,""v"":4},{""u"":1,""v"":8},{""u"":3,""v"":5},{""u"":4,""v"":5},{""u"":4,""v"":6},{""u"":4,""v"":7},{""u"":4,""v"":8}]}","[1,5,6,7]"
+MIS_S_040,MIS,S,40,"Recently the backyard was reorganized and the challenge became: fill the mixed bed with as many kinds of plants as possible, while making sure none of the selected species are known enemies in the soil or sunlight. The choice to make is a selection from the available species that gives the highest total number of different plants - simply count them to see which selection is better. Every item is either in or out (no repeats), and any two chosen species must be compatible. The exact species list and which pairs clash are shown below.
+
+# total_species_available=10
+# total_conflicting_pairs=17
+species_a_id,species_b_id
+0,3
+0,6
+0,7
+0,8
+2,4
+2,7
+2,8
+9,1
+9,3
+9,7
+1,3
+1,4
+1,7
+6,8
+7,5
+7,8
+8,5
+
+If you want to hand me the final pick, just use the tiny JSON sketch below so it's easy to read and parse - nothing fancy, just the shape I expect.
+
+{
+  ""solution"": [""plant_id"", ""plant_id"", ...]
+}
+
+Here that JSON means: put the selected species' IDs into the ""solution"" list - one entry per plant you'd like in the bed. Think of each ""plant_id"" as a placeholder for whatever label the instance uses for a species.
+
+This is only a template showing the expected shape, not the actual answer - you'll replace those placeholders with the real IDs from the instance.
+
+Please make sure to use the identifiers exactly as they appear in the input - do not rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,zero_based,"{""problem_type"":""MIS"",""num_nodes"":10,""num_edges"":17,""edges"":[{""u"":1,""v"":4},{""u"":1,""v"":7},{""u"":1,""v"":8},{""u"":1,""v"":9},{""u"":3,""v"":5},{""u"":3,""v"":8},{""u"":3,""v"":9},{""u"":10,""v"":2},{""u"":10,""v"":4},{""u"":10,""v"":8},{""u"":2,""v"":4},{""u"":2,""v"":5},{""u"":2,""v"":8},{""u"":7,""v"":9},{""u"":8,""v"":6},{""u"":8,""v"":9},{""u"":9,""v"":6}],""source_file"":""wv2010.mtx"",""density"":0.37777777777777777,""edge_connectivity"":2}","[3,4,6,7]",4.0,"{""num_nodes"":10,""num_edges"":17,""edges"":[{""u"":0,""v"":3},{""u"":0,""v"":6},{""u"":0,""v"":7},{""u"":0,""v"":8},{""u"":2,""v"":4},{""u"":2,""v"":7},{""u"":2,""v"":8},{""u"":9,""v"":1},{""u"":9,""v"":3},{""u"":9,""v"":7},{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":1,""v"":7},{""u"":6,""v"":8},{""u"":7,""v"":5},{""u"":7,""v"":8},{""u"":8,""v"":5}]}","[2,3,5,6]"
+MIS_S_041,MIS,S,41,"I'm a curator juggling a pile of artifacts and a bulletin of ownership notes - the task is to pick one single exhibit from the collection that shows as many different pieces as possible. The trick is any two items that have provenance or ownership problems can't be shown together, so the better choice is the set that includes the most non-conflicting items. That ""best"" set is just the one with the highest headcount, which you get by counting how many artifacts are chosen, and each artifact can only be included once or left out. The exact list of items and who conflicts with whom is shown below.
+
+{
+  ""total_artifacts"": 10,
+  ""conflict_pairs"": 17,
+  ""edges"": [
+    {
+      ""artifact_a"": 7,
+      ""artifact_b"": 3
+    },
+    {
+      ""artifact_a"": 7,
+      ""artifact_b"": 4
+    },
+    {
+      ""artifact_a"": 7,
+      ""artifact_b"": 9
+    },
+    {
+      ""artifact_a"": 8,
+      ""artifact_b"": 0
+    },
+    {
+      ""artifact_a"": 8,
+      ""artifact_b"": 2
+    },
+    {
+      ""artifact_a"": 8,
+      ""artifact_b"": 4
+    },
+    {
+      ""artifact_a"": 0,
+      ""artifact_b"": 1
+    },
+    {
+      ""artifact_a"": 0,
+      ""artifact_b"": 6
+    },
+    {
+      ""artifact_a"": 4,
+      ""artifact_b"": 1
+    },
+    {
+      ""artifact_a"": 4,
+      ""artifact_b"": 2
+    },
+    {
+      ""artifact_a"": 4,
+      ""artifact_b"": 3
+    },
+    {
+      ""artifact_a"": 4,
+      ""artifact_b"": 5
+    },
+    {
+      ""artifact_a"": 4,
+      ""artifact_b"": 6
+    },
+    {
+      ""artifact_a"": 4,
+      ""artifact_b"": 9
+    },
+    {
+      ""artifact_a"": 9,
+      ""artifact_b"": 1
+    },
+    {
+      ""artifact_a"": 6,
+      ""artifact_b"": 1
+    },
+    {
+      ""artifact_a"": 2,
+      ""artifact_b"": 5
+    }
+  ]
+}
+
+I'll hand you the result in a tiny, predictable shape so it's easy to plug into whatever you're using next. Something like this will do:
+
+{
+  ""solution"": [""artifact_id"", ""artifact_id"", ...]
+}
+
+Here ""solution"" is just the list of artifacts I pick for the exhibition - each entry is an artifact identifier from the instance input. Think of it like filling out a form field called ""solution"" with the IDs of the pieces you want to show. This JSON is only a sketch of the expected shape, not the actual answer.
+
+Please use the exact identifiers from the instance input - do not rename them or invent new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",json,zero_based,"{""problem_type"":""MIS"",""num_nodes"":10,""num_edges"":17,""edges"":[{""u"":8,""v"":4},{""u"":8,""v"":5},{""u"":8,""v"":10},{""u"":9,""v"":1},{""u"":9,""v"":3},{""u"":9,""v"":5},{""u"":1,""v"":2},{""u"":1,""v"":7},{""u"":5,""v"":2},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":5,""v"":10},{""u"":10,""v"":2},{""u"":7,""v"":2},{""u"":3,""v"":6}],""source_file"":""wa2010.mtx"",""density"":0.37777777777777777,""edge_connectivity"":2}","[4,6,7,9,10]",5.0,"{""num_nodes"":10,""num_edges"":17,""edges"":[{""u"":7,""v"":3},{""u"":7,""v"":4},{""u"":7,""v"":9},{""u"":8,""v"":0},{""u"":8,""v"":2},{""u"":8,""v"":4},{""u"":0,""v"":1},{""u"":0,""v"":6},{""u"":4,""v"":1},{""u"":4,""v"":2},{""u"":4,""v"":3},{""u"":4,""v"":5},{""u"":4,""v"":6},{""u"":4,""v"":9},{""u"":9,""v"":1},{""u"":6,""v"":1},{""u"":2,""v"":5}]}","[3,5,6,8,9]"
+MIS_S_042,MIS,S,42,"Many libraries run into this: a curator wants a front table packed with titles, yet a few specific combinations are off-limits for display together. The curator must pick a set of distinct books, and the better selection is simply the one that results in the greatest number of books on the table while never placing any disallowed pair together. The concrete details will be shown below.
+
+{
+  ""total_books"": 12,
+  ""num_restricted_pairs"": 23,
+  ""edges"": [
+    {
+      ""book_id_u"": 5,
+      ""book_id_v"": 2
+    },
+    {
+      ""book_id_u"": 5,
+      ""book_id_v"": 6
+    },
+    {
+      ""book_id_u"": 5,
+      ""book_id_v"": 8
+    },
+    {
+      ""book_id_u"": 5,
+      ""book_id_v"": 11
+    },
+    {
+      ""book_id_u"": 9,
+      ""book_id_v"": 2
+    },
+    {
+      ""book_id_u"": 9,
+      ""book_id_v"": 3
+    },
+    {
+      ""book_id_u"": 9,
+      ""book_id_v"": 4
+    },
+    {
+      ""book_id_u"": 9,
+      ""book_id_v"": 10
+    },
+    {
+      ""book_id_u"": 9,
+      ""book_id_v"": 11
+    },
+    {
+      ""book_id_u"": 2,
+      ""book_id_v"": 4
+    },
+    {
+      ""book_id_u"": 2,
+      ""book_id_v"": 6
+    },
+    {
+      ""book_id_u"": 2,
+      ""book_id_v"": 11
+    },
+    {
+      ""book_id_u"": 6,
+      ""book_id_v"": 1
+    },
+    {
+      ""book_id_u"": 6,
+      ""book_id_v"": 8
+    },
+    {
+      ""book_id_u"": 10,
+      ""book_id_v"": 3
+    },
+    {
+      ""book_id_u"": 10,
+      ""book_id_v"": 7
+    },
+    {
+      ""book_id_u"": 8,
+      ""book_id_v"": 1
+    },
+    {
+      ""book_id_u"": 8,
+      ""book_id_v"": 3
+    },
+    {
+      ""book_id_u"": 8,
+      ""book_id_v"": 11
+    },
+    {
+      ""book_id_u"": 7,
+      ""book_id_v"": 0
+    },
+    {
+      ""book_id_u"": 7,
+      ""book_id_v"": 4
+    },
+    {
+      ""book_id_u"": 1,
+      ""book_id_v"": 3
+    },
+    {
+      ""book_id_u"": 3,
+      ""book_id_v"": 11
+    }
+  ]
+}
+
+Oh, and to keep things tidy, please send your pick in this simple JSON layout so it's easy to read and process:
+
+{
+  ""solution"": [""book_id"", ""book_id"", ...]
+}
+
+This just means ""solution"" is the list of books you'd put on the front table. Each entry in the array should be the identifier for a book from the instance (you're just filling in the labels). Think of it like a little form - this is the shape I expect, not the actual final answer.
+
+Please use each identifier exactly as it appears in the instance input - don't rename them or invent new labels. For example:
+- plain numbers such as ""1"" or ""23""
+- single capital letters like ""A"" or ""B""
+- a capital letter followed by digits like ""A1"" or ""X7""",json,zero_based,"{""problem_type"":""MIS"",""num_nodes"":12,""num_edges"":23,""edges"":[{""u"":6,""v"":3},{""u"":6,""v"":7},{""u"":6,""v"":9},{""u"":6,""v"":12},{""u"":10,""v"":3},{""u"":10,""v"":4},{""u"":10,""v"":5},{""u"":10,""v"":11},{""u"":10,""v"":12},{""u"":3,""v"":5},{""u"":3,""v"":7},{""u"":3,""v"":12},{""u"":7,""v"":2},{""u"":7,""v"":9},{""u"":11,""v"":4},{""u"":11,""v"":8},{""u"":9,""v"":2},{""u"":9,""v"":4},{""u"":9,""v"":12},{""u"":8,""v"":1},{""u"":8,""v"":5},{""u"":2,""v"":4},{""u"":4,""v"":12}],""source_file"":""wa2010.mtx"",""density"":0.3484848484848485,""edge_connectivity"":1}","[1,2,5,11,12]",5.0,"{""num_nodes"":12,""num_edges"":23,""edges"":[{""u"":5,""v"":2},{""u"":5,""v"":6},{""u"":5,""v"":8},{""u"":5,""v"":11},{""u"":9,""v"":2},{""u"":9,""v"":3},{""u"":9,""v"":4},{""u"":9,""v"":10},{""u"":9,""v"":11},{""u"":2,""v"":4},{""u"":2,""v"":6},{""u"":2,""v"":11},{""u"":6,""v"":1},{""u"":6,""v"":8},{""u"":10,""v"":3},{""u"":10,""v"":7},{""u"":8,""v"":1},{""u"":8,""v"":3},{""u"":8,""v"":11},{""u"":7,""v"":0},{""u"":7,""v"":4},{""u"":1,""v"":3},{""u"":3,""v"":11}]}","[0,1,4,10,11]"
+MIS_S_043,MIS,S,43,"Many people forget that plugins can clash, so the admin's goal is to get as many helpful add-ons running as possible without turning on any two that are incompatible. The decision is about which set to pick so the number of enabled plugins is maximized - measure that by simply counting enabled, distinct plugins, and make sure no conflicting duo is included. The exact list of plugins and the conflict pairs are shown below.
+
+# num_plugins=10
+# num_conflicts=17
+plugin_a,plugin_b
+1,6
+1,7
+1,8
+8,2
+8,5
+8,9
+9,2
+9,3
+9,5
+10,3
+10,4
+5,3
+5,4
+5,6
+5,7
+6,4
+6,7
+
+Oh, and when you send the chosen set back, just toss it into a tiny JSON object like this - super simple:
+
+{
+  ""solution"": [""plugin_id"", ""plugin_id"", ...]
+}
+
+Here ""solution"" is just the list of plugins you want enabled, and each ""plugin_id"" is a placeholder for one of the actual plugin identifiers from the instance. Think of it like filling out a form: put each chosen plugin's exact ID into that array. This block is only a sketch of the shape I expect, not the actual answer.
+
+Please use the identifiers exactly as they appear in the instance input - don't rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,one_based,"{""problem_type"":""MIS"",""num_nodes"":10,""num_edges"":17,""edges"":[{""u"":1,""v"":6},{""u"":1,""v"":7},{""u"":1,""v"":8},{""u"":8,""v"":2},{""u"":8,""v"":5},{""u"":8,""v"":9},{""u"":9,""v"":2},{""u"":9,""v"":3},{""u"":9,""v"":5},{""u"":10,""v"":3},{""u"":10,""v"":4},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":6,""v"":4},{""u"":6,""v"":7}],""source_file"":""wy2010.mtx"",""density"":0.37777777777777777,""edge_connectivity"":2}","[1,2,5,10]",4.0,"{""num_nodes"":10,""num_edges"":17,""edges"":[{""u"":1,""v"":6},{""u"":1,""v"":7},{""u"":1,""v"":8},{""u"":8,""v"":2},{""u"":8,""v"":5},{""u"":8,""v"":9},{""u"":9,""v"":2},{""u"":9,""v"":3},{""u"":9,""v"":5},{""u"":10,""v"":3},{""u"":10,""v"":4},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":5,""v"":7},{""u"":6,""v"":4},{""u"":6,""v"":7}]}","[1,2,5,10]"
+MIS_S_044,MIS,S,44,"At the planning meeting the team wanted to pack the special issue with as many articles as it could hold while respecting that certain pairs were known to overlap and therefore shouldn't both be included. The decision becomes selecting a collection of pieces that have no mutual overlap marks, and the way to compare collections is straightforward - count how many items are in each and prefer the one with the greatest count. No duplicate acceptances, and any pair flagged as overlapping cannot both appear. The concrete submission details and their overlaps are listed below.
+
+# total_submissions=8
+# total_overlap_flags=13
+article_a_id,article_b_id
+3,1
+3,5
+1,0
+1,4
+1,5
+1,6
+1,7
+7,0
+7,2
+7,6
+2,5
+4,6
+5,0
+
+Oh, and one more thing - when you send back the chosen set, a simple JSON snippet like this is perfect:
+
+{
+  ""solution"": [""article_id"", ""article_id"", ...]
+}
+
+Think of ""solution"" as just the list of article IDs you want to include in the special issue - one entry per chosen piece. This is just a sketch of the expected shape, not the actual selection.
+
+Please make sure to use the exact identifiers from the instance input - no renaming and no invented labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"""".",csv,zero_based,"{""problem_type"":""MIS"",""num_nodes"":8,""num_edges"":13,""edges"":[{""u"":4,""v"":2},{""u"":4,""v"":6},{""u"":2,""v"":1},{""u"":2,""v"":5},{""u"":2,""v"":6},{""u"":2,""v"":7},{""u"":2,""v"":8},{""u"":8,""v"":1},{""u"":8,""v"":3},{""u"":8,""v"":7},{""u"":3,""v"":6},{""u"":5,""v"":7},{""u"":6,""v"":1}],""source_file"":""wv2010.mtx"",""density"":0.4642857142857143,""edge_connectivity"":2}","[1,3,4,5]",4.0,"{""num_nodes"":8,""num_edges"":13,""edges"":[{""u"":3,""v"":1},{""u"":3,""v"":5},{""u"":1,""v"":0},{""u"":1,""v"":4},{""u"":1,""v"":5},{""u"":1,""v"":6},{""u"":1,""v"":7},{""u"":7,""v"":0},{""u"":7,""v"":2},{""u"":7,""v"":6},{""u"":2,""v"":5},{""u"":4,""v"":6},{""u"":5,""v"":0}]}","[0,2,3,4]"
+MIS_S_045,MIS,S,45,"Someone on the block is trying to deck their house with every cool string of lights they own, but they can't run certain pairs at the same time because they interfere with each other. The decision is which combination of light sets to put up so the house looks fullest - measured by the total number of distinct sets used - while avoiding any incompatible pair. No set gets duplicated, and every set that's chosen must be compatible with all the others; the aim is simply to maximize that count. The exact inventory and the incompatibility notes are shown below.
+
+# total_light_sets=11
+# total_incompatible_pairs=18
+light_set_id_u,light_set_id_v
+J,G
+J,H
+J,I
+K,C
+K,I
+G,A
+G,D
+G,F
+I,C
+I,D
+D,C
+D,F
+B,A
+B,C
+B,E
+B,F
+F,C
+E,C
+
+If you want to give the answer in a neat, machine-friendly way, just follow this simple JSON shape when you reply - nothing fancy, just a plain list of the light sets you picked:
+
+{
+  ""solution"": [""light_id"", ""light_id"", ...]
+}
+
+""solution"" is the list of sets you'll hang up - each entry is the identifier for one of the light sets from the problem. Think of it like filling in a short form: list each chosen set's ID in that array. This block is just a sketch of the shape I expect, not the actual answer itself.
+
+Please make sure to use the identifiers exactly as they appear in the instance input - do not rename them or invent new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MIS"",""num_nodes"":11,""num_edges"":18,""edges"":[{""u"":10,""v"":7},{""u"":10,""v"":8},{""u"":10,""v"":9},{""u"":11,""v"":3},{""u"":11,""v"":9},{""u"":7,""v"":1},{""u"":7,""v"":4},{""u"":7,""v"":6},{""u"":9,""v"":3},{""u"":9,""v"":4},{""u"":4,""v"":3},{""u"":4,""v"":6},{""u"":2,""v"":1},{""u"":2,""v"":3},{""u"":2,""v"":5},{""u"":2,""v"":6},{""u"":6,""v"":3},{""u"":5,""v"":3}],""source_file"":""wi2010.mtx"",""density"":0.32727272727272727,""edge_connectivity"":1}","[1,4,5,8,11]",5.0,"{""num_nodes"":11,""num_edges"":18,""edges"":[{""u"":""J"",""v"":""G""},{""u"":""J"",""v"":""H""},{""u"":""J"",""v"":""I""},{""u"":""K"",""v"":""C""},{""u"":""K"",""v"":""I""},{""u"":""G"",""v"":""A""},{""u"":""G"",""v"":""D""},{""u"":""G"",""v"":""F""},{""u"":""I"",""v"":""C""},{""u"":""I"",""v"":""D""},{""u"":""D"",""v"":""C""},{""u"":""D"",""v"":""F""},{""u"":""B"",""v"":""A""},{""u"":""B"",""v"":""C""},{""u"":""B"",""v"":""E""},{""u"":""B"",""v"":""F""},{""u"":""F"",""v"":""C""},{""u"":""E"",""v"":""C""}]}","[""A"",""D"",""E"",""H"",""K""]"
+MIS_S_046,MIS,S,46,"There's a festival director juggling invitations: the goal is to invite the largest possible group of filmmakers while making sure no two of them are publicly at odds and would refuse to share the program. The difference between choices is just how many filmmakers end up on the final list - the better plan is the one with the highest count of distinct, non-conflicting guests. Each person on the list has to be a different filmmaker and can't be paired with someone they're feuding with, and the exact lineup options and dispute pairs are shown below.
+
+# total_filmmakers=12
+# total_dispute_pairs=24
+filmmaker_one_id,filmmaker_two_id
+12,3
+12,4
+12,5
+12,11
+1,2
+1,4
+1,10
+2,6
+2,11
+10,4
+10,8
+10,11
+11,3
+11,4
+11,6
+11,8
+11,9
+7,4
+7,5
+9,3
+9,6
+8,4
+4,5
+5,3
+
+If you want to hand me the final guest list, just drop it in a tiny JSON snippet like this - real simple:
+
+{
+  ""solution"": [""filmmaker_id"", ""filmmaker_id"", ...]
+}
+
+Here, ""solution"" is the list of chosen filmmakers (one entry per invited person). Think of each string in the array as the exact ID from the instance - like filling out a short form with the names or codes you were given. This JSON is just a sketch of the shape I expect, not the actual answer.
+
+Please make sure to use the identifiers exactly as they appear in the instance input - don't rename them or invent new labels.
+Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",csv,one_based,"{""problem_type"":""MIS"",""num_nodes"":12,""num_edges"":24,""edges"":[{""u"":12,""v"":3},{""u"":12,""v"":4},{""u"":12,""v"":5},{""u"":12,""v"":11},{""u"":1,""v"":2},{""u"":1,""v"":4},{""u"":1,""v"":10},{""u"":2,""v"":6},{""u"":2,""v"":11},{""u"":10,""v"":4},{""u"":10,""v"":8},{""u"":10,""v"":11},{""u"":11,""v"":3},{""u"":11,""v"":4},{""u"":11,""v"":6},{""u"":11,""v"":8},{""u"":11,""v"":9},{""u"":7,""v"":4},{""u"":7,""v"":5},{""u"":9,""v"":3},{""u"":9,""v"":6},{""u"":8,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":3}],""source_file"":""wy2010.mtx"",""density"":0.36363636363636365,""edge_connectivity"":2}","[1,7,8,9,12]",5.0,"{""num_nodes"":12,""num_edges"":24,""edges"":[{""u"":12,""v"":3},{""u"":12,""v"":4},{""u"":12,""v"":5},{""u"":12,""v"":11},{""u"":1,""v"":2},{""u"":1,""v"":4},{""u"":1,""v"":10},{""u"":2,""v"":6},{""u"":2,""v"":11},{""u"":10,""v"":4},{""u"":10,""v"":8},{""u"":10,""v"":11},{""u"":11,""v"":3},{""u"":11,""v"":4},{""u"":11,""v"":6},{""u"":11,""v"":8},{""u"":11,""v"":9},{""u"":7,""v"":4},{""u"":7,""v"":5},{""u"":9,""v"":3},{""u"":9,""v"":6},{""u"":8,""v"":4},{""u"":4,""v"":5},{""u"":5,""v"":3}]}","[1,7,8,9,12]"
+MIS_S_047,MIS,S,47,"A neighborhood group is trying to form a volunteer team for a fundraiser, trying to cram in as many helpers as they can without putting any two people together who have past disagreements. The decision is picking the final lineup; the superior lineup is the one with more people, determined by counting how many volunteers are on it. Each person may appear only once on the roster and no conflicting pair may both be included; the specific roster choices and conflict notes are detailed below.
+
+There are 8 volunteers and 12 conflict pairs listed below:
+Volunteer 4 conflicts with volunteer 0; both cannot be on the roster together.
+Volunteer 4 conflicts with volunteer 1; both cannot be on the roster together.
+Volunteer 4 conflicts with volunteer 2; both cannot be on the roster together.
+Volunteer 4 conflicts with volunteer 3; both cannot be on the roster together.
+Volunteer 4 conflicts with volunteer 5; both cannot be on the roster together.
+Volunteer 1 conflicts with volunteer 0; both cannot be on the roster together.
+Volunteer 0 conflicts with volunteer 2; both cannot be on the roster together.
+Volunteer 0 conflicts with volunteer 3; both cannot be on the roster together.
+Volunteer 0 conflicts with volunteer 6; both cannot be on the roster together.
+Volunteer 7 conflicts with volunteer 2; both cannot be on the roster together.
+Volunteer 7 conflicts with volunteer 5; both cannot be on the roster together.
+Volunteer 7 conflicts with volunteer 6; both cannot be on the roster together.
+Aim for the largest possible roster that avoids including any of these listed conflict pairs.
+
+Also, when you send the final lineup back, please use this simple JSON shape so it's easy to read automatically:
+
+{
+  ""solution"": [""volunteer_id"", ""volunteer_id"", ...]
+}
+
+Think of ""solution"" as the roster: a list of volunteer IDs (one per chosen person). The example values are just placeholders showing the shape of the reply - they aren't the actual picks.
+
+All identifiers must be used exactly as they appear in the instance input - no renaming and no new labels. For example: Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,zero_based,"{""problem_type"":""MIS"",""num_nodes"":8,""num_edges"":12,""edges"":[{""u"":5,""v"":1},{""u"":5,""v"":2},{""u"":5,""v"":3},{""u"":5,""v"":4},{""u"":5,""v"":6},{""u"":2,""v"":1},{""u"":1,""v"":3},{""u"":1,""v"":4},{""u"":1,""v"":7},{""u"":8,""v"":3},{""u"":8,""v"":6},{""u"":8,""v"":7}],""source_file"":""vt2010.mtx"",""density"":0.42857142857142855,""edge_connectivity"":2}","[2,3,4,6,7]",5.0,"{""num_nodes"":8,""num_edges"":12,""edges"":[{""u"":4,""v"":0},{""u"":4,""v"":1},{""u"":4,""v"":2},{""u"":4,""v"":3},{""u"":4,""v"":5},{""u"":1,""v"":0},{""u"":0,""v"":2},{""u"":0,""v"":3},{""u"":0,""v"":6},{""u"":7,""v"":2},{""u"":7,""v"":5},{""u"":7,""v"":6}]}","[1,2,3,5,6]"
+MIS_S_048,MIS,S,48,"Out in the market, an angel has a shortlist and wants to back the biggest possible group of startups, but some pairs of startups have exclusivity pacts so it's off-limits to fund both at once. What counts as a better decision is obvious - it's the one that funds more different startups; to compare plans, simply count how many distinct companies are included. The practical rules are: picks come only from the shortlist, each startup appears only once in the picks, and no two picked startups can be in an exclusivity relationship. The detailed shortlist and the exclusivity pairings follow below.
+
+The shortlist contains 11 startups with 20 exclusivity pacts, listed below:
+Startups 7 and 0 are in an exclusivity pact and cannot both be funded.
+Startups 7 and 1 are in an exclusivity pact and cannot both be funded.
+Startups 7 and 3 are in an exclusivity pact and cannot both be funded.
+Startups 7 and 5 are in an exclusivity pact and cannot both be funded.
+Startups 7 and 8 are in an exclusivity pact and cannot both be funded.
+Startups 10 and 0 are in an exclusivity pact and cannot both be funded.
+Startups 10 and 1 are in an exclusivity pact and cannot both be funded.
+Startups 10 and 5 are in an exclusivity pact and cannot both be funded.
+Startups 10 and 6 are in an exclusivity pact and cannot both be funded.
+Startups 9 and 0 are in an exclusivity pact and cannot both be funded.
+Startups 9 and 4 are in an exclusivity pact and cannot both be funded.
+Startups 9 and 6 are in an exclusivity pact and cannot both be funded.
+Startups 2 and 3 are in an exclusivity pact and cannot both be funded.
+Startups 2 and 8 are in an exclusivity pact and cannot both be funded.
+Startups 3 and 1 are in an exclusivity pact and cannot both be funded.
+Startups 3 and 8 are in an exclusivity pact and cannot both be funded.
+Startups 4 and 0 are in an exclusivity pact and cannot both be funded.
+Startups 4 and 8 are in an exclusivity pact and cannot both be funded.
+Startups 0 and 5 are in an exclusivity pact and cannot both be funded.
+Startups 0 and 8 are in an exclusivity pact and cannot both be funded.
+Consider these 20 exclusivity constraints when choosing the largest compatible subset of the 11 startups.
+
+Oh, and when you send your picks back, just use this simple JSON shape so it's easy to parse:
+
+{
+  ""solution"": [""startup_id"", ""startup_id"", ...]
+}
+
+This is just a sketch of the shape I expect: ""solution"" should be an array containing the identifiers of the startups you choose (one entry per startup). Keep it informal-think of it like filling in a short form listing which startups to back.
+
+Please use the exact identifiers from the instance input with no renaming and no new labels. Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".",nl,zero_based,"{""problem_type"":""MIS"",""num_nodes"":11,""num_edges"":20,""edges"":[{""u"":8,""v"":1},{""u"":8,""v"":2},{""u"":8,""v"":4},{""u"":8,""v"":6},{""u"":8,""v"":9},{""u"":11,""v"":1},{""u"":11,""v"":2},{""u"":11,""v"":6},{""u"":11,""v"":7},{""u"":10,""v"":1},{""u"":10,""v"":5},{""u"":10,""v"":7},{""u"":3,""v"":4},{""u"":3,""v"":9},{""u"":4,""v"":2},{""u"":4,""v"":9},{""u"":5,""v"":1},{""u"":5,""v"":9},{""u"":1,""v"":6},{""u"":1,""v"":9}],""source_file"":""wa2010.mtx"",""density"":0.36363636363636365,""edge_connectivity"":2}","[2,3,5,6,7]",5.0,"{""num_nodes"":11,""num_edges"":20,""edges"":[{""u"":7,""v"":0},{""u"":7,""v"":1},{""u"":7,""v"":3},{""u"":7,""v"":5},{""u"":7,""v"":8},{""u"":10,""v"":0},{""u"":10,""v"":1},{""u"":10,""v"":5},{""u"":10,""v"":6},{""u"":9,""v"":0},{""u"":9,""v"":4},{""u"":9,""v"":6},{""u"":2,""v"":3},{""u"":2,""v"":8},{""u"":3,""v"":1},{""u"":3,""v"":8},{""u"":4,""v"":0},{""u"":4,""v"":8},{""u"":0,""v"":5},{""u"":0,""v"":8}]}","[1,2,4,5,6]"
+MIS_S_049,MIS,S,49,"Recently the grounds crew was put in charge of picking trees for several new beds and the brief was to maximize diversity. In plain terms: build the largest possible list of distinct tree varieties - the plan with the higher number of unique types is better, so the tally of selected varieties decides it. The limitation is botanical: any pair of varieties that are known to cross-inhibit can't both be included, and selections must be single, non-repeated entries from the available list. The exact options and which pairs clash follow below.
+
+{
+  ""total_varieties"": 8,
+  ""total_cross_inhibitions"": 14,
+  ""edges"": [
+    {
+      ""variety_a"": 1,
+      ""variety_b"": 6
+    },
+    {
+      ""variety_a"": 1,
+      ""variety_b"": 7
+    },
+    {
+      ""variety_a"": 4,
+      ""variety_b"": 0
+    },
+    {
+      ""variety_a"": 4,
+      ""variety_b"": 2
+    },
+    {
+      ""variety_a"": 4,
+      ""variety_b"": 5
+    },
+    {
+      ""variety_a"": 3,
+      ""variety_b"": 0
+    },
+    {
+      ""variety_a"": 3,
+      ""variety_b"": 5
+    },
+    {
+      ""variety_a"": 3,
+      ""variety_b"": 7
+    },
+    {
+      ""variety_a"": 7,
+      ""variety_b"": 2
+    },
+    {
+      ""variety_a"": 7,
+      ""variety_b"": 5
+    },
+    {
+      ""variety_a"": 7,
+      ""variety_b"": 6
+    },
+    {
+      ""variety_a"": 5,
+      ""variety_b"": 0
+    },
+    {
+      ""variety_a"": 5,
+      ""variety_b"": 2
+    },
+    {
+      ""variety_a"": 2,
+      ""variety_b"": 0
+    }
+  ]
+}
+
+Oh, and when you're ready to send the picks back, please follow this simple JSON layout so it's easy to read and check:
+
+{
+  ""solution"": [""variety_id"", ""variety_id"", ...]
+}
+
+This just means ""solution"" is a list of the tree-variety identifiers you've chosen (one identifier per chosen variety). The placeholder variety_id stands for whatever labels the instance uses for each variety - it's just showing the shape we expect, not the real answer.
+
+The JSON above is only a sketch of the expected shape, not your final selection. Make sure to use the exact identifiers from the instance input - no renaming, no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",json,zero_based,"{""problem_type"":""MIS"",""num_nodes"":8,""num_edges"":14,""edges"":[{""u"":2,""v"":7},{""u"":2,""v"":8},{""u"":5,""v"":1},{""u"":5,""v"":3},{""u"":5,""v"":6},{""u"":4,""v"":1},{""u"":4,""v"":6},{""u"":4,""v"":8},{""u"":8,""v"":3},{""u"":8,""v"":6},{""u"":8,""v"":7},{""u"":6,""v"":1},{""u"":6,""v"":3},{""u"":3,""v"":1}],""source_file"":""wv2010.mtx"",""density"":0.5,""edge_connectivity"":2}","[2,4,5]",3.0,"{""num_nodes"":8,""num_edges"":14,""edges"":[{""u"":1,""v"":6},{""u"":1,""v"":7},{""u"":4,""v"":0},{""u"":4,""v"":2},{""u"":4,""v"":5},{""u"":3,""v"":0},{""u"":3,""v"":5},{""u"":3,""v"":7},{""u"":7,""v"":2},{""u"":7,""v"":5},{""u"":7,""v"":6},{""u"":5,""v"":0},{""u"":5,""v"":2},{""u"":2,""v"":0}]}","[1,3,4]"
+MIS_S_050,MIS,S,50,"Someone in the neighborhood is arranging mantelpieces and wants to show off the most decorations they can without putting any two that interfere side by side. The job is to pick which decorations to display so the mantel ends up with the highest possible number of items, while ensuring no known-wobbly or interfering pair is included at the same time. Every item is considered individually - no duplicates, no half-placements - and the way to tell which setup wins is by counting the number of decorations that remain after removing any arrangements that include a bad pair. The list of actual ornaments and the problem pairs follows below.
+
+# total_ornaments=12
+# conflicting_pairs_count=21
+ornament_one,ornament_two
+G,A
+G,C
+G,I
+G,J
+G,K
+C,K
+C,L
+H,E
+H,K
+H,L
+D,A
+D,B
+D,J
+I,A
+I,B
+I,E
+I,K
+B,E
+B,F
+E,F
+J,A
+
+Oh, and when you send back your selection, please use this simple JSON shape - it's just the form I expect:
+
+{
+  ""solution"": [""decoration_id"", ""decoration_id"", ...]
+}
+
+Think of ""solution"" as the list of decoration IDs you want to display on the mantel. Keep it light and exact: each entry should be the exact ID from the problem input (don't rename them or invent new labels). The JSON above is just a sketch of the shape I need, not the actual answer.
+
+Use the identifiers exactly as they appear in the instance input - no renaming and no new labels.
+- for example: ""Valid identifiers look like plain numbers such as ""1"" or ""23"", single capital letters like ""A"" or ""B"", or a capital letter followed by digits like ""A1"" or ""X7"".""",csv,names,"{""problem_type"":""MIS"",""num_nodes"":12,""num_edges"":21,""edges"":[{""u"":7,""v"":1},{""u"":7,""v"":3},{""u"":7,""v"":9},{""u"":7,""v"":10},{""u"":7,""v"":11},{""u"":3,""v"":11},{""u"":3,""v"":12},{""u"":8,""v"":5},{""u"":8,""v"":11},{""u"":8,""v"":12},{""u"":4,""v"":1},{""u"":4,""v"":2},{""u"":4,""v"":10},{""u"":9,""v"":1},{""u"":9,""v"":2},{""u"":9,""v"":5},{""u"":9,""v"":11},{""u"":2,""v"":5},{""u"":2,""v"":6},{""u"":5,""v"":6},{""u"":10,""v"":1}],""source_file"":""wv2010.mtx"",""density"":0.3181818181818182,""edge_connectivity"":2}","[3,4,6,8,9]",5.0,"{""num_nodes"":12,""num_edges"":21,""edges"":[{""u"":""G"",""v"":""A""},{""u"":""G"",""v"":""C""},{""u"":""G"",""v"":""I""},{""u"":""G"",""v"":""J""},{""u"":""G"",""v"":""K""},{""u"":""C"",""v"":""K""},{""u"":""C"",""v"":""L""},{""u"":""H"",""v"":""E""},{""u"":""H"",""v"":""K""},{""u"":""H"",""v"":""L""},{""u"":""D"",""v"":""A""},{""u"":""D"",""v"":""B""},{""u"":""D"",""v"":""J""},{""u"":""I"",""v"":""A""},{""u"":""I"",""v"":""B""},{""u"":""I"",""v"":""E""},{""u"":""I"",""v"":""K""},{""u"":""B"",""v"":""E""},{""u"":""B"",""v"":""F""},{""u"":""E"",""v"":""F""},{""u"":""J"",""v"":""A""}]}","[""C"",""D"",""F"",""H"",""I""]"

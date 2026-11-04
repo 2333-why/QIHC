@@ -14,7 +14,7 @@ def swap_log_ratio(fi, fj, pi, pj, ti, tj, li, lj):
     return -(fj+li*pj)/ti-(fi+lj*pi)/tj+(fi+li*pi)/ti+(fj+lj*pj)/tj
 
 
-def solve(spec, method, seconds=5., seed=0, chains=16, max_evaluations=None):
+def solve(spec, method, seconds=5., seed=0, chains=16, max_evaluations=None, collect_trace=False):
     if method not in ('pbit', 'sa', 'pt', 'penalty_pt'):
         raise ValueError('Unknown sampling method')
     if not np.isfinite(seconds) or seconds <= 0 or not 1 <= chains <= 256:
@@ -42,9 +42,10 @@ def solve(spec, method, seconds=5., seed=0, chains=16, max_evaluations=None):
         key = (bool(v[j] > 0), float(v[j]), float(f[j]))
         if best is None or key < best:
             best, candidate = key, x[j].astype(int).tolist()
-            if len(trace) < 256:
+            if collect_trace or len(trace) < 256:
                 trace.append({'seconds': time.perf_counter()-started, 'evaluations': evaluations,
-                              'feasible': not key[0], 'objective': sign*key[2]*scale})
+                              'feasible': not key[0], 'objective': sign*key[2]*scale,
+                              **({'x': candidate} if collect_trace else {})})
     archive()
     # Initialize identically across methods for a given seed. No reference solution.
     while sites and time.perf_counter()-started < seconds:
