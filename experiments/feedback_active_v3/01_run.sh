@@ -2,7 +2,7 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 ENV="${QIHC_ACTIVE_ENV:-$ROOT/.venv-e004-active}"
-if [[ ! -x "$ENV/bin/python" ]]; then
+if [[ ! -x "$ENV/bin/python" || ! -f "$ENV/.e004-setup-complete" ]]; then
   bash "$ROOT/experiments/feedback_active_v3/00_setup.sh"
 fi
 cd "$ROOT"
