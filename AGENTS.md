@@ -32,3 +32,5 @@
 - 所有后续实验复用同一个Python环境，不按实验编号或CPU/GPU另建环境。
 - 启动、准备和报告统一读取QIHC_ENV；未指定时优先使用当前CONDA_PREFIX/VIRTUAL_ENV。无现有环境时才使用固定共享目录 `/inspire/hdd/global_user/czxs25210022/why/.venv-qihc`。
 - 用户指定已有环境路径后持续沿用；不要删除旧环境，不在实验运行中更新其依赖。
+
+- 服务器依赖安装默认使用国内PyPI镜像（清华 https://pypi.tuna.tsinghua.edu.cn/simple），支持PIP_INDEX_URL覆盖；不要要求用户反复切换安装源。

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
+export PIP_INDEX_URL="${PIP_INDEX_URL:-https://pypi.tuna.tsinghua.edu.cn/simple}"
+export PIP_DEFAULT_TIMEOUT="${PIP_DEFAULT_TIMEOUT:-120}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 ENV="${QIHC_ENV:-${CONDA_PREFIX:-${VIRTUAL_ENV:-/inspire/hdd/global_user/czxs25210022/why/.venv-qihc}}}"
