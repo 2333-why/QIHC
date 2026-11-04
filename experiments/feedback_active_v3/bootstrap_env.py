@@ -11,7 +11,7 @@ def prepare(directory):
     directory=Path(directory).resolve()
     python=directory/('Scripts/python.exe' if sys.platform=='win32' else 'bin/python')
     if not python.is_file():
-        venv.EnvBuilder(with_pip=False).create(directory)
+        raise FileNotFoundError('Configured shared environment is missing: '+str(python)+'; set QIHC_ENV to your existing environment')
     if subprocess.run([str(python),'-m','pip','--version'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode:
         # A conda env supplied explicitly is also supported; never install into
         # the system interpreter through an accidentally supplied path.

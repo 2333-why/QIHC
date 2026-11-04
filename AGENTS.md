@@ -34,3 +34,5 @@
 - 用户指定已有环境路径后持续沿用；不要删除旧环境，不在实验运行中更新其依赖。
 
 - 服务器依赖安装默认使用国内PyPI镜像（清华 https://pypi.tuna.tsinghua.edu.cn/simple），支持PIP_INDEX_URL覆盖；不要要求用户反复切换安装源。
+
+- 用户已确认统一环境为 `/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128`（Python3.11）。后续默认固定此路径，QIHC_ENV可显式覆盖；不要因终端未激活或VIRTUAL_ENV残留而改选环境，不自动创建环境。清华源失败可用阿里云国内源重试相同依赖约束。

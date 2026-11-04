@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-ENV="${QIHC_ENV:-${CONDA_PREFIX:-${VIRTUAL_ENV:-/inspire/hdd/global_user/czxs25210022/why/.venv-qihc}}}"
+ENV="${QIHC_ENV:-/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128}"
 export QIHC_ENV="$ENV"
 if [[ ! -x "$ENV/bin/python" || ! -f "$ENV/.e004-setup-complete" ]]; then
   bash "$ROOT/experiments/feedback_active_v3/00_setup.sh"
