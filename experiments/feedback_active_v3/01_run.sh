@@ -3,9 +3,11 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 ENV="${QIHC_ENV:-/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128}"
 export QIHC_ENV="$ENV"
-if [[ ! -x "$ENV/bin/python" || ! -f "$ENV/.e004-setup-complete" ]]; then
-  bash "$ROOT/experiments/feedback_active_v3/00_setup.sh"
+if [[ ! -x "$ENV/bin/python" ]]; then
+  echo "Shared environment missing: $ENV/bin/python" >&2
+  exit 1
 fi
+"$ENV/bin/python" "$ROOT/experiments/feedback_active_v3/check_env.py" --gpu
 cd "$ROOT"
 export PYTHONPATH="$ROOT${PYTHONPATH:+:$PYTHONPATH}"
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
