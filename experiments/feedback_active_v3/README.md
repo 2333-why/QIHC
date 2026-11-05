@@ -1,3 +1,5 @@
+> GPU节点无网络：在可联网端完成Git更新并运行 `00_setup.sh`，看到 `OFFLINE_GPU_PREPARATION_PASSED` 后再提交GPU。此命令也检查本地模型与分词器。GPU作业仅运行 `01_run.sh`，不执行git/pip；两端共享同一代码、模型和qihc-cu128路径。
+
 > 2026-11-05 启动修复：GPU入口不再自动安装任何依赖。先在能联网的终端以相同QIHC_ENV运行00_setup.sh，再提交01_run.sh；GPU启动先离线检查依赖，缺失立即退出。
 
 > 环境更新（2026-11-04）：所有实验统一使用 `QIHC_ENV` 指定的已有环境；未指定时优先当前激活的Conda/venv，否则固定共享 `why/.venv-qihc`。不再按CPU/GPU创建环境。此条替代下文旧环境说明。
