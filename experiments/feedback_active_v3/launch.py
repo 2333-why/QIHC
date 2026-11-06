@@ -41,6 +41,22 @@ def visible_device(logical_index):
     return mask.split(',')[logical_index].strip() if mask else str(logical_index)
 
 
+def server_failure(run, servers, gpu_ids, reason):
+    """Surface child errors in the platform job log without loading huge logs."""
+    details=[]
+    for gpu, proc in zip(gpu_ids, servers):
+        path=run/'logs'/f'vllm_gpu{gpu}.log'
+        tail='(log unavailable)'
+        if path.exists():
+            with path.open('rb') as f:
+                f.seek(0,2); f.seek(max(0,f.tell()-24000))
+                tail='\n'.join(f.read().decode('utf-8',errors='replace').splitlines()[-100:])
+        details.append(dict(gpu=gpu,exit_code=proc.poll(),log=str(path),tail=tail))
+        print(f'\n--- GPU {gpu}, exit={proc.poll()}, {path} ---\n{tail}',file=sys.stderr,flush=True)
+    save(run/'startup_failure.json',dict(time=time.time(),reason=reason,servers=details))
+    return RuntimeError(reason+'; child log tails printed above; see startup_failure.json')
+
+
 def gpu_command(model, port, cfg):
     return [sys.executable, '-m', 'vllm.entrypoints.openai.api_server', '--model', str(model),
         '--host', '127.0.0.1', '--port', str(port), '--served-model-name', 'qihc', '--tensor-parallel-size', '1',
@@ -161,8 +177,8 @@ def main():
                 servers.append(spawn(gpu_command(a.model, a.port+i, cfg), f'vllm_gpu{gpu}.log', env))
             timeout = time.monotonic() + 1200
             while not all(ready(url) for url in endpoints):
-                if any(proc.poll() is not None for proc in servers): raise RuntimeError('vLLM exited; inspect logs/vllm_gpu*.log')
-                if time.monotonic() > timeout: raise TimeoutError('Model loading exceeded 20 minutes')
+                if any(proc.poll() is not None for proc in servers): raise server_failure(a.run,servers,cfg['gpu_ids'],'vLLM exited during startup')
+                if time.monotonic() > timeout: raise server_failure(a.run,servers,cfg['gpu_ids'],'Model loading exceeded 20 minutes')
                 print('Waiting for four model replicas...', flush=True); time.sleep(10)
             monitor = threading.Thread(target=telemetry, args=(a.run, endpoints, stopped, cfg['telemetry_seconds']), daemon=True); monitor.start()
             command = [sys.executable, '-u', '-m', 'experiments.feedback_active_v3.runtime', '--run', str(a.run),
