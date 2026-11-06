@@ -86,6 +86,8 @@ def telemetry(root, endpoints, stopped, interval):
 
 def preflight(args, cfg):
     if os.name != 'posix': raise ValueError('GPU launcher targets Linux; local CPU tests work on Windows')
+    from .check_compiler import check as check_compiler
+    check_compiler()  # Sets CC inherited by every vLLM worker; no downloads.
     if not (args.model / 'config.json').is_file(): raise ValueError('Missing local model config: ' + str(args.model))
     for package in ('numpy', 'httpx', 'jsonschema', 'pyscipopt', 'highspy', 'ortools', 'transformers', 'vllm'):
         importlib.metadata.version(package)
