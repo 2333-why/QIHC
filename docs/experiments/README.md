@@ -40,3 +40,5 @@
 2026-11-07：新增 [E005 后训练](E005_posttraining/README.md)，[E005-1.1 方案](E005_posttraining/E005-1.1_plan.md)已制定；独立分支codex/e005-posttraining，未启动训练，不改变E004反馈实验。
 
 2026-11-07：[E005-1.2](E005_posttraining/E005-1.2_plan.md)替代未执行的E005-1.1，删除Metropolis-DPO，加入近期后训练方法对照；仅方案修订，反馈实验不变。
+
+2026-11-07：[E005-1.3 P-VCD方法方案](E005_posttraining/E005-1.3_plan.md)结合p-bit主动反例、验证门控与结构化蒸馏；仅设计，尚无实验结果。
