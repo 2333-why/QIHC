@@ -42,7 +42,7 @@
     2,
     3
   ],
-  "requests_per_gpu": 8,
+  "requests_per_gpu": 1,
   "max_num_seqs": 16,
   "max_num_batched_tokens": 8192,
   "gpu_memory_utilization": 0.94,
@@ -57,5 +57,6 @@
     "M",
     "R",
     "D"
-  ]
+  ],
+  "inference_backend": "historical_transformers_localmodel"
 }

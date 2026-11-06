@@ -1,3 +1,5 @@
+> 2026-11-06 后端恢复：使用历史qihc.modeling.backend.LocalModel与Transformers generate，每卡一个常驻副本、每卡一路生成。不再使用vLLM、Inductor预编译或C编译器预检。旧文中vLLM及每卡8路描述已被本条替代；吞吐须重新实测。
+
 > GPU节点无网络：在可联网端完成Git更新并运行 `00_setup.sh`，看到 `OFFLINE_GPU_PREPARATION_PASSED` 后再提交GPU。此命令也检查本地模型与分词器。GPU作业仅运行 `01_run.sh`，不执行git/pip；两端共享同一代码、模型和qihc-cu128路径。
 
 > 2026-11-05 启动修复：GPU入口不再自动安装任何依赖。先在能联网的终端以相同QIHC_ENV运行00_setup.sh，再提交01_run.sh；GPU启动先离线检查依赖，缺失立即退出。

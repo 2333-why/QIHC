@@ -45,7 +45,7 @@ def server_failure(run, servers, gpu_ids, reason):
     """Surface child errors in the platform job log without loading huge logs."""
     details=[]
     for gpu, proc in zip(gpu_ids, servers):
-        path=run/'logs'/f'vllm_gpu{gpu}.log'
+        path=run/'logs'/f'local_gpu{gpu}.log'
         tail='(log unavailable)'
         if path.exists():
             with path.open('rb') as f:
@@ -58,11 +58,9 @@ def server_failure(run, servers, gpu_ids, reason):
 
 
 def gpu_command(model, port, cfg):
-    return [sys.executable, '-m', 'vllm.entrypoints.openai.api_server', '--model', str(model),
-        '--host', '127.0.0.1', '--port', str(port), '--served-model-name', 'qihc', '--tensor-parallel-size', '1',
-        '--dtype', 'bfloat16', '--max-model-len', str(cfg['max_model_len']), '--max-num-seqs', str(cfg['max_num_seqs']),
-        '--max-num-batched-tokens', str(cfg['max_num_batched_tokens']), '--gpu-memory-utilization', str(cfg['gpu_memory_utilization']),
-        '--enable-prefix-caching', '--enable-chunked-prefill', '--generation-config', 'vllm', '--seed', '17']
+    return [sys.executable, '-u', '-m', 'experiments.feedback_active_v3.local_server',
+            '--model', str(model), '--port', str(port), '--max-model-len', str(cfg['max_model_len'])]
+
 
 
 def ready(url):
@@ -86,10 +84,8 @@ def telemetry(root, endpoints, stopped, interval):
 
 def preflight(args, cfg):
     if os.name != 'posix': raise ValueError('GPU launcher targets Linux; local CPU tests work on Windows')
-    from .check_compiler import check as check_compiler
-    check_compiler()  # Sets CC inherited by every vLLM worker; no downloads.
     if not (args.model / 'config.json').is_file(): raise ValueError('Missing local model config: ' + str(args.model))
-    for package in ('numpy', 'httpx', 'jsonschema', 'pyscipopt', 'highspy', 'ortools', 'transformers', 'vllm'):
+    for package in ('numpy', 'httpx', 'jsonschema', 'pyscipopt', 'highspy', 'ortools', 'transformers', 'accelerate'):
         importlib.metadata.version(package)
     import torch
     if not torch.cuda.is_available() or torch.cuda.device_count() < 4: raise RuntimeError('Four visible CUDA devices required')
@@ -111,7 +107,7 @@ def preflight(args, cfg):
         subprocess.run([sys.executable, '-m', 'experiments.feedback_active_v3.cpu', str(ip), str(op)], check=True, timeout=40)
         result = load(op)
         if not result.get('feasible'): raise RuntimeError('Solver preflight failed: ' + backend + ' ' + str(result))
-    packages = {p: importlib.metadata.version(p) for p in ('numpy', 'httpx', 'jsonschema', 'pyscipopt', 'highspy', 'ortools', 'transformers', 'vllm', 'torch')}
+    packages = {p: importlib.metadata.version(p) for p in ('numpy', 'httpx', 'jsonschema', 'pyscipopt', 'highspy', 'ortools', 'transformers', 'accelerate', 'torch')}
     revision = subprocess.run(['git', 'rev-parse', 'HEAD'], capture_output=True, text=True, cwd=ROOT)
     files=model_identity(args.model); cache_path=args.run/'weight_hashes.json'
     cache=load(cache_path) if cache_path.exists() else {}
@@ -137,12 +133,12 @@ def main():
     p.add_argument('--model', type=Path, required=True); p.add_argument('--run', type=Path, required=True)
     p.add_argument('--data', type=Path, default=HERE / 'assets/public_dataset'); p.add_argument('--port', type=int, default=8100)
     p.add_argument('--stages', default='development,main,ablation,scale,replay,public'); p.add_argument('--cpu-workers', type=int, default=12)
-    p.add_argument('--evaluation-workers', type=int, default=4); p.add_argument('--concurrency', type=int, default=8)
+    p.add_argument('--evaluation-workers', type=int, default=4); p.add_argument('--concurrency', type=int, default=1)
     p.add_argument('--mechanism-workers', type=int, default=2)
     p.add_argument('--skip-mechanism', action='store_true')
     p.add_argument('--max-num-seqs', type=int, default=16); p.add_argument('--preflight-only', action='store_true')
     a = p.parse_args(); a.run = a.run.resolve(); a.data = a.data.resolve(); a.model = a.model.resolve()
-    cfg = load(HERE / 'config.json'); cfg.update(cpu_workers=a.cpu_workers, requests_per_gpu=a.concurrency, max_num_seqs=a.max_num_seqs)
+    cfg = load(HERE / 'config.json'); cfg.update(cpu_workers=a.cpu_workers, requests_per_gpu=1, inference_backend='historical_transformers_localmodel')
     reserved_mechanism = 0 if a.skip_mechanism else a.mechanism_workers
     if a.cpu_workers + a.evaluation_workers + reserved_mechanism > max(1, (os.cpu_count() or 24) - 4):
         raise ValueError('Reserve at least four CPU cores for GPU services; reduce worker counts')
@@ -176,10 +172,10 @@ def main():
             servers = []
             for i, gpu in enumerate(cfg['gpu_ids']):
                 env = dict(os.environ, CUDA_VISIBLE_DEVICES=visible_device(gpu), TOKENIZERS_PARALLELISM='false', VLLM_WORKER_MULTIPROC_METHOD='spawn')
-                servers.append(spawn(gpu_command(a.model, a.port+i, cfg), f'vllm_gpu{gpu}.log', env))
+                servers.append(spawn(gpu_command(a.model, a.port+i, cfg), f'local_gpu{gpu}.log', env))
             timeout = time.monotonic() + 1200
             while not all(ready(url) for url in endpoints):
-                if any(proc.poll() is not None for proc in servers): raise server_failure(a.run,servers,cfg['gpu_ids'],'vLLM exited during startup')
+                if any(proc.poll() is not None for proc in servers): raise server_failure(a.run,servers,cfg['gpu_ids'],'LocalModel exited during startup')
                 if time.monotonic() > timeout: raise server_failure(a.run,servers,cfg['gpu_ids'],'Model loading exceeded 20 minutes')
                 print('Waiting for four model replicas...', flush=True); time.sleep(10)
             monitor = threading.Thread(target=telemetry, args=(a.run, endpoints, stopped, cfg['telemetry_seconds']), daemon=True); monitor.start()
