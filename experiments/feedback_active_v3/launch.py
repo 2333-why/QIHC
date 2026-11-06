@@ -130,7 +130,7 @@ def preflight(args, cfg):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('--model', type=Path, required=True); p.add_argument('--run', type=Path, required=True)
+    p.add_argument('--config', type=Path, default=HERE/'config.json'); p.add_argument('--model', type=Path, required=True); p.add_argument('--run', type=Path, required=True)
     p.add_argument('--data', type=Path, default=HERE / 'assets/public_dataset'); p.add_argument('--port', type=int, default=8100)
     p.add_argument('--stages', default='development,main,ablation,scale,replay,public'); p.add_argument('--cpu-workers', type=int, default=12)
     p.add_argument('--evaluation-workers', type=int, default=4); p.add_argument('--concurrency', type=int, default=1)
@@ -138,10 +138,12 @@ def main():
     p.add_argument('--skip-mechanism', action='store_true')
     p.add_argument('--max-num-seqs', type=int, default=16); p.add_argument('--preflight-only', action='store_true')
     a = p.parse_args(); a.run = a.run.resolve(); a.data = a.data.resolve(); a.model = a.model.resolve()
-    cfg = load(HERE / 'config.json'); cfg.update(cpu_workers=a.cpu_workers, requests_per_gpu=1, inference_backend='historical_transformers_localmodel')
+    cfg = load(a.config); cfg.update(cpu_workers=a.cpu_workers, requests_per_gpu=1, inference_backend='historical_transformers_localmodel')
     reserved_mechanism = 0 if a.skip_mechanism else a.mechanism_workers
     if a.cpu_workers + a.evaluation_workers + reserved_mechanism > max(1, (os.cpu_count() or 24) - 4):
         raise ValueError('Reserve at least four CPU cores for GPU services; reduce worker counts')
+    if (a.run/'manifest.json').exists() and load(a.run/'manifest.json')['config']['experiment_id']!=cfg['experiment_id']:
+        raise ValueError('Different experiment ID: use the new iteration result directory')
     a.run.mkdir(parents=True, exist_ok=True)
     children, handles = [], []; stopped = threading.Event(); monitor = None
     def interrupted(signum, frame): raise KeyboardInterrupt('Signal ' + str(signum))
@@ -154,6 +156,10 @@ def main():
             if not data_manifest.get('formal_public_only'):
                 raise ValueError('Formal launcher accepts only the locked public dataset')
             stages=a.stages.split(',')
+            if cfg.get('development_gate') and any(s!='development' for s in stages) and 'development' not in stages:
+                gate=a.run/'development_gate.json'
+                if not gate.exists() or not load(gate).get('passed'):
+                    raise ValueError('Run development first; the new iteration requires a passing interface gate')
             if len(set(stages))!=len(stages) or any(s not in ('development','main','ablation','scale','replay','public') for s in stages):
                 raise ValueError('Invalid/duplicate stages')
             if 'replay' in stages and ('main' not in stages or stages.index('main')>stages.index('replay')):

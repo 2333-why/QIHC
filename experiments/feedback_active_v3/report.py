@@ -75,7 +75,8 @@ def report(root, statistics=False):
                 coverage='full_cohort' if full else 'prespecified_120_case_subset'))
     requests = [load(p) for p in (root / 'requests').glob('*.json')]
     complete = bool(expected) and all(len(evaluated[g]) == n for g, n in expected.items())
-    result = dict(experiment_id='E004_2.1', status='complete' if complete else 'partial', generated_at=time.time(),
+    experiment_id=load(root/'manifest.json')['config']['experiment_id'] if (root/'manifest.json').exists() else 'E004_2.1'
+    result = dict(experiment_id=experiment_id, status='complete' if complete else 'partial', generated_at=time.time(),
         scope='registered_stages_only', expected=sum(expected.values()), completed=sum(len(v) for v in done.values()),
         evaluated=len(evaluations), groups=groups, solver_groups=solver_groups, llm=dict(attempts=sum(r.get('attempts', 0) for r in requests),
         input_tokens=sum(r.get('input_tokens', 0) for r in requests), output_tokens=sum(r.get('output_tokens', 0) for r in requests),
@@ -86,7 +87,7 @@ def report(root, statistics=False):
         result['statistics'] = paired_statistics(evaluations, cfg['primary_comparisons']) if main_complete else []
         result['statistics_status'] = 'full_main_only' if main_complete else 'pending_complete_main'
     save(root / 'summary.json', result)
-    lines = ['# E004_2.1 实验报告', '', f'状态：{result["status"]}；推理 {result["completed"]}/{result["expected"]}，评价 {result["evaluated"]}/{result["expected"]}。',
+    lines = ['# '+experiment_id+' 实验报告', '', f'状态：{result["status"]}；推理 {result["completed"]}/{result["expected"]}，评价 {result["evaluated"]}/{result["expected"]}。',
         '范围仅含已登记阶段；缺失、unknown、失败不删除。以下为轨迹计数；正式检验以题为单位平均种子。', '',
         '所有正式题目来自公开数据：NLCO 六任务 900 题分开发/主测/规模；CP-Bench 10 题补充。第二模型关闭，人工审计另行记录。', '',
         '| 阶段 | 方法 | 推理完成/计划 | 已评价 | 可执行 | 完整正确 | 已证错误 | unknown | 初始失败恢复 | 正确退化 |',

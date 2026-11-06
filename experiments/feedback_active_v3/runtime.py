@@ -46,6 +46,8 @@ def public_cases(data):
 class Pipeline:
     def __init__(self, root, data, cfg, llm, cpus):
         self.root = root; self.data = data; self.cfg = cfg; self.llm = llm; self.cpus = cpus
+        from qihc.modeling import active_protocol, active_protocol_v2
+        self.protocol = active_protocol_v2 if cfg.get('protocol_version')=='v2' else active_protocol
         self.initials = {}; self.case_slots = asyncio.Semaphore(cfg['active_trajectories'])
 
     async def initialize(self, c, meta=None):
@@ -57,12 +59,12 @@ class Pipeline:
         identity = c['id'] if meta is None else key('public', c['id'], meta['arm'], str(meta['seed']))
         case = public_view(c); initial_key = key(identity); path = self.root / 'initial' / (initial_key + '.json')
         if path.exists(): return load(path)
-        prompt = model_prompt(case)
+        prompt = self.protocol.model_prompt(case)
         if meta and meta['arm'] == 'R': prompt = 'Internally understand, formalize, synthesize, and verify completeness, then emit only the requested JSON.\n' + prompt
         source = dict(status='complete', text='{"checks":[]}')
         async def source_call():
             if meta and meta['arm'] == 'C0': return source
-            return await self.llm.generate(key('sources', identity), source_prompt(case), seed_for(c['id'], meta['seed'] if meta else 0, 'sources'), 0)
+            return await self.llm.generate(key('sources', identity), self.protocol.source_prompt(case), seed_for(c['id'], meta['seed'] if meta else 0, 'sources'), 0)
         responses = await asyncio.gather(
             self.llm.generate(key('initial', identity), prompt, seed_for(c['id'], meta['seed'] if meta else 0, 'initial'), 0), source_call())
         row = dict(case_id=c['id'], model=None, checks={'checks': [], 'rejected': []}, error=None, source_error=None,
@@ -70,11 +72,11 @@ class Pipeline:
                    workflow_scope='budget_matched_IR_adaptation_not_native_paper_reproduction' if meta else 'shared_initial_model')
         try:
             if responses[0]['status'] != 'complete': raise ValueError(responses[0]['status'])
-            row['model'] = parse_model(responses[0]['text'], case)
+            row['model'] = self.protocol.parse_model(responses[0]['text'], case)
         except (ValueError, TypeError, KeyError) as exc: row['error'] = str(exc)
         try:
             if responses[1]['status'] != 'complete': raise ValueError(responses[1]['status'])
-            row['checks'] = parse_checks(responses[1]['text'], case)
+            row['checks'] = self.protocol.parse_checks(responses[1]['text'], case)
         except (ValueError, TypeError, KeyError) as exc: row['source_error'] = str(exc)
         save(path, row); return row
 
@@ -111,10 +113,10 @@ class Pipeline:
                             arm=meta['arm'], config=self.cfg, seed=seed_for(c['id'], meta['seed'], round_no, 'probe')),
                             self.cfg['probe_seconds'] + 30)
                         evidence = self.feedback_view(probe)
-                    prompt = patch_prompt(case, state['model'], initial['checks'], evidence, state.get('error'))
+                    prompt = self.protocol.patch_prompt(case, state['model'], initial['checks'], evidence, state.get('error'))
                     request_key = key('patch', tid, str(round_no))
                     response = await self.llm.generate(request_key, prompt, seed_for(c['id'], meta['seed'], round_no, 'decode'))
-                    if response['status'] == 'complete': decision = guard(case, state['model'], response['text'])
+                    if response['status'] == 'complete': decision = self.protocol.guard(case, state['model'], response['text'])
                     else: decision = dict(status='rejected', model=state['model'], error=response['status'], candidate=None)
                     state['model'] = decision['model']; state['error'] = decision.get('error')
                     state['rounds'].append(dict(round=round_no, probe=probe, presented_evidence=evidence,
@@ -181,7 +183,11 @@ async def main_async(args):
             path = args.run / 'stages' / (stage + '.json')
             if path.exists() and load(path) != index: raise ValueError('Registered stage changed')
             save(path, index)
-        for stage in args.stages.split(','): await pipeline.run(stage)
+        for stage in args.stages.split(','):
+            await pipeline.run(stage)
+            if stage=='development' and cfg.get('development_gate'):
+                from experiments.feedback_active_v4.gate import check
+                check(args.run, args.data, cfg)
         save(args.run / 'inference_complete.json', dict(stages=args.stages.split(','), completed_at=time.time()))
     finally:
         beat.cancel(); await llm.close()
