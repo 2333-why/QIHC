@@ -1,0 +1,87 @@
+(.venv-qihc) [root:qihc-E004_2.1-git]$ cd /inspire/hdd/global_user/czxs25210022/why/qihc-E004_2.1-git
+git fetch origin
+
+git show 2cf2db53:tools/audit_e004_format.py \
+  > /tmp/qihc_e004_format_audit.py
+
+export PYTHONPATH="$PWD${PYTHONPATH:+:$PYTHONPATH}"
+
+/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/bin/python \
+  /tmp/qihc_e004_format_audit.py \
+  --run /inspire/hdd/global_user/czxs25210022/why/results/E004_2.1_active_feedback \
+  > /inspire/hdd/global_user/czxs25210022/why/E004_2.1_format_audit.json
+
+head -n 65 /inspire/hdd/global_user/czxs25210022/why/E004_2.1_format_audit.json
+remote: Enumerating objects: 16, done.
+remote: Counting objects: 100% (16/16), done.
+remote: Compressing objects: 100% (11/11), done.
+remote: Total 16 (delta 5), reused 16 (delta 5), pack-reused 0 (from 0)
+Unpacking objects: 100% (16/16), 15.27 KiB | 274.00 KiB/s, done.
+From https://github.com/2333-why/QIHC
+   b234541..2cf2db5  codex/e004-2.1-public -> origin/codex/e004-2.1-public
+{
+  "scope": "counterfactual_parser_audit_only_not_new_experiment_scores",
+  "failed_initials_audited": 530,
+  "recompiled": 369,
+  "semantic_correctness": "NOT evaluated; compilable does not mean correct",
+  "remaining_errors": {
+    "constraint:c0: vector supports source, scale, and either column or flatten": 1,
+    "Incomplete or invalid JSON at line 1, column 1007: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "Expected bounded integer, not bool/float/string": 9,
+    "Quadratic index out of range": 1,
+    "Incomplete or invalid JSON at line 1, column 631: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "Incomplete or invalid JSON at line 1, column 1499: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "Invalid coefficient dimension": 2,
+    "constraint:c0: source must be an integer vector of length 15": 2,
+    "Invalid linear constraint": 12,
+    "Expected integer index sets": 6,
+    "constraint c35.a: sparse index must be a canonical string integer in 0..n-1": 1,
+    "constraint c21.a: sparse index must be a canonical string integer in 0..n-1": 1,
+    "Duplicate JSON key: 10": 1,
+    "constraint c14.a: sparse index must be a canonical string integer in 0..n-1": 2,
+    "constraint c50.a: sparse index must be a canonical string integer in 0..n-1": 1,
+    "Incomplete or invalid JSON at line 1, column 1284: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "constraint c8.a: sparse index must be a canonical string integer in 0..n-1": 3,
+    "Incomplete or invalid JSON at line 1, column 533: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "Incomplete or invalid JSON at line 1, column 7109: Unterminated string starting at; inspect finish_reason/token/time limits": 1,
+    "Incomplete or invalid JSON at line 1, column 1922: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "Incomplete or invalid JSON at line 1, column 5172: Expecting value; inspect finish_reason/token/time limits": 1,
+    "Duplicate JSON key: 13": 4,
+    "Incomplete or invalid JSON at line 1, column 1413: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "constraint c13.a: sparse index must be a canonical string integer in 0..n-1": 1,
+    "constraint c32.a: sparse index must be a canonical string integer in 0..n-1": 1,
+    "constraint c18.a: sparse index must be a canonical string integer in 0..n-1": 1,
+    "Incomplete or invalid JSON at line 1, column 6785: Unterminated string starting at; inspect finish_reason/token/time limits": 1,
+    "constraint:c0: missing/invalid column": 5,
+    "Unique bounded constraint IDs required": 2,
+    "constraint c9.a: sparse index must be a canonical string integer in 0..n-1": 1,
+    "Incomplete or invalid JSON at line 1, column 982: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "constraint c11.a: sparse index must be a canonical string integer in 0..n-1": 2,
+    "Duplicate JSON key: 2": 1,
+    "constraint c24.a: sparse index must be a canonical string integer in 0..n-1": 2,
+    "Incomplete or invalid JSON at line 1, column 1766: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "Expected bounded-integer-v2 schema": 5,
+    "Incomplete or invalid JSON at line 1, column 1473: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "Incomplete or invalid JSON at line 1, column 1659: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "Incomplete or invalid JSON at line 1, column 1165: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "constraint c25.a: sparse index must be a canonical string integer in 0..n-1": 2,
+    "Incomplete or invalid JSON at line 1, column 573: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "constraint:c0: source must be an integer vector of length 16": 1,
+    "Incomplete or invalid JSON at line 1, column 199: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "objective.linear: vector supports source, scale, and either column or flatten": 2,
+    "Incomplete or invalid JSON at line 1, column 5135: Expecting value; inspect finish_reason/token/time limits": 1,
+    "Incomplete or invalid JSON at line 1, column 385: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "Incomplete or invalid JSON at line 1, column 10164: Unterminated string starting at; inspect finish_reason/token/time limits": 1,
+    "Incomplete or invalid JSON at line 1, column 965: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "constraint c3.a: sparse index must be a canonical string integer in 0..n-1": 2,
+    "Incomplete or invalid JSON at line 1, column 6678: Unterminated string starting at; inspect finish_reason/token/time limits": 1,
+    "Incomplete or invalid JSON at line 1, column 6173: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "Incomplete or invalid JSON at line 1, column 969: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "constraint:c0: source must be an integer vector of length 12": 4,
+    "objective.linear: source must be an integer vector of length 16": 1,
+    "Incomplete or invalid JSON at line 1, column 764: Expecting ',' delimiter; inspect finish_reason/token/time limits": 1,
+    "Incomplete or invalid JSON at line 1, column 204: Expecting property name enclosed in double quotes; inspect finish_reason/token/time limits": 1,
+    "constraint c0.a: sparse index must be a canonical string integer in 0..n-1": 1,
+    "constraint:c0: source must be an integer vector of length 13": 2,
+    "constraint c19.a: sparse index must be a canonical string integer in 0..n-1": 1,
+(.venv-qihc) [root:qihc-E004_2.1-git]$ 
