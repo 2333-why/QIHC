@@ -25,7 +25,7 @@ def launch(mode):
         raise RuntimeError("Local model changed since CPU preparation")
     root=RUN/mode
     seeds=[17] if mode=="pilot" else [17,29,43]
-    pending=[(method,seed) for seed in seeds for method in METHODS
+    pending=[(method,seed) for seed in seeds for method in METHODS if method not in ("uniform_weight","rule_weight")
              if not (root/"models"/str(seed)/method/"done.json").exists()]
     live={}
     evaluator=None
@@ -41,13 +41,14 @@ def launch(mode):
                 if proc.returncode: raise RuntimeError(f"{job} failed: see {log.name}")
             for gpu in ids:
                 if gpu in live: continue
-                job=next(((m,s) for m,s in pending if m=="sft" or (root/"models"/str(s)/"sft/adapter.pt").exists()),None)
+                job=next(((m,s) for m,s in pending if m=="sft" or (root/"models"/str(s)/"sft"/("done.json" if m in ("best_lm","trajectory_lm") else "adapter.pt")).exists()),None)
                 if job is None: continue
                 method,seed=job
                 path=root/"logs"/f"{seed}-{method}.log"
                 path.parent.mkdir(parents=True,exist_ok=True)
                 log=path.open("a")
-                proc=subprocess.Popen([sys.executable,"-m","experiments.posttraining_v1.learn",method,str(seed),mode],
+                module="energy_learn" if method in ("best_lm","trajectory_lm") else "learn"
+                proc=subprocess.Popen([sys.executable,"-m","experiments.posttraining_v1."+module,method,str(seed),mode],
                                      env=dict(os.environ,CUDA_VISIBLE_DEVICES=gpu),stdout=log,stderr=subprocess.STDOUT)
                 live[gpu]=proc,log,job
                 pending.remove(job)
@@ -81,4 +82,8 @@ if __name__=="__main__":
         for name,expected in split["files"].items():
             if hashlib.sha256(json.dumps(load(RUN/(name+".json")),sort_keys=True).encode()).hexdigest()!=expected:
                 raise RuntimeError("Prepared split changed: "+name)
+        if not load(RUN/"energy/settings.json")["pair_ids"]:
+            raise RuntimeError("Missing energy preferences")
+        if any(digest(RUN/name)!=expected for name,expected in load(RUN/"energy/inputs.json").items()):
+            raise RuntimeError("Energy training labels changed after preparation")
         launch(mode)

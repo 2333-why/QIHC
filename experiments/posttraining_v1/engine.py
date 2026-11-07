@@ -86,7 +86,13 @@ class Engine:
     @torch.no_grad()
     def evaluate(self, prompt, seed):
         self.net.eval()
-        return e004_generate(self.local, dict(messages=[dict(content=prompt)],seed=seed,max_tokens=4096,temperature=0))
+        try:
+            return e004_generate(self.local,dict(messages=[dict(content=prompt)],seed=seed,max_tokens=4096,temperature=0))
+        except ValueError as exc:
+            if "Context limit exceeded" not in str(exc):
+                raise
+            return dict(choices=[dict(finish_reason="length",message=dict(content=""))],
+                        usage=dict(prompt_tokens=len(self.prefix(prompt)),completion_tokens=0))
 
     def backward(self, prompt, ids, mode, scale=1., teacher_prompt=None, weights=None,
                  advantage=0., reference=None):

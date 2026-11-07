@@ -3,7 +3,7 @@ import hashlib
 import sys
 from importlib.metadata import version
 from qihc.experiment_runtime.identity import model_identity
-from qihc.experiment_runtime.storage import load, save, worker_lock, value_digest
+from qihc.experiment_runtime.storage import digest, load, save, worker_lock, value_digest
 from experiments.feedback_active_v3.check_local_model import check
 from .data import RUN, MODEL, prepare
 
@@ -30,7 +30,12 @@ def main():
         result=execute(dict(stage="solve",model=row["gold"],backend="scip",seconds=2,chains=32,seed=17))
         if result.get("x") is None: raise RuntimeError("SCIP runtime preflight failed: "+str(result))
         save(ready,identity)
-        print("E005_CPU_READY",RUN)
+        from .energy_data import prepare_energy
+        prepare_energy()
+        settings=load(RUN/"energy/settings.json")
+        inputs=[RUN/"energy/settings.json"]+[RUN/"energy/preferences"/(c+".json") for c in settings["pair_ids"]]
+        save(RUN/"energy/inputs.json",{p.relative_to(RUN).as_posix():digest(p) for p in inputs})
+        print("E005_EIGHT_CPU_READY",RUN)
 
 
 if __name__=="__main__": main()

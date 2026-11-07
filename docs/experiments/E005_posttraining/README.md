@@ -8,3 +8,4 @@
 | E005-1.4 | 四种后训练方法实现，等待服务器运行 | [记录](E005-1.4_record.md) · [CPU/GPU命令](../../experiments/posttraining_v1/README.md) |
 | E005-1.5 | 已完成单种子 CPU 反例来源诊断 | [记录与证据](E005-1.5_record.md) |
 | E005-1.6 | 轨迹驱动的能量修订后训练，方案阶段 | [方案](E005-1.6_plan.md) · [记录](E005-1.6_record.md) |
+| E005-1.7 | 八组代码已实现，训练与正式成绩待返回 | [记录](E005-1.7_record.md) · [运行](../../experiments/posttraining_v1/README.md) |

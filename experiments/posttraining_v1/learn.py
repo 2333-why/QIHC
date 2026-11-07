@@ -13,7 +13,7 @@ from qihc.generic.bounded import violations
 from qihc.modeling.active_protocol_v2 import model_prompt, parse_model, compact
 from experiments.feedback_active_v3.cpu import execute
 from experiments.feedback_active_v3.runtime import seed_for
-from .data import RUN, MODEL, METHODS, target
+from .data import RUN, MODEL, MODEL_METHODS, cohort, target
 from .engine import Engine
 from .witness import probe
 
@@ -171,21 +171,20 @@ def work(method, seed, mode):
                 signal["witnessed_candidates"]+=sum(bool(s.get("cards")) for s in samples)
             save(out/"training_signals.json",signal)
         engine.restore(torch.load(final,map_location="cpu",weights_only=True))
-        cases=([r["case"] for r in load(RUN/"validation.json")] if mode=="pilot"
-               else load(RUN/"test_public.json"))
+        cases=cohort(mode,seed)
         for case in cases:
             path=out/"predictions"/(case["id"]+".json")
             if path.exists(): continue
             response=engine.evaluate(model_prompt(case),seed_for(case["id"],0,"initial"))
             text=response["choices"][0]["message"]["content"]
             model,error=parsed(text,case) if response["choices"][0]["finish_reason"]=="stop" else (None,"length")
-            save(path,dict(case_id=case["id"],model=model,error=error,raw=text,usage=response["usage"]))
+            save(path,dict(case_id=case["id"],stage=case["stage"],model=model,error=error,raw=text,usage=response["usage"]))
         save(out/"done.json",dict(count=len(cases),method=method,seed=seed))
 
 
 if __name__=="__main__":
     p=argparse.ArgumentParser()
-    p.add_argument("method",choices=METHODS)
+    p.add_argument("method",choices=MODEL_METHODS)
     p.add_argument("seed",type=int)
     p.add_argument("mode",choices=["pilot","formal"])
     a=p.parse_args()

@@ -14,9 +14,18 @@ from experiments.feedback_active_v3.data import public_view
 HERE = Path(__file__).resolve().parent
 DATA = HERE.parent / "feedback_active_v3/assets/public_dataset"
 BASE = Path("/inspire/hdd/global_user/czxs25210022/why")
-RUN = Path(os.environ.get("QIHC_POST_RUN", BASE / "results/E005-1.4_four"))
+RUN = Path(os.environ.get("QIHC_POST_RUN", BASE / "results/E005-1.7_eight"))
 MODEL = Path(os.environ.get("QIHC_MODEL", BASE / "models/Qwen3-32B"))
-METHODS = ("sft", "solver_rl", "sdpo", "pvcd")
+MODEL_METHODS = ("sft", "solver_rl", "sdpo", "pvcd")
+from .energy import ENERGY_METHODS
+METHODS = MODEL_METHODS + ENERGY_METHODS
+STAGE_SEEDS = {"development":(17,), "main":(17,29,43), "scale":(17,29), "public":(17,29)}
+
+def cohort(mode,seed):
+    if mode=="pilot":
+        return [dict(r["case"],stage="pilot") for r in load(RUN/"validation.json")]
+    return [r for r in load(RUN/"cohort.json") if seed in STAGE_SEEDS[r["stage"]]]
+
 
 
 def target(model):
@@ -31,10 +40,14 @@ def structure(row):
 def prepare():
     if (RUN/"manifest.json").exists() or RUN.name.startswith("E004"):
         raise ValueError("Select a dedicated E005 result directory")
+    if (RUN/"split.json").exists() and load(RUN/"split.json").get("experiment")!="E005-1.7":
+        raise ValueError("Use the new eight-arm result directory")
     restore(DATA)
     public = {c["id"]: c for c in load(DATA / "cases.public.json")}
     gold = load(DATA / "evaluation/cases.gold.json")
     held = [r for r in gold if r["split"] != "development"]
+    extra_gold=load(DATA/"evaluation/cases.public_external.gold.json")
+    held.extend(extra_gold)
     used = {structure(r) for r in held}
     questions = {" ".join(r["question"].split()) for r in held}
     grouped = defaultdict(list)
@@ -61,8 +74,14 @@ def prepare():
     main = [public_view(r) for r in public.values() if r["split"] == "main"]
     if len(main) != 480:
         raise ValueError("Unexpected E004 main cohort")
-    files = {"train": train, "validation": validation, "test_public": main}
-    manifest = dict(experiment="E005-1.4", files={}, excluded=dropped,
+    external=load(DATA/"cases.public_external.json")
+    full=[dict(public_view(c),stage=c["split"]) for c in public.values()]
+    full += [dict(public_view(c),stage="public") for c in external]
+    sizes={stage:sum(c["stage"]==stage for c in full) for stage in STAGE_SEEDS}
+    if sizes!={"development":120,"main":480,"scale":300,"public":10} or len({c["id"] for c in full})!=910:
+        raise ValueError(f"E004 cohort changed: {sizes}")
+    files = {"train": train, "validation": validation, "test_public": main, "cohort":full}
+    manifest = dict(experiment="E005-1.7", files={}, excluded=dropped,
                     source=digest(DATA / "public.manifest.json"),
                     code={p.name:digest(p) for p in sorted(HERE.glob("*.py"))})
     for name, rows in files.items():

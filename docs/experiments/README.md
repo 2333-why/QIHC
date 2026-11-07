@@ -47,3 +47,4 @@
 
 [E005-1.5 反例来源 CPU 诊断](E005_posttraining/E005-1.5_record.md)已归档，覆盖 NLCO 验证划分的受控模型错误。
 [E005-1.6](E005_posttraining/E005-1.6_plan.md) 计划用 p-bit 采样轨迹训练能量修订策略，尚未运行。
+[E005-1.7](E005_posttraining/E005-1.7_record.md)合并八组，沿用 E004 独立题目与种子规模。
