@@ -50,3 +50,5 @@
 [E005-1.7](E005_posttraining/E005-1.7_record.md)合并八组，沿用 E004 独立题目与种子规模。
 
 [E005-1.8](E005_posttraining/E005-1.8_record.md) 基于两包结果设计选择性反馈与双向能量偏好。
+
+[E004_2.3](E004_feedback/E004_2.3_execution.md) 与 [E005-1.8](E005_posttraining/E005-1.8_execution.md)双作业已准备，沿用公开910题比较。
