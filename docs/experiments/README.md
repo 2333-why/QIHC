@@ -54,3 +54,5 @@
 [E004_2.3](E004_feedback/E004_2.3_execution.md) 与 [E005-1.8](E005_posttraining/E005-1.8_execution.md)双作业已准备，沿用公开910题比较。
 
 [E004_2.4 单独反馈](E004_feedback/E004_2.4_record.md)：原题最优命中，四组正式共8720条。
+
+[E004_2.5 八组单独反馈](E004_feedback/E004_2.5_record.md)，实现完成，待服务器运行。

@@ -81,7 +81,8 @@ def amend(case,model,fields,text):
     m=compact(model);m["objective"][edit["field"]]=edit["value"]
     return parse_model(json.dumps({"model":m}),case)
 
-def decide(item,arm,base,ask,seconds=20):
+def decide(item,arm,base,ask,seconds=20,cache=None):
+    cache={} if cache is None else cache
     model=item["model"]
     if arm=="A":return dict(model=model,action="base")
     if model is None:return base
@@ -91,14 +92,59 @@ def decide(item,arm,base,ask,seconds=20):
     obj={k:c[k] for k in ("sense","linear","quadratic")}
     fields=[k for k in obj if model["objective"][k]!=obj[k]]
     if not fields:return dict(model=model,action="objective_agrees")
+    if arm=="H":return dict(model=dict(model,objective=copy.deepcopy(obj)),action="direct_source",fields=fields)
     source=dict(model,objective=obj);cid=item["case"]["id"];seed=item["seed"]
-    shown=next((v for v in comparisons(pool(model,source,arm,seed_for(cid,seed,"find"),seconds/2,False),model,source)
-                if v[2]!=v[3]),None)
+    def pairs(held):
+        kernel="C" if arm=="C" else ("hybrid" if arm=="G" else "D")
+        key=(kernel,held)
+        if key not in cache:
+            seconds_left=seconds/2
+            salt="validate" if held else "find"
+            if kernel=="hybrid":
+                xs=[]
+                for kind in ("C","D"):
+                    xs.extend(pool(model,source,kind,seed_for(cid,seed,salt,kind),seconds_left/2,held))
+                xs=sorted(set(map(tuple,xs)))
+                xs=[list(x) for x in xs]
+            else:
+                xs=pool(model,source,kernel,seed_for(cid,seed,salt),seconds_left,held)
+            cache[key]=comparisons(xs,model,source)
+        return cache[key]
+    shown=next((v for v in pairs(False) if v[2]!=v[3]),None)
     if shown is None:return dict(model=model,action="no_conflict")
-    validation=[v for v in comparisons(pool(model,source,arm,seed_for(cid,seed,"validate"),seconds/2,True),model,source)
-                if v[:2]!=shown[:2]]
+    validation=[v for v in pairs(True) if v[:2]!=shown[:2]]
     state=dict(model=model,action="no_validation_pair",shown=shown,holdout_pairs=len(validation))
     if not validation:return state
+    if arm in ("E","F","G"):
+        # Enumerate objective-only repairs, preferring fewer changed fields.
+        # Discovery evidence selects the candidate. Holdout is used only for veto.
+        if arm=="G":
+            confirm=ask(source_prompt(item["case"])+"\nIndependently reconstruct direction and coefficients from the original labels and data. Emit only one complete objective check or abstain.",seed_for(cid,seed,"independent_source"))
+            try:review=objective_check(parse_checks(confirm,item["case"]))
+            except (ValueError,TypeError,KeyError,IndexError):review=None
+            if review is None or any(review[k]!=obj[k] for k in obj):
+                return dict(state,action="source_disagreement",review_text=confirm)
+        discover=pairs(False)
+        X=sorted(set(tuple(x) for v in discover for x in v[:2]))
+        wanted=[v[3] for v in discover]
+        best=None;best_score=-1
+        for size in range(1,(1 if arm=="E" else len(fields))+1):
+            for subset in itertools.combinations(fields,size):
+                candidate=copy.deepcopy(model)
+                candidate["objective"].update({k:obj[k] for k in subset})
+                rank=dict(zip(X,values(candidate,X)))
+                order=lambda v:int(np.sign(rank[tuple(v[0])]-rank[tuple(v[1])]))
+                if order(shown)!=shown[3]:continue
+                score=sum(order(v)==desired for v,desired in zip(discover,wanted))
+                if score>best_score:
+                    best,best_score=candidate,score
+                    state["fields"]=subset
+        if best is None:return dict(state,action="no_candidate")
+        xs=sorted(set(tuple(x) for v in validation for x in v[:2]))
+        rank=dict(zip(xs,values(best,xs)))
+        if any(int(np.sign(rank[tuple(x)]-rank[tuple(y)]))!=correct for x,y,old,correct in validation):
+            return dict(state,action="rollback")
+        return dict(state,model=best,action="accepted")
     prompt=(model_prompt(item["case"])+'\nReturn ONLY {"field":"sense|linear|quadratic","value":...} '
             'or {"keep":true}. Correct at most one objective field supported by the original problem. '
             'Orders are signs of cost(x)-cost(y) after converting to minimization.\n'+

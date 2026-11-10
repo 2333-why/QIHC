@@ -13,7 +13,7 @@ def report(mode):
     for p in (HISTORY/"evaluation/trajectories").glob("*.json"):
         r=load(p)
         if r["arm"]=="P2":historic[r["stage"]][r["case_id"],r["seed"]]=r
-    lines=["# E004_2.4 "+mode,"","主指标为原题已证最优命中率。所有题保留在计划分母，以下百分比按配齐种子的共同题计算。"]
+    lines=["# E004_2.5 "+mode,"","主指标为原题已证最优命中率。所有题保留在计划分母，以下百分比按配齐种子的共同题计算。"]
     stats={}
     for stage,seeds in ({"development":[17]} if mode=="pilot" else SEEDS).items():
         arms=rows[stage]
@@ -36,19 +36,19 @@ def report(mode):
         if subset:
             lines.append(f"\n历史P2同题同种子 {len(subset)//len(seeds)}题：P2最优 {pct([h[k]['cross']['pbit']['score']['optimal_hit'] for k in subset])}，D最优 {pct([hit('D',k) for k in subset])}。")
         stage_stats={}
-        for other in ("B","C"):
-            diff=np.array([np.mean([hit("D",(cid,s))-hit(other,(cid,s)) for s in seeds]) for cid in ids])
+        for left,other in (("D","B"),("D","C"),("E","D"),("F","E"),("G","F"),("F","H")):
+            diff=np.array([np.mean([hit(left,(cid,s))-hit(other,(cid,s)) for s in seeds]) for cid in ids])
             if len(diff):
                 rng=np.random.default_rng(17)
                 boot=rng.choice(diff,(5000,len(diff))).mean(axis=1)
                 perm=(rng.choice([-1,1],(5000,len(diff)))*diff).mean(axis=1)
-                stage_stats[other]=dict(delta=float(diff.mean()),ci95=np.quantile(boot,[.025,.975]).tolist(),
+                stage_stats[left+"-"+other]=dict(delta=float(diff.mean()),ci95=np.quantile(boot,[.025,.975]).tolist(),
                                         p=float((1+(np.abs(perm)>=abs(diff.mean())-1e-12).sum())/5001))
         if stage_stats:
             ordered=sorted(stage_stats,key=lambda a:stage_stats[a]["p"]); last=0.
             for i,a in enumerate(ordered):
-                d=stage_stats[a];last=max(last,min(1.,(2-i)*d["p"]));d["holm"]=last
-                lines.append(f"\nD-{a} 最优差值 {100*d['delta']:+.2f} 个百分点，配对95%区间 [{100*d['ci95'][0]:.2f}, {100*d['ci95'][1]:.2f}]，Holm p={last:.4f}。")
+                d=stage_stats[a];last=max(last,min(1.,(len(ordered)-i)*d["p"]));d["holm"]=last
+                lines.append(f"\n{a} 最优差值 {100*d['delta']:+.2f} 个百分点，配对95%区间 [{100*d['ci95'][0]:.2f}, {100*d['ci95'][1]:.2f}]，Holm p={last:.4f}。")
         stats[stage]=dict(cases=ids,comparisons=stage_stats,decisions={a:dict(collections.Counter(r["action"] for r in arms[a].values())) for a in ARMS})
         lines.append("\n决策计数："+str(stats[stage]["decisions"]))
     save(root/"summary.json",stats)

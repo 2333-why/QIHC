@@ -12,10 +12,10 @@ ROOT=Path(__file__).resolve().parents[2]
 BASE=Path("/inspire/hdd/global_user/czxs25210022/why")
 DATA=ROOT/"experiments/feedback_active_v3/assets/public_dataset"
 HISTORY=Path(os.getenv("QIHC_E004_RUN",BASE/"results/E004_2.2_active_feedback"))
-RUN=Path(os.getenv("QIHC_OPT_RUN",BASE/"results/E004_2.4_base_optimal_feedback"))
+RUN=Path(os.getenv("QIHC_OPT_RUN",BASE/"results/E004_2.5_base_optimal_feedback"))
 MODEL=Path(os.getenv("QIHC_MODEL",BASE/"models/Qwen3-32B"))
 SEEDS={"development":[17],"main":[17,29,43],"scale":[17,29],"public":[17,29]}
-ARMS=("A","B","C","D")
+ARMS=("A","B","C","D","E","F","G","H")
 def sources():
     return {p.name:digest(p) for p in Path(__file__).parent.glob("*.py")}
 
@@ -36,7 +36,7 @@ def freeze(files):
             items.append(dict(case=public_view(c),stage=stage,seed=seed,model=initial["model"],
                               checks=initial["checks"],error=initial["error"],raw=raw))
     if len(cases)!=910 or len(items)!=2180:raise ValueError("Wrong cohort")
-    manifest=dict(experiment="E004_2.4",cohort=value_digest(items),source=sources(),model_files=files,
+    manifest=dict(experiment="E004_2.5",cohort=value_digest(items),source=sources(),model_files=files,
                   dataset=digest(DATA/"public.manifest.json"),arms=list(ARMS))
     for name,obj in [("manifest",manifest),("inputs",items)]:
         p=RUN/(name+".json")
@@ -60,7 +60,7 @@ def prepare():
     if execute(dict(stage="solve",model=g,backend="scip",seconds=2,seed=17,chains=32)).get("x") is None:
         raise RuntimeError("SCIP check failed")
     with worker_lock(RUN/"prepare.lock"):freeze(files)
-    print("E004_2.4_CPU_READY",RUN)
+    print("E004_2.5_CPU_READY",RUN)
 
 if __name__=="__main__":prepare()
 

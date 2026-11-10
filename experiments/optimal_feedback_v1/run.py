@@ -5,7 +5,8 @@ import signal
 import subprocess
 import sys
 import time
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor,ThreadPoolExecutor
+from threading import Lock,local as thread_local
 from pathlib import Path
 from qihc.experiment_runtime.storage import load,save,value_digest,worker_lock
 from qihc.experiment_runtime.identity import model_identity
@@ -23,31 +24,51 @@ def cohort(mode):
 def work(mode,rank):
     from qihc.modeling.backend import LocalModel
     from experiments.feedback_active_v3.local_server import generate
-    pending=[r for r in cohort(mode)[rank::4] if any(not (RUN/mode/"models"/str(r["seed"])/a/"predictions"/(r["case"]["id"]+".json")).exists() for a in ARMS)]
+    pending=[r for r in cohort(mode) if any(not (RUN/mode/"models"/str(r["seed"])/a/"predictions"/(r["case"]["id"]+".json")).exists() for a in ARMS)]
     if not pending:return
     local=LocalModel(str(MODEL),device="cuda:0")
+    inference_lock=Lock();ctx=thread_local();active_seconds=0.;started_worker=time.monotonic()
     def ask(prompt,seed):
-        try:r=generate(local,dict(messages=[dict(content=prompt)],seed=seed,max_tokens=4096,temperature=0))
+        nonlocal active_seconds
+        try:
+            with inference_lock:
+                started=time.monotonic()
+                r=generate(local,dict(messages=[dict(content=prompt)],seed=seed,max_tokens=4096,temperature=0))
+                active_seconds+=time.monotonic()-started
         except ValueError as e:
             if "Context limit exceeded" in str(e):return ""
             raise
-        calls.append(r["usage"])
+        ctx.calls.append(r["usage"])
         return r["choices"][0]["message"]["content"] if r["choices"][0]["finish_reason"]=="stop" else ""
-    for item in pending:
+    def process(item):
         cid=item["case"]["id"];sid=str(item["seed"]);folder=RUN/mode
         def dest(arm):return folder/"models"/sid/arm/"predictions"/(cid+".json")
-        if all(dest(a).exists() for a in ARMS):continue
-        calls=[];basepath=folder/"shared"/sid/(cid+".json")
+        if all(dest(a).exists() for a in ARMS):return
+        calls=[];ctx.calls=calls;cache={};basepath=folder/"shared"/sid/(cid+".json")
         if not basepath.exists():
             base=shared(item,ask);base["usage"]=list(calls);save(basepath,base)
         base=load(basepath)
         for arm in ARMS:
             if dest(arm).exists():continue
             calls.clear();started=time.monotonic()
-            row=decide(item,arm,base,ask)
+            row=decide(item,arm,base,ask,cache=cache)
             save(dest(arm),dict(row,case_id=cid,stage=item["stage"],seed=item["seed"],arm=arm,
                                 seconds=time.monotonic()-started,usage=list(calls)))
         print(cid,sid,flush=True)
+
+    # Four rotated queues with nonblocking per-item claims. A faster GPU can
+    # consume unfinished items initially nearest another worker.
+    offset=len(pending)*rank//4
+    def claim(item):
+        lock=worker_lock(RUN/mode/"claims"/str(item["seed"])/(item["case"]["id"]+".lock"))
+        try:lock.__enter__()
+        except BlockingIOError:return
+        try:process(item)
+        finally:lock.__exit__(None,None,None)
+    with ThreadPoolExecutor(max_workers=int(os.getenv("QIHC_PROBE_LANES","2"))) as lanes:
+        for _ in lanes.map(claim,pending[offset:]+pending[:offset]):pass
+    save(RUN/mode/"timing"/f"worker{rank}.json",dict(inference_service_seconds=active_seconds,
+         elapsed_after_loading=time.monotonic()-started_worker,lanes=int(os.getenv("QIHC_PROBE_LANES","2"))))
 
 _GOLD=None
 def evaluate(path):
@@ -81,13 +102,13 @@ def evaluate(path):
 
 def score_loop(mode):
     folder=RUN/mode
-    with ProcessPoolExecutor(max_workers=8) as pool:
+    with ProcessPoolExecutor(max_workers=int(os.getenv("QIHC_SCORE_WORKERS","8"))) as pool:
         while True:
             todo=[p for p in folder.glob("models/*/*/predictions/*.json") if not (p.parent.parent/"evaluations"/p.name).exists()]
             if todo:list(pool.map(evaluate,todo))
             elif (folder/"generated.json").exists():
                 count=len(list(folder.glob("models/*/*/evaluations/*.json")))
-                if count==len(cohort(mode))*4:break
+                if count==len(cohort(mode))*len(ARMS):break
                 if any(not (p.parent.parent/"evaluations"/p.name).exists() for p in folder.glob("models/*/*/predictions/*.json")):continue
                 raise RuntimeError(f"Incomplete evaluations: {count}")
             else:time.sleep(2)
@@ -107,6 +128,8 @@ def launch(mode):
     with worker_lock(RUN/"launch.lock"):
         children=[];handles=[]
         try:
+            next_sample=0.
+            profiler=True
             scorer=subprocess.Popen(cmd+["score"]);children.append(scorer)
             workers=[]
             for i,g in enumerate(ids):
@@ -115,6 +138,15 @@ def launch(mode):
                 workers.append(p);children.append(p)
             while any(p.poll() is None for p in workers):
                 if any(p.poll() not in (None,0) for p in children):raise RuntimeError(f"Worker failed; inspect {logs}")
+                if profiler and time.monotonic()>=next_sample:
+                    next_sample=time.monotonic()+30
+                    try:
+                        sample=subprocess.run(["nvidia-smi","-i",",".join(ids),"--query-gpu=timestamp,uuid,utilization.gpu,memory.used",
+                            "--format=csv,noheader,nounits"],capture_output=True,text=True,timeout=4)
+                        if sample.returncode:profiler=False
+                        else:
+                            with (logs/"gpu.csv").open("a") as f:f.write(sample.stdout)
+                    except (OSError,subprocess.TimeoutExpired):profiler=False
                 time.sleep(2)
             if any(p.returncode for p in workers):raise RuntimeError(f"Worker failed; inspect {logs}")
             save(folder/"generated.json",{"complete":True})

@@ -38,3 +38,28 @@ def test_actual_probes_and_shared_compilation():
     assert repair["model"]==i["model"]
     for arm in ("B","C","D"): assert policy.decide(broken,arm,repair,None)==repair
     assert policy.decide(broken,"A",repair,None)["model"] is None
+
+def test_source_edits_shared_evidence_and_no_probe_control(monkeypatch):
+    i=fixture();base=policy.shared(i,lambda *_:"")
+    calls=[]
+    def search(m,s,arm,seed,budget,hold):
+        calls.append((arm,budget,hold))
+        return [[0,0,0],[0,1,0]] if hold else [[0,0,0],[1,0,0]]
+    monkeypatch.setattr(policy,"pool",search)
+    cache={}
+    for arm in ("E","F"):
+        row=policy.decide(i,arm,base,None,cache=cache)
+        assert row["action"]=="accepted" and row["model"]["objective"]["sense"]=="max"
+    assert len(calls)==2
+    assert policy.decide(i,"H",base,None)["action"]=="direct_source"
+    assert len(calls)==2
+    assert policy.decide(i,"G",base,lambda *_:'{"checks":[]}')["action"]=="source_disagreement"
+
+def test_compound_repair(monkeypatch):
+    i=fixture();i["model"]["objective"]["linear"]=[-1,2,3]
+    base=policy.shared(i,lambda *_:"")
+    monkeypatch.setattr(policy,"pool",lambda m,s,a,k,b,hold:
+        [[0,0,1],[1,0,1],[0,1,1]] if hold else [[0,0,0],[1,0,0],[0,1,0]])
+    assert policy.decide(i,"E",base,None)["action"]=="rollback"
+    row=policy.decide(i,"F",base,None)
+    assert row["action"]=="accepted" and set(row["fields"])=={"sense","linear"}
