@@ -1,0 +1,124 @@
+.venv-qihc) [root:qihc-E004_2.5-git]$ cd /inspire/hdd/global_user/czxs25210022/why/qihc-E004_2.5-git
+export QIHC_OPT_RUN=/inspire/hdd/global_user/czxs25210022/why/results/E004_2.5_base_optimal_feedback
+bash experiments/optimal_feedback_v1/02_report.sh formal
+# E004_2.5 formal
+
+主指标为原题已证最优命中率。所有题保留在计划分母，以下百分比按配齐种子的共同题计算。
+
+## development，120道共同题
+
+|组|已评分轨迹|完整正确|p-bit可行|p-bit最优|SCIP最优|新增/丢失p-bit命中对A|40秒p-bit最优|
+|---|---:|---:|---:|---:|---:|---:|---:|
+| A | 120 | 28.33% | 57.50% | 33.33% | 35.00% | 0/0 | 33.33% |
+| B | 120 | 28.33% | 60.00% | 33.33% | 35.00% | 0/0 | 33.33% |
+| C | 120 | 28.33% | 60.00% | 33.33% | 35.00% | 0/0 | — |
+| D | 120 | 28.33% | 60.00% | 33.33% | 35.00% | 0/0 | — |
+| E | 120 | 28.33% | 60.00% | 33.33% | 35.00% | 0/0 | — |
+| F | 120 | 28.33% | 60.00% | 33.33% | 35.00% | 0/0 | — |
+| G | 120 | 28.33% | 60.00% | 33.33% | 35.00% | 0/0 | — |
+| H | 120 | 28.33% | 60.00% | 33.33% | 35.00% | 0/0 | — |
+
+历史P2同题同种子 120题：P2最优 29.17%，D最优 33.33%。
+
+D-B 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+D-C 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+E-D 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+F-E 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+G-F 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+F-H 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+决策计数：{'A': {'base': 120}, 'B': {'compile_repair': 26, 'compile_only': 94}, 'C': {'compile_repair': 26, 'no_objective_check': 32, 'no_conflict': 10, 'objective_agrees': 50, 'keep_or_invalid': 2}, 'D': {'compile_repair': 26, 'no_objective_check': 32, 'keep_or_invalid': 8, 'objective_agrees': 50, 'no_conflict': 4}, 'E': {'compile_repair': 26, 'no_objective_check': 32, 'accepted': 7, 'objective_agrees': 50, 'no_conflict': 4, 'rollback': 1}, 'F': {'compile_repair': 26, 'no_objective_check': 32, 'accepted': 8, 'objective_agrees': 50, 'no_conflict': 4}, 'G': {'compile_repair': 26, 'no_objective_check': 32, 'accepted': 4, 'objective_agrees': 50, 'no_conflict': 4, 'source_disagreement': 4}, 'H': {'compile_repair': 26, 'no_objective_check': 32, 'direct_source': 12, 'objective_agrees': 50}}
+
+## main，480道共同题
+
+|组|已评分轨迹|完整正确|p-bit可行|p-bit最优|SCIP最优|新增/丢失p-bit命中对A|40秒p-bit最优|
+|---|---:|---:|---:|---:|---:|---:|---:|
+| A | 1440 | 26.67% | 52.08% | 29.38% | 29.79% | 0/0 | 29.38% |
+| B | 1440 | 27.50% | 55.83% | 30.42% | 30.83% | 15/0 | 30.42% |
+| C | 1440 | 27.50% | 55.83% | 30.42% | 30.83% | 15/0 | — |
+| D | 1440 | 27.50% | 55.83% | 30.42% | 30.83% | 15/0 | — |
+| E | 1440 | 27.29% | 55.83% | 30.21% | 30.63% | 15/3 | — |
+| F | 1440 | 27.29% | 55.83% | 30.21% | 30.63% | 15/3 | — |
+| G | 1440 | 27.50% | 55.83% | 30.42% | 30.83% | 15/0 | — |
+| H | 1440 | 27.29% | 55.83% | 30.21% | 30.63% | 15/3 | — |
+
+历史P2同题同种子 480题：P2最优 29.31%，D最优 30.42%。
+
+D-B 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+D-C 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+E-D 最优差值 -0.21 个百分点，配对95%区间 [-0.62, 0.00]，Holm p=1.0000。
+
+F-E 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+G-F 最优差值 +0.21 个百分点，配对95%区间 [0.00, 0.62]，Holm p=1.0000。
+
+F-H 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+决策计数：{'A': {'base': 1440}, 'B': {'compile_only': 1110, 'compile_repair': 330}, 'C': {'objective_agrees': 576, 'compile_repair': 330, 'keep_or_invalid': 18, 'no_objective_check': 381, 'no_conflict': 135}, 'D': {'objective_agrees': 576, 'compile_repair': 330, 'keep_or_invalid': 81, 'no_objective_check': 381, 'no_conflict': 72}, 'E': {'objective_agrees': 576, 'compile_repair': 330, 'accepted': 81, 'no_objective_check': 381, 'no_conflict': 72}, 'F': {'objective_agrees': 576, 'compile_repair': 330, 'accepted': 81, 'no_objective_check': 381, 'no_conflict': 72}, 'G': {'objective_agrees': 576, 'compile_repair': 330, 'source_disagreement': 66, 'no_objective_check': 381, 'no_conflict': 72, 'accepted': 15}, 'H': {'objective_agrees': 576, 'compile_repair': 330, 'direct_source': 153, 'no_objective_check': 381}}
+
+## scale，300道共同题
+
+|组|已评分轨迹|完整正确|p-bit可行|p-bit最优|SCIP最优|新增/丢失p-bit命中对A|40秒p-bit最优|
+|---|---:|---:|---:|---:|---:|---:|---:|
+| A | 600 | 21.00% | 41.33% | 23.67% | 24.00% | 0/0 | 23.67% |
+| B | 600 | 21.33% | 45.33% | 24.00% | 24.33% | 2/0 | 24.00% |
+| C | 600 | 21.33% | 45.33% | 24.00% | 24.33% | 2/0 | — |
+| D | 600 | 21.33% | 45.33% | 24.00% | 24.33% | 2/0 | — |
+| E | 600 | 21.33% | 44.67% | 23.67% | 24.00% | 2/2 | — |
+| F | 600 | 21.33% | 44.67% | 23.67% | 24.00% | 2/2 | — |
+| G | 600 | 21.33% | 45.00% | 24.00% | 24.33% | 2/0 | — |
+| H | 600 | 21.33% | 44.67% | 23.67% | 24.00% | 2/2 | — |
+
+历史P2同题同种子 300题：P2最优 22.00%，D最优 24.00%。
+
+D-B 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+D-C 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+E-D 最优差值 -0.33 个百分点，配对95%区间 [-1.00, 0.00]，Holm p=1.0000。
+
+F-E 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+G-F 最优差值 +0.33 个百分点，配对95%区间 [0.00, 1.00]，Holm p=1.0000。
+
+F-H 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+决策计数：{'A': {'base': 600}, 'B': {'compile_only': 358, 'compile_repair': 242}, 'C': {'objective_agrees': 192, 'compile_repair': 242, 'no_conflict': 40, 'no_objective_check': 114, 'keep_or_invalid': 10, 'accepted': 2}, 'D': {'objective_agrees': 192, 'compile_repair': 242, 'no_conflict': 22, 'no_objective_check': 114, 'keep_or_invalid': 28, 'accepted': 2}, 'E': {'objective_agrees': 192, 'compile_repair': 242, 'no_conflict': 22, 'no_objective_check': 114, 'accepted': 30}, 'F': {'objective_agrees': 192, 'compile_repair': 242, 'no_conflict': 22, 'no_objective_check': 114, 'accepted': 30}, 'G': {'objective_agrees': 192, 'compile_repair': 242, 'no_conflict': 22, 'no_objective_check': 114, 'source_disagreement': 22, 'accepted': 8}, 'H': {'objective_agrees': 192, 'compile_repair': 242, 'direct_source': 52, 'no_objective_check': 114}}
+
+## public，10道共同题
+
+|组|已评分轨迹|完整正确|p-bit可行|p-bit最优|SCIP最优|新增/丢失p-bit命中对A|40秒p-bit最优|
+|---|---:|---:|---:|---:|---:|---:|---:|
+| A | 20 | 20.00% | 30.00% | 30.00% | 40.00% | 0/0 | 30.00% |
+| B | 20 | 20.00% | 30.00% | 30.00% | 40.00% | 0/0 | 30.00% |
+| C | 20 | 20.00% | 30.00% | 30.00% | 40.00% | 0/0 | — |
+| D | 20 | 20.00% | 30.00% | 30.00% | 40.00% | 0/0 | — |
+| E | 20 | 20.00% | 30.00% | 30.00% | 40.00% | 0/0 | — |
+| F | 20 | 20.00% | 30.00% | 30.00% | 40.00% | 0/0 | — |
+| G | 20 | 20.00% | 30.00% | 30.00% | 40.00% | 0/0 | — |
+| H | 20 | 20.00% | 30.00% | 30.00% | 40.00% | 0/0 | — |
+
+历史P2同题同种子 10题：P2最优 30.00%，D最优 30.00%。
+
+D-B 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+D-C 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+E-D 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+F-E 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+G-F 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+F-H 最优差值 +0.00 个百分点，配对95%区间 [0.00, 0.00]，Holm p=1.0000。
+
+决策计数：{'A': {'base': 20}, 'B': {'compile_only': 20}, 'C': {'no_objective_check': 12, 'objective_agrees': 8}, 'D': {'no_objective_check': 12, 'objective_agrees': 8}, 'E': {'no_objective_check': 12, 'objective_agrees': 8}, 'F': {'no_objective_check': 12, 'objective_agrees': 8}, 'G': {'no_objective_check': 12, 'objective_agrees': 8}, 'H': {'no_objective_check': 12, 'objective_agrees': 8}}
+
+(.venv-qihc) [root:qihc-E004_2.5-git]$ 
