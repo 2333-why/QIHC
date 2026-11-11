@@ -1,0 +1,22 @@
+{
+  "experiment_id": "E005-1.9",
+  "arms": ["sft", "pvcd", "cycle", "cycle_uniform", "cycle_static", "cycle_no_guard"],
+  "seeds": [17, 29, 43],
+  "epochs": 2,
+  "pilot_train_cases": 12,
+  "learning_rate": 0.000005,
+  "rollouts": 4,
+  "repair_candidates": 2,
+  "repair_rounds": 2,
+  "probe_seconds_per_round": 10,
+  "probe_calls": 6,
+  "chains": 32,
+  "cards": 6,
+  "anchor_scale": 0.1,
+  "guard_scale": 0.2,
+  "distill_scale": 0.5,
+  "checkpoint_steps": 8,
+  "solver_seconds": 20,
+  "cpu_workers": 8,
+  "bootstrap_repeats": 5000
+}
