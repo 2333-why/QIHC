@@ -45,8 +45,12 @@ def report(mode):
     for p in folder.glob('models/*/*/evaluations/*.json'):
         row=load(p); data[row['stage']][p.parts[-3]][(row['case_id'],int(p.parts[-4]))]=row
     summary=dict(mode=mode,experiment_id=CFG['experiment_id'],stages={},training=signals(folder))
+    parents=[load(p) for p in (RUN/'derived/parents').glob('*/*.json')]
+    summary['shared_parent_generation']=dict(count=len(parents),seconds=sum(p['seconds'] for p in parents),
+        scope='shared across arms and modes; excludes interrupted incomplete generations')
     lines=[f'# E005-1.9 {mode}', '开发含训练题；历史已查看测试集属于探索性复测。所有组本轮重新评分，同模型共享缓存。',
-           '按题内平均种子、再按题平均；原题为bootstrap单位。unknown和invalid不算正确，原题最优分母为全题。','']
+           '按题内平均种子、再按题平均；原题为bootstrap单位。unknown和invalid不算正确，原题最优分母为全题。',
+           f"共享冻结SFT父预测补齐：{len(parents)}条，已记录生成秒数{summary['shared_parent_generation']['seconds']:.1f}（不含在各组训练秒中）。",'']
     all_complete=True
     for stage,seeds in stages.items():
         expected={(c['id'],s) for s in seeds for c in cases(s,mode) if c['stage']==stage}

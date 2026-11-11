@@ -40,16 +40,19 @@ def prepare():
     for r in files:
         if r['sha256'] is None: r['sha256']=stream_hash(MODEL/r['path'])
     if files!=prepared['files']: raise ValueError('Model differs from original SFT base')
-    frozen={}; predictions={}
+    frozen={}; predictions={}; parent_plan={}
     for seed in CFG['seeds']:
         for arm in ('sft','pvcd'):
             adapter=donor(seed,arm)/'adapter.pt'; frozen[str(adapter)]=stream_hash(adapter)
             for p in sorted((donor(seed,arm)/'predictions').glob('*.json')):
                 frozen[str(p)]=digest(p); predictions[str(p)]=True
+        missing=[]
         for row in train:
             p=donor(seed,'sft')/'predictions'/(row['case']['id']+'.json')
-            if not p.exists(): raise ValueError('Missing training-only SFT parent '+str(p))
-            snapshots[f'parents/{seed}/{p.name}']=load(p)
+            if p.exists(): snapshots[f'parents/{seed}/{p.name}']=load(p)
+            else: missing.append(row['case']['id'])
+        parent_plan[str(seed)]=dict(adapter_sha256=frozen[str(donor(seed,'sft')/'adapter.pt')],
+                                   missing_case_ids=missing)
     gold=train[0]['gold']
     if solve(gold,'scip',2,17).get('x') is None: raise RuntimeError('SCIP runtime preflight failed')
     collect(gold,gold,17,dict(CFG,probe_seconds_per_round=.1))
@@ -62,7 +65,7 @@ def prepare():
     manifest=dict(experiment_id=CFG['experiment_id'],config=CFG,code_sha=sha,source=source,environment=environment_identity(),
         history=str(HISTORY),model=str(MODEL),fingerprints=files,donor_files=frozen,
         donor_predictions=predictions,data_files={str(p):digest(p) for p in sorted(DATA.rglob('*.json'))},
-        split=split['files'])
+        split=split['files'],parent_plan=parent_plan)
     with worker_lock(RUN/'prepare.lock'):
         path=RUN/'manifest.json'
         if path.exists() and {k:v for k,v in load(path).items() if k!='input_files'}!=manifest:
@@ -77,5 +80,6 @@ def prepare():
             if load(path)!=manifest: raise ValueError('Prepared inputs changed')
         save(path,manifest)
     print('PVCD_CYCLE_READY',RUN,'code',sha,flush=True)
+    print('SFT parents to generate offline on GPU:',{s:len(p['missing_case_ids']) for s,p in parent_plan.items()},flush=True)
 
 if __name__=='__main__': prepare()

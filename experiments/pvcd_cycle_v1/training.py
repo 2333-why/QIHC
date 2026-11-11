@@ -12,6 +12,7 @@ from experiments.posttraining_v1.data import target
 from experiments.feedback_active_v3.runtime import seed_for
 from .common import CFG, RUN, donor, training_rows
 from .evidence import collect, cards_from_states
+from .parents import ensure_parents, parent_path
 
 def repair_prompt(prompt, text, cards, error=None):
     return (prompt+'\nTraining-only verified counterexamples follow. Correct both over-permissive and '
@@ -94,6 +95,7 @@ def fit(engine, arm, seed, mode, out, reference):
     final=out/'adapter.pt'; ck=out/'checkpoint.pt'
     if final.exists():
         engine.restore(torch.load(final,map_location='cpu',weights_only=True)); return
+    ensure_parents(engine,reference,rows,seed,RUN)
     engine.restore(reference)
     optim=torch.optim.AdamW(engine.params.values(),lr=CFG['learning_rate']); start=0
     if ck.exists():
@@ -101,7 +103,7 @@ def fit(engine, arm, seed, mode, out, reference):
         engine.restore(state['weights']); optim.load_state_dict(state['optimizer']); start=state['step']
     for i in range(start,len(order)):
         began=time.monotonic(); optim.zero_grad(set_to_none=True)
-        parent=load(RUN/'inputs/parents'/str(seed)/(order[i]['case']['id']+'.json'))['model']
+        parent=load(parent_path(RUN,seed,order[i]['case']['id']))['model']
         result=step(engine,arm,order[i],seed_for(seed,i),reference,parent)
         norm=torch.nn.utils.clip_grad_norm_(list(engine.params.values()),1.,error_if_nonfinite=True)
         optim.step()

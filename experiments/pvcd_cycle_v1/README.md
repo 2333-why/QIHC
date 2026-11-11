@@ -10,7 +10,7 @@
 cd /inspire/hdd/global_user/czxs25210022/why
 git clone --branch codex/e005-1.9-pvcd-cycle --single-branch https://github.com/2333-why/QIHC.git QIHC-E005-1.9
 cd QIHC-E005-1.9
-git checkout --detach 18f7fe7702d01028d45b18022953804a9b448cb0
+git checkout --detach origin/codex/e005-1.9-pvcd-cycle
 export QIHC_ENV=/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128
 export QIHC_HISTORY=/inspire/hdd/global_user/czxs25210022/why/results/E005-1.7_eight
 export QIHC_MODEL=/inspire/hdd/global_user/czxs25210022/why/models/Qwen3-32B
@@ -27,6 +27,10 @@ git pull --ff-only origin codex/e005-1.9-pvcd-cycle
 ```
 
 按交付消息中的SHA固定版本后准备；准备清单会记录真实SHA，源码或输入改变后拒绝续跑。准备检查同一共享环境所有CPU/GPU依赖、数据锁、完整本地模型/分词器、三种子SFT/P-VCD适配器、训练SFT父预测，进行SCIP和p-bit运行预检，并复制小型输入快照。成功输出`PVCD_CYCLE_READY`。反复执行同一准备命令应幂等。
+
+2026-11-12修复：历史开发集只在种子17产生预测，29/43缺失训练父预测属于正常情况。CPU准备将缺失题ID及同种子冻结SFT适配器指纹记录到`manifest.parent_plan`；GPU训练前从该适配器生成，仅写入新目录`derived/parents/<seed>/`，四个训练组共享带锁的原子缓存，逐题续跑。不会用种子17预测代替29/43，也不会修改历史目录或已冻结inputs。输入只有公开题面和变量名，gold不进入生成提示。已有预测即使无效也原样保留。
+
+如果此前在`Missing training-only SFT parent`处失败，尚未保存本轮manifest或开始训练：在CPU端fetch并checkout本次修复提交，重跑`00_cpu.sh`即可，保留原结果路径，无需删除目录或重装环境。已成功绑定旧manifest的其他运行仍会拒绝静默换源码，不应覆盖正在运行的作业。
 
 本轮不增加依赖。缺包时先在联网CPU端处理，在现有实验结束前不要更新共享环境；历史依赖约束见`experiments/feedback_active_v3/requirements-{cpu,gpu}.txt`。安装源默认清华，可通过`PIP_INDEX_URL`覆盖，清华失败可用阿里云重试相同约束。GPU节点不运行pip/git/下载命令。历史输入必须是包含适配器的原始结果目录，单独的分析报告不能替代。
 

@@ -201,8 +201,9 @@ def test_prepare_idempotence_and_input_tampering(tmp_path,monkeypatch):
         for arm in ('sft','pvcd'):
             folder=hist/f'formal/models/{seed}/{arm}';folder.mkdir(parents=True)
             (folder/'adapter.pt').write_bytes(b'fixture')
-        for row in inputs['train']:
-            save(hist/f'formal/models/{seed}/sft/predictions'/ (row['case']['id']+'.json'),dict(model=gold))
+        if seed==17:  # Historical development predictions exist only for seed 17.
+            for row in inputs['train']:
+                save(hist/f'formal/models/{seed}/sft/predictions'/ (row['case']['id']+'.json'),dict(model=gold))
     for mod in (p,launch):
         monkeypatch.setattr(mod,'RUN',run);monkeypatch.setattr(mod,'HISTORY',hist);monkeypatch.setattr(mod,'MODEL',model)
         monkeypatch.setattr(mod,'check_paths',lambda:None);monkeypatch.setattr(mod,'source_hashes',lambda:{'fixture.py':'hash'})
@@ -212,6 +213,44 @@ def test_prepare_idempotence_and_input_tampering(tmp_path,monkeypatch):
     monkeypatch.setattr(p.subprocess,'check_output',lambda args,**kw:'abc123\n' if 'rev-parse' in args else '')
     p.prepare();first=load(run/'manifest.json');p.prepare()
     assert load(run/'manifest.json')==first
+    assert first['parent_plan']['17']['missing_case_ids']==[]
+    assert len(first['parent_plan']['29']['missing_case_ids'])==90
+    assert len(first['parent_plan']['43']['missing_case_ids'])==90
+    assert not (run/'derived').exists()  # CPU preparation does not perform inference.
     launch.validate()
     save(run/'inputs/train.json',[])
     with pytest.raises(ValueError,match='Input changed'):launch.validate()
+
+def test_missing_parents_frozen_adapter_resume_and_identity(tmp_path):
+    from experiments.pvcd_cycle_v1.parents import ensure_parents,parent_path
+    from experiments.posttraining_v1.data import target
+    case,gold,_=problem()
+    rows=[dict(case=dict(case,id=cid),gold='MUST_NOT_ENTER_PROMPT',answer='MUST_NOT_ENTER_PROMPT') for cid in ('a','b')]
+    save(tmp_path/'manifest.json',dict(code_sha='fixed',parent_plan={'29':dict(adapter_sha256='adapter29',missing_case_ids=['a','b'])}))
+    calls=[];restores=[];fail=[True]
+    def evaluate(prompt,seed):
+        assert 'MUST_NOT_ENTER_PROMPT' not in prompt
+        calls.append(prompt)
+        if len(calls)==2 and fail[0]:raise RuntimeError('interrupted parent generation')
+        return dict(choices=[dict(finish_reason='stop',message=dict(content=target(gold)))])
+    engine=SimpleNamespace(restore=lambda ref:restores.append(ref),evaluate=evaluate)
+    reference={'frozen':'seed29'}
+    with pytest.raises(RuntimeError,match='interrupted'):ensure_parents(engine,reference,rows,29,tmp_path)
+    assert parent_path(tmp_path,29,'a').exists() and not parent_path(tmp_path,29,'b').exists()
+    fail[0]=False;ensure_parents(engine,reference,rows,29,tmp_path)
+    ensure_parents(engine,reference,rows,29,tmp_path)
+    assert len(calls)==3 and restores==[reference,reference]
+    assert not (tmp_path/'inputs').exists()
+    saved=load(parent_path(tmp_path,29,'a'))
+    assert saved['parent_identity']['adapter_sha256']=='adapter29'
+    assert equivalent(saved['model'],gold)['status']=='verified_correct'
+    saved['parent_identity']['adapter_sha256']='wrong-adapter'
+    save(parent_path(tmp_path,29,'a'),saved)
+    with pytest.raises(ValueError,match='identity'):ensure_parents(engine,reference,rows,29,tmp_path)
+
+def test_existing_invalid_parent_is_not_regenerated(tmp_path):
+    from experiments.pvcd_cycle_v1.parents import ensure_parents,parent_path
+    case,_,_=problem();save(tmp_path/'inputs/parents/17/fixture.json',dict(model=None))
+    def forbidden(*args):raise AssertionError('Existing parent must stay frozen, even invalid')
+    ensure_parents(SimpleNamespace(restore=forbidden,evaluate=forbidden),{},[dict(case=case)],17,tmp_path)
+    assert load(parent_path(tmp_path,17,'fixture'))['model'] is None
