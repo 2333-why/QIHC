@@ -25,8 +25,8 @@ S/P/Q搜索预算上限均20秒（发现10、验证10），32条p-bit链；S每�
 BASE=/inspire/hdd/global_user/czxs25210022/why
 export QIHC_ENV="$BASE/envs/qihc-cu128"
 export QIHC_PREVIOUS_RUN="$BASE/results/E004_2.5_base_optimal_feedback"
-export QIHC_BOUNDARY_RUN="$BASE/results/E004_2.6_boundary_feedback"
-cd "$BASE/qihc-E004_2.6-git"
+export QIHC_BOUNDARY_RUN="$BASE/results/E004_2.6_boundary_feedback_fix1"
+cd "$BASE/qihc-E004_2.6-fix1-git"
 bash experiments/boundary_feedback_v1/00_cpu.sh
 ```
 
@@ -39,10 +39,10 @@ bash experiments/boundary_feedback_v1/00_cpu.sh
 ```bash
 BASE=/inspire/hdd/global_user/czxs25210022/why
 export QIHC_ENV="$BASE/envs/qihc-cu128"
-export QIHC_BOUNDARY_RUN="$BASE/results/E004_2.6_boundary_feedback"
+export QIHC_BOUNDARY_RUN="$BASE/results/E004_2.6_boundary_feedback_fix1"
 export QIHC_PROBE_LANES=2
 export QIHC_SCORE_WORKERS=8
-cd "$BASE/qihc-E004_2.6-git"
+cd "$BASE/qihc-E004_2.6-fix1-git"
 bash experiments/boundary_feedback_v1/03_start.sh
 ```
 
@@ -54,10 +54,14 @@ bash experiments/boundary_feedback_v1/03_start.sh
 
 ```bash
 export QIHC_ENV=/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128
-export QIHC_BOUNDARY_RUN=/inspire/hdd/global_user/czxs25210022/why/results/E004_2.6_boundary_feedback
-cd /inspire/hdd/global_user/czxs25210022/why/qihc-E004_2.6-git
+export QIHC_BOUNDARY_RUN=/inspire/hdd/global_user/czxs25210022/why/results/E004_2.6_boundary_feedback_fix1
+cd /inspire/hdd/global_user/czxs25210022/why/qihc-E004_2.6-fix1-git
 bash experiments/boundary_feedback_v1/02_report.sh formal
 tail -n 40 "$QIHC_BOUNDARY_RUN/formal/logs/worker0.log"
 ```
 
 `formal/report.md` 和 `summary.json` 包含计划/完成分母、正确/可行/最优、对B新增/丢失、动作细分、判断标签离线错误率、配对置信区间。`formal/shared` 保存共享候选和原始调用，`formal/models/*/*/predictions` 保存赋值、判断原文与探针统计，`evaluations` 是评分器独立产物。`formal/logs/gpu.csv`记录可获取的GPU利用率和显存，`timing`记录生成服务时间。新实验未在H100实测，运行时长和利用率待pilot返回。
+
+## 2026-11-12 接口修复 fix1
+
+分支codex/e004-boundary-fix1。赋值以x0…、赋值对以p0…分别编号，给出完整null模板，严格检查键集合和标签类型。解析器仅为六字段裸模型补model外层，不改变数学内容。未知标签不补猜，非原文引用仍拒绝。重新运行pilot与正式阶段，禁止复用失败pilot中的判断或放宽gate。新结果目录使用fix1后缀；原题、种子、搜索与生成预算不变。

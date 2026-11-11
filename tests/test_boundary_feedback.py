@@ -17,7 +17,7 @@ def fixture():
 
 def judge(gold, prompt):
     xs = json.loads(prompt.split('\nAssignments: ')[1].split('\nPairs')[0])
-    pairs = json.loads(prompt.split('\nPairs (assignment indices): ')[1])
+    pairs = json.loads(prompt.split('\nPairs (assignment indices): ')[1].split('\nAssignment IDs:')[0])
     feasible, costs = policy.signatures(gold, xs)
     return json.dumps(dict(feasible=feasible.tolist(), orders=[int(np.sign(costs[i]-costs[j])) if feasible[i] and feasible[j] else None for i, j in pairs], quote='Choose at most two items.'))
 
@@ -80,12 +80,29 @@ def test_shared_parser_and_baseline_reuse():
     ans = json.dumps(dict(model=policy.compact(base['candidate'])))
     shared = policy.shared(item, lambda *_:ans)
     assert shared['candidate'] == base['candidate']
+    assert policy.parse_candidate(json.dumps(policy.compact(base['candidate'])), item['case']) == base['candidate']
     assert policy.decide(item, 'A', shared, None)['model'] == item['model']
     assert policy.decide(item, 'B', shared, None)['model'] == item['baseline']
     assert policy.shared(item, lambda *_:'garbled')['action'] == 'candidate_parse_error'
     altered = copy.deepcopy(base['candidate'])
     altered['variables'][0]['upper'] = 2
     assert policy.shared(item, lambda *_:json.dumps(dict(model=policy.compact(altered))))['action'] == 'candidate_domain_change'
+
+def test_numbered_judgments_never_guess_missing_labels():
+    item, base = fixture()
+    xs = [[0,0,0,0], [1,0,0,0], [1,1,1,1]]
+    pairs = [(0,1), (0,2)]
+    prompt = policy.judge_prompt(item['case'], xs, pairs)
+    obj = json.loads(prompt.split('OUTPUT TEMPLATE (fill values only): ')[1])
+    assert len(obj['feasible']) == 3 and len(obj['orders']) == 2
+    models = [base['model'], base['candidate']]
+    result = policy.assess(json.dumps(obj), item['case'], models, xs, pairs)
+    assert result['status'] == 'judged' and result['covered'] == 0
+    obj.update(feasible={'x2':False,'x0':True,'x1':True}, orders={'p1':None,'p0':1}, quote='Choose at most two items.')
+    result = policy.assess(json.dumps(obj), item['case'], models, xs, pairs)
+    assert result['errors'][1] == 0 and result['labels']['feasible'] == [True,True,False]
+    obj['feasible'].pop('x1')
+    assert policy.assess(json.dumps(obj), item['case'], models, xs, pairs)['status'] == 'judge_parse_error'
 
 def test_partial_report_retains_planned_denominator(tmp_path, monkeypatch, capsys):
     from experiments.boundary_feedback_v1 import data, report

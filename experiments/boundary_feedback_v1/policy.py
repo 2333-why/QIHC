@@ -10,6 +10,12 @@ from qihc.modeling.active_protocol_v2 import model_prompt, parse_model, compact
 from qihc.modeling.protocol import load_object
 from experiments.feedback_active_v3.runtime import seed_for
 
+def parse_candidate(text, case):
+    obj = load_object(text)
+    if set(obj) == {'schema', 'variables', 'objective', 'constraints', 'logic'}:
+        obj = {'model': obj}
+    return parse_model(json.dumps(obj), case)
+
 def shared(item, ask):
     base = item['baseline']
     if base is None:
@@ -19,7 +25,7 @@ def shared(item, ask):
     try:
         if load_object(text) == {'keep': True}:
             return dict(model=base, candidate=base, action='candidate_keep', text=text)
-        candidate = parse_model(text, item['case'])
+        candidate = parse_candidate(text, item['case'])
         if candidate['variables'] != base['variables']:
             return dict(model=base, candidate=None, action='candidate_domain_change', text=text)
     except (ValueError, KeyError, TypeError, IndexError) as exc:
@@ -118,22 +124,36 @@ def witnesses(models, states, excluded=(), limit=8):
 
 def judge_prompt(case, xs, pairs):
     # Do not expose candidate models, their predictions, or the probe identity.
+    template = dict(feasible={f'x{i}': None for i in range(len(xs))},
+                    orders={f'p{i}': None for i in range(len(pairs))}, quote='')
     return ('Read ORIGINAL only. Independently evaluate each assignment against ALL stated requirements. '
             'Use true/false for feasible; null if uncertain. For each requested pair return -1 if the first '
             'is better for the ORIGINAL objective, 1 if worse, 0 if tied; null if either infeasible or uncertain. '
-            'Return JSON only: {"feasible":[true,false,null,...],"orders":[-1,0,1,null,...],'
-            '"quote":"a nonempty verbatim relevant substring from ORIGINAL"}. '
+            'Return JSON dictionaries keyed by the exact IDs in OUTPUT TEMPLATE, never arrays. '
+            f'There are {len(xs)} assignment labels and {len(pairs)} pair labels; these are DIFFERENT quantities. '
+            'Fill every key exactly once; do not add or omit IDs. Replace null only when you can determine the label. '
+            'quote must be a nonempty EXACT substring from ORIGINAL, preserving capitalization and punctuation. '
+            'If ALL labels are unknown, leave quote empty and every value null. '
             'Do not infer correctness from how a state was generated.\nVariable order: '+json.dumps(case['variable_names'])+
-            '\nORIGINAL:\n'+case['question']+'\nAssignments: '+json.dumps(xs)+'\nPairs (assignment indices): '+json.dumps(pairs))
+            '\nORIGINAL:\n'+case['question']+'\nAssignments: '+json.dumps(xs)+'\nPairs (assignment indices): '+json.dumps(pairs)+
+            '\nAssignment IDs: '+json.dumps({f'x{i}': x for i, x in enumerate(xs)})+
+            '\nPair IDs: '+json.dumps({f'p{k}': [f'x{i}', f'x{j}'] for k, (i, j) in enumerate(pairs)})+
+            '\nOUTPUT TEMPLATE (fill values only): '+json.dumps(template))
 
 def assess(text, case, models, xs, pairs):
     try:
         obj = load_object(text)
         if set(obj) != {'feasible', 'orders', 'quote'}:
             raise ValueError('judge envelope')
-        if not isinstance(obj['quote'], str) or not obj['quote'].strip() or obj['quote'] not in case['question']:
-            raise ValueError('judge quote')
         labels, orders = obj['feasible'], obj['orders']
+        if isinstance(labels, dict):
+            if set(labels) != {f'x{i}' for i in range(len(xs))}:
+                raise ValueError('assignment IDs mismatch')
+            labels = [labels[f'x{i}'] for i in range(len(xs))]
+        if isinstance(orders, dict):
+            if set(orders) != {f'p{i}' for i in range(len(pairs))}:
+                raise ValueError('pair IDs mismatch')
+            orders = [orders[f'p{i}'] for i in range(len(pairs))]
         if not isinstance(labels, list) or not isinstance(orders, list) or len(labels) != len(xs) or len(orders) != len(pairs):
             raise ValueError('judge dimensions')
         if any(x is not None and type(x) is not bool for x in labels):
@@ -142,6 +162,10 @@ def assess(text, case, models, xs, pairs):
             raise ValueError('order labels')
         if any(o is not None and (labels[i] is not True or labels[j] is not True) for (i, j), o in zip(pairs, orders)):
             raise ValueError('ordering of infeasible/unknown assignments')
+        unknown = all(v is None for v in labels+orders)
+        if not isinstance(obj['quote'], str) or (not unknown and (not obj['quote'].strip() or obj['quote'] not in case['question'])):
+            raise ValueError('judge quote')
+        obj = dict(obj, feasible=labels, orders=orders)
     except (ValueError, TypeError, KeyError) as exc:
         return dict(status='judge_parse_error', error=str(exc), text=text)
     errors, covered = [], sum(v is not None for v in labels)+sum(v is not None for v in orders)

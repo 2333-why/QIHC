@@ -9,7 +9,7 @@ from experiments.optimal_feedback_v1.data import BASE, DATA, MODEL, SEEDS, wait_
 
 ROOT = Path(__file__).resolve().parents[2]
 PREVIOUS = Path(os.getenv('QIHC_PREVIOUS_RUN', BASE/'results/E004_2.5_base_optimal_feedback'))
-RUN = Path(os.getenv('QIHC_BOUNDARY_RUN', BASE/'results/E004_2.6_boundary_feedback'))
+RUN = Path(os.getenv('QIHC_BOUNDARY_RUN', BASE/'results/E004_2.6_boundary_feedback_fix1'))
 ARMS = ('A', 'B', 'C', 'S', 'P', 'Q')
 EXPERIMENT = 'E004_2.6'
 AUDIT_MODULE = 'experiments.boundary_feedback_v1.audit'
