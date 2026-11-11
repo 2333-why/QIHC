@@ -10,6 +10,7 @@
 cd /inspire/hdd/global_user/czxs25210022/why
 git clone --branch codex/e005-1.9-pvcd-cycle --single-branch https://github.com/2333-why/QIHC.git QIHC-E005-1.9
 cd QIHC-E005-1.9
+git checkout --detach 18f7fe7702d01028d45b18022953804a9b448cb0
 export QIHC_ENV=/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128
 export QIHC_HISTORY=/inspire/hdd/global_user/czxs25210022/why/results/E005-1.7_eight
 export QIHC_MODEL=/inspire/hdd/global_user/czxs25210022/why/models/Qwen3-32B
