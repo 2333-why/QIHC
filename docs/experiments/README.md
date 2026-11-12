@@ -58,3 +58,5 @@
 2026-11-12：准备[E005-1.9 P-VCD双向闭环验证](E005_posttraining/E005-1.9_record.md)，六组对照、正式13080条评价，服务器未运行。
 
 2026-11-12后续：E005-1.9 pilot144/144完成，四个新组94次修复均未验证正确，formal被门槛阻止；见[pilot分析](E005_posttraining/E005-1.9_analysis_20261112_pilot_001.md)，待逐轮训练trace诊断。
+
+2026-11-12：新增[E005-1.10](E005_posttraining/E005-1.10_record.md)，相同单种子训练预算的P-VCD/已验证正样本/可解释反馈对照，pilot后单种子screen，服务器未运行。

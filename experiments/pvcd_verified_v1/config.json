@@ -1,0 +1,18 @@
+{
+  "experiment_id": "E005-1.10",
+  "arms": ["sft", "pvcd", "positive", "localized"],
+  "seed": 17,
+  "pilot_train_cases": 12,
+  "screen_train_cases": 90,
+  "epochs": 1,
+  "learning_rate": 0.000005,
+  "rollouts": 4,
+  "repair_candidates": 2,
+  "probe_seconds": 20,
+  "positive_scale": 0.5,
+  "checkpoint_steps": 8,
+  "solver_seconds": 20,
+  "chains": 32,
+  "cpu_workers": 8,
+  "bootstrap_repeats": 5000
+}
