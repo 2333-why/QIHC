@@ -1,0 +1,1 @@
+{"cases": 780, "stages": {"main": 480, "scale": 300}, "actions_per_case": 5, "max_variables": 30, "max_bits": 30, "scope": "CPU compatibility only: two chains, one step/action; not full-budget performance or GPU validation", "source_sha256": "84b735c9df24f73a868af674427fa55b4b78a6ec0b22a19559b897c8bf7b7a60"}

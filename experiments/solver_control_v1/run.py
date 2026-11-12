@@ -18,7 +18,7 @@ REPO = HERE.parents[1]
 BASE = Path('/inspire/hdd/global_user/czxs25210022/why')
 RUN = Path(os.getenv('QIHC_CONTROL_RUN', BASE/'results/E005-1.11_controller'))
 PREVIOUS = Path(os.getenv('QIHC_CYCLE_RUN', BASE/'results/E005-1.9_pvcd_cycle'))
-CFG = load(HERE/'config.json')
+CFG = load(Path(os.getenv('QIHC_CONTROL_CONFIG', HERE/'config.json')))
 
 
 def sources():
@@ -109,29 +109,39 @@ def label_one(job):
     with worker_lock(path.with_suffix('.lock')):
         if path.exists(): return load(path)
         began = time.monotonic()
-        state = initial(spec, seed(cid,'train-init'), CFG['chains'])
-        state = advance(spec,state,'hold',seed(cid,'train-warmup'),CFG['window_steps'])
         examples = []
-        for decision in range(CFG['decisions']):
-            label = preference(spec,state,seed(cid,decision,'label'),CFG['window_steps'],
-                               CFG['selection_repeats'],CFG['confirmation_repeats'])
-            examples.append(dict(state=copy.deepcopy(state), pair=label))
-            # Predetermined exploratory behavior; neither test data nor selected labels steer it.
-            action = ACTIONS[seed(cid,decision,'behavior') % len(ACTIONS)]
-            state = advance(spec,state,action,seed(cid,decision,'behavior-draw'),CFG['window_steps'])
+        temperatures = CFG.get('training_temperatures',[.5])
+        for trajectory,temperature in enumerate(temperatures):
+            # Preserve the original trajectory's RNG; extra trajectories use independent seeds.
+            def draw_seed(*parts):
+                return seed(*parts) if trajectory==0 else seed(*parts,'trajectory',trajectory)
+            state = initial(spec, draw_seed(cid,'train-init'), CFG['chains'])
+            state['temperature'] = temperature
+            state = advance(spec,state,'hold',draw_seed(cid,'train-warmup'),CFG['window_steps'])
+            for decision in range(CFG['decisions']):
+                label = preference(spec,state,draw_seed(cid,decision,'label'),CFG['window_steps'],
+                                   CFG['selection_repeats'],CFG['confirmation_repeats'])
+                examples.append(dict(trajectory=trajectory,decision=decision,state=copy.deepcopy(state),pair=label))
+                # Predetermined behavior; neither test data nor selected labels steer it.
+                action = ACTIONS[draw_seed(cid,decision,'behavior') % len(ACTIONS)]
+                state = advance(spec,state,action,draw_seed(cid,decision,'behavior-draw'),CFG['window_steps'])
         out = dict(case_id=cid,examples=examples,seconds=time.monotonic()-began)
         save(path,out); print('labels',mode,cid,sum(e['pair']['accepted'] for e in examples),flush=True)
         return out
 
 
 def label_gate(mode):
-    accepted = []; complete = True
+    accepted = []; complete = True; states=0; labeled_cases=0
     for row in rows(mode,True):
         p = RUN/mode/'labels'/(row['case']['id']+'.json')
         if not p.exists(): complete=False; continue
-        accepted += [(row['case']['id'], e['pair']['chosen']) for e in load(p)['examples'] if e['pair']['accepted']]
+        examples=load(p)['examples'];states+=len(examples);labeled_cases+=1
+        accepted += [(row['case']['id'], e['pair']['chosen']) for e in examples if e['pair']['accepted']]
     result = dict(complete=complete,pairs=len(accepted),cases=len({c for c,a in accepted}),
                   nonhold=sum(a!='hold' for c,a in accepted),actions=sorted({a for c,a in accepted}))
+    result.update(labeled_cases=labeled_cases,expected_cases=len(rows(mode,True)),candidate_states=states,
+                  accepted_fraction=len(accepted)/states if states else 0.,
+                  action_counts={a:sum(chosen==a for _,chosen in accepted) for a in ACTIONS})
     result['passed'] = complete and result['cases']>=3 and result['nonhold']>=1 and len(result['actions'])>=2
     save(RUN/mode/'label_gate.json',result)
     return result
@@ -278,40 +288,57 @@ def worker(mode,arm):
             from experiments.posttraining_v1.engine import Engine
             torch.manual_seed(CFG['seed']);engine=Engine(Path(load(RUN/'manifest.json')['model']))
             train(engine,mode,arm)
+            if not training_complete(mode,arm):
+                raise RuntimeError('Incomplete training or missing finite nonzero gradients; evaluation not started')
         evaluate(mode,arm,engine)
         save(RUN/mode/'models'/arm/'done.json',dict(cases=len(rows(mode))))
 
 
+def training_complete(mode,arm):
+    out=RUN/mode/'models'/arm
+    count=len(training_examples(mode))*(CFG['dpo_epochs'] if arm=='trajectory_dpo' else CFG['sft_epochs'])
+    paths=list((out/'steps').glob('*.json'))
+    if not count or {p.stem for p in paths}!={f'{i:05}' for i in range(count)}:
+        return False
+    logs=[load(p) for p in paths]
+    return bool((out/'adapter.pt').exists() and any(r['gradient_norm']>0 for r in logs)
+                and all(np.isfinite(r['gradient_norm']) and np.isfinite(r['loss']) for r in logs))
+
+
 def report(mode):
     summary={};records={};expected={r['case']['id'] for r in rows(mode)}
+    lg=label_gate(mode)
+    expected_stages={stage:sum(stage=='all' or r['case'].get('stage')==stage for r in rows(mode))
+                     for stage in (('all','main','scale') if mode!='pilot' else ('all',))}
     for arm in CFG['arms']:
         records[arm]={p.stem:load(p) for p in (RUN/mode/'evaluations'/arm).glob('*.json') if p.stem in expected}
         summary[arm]={}
-        for stage in ('all','main','scale') if mode=='screen' else ('all',):
+        for stage in expected_stages:
             rs=[r for r in records[arm].values() if stage=='all' or r['stage']==stage]
             if not rs:continue
-            summary[arm][stage]=dict(n=len(rs),feasible=float(np.mean([r['score']['original_feasible'] for r in rs])),
+            summary[arm][stage]=dict(n=len(rs),expected=expected_stages[stage],complete=len(rs)==expected_stages[stage],
+                feasible=float(np.mean([r['score']['original_feasible'] for r in rs])),
                 optimal=float(np.mean([r['score']['optimal_hit'] for r in rs])),reference_proven=sum(r['score']['reference_proven'] for r in rs),
                 episode_seconds=float(np.mean([r['episode_seconds'] for r in rs])),
+                search_seconds=float(np.mean([r['search_seconds'] for r in rs])),
                 decision_seconds=float(np.mean([r['decision_seconds'] for r in rs])),
                 nonhold=sum(a!='hold' for r in rs for a in r['actions']),
                 actions={a:sum(r['actions'].count(a) for r in rs) for a in ACTIONS})
     complete=all(set(v)==expected for v in records.values())
     gradients={}
     for arm in CFG['trained_arms']:
-        logs=[load(p) for p in (RUN/mode/'models'/arm/'steps').glob('*.json')]
-        count=len(training_examples(mode))*(CFG['dpo_epochs'] if arm=='trajectory_dpo' else CFG['sft_epochs']) if (RUN/mode/'label_gate.json').exists() else 0
-        gradients[arm]=bool(count and len(logs)==count and any(r['gradient_norm']>0 for r in logs) and all(np.isfinite(r['gradient_norm']) for r in logs))
-    lg=label_gate(mode)
+        gradients[arm]=bool(lg.get('complete') and training_complete(mode,arm))
     gate=dict(passed=bool(complete and lg['passed'] and all(gradients.values())),complete=complete,labels=lg,gradients=gradients)
     comparisons={}
-    if complete:
+    if gate['passed']:
         pairs=[('trajectory_sft','best_sft'),('trajectory_dpo','trajectory_sft'),('trajectory_sft','rule')]
         for a,b in pairs:
             d=np.array([float(records[a][cid]['score']['optimal_hit'])-float(records[b][cid]['score']['optimal_hit']) for cid in sorted(expected)])
             rng=np.random.default_rng(20261112);boot=np.array([rng.choice(d,len(d),replace=True).mean() for _ in range(CFG['bootstrap_repeats'])])
             comparisons[a+'-'+b]=dict(delta=float(d.mean()),bonferroni_98_33_ci=np.quantile(boot,[.05/6,1-.05/6]).tolist(),n=len(d))
-    result=dict(experiment_id=CFG['experiment_id'],mode=mode,track='fixed_correct_model',seed=CFG['seed'],summary=summary,gate=gate,comparisons=comparisons,
+    result=dict(experiment_id=CFG['experiment_id'],mode=mode,track='fixed_correct_model',seed=CFG['seed'],
+        expected_cases=len(expected),expected_evaluations=len(expected)*len(CFG['arms']),
+        completed_evaluations=sum(len(v) for v in records.values()),summary=summary,gate=gate,comparisons=comparisons,
         caveat='Single-seed exploratory screen; equal bit updates, NOT equal wall time. 780-case total is case-weighted. Not comparable to LLM modeling accuracy.')
     save(RUN/mode/'report.json',result);print(json.dumps(result,ensure_ascii=False),flush=True)
     return result
@@ -358,7 +385,7 @@ def launch(mode):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('command',choices=['prepare','labels','gpu','worker','report'])
-    p.add_argument('mode',nargs='?',choices=['pilot','screen'],default='pilot');p.add_argument('arm',nargs='?',choices=CFG['arms'])
+    p.add_argument('mode',nargs='?',choices=['pilot','screen','full'],default='pilot');p.add_argument('arm',nargs='?',choices=CFG['arms'])
     a=p.parse_args()
     if a.command=='prepare':prepare()
     elif a.command=='labels':make_labels(a.mode)
