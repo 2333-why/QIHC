@@ -1,0 +1,21 @@
+{
+  "experiment_id": "E005-1.11",
+  "label_protocol": "best_then_chain_incumbent_v1",
+  "seed": 17,
+  "chains": 32,
+  "window_steps": 128,
+  "decisions": 4,
+  "pilot_train_cases": 12,
+  "selection_repeats": 2,
+  "confirmation_repeats": 4,
+  "sft_epochs": 2,
+  "dpo_epochs": 1,
+  "learning_rate": 0.00002,
+  "dpo_learning_rate": 0.000005,
+  "beta": 0.1,
+  "checkpoint_steps": 8,
+  "cpu_workers": 8,
+  "bootstrap_repeats": 5000,
+  "arms": ["fixed", "schedule", "rule", "random", "best_sft", "trajectory_sft", "trajectory_dpo"],
+  "trained_arms": ["best_sft", "trajectory_sft", "trajectory_dpo"]
+}
