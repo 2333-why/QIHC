@@ -32,3 +32,5 @@ E004_2.2：2026-11-07格式接口修复重启，代码完成、服务器待运�
 [E004_2.3 SFT初稿的选择性反馈](E004_2.3_execution.md)已实现，待服务器运行。
 
 2026-11-12：[反馈与后训练完整对比](../FEEDBACK_POSTTRAINING_COMPARISON_20261112.md)；补充归档[2.5报告](E004_2.5_report_20261111.txt)和[2.6报告](E004_2.6_formal_20261112.txt)，仅汇总报告不等于逐题审计。
+
+2026-11-12：[p-bit × LLM × 求解器前沿与重合度调研](../../research/PBIT_LLM_SOLVER_FRONTIER_20261112.md)，重点核对COVER、ORSMT等反例修复近邻及p-bit证据贡献边界。
