@@ -1,0 +1,110 @@
+{
+  "source": "User-pasted diagnostic stdout; full JSON and examples not received",
+  "experiment_id": "E005-1.9",
+  "date": "2026-11-12",
+  "arms": {
+    "cycle": {
+      "groups": 12,
+      "initial_correct": 19,
+      "initial_disproved": 21,
+      "initial_invalid": 8,
+      "reward_updates": 3,
+      "guard_groups": 6,
+      "evidence_candidates": 13,
+      "generated": 26,
+      "repair_disproved": 23,
+      "repair_invalid": 3,
+      "verified": 0,
+      "at_token_limit": 0,
+      "same_raw_reply": 3,
+      "rounds": [
+        {
+          "disproved": 11,
+          "invalid": 2
+        },
+        {
+          "disproved": 12,
+          "invalid": 1
+        }
+      ]
+    },
+    "cycle_no_guard": {
+      "groups": 12,
+      "initial_correct": 19,
+      "initial_disproved": 21,
+      "initial_invalid": 8,
+      "reward_updates": 3,
+      "guard_groups": 0,
+      "evidence_candidates": 13,
+      "generated": 26,
+      "repair_disproved": 24,
+      "repair_invalid": 2,
+      "verified": 0,
+      "at_token_limit": 0,
+      "same_raw_reply": 3,
+      "rounds": [
+        {
+          "disproved": 11,
+          "invalid": 2
+        },
+        {
+          "disproved": 13,
+          "invalid": 0
+        }
+      ]
+    },
+    "cycle_static": {
+      "groups": 12,
+      "initial_correct": 19,
+      "initial_disproved": 18,
+      "initial_invalid": 11,
+      "reward_updates": 3,
+      "guard_groups": 6,
+      "evidence_candidates": 11,
+      "generated": 22,
+      "repair_disproved": 21,
+      "repair_invalid": 1,
+      "verified": 0,
+      "at_token_limit": 0,
+      "same_raw_reply": 3,
+      "rounds": [
+        {
+          "disproved": 10,
+          "invalid": 1
+        },
+        {
+          "disproved": 11,
+          "invalid": 0
+        }
+      ]
+    },
+    "cycle_uniform": {
+      "groups": 12,
+      "initial_correct": 19,
+      "initial_disproved": 17,
+      "initial_invalid": 12,
+      "reward_updates": 3,
+      "guard_groups": 6,
+      "evidence_candidates": 10,
+      "generated": 20,
+      "repair_disproved": 17,
+      "repair_invalid": 3,
+      "repair_no_evidence": 2,
+      "verified": 0,
+      "at_token_limit": 0,
+      "same_raw_reply": 3,
+      "rounds": [
+        {
+          "disproved": 7,
+          "invalid": 3,
+          "no_evidence": 1
+        },
+        {
+          "disproved": 10,
+          "invalid": 0,
+          "no_evidence": 1
+        }
+      ]
+    }
+  }
+}
