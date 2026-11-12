@@ -1,0 +1,1290 @@
+{
+  "experiment_id": "E004-1.3",
+  "kind": "retrospective_design_evidence_not_new_experiment",
+  "date": "2026-11-03 Asia/Shanghai",
+  "source_experiment": "E004-1.2",
+  "archive_path": "E:\\E004-1.2_analysis_20261102T171803.tar.gz",
+  "archive_sha256": "c5a476153963242eb9fed65d70c8b423b256fa67a12b87a4dadeaa92f3cd86c8",
+  "cases": [
+    {
+      "case_id": "nlco_KP_M_026",
+      "arm": "U2",
+      "state_path": "states/6343aee7ca283d8efe900b17ea294ac1913a25332ba19a3d0ef2f4e154fe0fce.json",
+      "final_model_path": "mathematics/8fe27e69d45ba7df36e8a129a62ca9270fb301305fa34771977905ec61bc98e8.json",
+      "final_constraint_count": 1,
+      "final_logic_count": 0,
+      "rounds": [
+        {
+          "path": "rounds/6343aee7ca283d8efe900b17ea294ac1913a25332ba19a3d0ef2f4e154fe0fce/0.json",
+          "review": {
+            "hypotheses": [
+              {
+                "reason": "The objective function in the current model incorrectly maps usefulness values. It assigns coefficients 1-19 instead of the actual usefulness values from the problem statement. This misalignment will lead to suboptimal or incorrect solutions. The source explicitly lists usefulness values for each book, which should be ",
+                "edits": [
+                  {
+                    "op": "sense",
+                    "value": "max"
+                  },
+                  {
+                    "op": "linear",
+                    "value": {
+                      "source": "d49"
+                    }
+                  },
+                  {
+                    "op": "constraint",
+                    "value": {
+                      "id": "c0",
+                      "a": {
+                        "source": "d49"
+                      },
+                      "op": "le",
+                      "rhs": 435
+                    }
+                  },
+                  {
+                    "op": "domain",
+                    "index": 0,
+                    "lower": 0,
+                    "upper": 1
+                  }
+                ],
+                "quote": "We have 0: it weighs 43 and has usefulness 97.\nWe have 1: it weighs 12 and has usefulness 46.\nWe have 2: it weighs 28 and has usefulness 32.\nWe have 3: it weighs 86 and has usefulness 45.\nWe have 4: it weighs 88 and has usefulness 2.\nWe have 5: it weighs 64 and has usefulness 31.\nWe have 6: it weighs 13 and has usefu"
+              }
+            ],
+            "notes": "The current model's objective function uses arbitrary coefficients (1-19) instead of the actual usefulness values provided in the problem statement. This will lead to incorrect optimization. The constraint also uses arbitrary weights instead of the correct values. The source explicitly lists both weights and usefulness"
+          },
+          "patch": {
+            "edits": [
+              {
+                "op": "linear",
+                "value": {
+                  "0": 97,
+                  "1": 46,
+                  "2": 32,
+                  "3": 45,
+                  "4": 2,
+                  "5": 31,
+                  "6": 52,
+                  "7": 92,
+                  "8": 74,
+                  "9": 79,
+                  "10": 55,
+                  "11": 12,
+                  "12": 40,
+                  "13": 100,
+                  "14": 5,
+                  "15": 88,
+                  "16": 69,
+                  "17": 29,
+                  "18": 78,
+                  "19": 84
+                }
+              },
+              {
+                "op": "constraint",
+                "value": {
+                  "id": "c0",
+                  "a": {
+                    "0": 43,
+                    "1": 12,
+                    "2": 28,
+                    "3": 86,
+                    "4": 88,
+                    "5": 64,
+                    "6": 13,
+                    "7": 13,
+                    "8": 48,
+                    "9": 59,
+                    "10": 4,
+                    "11": 69,
+                    "12": 55,
+                    "13": 2,
+                    "14": 10,
+                    "15": 46,
+                    "16": 73,
+                    "17": 83,
+                    "18": 44,
+                    "19": 30
+                  },
+                  "op": "le",
+                  "rhs": 435
+                }
+              }
+            ],
+            "quote": "We have 0: it weighs 43 and has usefulness 97.\nWe have 1: it weighs 12 and has usefulness 46.\nWe have 2: it weighs 28 and has usefulness 32.\nWe have 3: it weighs 86 and has usefulness 45.\nWe have 4: it weighs 88 and has usefulness 2.\nWe have 5: it weighs 64 and has usefulness 31.\nWe have 6: it weighs 13 and has usefu",
+            "reason": "The objective function and constraint in the current model use arbitrary coefficients instead of the actual usefulness and weight values from the source. This must be corrected for accurate optimization. The source explicitly lists both weights and usefulness values for each book. The constraint must use the correct,"
+          }
+        },
+        {
+          "path": "rounds/6343aee7ca283d8efe900b17ea294ac1913a25332ba19a3d0ef2f4e154fe0fce/1.json",
+          "review": {
+            "hypotheses": [
+              {
+                "reason": "Book 4 has a usefulness of 2, which may be negligible compared to its weight of 88. Excluding it could allow higher-value books to be included without exceeding the weight limit. This is supported by the problem's objective to maximize total usefulness while staying under the weight threshold (d49).",
+                "edits": [
+                  {
+                    "op": "domain",
+                    "index": 4,
+                    "lower": 0,
+                    "upper": 0
+                  }
+                ],
+                "quote": "We'll pick the combination with the highest total usefulness that keeps the weight at or below 435. (d49, vector_reference: source d49, row 0-19)."
+              }
+            ],
+            "notes": "Book 4's low usefulness may not justify its weight. Fixing x4=0 could improve the solution's optimality under the weight constraint. No other variables are out of range or misaligned with the problem's requirements. Current model is valid but may be improved by excluding low-value items explicitly."
+          },
+          "patch": {
+            "edits": [
+              {
+                "op": "domain",
+                "index": 4,
+                "lower": 0,
+                "upper": 0
+              }
+            ],
+            "quote": "We'll pick the combination with the highest total usefulness that keeps the weight at or below 435. (d49, vector_reference: source d49, row 0-19).",
+            "reason": "Book 4 has a usefulness of 2, which may be negligible compared to its weight of 88. Excluding it could allow higher-value books to be included without exceeding the weight limit."
+          }
+        }
+      ],
+      "scores": {
+        "C0": {
+          "case_id": "nlco_KP_M_026",
+          "arm": "C0",
+          "seed": 0,
+          "split": "pilot",
+          "dataset": "nlco_KP_M",
+          "size": 20,
+          "compiled": true,
+          "original_feasible": false,
+          "objective": 1110.0,
+          "predicted_feasible": true,
+          "gap_percent": null,
+          "optimal_hit": false,
+          "reference_proven": true,
+          "initial_candidate_feasible": false,
+          "round_results": [
+            {
+              "round": 0,
+              "original_feasible": false,
+              "objective": 1110.0
+            },
+            {
+              "round": 1,
+              "original_feasible": false,
+              "objective": 1110.0
+            }
+          ],
+          "repaired_feasibility": false,
+          "regressed_feasibility": false,
+          "common_solver_diagnostic": {
+            "x": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "feasible": true,
+            "objective": 190.0,
+            "optimality_proven": true,
+            "status": "optimal",
+            "bound": 190.0,
+            "seconds": 0.005081537878140807,
+            "compile_seconds": 0.00015361793339252472,
+            "binary_variables": 20,
+            "linear_rows": 1,
+            "scope": "predicted_model_only",
+            "backend": "scip",
+            "requested_seconds": 5.0,
+            "wall_seconds": 0.006826231023296714,
+            "threads": 1,
+            "seed": 0,
+            "import_seconds": 0.009625650011003017,
+            "time_limit_overrun_seconds": 0.0
+          },
+          "common_solver_original_feasible": false,
+          "hidden_feasibility_agreement": 0.5,
+          "hidden_objective_order_agreement": 0.7874015748031497,
+          "hidden_probe_scope": "128 independent domain samples, not equivalence proof; rare feasible regions may be missed",
+          "rejected_stale_candidate_records": 0,
+          "job_sha256": "a59f90ab40f7398feb9c39be7d998ae98abb83b6fe6a8464b5c65176ed2e5691"
+        },
+        "U2": {
+          "case_id": "nlco_KP_M_026",
+          "arm": "U2",
+          "seed": 0,
+          "split": "pilot",
+          "dataset": "nlco_KP_M",
+          "size": 20,
+          "compiled": true,
+          "original_feasible": true,
+          "objective": 951.0,
+          "predicted_feasible": true,
+          "gap_percent": -0.0,
+          "optimal_hit": true,
+          "reference_proven": true,
+          "initial_candidate_feasible": false,
+          "round_results": [
+            {
+              "round": 0,
+              "original_feasible": true,
+              "objective": 951.0
+            },
+            {
+              "round": 1,
+              "original_feasible": true,
+              "objective": 951.0
+            }
+          ],
+          "repaired_feasibility": true,
+          "regressed_feasibility": false,
+          "common_solver_diagnostic": {
+            "x": [
+              1,
+              1,
+              1,
+              0,
+              0,
+              0,
+              1,
+              1,
+              1,
+              1,
+              1,
+              0,
+              0,
+              1,
+              1,
+              1,
+              1,
+              0,
+              1,
+              1
+            ],
+            "feasible": true,
+            "objective": 951.0,
+            "optimality_proven": true,
+            "status": "optimal",
+            "bound": 951.0,
+            "seconds": 0.005330635933205485,
+            "compile_seconds": 0.00014624698087573051,
+            "binary_variables": 19,
+            "linear_rows": 1,
+            "scope": "predicted_model_only",
+            "backend": "scip",
+            "requested_seconds": 5.0,
+            "wall_seconds": 0.007000671932473779,
+            "threads": 1,
+            "seed": 0,
+            "import_seconds": 0.009735472034662962,
+            "time_limit_overrun_seconds": 0.0
+          },
+          "common_solver_original_feasible": true,
+          "hidden_feasibility_agreement": 0.78125,
+          "hidden_objective_order_agreement": 1.0,
+          "hidden_probe_scope": "128 independent domain samples, not equivalence proof; rare feasible regions may be missed",
+          "rejected_stale_candidate_records": 0,
+          "job_sha256": "1cc1bf021a8b9e5383e23cbc85491ccfa2c9b00fabfb04f050e28ebfbb802f1b"
+        }
+      },
+      "requests": [
+        {
+          "path": "requests/03d74370e27531ba2455310c9b08712e3489da25791982c48daedb08f8f73ce8.json",
+          "prompt_prefix": "Read the original problem independently before judging the current model. Propose at most two LOCAL alternative interpretations with typed edits; retaining the current model is always an implicit candidate. Check objective direction, quantifiers, data references and variable relationships. Quote the source supporting each alternative. Do not specialize by benchmark name. Return hypotheses and notes, not a solution or executable code.",
+          "response_path": "responses/03d74370e27531ba2455310c9b08712e3489da25791982c48daedb08f8f73ce8.json",
+          "status": "generated",
+          "output_tokens": 412
+        },
+        {
+          "path": "requests/cd8b7faa23937bdfd8d5e7393e01ae020809a7567644224ad06198ed2940bf55.json",
+          "prompt_prefix": "Compare the source with the current model and finite-time evidence. Sampling describes the generated model, NOT ground truth; a lower energy or easier feasibility is not proof of correct semantics. Return at most 8 typed local edits plus quote/reason. Empty edits retain the model. Only change source-supported mathematics; never delete requirements just to obtain feasibility. Memory is fallible; explicitly reconsider earlier interpretations if necessary.",
+          "response_path": "responses/cd8b7faa23937bdfd8d5e7393e01ae020809a7567644224ad06198ed2940bf55.json",
+          "status": "generated",
+          "output_tokens": 600
+        },
+        {
+          "path": "requests/0147c8dfe0c98ba1b8faa3da99b1840067be4bef37f1cdc383f1e5ac53d1eefb.json",
+          "prompt_prefix": "Read the original problem independently before judging the current model. Propose at most two LOCAL alternative interpretations with typed edits; retaining the current model is always an implicit candidate. Check objective direction, quantifiers, data references and variable relationships. Quote the source supporting each alternative. Do not specialize by benchmark name. Return hypotheses and notes, not a solution or executable code.",
+          "response_path": "responses/0147c8dfe0c98ba1b8faa3da99b1840067be4bef37f1cdc383f1e5ac53d1eefb.json",
+          "status": "generated",
+          "output_tokens": 240
+        },
+        {
+          "path": "requests/5fe2cd1a9ba41a38df5030bccc7b1bd6b822d549278460eb9c66c4607dc79a6b.json",
+          "prompt_prefix": "Compare the source with the current model and finite-time evidence. Sampling describes the generated model, NOT ground truth; a lower energy or easier feasibility is not proof of correct semantics. Return at most 8 typed local edits plus quote/reason. Empty edits retain the model. Only change source-supported mathematics; never delete requirements just to obtain feasibility. Memory is fallible; explicitly reconsider earlier interpretations if necessary.",
+          "response_path": "responses/5fe2cd1a9ba41a38df5030bccc7b1bd6b822d549278460eb9c66c4607dc79a6b.json",
+          "status": "generated",
+          "output_tokens": 110
+        }
+      ]
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "arm": "U2",
+      "state_path": "states/a63654e415410954cbce757fb22bbf5a1548aeca1a84087c96610cd3d5d3f9e3.json",
+      "final_model_path": "mathematics/f579ad6520040e06e88d647dfe0c20df0da8fe8c36db05f0be98d047d620c800.json",
+      "final_constraint_count": 0,
+      "final_logic_count": 0,
+      "rounds": [
+        {
+          "path": "rounds/a63654e415410954cbce757fb22bbf5a1548aeca1a84087c96610cd3d5d3f9e3/0.json",
+          "review": {
+            "hypotheses": [
+              {
+                "reason": "The quadratic terms in the current model may be incorrectly weighted. The objective should count each pairing once, not assign arbitrary coefficients. The source lists 15 pairings, which should be represented as 15 quadratic terms with coefficient 1 each, not as weighted sums. This aligns with the goal of maximizing '1",
+                "edits": [
+                  {
+                    "op": "quadratic",
+                    "value": [
+                      [
+                        0,
+                        1,
+                        1
+                      ],
+                      [
+                        0,
+                        2,
+                        1
+                      ],
+                      [
+                        0,
+                        8,
+                        1
+                      ],
+                      [
+                        1,
+                        4,
+                        1
+                      ],
+                      [
+                        1,
+                        5,
+                        1
+                      ],
+                      [
+                        1,
+                        8,
+                        1
+                      ],
+                      [
+                        2,
+                        4,
+                        1
+                      ],
+                      [
+                        2,
+                        8,
+                        1
+                      ],
+                      [
+                        3,
+                        7,
+                        1
+                      ],
+                      [
+                        3,
+                        8,
+                        1
+                      ],
+                      [
+                        4,
+                        8,
+                        1
+                      ],
+                      [
+                        5,
+                        8,
+                        1
+                      ],
+                      [
+                        6,
+                        8,
+                        1
+                      ],
+                      [
+                        7,
+                        8,
+                        1
+                      ],
+                      [
+                        8,
+                        2,
+                        1
+                      ]
+                    ]
+                  },
+                  {
+                    "op": "remove_constraint",
+                    "id": "c0"
+                  }
+                ],
+                "quote": "The aim is to maximize how many of those connections end up straddling the mannequins; that's determined by counting how many pair connections have their two outfits on different mannequins. No outfit is omitted or duplicated. The full list of outfits and pairings is shown below.\n\nThere are 9 outfits in total and 15"
+              }
+            ],
+            "notes": "The current model's constraint 'c0' enforces a sum of variables equal to 9, which is redundant since all 9 outfits must be placed. The quadratic terms should reflect the 15 pairings as binary cross terms with coefficient 1 each, not as weighted sums. The source lists 15 pairings, which should be represented as 15 terms"
+          },
+          "patch": {
+            "edits": [
+              {
+                "op": "quadratic",
+                "value": [
+                  [
+                    0,
+                    1,
+                    1
+                  ],
+                  [
+                    0,
+                    2,
+                    1
+                  ],
+                  [
+                    0,
+                    8,
+                    1
+                  ],
+                  [
+                    1,
+                    4,
+                    1
+                  ],
+                  [
+                    1,
+                    5,
+                    1
+                  ],
+                  [
+                    1,
+                    8,
+                    1
+                  ],
+                  [
+                    2,
+                    4,
+                    1
+                  ],
+                  [
+                    2,
+                    8,
+                    1
+                  ],
+                  [
+                    3,
+                    7,
+                    1
+                  ],
+                  [
+                    3,
+                    8,
+                    1
+                  ],
+                  [
+                    4,
+                    8,
+                    1
+                  ],
+                  [
+                    5,
+                    8,
+                    1
+                  ],
+                  [
+                    6,
+                    8,
+                    1
+                  ],
+                  [
+                    7,
+                    8,
+                    1
+                  ],
+                  [
+                    8,
+                    2,
+                    1
+                  ]
+                ]
+              },
+              {
+                "op": "remove_constraint",
+                "id": "c0"
+              }
+            ],
+            "quote": "The aim is to maximize how many of those connections end up straddling the mannequins; that's determined by counting how many pair connections have their two outfits on different mannequins. No outfit is omitted or duplicated. The full list of outfits and pairings is shown below.\n\nThere are 9 outfits in total and 15",
+            "reason": "The quadratic terms should reflect the 15 pairings as binary cross terms with coefficient 1 each, not as weighted sums. The constraint 'c0' is redundant since all 9 outfits must be placed. The source lists 15 pairings, which should be represented as 15 terms"
+          }
+        },
+        {
+          "path": "rounds/a63654e415410954cbce757fb22bbf5a1548aeca1a84087c96610cd3d5d3f9e3/1.json",
+          "review": {
+            "hypotheses": [
+              {
+                "reason": "The quadratic terms in the current model may be incorrectly weighted. The objective should count each edge once, not apply coefficients. The current model's quadratic terms have coefficients that may not align with the problem's goal of counting edges between partitions. The source lists 15 pairings, and each should be",
+                "quote": "There are 9 outfits in total and 15 style pairings.",
+                "edits": [
+                  {
+                    "op": "quadratic",
+                    "value": [
+                      [
+                        0,
+                        1,
+                        1
+                      ],
+                      [
+                        0,
+                        2,
+                        1
+                      ],
+                      [
+                        0,
+                        8,
+                        1
+                      ],
+                      [
+                        1,
+                        4,
+                        1
+                      ],
+                      [
+                        1,
+                        5,
+                        1
+                      ],
+                      [
+                        1,
+                        8,
+                        1
+                      ],
+                      [
+                        2,
+                        4,
+                        1
+                      ],
+                      [
+                        2,
+                        8,
+                        1
+                      ],
+                      [
+                        3,
+                        7,
+                        1
+                      ],
+                      [
+                        3,
+                        8,
+                        1
+                      ],
+                      [
+                        4,
+                        8,
+                        1
+                      ],
+                      [
+                        5,
+                        8,
+                        1
+                      ],
+                      [
+                        6,
+                        8,
+                        1
+                      ],
+                      [
+                        7,
+                        8,
+                        1
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ],
+            "notes": "The current model's quadratic terms have some coefficients greater than 1 (e.g., [2,8,2]), which may not be correct for the problem's objective of counting each pairing once. The source lists 15 pairings, and each should be counted as a single edge between partitions."
+          },
+          "patch": {
+            "edits": [
+              {
+                "op": "quadratic",
+                "value": [
+                  [
+                    0,
+                    1,
+                    1
+                  ],
+                  [
+                    0,
+                    2,
+                    1
+                  ],
+                  [
+                    0,
+                    8,
+                    1
+                  ],
+                  [
+                    1,
+                    4,
+                    1
+                  ],
+                  [
+                    1,
+                    5,
+                    1
+                  ],
+                  [
+                    1,
+                    8,
+                    1
+                  ],
+                  [
+                    2,
+                    4,
+                    1
+                  ],
+                  [
+                    2,
+                    8,
+                    1
+                  ],
+                  [
+                    3,
+                    7,
+                    1
+                  ],
+                  [
+                    3,
+                    8,
+                    1
+                  ],
+                  [
+                    4,
+                    8,
+                    1
+                  ],
+                  [
+                    5,
+                    8,
+                    1
+                  ],
+                  [
+                    6,
+                    8,
+                    1
+                  ],
+                  [
+                    7,
+                    8,
+                    1
+                  ]
+                ]
+              }
+            ],
+            "quote": "There are 9 outfits in total and 15 style pairings. The aim is to maximize how many of those connections end up straddling the mannequins; that's determined by counting how many pair connections have their two outfits on different mannequins. No outfit is omitted or duplicated. The full list of outfits and pairings is",
+            "reason": "The quadratic terms should reflect the 15 pairings as binary cross terms with coefficient 1 each, not as weighted sums. The source lists 15 pairings, which should be represented as 15 terms"
+          }
+        }
+      ],
+      "scores": {
+        "C0": {
+          "case_id": "nlco_MAXCUT_S_035",
+          "arm": "C0",
+          "seed": 0,
+          "split": "pilot",
+          "dataset": "nlco_MAXCUT_S",
+          "size": 9,
+          "compiled": true,
+          "original_feasible": true,
+          "objective": 7.0,
+          "predicted_feasible": true,
+          "gap_percent": 36.36363636363637,
+          "optimal_hit": false,
+          "reference_proven": true,
+          "initial_candidate_feasible": true,
+          "round_results": [
+            {
+              "round": 0,
+              "original_feasible": true,
+              "objective": 7.0
+            },
+            {
+              "round": 1,
+              "original_feasible": true,
+              "objective": 7.0
+            }
+          ],
+          "repaired_feasibility": false,
+          "regressed_feasibility": false,
+          "common_solver_diagnostic": {
+            "x": [
+              1,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            "feasible": true,
+            "objective": 12.0,
+            "optimality_proven": true,
+            "status": "optimal",
+            "bound": 12.0,
+            "seconds": 0.007459841901436448,
+            "compile_seconds": 0.0002284129150211811,
+            "binary_variables": 23,
+            "linear_rows": 43,
+            "scope": "predicted_model_only",
+            "backend": "scip",
+            "requested_seconds": 5.0,
+            "wall_seconds": 0.009019172051921487,
+            "threads": 1,
+            "seed": 0,
+            "import_seconds": 0.008807864971458912,
+            "time_limit_overrun_seconds": 0.0
+          },
+          "common_solver_original_feasible": true,
+          "hidden_feasibility_agreement": 0.015625,
+          "hidden_objective_order_agreement": 0.3779527559055118,
+          "hidden_probe_scope": "128 independent domain samples, not equivalence proof; rare feasible regions may be missed",
+          "rejected_stale_candidate_records": 0,
+          "job_sha256": "2acf38159964d5782cf88e264b28e17eb1f7aeb7a382578dfb09ff8a28b4c26b"
+        },
+        "U2": {
+          "case_id": "nlco_MAXCUT_S_035",
+          "arm": "U2",
+          "seed": 0,
+          "split": "pilot",
+          "dataset": "nlco_MAXCUT_S",
+          "size": 9,
+          "compiled": true,
+          "original_feasible": true,
+          "objective": 0.0,
+          "predicted_feasible": true,
+          "gap_percent": 100.0,
+          "optimal_hit": false,
+          "reference_proven": true,
+          "initial_candidate_feasible": true,
+          "round_results": [
+            {
+              "round": 0,
+              "original_feasible": true,
+              "objective": 0.0
+            },
+            {
+              "round": 1,
+              "original_feasible": true,
+              "objective": 0.0
+            }
+          ],
+          "repaired_feasibility": false,
+          "regressed_feasibility": false,
+          "common_solver_diagnostic": {
+            "x": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "feasible": true,
+            "objective": 50.0,
+            "optimality_proven": true,
+            "status": "optimal",
+            "bound": 50.0,
+            "seconds": 0.005629554856568575,
+            "compile_seconds": 0.00022839289158582687,
+            "binary_variables": 23,
+            "linear_rows": 42,
+            "scope": "predicted_model_only",
+            "backend": "scip",
+            "requested_seconds": 5.0,
+            "wall_seconds": 0.007383272983133793,
+            "threads": 1,
+            "seed": 0,
+            "import_seconds": 0.009953913977369666,
+            "time_limit_overrun_seconds": 0.0
+          },
+          "common_solver_original_feasible": true,
+          "hidden_feasibility_agreement": 1.0,
+          "hidden_objective_order_agreement": 0.3779527559055118,
+          "hidden_probe_scope": "128 independent domain samples, not equivalence proof; rare feasible regions may be missed",
+          "rejected_stale_candidate_records": 0,
+          "job_sha256": "558c64da0acc52615a130f6064e4168126ae91bced76b1069b11ce0c9afb4d38"
+        }
+      },
+      "requests": [
+        {
+          "path": "requests/b269b6cd7bb9577943ec5fc9b87fb8e686f2877bcbad1789f36fa40b192f3337.json",
+          "prompt_prefix": "Read the original problem independently before judging the current model. Propose at most two LOCAL alternative interpretations with typed edits; retaining the current model is always an implicit candidate. Check objective direction, quantifiers, data references and variable relationships. Quote the source supporting each alternative. Do not specialize by benchmark name. Return hypotheses and notes, not a solution or executable code.",
+          "response_path": "responses/b269b6cd7bb9577943ec5fc9b87fb8e686f2877bcbad1789f36fa40b192f3337.json",
+          "status": "generated",
+          "output_tokens": 432
+        },
+        {
+          "path": "requests/7a55cd85790356cd86984fce88253c09a7467168974cd6bf4d17903b73a7b747.json",
+          "prompt_prefix": "Compare the source with the current model and finite-time evidence. Sampling describes the generated model, NOT ground truth; a lower energy or easier feasibility is not proof of correct semantics. Return at most 8 typed local edits plus quote/reason. Empty edits retain the model. Only change source-supported mathematics; never delete requirements just to obtain feasibility. Memory is fallible; explicitly reconsider earlier interpretations if necessary.",
+          "response_path": "responses/7a55cd85790356cd86984fce88253c09a7467168974cd6bf4d17903b73a7b747.json",
+          "status": "generated",
+          "output_tokens": 316
+        },
+        {
+          "path": "requests/2231a9f578461fbc58a659eddb9dd04809cfdc0a3fea24ab4268f271bd812a7f.json",
+          "prompt_prefix": "Read the original problem independently before judging the current model. Propose at most two LOCAL alternative interpretations with typed edits; retaining the current model is always an implicit candidate. Check objective direction, quantifiers, data references and variable relationships. Quote the source supporting each alternative. Do not specialize by benchmark name. Return hypotheses and notes, not a solution or executable code.",
+          "response_path": "responses/2231a9f578461fbc58a659eddb9dd04809cfdc0a3fea24ab4268f271bd812a7f.json",
+          "status": "generated",
+          "output_tokens": 250
+        },
+        {
+          "path": "requests/b1c55d205d332e2011909a2bb55a5733bf20fd2240b1f67e3b7fe8574ae6499f.json",
+          "prompt_prefix": "Compare the source with the current model and finite-time evidence. Sampling describes the generated model, NOT ground truth; a lower energy or easier feasibility is not proof of correct semantics. Return at most 8 typed local edits plus quote/reason. Empty edits retain the model. Only change source-supported mathematics; never delete requirements just to obtain feasibility. Memory is fallible; explicitly reconsider earlier interpretations if necessary.",
+          "response_path": "responses/b1c55d205d332e2011909a2bb55a5733bf20fd2240b1f67e3b7fe8574ae6499f.json",
+          "status": "generated",
+          "output_tokens": 221
+        }
+      ]
+    },
+    {
+      "case_id": "nlco_MIS_L_013",
+      "arm": "U2",
+      "state_path": "states/c6de1842c8f6e7db6b0d7e7e513e39c1eeffa0ff117b2d24111fabd8d80c7ee8.json",
+      "final_model_path": "mathematics/b5b072b87007edb4889247e91d27e265b2d2034c9e2a1f07a59537475b59b673.json",
+      "final_constraint_count": 7,
+      "final_logic_count": 0,
+      "rounds": [
+        {
+          "path": "rounds/c6de1842c8f6e7db6b0d7e7e513e39c1eeffa0ff117b2d24111fabd8d80c7ee8/0.json",
+          "review": {
+            "hypotheses": [
+              {
+                "reason": "The current model uses a single constraint with aggregated coefficients, but the packing rule requires separate constraints for each adjacency pair to enforce mutual exclusivity.",
+                "quote": "if an artifact is taken from one compartment, items in compartments directly next to it must stay behind.",
+                "edits": [
+                  {
+                    "op": "remove_constraint",
+                    "id": "c0"
+                  },
+                  {
+                    "op": "constraint",
+                    "value": {
+                      "a": {
+                        "16": 1,
+                        "11": 1
+                      },
+                      "op": "le",
+                      "rhs": 1,
+                      "id": "c11"
+                    }
+                  },
+                  {
+                    "op": "constraint",
+                    "value": {
+                      "a": {
+                        "10": 1,
+                        "11": 1
+                      },
+                      "op": "le",
+                      "rhs": 1,
+                      "id": "c10"
+                    }
+                  },
+                  {
+                    "op": "constraint",
+                    "value": {
+                      "a": {
+                        "14": 1,
+                        "11": 1
+                      },
+                      "op": "le",
+                      "rhs": 1,
+                      "id": "c14"
+                    }
+                  }
+                ]
+              }
+            ],
+            "notes": "Each adjacency pair must have a separate constraint to enforce mutual exclusivity. The current model incorrectly aggregates adjacency pairs into a single constraint."
+          },
+          "patch": {
+            "edits": [
+              {
+                "op": "remove_constraint",
+                "id": "c0"
+              },
+              {
+                "op": "constraint",
+                "value": {
+                  "a": {
+                    "17": 1,
+                    "6": 1
+                  },
+                  "op": "le",
+                  "rhs": 1,
+                  "id": "c0"
+                }
+              },
+              {
+                "op": "constraint",
+                "value": {
+                  "a": {
+                    "17": 1,
+                    "15": 1
+                  },
+                  "op": "le",
+                  "rhs": 1,
+                  "id": "c1"
+                }
+              },
+              {
+                "op": "constraint",
+                "value": {
+                  "a": {
+                    "17": 1,
+                    "20": 1
+                  },
+                  "op": "le",
+                  "rhs": 1,
+                  "id": "c2"
+                }
+              }
+            ],
+            "reason": "The packing rule requires mutual exclusivity for each adjacent pair, not aggregated constraints. Each adjacency must be a separate constraint to enforce the rule correctly.",
+            "quote": "if an artifact is taken from one compartment, items in compartments directly next to it must stay behind."
+          }
+        },
+        {
+          "path": "rounds/c6de1842c8f6e7db6b0d7e7e513e39c1eeffa0ff117b2d24111fabd8d80c7ee8/1.json",
+          "review": {
+            "hypotheses": [
+              {
+                "reason": "The current model only includes a subset of constraints (e.g., c0, c1, c2) but does not enforce the adjacency rule for all pairs in the source data. Each adjacent pair (u, v) should have a constraint x_u + x_v <= 1 to ensure no two adjacent compartments are selected. The current model is incomplete and will not yield a",
+                "edits": [
+                  {
+                    "op": "constraint",
+                    "value": {
+                      "a": {
+                        "16": 1,
+                        "21": 1
+                      },
+                      "op": "le",
+                      "rhs": 1,
+                      "id": "c3"
+                    }
+                  },
+                  {
+                    "op": "constraint",
+                    "value": {
+                      "a": {
+                        "18": 1,
+                        "2": 1
+                      },
+                      "op": "le",
+                      "rhs": 1,
+                      "id": "c4"
+                    }
+                  },
+                  {
+                    "op": "constraint",
+                    "value": {
+                      "a": {
+                        "11": 1,
+                        "3": 1
+                      },
+                      "op": "le",
+                      "rhs": 1,
+                      "id": "c5"
+                    }
+                  },
+                  {
+                    "op": "constraint",
+                    "value": {
+                      "a": {
+                        "16": 1,
+                        "11": 1
+                      },
+                      "op": "le",
+                      "rhs": 1,
+                      "id": "c6"
+                    }
+                  }
+                ],
+                "quote": "\"if an artifact is taken from one compartment, items in compartments directly next to it must stay behind\" — this rule must apply to all adjacent pairs in the source data, not just a subset."
+              }
+            ],
+            "notes": "The current model is incomplete and will not yield a valid solution. All 46 adjacent pairs in the source data must be represented as constraints of the form x_u + x_v <= 1 to enforce the adjacency rule."
+          },
+          "patch": {
+            "edits": [
+              {
+                "op": "constraint",
+                "value": {
+                  "a": {
+                    "15": 1,
+                    "6": 1
+                  },
+                  "op": "le",
+                  "rhs": 1,
+                  "id": "c7"
+                }
+              },
+              {
+                "op": "constraint",
+                "value": {
+                  "a": {
+                    "15": 1,
+                    "10": 1
+                  },
+                  "op": "le",
+                  "rhs": 1,
+                  "id": "c8"
+                }
+              },
+              {
+                "op": "constraint",
+                "value": {
+                  "a": {
+                    "15": 1,
+                    "14": 1
+                  },
+                  "op": "le",
+                  "rhs": 1,
+                  "id": "c9"
+                }
+              },
+              {
+                "op": "constraint",
+                "value": {
+                  "a": {
+                    "15": 1,
+                    "22": 1
+                  },
+                  "op": "le",
+                  "rhs": 1,
+                  "id": "c10"
+                }
+              }
+            ],
+            "reason": "The packing rule requires mutual exclusivity for each adjacent pair. All 46 pairs must be represented as constraints of the form x_u + x_v <= 1 to enforce the rule correctly.",
+            "quote": "if an artifact is taken from one compartment, items in compartments directly next to it must stay behind."
+          }
+        }
+      ],
+      "scores": {
+        "C0": {
+          "case_id": "nlco_MIS_L_013",
+          "arm": "C0",
+          "seed": 0,
+          "split": "pilot",
+          "dataset": "nlco_MIS_L",
+          "size": 23,
+          "compiled": true,
+          "original_feasible": true,
+          "objective": 0.0,
+          "predicted_feasible": true,
+          "gap_percent": 100.0,
+          "optimal_hit": false,
+          "reference_proven": true,
+          "initial_candidate_feasible": true,
+          "round_results": [
+            {
+              "round": 0,
+              "original_feasible": true,
+              "objective": 0.0
+            },
+            {
+              "round": 1,
+              "original_feasible": true,
+              "objective": 0.0
+            }
+          ],
+          "repaired_feasibility": false,
+          "regressed_feasibility": false,
+          "common_solver_diagnostic": {
+            "x": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "feasible": true,
+            "objective": 0.0,
+            "optimality_proven": true,
+            "status": "optimal",
+            "bound": -0.0,
+            "seconds": 0.005095222964882851,
+            "compile_seconds": 0.0001551599707454443,
+            "binary_variables": 23,
+            "linear_rows": 1,
+            "scope": "predicted_model_only",
+            "backend": "scip",
+            "requested_seconds": 5.0,
+            "wall_seconds": 0.006513454020023346,
+            "threads": 1,
+            "seed": 0,
+            "import_seconds": 0.009161819005385041,
+            "time_limit_overrun_seconds": 0.0
+          },
+          "common_solver_original_feasible": true,
+          "hidden_feasibility_agreement": 1.0,
+          "hidden_objective_order_agreement": 0.7322834645669292,
+          "hidden_probe_scope": "128 independent domain samples, not equivalence proof; rare feasible regions may be missed",
+          "rejected_stale_candidate_records": 0,
+          "job_sha256": "f4755615ec0db8c84249ce30c44bcee9592d7ec6e57abb86cb063c866cf896fb"
+        },
+        "U2": {
+          "case_id": "nlco_MIS_L_013",
+          "arm": "U2",
+          "seed": 0,
+          "split": "pilot",
+          "dataset": "nlco_MIS_L",
+          "size": 23,
+          "compiled": true,
+          "original_feasible": false,
+          "objective": 21.0,
+          "predicted_feasible": true,
+          "gap_percent": null,
+          "optimal_hit": false,
+          "reference_proven": true,
+          "initial_candidate_feasible": true,
+          "round_results": [
+            {
+              "round": 0,
+              "original_feasible": false,
+              "objective": 20.0
+            },
+            {
+              "round": 1,
+              "original_feasible": false,
+              "objective": 21.0
+            }
+          ],
+          "repaired_feasibility": false,
+          "regressed_feasibility": true,
+          "common_solver_diagnostic": {
+            "x": [
+              0,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              0,
+              1,
+              0,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "feasible": true,
+            "objective": 221.0,
+            "optimality_proven": true,
+            "status": "optimal",
+            "bound": 221.0,
+            "seconds": 0.005211361916735768,
+            "compile_seconds": 0.0002507849130779505,
+            "binary_variables": 23,
+            "linear_rows": 7,
+            "scope": "predicted_model_only",
+            "backend": "scip",
+            "requested_seconds": 5.0,
+            "wall_seconds": 0.006665508029982448,
+            "threads": 1,
+            "seed": 0,
+            "import_seconds": 0.011123498901724815,
+            "time_limit_overrun_seconds": 0.0
+          },
+          "common_solver_original_feasible": false,
+          "hidden_feasibility_agreement": 0.7265625,
+          "hidden_objective_order_agreement": 0.7322834645669292,
+          "hidden_probe_scope": "128 independent domain samples, not equivalence proof; rare feasible regions may be missed",
+          "rejected_stale_candidate_records": 0,
+          "job_sha256": "7e0ed5de7420335652ab6112c64d994537e56b50c5a7be018fa915def12da179"
+        }
+      },
+      "requests": [
+        {
+          "path": "requests/9f6833b138d84d047f6c38a3aa569e415fb085f940eb2ff2bbe78e3003ad7be1.json",
+          "prompt_prefix": "Read the original problem independently before judging the current model. Propose at most two LOCAL alternative interpretations with typed edits; retaining the current model is always an implicit candidate. Check objective direction, quantifiers, data references and variable relationships. Quote the source supporting each alternative. Do not specialize by benchmark name. Return hypotheses and notes, not a solution or executable code.",
+          "response_path": "responses/9f6833b138d84d047f6c38a3aa569e415fb085f940eb2ff2bbe78e3003ad7be1.json",
+          "status": "generated",
+          "output_tokens": 261
+        },
+        {
+          "path": "requests/e0751fa3f2a764522c2074a927fb26c3860b444532ac962a4c63963f925a44cc.json",
+          "prompt_prefix": "Compare the source with the current model and finite-time evidence. Sampling describes the generated model, NOT ground truth; a lower energy or easier feasibility is not proof of correct semantics. Return at most 8 typed local edits plus quote/reason. Empty edits retain the model. Only change source-supported mathematics; never delete requirements just to obtain feasibility. Memory is fallible; explicitly reconsider earlier interpretations if necessary.",
+          "response_path": "responses/e0751fa3f2a764522c2074a927fb26c3860b444532ac962a4c63963f925a44cc.json",
+          "status": "generated",
+          "output_tokens": 166
+        },
+        {
+          "path": "requests/07c1fc2ca2a1e037e5aec454cf1d55f04cd67b035e5a8d1f281092f67cba6847.json",
+          "prompt_prefix": "Read the original problem independently before judging the current model. Propose at most two LOCAL alternative interpretations with typed edits; retaining the current model is always an implicit candidate. Check objective direction, quantifiers, data references and variable relationships. Quote the source supporting each alternative. Do not specialize by benchmark name. Return hypotheses and notes, not a solution or executable code.",
+          "response_path": "responses/07c1fc2ca2a1e037e5aec454cf1d55f04cd67b035e5a8d1f281092f67cba6847.json",
+          "status": "generated",
+          "output_tokens": 308
+        },
+        {
+          "path": "requests/0998355cb9569d840f69839161d25d5cbf2c7bd022a099b538312d9a913d35b2.json",
+          "prompt_prefix": "Compare the source with the current model and finite-time evidence. Sampling describes the generated model, NOT ground truth; a lower energy or easier feasibility is not proof of correct semantics. Return at most 8 typed local edits plus quote/reason. Empty edits retain the model. Only change source-supported mathematics; never delete requirements just to obtain feasibility. Memory is fallible; explicitly reconsider earlier interpretations if necessary.",
+          "response_path": "responses/0998355cb9569d840f69839161d25d5cbf2c7bd022a099b538312d9a913d35b2.json",
+          "status": "generated",
+          "output_tokens": 199
+        }
+      ]
+    }
+  ]
+}

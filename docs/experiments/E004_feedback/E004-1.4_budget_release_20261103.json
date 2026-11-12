@@ -1,0 +1,79 @@
+{
+  "experiment_id": "E004-1.4",
+  "status": "capacity_check_passed",
+  "runner_implemented": true,
+  "assumptions": [
+    "four dedicated replicas and 24 single-thread CPU workers",
+    "bounded subprocess/request cleanup and phase barriers",
+    "no retries or additional validation",
+    "historical E003 baselines are read-only; no baseline rerun",
+    "an unfinished or timed-out task is not a successful result",
+    "this estimate is not an enforced deadline or a hardware guarantee"
+  ],
+  "case_ids": [
+    "nlco_KP_S_001",
+    "nlco_MAXCUT_S_035",
+    "nlco_MCP_S_023",
+    "nlco_MDS_S_006",
+    "nlco_MIS_S_009",
+    "nlco_MVC_S_020",
+    "nlco_KP_M_026",
+    "nlco_MAXCUT_M_023",
+    "nlco_MCP_M_039",
+    "nlco_MDS_M_021",
+    "nlco_MIS_M_045",
+    "nlco_MVC_M_019",
+    "nlco_KP_L_033",
+    "nlco_MAXCUT_L_038",
+    "nlco_MCP_L_037",
+    "nlco_MDS_L_014",
+    "nlco_MIS_L_013",
+    "nlco_MVC_L_011"
+  ],
+  "counts": {
+    "trajectories": 108,
+    "contract_calls": 18,
+    "patch_calls": 216,
+    "llm_calls": 234,
+    "cross_solver_jobs_max": 756,
+    "semantic_jobs_max": 252
+  },
+  "output_token_cap": 921600,
+  "gpu_waves": {
+    "contract": 5,
+    "patch": 54
+  },
+  "seconds": {
+    "gpu_request_envelope": 17985,
+    "feedback_cpu_calculated": 348,
+    "cross_solver_calculated": 960,
+    "semantic_calculated": 385,
+    "scoring_calculated": 64,
+    "offline_calculated": 1409,
+    "reserved_stages": {
+      "prepare": 900,
+      "model_load": 1800,
+      "feedback_cpu": 900,
+      "offline_evaluation": 1800,
+      "report_and_pack": 1200
+    },
+    "planned_total": 24585,
+    "spare": 4215,
+    "wall_limit": 28800
+  },
+  "checks": {
+    "feedback_cpu_fits_reservation": true,
+    "offline_fits_reservation": true,
+    "one_hour_spare": true,
+    "work_and_pack_fit": true,
+    "planned_work_fits_work_deadline": true
+  },
+  "config_sha256": "23f89bb07bb71f94769beee23a14001311fc4cbc20ffecdb1ea73e36cc977c2a",
+  "source_hash": "04407518a2c0d69dd00cb7884a31e55733c8c1a16fe72c6f7dd657904cf16559",
+  "validation": {
+    "new_tests": "8 passed in 24.70s",
+    "real_cpu_backends": 7,
+    "real_probe_providers": 5,
+    "real_qwen_4gpu": "pending server acceptance"
+  }
+}

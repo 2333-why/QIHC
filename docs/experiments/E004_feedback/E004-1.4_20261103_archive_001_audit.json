@@ -1,0 +1,4251 @@
+{
+  "experiment_id": "E004-1.4",
+  "archive_sha256": "0793047c1be348c4cb86e64acea8a0124f91e5b91e116899c7440597006dbb08",
+  "archive_path": "E:\\E004-1.4_feedback_witness_8h_analysis.tar.gz",
+  "code_commit": "cb47bd1563e591033e8ce9dd37e11806835912f3",
+  "source_hash": "04407518a2c0d69dd00cb7884a31e55733c8c1a16fe72c6f7dd657904cf16559",
+  "start_shanghai": "2026-11-03T02:37:55.853977+08:00",
+  "stop_shanghai": "2026-11-03T03:53:01.767787+08:00",
+  "launch_to_stopped_seconds": 4505.913809299469,
+  "summary_elapsed_not_job_duration": 38186.110681295395,
+  "trajectory_score_discrepancies": [],
+  "original_cross_score_discrepancies": [],
+  "groups": {
+    "S": {
+      "original_feasible": 8,
+      "optimal_hit": 2,
+      "quality5": 3
+    },
+    "R": {
+      "original_feasible": 7,
+      "optimal_hit": 1,
+      "quality5": 2
+    },
+    "P": {
+      "original_feasible": 7,
+      "optimal_hit": 1,
+      "quality5": 2
+    },
+    "X": {
+      "original_feasible": 9,
+      "optimal_hit": 1,
+      "quality5": 2
+    },
+    "A": {
+      "original_feasible": 7,
+      "optimal_hit": 1,
+      "quality5": 2
+    },
+    "M": {
+      "original_feasible": 7,
+      "optimal_hit": 1,
+      "quality5": 2
+    }
+  },
+  "final_semantics_recovered": {
+    "S": {
+      "verified_correct": 2,
+      "disproved": 15,
+      "invalid": 1
+    },
+    "R": {
+      "verified_correct": 2,
+      "disproved": 15,
+      "invalid": 1
+    },
+    "P": {
+      "verified_correct": 2,
+      "disproved": 15,
+      "invalid": 1
+    },
+    "X": {
+      "verified_correct": 2,
+      "disproved": 15,
+      "invalid": 1
+    },
+    "A": {
+      "verified_correct": 2,
+      "disproved": 15,
+      "invalid": 1
+    },
+    "M": {
+      "verified_correct": 2,
+      "disproved": 15,
+      "invalid": 1
+    }
+  },
+  "disproved_witnesses_rechecked": 90,
+  "contracts": {
+    "complete": 3,
+    "execution_error": 15
+  },
+  "contract_errors": {
+    "ValueError('Every quote must be a nonempty exact source substring')": 7,
+    "ValueError('No complete generated object: incomplete_output')": 8
+  },
+  "probe_status": {
+    "probe_unavailable_invalid_model": 12,
+    "no_compatible_source_hypothesis": 168,
+    "complete": 30,
+    "source_only_no_numeric_evidence": 6
+  },
+  "cards": {
+    "S": 0,
+    "P": 4,
+    "R": 4,
+    "X": 4,
+    "M": 4,
+    "A": 4
+  },
+  "guard_status": {
+    "execution_error": 99,
+    "accepted": 80,
+    "guard_rejected": 1,
+    "retained": 36
+  },
+  "guard_errors": {
+    "ValueError('No complete generated object: incomplete_output')": 20,
+    "ValueError('Every quote must be a nonempty exact source substring')": 33,
+    "ValueError('Unique bounded constraint IDs required')": 6,
+    "ValueError('constraint:c4: explicit mapped index -1 outside 0..22')": 1,
+    "ValueError('forall_affine duplicate or out-of-range index')": 38,
+    "ValueError('Changed undeclared family: objective')": 1
+  },
+  "changed_final_models": {
+    "S": 8,
+    "P": 9,
+    "R": 9,
+    "X": 7,
+    "M": 9,
+    "A": 7
+  },
+  "cross_status_recovery": {
+    "OPTIMAL -> OPTIMAL": 84,
+    "optimal -> optimal": 102,
+    "Optimal -> Optimal": 102,
+    "BUDGET_END -> BUDGET_END": 188,
+    "not_run_invalid_model -> not_run_invalid_model": 27,
+    "interrupted_no_retry -> BUDGET_END": 220,
+    "interrupted_no_retry -> OPTIMAL": 18,
+    "interrupted_no_retry -> not_run_invalid_model": 15
+  },
+  "semantic_status_recovery": {
+    "verified_correct -> verified_correct": 20,
+    "disproved -> disproved": 70,
+    "invalid -> invalid": 65,
+    "interrupted_no_retry -> invalid": 71,
+    "interrupted_no_retry -> disproved": 26
+  },
+  "corrected_backend_counts": {
+    "cp_sat": {
+      "original_feasible": 45,
+      "optimal_hit": 13,
+      "quality5": 13,
+      "predicted_feasible": 102,
+      "model_valid": 102,
+      "rows": 108
+    },
+    "scip": {
+      "original_feasible": 45,
+      "optimal_hit": 13,
+      "quality5": 13,
+      "predicted_feasible": 102,
+      "model_valid": 102,
+      "rows": 108
+    },
+    "highs": {
+      "original_feasible": 45,
+      "optimal_hit": 13,
+      "quality5": 13,
+      "predicted_feasible": 102,
+      "model_valid": 102,
+      "rows": 108
+    },
+    "sa": {
+      "original_feasible": 50,
+      "optimal_hit": 13,
+      "quality5": 13,
+      "predicted_feasible": 102,
+      "model_valid": 102,
+      "rows": 108
+    },
+    "pt": {
+      "original_feasible": 50,
+      "optimal_hit": 13,
+      "quality5": 13,
+      "predicted_feasible": 102,
+      "model_valid": 102,
+      "rows": 108
+    },
+    "penalty_pt": {
+      "original_feasible": 50,
+      "optimal_hit": 13,
+      "quality5": 13,
+      "predicted_feasible": 102,
+      "model_valid": 102,
+      "rows": 108
+    },
+    "pbit": {
+      "original_feasible": 45,
+      "optimal_hit": 13,
+      "quality5": 13,
+      "predicted_feasible": 102,
+      "model_valid": 102,
+      "rows": 108
+    }
+  },
+  "corrected_arm_backend_cells": {
+    "S/cp_sat": {
+      "original_feasible": 8,
+      "optimal_hit": 3,
+      "quality5": 3,
+      "predicted_feasible": 17
+    },
+    "S/scip": {
+      "original_feasible": 8,
+      "optimal_hit": 3,
+      "quality5": 3,
+      "predicted_feasible": 17
+    },
+    "S/highs": {
+      "original_feasible": 8,
+      "optimal_hit": 3,
+      "quality5": 3,
+      "predicted_feasible": 17
+    },
+    "S/sa": {
+      "original_feasible": 9,
+      "optimal_hit": 3,
+      "quality5": 3,
+      "predicted_feasible": 17
+    },
+    "S/pt": {
+      "original_feasible": 9,
+      "optimal_hit": 3,
+      "quality5": 3,
+      "predicted_feasible": 17
+    },
+    "S/penalty_pt": {
+      "original_feasible": 9,
+      "optimal_hit": 3,
+      "quality5": 3,
+      "predicted_feasible": 17
+    },
+    "S/pbit": {
+      "original_feasible": 8,
+      "optimal_hit": 3,
+      "quality5": 3,
+      "predicted_feasible": 17
+    },
+    "R/cp_sat": {
+      "original_feasible": 7,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "R/scip": {
+      "original_feasible": 7,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "R/highs": {
+      "original_feasible": 7,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "R/sa": {
+      "original_feasible": 8,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "R/pt": {
+      "original_feasible": 8,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "R/penalty_pt": {
+      "original_feasible": 8,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "R/pbit": {
+      "original_feasible": 7,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "P/cp_sat": {
+      "original_feasible": 7,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "P/scip": {
+      "original_feasible": 7,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "P/highs": {
+      "original_feasible": 7,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "P/sa": {
+      "original_feasible": 8,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "P/pt": {
+      "original_feasible": 8,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "P/penalty_pt": {
+      "original_feasible": 8,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "P/pbit": {
+      "original_feasible": 7,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "X/cp_sat": {
+      "original_feasible": 9,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "X/scip": {
+      "original_feasible": 9,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "X/highs": {
+      "original_feasible": 9,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "X/sa": {
+      "original_feasible": 9,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "X/pt": {
+      "original_feasible": 9,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "X/penalty_pt": {
+      "original_feasible": 9,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "X/pbit": {
+      "original_feasible": 9,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "A/cp_sat": {
+      "original_feasible": 7,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "A/scip": {
+      "original_feasible": 7,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "A/highs": {
+      "original_feasible": 7,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "A/sa": {
+      "original_feasible": 8,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "A/pt": {
+      "original_feasible": 8,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "A/penalty_pt": {
+      "original_feasible": 8,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "A/pbit": {
+      "original_feasible": 7,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "M/cp_sat": {
+      "original_feasible": 7,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "M/scip": {
+      "original_feasible": 7,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "M/highs": {
+      "original_feasible": 7,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "M/sa": {
+      "original_feasible": 8,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "M/pt": {
+      "original_feasible": 8,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "M/penalty_pt": {
+      "original_feasible": 8,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    },
+    "M/pbit": {
+      "original_feasible": 7,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 17
+    }
+  },
+  "pbit_vs_scip_predicted_model_objective": {
+    "not_both_model_feasible": 6,
+    "tie": 101,
+    "pbit_worse": 1
+  },
+  "unique_final_model_count_including_invalid": 46,
+  "response_status": {
+    "generated": 206,
+    "incomplete_output": 28
+  },
+  "costs": {
+    "input_tokens": 1156538,
+    "output_tokens": 258698,
+    "generation_attempts": 234,
+    "attributed_seconds": 14861.226476681186,
+    "cost_incomplete_requests": 0,
+    "cpu_attributed_seconds": 6816.359399450244
+  },
+  "historical_baselines": [
+    {
+      "case_id": "nlco_KP_S_001",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.0034381672739982605,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/57c615e05dee81edfb0e29fbc48990ce47aae8ad8b59a4f069e75d978d78eb05/cp_sat-20-0.json",
+      "source_sha256": "46f4ec3bf79f59c2a44c9117f827350eca1d20d3e00316c47c49d8f980355fae"
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.008418245241045952,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/57c615e05dee81edfb0e29fbc48990ce47aae8ad8b59a4f069e75d978d78eb05/scip-20-0.json",
+      "source_sha256": "90db52cb45665d942a4442b6c8eca4ec1d5b7c55cf4b872f63812aed756269c0"
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.025031812489032745,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/57c615e05dee81edfb0e29fbc48990ce47aae8ad8b59a4f069e75d978d78eb05/highs-20-0.json",
+      "source_sha256": "7ae80b9e4977455ddd63a07d2abe15c2b70797bfc7dd1fb411e0f62e4886085b"
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000091949477792,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/57c615e05dee81edfb0e29fbc48990ce47aae8ad8b59a4f069e75d978d78eb05/sa-20-0.json",
+      "source_sha256": "b1f3cac7dd2be5f3ff7954b438d3df2665b736be798bf278476d6eddc21c3015"
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00014728307724,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/57c615e05dee81edfb0e29fbc48990ce47aae8ad8b59a4f069e75d978d78eb05/pt-20-0.json",
+      "source_sha256": "e8349d5a5ec4e1857020cd2ecee05d4ba8c9f7bc6b6a45daabc0d52e51bb805c"
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000130888074636,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/57c615e05dee81edfb0e29fbc48990ce47aae8ad8b59a4f069e75d978d78eb05/penalty_pt-20-0.json",
+      "source_sha256": "67aafb27fdb6779973a0e89a73f451bc941f0500334472053a11342247141ed4"
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000096695497632,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/57c615e05dee81edfb0e29fbc48990ce47aae8ad8b59a4f069e75d978d78eb05/pbit-20-0.json",
+      "source_sha256": "33a312befabb6c97b8b994c20d406669ab9557c4d93af332484c0dc71e57dcf3"
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.004573848098516464,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/61bb401658a46ee332622056a9c47a07bb13880966155a4b33cdb80e3feb34f2/cp_sat-20-0.json",
+      "source_sha256": "15403573df44a12b94a2aec490aa534fd6de92af507887d3fac125b1e3c91c2b"
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.008825290948152542,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/61bb401658a46ee332622056a9c47a07bb13880966155a4b33cdb80e3feb34f2/scip-20-0.json",
+      "source_sha256": "4eb308a8632874e49f9e65c9248fd637b2ccff091edb8f583b34019862f6916e"
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.029089827090501785,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/61bb401658a46ee332622056a9c47a07bb13880966155a4b33cdb80e3feb34f2/highs-20-0.json",
+      "source_sha256": "5a9bfbc6a22254921d292476fcfe272c0c30c6bc64e653aba4f88f16b4bf4e8a"
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000067085027695,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/61bb401658a46ee332622056a9c47a07bb13880966155a4b33cdb80e3feb34f2/sa-20-0.json",
+      "source_sha256": "15e11e462ca26244d4d091880a8ed1a03332326151c82dd14d7ccfec4fce58db"
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000151440501213,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/61bb401658a46ee332622056a9c47a07bb13880966155a4b33cdb80e3feb34f2/pt-20-0.json",
+      "source_sha256": "5cbd2c4109b3225d5b66aa74ee6a1b7edf09ce7b77de38c5bc3a0c15b156695f"
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000056305900216,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/61bb401658a46ee332622056a9c47a07bb13880966155a4b33cdb80e3feb34f2/penalty_pt-20-0.json",
+      "source_sha256": "1a78f01fdaabf21457c38406472c4178f7c38b0bc8646b45289871b82a41481c"
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00004493072629,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/61bb401658a46ee332622056a9c47a07bb13880966155a4b33cdb80e3feb34f2/pbit-20-0.json",
+      "source_sha256": "a31af77da0e4e1433725361d5651385814da3ff3a6f0db83032aaf5f01539add"
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 36.36363636363637,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.012788699939846992,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/11787ef93ed47615c44c70ee7c986bce55a2cb355e484d855ccf12bf880ae380/cp_sat-20-0.json",
+      "source_sha256": "034c5b80ebd2ee9148659e9521b81594c632868357f553beea77954b80626a49"
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 36.36363636363637,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.015346696600317955,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/11787ef93ed47615c44c70ee7c986bce55a2cb355e484d855ccf12bf880ae380/scip-20-0.json",
+      "source_sha256": "7781adcd675b54bf4084701b84a185f9249f5ec7e5b24e0dfa28da2257d88b80"
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 36.36363636363637,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.016025371849536896,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/11787ef93ed47615c44c70ee7c986bce55a2cb355e484d855ccf12bf880ae380/highs-20-0.json",
+      "source_sha256": "f26d17b4fd42e2f33abaf0b5e6af47e5383b73f84bac7d3c213ad5c81daf7c90"
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 36.36363636363637,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00019214488566,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/11787ef93ed47615c44c70ee7c986bce55a2cb355e484d855ccf12bf880ae380/sa-20-0.json",
+      "source_sha256": "42533d25728b1ab992ef852e78a293b9e02569a990dfafcb3ee89701a327feb2"
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 36.36363636363637,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000206388533115,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/11787ef93ed47615c44c70ee7c986bce55a2cb355e484d855ccf12bf880ae380/pt-20-0.json",
+      "source_sha256": "b0c521daef8b73b7d006f8a4a919b0a7694450c55a255cdc8b7d900d915f3243"
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 36.36363636363637,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000177199020982,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/11787ef93ed47615c44c70ee7c986bce55a2cb355e484d855ccf12bf880ae380/penalty_pt-20-0.json",
+      "source_sha256": "39ad4bd348513230d831d76bc89c144cc00bd7aac07da21568dc9736499e8d39"
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 36.36363636363637,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000163668766618,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/11787ef93ed47615c44c70ee7c986bce55a2cb355e484d855ccf12bf880ae380/pbit-20-0.json",
+      "source_sha256": "5e7b7e2ae9b00d0bb5c44e9805a7509106d78a8dad567fe802cfff6fe685d05f"
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.012003006413578987,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/7d966baa1054af8818831f2a514ff6f00a4c96630de6e24dc2fb16949dbe69bc/cp_sat-20-0.json",
+      "source_sha256": "5bd7a76c8f147cc2a2ce389f15949dddf4d01ff34b464ca1cd1fc7e9e6659e74"
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.035781387239694595,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/7d966baa1054af8818831f2a514ff6f00a4c96630de6e24dc2fb16949dbe69bc/scip-20-0.json",
+      "source_sha256": "cfe937f5e3dffdfaf431ab69bdaf71611b7384b1c693582c733de28164b8e781"
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.033999089151620865,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/7d966baa1054af8818831f2a514ff6f00a4c96630de6e24dc2fb16949dbe69bc/highs-20-0.json",
+      "source_sha256": "663fd99baa811fc09a60c9fc366ca1c843da1bb3bbdbb6d4dcf6814721d42049"
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000142209231853,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/7d966baa1054af8818831f2a514ff6f00a4c96630de6e24dc2fb16949dbe69bc/sa-20-0.json",
+      "source_sha256": "90f6dd4c6972f46ca50585a0c843a75b2c126b10071823e19759ffebebdaa2b2"
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000135652720928,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/7d966baa1054af8818831f2a514ff6f00a4c96630de6e24dc2fb16949dbe69bc/pt-20-0.json",
+      "source_sha256": "078c44e32544de51b8d58bbeb56d403fd5c075114f76a5159cb1cd478a634497"
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000105537474155,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/7d966baa1054af8818831f2a514ff6f00a4c96630de6e24dc2fb16949dbe69bc/penalty_pt-20-0.json",
+      "source_sha256": "b8ceff5e16ef0538e2812d2be57260c59bdbd2f29dd950ee43c78ec798e3674b"
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000162724405527,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/7d966baa1054af8818831f2a514ff6f00a4c96630de6e24dc2fb16949dbe69bc/pbit-20-0.json",
+      "source_sha256": "d66f0975d8274f058e7a27091c74d8837424e2debb04584f67d4edb510ac7cef"
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.006388582289218903,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/3a64738ff04ae0a5a60e49d75221d2a1faa85a15d86b195f77eda70b73cf9406/cp_sat-20-0.json",
+      "source_sha256": "efae12f53d4a6fd358ae3e28a851b1d942356c8e1a6fb418fa0c9b9ca34c96e3"
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.010265616700053215,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/3a64738ff04ae0a5a60e49d75221d2a1faa85a15d86b195f77eda70b73cf9406/scip-20-0.json",
+      "source_sha256": "db37236f938486f574f6840d9de0554f3e38cee0457e17829c5d7c78707a87ba"
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.003980342298746109,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/3a64738ff04ae0a5a60e49d75221d2a1faa85a15d86b195f77eda70b73cf9406/highs-20-0.json",
+      "source_sha256": "64522d8d6805a912d0e47b1ca9ef66b44ba3b65b215b5e91848b64d2dbccf5ab"
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000156907364726,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/3a64738ff04ae0a5a60e49d75221d2a1faa85a15d86b195f77eda70b73cf9406/sa-20-0.json",
+      "source_sha256": "3ddc9f585e1466c2933655679b78a74e94313a730e8a74259a970fb21d824fbb"
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.0001331679523,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/3a64738ff04ae0a5a60e49d75221d2a1faa85a15d86b195f77eda70b73cf9406/pt-20-0.json",
+      "source_sha256": "122362c2066da7b211ada99b8b805c90754706a1c1b7a79730340bae8f358baf"
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000120732933283,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/3a64738ff04ae0a5a60e49d75221d2a1faa85a15d86b195f77eda70b73cf9406/penalty_pt-20-0.json",
+      "source_sha256": "f7b8d69c44d817fe34833bceed45e2130e4332e863f08986f9a1926fb977cdda"
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00015075877309,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/3a64738ff04ae0a5a60e49d75221d2a1faa85a15d86b195f77eda70b73cf9406/pbit-20-0.json",
+      "source_sha256": "6e26d1c9b5f164289ec238c50c509d10ed48e1800389acb9d90aafb0ef9132a2"
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.008587747812271118,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/1558ccb3d4729d05f0d5dd4ec6dced9cee97675c2ddbe966fcdbbc7b6d2bcc2e/cp_sat-20-0.json",
+      "source_sha256": "0936a8de42a131031303ac6388d749e6a0de432339627a4304e88e5a6f31978e"
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.014101559296250343,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/1558ccb3d4729d05f0d5dd4ec6dced9cee97675c2ddbe966fcdbbc7b6d2bcc2e/scip-20-0.json",
+      "source_sha256": "f3f5e184f9ecff66fb368f5f33090e4fcaddbc45091500c3c63df2e7f2a57b1c"
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.005805682390928268,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/1558ccb3d4729d05f0d5dd4ec6dced9cee97675c2ddbe966fcdbbc7b6d2bcc2e/highs-20-0.json",
+      "source_sha256": "1e2f3d7af70190b8b7ecc8b6c5ecdf4a3e9d7ed82e1c7f5f54bfc2218b545413"
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000076312571764,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/1558ccb3d4729d05f0d5dd4ec6dced9cee97675c2ddbe966fcdbbc7b6d2bcc2e/sa-20-0.json",
+      "source_sha256": "1178c7381267aa6a25c777e689f6ca539c3d7feb3c15dabb87a66380e78d5e5d"
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00028715096414,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/1558ccb3d4729d05f0d5dd4ec6dced9cee97675c2ddbe966fcdbbc7b6d2bcc2e/pt-20-0.json",
+      "source_sha256": "f9473ce8d8d9ce45ca75209ca1902c287d83475f0d425fe50447dcfdd41aa109"
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000067235901952,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/1558ccb3d4729d05f0d5dd4ec6dced9cee97675c2ddbe966fcdbbc7b6d2bcc2e/penalty_pt-20-0.json",
+      "source_sha256": "30e0c07ebf634e42569854c8c7ba88303b644f717eeeea134094d52ad028df7b"
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000090155750513,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/1558ccb3d4729d05f0d5dd4ec6dced9cee97675c2ddbe966fcdbbc7b6d2bcc2e/pbit-20-0.json",
+      "source_sha256": "897149c341aa76022ac9179979de24f0175003e5568960a4fcf9eb1563dccbd1"
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 25.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.005509009584784508,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4ea0a9a2666b6d30abb108ee91bf096ebd40309780c0f263cf05cd3e6808fdac/cp_sat-20-0.json",
+      "source_sha256": "9fa95da86e411ec245725e76bf6ebaa7e01b6c164aa28c72255d245967cdd730"
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 25.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.008926400914788246,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4ea0a9a2666b6d30abb108ee91bf096ebd40309780c0f263cf05cd3e6808fdac/scip-20-0.json",
+      "source_sha256": "5c4587affdb1f83e48be681580316a3c7d7e3b2f8eb1d39c4d85986b301741b2"
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 25.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.03448759205639362,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4ea0a9a2666b6d30abb108ee91bf096ebd40309780c0f263cf05cd3e6808fdac/highs-20-0.json",
+      "source_sha256": "177890d039ac67a917b1577c6ed5f23f3b0d9e95cb2aa7a2b3611070706565c2"
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 25.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00014191493392,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4ea0a9a2666b6d30abb108ee91bf096ebd40309780c0f263cf05cd3e6808fdac/sa-20-0.json",
+      "source_sha256": "4f6d6bd22aa91a6d3fc772ba9e12d48fac7f21435a7e9d01b1d64722d4d5873e"
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 25.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00005475245416,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4ea0a9a2666b6d30abb108ee91bf096ebd40309780c0f263cf05cd3e6808fdac/pt-20-0.json",
+      "source_sha256": "eb6c5eba91cf5dbd7990cc8d202da9906925fd7eb1c11732059eea69187736a3"
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 25.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000154240056872,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4ea0a9a2666b6d30abb108ee91bf096ebd40309780c0f263cf05cd3e6808fdac/penalty_pt-20-0.json",
+      "source_sha256": "189d4b9d17f04ee232bf6d60f1376ca0299b48e334965d9b2f695114908b5076"
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 25.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000170478597283,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4ea0a9a2666b6d30abb108ee91bf096ebd40309780c0f263cf05cd3e6808fdac/pbit-20-0.json",
+      "source_sha256": "af3c48ab01ae452466d1b0b417772818c80f9cf59f076cceda989377e0f9d05d"
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.00582389160990715,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/407b0c5b96636b4a2d7ec348538b7e15d94c6870c35dceff4df3150116d1224b/cp_sat-20-0.json",
+      "source_sha256": "d27810c0455300d46c9fc2ef6ea3b8f183b1540e24b559392b7b3b46206371b0"
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.009085925295948982,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/407b0c5b96636b4a2d7ec348538b7e15d94c6870c35dceff4df3150116d1224b/scip-20-0.json",
+      "source_sha256": "e76d3a7c40fc4450cc7654f956f35be4006de8c14a570c3b466eb71a7c5281ce"
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.024866780266165733,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/407b0c5b96636b4a2d7ec348538b7e15d94c6870c35dceff4df3150116d1224b/highs-20-0.json",
+      "source_sha256": "ce37f44ee9db2b5b0d0e8c142739de75598253631f4748df666d1845237bc9a8"
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000049956142902,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/407b0c5b96636b4a2d7ec348538b7e15d94c6870c35dceff4df3150116d1224b/sa-20-0.json",
+      "source_sha256": "ea40b54b9e4498e986788d90de76501cf5d50e224875cc1c403a2517cf8ca5c2"
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000179963186383,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/407b0c5b96636b4a2d7ec348538b7e15d94c6870c35dceff4df3150116d1224b/pt-20-0.json",
+      "source_sha256": "791d8bb27dc917d929f722c98c872679d5efb896c9fd0c0ce5ac330437c169a8"
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00013834424317,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/407b0c5b96636b4a2d7ec348538b7e15d94c6870c35dceff4df3150116d1224b/penalty_pt-20-0.json",
+      "source_sha256": "7ac29db72756600299c2cb7ee6925ea7be6442dcebe27f5d9404945fb9734c5a"
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000081015750766,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/407b0c5b96636b4a2d7ec348538b7e15d94c6870c35dceff4df3150116d1224b/pbit-20-0.json",
+      "source_sha256": "f8e3a7147988e43768120e323874af4e61be54623081c5d037fd7a7d39f07c60"
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.004040628671646118,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/e53b894bc70014abfcc3e7a77aff101a6970a8f5430183d1b135b957e7ed8979/cp_sat-20-0.json",
+      "source_sha256": "8a7a91b22c1fcbbae5b2fb86751f2c5f13c6ca0e5ccce04065c665ecd6e1166a"
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.011777063831686974,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/e53b894bc70014abfcc3e7a77aff101a6970a8f5430183d1b135b957e7ed8979/scip-20-0.json",
+      "source_sha256": "39fef7ea67c463d49db562913c4716e790edebdef78063aeb492818ba75dd35d"
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.0015021953731775284,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/e53b894bc70014abfcc3e7a77aff101a6970a8f5430183d1b135b957e7ed8979/highs-20-0.json",
+      "source_sha256": "600c88fa153c71b416d7ff930a0c9af47773d6a43b24414d372270eb02e4f95f"
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000108908861876,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/e53b894bc70014abfcc3e7a77aff101a6970a8f5430183d1b135b957e7ed8979/sa-20-0.json",
+      "source_sha256": "65ce6425af09e46bd6cc900ddf72054b9a0b95d4ab50cc7b92032df7f27640ee"
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000058380886912,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/e53b894bc70014abfcc3e7a77aff101a6970a8f5430183d1b135b957e7ed8979/pt-20-0.json",
+      "source_sha256": "2f6a16b4f62415d972010d09163255cc03e049b8d07ce4c9b170f4e86008cec6"
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00016961991787,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/e53b894bc70014abfcc3e7a77aff101a6970a8f5430183d1b135b957e7ed8979/penalty_pt-20-0.json",
+      "source_sha256": "1f3ef0a5eba1d650cdfefe2c4d79d8ce64a6f866a60ed2a9cf68590c80617430"
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00008455477655,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/e53b894bc70014abfcc3e7a77aff101a6970a8f5430183d1b135b957e7ed8979/pbit-20-0.json",
+      "source_sha256": "cde5af459fae5a613ed13f7aedc67976abbd0b838682e198245a6688842c4c52"
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.006308769807219505,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/cb193d1ad171a0696f6d14e53fa2f93c5df324c2464a0e9180ef3b055d7852d8/cp_sat-20-0.json",
+      "source_sha256": "432b523e905029862b0acdbfb176c96e51ae100083658984f4c0cc89f5ca7bb8"
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.01153937540948391,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/cb193d1ad171a0696f6d14e53fa2f93c5df324c2464a0e9180ef3b055d7852d8/scip-20-0.json",
+      "source_sha256": "91674585dc21b3990ddb0aea68c85bf5eb076d0617164b9153925fcf25103c34"
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.005207225680351257,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/cb193d1ad171a0696f6d14e53fa2f93c5df324c2464a0e9180ef3b055d7852d8/highs-20-0.json",
+      "source_sha256": "475d63ff29717e3634795581d8b5514fc192c6f3bdb4140c5bcb70916754ecab"
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00013697706163,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/cb193d1ad171a0696f6d14e53fa2f93c5df324c2464a0e9180ef3b055d7852d8/sa-20-0.json",
+      "source_sha256": "3c981e238e66a7306ee7241747b4465a81d8cde6ea30105fa50760c153ca55fa"
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000214491039515,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/cb193d1ad171a0696f6d14e53fa2f93c5df324c2464a0e9180ef3b055d7852d8/pt-20-0.json",
+      "source_sha256": "2abe650245d45d8e31940fd583b33bdec497b93221de9dd42c1541b9e945fba0"
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000289546325803,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/cb193d1ad171a0696f6d14e53fa2f93c5df324c2464a0e9180ef3b055d7852d8/penalty_pt-20-0.json",
+      "source_sha256": "956ca44d008d37b573fadce77c1b8ded12871c954c2b2196cc9bd3a7027e1187"
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000103728845716,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/cb193d1ad171a0696f6d14e53fa2f93c5df324c2464a0e9180ef3b055d7852d8/pbit-20-0.json",
+      "source_sha256": "8a2e1767dc1561cb7775f18526dba72e23776a8c029a5665d269a119bd0dbd2c"
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.005196386948227882,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/a12248f280550a1a8607176db3cbdd21a5e48c247a8dafb6260d099d105f4af1/cp_sat-20-0.json",
+      "source_sha256": "3eabfb8134918c2397d8fb36d4d796ed7ade5a4f87514f0692b23cf59cb3f105"
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.009162772446870804,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/a12248f280550a1a8607176db3cbdd21a5e48c247a8dafb6260d099d105f4af1/scip-20-0.json",
+      "source_sha256": "d542cbefda93e85630161f877d51584bcdbb4404d8492b5dc4eb6b7b78383be2"
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.003100799396634102,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/a12248f280550a1a8607176db3cbdd21a5e48c247a8dafb6260d099d105f4af1/highs-20-0.json",
+      "source_sha256": "82dcc309faa98aff5c0e47faaff9b1a19faae5d1e5a335789f03f3120a7a2d26"
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000107366591692,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/a12248f280550a1a8607176db3cbdd21a5e48c247a8dafb6260d099d105f4af1/sa-20-0.json",
+      "source_sha256": "851aef446faa40d5054327a5093c3c974ab4ca758ae1f517e9c21f4804a72f56"
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000138884410262,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/a12248f280550a1a8607176db3cbdd21a5e48c247a8dafb6260d099d105f4af1/pt-20-0.json",
+      "source_sha256": "a632e9ce48fdc34a7eaef34aaa575da944e78d365aaf591c668cbdcbf7038185"
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00007459335029,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/a12248f280550a1a8607176db3cbdd21a5e48c247a8dafb6260d099d105f4af1/penalty_pt-20-0.json",
+      "source_sha256": "faa9e91bf68c2fc99408b33b0a6940a2d933cb095eccb71ab8b6f8e6ca6f04e4"
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000139970332384,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/a12248f280550a1a8607176db3cbdd21a5e48c247a8dafb6260d099d105f4af1/pbit-20-0.json",
+      "source_sha256": "6e665475f17bd17db4bcf56fb70c90214f7f5c105d6b9787ed6f11ecd056f070"
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.005222393199801445,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/67c103cec4165873fe0012e11138cae211d847e35b04745fcec0f5c172cb59cb/cp_sat-20-0.json",
+      "source_sha256": "f052325d2bc5408a59427b41f452402aa976360c13a0487c168c640b9469518f"
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.009085051715373993,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/67c103cec4165873fe0012e11138cae211d847e35b04745fcec0f5c172cb59cb/scip-20-0.json",
+      "source_sha256": "7d8d409aa00548fa201af5731eeb174f3b6a16546ca491166351ec940efc4802"
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.00307379849255085,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/67c103cec4165873fe0012e11138cae211d847e35b04745fcec0f5c172cb59cb/highs-20-0.json",
+      "source_sha256": "13a2aad4e53f90c54e309162ebef5bec2ad9176490159b339ecfe8668fbb6b65"
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000115809962153,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/67c103cec4165873fe0012e11138cae211d847e35b04745fcec0f5c172cb59cb/sa-20-0.json",
+      "source_sha256": "891dea8815fbb4b594efd4ac845d7acfc665bfc7082b146210590dc652f7cd5b"
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000117532908916,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/67c103cec4165873fe0012e11138cae211d847e35b04745fcec0f5c172cb59cb/pt-20-0.json",
+      "source_sha256": "ee9bbea8c70d47bddc4d0ddc272efcf4549d206139b3b5dc3e0801fce193008c"
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000048894435167,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/67c103cec4165873fe0012e11138cae211d847e35b04745fcec0f5c172cb59cb/penalty_pt-20-0.json",
+      "source_sha256": "2bce3f6279e74f0951dbfdb9429b158524ca0234ced58f0a68b8c07322ecf09c"
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000114189460874,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/67c103cec4165873fe0012e11138cae211d847e35b04745fcec0f5c172cb59cb/pbit-20-0.json",
+      "source_sha256": "a0e01b5280eca94e4e4a92fbfb24317172a64cf4bae493b274f8028e2fd3246a"
+    },
+    {
+      "case_id": "nlco_KP_M_026",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.004841376096010208,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/dd95a0e1224b9e18585d9eec6054a9d2e2e8c5207670f4ebe59bd7fa38c5deb2/cp_sat-20-0.json",
+      "source_sha256": "faa65fd36354cf1bcf86f27f2f3b2e45ef8318be838a55ed080d473b01abf950"
+    },
+    {
+      "case_id": "nlco_KP_M_026",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.008884882554411888,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/dd95a0e1224b9e18585d9eec6054a9d2e2e8c5207670f4ebe59bd7fa38c5deb2/scip-20-0.json",
+      "source_sha256": "04efc85d531e15c81008e32729f08611cf83dbdae481b1bfbfce46a61d584aa9"
+    },
+    {
+      "case_id": "nlco_KP_M_026",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.002495134249329567,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/dd95a0e1224b9e18585d9eec6054a9d2e2e8c5207670f4ebe59bd7fa38c5deb2/highs-20-0.json",
+      "source_sha256": "1628eb471094a7cd5cdb20d8d7da206fc5fd9e32b07e39f45a014e13aac00a12"
+    },
+    {
+      "case_id": "nlco_KP_M_026",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00006856583059,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/dd95a0e1224b9e18585d9eec6054a9d2e2e8c5207670f4ebe59bd7fa38c5deb2/sa-20-0.json",
+      "source_sha256": "9b465a7dd475eaf456fb0a075a4626d9f7714c7f54ef18115776e6d3d769053d"
+    },
+    {
+      "case_id": "nlco_KP_M_026",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000081500038505,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/dd95a0e1224b9e18585d9eec6054a9d2e2e8c5207670f4ebe59bd7fa38c5deb2/pt-20-0.json",
+      "source_sha256": "cda85c41d013089be5b6ea60309364b8c3da239e5718bbcb067a3f1f23a9e3bb"
+    },
+    {
+      "case_id": "nlco_KP_M_026",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00007502734661,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/dd95a0e1224b9e18585d9eec6054a9d2e2e8c5207670f4ebe59bd7fa38c5deb2/penalty_pt-20-0.json",
+      "source_sha256": "a759a54663533dfd461692073533582eaac45f39429ff54b22fffe4ef2543092"
+    },
+    {
+      "case_id": "nlco_KP_M_026",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00011358037591,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/dd95a0e1224b9e18585d9eec6054a9d2e2e8c5207670f4ebe59bd7fa38c5deb2/pbit-20-0.json",
+      "source_sha256": "f450f02614b9e44d0a2c6f418a42444219c6bc79e8303cbd064a37f0142ac855"
+    },
+    {
+      "case_id": "nlco_KP_M_026",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.005323082208633423,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4e1544746b0d9d1992795832a70e71590ec83309cd29b97c40387e9f5e88da33/cp_sat-20-0.json",
+      "source_sha256": "fccd7fa01aaa0b37f441342cf56822baffecd139f0d803892dfaab13da9fc3b9"
+    },
+    {
+      "case_id": "nlco_KP_M_026",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.009301220998167992,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4e1544746b0d9d1992795832a70e71590ec83309cd29b97c40387e9f5e88da33/scip-20-0.json",
+      "source_sha256": "0954ff5c9be18fb5cca464c66443026c4acbecf767a06cf279adb169dce4f669"
+    },
+    {
+      "case_id": "nlco_KP_M_026",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.01467873901128769,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4e1544746b0d9d1992795832a70e71590ec83309cd29b97c40387e9f5e88da33/highs-20-0.json",
+      "source_sha256": "0d1e2bcb366cc7eaf1509846ac63bbba16f32b69ecab6bf7e8fe99ed44ac08e4"
+    },
+    {
+      "case_id": "nlco_KP_M_026",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000064730644226,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4e1544746b0d9d1992795832a70e71590ec83309cd29b97c40387e9f5e88da33/sa-20-0.json",
+      "source_sha256": "36fcd7719f750052c65263bbf33e099675d513a31a0a44d45d44cc9918677364"
+    },
+    {
+      "case_id": "nlco_KP_M_026",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000117134302855,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4e1544746b0d9d1992795832a70e71590ec83309cd29b97c40387e9f5e88da33/pt-20-0.json",
+      "source_sha256": "0e81f9b03edbb939455fa8844311e1e7e94f96066c5cbddfeeb65acb881ec6e5"
+    },
+    {
+      "case_id": "nlco_KP_M_026",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00005504861474,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4e1544746b0d9d1992795832a70e71590ec83309cd29b97c40387e9f5e88da33/penalty_pt-20-0.json",
+      "source_sha256": "e5c1feeb925f38f3c25326ddafc8a4831b146784ee76523f32d6ebc9bd79fb50"
+    },
+    {
+      "case_id": "nlco_KP_M_026",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00008324161172,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4e1544746b0d9d1992795832a70e71590ec83309cd29b97c40387e9f5e88da33/pbit-20-0.json",
+      "source_sha256": "72584538e72ab1aef61fe66b9bcd075540a21c585b3c64caa1188644033ade56"
+    },
+    {
+      "case_id": "nlco_MAXCUT_M_023",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.007116604596376419,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/afdd9de3b803d58d5d74bb48f745927c55952d44ca2fc955876c6a380b7a86be/cp_sat-20-0.json",
+      "source_sha256": "375f4b51a48388049efc64bd9e37ccb55d1d2af17d4f32f756cb24a8bec9890f"
+    },
+    {
+      "case_id": "nlco_MAXCUT_M_023",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.015192126855254173,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/afdd9de3b803d58d5d74bb48f745927c55952d44ca2fc955876c6a380b7a86be/scip-20-0.json",
+      "source_sha256": "960415f0ef1cbeb1cde3b3402d8e55f043b170a3bf0949b36971d32de4be80ce"
+    },
+    {
+      "case_id": "nlco_MAXCUT_M_023",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.006892083212733269,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/afdd9de3b803d58d5d74bb48f745927c55952d44ca2fc955876c6a380b7a86be/highs-20-0.json",
+      "source_sha256": "9b6e5291cc298a9a47b6b01cd2ba92791983750dc4755daffddd3a3994223c4c"
+    },
+    {
+      "case_id": "nlco_MAXCUT_M_023",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000209402292967,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/afdd9de3b803d58d5d74bb48f745927c55952d44ca2fc955876c6a380b7a86be/sa-20-0.json",
+      "source_sha256": "eb514838c56d0e9526e0ef44d34a7d752bc55349740fef0179ccd8ab003cb59c"
+    },
+    {
+      "case_id": "nlco_MAXCUT_M_023",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000270610675216,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/afdd9de3b803d58d5d74bb48f745927c55952d44ca2fc955876c6a380b7a86be/pt-20-0.json",
+      "source_sha256": "faecea78fdc833507d7d15cd95a16c73af1811c7574557f818140294e24b294c"
+    },
+    {
+      "case_id": "nlco_MAXCUT_M_023",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000197187066078,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/afdd9de3b803d58d5d74bb48f745927c55952d44ca2fc955876c6a380b7a86be/penalty_pt-20-0.json",
+      "source_sha256": "1c571fc4c08fdb9967233645985b395c825c3145d51f109e247ca15812637fc9"
+    },
+    {
+      "case_id": "nlco_MAXCUT_M_023",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000179644674063,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/afdd9de3b803d58d5d74bb48f745927c55952d44ca2fc955876c6a380b7a86be/pbit-20-0.json",
+      "source_sha256": "9a74e2245942cc913cfabb4f6c72fc53d6319399b8c164db18daad91bcb4d365"
+    },
+    {
+      "case_id": "nlco_MAXCUT_M_023",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.15239638835191727,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52984bff69e131e131f2aa2b6b2d0e96c1f74b6dbf9fcef9e90d5df11b827d8b/cp_sat-20-0.json",
+      "source_sha256": "ee9648e7cc66f4696d1e958bd541d41acceca3bc102bd94fb048e0fb428edb0e"
+    },
+    {
+      "case_id": "nlco_MAXCUT_M_023",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.049372266978025436,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52984bff69e131e131f2aa2b6b2d0e96c1f74b6dbf9fcef9e90d5df11b827d8b/scip-20-0.json",
+      "source_sha256": "25b2b0366be727c4ea660626108fd5a12f5dd95334b30fddc0a5d7b6137feaf4"
+    },
+    {
+      "case_id": "nlco_MAXCUT_M_023",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.06422242522239685,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52984bff69e131e131f2aa2b6b2d0e96c1f74b6dbf9fcef9e90d5df11b827d8b/highs-20-0.json",
+      "source_sha256": "60ac9b0634b64b4cd76363a0cbba923d0f4f734584321cf5451fde14b046bc49"
+    },
+    {
+      "case_id": "nlco_MAXCUT_M_023",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000107996165752,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52984bff69e131e131f2aa2b6b2d0e96c1f74b6dbf9fcef9e90d5df11b827d8b/sa-20-0.json",
+      "source_sha256": "0fc68a2197291f5c7fcbbc23c3baabfe01304a9028eb043987044db4b9eb3f45"
+    },
+    {
+      "case_id": "nlco_MAXCUT_M_023",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00027111917734,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52984bff69e131e131f2aa2b6b2d0e96c1f74b6dbf9fcef9e90d5df11b827d8b/pt-20-0.json",
+      "source_sha256": "9c173b7e363f21317c8f3738a27c3f4754ec7ee9e87d202de100abb11537f603"
+    },
+    {
+      "case_id": "nlco_MAXCUT_M_023",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000175561755896,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52984bff69e131e131f2aa2b6b2d0e96c1f74b6dbf9fcef9e90d5df11b827d8b/penalty_pt-20-0.json",
+      "source_sha256": "8f91aa6c2278e3db94aa3d79021eb6a76d90a744e5e0e57e7ba3e30f2d563443"
+    },
+    {
+      "case_id": "nlco_MAXCUT_M_023",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000220945104957,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52984bff69e131e131f2aa2b6b2d0e96c1f74b6dbf9fcef9e90d5df11b827d8b/pbit-20-0.json",
+      "source_sha256": "2ebd1d7846d84714ef03becc82fd5d07a80cbe6069343acc5d372082b42eec17"
+    },
+    {
+      "case_id": "nlco_MCP_M_039",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.005072588101029396,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/f811ad42a00bd7247284881045262b0973cadc8c0c23ae6570775b2e926831b1/cp_sat-20-0.json",
+      "source_sha256": "3a8b6f0e348526e141e3f52ed3b0b92323772e9a018a0e1295de376665912006"
+    },
+    {
+      "case_id": "nlco_MCP_M_039",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.003957206383347511,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/f811ad42a00bd7247284881045262b0973cadc8c0c23ae6570775b2e926831b1/scip-20-0.json",
+      "source_sha256": "a9d3675aca047b7e80e30725d03eb0c8802b87c945147bd8c597ee0448b63631"
+    },
+    {
+      "case_id": "nlco_MCP_M_039",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.0024378057569265366,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/f811ad42a00bd7247284881045262b0973cadc8c0c23ae6570775b2e926831b1/highs-20-0.json",
+      "source_sha256": "2e65196df0b431cea5193fae1e4798a3be9e98ddf30659d4e26e59f08a83f907"
+    },
+    {
+      "case_id": "nlco_MCP_M_039",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00007564947009,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/f811ad42a00bd7247284881045262b0973cadc8c0c23ae6570775b2e926831b1/sa-20-0.json",
+      "source_sha256": "b2650b3f0ac1c80a3b77e94977963733a624e1aad1576707c074300430f9df5a"
+    },
+    {
+      "case_id": "nlco_MCP_M_039",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000144954770803,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/f811ad42a00bd7247284881045262b0973cadc8c0c23ae6570775b2e926831b1/pt-20-0.json",
+      "source_sha256": "6f085a2818852cc5c994011e058f23089d109b7f31c401cc0140428f707eac37"
+    },
+    {
+      "case_id": "nlco_MCP_M_039",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000158151611686,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/f811ad42a00bd7247284881045262b0973cadc8c0c23ae6570775b2e926831b1/penalty_pt-20-0.json",
+      "source_sha256": "7630cdc522981d8d2dbb73c07b5cef35c08a0c7ef4da31ab62da968348841655"
+    },
+    {
+      "case_id": "nlco_MCP_M_039",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000114044174552,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/f811ad42a00bd7247284881045262b0973cadc8c0c23ae6570775b2e926831b1/pbit-20-0.json",
+      "source_sha256": "5314ca7be981849821a95017304b53edb3708822cda24cb4dca313d55dda8993"
+    },
+    {
+      "case_id": "nlco_MCP_M_039",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.013289546594023705,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/7d40a95845b713ccf6558115c3e44796971c56d4a055e8e2269af4a62b574013/cp_sat-20-0.json",
+      "source_sha256": "51d11d7ad09939911fb5ae2a6313219147e78b4cc29e2574bd3c892d074b29cb"
+    },
+    {
+      "case_id": "nlco_MCP_M_039",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.019120223820209503,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/7d40a95845b713ccf6558115c3e44796971c56d4a055e8e2269af4a62b574013/scip-20-0.json",
+      "source_sha256": "b34e5ee178d379904897178e921ebd9ca9656387071ea3ed2cfc71dd802e8dec"
+    },
+    {
+      "case_id": "nlco_MCP_M_039",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.014812862500548363,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/7d40a95845b713ccf6558115c3e44796971c56d4a055e8e2269af4a62b574013/highs-20-0.json",
+      "source_sha256": "0208c37b4a8119ec197c07e0b6eb04366d83bcc8a3e03caa0e25e7142134b5c9"
+    },
+    {
+      "case_id": "nlco_MCP_M_039",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000286903232336,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/7d40a95845b713ccf6558115c3e44796971c56d4a055e8e2269af4a62b574013/sa-20-0.json",
+      "source_sha256": "97ac2fbe3e07d221373e22730f1654848809ac49465e442c46438d1b913ea956"
+    },
+    {
+      "case_id": "nlco_MCP_M_039",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000430239364505,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/7d40a95845b713ccf6558115c3e44796971c56d4a055e8e2269af4a62b574013/pt-20-0.json",
+      "source_sha256": "b43b8eac5a83e23186acb635c6b49b27924974560252bfaaa57568744a9bf9d8"
+    },
+    {
+      "case_id": "nlco_MCP_M_039",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000414924696088,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/7d40a95845b713ccf6558115c3e44796971c56d4a055e8e2269af4a62b574013/penalty_pt-20-0.json",
+      "source_sha256": "df434ffe9778f191d515fcbf2c114d496fe81b060a5419af49cbc8be7e31bb70"
+    },
+    {
+      "case_id": "nlco_MCP_M_039",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000115804374218,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/7d40a95845b713ccf6558115c3e44796971c56d4a055e8e2269af4a62b574013/pbit-20-0.json",
+      "source_sha256": "13e72e6eada22f81ccf98761b7b1a77ac792b85f2c9506d64ee9e0b4f5bfa5f0"
+    },
+    {
+      "case_id": "nlco_MDS_M_021",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.0038294196128845215,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/055f383d890bccc48f2c782876d834897fb0b065abdeb2ca651c0d3dbf2f6fab/cp_sat-20-0.json",
+      "source_sha256": "2394d9aa9ce06f1f366eba5c0a5e5e5eb4709988b11e2f8f592b1d05f9fb5033"
+    },
+    {
+      "case_id": "nlco_MDS_M_021",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.0063947830349206924,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/055f383d890bccc48f2c782876d834897fb0b065abdeb2ca651c0d3dbf2f6fab/scip-20-0.json",
+      "source_sha256": "ab2c72739885f26b831bbced197d8c0c2bca7f7a6edb2db5d24b73e058ba6e15"
+    },
+    {
+      "case_id": "nlco_MDS_M_021",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.026947392150759697,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/055f383d890bccc48f2c782876d834897fb0b065abdeb2ca651c0d3dbf2f6fab/highs-20-0.json",
+      "source_sha256": "aba67bb5d6465e918e971a7bdfe086310fd2c061b1a615efbc6b58b677785119"
+    },
+    {
+      "case_id": "nlco_MDS_M_021",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 50.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000123638659716,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/055f383d890bccc48f2c782876d834897fb0b065abdeb2ca651c0d3dbf2f6fab/sa-20-0.json",
+      "source_sha256": "82d06ec433ff6fe59ba8d196134652e3067a6227d197a4bdb0e0f5d8438bea37"
+    },
+    {
+      "case_id": "nlco_MDS_M_021",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 50.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00015265122056,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/055f383d890bccc48f2c782876d834897fb0b065abdeb2ca651c0d3dbf2f6fab/pt-20-0.json",
+      "source_sha256": "016a1cc41abfa10e178817cdd847f6396218160e1492efe617e5ee6a043a755f"
+    },
+    {
+      "case_id": "nlco_MDS_M_021",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00009650364518,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/055f383d890bccc48f2c782876d834897fb0b065abdeb2ca651c0d3dbf2f6fab/penalty_pt-20-0.json",
+      "source_sha256": "e4895357acbe8dff79d2b7564faca4f8df79b4588da2e36d2124cf623b6099c6"
+    },
+    {
+      "case_id": "nlco_MDS_M_021",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00007309950888,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/055f383d890bccc48f2c782876d834897fb0b065abdeb2ca651c0d3dbf2f6fab/pbit-20-0.json",
+      "source_sha256": "c973987dba6d21c342884053705923d620db4a1d4f46877cda8b8f17926341bc"
+    },
+    {
+      "case_id": "nlco_MDS_M_021",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.00795355997979641,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/59e07f25a11310e8286e78456eb812871f43f6823ae005e05bb1263ac28408a9/cp_sat-20-0.json",
+      "source_sha256": "6e5456770f9d5e3d10c0fde4b758d9421b85df997fc7cc58ef779502c01cae6d"
+    },
+    {
+      "case_id": "nlco_MDS_M_021",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.011538993567228317,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/59e07f25a11310e8286e78456eb812871f43f6823ae005e05bb1263ac28408a9/scip-20-0.json",
+      "source_sha256": "ba79ce46da23abb1629c8db0ef8ecbf7ba18f580d85f70e86069297907f12690"
+    },
+    {
+      "case_id": "nlco_MDS_M_021",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.0220162533223629,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/59e07f25a11310e8286e78456eb812871f43f6823ae005e05bb1263ac28408a9/highs-20-0.json",
+      "source_sha256": "3dedcb374d2f86b8b47e9622137e095242b54a4d8fdfaa6065d38746b6d53dac"
+    },
+    {
+      "case_id": "nlco_MDS_M_021",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000186504796147,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/59e07f25a11310e8286e78456eb812871f43f6823ae005e05bb1263ac28408a9/sa-20-0.json",
+      "source_sha256": "69b73f496a1544571f13824054bbdc70160831b2adee6b1c69034cc815ea1453"
+    },
+    {
+      "case_id": "nlco_MDS_M_021",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000150652602315,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/59e07f25a11310e8286e78456eb812871f43f6823ae005e05bb1263ac28408a9/pt-20-0.json",
+      "source_sha256": "edfcc4c258735c1fa1baa84183bf73146f43ecb4e48a1ed179c2cf6dbd7f8189"
+    },
+    {
+      "case_id": "nlco_MDS_M_021",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000149047002196,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/59e07f25a11310e8286e78456eb812871f43f6823ae005e05bb1263ac28408a9/penalty_pt-20-0.json",
+      "source_sha256": "f68a416f35953435bc21b758300f1fbcc2c5688b61d5e945486d9abe7db495d5"
+    },
+    {
+      "case_id": "nlco_MDS_M_021",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00008582882583,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/59e07f25a11310e8286e78456eb812871f43f6823ae005e05bb1263ac28408a9/pbit-20-0.json",
+      "source_sha256": "4ba47da40862d792c44770a747ce4893b3ccb34a7d50f8a37e0d74a97cfd3cca"
+    },
+    {
+      "case_id": "nlco_MIS_M_045",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.008954862132668495,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/20f87f582c5468b1bfa35d079de649c26493dac106b7a8169607f0d28520ba3c/cp_sat-20-0.json",
+      "source_sha256": "09b2f985ad5d93b22765b548d318a9ce2558be88f93e6797d67bd763bf8e41ff"
+    },
+    {
+      "case_id": "nlco_MIS_M_045",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.013198994100093842,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/20f87f582c5468b1bfa35d079de649c26493dac106b7a8169607f0d28520ba3c/scip-20-0.json",
+      "source_sha256": "93f0d9c86ccc5f0444ed25797e8770dfef688b2cbeca6f92f91f3ec711e5cceb"
+    },
+    {
+      "case_id": "nlco_MIS_M_045",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.02881796844303608,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/20f87f582c5468b1bfa35d079de649c26493dac106b7a8169607f0d28520ba3c/highs-20-0.json",
+      "source_sha256": "c08c97ff10133661af08aac544e832066cbfb467b140f0fac8ce6e2cbcc61216"
+    },
+    {
+      "case_id": "nlco_MIS_M_045",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00005148537457,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/20f87f582c5468b1bfa35d079de649c26493dac106b7a8169607f0d28520ba3c/sa-20-0.json",
+      "source_sha256": "e91c4f981a87a1b0d59a27c1ebad61e7d0ebe14d25077eef17c119d898467dfd"
+    },
+    {
+      "case_id": "nlco_MIS_M_045",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00005812011659,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/20f87f582c5468b1bfa35d079de649c26493dac106b7a8169607f0d28520ba3c/pt-20-0.json",
+      "source_sha256": "1dc8866f9d8c3315a04beb24a82159a47250d3b037eb45d6df9e3f19daef085c"
+    },
+    {
+      "case_id": "nlco_MIS_M_045",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000034539029002,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/20f87f582c5468b1bfa35d079de649c26493dac106b7a8169607f0d28520ba3c/penalty_pt-20-0.json",
+      "source_sha256": "267e0fc96bc8737e34c380925b6111cc61ed70b11e81efcb49b000b27d97e2d3"
+    },
+    {
+      "case_id": "nlco_MIS_M_045",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.0000489205122,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/20f87f582c5468b1bfa35d079de649c26493dac106b7a8169607f0d28520ba3c/pbit-20-0.json",
+      "source_sha256": "b515d741b734b75891d5204efb5755087f2e303146ff3525be56318f2a1e1b93"
+    },
+    {
+      "case_id": "nlco_MIS_M_045",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.007704351097345352,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52097e3b8a4ea48342a3325b85dfada9b531948aa25055b67103b88fc4f422bb/cp_sat-20-0.json",
+      "source_sha256": "4d469b7435908759e8629f74e1a04e6eba2d45c452a1e2ea6bcceba1def6d229"
+    },
+    {
+      "case_id": "nlco_MIS_M_045",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.014623751863837242,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52097e3b8a4ea48342a3325b85dfada9b531948aa25055b67103b88fc4f422bb/scip-20-0.json",
+      "source_sha256": "2db9c482efe5dd562fa9080addaa8ff23222baaf0779440e03f8b09d91ea69dc"
+    },
+    {
+      "case_id": "nlco_MIS_M_045",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.004949260503053665,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52097e3b8a4ea48342a3325b85dfada9b531948aa25055b67103b88fc4f422bb/highs-20-0.json",
+      "source_sha256": "626f907cf571f8d3f8e64387621f381a6d98a37f30d35c9543d28c935e54688f"
+    },
+    {
+      "case_id": "nlco_MIS_M_045",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000091342255473,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52097e3b8a4ea48342a3325b85dfada9b531948aa25055b67103b88fc4f422bb/sa-20-0.json",
+      "source_sha256": "987a7ba5906a5f956b03e6a55981758f16c2f8b8941d47676c309bfbb548e54a"
+    },
+    {
+      "case_id": "nlco_MIS_M_045",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00006207637489,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52097e3b8a4ea48342a3325b85dfada9b531948aa25055b67103b88fc4f422bb/pt-20-0.json",
+      "source_sha256": "c8b0b5f5b98a01fd7da2ed6a5b4876359bc038ed914095f3f1b7af19987a3b3f"
+    },
+    {
+      "case_id": "nlco_MIS_M_045",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000045992434025,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52097e3b8a4ea48342a3325b85dfada9b531948aa25055b67103b88fc4f422bb/penalty_pt-20-0.json",
+      "source_sha256": "1425bd8df81bdefee2b74aabc1d248f1db50c92dbddec56a1b79ad299dda5c04"
+    },
+    {
+      "case_id": "nlco_MIS_M_045",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000187864527106,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52097e3b8a4ea48342a3325b85dfada9b531948aa25055b67103b88fc4f422bb/pbit-20-0.json",
+      "source_sha256": "9a591678110c17d438bc12e18313aec58b1da738cbe625cd09b63e799c358de2"
+    },
+    {
+      "case_id": "nlco_MVC_M_019",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.004856696352362633,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/6b500d9095b19e47a227099cea0d2ed3b0a0ddfd3b3c586186a59817146c189c/cp_sat-20-0.json",
+      "source_sha256": "85e1583222a01fb5d135040d7ee3b30d0f9665e5dace5e80c0045c7721678b3c"
+    },
+    {
+      "case_id": "nlco_MVC_M_019",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.008594788610935211,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/6b500d9095b19e47a227099cea0d2ed3b0a0ddfd3b3c586186a59817146c189c/scip-20-0.json",
+      "source_sha256": "b962f5623f5fc871de2c3df006707cfbee3e6ec54babd7df1b76675f64794f69"
+    },
+    {
+      "case_id": "nlco_MVC_M_019",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.0025431644171476364,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/6b500d9095b19e47a227099cea0d2ed3b0a0ddfd3b3c586186a59817146c189c/highs-20-0.json",
+      "source_sha256": "c2b710b0e39dbdf1f04d837a29d1b4139df47308e5665efb9e0bc13ce8c201af"
+    },
+    {
+      "case_id": "nlco_MVC_M_019",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00007482431829,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/6b500d9095b19e47a227099cea0d2ed3b0a0ddfd3b3c586186a59817146c189c/sa-20-0.json",
+      "source_sha256": "743197e9b2108f07e22add6168a9321b3f4264604c49fb39c7ac276b0ea29eda"
+    },
+    {
+      "case_id": "nlco_MVC_M_019",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00006528198719,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/6b500d9095b19e47a227099cea0d2ed3b0a0ddfd3b3c586186a59817146c189c/pt-20-0.json",
+      "source_sha256": "cca849a8647f9db25f0586a5fa514025039fe1132635ad7c5f2c3deb2fafaf9d"
+    },
+    {
+      "case_id": "nlco_MVC_M_019",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000243389979005,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/6b500d9095b19e47a227099cea0d2ed3b0a0ddfd3b3c586186a59817146c189c/penalty_pt-20-0.json",
+      "source_sha256": "220e6a656d24570a11bc62fd0ae9da5e63211bdc0bd4b0f6f390c2bbf319d2a9"
+    },
+    {
+      "case_id": "nlco_MVC_M_019",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000058030709624,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/6b500d9095b19e47a227099cea0d2ed3b0a0ddfd3b3c586186a59817146c189c/pbit-20-0.json",
+      "source_sha256": "3aeda9e929c54fe3fd01131ce401627aee2632c40e3f179722ff8023c0a085fc"
+    },
+    {
+      "case_id": "nlco_MVC_M_019",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.008247215300798416,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4098a3946a3639ce061e81493d2fa8b2b46b36e0bc21ce07a65c71706dd74a91/cp_sat-20-0.json",
+      "source_sha256": "26d7dd64a506695c17de76748cf79b5b7ec6ea81c35f73fa505ee7bda112e2a6"
+    },
+    {
+      "case_id": "nlco_MVC_M_019",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.006895039230585098,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4098a3946a3639ce061e81493d2fa8b2b46b36e0bc21ce07a65c71706dd74a91/scip-20-0.json",
+      "source_sha256": "e13091bd932521118a691b99ff46da1d18e7225b341b65a328dd60d50a1866e3"
+    },
+    {
+      "case_id": "nlco_MVC_M_019",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.027591248974204063,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4098a3946a3639ce061e81493d2fa8b2b46b36e0bc21ce07a65c71706dd74a91/highs-20-0.json",
+      "source_sha256": "5c6b2725fad176b28c516b6f47cfad1192103761a32dce564be9e4f8b4c10322"
+    },
+    {
+      "case_id": "nlco_MVC_M_019",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00019607692957,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4098a3946a3639ce061e81493d2fa8b2b46b36e0bc21ce07a65c71706dd74a91/sa-20-0.json",
+      "source_sha256": "e7ac588d5450e79ef204925eef17c94ae32a5285feb7076c8fa97e577738054b"
+    },
+    {
+      "case_id": "nlco_MVC_M_019",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000203169882298,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4098a3946a3639ce061e81493d2fa8b2b46b36e0bc21ce07a65c71706dd74a91/pt-20-0.json",
+      "source_sha256": "6a086ba7ff33779db215d40d2caf15e6905731b61fef231eb28c8626a50f8567"
+    },
+    {
+      "case_id": "nlco_MVC_M_019",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00027292780578,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4098a3946a3639ce061e81493d2fa8b2b46b36e0bc21ce07a65c71706dd74a91/penalty_pt-20-0.json",
+      "source_sha256": "30c1ec4f5a82e02134315a311fa032db9d82de8a22ade1fe409928960dffea52"
+    },
+    {
+      "case_id": "nlco_MVC_M_019",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00008882023394,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/4098a3946a3639ce061e81493d2fa8b2b46b36e0bc21ce07a65c71706dd74a91/pbit-20-0.json",
+      "source_sha256": "da82855b45d4195cbdc673f058df90d2d177a623e5a82c75e5af0d4b3c41fcb2"
+    },
+    {
+      "case_id": "nlco_KP_L_033",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.005578979849815369,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/5cb77a9f9d0df65c87e3f0f1d19088b33d2dda1818c16026f9cc1ffc904fd819/cp_sat-20-0.json",
+      "source_sha256": "6c80526bd634e8a85449b48fe688944de32f74a43a880db68b2c2ad5851f9c87"
+    },
+    {
+      "case_id": "nlco_KP_L_033",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.009137770161032677,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/5cb77a9f9d0df65c87e3f0f1d19088b33d2dda1818c16026f9cc1ffc904fd819/scip-20-0.json",
+      "source_sha256": "89db71ad9881e371e70d4e80ea2e1ab84a607d254a6d24de7a626aa196008083"
+    },
+    {
+      "case_id": "nlco_KP_L_033",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.04363413155078888,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/5cb77a9f9d0df65c87e3f0f1d19088b33d2dda1818c16026f9cc1ffc904fd819/highs-20-0.json",
+      "source_sha256": "2a0aa9edee1f1129af72b0f2f7a1485609086229702463f863bb1ba3694c40e1"
+    },
+    {
+      "case_id": "nlco_KP_L_033",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000108832493424,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/5cb77a9f9d0df65c87e3f0f1d19088b33d2dda1818c16026f9cc1ffc904fd819/sa-20-0.json",
+      "source_sha256": "0713192ee85a08b01a6078876044f90ecd246b2aac48f1f1d2d9ed42c2e229b6"
+    },
+    {
+      "case_id": "nlco_KP_L_033",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000135546550155,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/5cb77a9f9d0df65c87e3f0f1d19088b33d2dda1818c16026f9cc1ffc904fd819/pt-20-0.json",
+      "source_sha256": "4e39db878f8e8662556ad2444a12880032486b5e091c929bcfd9f6781a83127a"
+    },
+    {
+      "case_id": "nlco_KP_L_033",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00019328854978,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/5cb77a9f9d0df65c87e3f0f1d19088b33d2dda1818c16026f9cc1ffc904fd819/penalty_pt-20-0.json",
+      "source_sha256": "6a08ea90e86987d678e18fe573fc2149dd2d2efc05dbb63055e89c26cfd63b15"
+    },
+    {
+      "case_id": "nlco_KP_L_033",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000129273161292,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/5cb77a9f9d0df65c87e3f0f1d19088b33d2dda1818c16026f9cc1ffc904fd819/pbit-20-0.json",
+      "source_sha256": "6af0fcb7f32935a5c3311dd5b6f77b802ee4fe2bec113a8095b0784b7eca0286"
+    },
+    {
+      "case_id": "nlco_KP_L_033",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.005410000681877136,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/fd117b3af46bc4be04928f1b5eb22744b3bed779a3c02836819517842d9c2b92/cp_sat-20-0.json",
+      "source_sha256": "cd33b27579dc8135c9033d20ea5e23f3b97bdeefd3e5beb34e65946123749eee"
+    },
+    {
+      "case_id": "nlco_KP_L_033",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.00918886810541153,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/fd117b3af46bc4be04928f1b5eb22744b3bed779a3c02836819517842d9c2b92/scip-20-0.json",
+      "source_sha256": "de95958f29959edb274289f7915aacb7b9e63274c118828fb8e0e5b93caad171"
+    },
+    {
+      "case_id": "nlco_KP_L_033",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.04167510196566582,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/fd117b3af46bc4be04928f1b5eb22744b3bed779a3c02836819517842d9c2b92/highs-20-0.json",
+      "source_sha256": "cfed31af8f5e8d1b62da846e8f2ea1641039c8c484ceebe26ac365216b6c70b6"
+    },
+    {
+      "case_id": "nlco_KP_L_033",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000077603384852,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/fd117b3af46bc4be04928f1b5eb22744b3bed779a3c02836819517842d9c2b92/sa-20-0.json",
+      "source_sha256": "7dd88f31b332ddc571f735a6dd33be8d861e6dc560701d5d9249de1365ad2bba"
+    },
+    {
+      "case_id": "nlco_KP_L_033",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000149780884385,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/fd117b3af46bc4be04928f1b5eb22744b3bed779a3c02836819517842d9c2b92/pt-20-0.json",
+      "source_sha256": "fed0736a74777b1ba852528ecb6cae87568bdc79fdc1a76ca432789bb9ea3035"
+    },
+    {
+      "case_id": "nlco_KP_L_033",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00008831731975,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/fd117b3af46bc4be04928f1b5eb22744b3bed779a3c02836819517842d9c2b92/penalty_pt-20-0.json",
+      "source_sha256": "8527d84be7ebaeb9b96e373bf3483a1949af00747704f3bdb0fc61184b711e4a"
+    },
+    {
+      "case_id": "nlco_KP_L_033",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000078363344073,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/fd117b3af46bc4be04928f1b5eb22744b3bed779a3c02836819517842d9c2b92/pbit-20-0.json",
+      "source_sha256": "64c72e0e2d2429a6b4fd4a99d8a707b8cae64b93e37c3b695a546aca980969e3"
+    },
+    {
+      "case_id": "nlco_MAXCUT_L_038",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 77.14285714285714,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.005218576639890671,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/ab7a3eb68ac93756a15d888b0bd287bc75055d1bf43aa21940cabf5a4d4acd65/cp_sat-20-0.json",
+      "source_sha256": "5b54db998b5ece8d6d76d2b9502a8a3e4cff59bfe80adda77fc54660d17bd4d9"
+    },
+    {
+      "case_id": "nlco_MAXCUT_L_038",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 65.71428571428571,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.010622203350067139,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/ab7a3eb68ac93756a15d888b0bd287bc75055d1bf43aa21940cabf5a4d4acd65/scip-20-0.json",
+      "source_sha256": "4e5739b540e3c6afb929f6df8077dd6d3a986bcfe6f0b33998a2d7524c54ee2c"
+    },
+    {
+      "case_id": "nlco_MAXCUT_L_038",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 77.14285714285714,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.0025901924818754196,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/ab7a3eb68ac93756a15d888b0bd287bc75055d1bf43aa21940cabf5a4d4acd65/highs-20-0.json",
+      "source_sha256": "671796a7cbc97c0a2a059751069ae1677a450cb7369f8ce880ee3054df6f4069"
+    },
+    {
+      "case_id": "nlco_MAXCUT_L_038",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 65.71428571428571,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000065188854933,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/ab7a3eb68ac93756a15d888b0bd287bc75055d1bf43aa21940cabf5a4d4acd65/sa-20-0.json",
+      "source_sha256": "9d9675af10da4d12a2f8d45e2ebc68e3e2a4e6966116eef948b6c95a6f991ba0"
+    },
+    {
+      "case_id": "nlco_MAXCUT_L_038",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 51.42857142857143,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000157983973622,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/ab7a3eb68ac93756a15d888b0bd287bc75055d1bf43aa21940cabf5a4d4acd65/pt-20-0.json",
+      "source_sha256": "4e4a4547a672bbc2d3b2b973d5cabb0ab1ed23e52e1f0fabec122db0b6b46495"
+    },
+    {
+      "case_id": "nlco_MAXCUT_L_038",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 51.42857142857143,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000113736838102,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/ab7a3eb68ac93756a15d888b0bd287bc75055d1bf43aa21940cabf5a4d4acd65/penalty_pt-20-0.json",
+      "source_sha256": "3da4449cb63e5cf119eb81ae37b3e67b3308fd4229622238b505e1088fa1b09a"
+    },
+    {
+      "case_id": "nlco_MAXCUT_L_038",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 51.42857142857143,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000100703909993,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/ab7a3eb68ac93756a15d888b0bd287bc75055d1bf43aa21940cabf5a4d4acd65/pbit-20-0.json",
+      "source_sha256": "a2cafe463176fd79397fc20685ae8c3dddd1a52edb13d9625b81d7863060153d"
+    },
+    {
+      "case_id": "nlco_MAXCUT_L_038",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.6869753748178482,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/aaea2fc5e17d10880ee4d9e1bafceac5d09364f76e5bf566b3df78d5313375d1/cp_sat-20-0.json",
+      "source_sha256": "cea6f80185f2677a627e10a6df8e814b7440fe7da5808f5dbdbecc3670e38e18"
+    },
+    {
+      "case_id": "nlco_MAXCUT_L_038",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.07384289614856243,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/aaea2fc5e17d10880ee4d9e1bafceac5d09364f76e5bf566b3df78d5313375d1/scip-20-0.json",
+      "source_sha256": "dbdd1fba14e83c3cb7153b12db7182d11e67ce9f457c71ef0664b1a4ea4d6baf"
+    },
+    {
+      "case_id": "nlco_MAXCUT_L_038",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.09936188161373138,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/aaea2fc5e17d10880ee4d9e1bafceac5d09364f76e5bf566b3df78d5313375d1/highs-20-0.json",
+      "source_sha256": "c16a4ab79e0b7e8b15a0474750992013418068207b2dec19cc054bd04ccb3c3b"
+    },
+    {
+      "case_id": "nlco_MAXCUT_L_038",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00021012686193,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/aaea2fc5e17d10880ee4d9e1bafceac5d09364f76e5bf566b3df78d5313375d1/sa-20-0.json",
+      "source_sha256": "f29bb9c7545a02c054ad82c01a5418ffeeaff6f24aefbe78bfac78dfdbf3796b"
+    },
+    {
+      "case_id": "nlco_MAXCUT_L_038",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000181494280696,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/aaea2fc5e17d10880ee4d9e1bafceac5d09364f76e5bf566b3df78d5313375d1/pt-20-0.json",
+      "source_sha256": "35dc2181853ee9f8f13ca7fc702b60cf6706cc8dd9a3cadec1d45cbd731e32a7"
+    },
+    {
+      "case_id": "nlco_MAXCUT_L_038",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000225389376283,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/aaea2fc5e17d10880ee4d9e1bafceac5d09364f76e5bf566b3df78d5313375d1/penalty_pt-20-0.json",
+      "source_sha256": "268704dd3d056fb73ebe5ede2ed4de1fd0105f5ebe27f7d3257d067472524a8e"
+    },
+    {
+      "case_id": "nlco_MAXCUT_L_038",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000270741060376,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/aaea2fc5e17d10880ee4d9e1bafceac5d09364f76e5bf566b3df78d5313375d1/pbit-20-0.json",
+      "source_sha256": "44f69982d9cb00002751448536fb91b233ba6acdb940e951d5ee9c24b3cc2c32"
+    },
+    {
+      "case_id": "nlco_MCP_L_037",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": null,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/293c493dd1a0442fdd80cc53584e4a139c344a455ee8c893a78adfb2b768bf31/cp_sat-20-0.json",
+      "source_sha256": "d1a551189cb423300f2a1542a111408dfdbebb6834d03e126edb0abccafee31b"
+    },
+    {
+      "case_id": "nlco_MCP_L_037",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": null,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/293c493dd1a0442fdd80cc53584e4a139c344a455ee8c893a78adfb2b768bf31/scip-20-0.json",
+      "source_sha256": "f72010435962acbeacbed9645af6d74dbd3b70ff95c3af12f02cddc6397b57a9"
+    },
+    {
+      "case_id": "nlco_MCP_L_037",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": null,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/293c493dd1a0442fdd80cc53584e4a139c344a455ee8c893a78adfb2b768bf31/highs-20-0.json",
+      "source_sha256": "410fbfafee769afd6f703ee0617ac4802a3e060bf7d6b5740bf8633c8be21485"
+    },
+    {
+      "case_id": "nlco_MCP_L_037",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": null,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/293c493dd1a0442fdd80cc53584e4a139c344a455ee8c893a78adfb2b768bf31/sa-20-0.json",
+      "source_sha256": "99903818026cea878ae98d6bb5a26f2968bfb9bc997c60626139c8142408b797"
+    },
+    {
+      "case_id": "nlco_MCP_L_037",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": null,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/293c493dd1a0442fdd80cc53584e4a139c344a455ee8c893a78adfb2b768bf31/pt-20-0.json",
+      "source_sha256": "a62c52b58b75907feb49d31eb788c981edeae22919de56f5cf92ba414e49578e"
+    },
+    {
+      "case_id": "nlco_MCP_L_037",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": null,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/293c493dd1a0442fdd80cc53584e4a139c344a455ee8c893a78adfb2b768bf31/penalty_pt-20-0.json",
+      "source_sha256": "d9d971cfb613379387587474d394baf29eacbe4b4fcc4724f0f10807a5c9eacd"
+    },
+    {
+      "case_id": "nlco_MCP_L_037",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": null,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/293c493dd1a0442fdd80cc53584e4a139c344a455ee8c893a78adfb2b768bf31/pbit-20-0.json",
+      "source_sha256": "ed622413695d9e35d9d593d90f8d10f657f0651a6ba3af310739d9a5c14c641c"
+    },
+    {
+      "case_id": "nlco_MCP_L_037",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.03272997587919235,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/b9294784c0e52b44ec5107090c1213284a381a0713aa31a4957ef4111b96f3ca/cp_sat-20-0.json",
+      "source_sha256": "bcfb7c06a5471cf1342bae9563ba7a811d756391b8a71a33de85b4f229072370"
+    },
+    {
+      "case_id": "nlco_MCP_L_037",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.03518933244049549,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/b9294784c0e52b44ec5107090c1213284a381a0713aa31a4957ef4111b96f3ca/scip-20-0.json",
+      "source_sha256": "805417c3ab3347f2292bc7b7a05e61c2224d48acd66ee7f6f8967b42c38fc043"
+    },
+    {
+      "case_id": "nlco_MCP_L_037",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.04145725257694721,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/b9294784c0e52b44ec5107090c1213284a381a0713aa31a4957ef4111b96f3ca/highs-20-0.json",
+      "source_sha256": "10db3b810ecf92a97141850dea90e2711950588a5fc33041deee2da4f7190fa0"
+    },
+    {
+      "case_id": "nlco_MCP_L_037",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000435272231698,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/b9294784c0e52b44ec5107090c1213284a381a0713aa31a4957ef4111b96f3ca/sa-20-0.json",
+      "source_sha256": "a62e3f7e7a00228a165d4e1f6085c792b72cce3d7ebdb0f5a73a0ad9df0b74da"
+    },
+    {
+      "case_id": "nlco_MCP_L_037",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.001029448583722,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/b9294784c0e52b44ec5107090c1213284a381a0713aa31a4957ef4111b96f3ca/pt-20-0.json",
+      "source_sha256": "b7d6f5a1379b92b1fe5c18a1298d5ab091d24093cb8b00caa359eb10dd6ed0b1"
+    },
+    {
+      "case_id": "nlco_MCP_L_037",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000955495983362,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/b9294784c0e52b44ec5107090c1213284a381a0713aa31a4957ef4111b96f3ca/penalty_pt-20-0.json",
+      "source_sha256": "31f72643f2596881a0375e62b5c1fcfe0970ece664227cb9de210c0dd06ed653"
+    },
+    {
+      "case_id": "nlco_MCP_L_037",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00021238811314,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/b9294784c0e52b44ec5107090c1213284a381a0713aa31a4957ef4111b96f3ca/pbit-20-0.json",
+      "source_sha256": "48de64b15e456f2acfb6a5f90cba776ec644482588316232af4d6a7ef0175a4e"
+    },
+    {
+      "case_id": "nlco_MDS_L_014",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 177.77777777777777,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.009493611752986908,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/eef4f20644649892eeb702bf9e52571ad14e7797fefcea6aba0f4fc5f775cde7/cp_sat-20-0.json",
+      "source_sha256": "c3ed2b7fb88c4f64bf79ab53a0a7b3a4bbb97770a6986a94e01d4095a8a35199"
+    },
+    {
+      "case_id": "nlco_MDS_L_014",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 177.77777777777777,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.01325938105583191,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/eef4f20644649892eeb702bf9e52571ad14e7797fefcea6aba0f4fc5f775cde7/scip-20-0.json",
+      "source_sha256": "594eec8d66cc84937be4637b24f4ad92eaf21e603d2bbd86b55783ca2ae0fcce"
+    },
+    {
+      "case_id": "nlco_MDS_L_014",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 177.77777777777777,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.007069889456033707,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/eef4f20644649892eeb702bf9e52571ad14e7797fefcea6aba0f4fc5f775cde7/highs-20-0.json",
+      "source_sha256": "17bf69cfa33bb564f398889128e2c1074a792ba9f3906ea3df44474e19b5cd32"
+    },
+    {
+      "case_id": "nlco_MDS_L_014",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 177.77777777777777,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00030048750341,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/eef4f20644649892eeb702bf9e52571ad14e7797fefcea6aba0f4fc5f775cde7/sa-20-0.json",
+      "source_sha256": "845319fca8309c8a7c1f540157cd9ce48478cdf8b041cd080c21e98f0b2396d4"
+    },
+    {
+      "case_id": "nlco_MDS_L_014",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 177.77777777777777,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000089783221483,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/eef4f20644649892eeb702bf9e52571ad14e7797fefcea6aba0f4fc5f775cde7/pt-20-0.json",
+      "source_sha256": "d48091d11ed7756df058f55067dd3f123580bc148718f1d22abb2853f4c13ff5"
+    },
+    {
+      "case_id": "nlco_MDS_L_014",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 177.77777777777777,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00030582025647,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/eef4f20644649892eeb702bf9e52571ad14e7797fefcea6aba0f4fc5f775cde7/penalty_pt-20-0.json",
+      "source_sha256": "ae64809f7cd5b1d963df5170aeaaac0212ea15050a9ad385069d84ac99f33f54"
+    },
+    {
+      "case_id": "nlco_MDS_L_014",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 177.77777777777777,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000175651162863,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/eef4f20644649892eeb702bf9e52571ad14e7797fefcea6aba0f4fc5f775cde7/pbit-20-0.json",
+      "source_sha256": "5d491e6adb07e8017c7b859363371a1c9addece204c079bd2160abfe93128c6f"
+    },
+    {
+      "case_id": "nlco_MDS_L_014",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.01046820916235447,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/10ffb1b275401e04ad5b548959624b365dfc35c68ceacb01343657b20382a64a/cp_sat-20-0.json",
+      "source_sha256": "7707ac820e51942748bc5a9c8b9d56d59df40421c6f4b1a243123e0a168b1a95"
+    },
+    {
+      "case_id": "nlco_MDS_L_014",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.013936338946223259,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/10ffb1b275401e04ad5b548959624b365dfc35c68ceacb01343657b20382a64a/scip-20-0.json",
+      "source_sha256": "500cd069ad01b595424c991b428ada2fb4ffc644c2cf147d4948ca79191dab44"
+    },
+    {
+      "case_id": "nlco_MDS_L_014",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.021642468869686127,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/10ffb1b275401e04ad5b548959624b365dfc35c68ceacb01343657b20382a64a/highs-20-0.json",
+      "source_sha256": "269dc12fa4b1388be1156d2d49d76130cec541daf9a0c4c536a94249c0791dc9"
+    },
+    {
+      "case_id": "nlco_MDS_L_014",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00012404844165,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/10ffb1b275401e04ad5b548959624b365dfc35c68ceacb01343657b20382a64a/sa-20-0.json",
+      "source_sha256": "4fd54813e3cfbae577a6d5b5f063e0e066515d84c741482df2400c64e355e86a"
+    },
+    {
+      "case_id": "nlco_MDS_L_014",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000088915228844,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/10ffb1b275401e04ad5b548959624b365dfc35c68ceacb01343657b20382a64a/pt-20-0.json",
+      "source_sha256": "fceee1a63e87746576115250a7af487d1334e6cc39f7cfe328936da2fa282d44"
+    },
+    {
+      "case_id": "nlco_MDS_L_014",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00009921565652,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/10ffb1b275401e04ad5b548959624b365dfc35c68ceacb01343657b20382a64a/penalty_pt-20-0.json",
+      "source_sha256": "5df4165c9c67e1f1cfec8e9a2e7c13dd5922c9e8298d6acfcdd919a33acbe261"
+    },
+    {
+      "case_id": "nlco_MDS_L_014",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000804727897048,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/10ffb1b275401e04ad5b548959624b365dfc35c68ceacb01343657b20382a64a/pbit-20-0.json",
+      "source_sha256": "7d8e26b5f1ba4ff5326e42b3b55f7db50d74f79a8ce833c943ed3fec0515ea6e"
+    },
+    {
+      "case_id": "nlco_MIS_L_013",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.00506485253572464,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52df987b1175e574f55889700597e216f67d9258726ed9322b844710b8740f1d/cp_sat-20-0.json",
+      "source_sha256": "c7beea28919e9b191f0cfe8c024a16cb073762a406e0e80deb68e7e585f15aca"
+    },
+    {
+      "case_id": "nlco_MIS_L_013",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.008945340290665627,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52df987b1175e574f55889700597e216f67d9258726ed9322b844710b8740f1d/scip-20-0.json",
+      "source_sha256": "5d1d55520484fdec79436cfcc5c584c6e201741c894e73d7a451fd18e49ff378"
+    },
+    {
+      "case_id": "nlco_MIS_L_013",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.002577943727374077,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52df987b1175e574f55889700597e216f67d9258726ed9322b844710b8740f1d/highs-20-0.json",
+      "source_sha256": "115caa8489e3f12ea35ed22f9806a5d1d88e611f6d314de22c1c26df4b0856e5"
+    },
+    {
+      "case_id": "nlco_MIS_L_013",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000097900629044,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52df987b1175e574f55889700597e216f67d9258726ed9322b844710b8740f1d/sa-20-0.json",
+      "source_sha256": "eb2a7fd771f418578f753648c6f4989f03d27b869a19292019b1e735954420ff"
+    },
+    {
+      "case_id": "nlco_MIS_L_013",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000155268236995,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52df987b1175e574f55889700597e216f67d9258726ed9322b844710b8740f1d/pt-20-0.json",
+      "source_sha256": "abe9bc2181c20ce6f1d0add12448ebf82f8bba932d5f43fc1377be58b73b4354"
+    },
+    {
+      "case_id": "nlco_MIS_L_013",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00012525729835,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52df987b1175e574f55889700597e216f67d9258726ed9322b844710b8740f1d/penalty_pt-20-0.json",
+      "source_sha256": "82ff4623ba9382f43205c1c6c9bfeb27475481352856ce2402b70f1ef9ce2524"
+    },
+    {
+      "case_id": "nlco_MIS_L_013",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": 100.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00005105882883,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/52df987b1175e574f55889700597e216f67d9258726ed9322b844710b8740f1d/pbit-20-0.json",
+      "source_sha256": "a377d66b781ed06d7fb2f1c409e0bc5cc2c9c0955309d87477e7d14d12cf51b7"
+    },
+    {
+      "case_id": "nlco_MIS_L_013",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.010737530887126923,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/301ec1395067fbb9f6966afd7ff0ecfff0665d9d47a961bf70f9b45ed4d174d2/cp_sat-20-0.json",
+      "source_sha256": "54d84c6f9f2cdf0a7e31c651c3fdbf9e30a7b0a9a503e2bd5d6bdbd01056103a"
+    },
+    {
+      "case_id": "nlco_MIS_L_013",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.02832312323153019,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/301ec1395067fbb9f6966afd7ff0ecfff0665d9d47a961bf70f9b45ed4d174d2/scip-20-0.json",
+      "source_sha256": "04284fb5d0f5ad96c617b4ce7288b7013447d34368d34acb1b446a31488fd259"
+    },
+    {
+      "case_id": "nlco_MIS_L_013",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.05023881047964096,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/301ec1395067fbb9f6966afd7ff0ecfff0665d9d47a961bf70f9b45ed4d174d2/highs-20-0.json",
+      "source_sha256": "6999c6edd66141c3d79a9e7d073fb527fc237ce2db05ef6a5b6f49918eb3516a"
+    },
+    {
+      "case_id": "nlco_MIS_L_013",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000086007639766,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/301ec1395067fbb9f6966afd7ff0ecfff0665d9d47a961bf70f9b45ed4d174d2/sa-20-0.json",
+      "source_sha256": "543022974fb3ec05db6c1761e99e97ff4b670baf1e60809ef94cbcce0b3200b2"
+    },
+    {
+      "case_id": "nlco_MIS_L_013",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000191379338503,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/301ec1395067fbb9f6966afd7ff0ecfff0665d9d47a961bf70f9b45ed4d174d2/pt-20-0.json",
+      "source_sha256": "14fe6fb254cbafeb4eed6dbb38f7afd569db197a36e59ffe2baef1da16b5b116"
+    },
+    {
+      "case_id": "nlco_MIS_L_013",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000247424468398,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/301ec1395067fbb9f6966afd7ff0ecfff0665d9d47a961bf70f9b45ed4d174d2/penalty_pt-20-0.json",
+      "source_sha256": "b9681e09dc81aea6eafd64bc6de11222771e1f45097ccd87db5817e7e49ea14f"
+    },
+    {
+      "case_id": "nlco_MIS_L_013",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": -0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00034650415182,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/301ec1395067fbb9f6966afd7ff0ecfff0665d9d47a961bf70f9b45ed4d174d2/pbit-20-0.json",
+      "source_sha256": "5cac238d083a1859680fed4c361d48cade7819233fbd0837e0bfde8cae872935"
+    },
+    {
+      "case_id": "nlco_MVC_L_011",
+      "method": "E003/llm_typed_flat/cp_sat",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.004837179556488991,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/b42218e148209d3d7dc16b1cf12909391a8f22cea0d51d78a3bfe6ba8a3245f9/cp_sat-20-0.json",
+      "source_sha256": "c28362c782ffb7afd3666037ea11b6d4b21e50932409545445678ca780bc9930"
+    },
+    {
+      "case_id": "nlco_MVC_L_011",
+      "method": "E003/llm_typed_flat/scip",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.005724238231778145,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/b42218e148209d3d7dc16b1cf12909391a8f22cea0d51d78a3bfe6ba8a3245f9/scip-20-0.json",
+      "source_sha256": "6af2050783be7628f42389df965c936bc7d86b1eb0b6bee26a6f372302a043ec"
+    },
+    {
+      "case_id": "nlco_MVC_L_011",
+      "method": "E003/llm_typed_flat/highs",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.0020603500306606293,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/b42218e148209d3d7dc16b1cf12909391a8f22cea0d51d78a3bfe6ba8a3245f9/highs-20-0.json",
+      "source_sha256": "547ed36d437d5fc12e2321f6c45082180dcc240a28ac506736b8ff7d30d689bd"
+    },
+    {
+      "case_id": "nlco_MVC_L_011",
+      "method": "E003/llm_typed_flat/sa",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000203797593713,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/b42218e148209d3d7dc16b1cf12909391a8f22cea0d51d78a3bfe6ba8a3245f9/sa-20-0.json",
+      "source_sha256": "69da3da00ebc04eff0976f27b0f82231fefb38a5e77559b837d6e4b809bdba5f"
+    },
+    {
+      "case_id": "nlco_MVC_L_011",
+      "method": "E003/llm_typed_flat/pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00010679475963,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/b42218e148209d3d7dc16b1cf12909391a8f22cea0d51d78a3bfe6ba8a3245f9/pt-20-0.json",
+      "source_sha256": "aded318663a3cbd39599f73284345214cbe7d024df2368a355608df9cf470f98"
+    },
+    {
+      "case_id": "nlco_MVC_L_011",
+      "method": "E003/llm_typed_flat/penalty_pt",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00025174766779,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/b42218e148209d3d7dc16b1cf12909391a8f22cea0d51d78a3bfe6ba8a3245f9/penalty_pt-20-0.json",
+      "source_sha256": "a15a2ff8ec7ee7da005b1dc49c03e18c8639b2b0f94654355788edf9f997ca4e"
+    },
+    {
+      "case_id": "nlco_MVC_L_011",
+      "method": "E003/llm_typed_flat/pbit",
+      "metrics": {
+        "original_feasible": false,
+        "optimal_hit": false,
+        "quality1": false,
+        "quality5": false,
+        "gap_percent": null,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000212501734495,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/b42218e148209d3d7dc16b1cf12909391a8f22cea0d51d78a3bfe6ba8a3245f9/pbit-20-0.json",
+      "source_sha256": "305a9be1417f4c3e980df3e808bef57e0b8b85653212c55c7e05c0500266747c"
+    },
+    {
+      "case_id": "nlco_MVC_L_011",
+      "method": "E003/canonical/cp_sat",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.00852687656879425,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/c28b5b253e02b120aa62094dfbe6807cd2b060f783a10f1936cb2aefe3b6294b/cp_sat-20-0.json",
+      "source_sha256": "c3a2bf9837a69cde738fef9d91094a27840f910be4fe30080eda93c97ec4f128"
+    },
+    {
+      "case_id": "nlco_MVC_L_011",
+      "method": "E003/canonical/scip",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.013744832947850227,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/c28b5b253e02b120aa62094dfbe6807cd2b060f783a10f1936cb2aefe3b6294b/scip-20-0.json",
+      "source_sha256": "2fb7999240980baf831f60fe967c860fe3fc364d778491404b873c5b12e0a691"
+    },
+    {
+      "case_id": "nlco_MVC_L_011",
+      "method": "E003/canonical/highs",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 0.02760067582130432,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/c28b5b253e02b120aa62094dfbe6807cd2b060f783a10f1936cb2aefe3b6294b/highs-20-0.json",
+      "source_sha256": "68c63801b202716b86319650110305f7d60d0cdb15de0bd6c0379a46f6c057c4"
+    },
+    {
+      "case_id": "nlco_MVC_L_011",
+      "method": "E003/canonical/sa",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00018521398306,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/c28b5b253e02b120aa62094dfbe6807cd2b060f783a10f1936cb2aefe3b6294b/sa-20-0.json",
+      "source_sha256": "96640c8f917940de69b13030f889957d060489764752d99f18477fcaea008415"
+    },
+    {
+      "case_id": "nlco_MVC_L_011",
+      "method": "E003/canonical/pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.000219825655222,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/c28b5b253e02b120aa62094dfbe6807cd2b060f783a10f1936cb2aefe3b6294b/pt-20-0.json",
+      "source_sha256": "d2120656421701eec1c3ca7457a00e828f9d380e9bb3a829bf9a80521d435a5a"
+    },
+    {
+      "case_id": "nlco_MVC_L_011",
+      "method": "E003/canonical/penalty_pt",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00009610876441,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/c28b5b253e02b120aa62094dfbe6807cd2b060f783a10f1936cb2aefe3b6294b/penalty_pt-20-0.json",
+      "source_sha256": "4b13e75b5dc40adc8d7e7f8774e267928504dc1c72340086f7bcb1b58680a1c2"
+    },
+    {
+      "case_id": "nlco_MVC_L_011",
+      "method": "E003/canonical/pbit",
+      "metrics": {
+        "original_feasible": true,
+        "optimal_hit": true,
+        "quality1": true,
+        "quality5": true,
+        "gap_percent": 0.0,
+        "proven_reference": true
+      },
+      "solver_wall_seconds": 20.00012543424964,
+      "source_path": "/inspire/hdd/global_user/czxs25210022/why/results/E003-1.1_public_solvers/scores/c28b5b253e02b120aa62094dfbe6807cd2b060f783a10f1936cb2aefe3b6294b/pbit-20-0.json",
+      "source_sha256": "babdf2528a3e82147717efa022b50eb5de4e68d045e63ac5fbcd63f7be72453a"
+    }
+  ]
+}

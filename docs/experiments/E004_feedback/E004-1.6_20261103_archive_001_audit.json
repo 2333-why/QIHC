@@ -1,0 +1,1982 @@
+{
+  "experiment_id": "E004-1.6",
+  "archive_path": "E:\\E004-1.6_feedback_quick_30m_fix2_analysis.tar.gz",
+  "archive_sha256": "8c2606766aa19beb71db1a48dff97917355c350a983e783f604602d37a1538d7",
+  "code_commit": "de2c6bd8d01b6b73187c4740c85687632a259f64",
+  "source_hash": "084f825ba24f50c6ff7cb43d0be38c083e9b5e24b6a0973b079bd4d3a7f37071",
+  "start_shanghai": "2026-11-03T20:43:21.072382+08:00",
+  "stop_shanghai": "2026-11-03T20:53:55.912975+08:00",
+  "launch_through_first_report_seconds": 634.840592622757,
+  "prepare_seconds": 87.64538194611669,
+  "trajectory_score_checks": 36,
+  "cross_score_and_snapshot_checks": 336,
+  "score_discrepancies": 0,
+  "semantic_exhaustive_checks": {
+    "disproved": 57,
+    "verified_correct": 19,
+    "invalid": 14
+  },
+  "unique_semantic_inputs": 38,
+  "semantic_details": [
+    {
+      "case_id": "nlco_KP_S_001",
+      "kind": "hypothesis",
+      "model_sha256": "d073f739b9ded850f3e23465809a537a08f1350975868152e960de3cb96cb9c1",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 32,
+        "feasibility_mismatch_count": 7,
+        "objective_order_equivalent_on_gold_feasible": false,
+        "model_optimum": 0.0
+      }
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "kind": "initial",
+      "model_sha256": "0ab6ce174dadff15313751d33b42effa9f3801816be6255e48c05406e6a121eb",
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 32,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 123.0
+      }
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "kind": "canonical",
+      "model_sha256": "b6217d6fb581a80de428452bf76d027afaaeb0e964c017ecd71f3b2586cade25",
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 32,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 123.0
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "kind": "hypothesis",
+      "model_sha256": "5d0b8aa7c224c31b265c85e5faacccdc8745f76a0b2da6a4d1e4b0fc9206867a",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 512,
+        "feasibility_mismatch_count": 511,
+        "objective_order_equivalent_on_gold_feasible": false,
+        "model_optimum": 17.0
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "kind": "initial",
+      "model_sha256": "4fc51ff0d66c600a16091ae28c70deb4223b68882ef2daacd51bc2fe9e77f03f",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 512,
+        "feasibility_mismatch_count": 498,
+        "objective_order_equivalent_on_gold_feasible": false,
+        "model_optimum": 12.0
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "kind": "canonical",
+      "model_sha256": "4ff3a562c4809a596cf95ad2401e5e2a1b9b2cc3a1cb19131d96090ff391f40c",
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 512,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 11.0
+      }
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "kind": "hypothesis",
+      "model_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "exhaustive": {
+        "status": "invalid"
+      }
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "kind": "initial",
+      "model_sha256": "0fd0271e1c833245ef9644d0c3c6e97f934bba1aeec1fc54cbf5083c2a2f4524",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 227,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 7.0
+      }
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "kind": "canonical",
+      "model_sha256": "d25b3b333a5df711e260395bf936d28f048cf6fb52e1674dd02d18badbf0e0fa",
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 4.0
+      }
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "kind": "hypothesis",
+      "model_sha256": "ec17dcde3521404930a4ce2a40d18c3891e9ef7eb00700595d18a26016c9c257",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 420,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 5.0
+      }
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "kind": "initial",
+      "model_sha256": "e26688bb6c69a4485e9a9aa89af982e14b0302fbb3e44ddbb6807e387e60563b",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 420,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 5.0
+      }
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "kind": "canonical",
+      "model_sha256": "6c64d731dd43fe4c844d9dc29a7c85beabd8307c29018ec114aaf1a2e2246606",
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 4.0
+      }
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "kind": "hypothesis",
+      "model_sha256": "730a86708849117717e79740dd36f3798e58cac0593e112f1d7f10afc71c6acb",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 14,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 4.0
+      }
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "kind": "initial",
+      "model_sha256": "5a4296cf6cd29c3307e9e8093a3871c97c5cdfbd639284d754f869b721f0b1d2",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 23,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 4.0
+      }
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "kind": "canonical",
+      "model_sha256": "d66a3fab01321984abf7b4b5536f8c47e372a4eaa77416ee02d68b5f9160c747",
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 3.0
+      }
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "kind": "hypothesis",
+      "model_sha256": "61491044cdb2f2818f94652182e052e6510f2d9b6dd1e55311620e7134442288",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 21,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 2.0
+      }
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "kind": "initial",
+      "model_sha256": "bdaa9103dc78673c114d9166ecaf6fcdb92b8e48b179f9f0a419d45fd9811f04",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 41,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 2.0
+      }
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "kind": "canonical",
+      "model_sha256": "a3e8b1a44fe0e81d507869ed1057829769d3c566124eba9281d877701510193c",
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 3.0
+      }
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "trajectory_id": "c6868ace1a66cc11456c080f83b9c928d3a7e720a654dddf910412ea7639924b",
+      "kind": "final",
+      "model_sha256": "0ab6ce174dadff15313751d33b42effa9f3801816be6255e48c05406e6a121eb",
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 32,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 123.0
+      }
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "trajectory_id": "c6868ace1a66cc11456c080f83b9c928d3a7e720a654dddf910412ea7639924b",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "candidate_produced": false,
+      "exhaustive": {
+        "status": "invalid"
+      }
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "trajectory_id": "d49d2a66aa5f8e56d057fe029c4a1d73d24a452e36832ec4c3d2bac7ca79b471",
+      "kind": "final",
+      "model_sha256": "0ab6ce174dadff15313751d33b42effa9f3801816be6255e48c05406e6a121eb",
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 32,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 123.0
+      }
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "trajectory_id": "d49d2a66aa5f8e56d057fe029c4a1d73d24a452e36832ec4c3d2bac7ca79b471",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "candidate_produced": false,
+      "exhaustive": {
+        "status": "invalid"
+      }
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "trajectory_id": "84dfa97888ad5c3c6ebdf9f24a817b0c037689c954e7365187a5627e2fb666a7",
+      "kind": "final",
+      "model_sha256": "0ab6ce174dadff15313751d33b42effa9f3801816be6255e48c05406e6a121eb",
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 32,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 123.0
+      }
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "trajectory_id": "84dfa97888ad5c3c6ebdf9f24a817b0c037689c954e7365187a5627e2fb666a7",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "candidate_produced": false,
+      "exhaustive": {
+        "status": "invalid"
+      }
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "trajectory_id": "7fdd44be3de3dcd606406a96d877d121b691ef58929fd07aeb6de5099f65c762",
+      "kind": "final",
+      "model_sha256": "0ab6ce174dadff15313751d33b42effa9f3801816be6255e48c05406e6a121eb",
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 32,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 123.0
+      }
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "trajectory_id": "7fdd44be3de3dcd606406a96d877d121b691ef58929fd07aeb6de5099f65c762",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "candidate_produced": false,
+      "exhaustive": {
+        "status": "invalid"
+      }
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "trajectory_id": "729c645750f483a7843cd87dc56f8b1a6f3af1e7ff05c2c83a70e2f30a8f5cbb",
+      "kind": "final",
+      "model_sha256": "0ab6ce174dadff15313751d33b42effa9f3801816be6255e48c05406e6a121eb",
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 32,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 123.0
+      }
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "trajectory_id": "729c645750f483a7843cd87dc56f8b1a6f3af1e7ff05c2c83a70e2f30a8f5cbb",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "candidate_produced": false,
+      "exhaustive": {
+        "status": "invalid"
+      }
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "trajectory_id": "b82086c6949c79c62ea36cc87fd552006adae4ffcea7902aec50fbae542cb50d",
+      "kind": "final",
+      "model_sha256": "0ab6ce174dadff15313751d33b42effa9f3801816be6255e48c05406e6a121eb",
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 32,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 123.0
+      }
+    },
+    {
+      "case_id": "nlco_KP_S_001",
+      "trajectory_id": "b82086c6949c79c62ea36cc87fd552006adae4ffcea7902aec50fbae542cb50d",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "candidate_produced": false,
+      "exhaustive": {
+        "status": "invalid"
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "trajectory_id": "cd70119f0539876bddc37e1078e769b82dbc94da9a1e09c3b743978da270d2a1",
+      "kind": "final",
+      "model_sha256": "bbe269fcd976f15092eac44e19d77bf6d02ba69e8583275d9be186f5ef28ce82",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 512,
+        "feasibility_mismatch_count": 511,
+        "objective_order_equivalent_on_gold_feasible": false,
+        "model_optimum": 15.0
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "trajectory_id": "cd70119f0539876bddc37e1078e769b82dbc94da9a1e09c3b743978da270d2a1",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "bbe269fcd976f15092eac44e19d77bf6d02ba69e8583275d9be186f5ef28ce82",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 512,
+        "feasibility_mismatch_count": 511,
+        "objective_order_equivalent_on_gold_feasible": false,
+        "model_optimum": 15.0
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "trajectory_id": "abcfd09774b01c170f3976db4f25a6ff32d9dd78e93725ee6cd6507b89b86ef0",
+      "kind": "final",
+      "model_sha256": "ae58bbd79f734f6224f6939f282c51f36f590a4bca60794c38167556d4a00036",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 512,
+        "feasibility_mismatch_count": 511,
+        "objective_order_equivalent_on_gold_feasible": false,
+        "model_optimum": 15.0
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "trajectory_id": "abcfd09774b01c170f3976db4f25a6ff32d9dd78e93725ee6cd6507b89b86ef0",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "ae58bbd79f734f6224f6939f282c51f36f590a4bca60794c38167556d4a00036",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 512,
+        "feasibility_mismatch_count": 511,
+        "objective_order_equivalent_on_gold_feasible": false,
+        "model_optimum": 15.0
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "trajectory_id": "0326a73606ca334005fe87755b49ac124a9d9a8391ed80aa65263c93073bd4f4",
+      "kind": "final",
+      "model_sha256": "050ccc0d92eed3854480852cf1842464d49a056b1f13f61a64f9a138c7136819",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 512,
+        "feasibility_mismatch_count": 511,
+        "objective_order_equivalent_on_gold_feasible": false,
+        "model_optimum": 17.0
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "trajectory_id": "0326a73606ca334005fe87755b49ac124a9d9a8391ed80aa65263c93073bd4f4",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "050ccc0d92eed3854480852cf1842464d49a056b1f13f61a64f9a138c7136819",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 512,
+        "feasibility_mismatch_count": 511,
+        "objective_order_equivalent_on_gold_feasible": false,
+        "model_optimum": 17.0
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "trajectory_id": "c5dd8acfca9eadad172d47946d98294987d2bb81d0e55c25a2d571d3719f2620",
+      "kind": "final",
+      "model_sha256": "205d26d6a590d620f7e1f094e61c9e8697bd4f4de9e5066baac470cc1bc45a55",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 512,
+        "feasibility_mismatch_count": 511,
+        "objective_order_equivalent_on_gold_feasible": false,
+        "model_optimum": 20.0
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "trajectory_id": "c5dd8acfca9eadad172d47946d98294987d2bb81d0e55c25a2d571d3719f2620",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "205d26d6a590d620f7e1f094e61c9e8697bd4f4de9e5066baac470cc1bc45a55",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 512,
+        "feasibility_mismatch_count": 511,
+        "objective_order_equivalent_on_gold_feasible": false,
+        "model_optimum": 20.0
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "trajectory_id": "46a67c9f79919311290455fd31cb746b11d5ec2c241add0d731f8e1a0c61e1cb",
+      "kind": "final",
+      "model_sha256": "cd98265c838e590cf969637c111bfed6eb376a448c1915def919b5fe2896671a",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 512,
+        "feasibility_mismatch_count": 511,
+        "objective_order_equivalent_on_gold_feasible": false,
+        "model_optimum": 14.0
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "trajectory_id": "46a67c9f79919311290455fd31cb746b11d5ec2c241add0d731f8e1a0c61e1cb",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "cd98265c838e590cf969637c111bfed6eb376a448c1915def919b5fe2896671a",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 512,
+        "feasibility_mismatch_count": 511,
+        "objective_order_equivalent_on_gold_feasible": false,
+        "model_optimum": 14.0
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "trajectory_id": "293d2d25626e0cfdb734316fa576806088ad2972d8778a67d9e9792ed4845fc3",
+      "kind": "final",
+      "model_sha256": "050ccc0d92eed3854480852cf1842464d49a056b1f13f61a64f9a138c7136819",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 512,
+        "feasibility_mismatch_count": 511,
+        "objective_order_equivalent_on_gold_feasible": false,
+        "model_optimum": 17.0
+      }
+    },
+    {
+      "case_id": "nlco_MAXCUT_S_035",
+      "trajectory_id": "293d2d25626e0cfdb734316fa576806088ad2972d8778a67d9e9792ed4845fc3",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "050ccc0d92eed3854480852cf1842464d49a056b1f13f61a64f9a138c7136819",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 512,
+        "feasibility_mismatch_count": 511,
+        "objective_order_equivalent_on_gold_feasible": false,
+        "model_optimum": 17.0
+      }
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "trajectory_id": "e66d7b85c85ba9337f56aaea22f9ea2c6642870a70b5aed78e0fedbfb234333e",
+      "kind": "final",
+      "model_sha256": "25e308183f0a2237af60c6855ef12ab11fddb32750e13e96a77e3b2314ebd3a3",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 41,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 1.0
+      }
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "trajectory_id": "e66d7b85c85ba9337f56aaea22f9ea2c6642870a70b5aed78e0fedbfb234333e",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "25e308183f0a2237af60c6855ef12ab11fddb32750e13e96a77e3b2314ebd3a3",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 41,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 1.0
+      }
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "trajectory_id": "d9eaaab9aa08bb94aa93ea8ff30300de94da4181eafec7b91c761373fada17d2",
+      "kind": "final",
+      "model_sha256": "25e308183f0a2237af60c6855ef12ab11fddb32750e13e96a77e3b2314ebd3a3",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 41,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 1.0
+      }
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "trajectory_id": "d9eaaab9aa08bb94aa93ea8ff30300de94da4181eafec7b91c761373fada17d2",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "25e308183f0a2237af60c6855ef12ab11fddb32750e13e96a77e3b2314ebd3a3",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 41,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 1.0
+      }
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "trajectory_id": "e50a21497634ddd5eeb8eed8bf825d8505f2060451cc76171120447357cc74ea",
+      "kind": "final",
+      "model_sha256": "ac8b9d22228f2ae5d172576154075d8d52809ff900cffdcc4d82e9924f1c6679",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 41,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 1.0
+      }
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "trajectory_id": "e50a21497634ddd5eeb8eed8bf825d8505f2060451cc76171120447357cc74ea",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "ac8b9d22228f2ae5d172576154075d8d52809ff900cffdcc4d82e9924f1c6679",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 41,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 1.0
+      }
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "trajectory_id": "2c78085cc63f5d2bbbbf0bc23a6e57f8d365de758a6f258e97d6edf89f6d5775",
+      "kind": "final",
+      "model_sha256": "25e308183f0a2237af60c6855ef12ab11fddb32750e13e96a77e3b2314ebd3a3",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 41,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 1.0
+      }
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "trajectory_id": "2c78085cc63f5d2bbbbf0bc23a6e57f8d365de758a6f258e97d6edf89f6d5775",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "25e308183f0a2237af60c6855ef12ab11fddb32750e13e96a77e3b2314ebd3a3",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 41,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 1.0
+      }
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "trajectory_id": "f8b6a8d99a98cc6bffe5ae9d73c5a6c0c11e08ad13d2a261e56b6fef29b44b6b",
+      "kind": "final",
+      "model_sha256": "25e308183f0a2237af60c6855ef12ab11fddb32750e13e96a77e3b2314ebd3a3",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 41,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 1.0
+      }
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "trajectory_id": "f8b6a8d99a98cc6bffe5ae9d73c5a6c0c11e08ad13d2a261e56b6fef29b44b6b",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "25e308183f0a2237af60c6855ef12ab11fddb32750e13e96a77e3b2314ebd3a3",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 41,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 1.0
+      }
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "trajectory_id": "f91844fc19e12737c4a4d437552bbeb759ba47a151efaac455eef42e33b7bd50",
+      "kind": "final",
+      "model_sha256": "25e308183f0a2237af60c6855ef12ab11fddb32750e13e96a77e3b2314ebd3a3",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 41,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 1.0
+      }
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "trajectory_id": "f91844fc19e12737c4a4d437552bbeb759ba47a151efaac455eef42e33b7bd50",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "25e308183f0a2237af60c6855ef12ab11fddb32750e13e96a77e3b2314ebd3a3",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 41,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 1.0
+      }
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "trajectory_id": "e108ad6f387c1616072942ad62082a6cb62c2004b464f0a9ac27d1674dfb2653",
+      "kind": "final",
+      "model_sha256": "e26688bb6c69a4485e9a9aa89af982e14b0302fbb3e44ddbb6807e387e60563b",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 420,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 5.0
+      }
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "trajectory_id": "e108ad6f387c1616072942ad62082a6cb62c2004b464f0a9ac27d1674dfb2653",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "candidate_produced": false,
+      "exhaustive": {
+        "status": "invalid"
+      }
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "trajectory_id": "2c1800326f6c466d30d6a99301134d2eb99db40feb399ad31fc340cc045019f2",
+      "kind": "final",
+      "model_sha256": "e26688bb6c69a4485e9a9aa89af982e14b0302fbb3e44ddbb6807e387e60563b",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 420,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 5.0
+      }
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "trajectory_id": "2c1800326f6c466d30d6a99301134d2eb99db40feb399ad31fc340cc045019f2",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "candidate_produced": false,
+      "exhaustive": {
+        "status": "invalid"
+      }
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "trajectory_id": "85fd71cbd0189296d17a470ecd5eac063328712a9d14d774c0a0e037794ad23f",
+      "kind": "final",
+      "model_sha256": "e26688bb6c69a4485e9a9aa89af982e14b0302fbb3e44ddbb6807e387e60563b",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 420,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 5.0
+      }
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "trajectory_id": "85fd71cbd0189296d17a470ecd5eac063328712a9d14d774c0a0e037794ad23f",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "candidate_produced": false,
+      "exhaustive": {
+        "status": "invalid"
+      }
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "trajectory_id": "192c051e5aa7e10c6236584046452f6915a3bf1b425477cc31dbf84bc00a7031",
+      "kind": "final",
+      "model_sha256": "e26688bb6c69a4485e9a9aa89af982e14b0302fbb3e44ddbb6807e387e60563b",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 420,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 5.0
+      }
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "trajectory_id": "192c051e5aa7e10c6236584046452f6915a3bf1b425477cc31dbf84bc00a7031",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "candidate_produced": false,
+      "exhaustive": {
+        "status": "invalid"
+      }
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "trajectory_id": "f9dc5bbbe408b661a1ce0898a96414db9fd43b0319f6a2cde1a4c701d940a239",
+      "kind": "final",
+      "model_sha256": "e26688bb6c69a4485e9a9aa89af982e14b0302fbb3e44ddbb6807e387e60563b",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 420,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 5.0
+      }
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "trajectory_id": "f9dc5bbbe408b661a1ce0898a96414db9fd43b0319f6a2cde1a4c701d940a239",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "candidate_produced": false,
+      "exhaustive": {
+        "status": "invalid"
+      }
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "trajectory_id": "a889b77edde84b7aca097d5300e051c35718f5362b82598f0e17faccb45d19e3",
+      "kind": "final",
+      "model_sha256": "e26688bb6c69a4485e9a9aa89af982e14b0302fbb3e44ddbb6807e387e60563b",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 2048,
+        "feasibility_mismatch_count": 420,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 5.0
+      }
+    },
+    {
+      "case_id": "nlco_MDS_S_006",
+      "trajectory_id": "a889b77edde84b7aca097d5300e051c35718f5362b82598f0e17faccb45d19e3",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "candidate_produced": false,
+      "exhaustive": {
+        "status": "invalid"
+      }
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "trajectory_id": "9922d0b6b0db6c59f84585699b2009ac044428ec7c6096e737b4969785fceeed",
+      "kind": "final",
+      "model_sha256": "a6c781859ceef24bbd6482a6c9d7c71a5f58c0ab91968d6bf0a66c16aea692b5",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 22,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 4.0
+      }
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "trajectory_id": "9922d0b6b0db6c59f84585699b2009ac044428ec7c6096e737b4969785fceeed",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "a6c781859ceef24bbd6482a6c9d7c71a5f58c0ab91968d6bf0a66c16aea692b5",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 22,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 4.0
+      }
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "trajectory_id": "1235a264791f5491a8541c609593b709d4264c0b9237ed63966ac78f0fa0b952",
+      "kind": "final",
+      "model_sha256": "127de4d71c579b145cecaed3582ac3f3b219e1bae87d91fa071458cb3f40732e",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 21,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 4.0
+      }
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "trajectory_id": "1235a264791f5491a8541c609593b709d4264c0b9237ed63966ac78f0fa0b952",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "127de4d71c579b145cecaed3582ac3f3b219e1bae87d91fa071458cb3f40732e",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 21,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 4.0
+      }
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "trajectory_id": "324ede91f565f43eafc2c5dbc00a6670f34a82266455aeab881c5829b7b40e35",
+      "kind": "final",
+      "model_sha256": "de270a93f77c091e8ac8572841c511ba91529081d59f8dacf8a3371a8e1152e4",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 19,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 3.0
+      }
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "trajectory_id": "324ede91f565f43eafc2c5dbc00a6670f34a82266455aeab881c5829b7b40e35",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "de270a93f77c091e8ac8572841c511ba91529081d59f8dacf8a3371a8e1152e4",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 19,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 3.0
+      }
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "trajectory_id": "53b17258d08cfe2314a1b3e8c852e8570a84435631d14d0912774c58ed44eaa1",
+      "kind": "final",
+      "model_sha256": "9dc22160aeb30ccfd1865427cbd9fe692cd5b8956015e874a3d8c0018dceda66",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 23,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 4.0
+      }
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "trajectory_id": "53b17258d08cfe2314a1b3e8c852e8570a84435631d14d0912774c58ed44eaa1",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "9dc22160aeb30ccfd1865427cbd9fe692cd5b8956015e874a3d8c0018dceda66",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 23,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 4.0
+      }
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "trajectory_id": "5e1b00df21669c92bada2edcc022497d4d3f6b369daf2a220c18fc56d46d9992",
+      "kind": "final",
+      "model_sha256": "5a4296cf6cd29c3307e9e8093a3871c97c5cdfbd639284d754f869b721f0b1d2",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 23,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 4.0
+      }
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "trajectory_id": "5e1b00df21669c92bada2edcc022497d4d3f6b369daf2a220c18fc56d46d9992",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "candidate_produced": false,
+      "exhaustive": {
+        "status": "invalid"
+      }
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "trajectory_id": "45130adeb17b415bd91104a205669a20841847d39c21ae6f2211af2657b6379c",
+      "kind": "final",
+      "model_sha256": "97076345386fef7dfc73bbd2fb11e38dcab5c6bc6c1b4bb5b923f67aa226bf7e",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 10,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 3.0
+      }
+    },
+    {
+      "case_id": "nlco_MIS_S_009",
+      "trajectory_id": "45130adeb17b415bd91104a205669a20841847d39c21ae6f2211af2657b6379c",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "97076345386fef7dfc73bbd2fb11e38dcab5c6bc6c1b4bb5b923f67aa226bf7e",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 10,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 3.0
+      }
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "trajectory_id": "cdd06c78240d09fe92b777779a6884e58e77a6b3308152617a7b64c09ead2ec5",
+      "kind": "final",
+      "model_sha256": "a8c159b55f286df7c351fdc0064334b6be61d3216dffadead6d762ab8719e2a5",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 1,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 3.0
+      }
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "trajectory_id": "cdd06c78240d09fe92b777779a6884e58e77a6b3308152617a7b64c09ead2ec5",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "a8c159b55f286df7c351fdc0064334b6be61d3216dffadead6d762ab8719e2a5",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 1,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 3.0
+      }
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "trajectory_id": "5e0154af1f88e57eb9d759515c1e29e6c30b7042e79607de22ef827c5637b943",
+      "kind": "final",
+      "model_sha256": "8ac72def458d386a2479b265a2c4eb01e724a91749b6982bdd07c028349b5682",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 29,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 3.0
+      }
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "trajectory_id": "5e0154af1f88e57eb9d759515c1e29e6c30b7042e79607de22ef827c5637b943",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "8ac72def458d386a2479b265a2c4eb01e724a91749b6982bdd07c028349b5682",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 29,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 3.0
+      }
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "trajectory_id": "89ea2a20046147d32da4ae20486e5852bf2178430928eee7232a5df2dfd7d3e7",
+      "kind": "final",
+      "model_sha256": "f94f0e1e9984c478c0b7321344539099f5cc94e1a25278f4f408b0e178dda96b",
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 3.0
+      }
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "trajectory_id": "89ea2a20046147d32da4ae20486e5852bf2178430928eee7232a5df2dfd7d3e7",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "f94f0e1e9984c478c0b7321344539099f5cc94e1a25278f4f408b0e178dda96b",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 3.0
+      }
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "trajectory_id": "ca6065068744105e338aded79adb4c35f197a1320709f4576ce781687d7723d4",
+      "kind": "final",
+      "model_sha256": "b716fa7cf1c7c99d5ec43678336013417746246b39372804dff4921c7342561e",
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 3.0
+      }
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "trajectory_id": "ca6065068744105e338aded79adb4c35f197a1320709f4576ce781687d7723d4",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "b716fa7cf1c7c99d5ec43678336013417746246b39372804dff4921c7342561e",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 3.0
+      }
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "trajectory_id": "196742cd2fd1ecc8e3891f5da6789c0d4897eef290a0e398d2116e349624d15d",
+      "kind": "final",
+      "model_sha256": "f42d0b572272b15c40d29e1e51bea4ce056800077caee427056fd842be81b693",
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 41,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 2.0
+      }
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "trajectory_id": "196742cd2fd1ecc8e3891f5da6789c0d4897eef290a0e398d2116e349624d15d",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "f42d0b572272b15c40d29e1e51bea4ce056800077caee427056fd842be81b693",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "disproved",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 41,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 2.0
+      }
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "trajectory_id": "f5829f23fa20e0c352d207a1a8efec0c054920a74e4603daba5487c9046cfaba",
+      "kind": "final",
+      "model_sha256": "f94f0e1e9984c478c0b7321344539099f5cc94e1a25278f4f408b0e178dda96b",
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 3.0
+      }
+    },
+    {
+      "case_id": "nlco_MVC_S_020",
+      "trajectory_id": "f5829f23fa20e0c352d207a1a8efec0c054920a74e4603daba5487c9046cfaba",
+      "kind": "candidate",
+      "round": 0,
+      "model_sha256": "f94f0e1e9984c478c0b7321344539099f5cc94e1a25278f4f408b0e178dda96b",
+      "candidate_produced": true,
+      "exhaustive": {
+        "status": "verified_correct",
+        "states_enumerated": 256,
+        "feasibility_mismatch_count": 0,
+        "objective_order_equivalent_on_gold_feasible": true,
+        "model_optimum": 3.0
+      }
+    }
+  ],
+  "cross_cells": {
+    "C0/cp_sat": {
+      "rows": 6,
+      "original_feasible": 3,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "C0/scip": {
+      "rows": 6,
+      "original_feasible": 3,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "C0/highs": {
+      "rows": 6,
+      "original_feasible": 3,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "C0/sa": {
+      "rows": 6,
+      "original_feasible": 3,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "C0/pt": {
+      "rows": 6,
+      "original_feasible": 3,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "C0/penalty_pt": {
+      "rows": 6,
+      "original_feasible": 3,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "C0/pbit": {
+      "rows": 6,
+      "original_feasible": 3,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "GOLD/cp_sat": {
+      "rows": 6,
+      "original_feasible": 6,
+      "optimal_hit": 6,
+      "quality5": 6,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "GOLD/scip": {
+      "rows": 6,
+      "original_feasible": 6,
+      "optimal_hit": 6,
+      "quality5": 6,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "GOLD/highs": {
+      "rows": 6,
+      "original_feasible": 6,
+      "optimal_hit": 6,
+      "quality5": 6,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "GOLD/sa": {
+      "rows": 6,
+      "original_feasible": 6,
+      "optimal_hit": 6,
+      "quality5": 6,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "GOLD/pt": {
+      "rows": 6,
+      "original_feasible": 6,
+      "optimal_hit": 6,
+      "quality5": 6,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "GOLD/penalty_pt": {
+      "rows": 6,
+      "original_feasible": 6,
+      "optimal_hit": 6,
+      "quality5": 6,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "GOLD/pbit": {
+      "rows": 6,
+      "original_feasible": 6,
+      "optimal_hit": 6,
+      "quality5": 6,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "S/cp_sat": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "S/scip": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "S/highs": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "S/sa": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "S/pt": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "S/penalty_pt": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "S/pbit": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "R/cp_sat": {
+      "rows": 6,
+      "original_feasible": 4,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "R/scip": {
+      "rows": 6,
+      "original_feasible": 4,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "R/highs": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "R/sa": {
+      "rows": 6,
+      "original_feasible": 4,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "R/pt": {
+      "rows": 6,
+      "original_feasible": 4,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "R/penalty_pt": {
+      "rows": 6,
+      "original_feasible": 4,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "R/pbit": {
+      "rows": 6,
+      "original_feasible": 4,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "P/cp_sat": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "P/scip": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "P/highs": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "P/sa": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "P/pt": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "P/penalty_pt": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "P/pbit": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "X/cp_sat": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "X/scip": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "X/highs": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "X/sa": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "X/pt": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "X/penalty_pt": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "X/pbit": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "A/cp_sat": {
+      "rows": 6,
+      "original_feasible": 4,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "A/scip": {
+      "rows": 6,
+      "original_feasible": 4,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "A/highs": {
+      "rows": 6,
+      "original_feasible": 4,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "A/sa": {
+      "rows": 6,
+      "original_feasible": 4,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "A/pt": {
+      "rows": 6,
+      "original_feasible": 4,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "A/penalty_pt": {
+      "rows": 6,
+      "original_feasible": 4,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "A/pbit": {
+      "rows": 6,
+      "original_feasible": 4,
+      "optimal_hit": 1,
+      "quality5": 1,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "M/cp_sat": {
+      "rows": 6,
+      "original_feasible": 6,
+      "optimal_hit": 3,
+      "quality5": 3,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "M/scip": {
+      "rows": 6,
+      "original_feasible": 6,
+      "optimal_hit": 3,
+      "quality5": 3,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "M/highs": {
+      "rows": 6,
+      "original_feasible": 6,
+      "optimal_hit": 3,
+      "quality5": 3,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 6,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "M/sa": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "M/pt": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "M/penalty_pt": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    },
+    "M/pbit": {
+      "rows": 6,
+      "original_feasible": 5,
+      "optimal_hit": 2,
+      "quality5": 2,
+      "predicted_feasible": 6,
+      "proven_model_optimum": 0,
+      "exhaustive_model_optimum_hit": 6
+    }
+  },
+  "pbit_vs_scip_same_final_model": {
+    "tie": 36
+  },
+  "delivered_evidence": {
+    "P": {
+      "rounds": 6,
+      "with_cards": 4,
+      "cards": 8
+    },
+    "R": {
+      "rounds": 6,
+      "with_cards": 4,
+      "cards": 8
+    },
+    "X": {
+      "rounds": 6,
+      "with_cards": 4,
+      "cards": 8
+    },
+    "A": {
+      "rounds": 6,
+      "with_cards": 4,
+      "cards": 8
+    },
+    "M": {
+      "rounds": 6,
+      "with_cards": 4,
+      "cards": 8
+    },
+    "S": {
+      "rounds": 6,
+      "with_cards": 0,
+      "cards": 0
+    }
+  },
+  "failures": [
+    {
+      "case_id": "nlco_MIS_S_009",
+      "arm": "A",
+      "error": "Value does not match any allowed variant"
+    },
+    {
+      "case_id": "nlco_MCP_S_023",
+      "stage": "contract",
+      "trajectory_id": null,
+      "status": "incomplete_output",
+      "finish_reason": "time_limit",
+      "output_tokens": 1846,
+      "attributed_seconds": 93.3186153024435
+    }
+  ],
+  "groups": [
+    {
+      "arm": "S",
+      "expected": 6,
+      "counts": {
+        "initial_compiled": 6,
+        "final_compiled": 6,
+        "rounds_processed": 6,
+        "semantic_repairs": 0,
+        "semantic_regressions": 0,
+        "invalid_initial_recovered_compilable": 0,
+        "invalid_initial_recovered_correct": 0,
+        "correct_became_unknown": 0,
+        "original_feasible": 5,
+        "optimal_hit": 2,
+        "quality1": 2,
+        "quality5": 2,
+        "probe_rounds": 6,
+        "compatible_probe_rounds": 0,
+        "rounds_with_cards": 0,
+        "evidence_cards": 0,
+        "accepted_hypothesis_conflicts": 2
+      },
+      "initial_semantic": {
+        "verified_correct": 1,
+        "disproved": 5
+      },
+      "final_semantic": {
+        "verified_correct": 1,
+        "disproved": 5
+      },
+      "transitions": {
+        "verified_correct -> verified_correct": 1,
+        "disproved -> disproved": 5
+      }
+    },
+    {
+      "arm": "R",
+      "expected": 6,
+      "counts": {
+        "initial_compiled": 6,
+        "final_compiled": 6,
+        "rounds_processed": 6,
+        "semantic_repairs": 0,
+        "semantic_regressions": 0,
+        "invalid_initial_recovered_compilable": 0,
+        "invalid_initial_recovered_correct": 0,
+        "correct_became_unknown": 0,
+        "original_feasible": 4,
+        "optimal_hit": 1,
+        "quality1": 1,
+        "quality5": 1,
+        "probe_rounds": 6,
+        "compatible_probe_rounds": 5,
+        "rounds_with_cards": 4,
+        "evidence_cards": 8,
+        "accepted_hypothesis_conflicts": 2
+      },
+      "initial_semantic": {
+        "verified_correct": 1,
+        "disproved": 5
+      },
+      "final_semantic": {
+        "verified_correct": 1,
+        "disproved": 5
+      },
+      "transitions": {
+        "verified_correct -> verified_correct": 1,
+        "disproved -> disproved": 5
+      }
+    },
+    {
+      "arm": "P",
+      "expected": 6,
+      "counts": {
+        "initial_compiled": 6,
+        "final_compiled": 6,
+        "rounds_processed": 6,
+        "semantic_repairs": 1,
+        "semantic_regressions": 0,
+        "invalid_initial_recovered_compilable": 0,
+        "invalid_initial_recovered_correct": 0,
+        "correct_became_unknown": 0,
+        "original_feasible": 5,
+        "optimal_hit": 2,
+        "quality1": 2,
+        "quality5": 2,
+        "probe_rounds": 6,
+        "compatible_probe_rounds": 5,
+        "rounds_with_cards": 4,
+        "evidence_cards": 8,
+        "accepted_hypothesis_conflicts": 2
+      },
+      "initial_semantic": {
+        "verified_correct": 1,
+        "disproved": 5
+      },
+      "final_semantic": {
+        "verified_correct": 2,
+        "disproved": 4
+      },
+      "transitions": {
+        "verified_correct -> verified_correct": 1,
+        "disproved -> disproved": 4,
+        "disproved -> verified_correct": 1
+      }
+    },
+    {
+      "arm": "X",
+      "expected": 6,
+      "counts": {
+        "initial_compiled": 6,
+        "final_compiled": 6,
+        "rounds_processed": 6,
+        "semantic_repairs": 1,
+        "semantic_regressions": 0,
+        "invalid_initial_recovered_compilable": 0,
+        "invalid_initial_recovered_correct": 0,
+        "correct_became_unknown": 0,
+        "original_feasible": 5,
+        "optimal_hit": 2,
+        "quality1": 2,
+        "quality5": 2,
+        "probe_rounds": 6,
+        "compatible_probe_rounds": 5,
+        "rounds_with_cards": 4,
+        "evidence_cards": 8,
+        "accepted_hypothesis_conflicts": 2
+      },
+      "initial_semantic": {
+        "verified_correct": 1,
+        "disproved": 5
+      },
+      "final_semantic": {
+        "verified_correct": 2,
+        "disproved": 4
+      },
+      "transitions": {
+        "verified_correct -> verified_correct": 1,
+        "disproved -> disproved": 4,
+        "disproved -> verified_correct": 1
+      }
+    },
+    {
+      "arm": "A",
+      "expected": 6,
+      "counts": {
+        "initial_compiled": 6,
+        "final_compiled": 6,
+        "rounds_processed": 6,
+        "semantic_repairs": 0,
+        "semantic_regressions": 0,
+        "invalid_initial_recovered_compilable": 0,
+        "invalid_initial_recovered_correct": 0,
+        "correct_became_unknown": 0,
+        "original_feasible": 4,
+        "optimal_hit": 1,
+        "quality1": 1,
+        "quality5": 1,
+        "probe_rounds": 6,
+        "compatible_probe_rounds": 5,
+        "rounds_with_cards": 4,
+        "evidence_cards": 8,
+        "accepted_hypothesis_conflicts": 1
+      },
+      "initial_semantic": {
+        "verified_correct": 1,
+        "disproved": 5
+      },
+      "final_semantic": {
+        "verified_correct": 1,
+        "disproved": 5
+      },
+      "transitions": {
+        "verified_correct -> verified_correct": 1,
+        "disproved -> disproved": 5
+      }
+    },
+    {
+      "arm": "M",
+      "expected": 6,
+      "counts": {
+        "initial_compiled": 6,
+        "final_compiled": 6,
+        "rounds_processed": 6,
+        "semantic_repairs": 1,
+        "semantic_regressions": 0,
+        "invalid_initial_recovered_compilable": 0,
+        "invalid_initial_recovered_correct": 0,
+        "correct_became_unknown": 0,
+        "original_feasible": 5,
+        "optimal_hit": 2,
+        "quality1": 2,
+        "quality5": 2,
+        "probe_rounds": 6,
+        "compatible_probe_rounds": 5,
+        "rounds_with_cards": 4,
+        "evidence_cards": 8,
+        "accepted_hypothesis_conflicts": 2
+      },
+      "initial_semantic": {
+        "verified_correct": 1,
+        "disproved": 5
+      },
+      "final_semantic": {
+        "verified_correct": 2,
+        "disproved": 4
+      },
+      "transitions": {
+        "verified_correct -> verified_correct": 1,
+        "disproved -> disproved": 4,
+        "disproved -> verified_correct": 1
+      }
+    }
+  ],
+  "contracts": {
+    "complete": 5,
+    "execution_error": 1
+  },
+  "contract_semantics": {
+    "disproved": 5,
+    "invalid": 1
+  },
+  "costs": {
+    "input_tokens": 99166,
+    "output_tokens": 20069,
+    "generation_attempts": 42,
+    "attributed_seconds": 1000.084770694375,
+    "cost_incomplete_requests": 0,
+    "cpu_attributed_seconds": 632.9209873117507
+  },
+  "response_status": {
+    "generated": 41,
+    "incomplete_output": 1
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "experiment_id": "E004-1.4",
+  "date": "2026-11-03 Asia/Shanghai",
+  "remote": "https://github.com/2333-why/QIHC.git",
+  "branch": "codex/e004-1.4-witness-8h",
+  "commit": "cb47bd1563e591033e8ce9dd37e11806835912f3",
+  "remote_verified": true,
+  "source_hash": "04407518a2c0d69dd00cb7884a31e55733c8c1a16fe72c6f7dd657904cf16559"
+}

@@ -1,0 +1,69 @@
+2026-11-03 20:37:15.268  processExitCode: 1
+2026-11-03 20:37:15.268  failed
+2026-11-03 20:37:15.268  exit code 1
+2026-11-03 20:37:15.099  subprocess.TimeoutExpired: Command '['/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/bin/python', '-m', 'experiments.feedback_witness_v2.prepare', '--run', '/inspire/hdd/global_user/czxs25210022/why/results/E004-1.6_feedback_quick_30m', '--source', '/inspire/hdd/global_user/czxs25210022/why/results/E004-1.2_feedback_pilot', '--model', '/inspire/hdd/global_user/czxs25210022/why/models/Qwen3-32B']' timed out after 89.99998850299744 seconds
+2026-11-03 20:37:15.099      raise TimeoutExpired(self.args, timeout)
+2026-11-03 20:37:15.099    File "/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/lib/python3.11/subprocess.py", line 2045, in _wait
+2026-11-03 20:37:15.099             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-03 20:37:15.099      return self._wait(timeout=timeout)
+2026-11-03 20:37:15.099    File "/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/lib/python3.11/subprocess.py", line 1264, in wait
+2026-11-03 20:37:15.099      self.wait(timeout=self._remaining_time(endtime))
+2026-11-03 20:37:15.098    File "/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/lib/python3.11/subprocess.py", line 2141, in _communicate
+2026-11-03 20:37:15.098                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-03 20:37:15.098      stdout, stderr = self._communicate(input, endtime, timeout)
+2026-11-03 20:37:15.098    File "/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/lib/python3.11/subprocess.py", line 1209, in communicate
+2026-11-03 20:37:15.098                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-03 20:37:15.098      stdout, stderr = process.communicate(input, timeout=timeout)
+2026-11-03 20:37:15.090    File "/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128/lib/python3.11/subprocess.py", line 550, in run
+2026-11-03 20:37:15.090      subprocess.run([sys.executable,'-m',ENTRY+'.prepare','--run',str(root),'--source',str(a.source),
+2026-11-03 20:37:15.090    File "/inspire/hdd/global_user/czxs25210022/why/qihc-E004-1.6-git/experiments/feedback_witness_v2/runtime.py", line 178, in main
+2026-11-03 20:37:15.090                              ^^^^^^
+2026-11-03 20:37:15.090      if __name__=='__main__':main()
+2026-11-03 20:37:15.075    File "/inspire/hdd/global_user/czxs25210022/why/qihc-E004-1.6-git/experiments/feedback_witness_v2/runtime.py", line 210, in <module>
+2026-11-03 20:37:15.075    File "<frozen runpy>", line 88, in _run_code
+2026-11-03 20:37:15.075    File "<frozen runpy>", line 198, in _run_module_as_main
+2026-11-03 20:37:15.075  Traceback (most recent call last):
+2026-11-03 20:35:43.974  E004-1.6 start/resume; 30-minute original deadline persists; run=/inspire/hdd/global_user/czxs25210022/why/results/E004-1.6_feedback_quick_30m
+2026-11-03 20:35:43.896  }
+2026-11-03 20:35:43.896    ]
+2026-11-03 20:35:43.896      "deadline enforces termination, not successful results under hardware/model failures"
+2026-11-03 20:35:43.896      "bounded I/O and cleanup; no retries; cache speedups not assumed",
+2026-11-03 20:35:43.896      "4 dedicated single-GPU replicas; 24 allocated single-thread CPU workers",
+2026-11-03 20:35:43.896    "assumptions": [
+2026-11-03 20:35:43.896    },
+2026-11-03 20:35:43.896      "wall_limit": 1800
+2026-11-03 20:35:43.896      "spare": 260,
+2026-11-03 20:35:43.896      "planned_total": 1540,
+2026-11-03 20:35:43.896      },
+2026-11-03 20:35:43.896        "report_and_pack": 60
+2026-11-03 20:35:43.896        "offline_evaluation": 180,
+2026-11-03 20:35:43.896        "feedback_cpu": 60,
+2026-11-03 20:35:43.896        "model_load": 240,
+2026-11-03 20:35:43.896        "prepare": 90,
+2026-11-03 20:35:43.896      "reserved_stages": {
+2026-11-03 20:35:43.896      "offline_calculated": 144,
+2026-11-03 20:35:43.896      "feedback_cpu_calculated": 44,
+2026-11-03 20:35:43.896      "gpu_request_envelope": 910,
+2026-11-03 20:35:43.896    "seconds": {
+2026-11-03 20:35:43.896    "output_token_cap": 172032,
+2026-11-03 20:35:43.896    },
+2026-11-03 20:35:43.896      "semantic_jobs_max": 90
+2026-11-03 20:35:43.896      "cross_solver_jobs_max": 336,
+2026-11-03 20:35:43.896      "llm_calls": 42,
+2026-11-03 20:35:43.896      "patch_calls": 36,
+2026-11-03 20:35:43.896      "contract_calls": 6,
+2026-11-03 20:35:43.896      "trajectories": 36,
+2026-11-03 20:35:43.896    "counts": {
+2026-11-03 20:35:43.896    },
+2026-11-03 20:35:43.896      "wall_cap": true
+2026-11-03 20:35:43.896      "reserve_fits": true,
+2026-11-03 20:35:43.896      "pack_fits": true,
+2026-11-03 20:35:43.896      "work_fits": true,
+2026-11-03 20:35:43.896      "offline_fits": true,
+2026-11-03 20:35:43.896      "feedback_fits": true,
+2026-11-03 20:35:43.896    "checks": {
+2026-11-03 20:35:43.896    "status": "capacity_check_passed",
+2026-11-03 20:35:43.896    "experiment_id": "E004-1.6",
+2026-11-03 20:35:43.896  {
+2026-11-03 20:35:43.311  Actual runtime imports passed; jsonschema is not required
+2026-11-03 20:35:26.680  watch file /etc/exit_code/job-b619bb0e-992a-42b5-a4c5-3ec43dbf4242-worker-0
