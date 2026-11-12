@@ -13,13 +13,14 @@ from qihc.experiment_runtime.storage import load,save,value_digest,worker_lock
 from qihc.experiment_runtime.identity import model_identity
 from experiments.feedback_active_v3.runtime import seed_for
 def configure(package):
-    global PACKAGE, RUN, MODEL, ARMS, DATA, sources, wait_lock, shared, decide, AUDIT
+    global PACKAGE, RUN, MODEL, ARMS, DATA, sources, wait_lock, shared, decide, AUDIT, SHARED_COST_ARMS
     PACKAGE = package
     data = importlib.import_module(package+'.data')
     policy = importlib.import_module(package+'.policy')
     RUN, MODEL, ARMS, DATA = data.RUN, data.MODEL, data.ARMS, data.DATA
     sources, wait_lock = data.sources, data.wait_lock
     shared, decide = policy.shared, policy.decide
+    SHARED_COST_ARMS = getattr(data, 'SHARED_COST_ARMS', tuple(a for a in ARMS if a not in ('A', 'B')))
     module = getattr(data, 'AUDIT_MODULE', None)
     AUDIT = importlib.import_module(module).audit if module else None
 
@@ -113,7 +114,7 @@ def evaluate(path):
         if not sempath.exists():save(sempath,execute(dict(stage="semantic",model=spec,gold=gold)))
         sem=load(sempath)["status"]
     calls = list(row.get('usage', []))
-    if row['arm'] not in ('A', 'B'):
+    if row['arm'] in SHARED_COST_ARMS:
         calls += load(path.parents[4]/'shared'/str(row['seed'])/path.name).get('usage', [])
     usage = {name: sum(c.get('usage', {}).get(name, 0) for c in calls)
              for name in ('prompt_tokens', 'completion_tokens')}
