@@ -1,0 +1,22 @@
+{
+  "experiment_id": "E005-1.13",
+  "seed": 17,
+  "arms": ["base", "plain", "pbit"],
+  "controls": ["schedule", "rule", "learned"],
+  "chains": 32,
+  "window_steps": 128,
+  "decisions": 4,
+  "training_temperatures": [0.25, 0.5, 1.0, 2.0],
+  "collapsed_training_trajectories": [],
+  "model_epochs": 2,
+  "model_lr": 0.000005,
+  "control_epochs": 2,
+  "control_lr": 0.00002,
+  "selection_repeats": 2,
+  "confirmation_repeats": 4,
+  "probe_steps": 128,
+  "checkpoint_steps": 8,
+  "cpu_workers": 8,
+  "min_control_gain_cases": 3,
+  "bootstrap_repeats": 5000
+}

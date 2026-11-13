@@ -1,0 +1,1 @@
+{"scope": "Schema/kernel compatibility only; 2 chains, one warmup step and one step per action; no benchmark performance or test-driven selection", "cases": 780, "stages": {"main": 480, "scale": 300}, "actions": ["cool", "heat", "clamp"], "source_sha256": "84b735c9df24f73a868af674427fa55b4b78a6ec0b22a19559b897c8bf7b7a60"}
