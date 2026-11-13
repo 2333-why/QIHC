@@ -8,6 +8,20 @@
 
 ## 当前交付：服务器拉取与CPU准备
 
+**2026-11-13已跑过旧版且出现SCIP种子溢出时**：不重新造数。在作业已停止后，于联网CPU端执行下面的更新和迁移，然后在GPU端重跑`04_gpu_full.sh`。
+
+```bash
+cd /inspire/hdd/global_user/czxs25210022/why/QIHC-E005-1.12
+git fetch origin codex/e005-1.12-full780
+git checkout --detach <修复交付SHA>
+export QIHC_ENV=/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128
+export QIHC_CONTROL_RUN=/inspire/hdd/global_user/czxs25210022/why/results/E005-1.12_controller_full780
+export QIHC_CONTROL_CONFIG="$PWD/experiments/solver_control_v1/config_full.json"
+"$QIHC_ENV/bin/python" -m experiments.solver_control_v1.run migrate-reference-seed full
+```
+
+迁移会检查原发布源码、相同环境/模型/输入并备份manifest，保留标签、优化器检查点与已完成评测。仅参考SCIP种子缩至合法整数范围，不改变训练/搜索随机流。新建实验则使用下面的正常CPU准备流程。
+
 在可联网CPU/登录节点使用独立checkout；已有E005-1.11作业保留原checkout、原SHA和原目录。
 
 ```bash

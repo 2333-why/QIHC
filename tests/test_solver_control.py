@@ -226,6 +226,16 @@ def test_full_gpu_dispatch_and_resume_do_not_depend_on_pilot(tmp_path,monkeypatc
     assert [(args[-1],gpu) for args,gpu in calls if gpu]==[('best_sft','2'),('trajectory_sft','3'),('trajectory_dpo','2')]
     for arm in r.CFG['arms']:save(tmp_path/f'full/models/{arm}/done.json',dict(cases=780))
     calls.clear();r.launch('full');assert not calls
+    (tmp_path/'full/models/best_sft/done.json').unlink()
+    class Failed(Proc):
+        returncode=1
+        def __init__(self,args,**kw):
+            super().__init__(args,**kw)
+            kw['stdout'].write('OverflowError: value too large to convert to int\n')
+        def poll(self):return 1
+    monkeypatch.setattr(r.subprocess,'Popen',Failed)
+    with pytest.raises(RuntimeError,match='(?s)best_sft: exit=1.*OverflowError'):
+        r.launch('full')
 
 
 def test_expanded_labels_have_16_independent_states_and_resume(tmp_path,monkeypatch):
@@ -248,3 +258,51 @@ def test_expanded_labels_have_16_independent_states_and_resume(tmp_path,monkeypa
     assert [e['state']['temperature'] for e in result['examples'][::4]]==[.5,.25,1.,2.]
     assert r.label_one(job)==result and len(seen)==16
     assert r.CFG['decisions']==4
+
+
+@pytest.mark.parametrize('raw',[0,17,2147483647,4045664162,4294967295])
+def test_reference_seed_is_signed32_without_changing_search(tmp_path,monkeypatch,raw):
+    from experiments.solver_control_v1 import run as r
+    from experiments.feedback_active_v3 import cpu
+    _,spec,_=problem()
+    monkeypatch.setattr(r,'RUN',tmp_path)
+    monkeypatch.setattr(r,'rows',lambda *a:[dict(case=dict(id='one',stage='main'),gold=spec)])
+    monkeypatch.setattr(r,'seed',lambda *a:raw)
+    monkeypatch.setattr(r,'episode',lambda *a:dict(best=dict(x=[0]),actions=['hold']))
+    def reference(job):
+        assert job['seed']==(raw & 0x7fffffff)
+        assert 0<=job['seed']<=2147483647
+        return dict(status='optimal',optimality_proven=True,objective=0)
+    monkeypatch.setattr(cpu,'execute',reference)
+    r.evaluate('full','fixed')
+
+
+def test_seed_fix_migration_is_narrow_atomic_and_preserves_artifacts(tmp_path,monkeypatch):
+    import hashlib
+    from experiments.solver_control_v1 import run as r
+    key='experiments/solver_control_v1/run.py'
+    h=lambda b:hashlib.sha256(b).hexdigest()
+    cfg=dict(r.CFG,experiment_id='E005-1.12')
+    old=dict(experiment_id='E005-1.12',config=cfg,code_sha='original',sources={key:h(b'old'),'other.py':'unchanged'})
+    new={key:h(b'new'),'other.py':'unchanged'}
+    monkeypatch.setattr(r,'RUN',tmp_path);monkeypatch.setattr(r,'CFG',cfg)
+    monkeypatch.setattr(r,'sources',lambda:new)
+    def command(args,**kw):
+        if args[1]=='rev-parse':return 'newsha\n'
+        return b'old' if args[2].startswith('7fb82f7f') else b'new'
+    monkeypatch.setattr(r.subprocess,'check_output',command)
+    save(tmp_path/'manifest.json',old)
+    save(tmp_path/'full/models/best_sft/checkpoint.pt',{'sentinel':17})
+    def invalid(m=None):raise ValueError('Environment changed')
+    monkeypatch.setattr(r,'validate',invalid)
+    with pytest.raises(ValueError,match='Environment'):r.migrate_reference_seed_fix()
+    assert load(tmp_path/'manifest.json')==old
+    assert not (tmp_path/'manifest.before_reference_seed_fix.json').exists()
+    monkeypatch.setattr(r,'validate',lambda m=None:m)
+    new['other.py']='changed'
+    with pytest.raises(ValueError,match='Unrelated'):r.migrate_reference_seed_fix()
+    new['other.py']='unchanged'
+    r.migrate_reference_seed_fix();r.migrate_reference_seed_fix()
+    assert load(tmp_path/'manifest.before_reference_seed_fix.json')==old
+    assert load(tmp_path/'manifest.json')['code_sha']=='newsha'
+    assert load(tmp_path/'full/models/best_sft/checkpoint.pt')=={'sentinel':17}

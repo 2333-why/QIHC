@@ -28,10 +28,10 @@ def sources():
     return {p.relative_to(REPO).as_posix():digest(p) for p in sorted(paths)}
 
 
-def validate():
+def validate(manifest=None):
     from experiments.pvcd_cycle_v1.common import environment_identity
     from qihc.experiment_runtime.identity import model_identity
-    m = load(RUN/'manifest.json')
+    m = load(RUN/'manifest.json') if manifest is None else manifest
     if m['config'] != CFG or m['sources'] != sources(): raise ValueError('Code/config changed')
     if m['environment'] != environment_identity(): raise ValueError('Shared environment changed')
     attrs = lambda rows:[(r['path'],r['bytes'],r['mtime_ns']) for r in rows]
@@ -39,6 +39,39 @@ def validate():
     for name, h in m['inputs'].items():
         if digest(RUN/'inputs'/name) != h: raise ValueError('Frozen input changed '+name)
     return m
+
+
+def migrate_reference_seed_fix():
+    """Accept only the published 1.12 launcher change; preserve all run artifacts."""
+    import hashlib
+    from contextlib import ExitStack
+    original='7fb82f7f552f8918ca7a77ea844f4e697efc6fa0'
+    key='experiments/solver_control_v1/run.py'
+    with ExitStack() as locks:
+        for path in [RUN/'prepare.lock',RUN/'launch.lock',RUN/'full/labels.lock']+[
+                RUN/'full/models'/arm/'worker.lock' for arm in CFG['arms']]:
+            locks.enter_context(worker_lock(path))
+        m=load(RUN/'manifest.json'); current=sources()
+        if m['sources']==current:
+            validate();print('Already current; existing run verified');return
+        if m['experiment_id']!='E005-1.12' or m['config']!=CFG:
+            raise ValueError('Migration supports only unchanged E005-1.12 configuration')
+        old=hashlib.sha256(subprocess.check_output(['git','show',original+':'+key],cwd=REPO)).hexdigest()
+        if m['sources'].get(key)!=old or set(m['sources'])!=set(current):
+            raise ValueError('Not the published E005-1.12 source layout')
+        if any(m['sources'][p]!=h for p,h in current.items() if p!=key):
+            raise ValueError('Unrelated source changed; refusing migration')
+        head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
+        committed=hashlib.sha256(subprocess.check_output(['git','show',head+':'+key],cwd=REPO)).hexdigest()
+        if current[key]!=committed:raise ValueError('Commit launcher fix first')
+        updated=dict(m,sources=current,code_sha=head,
+            reference_seed_fix=dict(previous_code_sha=m['code_sha'],mapping='uint32 & 0x7fffffff'))
+        validate(updated)  # Check environment/model/inputs before mutating the manifest.
+        backup=RUN/'manifest.before_reference_seed_fix.json'
+        if backup.exists() and load(backup)!=m:raise ValueError('Conflicting migration backup')
+        if not backup.exists():save(backup,m)
+        save(RUN/'manifest.json',updated)
+        print('Reference seed fix bound; labels, checkpoints and evaluations preserved',flush=True)
 
 
 def prepare():
@@ -270,7 +303,8 @@ def evaluate(mode,arm,engine=None):
         rp=RUN/'references'/(cid+'.json')
         from experiments.posttraining_v1.evaluate import worker_lock_wait
         with worker_lock_wait(rp):
-            if not rp.exists(): save(rp,execute(dict(stage='reference',gold=spec,seconds=120,seed=seed(cid,'reference'))))
+            # SCIP accepts a nonnegative signed 32-bit int. Keep all other RNG streams unchanged.
+            if not rp.exists(): save(rp,execute(dict(stage='reference',gold=spec,seconds=120,seed=seed(cid,'reference') & 0x7fffffff)))
             reference=load(rp)
             if reference.get('status')=='execution_error':raise RuntimeError(str(reference))
         result.update(case_id=cid,stage='pilot' if mode=='pilot' else row['case']['stage'],
@@ -363,6 +397,17 @@ def launch(mode):
     from experiments.pvcd_cycle_v1.launch import stop_process
     def batch(assignments):
         live=[]
+        def check_failed():
+            failed=[(p,l,a,path) for p,l,a,path in live if p.poll() not in (None,0)]
+            if failed:
+                details=[]
+                for p,log,arm,path in failed:
+                    log.flush()
+                    with path.open('rb') as f:
+                        f.seek(0,2);f.seek(max(0,f.tell()-8192))
+                        tail=f.read().decode('utf-8',errors='replace')
+                    details.append(f'{arm}: exit={p.returncode}; log={path}\n{tail}')
+                raise RuntimeError('Worker failed:\n'+'\n'.join(details))
         try:
             for arm,gpu in assignments:
                 if (RUN/mode/'models'/arm/'done.json').exists():continue
@@ -370,13 +415,13 @@ def launch(mode):
                 log=path.open('a')
                 proc=subprocess.Popen([sys.executable,'-m','experiments.solver_control_v1.run','worker',mode,arm],
                     env=dict(os.environ,CUDA_VISIBLE_DEVICES=gpu),stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
-                live.append((proc,log))
-            while any(p.poll() is None for p,l in live):
-                if any(p.poll() not in (None,0) for p,l in live):raise RuntimeError('Worker failed; inspect logs')
+                live.append((proc,log,arm,path))
+            while any(p.poll() is None for p,l,a,path in live):
+                check_failed()
                 time.sleep(2)
-            if any(p.returncode for p,l in live):raise RuntimeError('Worker failed; inspect logs')
+            check_failed()
         finally:
-            for p,l in live:stop_process(p);l.close()
+            for p,l,a,path in live:stop_process(p);l.close()
     with worker_lock(RUN/'launch.lock'):
         batch([('best_sft',ids[0]),('trajectory_sft',ids[1])]+[(a,'') for a in CFG['arms'] if a not in CFG['trained_arms']])
         batch([('trajectory_dpo',ids[0])])
@@ -384,10 +429,11 @@ def launch(mode):
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('command',choices=['prepare','labels','gpu','worker','report'])
+    p=argparse.ArgumentParser();p.add_argument('command',choices=['prepare','labels','gpu','worker','report','migrate-reference-seed'])
     p.add_argument('mode',nargs='?',choices=['pilot','screen','full'],default='pilot');p.add_argument('arm',nargs='?',choices=CFG['arms'])
     a=p.parse_args()
-    if a.command=='prepare':prepare()
+    if a.command=='migrate-reference-seed':migrate_reference_seed_fix()
+    elif a.command=='prepare':prepare()
     elif a.command=='labels':make_labels(a.mode)
     elif a.command=='gpu':launch(a.mode)
     elif a.command=='worker':
