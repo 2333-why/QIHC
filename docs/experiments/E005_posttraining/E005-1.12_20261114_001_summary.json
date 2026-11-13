@@ -1,0 +1,735 @@
+{
+  "source_sha256": "fe2eae3bf40563b545b8ab473efd93d8f1df68671cf79077745d7d19dc720ac3",
+  "e005_1_10": {
+    "stages": {
+      "main": {
+        "sft": {
+          "n": 480,
+          "rates": [
+            37.92,
+            0.21,
+            67.08,
+            47.71,
+            68.54,
+            48.96
+          ],
+          "inferred_counts": [
+            182,
+            1,
+            322,
+            229,
+            329,
+            235
+          ]
+        },
+        "pvcd": {
+          "n": 480,
+          "rates": [
+            38.33,
+            0.42,
+            67.08,
+            48.96,
+            68.33,
+            49.79
+          ],
+          "inferred_counts": [
+            184,
+            2,
+            322,
+            235,
+            328,
+            239
+          ]
+        },
+        "positive": {
+          "n": 480,
+          "rates": [
+            39.17,
+            0.42,
+            66.46,
+            48.12,
+            67.29,
+            49.38
+          ],
+          "inferred_counts": [
+            188,
+            2,
+            319,
+            231,
+            323,
+            237
+          ]
+        },
+        "localized": {
+          "n": 480,
+          "rates": [
+            39.38,
+            0.21,
+            65.42,
+            48.33,
+            67.5,
+            50.83
+          ],
+          "inferred_counts": [
+            189,
+            1,
+            314,
+            232,
+            324,
+            244
+          ]
+        }
+      },
+      "scale": {
+        "sft": {
+          "n": 300,
+          "rates": [
+            24.0,
+            5.0,
+            51.0,
+            29.67,
+            51.33,
+            30.33
+          ],
+          "inferred_counts": [
+            72,
+            15,
+            153,
+            89,
+            154,
+            91
+          ]
+        },
+        "pvcd": {
+          "n": 300,
+          "rates": [
+            24.67,
+            4.67,
+            51.0,
+            29.67,
+            51.67,
+            30.67
+          ],
+          "inferred_counts": [
+            74,
+            14,
+            153,
+            89,
+            155,
+            92
+          ]
+        },
+        "positive": {
+          "n": 300,
+          "rates": [
+            24.67,
+            5.0,
+            49.67,
+            29.67,
+            50.67,
+            30.67
+          ],
+          "inferred_counts": [
+            74,
+            15,
+            149,
+            89,
+            152,
+            92
+          ]
+        },
+        "localized": {
+          "n": 300,
+          "rates": [
+            24.33,
+            4.67,
+            50.67,
+            29.0,
+            51.67,
+            30.33
+          ],
+          "inferred_counts": [
+            73,
+            14,
+            152,
+            87,
+            155,
+            91
+          ]
+        }
+      }
+    },
+    "merged780": {
+      "sft": {
+        "n": 780,
+        "inferred_counts": [
+          254,
+          16,
+          475,
+          318,
+          483,
+          326
+        ],
+        "rates": [
+          32.56410256410256,
+          2.051282051282051,
+          60.89743589743589,
+          40.76923076923077,
+          61.92307692307693,
+          41.794871794871796
+        ]
+      },
+      "pvcd": {
+        "n": 780,
+        "inferred_counts": [
+          258,
+          16,
+          475,
+          324,
+          483,
+          331
+        ],
+        "rates": [
+          33.07692307692307,
+          2.051282051282051,
+          60.89743589743589,
+          41.53846153846154,
+          61.92307692307693,
+          42.43589743589744
+        ]
+      },
+      "positive": {
+        "n": 780,
+        "inferred_counts": [
+          262,
+          17,
+          468,
+          320,
+          475,
+          329
+        ],
+        "rates": [
+          33.589743589743584,
+          2.1794871794871793,
+          60.0,
+          41.02564102564102,
+          60.89743589743589,
+          42.17948717948718
+        ]
+      },
+      "localized": {
+        "n": 780,
+        "inferred_counts": [
+          262,
+          15,
+          466,
+          319,
+          479,
+          335
+        ],
+        "rates": [
+          33.589743589743584,
+          1.9230769230769231,
+          59.743589743589745,
+          40.8974358974359,
+          61.410256410256416,
+          42.94871794871795
+        ]
+      }
+    },
+    "metric_order": [
+      "model_correct",
+      "unknown",
+      "pbit_feasible",
+      "pbit_optimal",
+      "scip_feasible",
+      "scip_optimal"
+    ],
+    "qualification": "Counts inferred from rounded percentages and denominators; not independently audited per-case data"
+  },
+  "e005_1_12": {
+    "experiment_id": "E005-1.12",
+    "mode": "full",
+    "track": "fixed_correct_model",
+    "seed": 17,
+    "expected_cases": 780,
+    "expected_evaluations": 5460,
+    "completed_evaluations": 5460,
+    "summary": {
+      "fixed": {
+        "all": {
+          "n": 780,
+          "expected": 780,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.7717948717948718,
+          "reference_proven": 780,
+          "episode_seconds": 0.1238509841555825,
+          "search_seconds": 0.1238450635326071,
+          "decision_seconds": 1.553442770949541e-06,
+          "nonhold": 0,
+          "actions": {
+            "hold": 3120,
+            "cool": 0,
+            "heat": 0,
+            "harden": 0,
+            "balance": 0
+          }
+        },
+        "main": {
+          "n": 480,
+          "expected": 480,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.925,
+          "reference_proven": 480,
+          "episode_seconds": 0.10843847030143176,
+          "search_seconds": 0.10843263756736027,
+          "decision_seconds": 1.5143906542410453e-06,
+          "nonhold": 0,
+          "actions": {
+            "hold": 1920,
+            "cool": 0,
+            "heat": 0,
+            "harden": 0,
+            "balance": 0
+          }
+        },
+        "scale": {
+          "n": 300,
+          "expected": 300,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.5266666666666666,
+          "reference_proven": 300,
+          "episode_seconds": 0.1485110063222237,
+          "search_seconds": 0.14850494507700204,
+          "decision_seconds": 1.6159261576831342e-06,
+          "nonhold": 0,
+          "actions": {
+            "hold": 1200,
+            "cool": 0,
+            "heat": 0,
+            "harden": 0,
+            "balance": 0
+          }
+        }
+      },
+      "schedule": {
+        "all": {
+          "n": 780,
+          "expected": 780,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.8397435897435898,
+          "reference_proven": 780,
+          "episode_seconds": 0.12417304158085384,
+          "search_seconds": 0.12416692741352539,
+          "decision_seconds": 1.8309458540991332e-06,
+          "nonhold": 3120,
+          "actions": {
+            "hold": 0,
+            "cool": 3120,
+            "heat": 0,
+            "harden": 0,
+            "balance": 0
+          }
+        },
+        "main": {
+          "n": 480,
+          "expected": 480,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.95625,
+          "reference_proven": 480,
+          "episode_seconds": 0.10831970935881448,
+          "search_seconds": 0.1083136416724301,
+          "decision_seconds": 1.820134154210488e-06,
+          "nonhold": 1920,
+          "actions": {
+            "hold": 0,
+            "cool": 1920,
+            "heat": 0,
+            "harden": 0,
+            "balance": 0
+          }
+        },
+        "scale": {
+          "n": 300,
+          "expected": 300,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.6533333333333333,
+          "reference_proven": 300,
+          "episode_seconds": 0.14953837313611681,
+          "search_seconds": 0.14953218459927786,
+          "decision_seconds": 1.8482445739209651e-06,
+          "nonhold": 1200,
+          "actions": {
+            "hold": 0,
+            "cool": 1200,
+            "heat": 0,
+            "harden": 0,
+            "balance": 0
+          }
+        }
+      },
+      "rule": {
+        "all": {
+          "n": 780,
+          "expected": 780,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.8397435897435898,
+          "reference_proven": 780,
+          "episode_seconds": 0.12422330155580615,
+          "search_seconds": 0.12421385188175078,
+          "decision_seconds": 5.227049144032674e-06,
+          "nonhold": 3120,
+          "actions": {
+            "hold": 0,
+            "cool": 3112,
+            "heat": 8,
+            "harden": 0,
+            "balance": 0
+          }
+        },
+        "main": {
+          "n": 480,
+          "expected": 480,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.95625,
+          "reference_proven": 480,
+          "episode_seconds": 0.1084655730087737,
+          "search_seconds": 0.10845620404046107,
+          "decision_seconds": 5.157744453754276e-06,
+          "nonhold": 1920,
+          "actions": {
+            "hold": 0,
+            "cool": 1912,
+            "heat": 8,
+            "harden": 0,
+            "balance": 0
+          }
+        },
+        "scale": {
+          "n": 300,
+          "expected": 300,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.6533333333333333,
+          "reference_proven": 300,
+          "episode_seconds": 0.14943566723105808,
+          "search_seconds": 0.14942608842781435,
+          "decision_seconds": 5.33793664847811e-06,
+          "nonhold": 1200,
+          "actions": {
+            "hold": 0,
+            "cool": 1200,
+            "heat": 0,
+            "harden": 0,
+            "balance": 0
+          }
+        }
+      },
+      "random": {
+        "all": {
+          "n": 780,
+          "expected": 780,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.7705128205128206,
+          "reference_proven": 780,
+          "episode_seconds": 0.12316532394615934,
+          "search_seconds": 0.12310073625666496,
+          "decision_seconds": 6.021703056131418e-05,
+          "nonhold": 2474,
+          "actions": {
+            "hold": 646,
+            "cool": 630,
+            "heat": 626,
+            "harden": 569,
+            "balance": 649
+          }
+        },
+        "main": {
+          "n": 480,
+          "expected": 480,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.9229166666666667,
+          "reference_proven": 480,
+          "episode_seconds": 0.10764553782404013,
+          "search_seconds": 0.10758311560687919,
+          "decision_seconds": 5.808934074593708e-05,
+          "nonhold": 1510,
+          "actions": {
+            "hold": 410,
+            "cool": 388,
+            "heat": 379,
+            "harden": 343,
+            "balance": 400
+          }
+        },
+        "scale": {
+          "n": 300,
+          "expected": 300,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.5266666666666666,
+          "reference_proven": 300,
+          "episode_seconds": 0.14799698174155007,
+          "search_seconds": 0.14792892929632218,
+          "decision_seconds": 6.362133426591754e-05,
+          "nonhold": 964,
+          "actions": {
+            "hold": 236,
+            "cool": 242,
+            "heat": 247,
+            "harden": 226,
+            "balance": 249
+          }
+        }
+      },
+      "best_sft": {
+        "all": {
+          "n": 780,
+          "expected": 780,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.8397435897435898,
+          "reference_proven": 780,
+          "episode_seconds": 1.183878111322888,
+          "search_seconds": 0.13111706491476163,
+          "decision_seconds": 1.0525008858533766,
+          "nonhold": 3120,
+          "actions": {
+            "hold": 0,
+            "cool": 3120,
+            "heat": 0,
+            "harden": 0,
+            "balance": 0
+          }
+        },
+        "main": {
+          "n": 480,
+          "expected": 480,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.95625,
+          "reference_proven": 480,
+          "episode_seconds": 0.8041056401033226,
+          "search_seconds": 0.11384269984167379,
+          "decision_seconds": 0.6900086313165957,
+          "nonhold": 1920,
+          "actions": {
+            "hold": 0,
+            "cool": 1920,
+            "heat": 0,
+            "harden": 0,
+            "balance": 0
+          }
+        },
+        "scale": {
+          "n": 300,
+          "expected": 300,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.6533333333333333,
+          "reference_proven": 300,
+          "episode_seconds": 1.7915140652741925,
+          "search_seconds": 0.15875604903170218,
+          "decision_seconds": 1.6324884931122263,
+          "nonhold": 1200,
+          "actions": {
+            "hold": 0,
+            "cool": 1200,
+            "heat": 0,
+            "harden": 0,
+            "balance": 0
+          }
+        }
+      },
+      "trajectory_sft": {
+        "all": {
+          "n": 780,
+          "expected": 780,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.8397435897435898,
+          "reference_proven": 780,
+          "episode_seconds": 2.493743418216801,
+          "search_seconds": 0.13169974099026802,
+          "decision_seconds": 2.3617669792051834,
+          "nonhold": 3120,
+          "actions": {
+            "hold": 0,
+            "cool": 3120,
+            "heat": 0,
+            "harden": 0,
+            "balance": 0
+          }
+        },
+        "main": {
+          "n": 480,
+          "expected": 480,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.95625,
+          "reference_proven": 480,
+          "episode_seconds": 1.5376888387225336,
+          "search_seconds": 0.11455497778612576,
+          "decision_seconds": 1.4228645348722542,
+          "nonhold": 1920,
+          "actions": {
+            "hold": 0,
+            "cool": 1920,
+            "heat": 0,
+            "harden": 0,
+            "balance": 0
+          }
+        },
+        "scale": {
+          "n": 300,
+          "expected": 300,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.6533333333333333,
+          "reference_proven": 300,
+          "episode_seconds": 4.023430745407628,
+          "search_seconds": 0.1591313621168956,
+          "decision_seconds": 3.86401089013787,
+          "nonhold": 1200,
+          "actions": {
+            "hold": 0,
+            "cool": 1200,
+            "heat": 0,
+            "harden": 0,
+            "balance": 0
+          }
+        }
+      },
+      "trajectory_dpo": {
+        "all": {
+          "n": 780,
+          "expected": 780,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.8397435897435898,
+          "reference_proven": 780,
+          "episode_seconds": 2.449478231708352,
+          "search_seconds": 0.12947359515192847,
+          "decision_seconds": 2.3197241051507613,
+          "nonhold": 3120,
+          "actions": {
+            "hold": 0,
+            "cool": 3120,
+            "heat": 0,
+            "harden": 0,
+            "balance": 0
+          }
+        },
+        "main": {
+          "n": 480,
+          "expected": 480,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.95625,
+          "reference_proven": 480,
+          "episode_seconds": 1.508182600159974,
+          "search_seconds": 0.11233795109922842,
+          "decision_seconds": 1.395572767497409,
+          "nonhold": 1920,
+          "actions": {
+            "hold": 0,
+            "cool": 1920,
+            "heat": 0,
+            "harden": 0,
+            "balance": 0
+          }
+        },
+        "scale": {
+          "n": 300,
+          "expected": 300,
+          "complete": true,
+          "feasible": 1.0,
+          "optimal": 0.6533333333333333,
+          "reference_proven": 300,
+          "episode_seconds": 3.9555512421857566,
+          "search_seconds": 0.15689062563624853,
+          "decision_seconds": 3.798366245396125,
+          "nonhold": 1200,
+          "actions": {
+            "hold": 0,
+            "cool": 1200,
+            "heat": 0,
+            "harden": 0,
+            "balance": 0
+          }
+        }
+      }
+    },
+    "gate": {
+      "passed": true,
+      "complete": true,
+      "labels": {
+        "complete": true,
+        "pairs": 479,
+        "cases": 80,
+        "nonhold": 442,
+        "actions": [
+          "balance",
+          "cool",
+          "harden",
+          "heat",
+          "hold"
+        ],
+        "labeled_cases": 90,
+        "expected_cases": 90,
+        "candidate_states": 1440,
+        "accepted_fraction": 0.3326388888888889,
+        "action_counts": {
+          "hold": 37,
+          "cool": 428,
+          "heat": 2,
+          "harden": 10,
+          "balance": 2
+        },
+        "passed": true
+      },
+      "gradients": {
+        "best_sft": true,
+        "trajectory_sft": true,
+        "trajectory_dpo": true
+      }
+    },
+    "comparisons": {
+      "trajectory_sft-best_sft": {
+        "delta": 0.0,
+        "bonferroni_98_33_ci": [
+          0.0,
+          0.0
+        ],
+        "n": 780
+      },
+      "trajectory_dpo-trajectory_sft": {
+        "delta": 0.0,
+        "bonferroni_98_33_ci": [
+          0.0,
+          0.0
+        ],
+        "n": 780
+      },
+      "trajectory_sft-rule": {
+        "delta": 0.0,
+        "bonferroni_98_33_ci": [
+          0.0,
+          0.0
+        ],
+        "n": 780
+      }
+    },
+    "caveat": "Single-seed exploratory screen; equal bit updates, NOT equal wall time. 780-case total is case-weighted. Not comparable to LLM modeling accuracy."
+  }
+}

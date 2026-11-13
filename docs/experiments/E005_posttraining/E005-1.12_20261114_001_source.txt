@@ -1,0 +1,84 @@
+[root:QIHC-E005-1.12]$ cd /inspire/hdd/global_user/czxs25210022/why/QIHC-E005-1.10
+export QIHC_ENV=/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128
+export QIHC_VERIFIED_RUN=/inspire/hdd/global_user/czxs25210022/why/results/E005-1.10_verified
+
+bash experiments/pvcd_verified_v1/02_report.sh pilot
+bash experiments/pvcd_verified_v1/02_report.sh screen
+# E005-1.10 pilot
+同种子17、相同训练题/步数，三个训练组从同一SFT开始。历史完整训练P-VCD不参与本轮排序。
+额外正样本NLL及解释反馈具有额外计算/训练监督成本，不声称等GPU小时。
+
+## pilot: 24/24道共同题
+|组|完整正确|unknown|p-bit可行|p-bit最优|SCIP可行|SCIP最优|
+|---|---:|---:|---:|---:|---:|---:|
+|sft|45.83%|0.00%|70.83%|50.00%|75.00%|54.17%|
+|pvcd|45.83%|0.00%|70.83%|50.00%|75.00%|54.17%|
+|positive|45.83%|0.00%|75.00%|58.33%|75.00%|54.17%|
+|localized|45.83%|0.00%|70.83%|54.17%|75.00%|54.17%|
+pvcd - sft: +0.00pp, 98.33% case-bootstrap interval [0.0, 0.0]
+positive - pvcd: +8.33pp, 98.33% case-bootstrap interval [0.0, 25.0]
+localized - positive: -4.17pp, 98.33% case-bootstrap interval [-16.666666666666664, 0.0]
+
+## 训练机制
+|组|步数|正样本学习题数|修复生成|验证修复|原反例已消除|训练秒|
+|---|---:|---:|---:|---:|---:|---:|
+|pvcd|12|0|12|0|1|2140.3|
+|positive|12|6|13|0|0|2364.2|
+|localized|12|6|13|1|2|2065.1|
+原反例消除不等于完整正确；仅verified_correct可进入修复蒸馏。开发含训练题，不作为泛化证据。
+screen只有一个种子且主测历史已查看，属于探索性筛查；不自动启动三种子正式实验。
+{"passed": true, "reasons": [], "repair_active": true, "scope": "execution and verified-positive signal only; does not certify repair efficacy or accuracy gains"}
+# E005-1.10 screen
+同种子17、相同训练题/步数，三个训练组从同一SFT开始。历史完整训练P-VCD不参与本轮排序。
+额外正样本NLL及解释反馈具有额外计算/训练监督成本，不声称等GPU小时。
+
+## development: 120/120道共同题
+|组|完整正确|unknown|p-bit可行|p-bit最优|SCIP可行|SCIP最优|
+|---|---:|---:|---:|---:|---:|---:|
+|sft|50.00%|0.00%|77.50%|63.33%|77.50%|63.33%|
+|pvcd|51.67%|0.00%|77.50%|64.17%|76.67%|64.17%|
+|positive|51.67%|0.00%|76.67%|65.00%|76.67%|65.00%|
+|localized|51.67%|0.00%|77.50%|65.00%|75.83%|64.17%|
+## main: 480/480道共同题
+|组|完整正确|unknown|p-bit可行|p-bit最优|SCIP可行|SCIP最优|
+|---|---:|---:|---:|---:|---:|---:|
+|sft|37.92%|0.21%|67.08%|47.71%|68.54%|48.96%|
+|pvcd|38.33%|0.42%|67.08%|48.96%|68.33%|49.79%|
+|positive|39.17%|0.42%|66.46%|48.12%|67.29%|49.38%|
+|localized|39.38%|0.21%|65.42%|48.33%|67.50%|50.83%|
+pvcd - sft: +1.25pp, 98.33% case-bootstrap interval [-0.8333333333333334, 3.5416666666666665]
+positive - pvcd: -0.83pp, 98.33% case-bootstrap interval [-2.9166666666666665, 1.25]
+localized - positive: +0.21pp, 98.33% case-bootstrap interval [-2.083333333333333, 2.5]
+## public: 10/10道共同题
+|组|完整正确|unknown|p-bit可行|p-bit最优|SCIP可行|SCIP最优|
+|---|---:|---:|---:|---:|---:|---:|
+|sft|30.00%|30.00%|40.00%|30.00%|60.00%|60.00%|
+|pvcd|30.00%|30.00%|40.00%|30.00%|60.00%|60.00%|
+|positive|30.00%|30.00%|40.00%|30.00%|60.00%|60.00%|
+|localized|30.00%|30.00%|40.00%|30.00%|60.00%|60.00%|
+## scale: 300/300道共同题
+|组|完整正确|unknown|p-bit可行|p-bit最优|SCIP可行|SCIP最优|
+|---|---:|---:|---:|---:|---:|---:|
+|sft|24.00%|5.00%|51.00%|29.67%|51.33%|30.33%|
+|pvcd|24.67%|4.67%|51.00%|29.67%|51.67%|30.67%|
+|positive|24.67%|5.00%|49.67%|29.67%|50.67%|30.67%|
+|localized|24.33%|4.67%|50.67%|29.00%|51.67%|30.33%|
+pvcd - sft: +0.00pp, 98.33% case-bootstrap interval [-2.0, 2.0]
+positive - pvcd: +0.00pp, 98.33% case-bootstrap interval [-2.0, 2.0]
+localized - positive: -0.67pp, 98.33% case-bootstrap interval [-3.0, 1.6666666666666667]
+
+## 训练机制
+|组|步数|正样本学习题数|修复生成|验证修复|原反例已消除|训练秒|
+|---|---:|---:|---:|---:|---:|---:|
+|pvcd|90|0|106|2|16|20058.6|
+|positive|90|48|103|3|17|20181.4|
+|localized|90|44|111|3|21|20776.8|
+原反例消除不等于完整正确；仅verified_correct可进入修复蒸馏。开发含训练题，不作为泛化证据。
+screen只有一个种子且主测历史已查看，属于探索性筛查；不自动启动三种子正式实验。
+{"passed": true, "reasons": [], "repair_active": true, "scope": "execution and verified-positive signal only; does not certify repair efficacy or accuracy gains"}
+[root:QIHC-E005-1.10]$ cd /inspire/hdd/global_user/czxs25210022/why/QIHC-E005-1.12
+export QIHC_ENV=/inspire/hdd/global_user/czxs25210022/why/envs/qihc-cu128
+export QIHC_CONTROL_RUN=/inspire/hdd/global_user/czxs25210022/why/results/E005-1.12_controller_full780
+
+bash experiments/solver_control_v1/05_report_full.sh
+{"experiment_id": "E005-1.12", "mode": "full", "track": "fixed_correct_model", "seed": 17, "expected_cases": 780, "expected_evaluations": 5460, "completed_evaluations": 5460, "summary": {"fixed": {"all": {"n": 780, "expected": 780, "complete": true, "feasible": 1.0, "optimal": 0.7717948717948718, "reference_proven": 780, "episode_seconds": 0.1238509841555825, "search_seconds": 0.1238450635326071, "decision_seconds": 1.553442770949541e-06, "nonhold": 0, "actions": {"hold": 3120, "cool": 0, "heat": 0, "harden": 0, "balance": 0}}, "main": {"n": 480, "expected": 480, "complete": true, "feasible": 1.0, "optimal": 0.925, "reference_proven": 480, "episode_seconds": 0.10843847030143176, "search_seconds": 0.10843263756736027, "decision_seconds": 1.5143906542410453e-06, "nonhold": 0, "actions": {"hold": 1920, "cool": 0, "heat": 0, "harden": 0, "balance": 0}}, "scale": {"n": 300, "expected": 300, "complete": true, "feasible": 1.0, "optimal": 0.5266666666666666, "reference_proven": 300, "episode_seconds": 0.1485110063222237, "search_seconds": 0.14850494507700204, "decision_seconds": 1.6159261576831342e-06, "nonhold": 0, "actions": {"hold": 1200, "cool": 0, "heat": 0, "harden": 0, "balance": 0}}}, "schedule": {"all": {"n": 780, "expected": 780, "complete": true, "feasible": 1.0, "optimal": 0.8397435897435898, "reference_proven": 780, "episode_seconds": 0.12417304158085384, "search_seconds": 0.12416692741352539, "decision_seconds": 1.8309458540991332e-06, "nonhold": 3120, "actions": {"hold": 0, "cool": 3120, "heat": 0, "harden": 0, "balance": 0}}, "main": {"n": 480, "expected": 480, "complete": true, "feasible": 1.0, "optimal": 0.95625, "reference_proven": 480, "episode_seconds": 0.10831970935881448, "search_seconds": 0.1083136416724301, "decision_seconds": 1.820134154210488e-06, "nonhold": 1920, "actions": {"hold": 0, "cool": 1920, "heat": 0, "harden": 0, "balance": 0}}, "scale": {"n": 300, "expected": 300, "complete": true, "feasible": 1.0, "optimal": 0.6533333333333333, "reference_proven": 300, "episode_seconds": 0.14953837313611681, "search_seconds": 0.14953218459927786, "decision_seconds": 1.8482445739209651e-06, "nonhold": 1200, "actions": {"hold": 0, "cool": 1200, "heat": 0, "harden": 0, "balance": 0}}}, "rule": {"all": {"n": 780, "expected": 780, "complete": true, "feasible": 1.0, "optimal": 0.8397435897435898, "reference_proven": 780, "episode_seconds": 0.12422330155580615, "search_seconds": 0.12421385188175078, "decision_seconds": 5.227049144032674e-06, "nonhold": 3120, "actions": {"hold": 0, "cool": 3112, "heat": 8, "harden": 0, "balance": 0}}, "main": {"n": 480, "expected": 480, "complete": true, "feasible": 1.0, "optimal": 0.95625, "reference_proven": 480, "episode_seconds": 0.1084655730087737, "search_seconds": 0.10845620404046107, "decision_seconds": 5.157744453754276e-06, "nonhold": 1920, "actions": {"hold": 0, "cool": 1912, "heat": 8, "harden": 0, "balance": 0}}, "scale": {"n": 300, "expected": 300, "complete": true, "feasible": 1.0, "optimal": 0.6533333333333333, "reference_proven": 300, "episode_seconds": 0.14943566723105808, "search_seconds": 0.14942608842781435, "decision_seconds": 5.33793664847811e-06, "nonhold": 1200, "actions": {"hold": 0, "cool": 1200, "heat": 0, "harden": 0, "balance": 0}}}, "random": {"all": {"n": 780, "expected": 780, "complete": true, "feasible": 1.0, "optimal": 0.7705128205128206, "reference_proven": 780, "episode_seconds": 0.12316532394615934, "search_seconds": 0.12310073625666496, "decision_seconds": 6.021703056131418e-05, "nonhold": 2474, "actions": {"hold": 646, "cool": 630, "heat": 626, "harden": 569, "balance": 649}}, "main": {"n": 480, "expected": 480, "complete": true, "feasible": 1.0, "optimal": 0.9229166666666667, "reference_proven": 480, "episode_seconds": 0.10764553782404013, "search_seconds": 0.10758311560687919, "decision_seconds": 5.808934074593708e-05, "nonhold": 1510, "actions": {"hold": 410, "cool": 388, "heat": 379, "harden": 343, "balance": 400}}, "scale": {"n": 300, "expected": 300, "complete": true, "feasible": 1.0, "optimal": 0.5266666666666666, "reference_proven": 300, "episode_seconds": 0.14799698174155007, "search_seconds": 0.14792892929632218, "decision_seconds": 6.362133426591754e-05, "nonhold": 964, "actions": {"hold": 236, "cool": 242, "heat": 247, "harden": 226, "balance": 249}}}, "best_sft": {"all": {"n": 780, "expected": 780, "complete": true, "feasible": 1.0, "optimal": 0.8397435897435898, "reference_proven": 780, "episode_seconds": 1.183878111322888, "search_seconds": 0.13111706491476163, "decision_seconds": 1.0525008858533766, "nonhold": 3120, "actions": {"hold": 0, "cool": 3120, "heat": 0, "harden": 0, "balance": 0}}, "main": {"n": 480, "expected": 480, "complete": true, "feasible": 1.0, "optimal": 0.95625, "reference_proven": 480, "episode_seconds": 0.8041056401033226, "search_seconds": 0.11384269984167379, "decision_seconds": 0.6900086313165957, "nonhold": 1920, "actions": {"hold": 0, "cool": 1920, "heat": 0, "harden": 0, "balance": 0}}, "scale": {"n": 300, "expected": 300, "complete": true, "feasible": 1.0, "optimal": 0.6533333333333333, "reference_proven": 300, "episode_seconds": 1.7915140652741925, "search_seconds": 0.15875604903170218, "decision_seconds": 1.6324884931122263, "nonhold": 1200, "actions": {"hold": 0, "cool": 1200, "heat": 0, "harden": 0, "balance": 0}}}, "trajectory_sft": {"all": {"n": 780, "expected": 780, "complete": true, "feasible": 1.0, "optimal": 0.8397435897435898, "reference_proven": 780, "episode_seconds": 2.493743418216801, "search_seconds": 0.13169974099026802, "decision_seconds": 2.3617669792051834, "nonhold": 3120, "actions": {"hold": 0, "cool": 3120, "heat": 0, "harden": 0, "balance": 0}}, "main": {"n": 480, "expected": 480, "complete": true, "feasible": 1.0, "optimal": 0.95625, "reference_proven": 480, "episode_seconds": 1.5376888387225336, "search_seconds": 0.11455497778612576, "decision_seconds": 1.4228645348722542, "nonhold": 1920, "actions": {"hold": 0, "cool": 1920, "heat": 0, "harden": 0, "balance": 0}}, "scale": {"n": 300, "expected": 300, "complete": true, "feasible": 1.0, "optimal": 0.6533333333333333, "reference_proven": 300, "episode_seconds": 4.023430745407628, "search_seconds": 0.1591313621168956, "decision_seconds": 3.86401089013787, "nonhold": 1200, "actions": {"hold": 0, "cool": 1200, "heat": 0, "harden": 0, "balance": 0}}}, "trajectory_dpo": {"all": {"n": 780, "expected": 780, "complete": true, "feasible": 1.0, "optimal": 0.8397435897435898, "reference_proven": 780, "episode_seconds": 2.449478231708352, "search_seconds": 0.12947359515192847, "decision_seconds": 2.3197241051507613, "nonhold": 3120, "actions": {"hold": 0, "cool": 3120, "heat": 0, "harden": 0, "balance": 0}}, "main": {"n": 480, "expected": 480, "complete": true, "feasible": 1.0, "optimal": 0.95625, "reference_proven": 480, "episode_seconds": 1.508182600159974, "search_seconds": 0.11233795109922842, "decision_seconds": 1.395572767497409, "nonhold": 1920, "actions": {"hold": 0, "cool": 1920, "heat": 0, "harden": 0, "balance": 0}}, "scale": {"n": 300, "expected": 300, "complete": true, "feasible": 1.0, "optimal": 0.6533333333333333, "reference_proven": 300, "episode_seconds": 3.9555512421857566, "search_seconds": 0.15689062563624853, "decision_seconds": 3.798366245396125, "nonhold": 1200, "actions": {"hold": 0, "cool": 1200, "heat": 0, "harden": 0, "balance": 0}}}}, "gate": {"passed": true, "complete": true, "labels": {"complete": true, "pairs": 479, "cases": 80, "nonhold": 442, "actions": ["balance", "cool", "harden", "heat", "hold"], "labeled_cases": 90, "expected_cases": 90, "candidate_states": 1440, "accepted_fraction": 0.3326388888888889, "action_counts": {"hold": 37, "cool": 428, "heat": 2, "harden": 10, "balance": 2}, "passed": true}, "gradients": {"best_sft": true, "trajectory_sft": true, "trajectory_dpo": true}}, "comparisons": {"trajectory_sft-best_sft": {"delta": 0.0, "bonferroni_98_33_ci": [0.0, 0.0], "n": 780}, "trajectory_dpo-trajectory_sft": {"delta": 0.0, "bonferroni_98_33_ci": [0.0, 0.0], "n": 780}, "trajectory_sft-rule": {"delta": 0.0, "bonferroni_98_33_ci": [0.0, 0.0], "n": 780}}, "caveat": "Single-seed exploratory screen; equal bit updates, NOT equal wall time. 780-case total is case-weighted. Not comparable to LLM modeling accuracy."}
