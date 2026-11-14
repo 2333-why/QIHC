@@ -1,0 +1,1 @@
+{"experiment_id":"E005-1.14","seed":17,"chains":32,"window_steps":128,"probe_steps":128,"decisions":4,"temperatures":[0.25,0.5,1,2],"repeats":4,"model_lr":0.000005,"control_lr":0.00002,"epochs":2,"pair_weight":0.25,"shards":16}
