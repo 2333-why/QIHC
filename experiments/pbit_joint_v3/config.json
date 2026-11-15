@@ -1,0 +1,1 @@
+{"experiment_id":"E005-1.15","seed":17,"chains":32,"window_steps":128,"decisions":4,"epochs":2,"model_lr":0.000005,"control_lr":0.00002,"shards":16}

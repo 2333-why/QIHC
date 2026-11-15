@@ -1,0 +1,50 @@
+{
+  "source_sha256": [
+    "2b9399a8a4c4c3602d2f992154ab488b1476ca056a354fc7fe21d38d5854caa6",
+    "84b735c9df24f73a868af674427fa55b4b78a6ec0b22a19559b897c8bf7b7a60"
+  ],
+  "groups": {
+    "train": {
+      "cases": 90,
+      "n_vars_min_median_max": [
+        7.0,
+        11.0,
+        20.0
+      ],
+      "n_constraints_min_median_max": [
+        0.0,
+        13.0,
+        110.0
+      ],
+      "above_train_max_variables": 0
+    },
+    "main": {
+      "cases": 480,
+      "n_vars_min_median_max": [
+        5.0,
+        12.5,
+        20.0
+      ],
+      "n_constraints_min_median_max": [
+        0.0,
+        15.0,
+        113.0
+      ],
+      "above_train_max_variables": 0
+    },
+    "scale": {
+      "cases": 300,
+      "n_vars_min_median_max": [
+        19.0,
+        22.0,
+        30.0
+      ],
+      "n_constraints_min_median_max": [
+        0.0,
+        27.5,
+        239.0
+      ],
+      "above_train_max_variables": 229
+    }
+  }
+}
