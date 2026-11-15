@@ -1,0 +1,761 @@
+{
+  "experiment": "E005-1.14",
+  "cases": 780,
+  "evaluations": 9360,
+  "expected": 9360,
+  "completed_shards": 128,
+  "summary": {
+    "all": {
+      "base__schedule": {
+        "n": 780,
+        "optimal": 0.3384615384615385,
+        "feasible": 0.6128205128205129,
+        "correct": 0.32564102564102565,
+        "unknown": 0.020512820512820513,
+        "invalid": 44,
+        "reference_proven": 780,
+        "mean_gap": 0.12166739884697493,
+        "gap_cases": 478,
+        "episode_seconds": 0.2809381366850665,
+        "decision_seconds": 5.952564951701042e-06,
+        "attempts": 15073280,
+        "writes": 0,
+        "actions": {
+          "cool": 2944
+        }
+      },
+      "base__rule": {
+        "n": 780,
+        "optimal": 0.3384615384615385,
+        "feasible": 0.6128205128205129,
+        "correct": 0.32564102564102565,
+        "unknown": 0.020512820512820513,
+        "invalid": 44,
+        "reference_proven": 780,
+        "mean_gap": 0.12166739884697493,
+        "gap_cases": 478,
+        "episode_seconds": 0.27649298205923956,
+        "decision_seconds": 7.666109177546623e-05,
+        "attempts": 15073280,
+        "writes": 210,
+        "actions": {
+          "cool": 2926,
+          "clamp": 18
+        }
+      },
+      "base__terminal": {
+        "n": 780,
+        "optimal": 0.3384615384615385,
+        "feasible": 0.6128205128205129,
+        "correct": 0.32564102564102565,
+        "unknown": 0.020512820512820513,
+        "invalid": 44,
+        "reference_proven": 780,
+        "mean_gap": 0.12166739884697493,
+        "gap_cases": 478,
+        "episode_seconds": 0.7199671769186329,
+        "decision_seconds": 0.543481325050995,
+        "attempts": 15073280,
+        "writes": 0,
+        "actions": {
+          "cool": 2944
+        }
+      },
+      "base__trajectory": {
+        "n": 780,
+        "optimal": 0.3384615384615385,
+        "feasible": 0.6128205128205129,
+        "correct": 0.32564102564102565,
+        "unknown": 0.020512820512820513,
+        "invalid": 44,
+        "reference_proven": 780,
+        "mean_gap": 0.12166739884697493,
+        "gap_cases": 478,
+        "episode_seconds": 0.7234782337984189,
+        "decision_seconds": 0.5454648804185219,
+        "attempts": 15073280,
+        "writes": 0,
+        "actions": {
+          "cool": 2944
+        }
+      },
+      "weighted__schedule": {
+        "n": 780,
+        "optimal": 0.36666666666666664,
+        "feasible": 0.6064102564102564,
+        "correct": 0.3371794871794872,
+        "unknown": 0.017948717948717947,
+        "invalid": 41,
+        "reference_proven": 780,
+        "mean_gap": 0.08437301495748459,
+        "gap_cases": 473,
+        "episode_seconds": 0.27824425226172955,
+        "decision_seconds": 7.818976226143348e-05,
+        "attempts": 15134720,
+        "writes": 0,
+        "actions": {
+          "cool": 2956
+        }
+      },
+      "weighted__rule": {
+        "n": 780,
+        "optimal": 0.36666666666666664,
+        "feasible": 0.6064102564102564,
+        "correct": 0.3371794871794872,
+        "unknown": 0.017948717948717947,
+        "invalid": 41,
+        "reference_proven": 780,
+        "mean_gap": 0.08437301495748459,
+        "gap_cases": 473,
+        "episode_seconds": 0.27864541325192804,
+        "decision_seconds": 1.5222326589700504e-05,
+        "attempts": 15134720,
+        "writes": 168,
+        "actions": {
+          "cool": 2941,
+          "clamp": 15
+        }
+      },
+      "weighted__terminal": {
+        "n": 780,
+        "optimal": 0.36666666666666664,
+        "feasible": 0.6064102564102564,
+        "correct": 0.3371794871794872,
+        "unknown": 0.017948717948717947,
+        "invalid": 41,
+        "reference_proven": 780,
+        "mean_gap": 0.08437301495748459,
+        "gap_cases": 473,
+        "episode_seconds": 0.7281546281964089,
+        "decision_seconds": 0.5505704569666144,
+        "attempts": 15134720,
+        "writes": 0,
+        "actions": {
+          "cool": 2956
+        }
+      },
+      "weighted__trajectory": {
+        "n": 780,
+        "optimal": 0.36666666666666664,
+        "feasible": 0.6064102564102564,
+        "correct": 0.3371794871794872,
+        "unknown": 0.017948717948717947,
+        "invalid": 41,
+        "reference_proven": 780,
+        "mean_gap": 0.08437301495748459,
+        "gap_cases": 473,
+        "episode_seconds": 0.7253329927976339,
+        "decision_seconds": 0.5477808718960613,
+        "attempts": 15134720,
+        "writes": 0,
+        "actions": {
+          "cool": 2956
+        }
+      },
+      "paired__schedule": {
+        "n": 780,
+        "optimal": 0.3269230769230769,
+        "feasible": 0.591025641025641,
+        "correct": 0.3217948717948718,
+        "unknown": 0.011538461538461539,
+        "invalid": 61,
+        "reference_proven": 780,
+        "mean_gap": 0.10503779940441647,
+        "gap_cases": 461,
+        "episode_seconds": 0.26840965971828273,
+        "decision_seconds": 5.692840577700199e-06,
+        "attempts": 14725120,
+        "writes": 0,
+        "actions": {
+          "cool": 2876
+        }
+      },
+      "paired__rule": {
+        "n": 780,
+        "optimal": 0.3269230769230769,
+        "feasible": 0.591025641025641,
+        "correct": 0.3217948717948718,
+        "unknown": 0.011538461538461539,
+        "invalid": 61,
+        "reference_proven": 780,
+        "mean_gap": 0.10503779940441647,
+        "gap_cases": 461,
+        "episode_seconds": 0.26618033275963404,
+        "decision_seconds": 8.092261612033232e-05,
+        "attempts": 14725120,
+        "writes": 199,
+        "actions": {
+          "cool": 2858,
+          "clamp": 18
+        }
+      },
+      "paired__terminal": {
+        "n": 780,
+        "optimal": 0.3269230769230769,
+        "feasible": 0.591025641025641,
+        "correct": 0.3217948717948718,
+        "unknown": 0.011538461538461539,
+        "invalid": 61,
+        "reference_proven": 780,
+        "mean_gap": 0.10503779940441647,
+        "gap_cases": 461,
+        "episode_seconds": 0.7023941278200931,
+        "decision_seconds": 0.5315759825275447,
+        "attempts": 14725120,
+        "writes": 0,
+        "actions": {
+          "cool": 2876
+        }
+      },
+      "paired__trajectory": {
+        "n": 780,
+        "optimal": 0.3269230769230769,
+        "feasible": 0.591025641025641,
+        "correct": 0.3217948717948718,
+        "unknown": 0.011538461538461539,
+        "invalid": 61,
+        "reference_proven": 780,
+        "mean_gap": 0.10503779940441647,
+        "gap_cases": 461,
+        "episode_seconds": 0.7030315028813978,
+        "decision_seconds": 0.5326774478158675,
+        "attempts": 14725120,
+        "writes": 0,
+        "actions": {
+          "cool": 2876
+        }
+      }
+    },
+    "main": {
+      "base__schedule": {
+        "n": 480,
+        "optimal": 0.45416666666666666,
+        "feasible": 0.6729166666666667,
+        "correct": 0.37916666666666665,
+        "unknown": 0.0020833333333333333,
+        "invalid": 11,
+        "reference_proven": 480,
+        "mean_gap": 0.1050224882402079,
+        "gap_cases": 323,
+        "episode_seconds": 0.2697262424859218,
+        "decision_seconds": 6.241168982038895e-06,
+        "attempts": 9605120,
+        "writes": 0,
+        "actions": {
+          "cool": 1876
+        }
+      },
+      "base__rule": {
+        "n": 480,
+        "optimal": 0.45416666666666666,
+        "feasible": 0.6729166666666667,
+        "correct": 0.37916666666666665,
+        "unknown": 0.0020833333333333333,
+        "invalid": 11,
+        "reference_proven": 480,
+        "mean_gap": 0.1050224882402079,
+        "gap_cases": 323,
+        "episode_seconds": 0.2660099401992435,
+        "decision_seconds": 0.00011636083945631981,
+        "attempts": 9605120,
+        "writes": 210,
+        "actions": {
+          "cool": 1858,
+          "clamp": 18
+        }
+      },
+      "base__terminal": {
+        "n": 480,
+        "optimal": 0.45416666666666666,
+        "feasible": 0.6729166666666667,
+        "correct": 0.37916666666666665,
+        "unknown": 0.0020833333333333333,
+        "invalid": 11,
+        "reference_proven": 480,
+        "mean_gap": 0.1050224882402079,
+        "gap_cases": 323,
+        "episode_seconds": 0.6426157531250889,
+        "decision_seconds": 0.4746988340082074,
+        "attempts": 9605120,
+        "writes": 0,
+        "actions": {
+          "cool": 1876
+        }
+      },
+      "base__trajectory": {
+        "n": 480,
+        "optimal": 0.45416666666666666,
+        "feasible": 0.6729166666666667,
+        "correct": 0.37916666666666665,
+        "unknown": 0.0020833333333333333,
+        "invalid": 11,
+        "reference_proven": 480,
+        "mean_gap": 0.1050224882402079,
+        "gap_cases": 323,
+        "episode_seconds": 0.6466358178498922,
+        "decision_seconds": 0.4769577587993505,
+        "attempts": 9605120,
+        "writes": 0,
+        "actions": {
+          "cool": 1876
+        }
+      },
+      "weighted__schedule": {
+        "n": 480,
+        "optimal": 0.5125,
+        "feasible": 0.6791666666666667,
+        "correct": 0.4,
+        "unknown": 0.004166666666666667,
+        "invalid": 11,
+        "reference_proven": 480,
+        "mean_gap": 0.056979893576745155,
+        "gap_cases": 326,
+        "episode_seconds": 0.266435570405641,
+        "decision_seconds": 6.317265797406435e-06,
+        "attempts": 9605120,
+        "writes": 0,
+        "actions": {
+          "cool": 1876
+        }
+      },
+      "weighted__rule": {
+        "n": 480,
+        "optimal": 0.5125,
+        "feasible": 0.6791666666666667,
+        "correct": 0.4,
+        "unknown": 0.004166666666666667,
+        "invalid": 11,
+        "reference_proven": 480,
+        "mean_gap": 0.056979893576745155,
+        "gap_cases": 326,
+        "episode_seconds": 0.26590016106686865,
+        "decision_seconds": 1.6644014976918697e-05,
+        "attempts": 9605120,
+        "writes": 168,
+        "actions": {
+          "cool": 1861,
+          "clamp": 15
+        }
+      },
+      "weighted__terminal": {
+        "n": 480,
+        "optimal": 0.5125,
+        "feasible": 0.6791666666666667,
+        "correct": 0.4,
+        "unknown": 0.004166666666666667,
+        "invalid": 11,
+        "reference_proven": 480,
+        "mean_gap": 0.056979893576745155,
+        "gap_cases": 326,
+        "episode_seconds": 0.6475167736896158,
+        "decision_seconds": 0.47928993451399343,
+        "attempts": 9605120,
+        "writes": 0,
+        "actions": {
+          "cool": 1876
+        }
+      },
+      "weighted__trajectory": {
+        "n": 480,
+        "optimal": 0.5125,
+        "feasible": 0.6791666666666667,
+        "correct": 0.4,
+        "unknown": 0.004166666666666667,
+        "invalid": 11,
+        "reference_proven": 480,
+        "mean_gap": 0.056979893576745155,
+        "gap_cases": 326,
+        "episode_seconds": 0.6446479536267967,
+        "decision_seconds": 0.47645240128670896,
+        "attempts": 9605120,
+        "writes": 0,
+        "actions": {
+          "cool": 1876
+        }
+      },
+      "paired__schedule": {
+        "n": 480,
+        "optimal": 0.46041666666666664,
+        "feasible": 0.6708333333333333,
+        "correct": 0.37916666666666665,
+        "unknown": 0.0,
+        "invalid": 18,
+        "reference_proven": 480,
+        "mean_gap": 0.08187751912549811,
+        "gap_cases": 322,
+        "episode_seconds": 0.262510215890749,
+        "decision_seconds": 6.049200116346279e-06,
+        "attempts": 9461760,
+        "writes": 0,
+        "actions": {
+          "cool": 1848
+        }
+      },
+      "paired__rule": {
+        "n": 480,
+        "optimal": 0.46041666666666664,
+        "feasible": 0.6708333333333333,
+        "correct": 0.37916666666666665,
+        "unknown": 0.0,
+        "invalid": 18,
+        "reference_proven": 480,
+        "mean_gap": 0.08187751912549811,
+        "gap_cases": 322,
+        "episode_seconds": 0.26125437951413916,
+        "decision_seconds": 0.00012405799546589454,
+        "attempts": 9461760,
+        "writes": 199,
+        "actions": {
+          "cool": 1830,
+          "clamp": 18
+        }
+      },
+      "paired__terminal": {
+        "n": 480,
+        "optimal": 0.46041666666666664,
+        "feasible": 0.6708333333333333,
+        "correct": 0.37916666666666665,
+        "unknown": 0.0,
+        "invalid": 18,
+        "reference_proven": 480,
+        "mean_gap": 0.08187751912549811,
+        "gap_cases": 322,
+        "episode_seconds": 0.6357572394913101,
+        "decision_seconds": 0.4695377189826104,
+        "attempts": 9461760,
+        "writes": 0,
+        "actions": {
+          "cool": 1848
+        }
+      },
+      "paired__trajectory": {
+        "n": 480,
+        "optimal": 0.46041666666666664,
+        "feasible": 0.6708333333333333,
+        "correct": 0.37916666666666665,
+        "unknown": 0.0,
+        "invalid": 18,
+        "reference_proven": 480,
+        "mean_gap": 0.08187751912549811,
+        "gap_cases": 322,
+        "episode_seconds": 0.6359422284095975,
+        "decision_seconds": 0.47057401954953093,
+        "attempts": 9461760,
+        "writes": 0,
+        "actions": {
+          "cool": 1848
+        }
+      }
+    },
+    "scale": {
+      "base__schedule": {
+        "n": 300,
+        "optimal": 0.15333333333333332,
+        "feasible": 0.5166666666666667,
+        "correct": 0.24,
+        "unknown": 0.05,
+        "invalid": 33,
+        "reference_proven": 300,
+        "mean_gap": 0.15635324482107654,
+        "gap_cases": 155,
+        "episode_seconds": 0.29887716740369796,
+        "decision_seconds": 5.4907985031604765e-06,
+        "attempts": 5468160,
+        "writes": 0,
+        "actions": {
+          "cool": 1068
+        }
+      },
+      "base__rule": {
+        "n": 300,
+        "optimal": 0.15333333333333332,
+        "feasible": 0.5166666666666667,
+        "correct": 0.24,
+        "unknown": 0.05,
+        "invalid": 33,
+        "reference_proven": 300,
+        "mean_gap": 0.15635324482107654,
+        "gap_cases": 155,
+        "episode_seconds": 0.2932658490352333,
+        "decision_seconds": 1.3141495486100515e-05,
+        "attempts": 5468160,
+        "writes": 0,
+        "actions": {
+          "cool": 1068
+        }
+      },
+      "base__terminal": {
+        "n": 300,
+        "optimal": 0.15333333333333332,
+        "feasible": 0.5166666666666667,
+        "correct": 0.24,
+        "unknown": 0.05,
+        "invalid": 33,
+        "reference_proven": 300,
+        "mean_gap": 0.15635324482107654,
+        "gap_cases": 155,
+        "episode_seconds": 0.8437294549883033,
+        "decision_seconds": 0.6535333107194553,
+        "attempts": 5468160,
+        "writes": 0,
+        "actions": {
+          "cool": 1068
+        }
+      },
+      "base__trajectory": {
+        "n": 300,
+        "optimal": 0.15333333333333332,
+        "feasible": 0.5166666666666667,
+        "correct": 0.24,
+        "unknown": 0.05,
+        "invalid": 33,
+        "reference_proven": 300,
+        "mean_gap": 0.15635324482107654,
+        "gap_cases": 155,
+        "episode_seconds": 0.8464260993160618,
+        "decision_seconds": 0.6550762750091963,
+        "attempts": 5468160,
+        "writes": 0,
+        "actions": {
+          "cool": 1068
+        }
+      },
+      "weighted__schedule": {
+        "n": 300,
+        "optimal": 0.13333333333333333,
+        "feasible": 0.49,
+        "correct": 0.23666666666666666,
+        "unknown": 0.04,
+        "invalid": 30,
+        "reference_proven": 300,
+        "mean_gap": 0.14512238618279788,
+        "gap_cases": 147,
+        "episode_seconds": 0.29713814323147136,
+        "decision_seconds": 0.00019318575660387676,
+        "attempts": 5529600,
+        "writes": 0,
+        "actions": {
+          "cool": 1080
+        }
+      },
+      "weighted__rule": {
+        "n": 300,
+        "optimal": 0.13333333333333333,
+        "feasible": 0.49,
+        "correct": 0.23666666666666666,
+        "unknown": 0.04,
+        "invalid": 30,
+        "reference_proven": 300,
+        "mean_gap": 0.14512238618279788,
+        "gap_cases": 147,
+        "episode_seconds": 0.29903781674802304,
+        "decision_seconds": 1.2947625170151392e-05,
+        "attempts": 5529600,
+        "writes": 0,
+        "actions": {
+          "cool": 1080
+        }
+      },
+      "weighted__terminal": {
+        "n": 300,
+        "optimal": 0.13333333333333333,
+        "feasible": 0.49,
+        "correct": 0.23666666666666666,
+        "unknown": 0.04,
+        "invalid": 30,
+        "reference_proven": 300,
+        "mean_gap": 0.14512238618279788,
+        "gap_cases": 147,
+        "episode_seconds": 0.8571751954072776,
+        "decision_seconds": 0.6646192928908082,
+        "attempts": 5529600,
+        "writes": 0,
+        "actions": {
+          "cool": 1080
+        }
+      },
+      "weighted__trajectory": {
+        "n": 300,
+        "optimal": 0.13333333333333333,
+        "feasible": 0.49,
+        "correct": 0.23666666666666666,
+        "unknown": 0.04,
+        "invalid": 30,
+        "reference_proven": 300,
+        "mean_gap": 0.14512238618279788,
+        "gap_cases": 147,
+        "episode_seconds": 0.8544290554709733,
+        "decision_seconds": 0.661906424871025,
+        "attempts": 5529600,
+        "writes": 0,
+        "actions": {
+          "cool": 1080
+        }
+      },
+      "paired__schedule": {
+        "n": 300,
+        "optimal": 0.11333333333333333,
+        "feasible": 0.4633333333333333,
+        "correct": 0.23,
+        "unknown": 0.03,
+        "invalid": 43,
+        "reference_proven": 300,
+        "mean_gap": 0.15868967170522016,
+        "gap_cases": 139,
+        "episode_seconds": 0.2778487698423366,
+        "decision_seconds": 5.12266531586647e-06,
+        "attempts": 5263360,
+        "writes": 0,
+        "actions": {
+          "cool": 1028
+        }
+      },
+      "paired__rule": {
+        "n": 300,
+        "optimal": 0.11333333333333333,
+        "feasible": 0.4633333333333333,
+        "correct": 0.23,
+        "unknown": 0.03,
+        "invalid": 43,
+        "reference_proven": 300,
+        "mean_gap": 0.15868967170522016,
+        "gap_cases": 139,
+        "episode_seconds": 0.2740618579524259,
+        "decision_seconds": 1.1906009167432785e-05,
+        "attempts": 5263360,
+        "writes": 0,
+        "actions": {
+          "cool": 1028
+        }
+      },
+      "paired__terminal": {
+        "n": 300,
+        "optimal": 0.11333333333333333,
+        "feasible": 0.4633333333333333,
+        "correct": 0.23,
+        "unknown": 0.03,
+        "invalid": 43,
+        "reference_proven": 300,
+        "mean_gap": 0.15868967170522016,
+        "gap_cases": 139,
+        "episode_seconds": 0.8090131491461459,
+        "decision_seconds": 0.6308372041994396,
+        "attempts": 5263360,
+        "writes": 0,
+        "actions": {
+          "cool": 1028
+        }
+      },
+      "paired__trajectory": {
+        "n": 300,
+        "optimal": 0.11333333333333333,
+        "feasible": 0.4633333333333333,
+        "correct": 0.23,
+        "unknown": 0.03,
+        "invalid": 43,
+        "reference_proven": 300,
+        "mean_gap": 0.15868967170522016,
+        "gap_cases": 139,
+        "episode_seconds": 0.8103743420362783,
+        "decision_seconds": 0.632042933042006,
+        "attempts": 5263360,
+        "writes": 0,
+        "actions": {
+          "cool": 1028
+        }
+      }
+    }
+  },
+  "effects": {
+    "model": {
+      "delta": -0.011538461538461539,
+      "ci": [
+        -0.04230769230769231,
+        0.018167735042735354
+      ]
+    },
+    "control": {
+      "delta": 0.0,
+      "ci": [
+        0.0,
+        0.0
+      ]
+    },
+    "joint": {
+      "delta": -0.011538461538461539,
+      "ci": [
+        -0.04230769230769231,
+        0.018167735042735354
+      ]
+    },
+    "interaction": {
+      "delta": 0.0,
+      "ci": [
+        0.0,
+        0.0
+      ]
+    },
+    "paired_vs_weighted": {
+      "delta": -0.03974358974358974,
+      "ci": [
+        -0.06794871794871794,
+        -0.010256410256410256
+      ]
+    },
+    "trajectory_vs_terminal": {
+      "delta": 0.0,
+      "ci": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "labels": {
+    "terminal": {
+      "cool": 2042,
+      "clamp": 6
+    },
+    "trajectory": {
+      "cool": 2031,
+      "clamp": 17
+    }
+  },
+  "training": {
+    "weighted": {
+      "expected_steps": 180,
+      "steps": 180,
+      "passed": true,
+      "weighted_tokens": 16776,
+      "weighted_cases": 34,
+      "seconds": 301.14117281720974,
+      "pair_steps": 0
+    },
+    "paired": {
+      "expected_steps": 180,
+      "steps": 180,
+      "passed": true,
+      "weighted_tokens": 16776,
+      "weighted_cases": 34,
+      "seconds": 395.75907498574816,
+      "pair_steps": 76
+    },
+    "terminal": {
+      "expected_steps": 4096,
+      "steps": 4096,
+      "passed": true,
+      "weighted_tokens": 0,
+      "weighted_cases": 0,
+      "seconds": 1817.987192007713,
+      "pair_steps": 0
+    },
+    "trajectory": {
+      "expected_steps": 4096,
+      "steps": 4096,
+      "passed": true,
+      "weighted_tokens": 0,
+      "weighted_cases": 0,
+      "seconds": 1820.3719857162796,
+      "pair_steps": 0
+    }
+  }
+}
