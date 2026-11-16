@@ -1,0 +1,1794 @@
+{
+  "release": "v0.3.0",
+  "revision": "3f7e121301e0ea4565e20d8ee0660e799686c194",
+  "asset_sha256": "bf4f50f435c03a5600194306937e37039cdfa2e002dfa1c6548cd815c8601385",
+  "counts": {
+    "satisfaction": 399,
+    "minimize": 175,
+    "maximize": 60
+  },
+  "templates": [
+    {
+      "template": "abbots_puzzle",
+      "objective": "satisfaction",
+      "history": "CP-Bench-10",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "added_corners",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "ages_of_the_sons",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "age_changing",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "aircraft_assignment",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "aircraft_landing",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "allergy",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "among",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "appointment_scheduling",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "archery_puzzle",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "arch_friends",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "assignment_costs",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "autoref",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "bales_of_hay",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "bananas",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "best_host",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "big_bang2",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "bin_packing",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "birthday_coins",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "bowls_and_oranges",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "broken_weights",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "building_blocks",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "bus_scheduling",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "cabling",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "calvin_puzzle",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1"
+      ]
+    },
+    {
+      "template": "candies",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "capital_budget",
+      "objective": "maximize",
+      "history": "CP-Bench-10",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "car_selection",
+      "objective": "maximize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "cell_tower",
+      "objective": "maximize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "chess_set",
+      "objective": "maximize",
+      "history": "CP-Bench-10",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "circling_squares",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "circular_table_averbach_1_2",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "clock_triplets",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "cmo_2012",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "coin3_application",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "coins_grid",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "contracting_costs",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "covering_opl",
+      "objective": "minimize",
+      "history": "CP-Bench-10",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "crew",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "crossword",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "crypta",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "csplib_001_car_sequencing",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4",
+        "json:5",
+        "json:6",
+        "json:7",
+        "json:8",
+        "json:9",
+        "json:10",
+        "json:11",
+        "json:12",
+        "json:13",
+        "json:14",
+        "json:15",
+        "json:16",
+        "json:17",
+        "json:18",
+        "json:19",
+        "json:20",
+        "json:21"
+      ]
+    },
+    {
+      "template": "csplib_002_template_design",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:2"
+      ]
+    },
+    {
+      "template": "csplib_003_quasigroup_existence",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3"
+      ]
+    },
+    {
+      "template": "csplib_005_autocorrelation",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_006_golomb_rulers",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_007_all_interval",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_008_vessel_loading",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_009_perfect_square_placement",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:3",
+        "json:4",
+        "json:5",
+        "json:6"
+      ]
+    },
+    {
+      "template": "csplib_010_social_golfers_problem",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4",
+        "json:5",
+        "json:6",
+        "json:7"
+      ]
+    },
+    {
+      "template": "csplib_011_acc_basketball_schedule",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "csplib_012_nonogram",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:5",
+        "json:6",
+        "json:7",
+        "json:8",
+        "json:9",
+        "json:10",
+        "json:11",
+        "json:12",
+        "json:13"
+      ]
+    },
+    {
+      "template": "csplib_013_progressive_party_problem",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4",
+        "json:5",
+        "json:6",
+        "json:7",
+        "json:8"
+      ]
+    },
+    {
+      "template": "csplib_014_solitaire_battleships",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_015_schurs_lemma",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_016_traffic_lights",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_018_water_bucket",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "csplib_019_magic_squares_and_sequences",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4",
+        "json:5",
+        "json:6",
+        "json:7",
+        "json:8"
+      ]
+    },
+    {
+      "template": "csplib_021_crossfigures",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "csplib_022_bus_driver_scheduling",
+      "objective": "minimize",
+      "history": "E005-1.16",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_023_magic_hexagon",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "csplib_024_langford",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_026_sports_tournament_scheduling",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1"
+      ]
+    },
+    {
+      "template": "csplib_028_bibd",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_032_max_density_still_life",
+      "objective": "maximize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2"
+      ]
+    },
+    {
+      "template": "csplib_033_word_design",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4",
+        "json:5"
+      ]
+    },
+    {
+      "template": "csplib_034_warehouse_location",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_039_rehearsal",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_041_n_fractions",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "csplib_044_steiner",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3"
+      ]
+    },
+    {
+      "template": "csplib_049_number_partitioning",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2"
+      ]
+    },
+    {
+      "template": "csplib_050_diamond_free",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4",
+        "json:5"
+      ]
+    },
+    {
+      "template": "csplib_053_graceful_graphs",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_054_n_queens",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4",
+        "json:5"
+      ]
+    },
+    {
+      "template": "csplib_056_sonet",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_057_killer_sudoku",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_067_quasigroup_completion",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_074_maximum_clique",
+      "objective": "maximize",
+      "history": "E005-1.16",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_076_costas_arrays",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "csplib_084_hadamard_matrix",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "curious_set_of_integers",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "cur_num",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "cutting_stock",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "devils_word",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "de_bruijn_sequence",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "diet",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "dinner",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "discrete_tomography",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "divisible_by_1_through_9",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "dudeney_numbers",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1"
+      ]
+    },
+    {
+      "template": "eighteen_hole_golf",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "equal_sized_groups",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "facility_location",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "fancy_dress",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "fibonacci_even",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "fifty_puzzle",
+      "objective": "satisfaction",
+      "history": "CP-Bench-10",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "finding_celebrities",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "five_brigands",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "five_statements",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "fixed_charge",
+      "objective": "maximize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "flip_rows_cols",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "flowshop_scheduling",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "flow_free_game",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "football",
+      "objective": "maximize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "four_islands",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "four_numbers",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "frog_circle",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "futoshiki",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "general_store",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "giant_cat_army",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "handshaking",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "hanging_weights",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "heterosquare",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "hidato",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "huey_dewey_louie",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "initials_queue",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "isbn",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "jobshop",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "jobs_puzzle",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "just_forgotten",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "kakuro",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "kenken",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "knapsack",
+      "objective": "maximize",
+      "history": "E005-1.16",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "knights_tour",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "mario",
+      "objective": "maximize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "media_selection",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "minesweeper",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "multi",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "netasgn",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "n_puzzle",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "packing_rectangles",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "prod",
+      "objective": "maximize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "pythagorean_triplet",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "resource_constrained_project_scheduling",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "revenue_maximization",
+      "objective": "maximize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "room_assignment",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "send_more_money",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "session1_bank_card",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "session1_five_floors",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "session1_guards_and_apples",
+      "objective": "satisfaction",
+      "history": "CP-Bench-10",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "session1_magic_square",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "session1_money_change",
+      "objective": "minimize",
+      "history": "CP-Bench-10",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "session1_thick_as_thieves",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "session2_color_simple",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "session2_maximal_independent_sets",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "session2_movie_scheduling",
+      "objective": "maximize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "session2_subsets_100",
+      "objective": "satisfaction",
+      "history": "CP-Bench-10",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "session2_subset_sum",
+      "objective": "satisfaction",
+      "history": "CP-Bench-10",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "session3_exodus",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "session3_farmer_and_cows",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "session3_kidney_exchange",
+      "objective": "maximize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "session3_people_in_a_room",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "session5_climbing_stairs",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "session5_grocery",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "session5_hardy_1729_square",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "set_game",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "sudoku",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "three_coins",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "three_sum",
+      "objective": "satisfaction",
+      "history": "CP-Bench-10",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "tsp",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "twelve_pack",
+      "objective": "minimize",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "who_killed_agatha",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    },
+    {
+      "template": "wolf_goat_cabbage",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example",
+        "json:1",
+        "json:2",
+        "json:3",
+        "json:4"
+      ]
+    },
+    {
+      "template": "zebra",
+      "objective": "satisfaction",
+      "history": "no_known_template_match",
+      "instances": [
+        "example"
+      ]
+    }
+  ]
+}
