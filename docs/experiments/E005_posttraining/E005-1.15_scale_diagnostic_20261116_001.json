@@ -1,0 +1,61 @@
+{
+  "cases": 300,
+  "families": {
+    "KP": {
+      "cases": 50,
+      "lost": 0,
+      "gained": 0,
+      "net": 0
+    },
+    "MIS": {
+      "cases": 50,
+      "lost": 5,
+      "gained": 2,
+      "net": -3
+    },
+    "MVC": {
+      "cases": 50,
+      "lost": 5,
+      "gained": 2,
+      "net": -3
+    },
+    "MAXCUT": {
+      "cases": 50,
+      "lost": 0,
+      "gained": 0,
+      "net": 0
+    },
+    "MCP": {
+      "cases": 50,
+      "lost": 0,
+      "gained": 0,
+      "net": 0
+    },
+    "MDS": {
+      "cases": 50,
+      "lost": 0,
+      "gained": 0,
+      "net": 0
+    }
+  },
+  "size_groups": {
+    "above_train_max": {
+      "cases": 229,
+      "lost": 5,
+      "gained": 3,
+      "net": -2
+    },
+    "within_train_max": {
+      "cases": 71,
+      "lost": 5,
+      "gained": 1,
+      "net": -4
+    }
+  },
+  "train_max": 20,
+  "lost_case_diagnostic": {
+    "candidate_optimal_solution_misses_original_optimum": 8,
+    "invalid_weighted": 1,
+    "weighted_SCIP_recovers_original_optimum": 1
+  }
+}
