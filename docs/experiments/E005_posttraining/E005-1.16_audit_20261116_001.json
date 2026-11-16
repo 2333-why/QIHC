@@ -1,0 +1,183 @@
+{
+  "experiment": "E005-1.16",
+  "sha256": "bf4f50f435c03a5600194306937e37039cdfa2e002dfa1c6548cd815c8601385",
+  "release_problems": 164,
+  "rows": [
+    {
+      "id": "dcp_csplib_022_bus_driver_scheduling_00",
+      "family": "csplib_022_bus_driver_scheduling",
+      "example": true,
+      "variables": 14,
+      "constraints": 12,
+      "scip_optimum": 5,
+      "pbit_feasible": true,
+      "pbit_objective": 5,
+      "pbit_hit": true,
+      "attempts": 20480
+    },
+    {
+      "id": "dcp_csplib_022_bus_driver_scheduling_01",
+      "family": "csplib_022_bus_driver_scheduling",
+      "example": false,
+      "variables": 77,
+      "constraints": 24,
+      "scip_optimum": 7,
+      "pbit_feasible": false,
+      "pbit_objective": null,
+      "pbit_hit": false,
+      "attempts": 20480
+    },
+    {
+      "id": "dcp_csplib_022_bus_driver_scheduling_02",
+      "family": "csplib_022_bus_driver_scheduling",
+      "example": false,
+      "variables": 30,
+      "constraints": 16,
+      "scip_optimum": 5,
+      "pbit_feasible": true,
+      "pbit_objective": 5,
+      "pbit_hit": true,
+      "attempts": 20480
+    },
+    {
+      "id": "dcp_csplib_022_bus_driver_scheduling_03",
+      "family": "csplib_022_bus_driver_scheduling",
+      "example": false,
+      "variables": 60,
+      "constraints": 30,
+      "scip_optimum": 8,
+      "pbit_feasible": false,
+      "pbit_objective": null,
+      "pbit_hit": false,
+      "attempts": 20480
+    },
+    {
+      "id": "dcp_csplib_022_bus_driver_scheduling_04",
+      "family": "csplib_022_bus_driver_scheduling",
+      "example": false,
+      "variables": 120,
+      "constraints": 40,
+      "scip_optimum": 10,
+      "pbit_feasible": false,
+      "pbit_objective": null,
+      "pbit_hit": false,
+      "attempts": 20480
+    },
+    {
+      "id": "dcp_csplib_074_maximum_clique_00",
+      "family": "csplib_074_maximum_clique",
+      "example": true,
+      "variables": 5,
+      "constraints": 4,
+      "scip_optimum": 3,
+      "pbit_feasible": true,
+      "pbit_objective": 3,
+      "pbit_hit": true,
+      "attempts": 20480
+    },
+    {
+      "id": "dcp_csplib_074_maximum_clique_01",
+      "family": "csplib_074_maximum_clique",
+      "example": false,
+      "variables": 28,
+      "constraints": 168,
+      "scip_optimum": 4,
+      "pbit_feasible": true,
+      "pbit_objective": 4,
+      "pbit_hit": true,
+      "attempts": 20480
+    },
+    {
+      "id": "dcp_csplib_074_maximum_clique_02",
+      "family": "csplib_074_maximum_clique",
+      "example": false,
+      "variables": 64,
+      "constraints": 1312,
+      "excluded": "At most 512 source constraints"
+    },
+    {
+      "id": "dcp_csplib_074_maximum_clique_03",
+      "family": "csplib_074_maximum_clique",
+      "example": false,
+      "variables": 64,
+      "constraints": 192,
+      "scip_optimum": 32,
+      "pbit_feasible": true,
+      "pbit_objective": 27,
+      "pbit_hit": false,
+      "attempts": 20480
+    },
+    {
+      "id": "dcp_csplib_074_maximum_clique_04",
+      "family": "csplib_074_maximum_clique",
+      "example": false,
+      "variables": 4,
+      "constraints": 6,
+      "scip_optimum": 1,
+      "pbit_feasible": true,
+      "pbit_objective": 1,
+      "pbit_hit": true,
+      "attempts": 20480
+    },
+    {
+      "id": "dcp_knapsack_00",
+      "family": "knapsack",
+      "example": true,
+      "variables": 5,
+      "constraints": 1,
+      "scip_optimum": 10,
+      "pbit_feasible": true,
+      "pbit_objective": 10,
+      "pbit_hit": true,
+      "attempts": 20480
+    },
+    {
+      "id": "dcp_knapsack_01",
+      "family": "knapsack",
+      "example": false,
+      "variables": 10,
+      "constraints": 1,
+      "scip_optimum": 309,
+      "pbit_feasible": true,
+      "pbit_objective": 309,
+      "pbit_hit": true,
+      "attempts": 20480
+    },
+    {
+      "id": "dcp_knapsack_02",
+      "family": "knapsack",
+      "example": false,
+      "variables": 5,
+      "constraints": 1,
+      "scip_optimum": 51,
+      "pbit_feasible": true,
+      "pbit_objective": 51,
+      "pbit_hit": true,
+      "attempts": 20480
+    },
+    {
+      "id": "dcp_knapsack_03",
+      "family": "knapsack",
+      "example": false,
+      "variables": 15,
+      "constraints": 1,
+      "scip_optimum": 1458,
+      "pbit_feasible": true,
+      "pbit_objective": 1456,
+      "pbit_hit": false,
+      "attempts": 20480
+    },
+    {
+      "id": "dcp_knapsack_04",
+      "family": "knapsack",
+      "example": false,
+      "variables": 22,
+      "constraints": 1,
+      "scip_optimum": 1030,
+      "pbit_feasible": true,
+      "pbit_objective": 1000,
+      "pbit_hit": false,
+      "attempts": 20480
+    }
+  ]
+}
