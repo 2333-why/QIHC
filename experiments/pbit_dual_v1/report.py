@@ -6,7 +6,7 @@ from statistics import mean
 import numpy as np
 
 from qihc.experiment_runtime.storage import load, save
-from .common import RUN, artifact, cases, methods, seeds
+from .common import RUN, artifact, cases, methods, original_artifact, seeds
 from .cpu import nlco_score
 
 
@@ -23,7 +23,7 @@ CONTRASTS = (
 
 
 def case_results(case):
-    frozen = load(RUN / "frozen" / case["dataset"] / (case["id"] + ".json"))
+    frozen = load(original_artifact(case))
     rows = defaultdict(dict)
     if case["dataset"] == "dcp":
         for key, row in frozen["legacy"].items():

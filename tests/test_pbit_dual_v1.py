@@ -1,6 +1,7 @@
 """Check energy observations, augmentation and the archived-baseline path."""
 
 import numpy as np
+import pytest
 
 from experiments.pbit_dual_v1 import common, cpu, methods, report
 from qihc.experiment_runtime.storage import load, save
@@ -46,9 +47,7 @@ def test_energy_probe_and_verified_augmentation():
 
 
 def test_unchanged_new_models_reuse_historical_results(tmp_path, monkeypatch):
-    from experiments.pbit_dual_v1 import gpu
-
-    for module in (common, cpu, gpu, report):
+    for module in (common, cpu, report):
         monkeypatch.setattr(module, "RUN", tmp_path)
     case = dict(dataset="nlco", id="test", stage="main")
     gold = spec()
@@ -94,3 +93,56 @@ def test_unchanged_new_models_reuse_historical_results(tmp_path, monkeypatch):
     result = report.paired([(case, scores)], "trained__control", "weighted__schedule")
     assert result["delta"] == 0
     assert result["ci95"] == [0.0, 0.0]
+
+
+def test_dcp_new_arms_solve_and_score_with_native_isolation(tmp_path, monkeypatch):
+    from importlib.util import find_spec
+
+    cp = pytest.importorskip("ortools.sat.python.cp_model")
+    if find_spec("pyscipopt") is None:
+        pytest.skip("PySCIPOpt is not installed")
+    for module in (common, cpu, report):
+        monkeypatch.setattr(module, "RUN", tmp_path)
+    case = dict(dataset="dcp", id="fixture", main=True, template="binary")
+    target = spec()
+    target["objective"]["linear"] = [3, 2, 1]
+    old = spec()
+    cp_ref = cp.CpModel()
+    xs = [cp_ref.new_bool_var(f"x{i}") for i in range(3)]
+    cp_ref.add(sum(xs) <= 1)
+    cp_ref.maximize(3 * xs[0] + 2 * xs[1] + xs[2])
+    ref = tmp_path / "reference.json"
+    save(ref, dict(proto=str(cp_ref.proto), indices=[v.index for v in xs], optimum=3))
+    historical = dict(
+        hit=False, feasible=True, gap=2 / 3, status="evaluated", valid=True
+    )
+    legacy = {
+        f"weighted__{arm}__{seed}": historical
+        for arm in ("schedule", "scip")
+        for seed in common.seeds(case, arm)
+    }
+    save(
+        common.original_artifact(case),
+        dict(prediction={"model": old}, reference=str(ref), legacy=legacy),
+    )
+    save(tmp_path / "cases.json", [case])
+    save(tmp_path / "manifest.json", dict(code="fixture", supervision={}))
+    for arm, terminal in common.methods(case):
+        if arm != "weighted":
+            save(
+                common.artifact("predictions", case, arm),
+                {"model": target if arm.startswith("trained") else old},
+            )
+        if terminal == "control":
+            for seed in common.seeds(case, terminal):
+                save(
+                    common.artifact("episodes", case, f"{arm}__control", seed),
+                    {"reuse_schedule": True},
+                )
+    cpu.score_case(case)
+    cpu.score_case(case)
+    report.report()
+    result = load(tmp_path / "report.json")["scores"]["dcp159"]
+    assert result["new_complete"] == result["new_expected"] == 25
+    assert result["arms"]["trained__scip"]["hits"] == 1
+    assert result["arms"]["weighted_feedback__scip"]["reused"] == 1

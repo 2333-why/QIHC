@@ -2,22 +2,52 @@
 
 from concurrent.futures import ProcessPoolExecutor
 import os
+from pathlib import Path
+import subprocess
+import sys
 
 from experiments.dcp_external_v2.cpu import score_one
 from experiments.pbit_joint_v1 import search
 from qihc.experiment_runtime.storage import load, save, value_digest, worker_lock
 from qihc.generic.feedback.verification import equivalent, score
 from qihc.generic.solver_baselines.registry import solve
-from .common import RUN, SEARCH, artifact, cases, methods, seeds, verify
-from .gpu import get_prediction
+from .common import (
+    RUN,
+    SEARCH,
+    artifact,
+    cases,
+    get_prediction,
+    methods,
+    original_artifact,
+    seeds,
+    verify,
+)
+
+
+def scip_episode(case, model, seed):
+    path = artifact("episodes", case, f"{model}__scip", seed)
+    if not path.exists():
+        pred = artifact("predictions", case, model)
+        args = [
+            sys.executable,
+            "-m",
+            "experiments.pbit_dual_v1.cpu",
+            str(pred),
+            str(path),
+            str(seed),
+        ]
+        try:
+            subprocess.run(args, check=True, timeout=50)
+        except subprocess.TimeoutExpired:
+            save(path, dict(x=None, status="process_time_limit", seconds=50))
+    return load(path)
 
 
 def score_case(case):
-    from pathlib import Path
 
     cid = case["id"]
     dataset = case["dataset"]
-    old = load(RUN / "frozen" / dataset / (cid + ".json"))
+    old = load(original_artifact(case))
     ref = load(Path(old["reference"])) if dataset == "dcp" else old["reference"]
     memo, semantics = {}, {}
     for model, terminal in methods(case):
@@ -55,7 +85,7 @@ def score_case(case):
                 elif spec is None:
                     episode = dict(x=None, status="input_invalid")
                 elif score_method == "scip":
-                    episode = solve(spec, "scip", 20, s)
+                    episode = scip_episode(case, model, s)
                 else:
                     episode = search.episode(
                         spec, cid, dict(SEARCH, seed=s), lambda *_: "cool"
@@ -148,3 +178,9 @@ def finish():
     from .report import report
 
     report()
+
+
+if __name__ == "__main__":
+    prediction, output, seed = sys.argv[1:]
+    model = load(Path(prediction))["model"]
+    save(Path(output), solve(model, "scip", 20, int(seed)))

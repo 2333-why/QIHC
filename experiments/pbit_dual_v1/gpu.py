@@ -22,7 +22,7 @@ from qihc.experiment_runtime.storage import (
     worker_lock,
 )
 from qihc.modeling.active_protocol_v2 import model_prompt
-from .common import RUN, SEARCH, artifact, cases, seeds, verify
+from .common import RUN, SEARCH, artifact, cases, get_prediction, seeds, verify
 from .methods import extended_prompt, feedback
 
 
@@ -127,9 +127,7 @@ def predict(engine, state, subset):
     weights = lambda name: torch.load(name, map_location="cpu", weights_only=True)
     engine.restore(weights(state["paths"]["weighted"]))
     for case in subset:
-        old = load(RUN / "frozen" / case["dataset"] / (case["id"] + ".json"))[
-            "prediction"
-        ]
+        old = get_prediction(case, "weighted")
         make_feedback(engine, case, old, ("weighted_quadratic", "weighted_feedback"))
     engine.restore(weights(RUN / "trained/model/adapter.pt"))
     for case in subset:
@@ -142,14 +140,6 @@ def predict(engine, state, subset):
                 ),
             )
         make_feedback(engine, case, load(dest), ("trained_feedback",))
-
-
-def get_prediction(case, name):
-    if name == "weighted":
-        return load(RUN / "frozen" / case["dataset"] / (case["id"] + ".json"))[
-            "prediction"
-        ]
-    return load(artifact("predictions", case, name))
 
 
 def evaluate_control(engine, state, subset):

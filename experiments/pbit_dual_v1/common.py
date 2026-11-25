@@ -48,6 +48,16 @@ def methods(case):
             yield model, "control"
 
 
+def original_artifact(case):
+    return RUN / "frozen" / case["dataset"] / (case["id"] + ".json")
+
+
+def get_prediction(case, name):
+    if name == "weighted":
+        return load(original_artifact(case))["prediction"]
+    return load(artifact("predictions", case, name))
+
+
 def seeds(case, method):
     return (17, 29, 43) if case["dataset"] == "dcp" and method != "scip" else (17,)
 
