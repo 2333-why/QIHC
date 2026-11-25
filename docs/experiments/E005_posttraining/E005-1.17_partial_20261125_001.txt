@@ -1,0 +1,153 @@
+[root:why]$ cd /inspire/hdd/global_user/czxs25210022/why/QIHC-E005-1.17
+bash experiments/dcp_external_v2/run.sh report
+cat ../results/E005-1.17_dcp235/report.md
+all235 including search repeats 2820 / 20210
+all235 1410 / 9400
+main159 including search repeats 1908 / 13674
+main159 954 / 6360
+GPU model/feedback 3290 / 3290 controller episodes 2820 / 2820
+# E005-1.17 DCP-Bench
+
+## all235 (1410/9400)
+
+| Model / solver | Completed | Valid | Feasible | Optimal | Template macro hit | Mean gap (n) |
+|---|---:|---:|---:|---:|---:|---:|
+| gold__cp_sat | 235/235 | — | 235 | 234 | 99.36% | 0.01% (235) |
+| gold__scip | 235/235 | — | 216 | 210 | 89.53% | 1.66% (216) |
+| gold__highs | 235/235 | — | 219 | 208 | 88.12% | 79.06% (219) |
+| gold__sa | 235/235 | — | 143 | 82 | 34.62% | 74.10% (143) |
+| gold__pt | 235/235 | — | 144 | 82 | 34.62% | 54.33% (144) |
+| gold__pbit | 235/235 | — | 145 | 79 | 33.46% | 73.38% (145) |
+| base__schedule | 0/235 | — | 0 | 0 | — | — (0) |
+| base__scip | 0/235 | — | 0 | 0 | — | — (0) |
+| sft__schedule | 0/235 | — | 0 | 0 | — | — (0) |
+| sft__scip | 0/235 | — | 0 | 0 | — | — (0) |
+| parent__schedule | 0/235 | — | 0 | 0 | — | — (0) |
+| parent__scip | 0/235 | — | 0 | 0 | — | — (0) |
+| solver_rl__schedule | 0/235 | — | 0 | 0 | — | — (0) |
+| solver_rl__scip | 0/235 | — | 0 | 0 | — | — (0) |
+| sdpo__schedule | 0/235 | — | 0 | 0 | — | — (0) |
+| sdpo__scip | 0/235 | — | 0 | 0 | — | — (0) |
+| pvcd__schedule | 0/235 | — | 0 | 0 | — | — (0) |
+| pvcd__scip | 0/235 | — | 0 | 0 | — | — (0) |
+| weighted__schedule | 0/235 | — | 0 | 0 | — | — (0) |
+| weighted__scip | 0/235 | — | 0 | 0 | — | — (0) |
+| base_B__schedule | 0/235 | — | 0 | 0 | — | — (0) |
+| base_B__scip | 0/235 | — | 0 | 0 | — | — (0) |
+| base_C__schedule | 0/235 | — | 0 | 0 | — | — (0) |
+| base_C__scip | 0/235 | — | 0 | 0 | — | — (0) |
+| base_S__schedule | 0/235 | — | 0 | 0 | — | — (0) |
+| base_S__scip | 0/235 | — | 0 | 0 | — | — (0) |
+| base_P__schedule | 0/235 | — | 0 | 0 | — | — (0) |
+| base_P__scip | 0/235 | — | 0 | 0 | — | — (0) |
+| base_Q__schedule | 0/235 | — | 0 | 0 | — | — (0) |
+| base_Q__scip | 0/235 | — | 0 | 0 | — | — (0) |
+| pvcd_C__schedule | 0/235 | — | 0 | 0 | — | — (0) |
+| pvcd_C__scip | 0/235 | — | 0 | 0 | — | — (0) |
+| pvcd_Q__schedule | 0/235 | — | 0 | 0 | — | — (0) |
+| pvcd_Q__scip | 0/235 | — | 0 | 0 | — | — (0) |
+| parent__rule | 0/235 | — | 0 | 0 | — | — (0) |
+| parent__rank | 0/235 | — | 0 | 0 | — | — (0) |
+| parent__balanced | 0/235 | — | 0 | 0 | — | — (0) |
+| weighted__rule | 0/235 | — | 0 | 0 | — | — (0) |
+| weighted__rank | 0/235 | — | 0 | 0 | — | — (0) |
+| weighted__balanced | 0/235 | — | 0 | 0 | — | — (0) |
+
+| Search-seed sensitivity | Evaluations | Within-case mean hit | Within-case mean feasible |
+|---|---:|---:|---:|
+| gold__sa | 705/705 | 35.18% | 62.27% |
+| gold__pt | 705/705 | 35.74% | 61.13% |
+| gold__pbit | 705/705 | 33.62% | 61.56% |
+| base__schedule | 0/705 | — | — |
+| sft__schedule | 0/705 | — | — |
+| parent__schedule | 0/705 | — | — |
+| solver_rl__schedule | 0/705 | — | — |
+| sdpo__schedule | 0/705 | — | — |
+| pvcd__schedule | 0/705 | — | — |
+| weighted__schedule | 0/705 | — | — |
+| base_B__schedule | 0/705 | — | — |
+| base_C__schedule | 0/705 | — | — |
+| base_S__schedule | 0/705 | — | — |
+| base_P__schedule | 0/705 | — | — |
+| base_Q__schedule | 0/705 | — | — |
+| pvcd_C__schedule | 0/705 | — | — |
+| pvcd_Q__schedule | 0/705 | — | — |
+| parent__rule | 0/705 | — | — |
+| parent__rank | 0/705 | — | — |
+| parent__balanced | 0/705 | — | — |
+| weighted__rule | 0/705 | — | — |
+| weighted__rank | 0/705 | — | — |
+| weighted__balanced | 0/705 | — | — |
+
+## main159 (954/6360)
+
+| Model / solver | Completed | Valid | Feasible | Optimal | Template macro hit | Mean gap (n) |
+|---|---:|---:|---:|---:|---:|---:|
+| gold__cp_sat | 159/159 | — | 159 | 158 | 98.75% | 0.02% (159) |
+| gold__scip | 159/159 | — | 143 | 138 | 87.81% | 2.39% (143) |
+| gold__highs | 159/159 | — | 146 | 137 | 83.44% | 118.49% (146) |
+| gold__sa | 159/159 | — | 88 | 47 | 29.38% | 107.04% (88) |
+| gold__pt | 159/159 | — | 89 | 50 | 31.25% | 75.23% (89) |
+| gold__pbit | 159/159 | — | 90 | 45 | 28.12% | 100.03% (90) |
+| base__schedule | 0/159 | — | 0 | 0 | — | — (0) |
+| base__scip | 0/159 | — | 0 | 0 | — | — (0) |
+| sft__schedule | 0/159 | — | 0 | 0 | — | — (0) |
+| sft__scip | 0/159 | — | 0 | 0 | — | — (0) |
+| parent__schedule | 0/159 | — | 0 | 0 | — | — (0) |
+| parent__scip | 0/159 | — | 0 | 0 | — | — (0) |
+| solver_rl__schedule | 0/159 | — | 0 | 0 | — | — (0) |
+| solver_rl__scip | 0/159 | — | 0 | 0 | — | — (0) |
+| sdpo__schedule | 0/159 | — | 0 | 0 | — | — (0) |
+| sdpo__scip | 0/159 | — | 0 | 0 | — | — (0) |
+| pvcd__schedule | 0/159 | — | 0 | 0 | — | — (0) |
+| pvcd__scip | 0/159 | — | 0 | 0 | — | — (0) |
+| weighted__schedule | 0/159 | — | 0 | 0 | — | — (0) |
+| weighted__scip | 0/159 | — | 0 | 0 | — | — (0) |
+| base_B__schedule | 0/159 | — | 0 | 0 | — | — (0) |
+| base_B__scip | 0/159 | — | 0 | 0 | — | — (0) |
+| base_C__schedule | 0/159 | — | 0 | 0 | — | — (0) |
+| base_C__scip | 0/159 | — | 0 | 0 | — | — (0) |
+| base_S__schedule | 0/159 | — | 0 | 0 | — | — (0) |
+| base_S__scip | 0/159 | — | 0 | 0 | — | — (0) |
+| base_P__schedule | 0/159 | — | 0 | 0 | — | — (0) |
+| base_P__scip | 0/159 | — | 0 | 0 | — | — (0) |
+| base_Q__schedule | 0/159 | — | 0 | 0 | — | — (0) |
+| base_Q__scip | 0/159 | — | 0 | 0 | — | — (0) |
+| pvcd_C__schedule | 0/159 | — | 0 | 0 | — | — (0) |
+| pvcd_C__scip | 0/159 | — | 0 | 0 | — | — (0) |
+| pvcd_Q__schedule | 0/159 | — | 0 | 0 | — | — (0) |
+| pvcd_Q__scip | 0/159 | — | 0 | 0 | — | — (0) |
+| parent__rule | 0/159 | — | 0 | 0 | — | — (0) |
+| parent__rank | 0/159 | — | 0 | 0 | — | — (0) |
+| parent__balanced | 0/159 | — | 0 | 0 | — | — (0) |
+| weighted__rule | 0/159 | — | 0 | 0 | — | — (0) |
+| weighted__rank | 0/159 | — | 0 | 0 | — | — (0) |
+| weighted__balanced | 0/159 | — | 0 | 0 | — | — (0) |
+
+| Search-seed sensitivity | Evaluations | Within-case mean hit | Within-case mean feasible |
+|---|---:|---:|---:|
+| gold__sa | 477/477 | 30.82% | 57.23% |
+| gold__pt | 477/477 | 31.87% | 56.60% |
+| gold__pbit | 477/477 | 28.72% | 56.81% |
+| base__schedule | 0/477 | — | — |
+| sft__schedule | 0/477 | — | — |
+| parent__schedule | 0/477 | — | — |
+| solver_rl__schedule | 0/477 | — | — |
+| sdpo__schedule | 0/477 | — | — |
+| pvcd__schedule | 0/477 | — | — |
+| weighted__schedule | 0/477 | — | — |
+| base_B__schedule | 0/477 | — | — |
+| base_C__schedule | 0/477 | — | — |
+| base_S__schedule | 0/477 | — | — |
+| base_P__schedule | 0/477 | — | — |
+| base_Q__schedule | 0/477 | — | — |
+| pvcd_C__schedule | 0/477 | — | — |
+| pvcd_Q__schedule | 0/477 | — | — |
+| parent__rule | 0/477 | — | — |
+| parent__rank | 0/477 | — | — |
+| parent__balanced | 0/477 | — | — |
+| weighted__rule | 0/477 | — | — |
+| weighted__rank | 0/477 | — | — |
+| weighted__balanced | 0/477 | — | — |
+
+[root:QIHC-E005-1.17]$
