@@ -19,6 +19,7 @@ from .common import (
     TERMINALS,
     TRADITIONAL,
     manifest,
+    version,
     path,
     prior,
     solver_seeds,
@@ -147,7 +148,11 @@ def report(require=False):
     groups["nlco_scale"] = [v for v in groups["nlco780"] if v[0]["stage"] == "scale"]
     groups["dcp159"] = [v for v in groups["dcp210"] if v[0]["main"]]
     result = dict(
-        experiment="E005-1.20", source=m["code"], training=m["counts"], groups={}
+        experiment="E005-1.20",
+        source=m["code"],
+        runtime_code=version(),
+        training=m["counts"],
+        groups={},
     )
     for group, subset in groups.items():
         stats, contrasts = {}, {}

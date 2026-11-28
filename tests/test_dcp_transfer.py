@@ -98,6 +98,24 @@ def test_tiny_training_and_resume(tmp_path, monkeypatch):
         )
     ).save_pretrained(tmp_path)
     engine = Engine(tmp_path, device="cpu")
+    # Exercise the same nested checkpoint hooks used by the real Qwen feedback
+    # trainer. Force the small fixture through the long-sequence path.
+    prompt, answer = patch["prompt"], engine.encode(patch["target"]) + [
+        engine.tok.eos_token_id
+    ]
+    reference = engine.snapshot()
+    original = engine.backward(prompt, answer, "nll", reference=reference)
+    gradients = {k: p.grad.clone() for k, p in engine.params.items()}
+    engine.net.zero_grad(set_to_none=True)
+    with gpu.offload_long_activations(
+        engine.net.config.hidden_size, min_tokens=1
+    ) as stats:
+        recovered = engine.backward(prompt, answer, "nll", reference=reference)
+    assert stats["offloaded_bytes"] > 0
+    assert original == recovered
+    for k, p in engine.params.items():
+        torch.testing.assert_close(p.grad, gradients[k], rtol=0, atol=0)
+    engine.net.zero_grad(set_to_none=True)
     base = tmp_path / "base.pt"
     torch.save(engine.snapshot(), base)
     m = dict(adapters=dict(nlco=str(base), dcp=str(base), feedback=str(base)))

@@ -6,7 +6,7 @@ import signal
 import subprocess
 import sys
 import time
-from contextlib import ExitStack
+from contextlib import ExitStack, contextmanager, nullcontext
 from pathlib import Path
 
 from experiments.dcp_external_v2.gpu import Calls, draft
@@ -37,6 +37,34 @@ def training_order(corpus, arm):
     return replay
 
 
+@contextmanager
+def offload_long_activations(hidden_size, min_tokens=2048):
+    """Keep long checkpoint inputs in host RAM until autograd needs their layer."""
+    import torch
+
+    stats = {"offloaded_bytes": 0}
+
+    def pack(tensor):
+        if (
+            tensor.ndim == 3
+            and tensor.shape[0] == 1
+            and tensor.shape[1] >= min_tokens
+            and tensor.shape[2] == hidden_size
+        ):
+            stats["offloaded_bytes"] += tensor.numel() * tensor.element_size()
+            return tensor.device, tensor.detach().to("cpu", copy=True)
+        return tensor.detach()
+
+    def unpack(saved):
+        if isinstance(saved, tuple):
+            device, host = saved
+            return host.to(device)
+        return saved
+
+    with torch.autograd.graph.saved_tensors_hooks(pack, unpack):
+        yield stats
+
+
 def train(engine, m, arm):
     import torch
 
@@ -61,9 +89,20 @@ def train(engine, m, arm):
                 engine.tok, answer, r["candidate"], r["gold"], r["cards"]
             ) + [1.0]
         ids = engine.encode(answer) + [engine.tok.eos_token_id]
-        loss = engine.backward(prompt, ids, "nll", weights=weights, reference=reference)
+        context = (
+            offload_long_activations(engine.net.config.hidden_size)
+            if patch
+            else nullcontext({})
+        )
+        with context as stats:
+            loss = engine.backward(
+                prompt, ids, "nll", weights=weights, reference=reference
+            )
         return dict(
-            case_id=cid, loss=loss, weighted_tokens=sum(w > 1 for w in (weights or []))
+            case_id=cid,
+            loss=loss,
+            weighted_tokens=sum(w > 1 for w in (weights or [])),
+            **stats,
         )
 
     binding = dict(arm=arm, manifest=digest(RUN / "manifest.json"))

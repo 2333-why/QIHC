@@ -50,8 +50,39 @@ def version():
 
 def manifest(verify=False):
     m = load(RUN / "manifest.json")
-    if m["code"] != version():
-        raise ValueError("Run from the same release checkout used by prepare")
+    current = version()
+    if m["code"] != current:
+        # These two published preparations differ only in documentation. The
+        # recovery release changes feedback activation storage and reporting.
+        supported = {
+            "d71ee91c414c41965323c535ab039387ede7a5d3",
+            "8e3d6e76636bcff56b1001fcf912d324f05676bd",
+        }
+        recovery_parent = "8e3d6e76636bcff56b1001fcf912d324f05676bd"
+        parent = subprocess.check_output(
+            ["git", "rev-parse", current + "^"], cwd=ROOT, text=True
+        ).strip()
+        if (
+            m["code"] not in supported
+            or parent != recovery_parent
+            or subprocess.run(
+                [
+                    "git",
+                    "diff",
+                    "--quiet",
+                    m["code"],
+                    current,
+                    "--",
+                    "qihc",
+                    "experiments",
+                    ":(exclude)experiments/dcp_transfer_v1/common.py",
+                    ":(exclude)experiments/dcp_transfer_v1/gpu.py",
+                    ":(exclude)experiments/dcp_transfer_v1/score.py",
+                ],
+                cwd=ROOT,
+            ).returncode
+        ):
+            raise ValueError("Run from a compatible E005-1.20 recovery checkout")
     if verify:
         for f, h in m["files"].items():
             if digest(Path(f)) != h:
