@@ -9,6 +9,10 @@ def main():
     parser.add_argument("task", nargs="?")
     args = parser.parse_args()
     if args.command == "prepare":
+        from experiments.dcp_external_v2.reference import init_worker
+
+        # CPMpy probes optional native solvers at import time. This process uses CP-SAT.
+        init_worker()
         from .prepare import prepare
 
         prepare()
